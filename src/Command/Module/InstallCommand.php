@@ -154,7 +154,8 @@ class InstallCommand extends Command
                 );
 
                 $shellProcess = $this->shellProcess;
-                if ($proc = $shellProcess->exec($command) && ($proc->isSuccessful()) ) {
+                //@TODO:exec() should halt the run on errors
+                if ($proc = $shellProcess->exec($command)) {
                     $io->info(
                         sprintf(
                             'Module %s was downloaded with Composer.',
