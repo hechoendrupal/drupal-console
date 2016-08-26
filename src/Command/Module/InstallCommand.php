@@ -18,9 +18,10 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 
-use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\ShellProcess;
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
 
 /**
  * Class InstallCommand
@@ -56,7 +57,6 @@ class InstallCommand extends Command
       ShellProcess $shellProcess,
       ModuleInstaller $moduleInstaller
     ) {
-      echo "hola amigo";die();
         $this->chainQueue = $chainQueue;
         $this->shellProcess = $shellProcess;
         $this->moduleInstaller = $moduleInstaller;
