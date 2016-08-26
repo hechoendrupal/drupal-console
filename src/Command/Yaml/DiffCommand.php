@@ -15,10 +15,27 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\NestedArray;
 
 class DiffCommand extends Command
 {
     use CommandTrait;
+
+    /**
+     * @var NestedArray
+     */
+    protected $nestedArray;
+
+    /**
+     * RebuildCommand constructor.
+     * @param NestedArray    $nestedArray
+     */
+    public function __construct(
+        NestedArray $nestedArray
+    ) {
+        $this->nestedArray = $nestedArray;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -111,10 +128,8 @@ class DiffCommand extends Command
             return;
         }
 
-        $nestedArray = $this->getApplication()->getNestedArrayHelper();
-
         $statistics = ['total' => 0, 'equal'=> 0 , 'diff' => 0];
-        $diff = $nestedArray->arrayDiff($yamlLeftParsed, $yamlRightParsed, $negate, $statistics);
+        $diff = $this->nestedArray->arrayDiff($yamlLeftParsed, $yamlRightParsed, $negate, $statistics);
 
         if ($stats) {
             $io->info(
@@ -143,7 +158,7 @@ class DiffCommand extends Command
         // FLAT YAML file to display full yaml to be used with command yaml:update:key or yaml:update:value
         $diffFlatten = array();
         $keyFlatten = '';
-        $nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
+        $this->nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
 
         if ($limit !== null) {
             if (!$offset) {

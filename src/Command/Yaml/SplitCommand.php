@@ -16,10 +16,27 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\NestedArray;
 
 class SplitCommand extends Command
 {
     use CommandTrait;
+
+     /**
+      * @var NestedArray
+      */
+    protected $nestedArray;
+
+    /**
+     * RebuildCommand constructor.
+     * @param NestedArray    $nestedArray
+     */
+    public function __construct(
+        NestedArray $nestedArray
+    ) {
+        $this->nestedArray = $nestedArray;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -107,12 +124,10 @@ class SplitCommand extends Command
             return;
         }
 
-        $nested_array = $this->getApplication()->getNestedArrayHelper();
-
         if ($starting_key) {
             $parents = explode(".", $starting_key);
-            if ($nested_array::keyExists($yaml_file_parsed, $parents)) {
-                $yaml_file_parsed = $nested_array::getValue($yaml_file_parsed, $parents);
+            if ($this->nestedArray->keyExists($yaml_file_parsed, $parents)) {
+                $yaml_file_parsed = $this->nestedArray->getValue($yaml_file_parsed, $parents);
             } else {
                 $io->error($this->trans('commands.yaml.merge.messages.invalid-key'));
             }
@@ -128,7 +143,7 @@ class SplitCommand extends Command
             $key_flatten = '';
             $initial_level = 1;
 
-            $nested_array->yamlSplitArray($yaml_file_parsed, $yaml_split, $indent_level, $key_flatten, $initial_level, $exclude_parents_key);
+            $this->nestedArray->yamlSplitArray($yaml_file_parsed, $yaml_split, $indent_level, $key_flatten, $initial_level, $exclude_parents_key);
         }
 
         $this->writeSplittedFile($yaml_split, $file_output_prefix, $file_output_suffix, $io);

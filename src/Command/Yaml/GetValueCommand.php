@@ -10,15 +10,31 @@ namespace Drupal\Console\Command\Yaml;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\NestedArray;
 
 class GetValueCommand extends Command
 {
     use CommandTrait;
+
+    /**
+     * @var NestedArray
+     */
+    protected $nestedArray;
+
+    /**
+     * RebuildCommand constructor.
+     * @param NestedArray    $nestedArray
+     */
+    public function __construct(
+        NestedArray $nestedArray
+    ) {
+        $this->nestedArray = $nestedArray;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -42,7 +58,6 @@ class GetValueCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $yaml = new Parser();
-        $dumper = new Dumper();
 
         $yaml_file = $input->getArgument('yaml-file');
         $yaml_key = $input->getArgument('yaml-key');
@@ -62,9 +77,9 @@ class GetValueCommand extends Command
                 )
             );
         } else {
-            $nested_array = $this->getApplication()->getNestedArrayHelper();
+            $key_exists = null;
             $parents = explode(".", $yaml_key);
-            $yaml_value = $nested_array::getValue($yaml_parsed, $parents, $key_exists);
+            $yaml_value = $this->nestedArray->getValue($yaml_parsed, $parents, $key_exists);
 
             if (!$key_exists) {
                 $io->info(
