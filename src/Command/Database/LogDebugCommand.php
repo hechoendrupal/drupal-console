@@ -64,6 +64,7 @@ class LogDebugCommand extends Command
         $this->dateFormatter = $dateFormatter;
         $this->entityTypeManager = $entityTypeManager;
         $this->stringTranslation = $stringTranslation;
+        parent::__construct();
     }
 
     /**
