@@ -183,6 +183,8 @@ class DiffCommand extends Command
                 $yamlKey,
                 $yamlValue
             ];
+            print $yamlKey . "\n";
+            print $yamlValue . "\n";
         }
 
         print "rows";
