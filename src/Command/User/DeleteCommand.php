@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Config\Entity\Query\QueryFactory;
+use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 
