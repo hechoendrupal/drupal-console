@@ -9,7 +9,7 @@ services:
 #      - { name: console.command }
   module_install:
       class: Drupal\Console\Command\Module\InstallCommand
-      arguments: ['@console.module_installer', '@console.shell_process', '@console.chain_queue']
+      arguments: ['@console.module_install', '@console.shell_process', '@console.chain_queue']
       tags:
         - { name: console.command }
 #  module_path:
