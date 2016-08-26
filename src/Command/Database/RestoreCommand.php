@@ -23,6 +23,20 @@ class RestoreCommand extends Command
     use ConnectTrait;
 
     /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * RestoreCommand constructor.
+     * @param string $appRoot
+     */
+    public function __construct($appRoot) {
+        $this->appRoot = $appRoot;
+        parent::__construct();
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -92,7 +106,7 @@ class RestoreCommand extends Command
 
         $processBuilder = new ProcessBuilder(['-v']);
         $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->getApplication()->getDrupalHelper()->getRoot());
+        $process->setWorkingDirectory($this->appRoot);
         $process->setTty('true');
         $process->setCommandLine($command);
         $process->run();

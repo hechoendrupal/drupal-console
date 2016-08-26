@@ -117,7 +117,7 @@ class DumpCommand extends Command
             $io->commentBlock($command);
         }
 
-        if ($this->shellProcess->exec($command)) {
+        if ($this->shellProcess->exec($command, $this->appRoot)) {
             $io->success(
                 sprintf(
                     '%s %s',
