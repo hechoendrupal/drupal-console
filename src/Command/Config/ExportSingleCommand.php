@@ -85,7 +85,7 @@ class ExportSingleCommand extends Command
                 'remove-uuid',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.export.single.options.uuid')
+                $this->trans('commands.config.export.single.options.remove-uuid')
             );
     }
 
