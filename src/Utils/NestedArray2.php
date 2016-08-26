@@ -223,10 +223,12 @@ class NestedArray2
                     $statistics['total'] += 1;
                 }
             }
+
+            print_r($result);
         }
 
         print "after calculate diff";
-        print_r($result);
+        //print_r($result);
         print_r($statistics);
         return $result;
     }
