@@ -29,6 +29,7 @@ services:
       - { name: console.command }
   console.database_restore:
     class: Drupal\Console\Command\Database\RestoreCommand
+    arguments: ['@app.root']
     tags:
       - { name: console.command }
   console.database_table_debug:
