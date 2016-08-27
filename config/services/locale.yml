@@ -6,7 +6,7 @@ services:
       - { name: console.command }
   language_delete:
     class: Drupal\Console\Command\Locale\LanguageDeleteCommand
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@module_handler']
     tags:
       - { name: console.command }
   language_add:

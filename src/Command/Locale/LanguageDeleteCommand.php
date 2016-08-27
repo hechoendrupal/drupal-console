@@ -16,6 +16,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 
 /**
@@ -36,13 +37,20 @@ class LanguageDeleteCommand extends Command
     protected $entityTypeManager;
 
     /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
      * LoginUrlCommand constructor.
      * @param EntityTypeManager    $entityTypeManager
      */
     public function __construct(
-        EntityTypeManager $entityTypeManager
+        EntityTypeManager $entityTypeManager,
+        ModuleHandlerInterface $moduleHandler
     ) {
         $this->entityTypeManager = $entityTypeManager;
+        $this->moduleHandler = $moduleHandler;
         parent::__construct();
     }
 
@@ -61,7 +69,7 @@ class LanguageDeleteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $moduleHandler = $this->getModuleHandler();
+        $moduleHandler = $this->moduleHandler;
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
 
