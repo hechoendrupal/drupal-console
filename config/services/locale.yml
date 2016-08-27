@@ -11,5 +11,6 @@ services:
       - { name: console.command }
   language_add:
     class: Drupal\Console\Command\Locale\LanguageAddCommand
+    arguments: ['@module_handler']
     tags:
       - { name: console.command }

@@ -29,9 +29,18 @@ class LanguageAddCommand extends Command
     use LocaleTrait;
 
     /**
-     * LanguageAddCommand constructor.
+     * @var ModuleHandlerInterface
      */
-    public function __construct() {
+    protected $moduleHandler;
+
+    /**
+     * LanguageAddCommand constructor.
+     * @param ModuleHandlerInterface $moduleHandler
+     */
+    public function __construct(
+      ModuleHandlerInterface $moduleHandler
+    ) {
+        $this->moduleHandler = $moduleHandler;
         parent::__construct();
     }
 
@@ -50,7 +59,7 @@ class LanguageAddCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $moduleHandler = $this->getModuleHandler();
+        $moduleHandler = $this->moduleHandler;
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
 
