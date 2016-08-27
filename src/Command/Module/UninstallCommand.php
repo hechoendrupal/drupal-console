@@ -16,6 +16,13 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
 
+
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\ShellProcess;
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+
 class UninstallCommand extends Command
 {
     use CommandTrait;
