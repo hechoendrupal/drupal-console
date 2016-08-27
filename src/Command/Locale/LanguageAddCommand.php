@@ -15,9 +15,9 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Console\Utils\DrupalApi;
 
 /**
  * @DrupalCommand(
@@ -37,13 +37,20 @@ class LanguageAddCommand extends Command
     protected $moduleHandler;
 
     /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
      * LanguageAddCommand constructor.
      * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
-      ModuleHandlerInterface $moduleHandler
+      ModuleHandlerInterface $moduleHandler,
+      DrupalApi $drupalApi
     ) {
         $this->moduleHandler = $moduleHandler;
+        $this->drupalApi = $drupalApi;
         parent::__construct();
     }
 

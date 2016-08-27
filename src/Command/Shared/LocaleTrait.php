@@ -11,7 +11,7 @@ trait LocaleTrait
 {
     protected function getLanguages()
     {
-        $drupal = $this->getDrupalHelper();
+        $drupal = $this->drupalApi;
         $languages = $drupal->getStandardLanguages();
 
         return $languages;
