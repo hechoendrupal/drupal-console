@@ -11,8 +11,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
 
 /**
  * Class DebugCommand
@@ -20,7 +23,39 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeManager
+     */
+    protected $entityTypeManager;
+
+    /**
+     * @var QueryFactory
+     */
+    protected $entityQuery;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+
+    /**
+     * DebugCommand constructor.
+     * @param EntityTypeManager $entityTypeManager
+     * @param QueryFactory $entityQuery
+     * @param DrupalApi $drupalApi
+     */
+    public function __construct(
+        EntityTypeManager $entityTypeManager,
+        QueryFactory $entityQuery,
+        DrupalApi $drupalApi
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->entityQuery = $entityQuery;
+        $this->drupalApi = $drupalApi;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -75,12 +110,10 @@ class DebugCommand extends Command
         $usernames = $this->splitOption($input->getOption('username'));
         $mails = $this->splitOption($input->getOption('mail'));
 
-        $entityTypeManager = $this->getDrupalService('entity_type.manager');
-        $userStorage = $entityTypeManager->getStorage('user');
-        $systemRoles = $this->getApplication()->getDrupalApi()->getRoles();
+        $userStorage = $this->entityTypeManager->getStorage('user');
+        $systemRoles = $this->drupalApi->getRoles();
 
-        $entityQuery = $this->getDrupalService('entity.query');
-        $query = $entityQuery->get('user');
+        $query = $this->entityQuery->get('user');
         $query->condition('uid', 0, '>');
         $query->sort('uid');
 
