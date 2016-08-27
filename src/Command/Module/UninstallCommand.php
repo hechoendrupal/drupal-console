@@ -21,7 +21,7 @@ use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\ShellProcess;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 class UninstallCommand extends Command
 {
