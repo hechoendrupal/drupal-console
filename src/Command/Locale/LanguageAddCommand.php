@@ -26,7 +26,6 @@ use Drupal\Console\Command\Shared\CommandTrait;
 class LanguageAddCommand extends Command
 {
     use CommandTrait;
-    use ContainerAwareCommandTrait;
     use LocaleTrait;
 
     /**
