@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 
