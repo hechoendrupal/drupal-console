@@ -28,7 +28,6 @@ class TranslationStatusCommand extends Command
 {
     use CommandTrait;
     use LocaleTrait;
-    use ContainerAwareCommandTrait;
 
     /**
       * @var DrupalApi

@@ -28,7 +28,6 @@ use Drupal\Core\Entity\EntityTypeManager;
 class LanguageDeleteCommand extends Command
 {
     use CommandTrait;
-    use ContainerAwareCommandTrait;
     use LocaleTrait;
 
     /**
