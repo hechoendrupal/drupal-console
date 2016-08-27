@@ -11,7 +11,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -20,7 +21,23 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class RoleCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+
+    /**
+     * RoleCommand constructor.
+     * @param DrupalApi $drupalApi
+     */
+    public function __construct(
+        DrupalApi $drupalApi
+    ) {
+        $this->drupalApi = $drupalApi;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -73,7 +90,7 @@ class RoleCommand extends Command
         $user = $input->getArgument('user');
         $role = $input->getArgument('role');
 
-        $systemRoles = $this->getApplication()->getDrupalApi()->getRoles();
+        $systemRoles = $this->drupalApi->getRoles();
 
         if (is_numeric($user)) {
             $userObject = user_load($user);
