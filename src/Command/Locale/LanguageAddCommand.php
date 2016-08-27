@@ -16,6 +16,8 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
+
 /**
  * @DrupalCommand(
  *     dependencies = {
