@@ -14,7 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+
+use Drupal\Core\Entity\EntityTypeManager;
 
 /**
  * @DrupalCommand(
@@ -25,8 +27,25 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
  */
 class LanguageDeleteCommand extends Command
 {
+    use CommandTrait;
     use ContainerAwareCommandTrait;
     use LocaleTrait;
+
+    /**
+     * @var EntityTypeManager
+     */
+    protected $entityTypeManager;
+
+    /**
+     * LoginUrlCommand constructor.
+     * @param EntityTypeManager    $entityTypeManager
+     */
+    public function __construct(
+        EntityTypeManager $entityTypeManager
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -68,7 +87,7 @@ class LanguageDeleteCommand extends Command
         }
 
         try {
-            $configurable_language_storage = $this->getService('entity_type.manager')->getStorage('configurable_language');
+            $configurable_language_storage = $this->entityTypeManager->getStorage('configurable_language');
             $configurable_language_storage->load($languageEntity->getId())->delete();
 
             $io->info(

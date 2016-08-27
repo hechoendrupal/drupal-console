@@ -14,7 +14,7 @@ use Drupal\language\Entity\ConfigurableLanguage;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 
 /**
  * @DrupalCommand(
@@ -25,8 +25,16 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
  */
 class LanguageAddCommand extends Command
 {
+    use CommandTrait;
     use ContainerAwareCommandTrait;
     use LocaleTrait;
+
+    /**
+     * LanguageAddCommand constructor.
+     */
+    public function __construct() {
+        parent::__construct();
+    }
 
     protected function configure()
     {

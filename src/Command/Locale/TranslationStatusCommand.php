@@ -13,7 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+
+use Drupal\Console\Utils\DrupalApi;
 
 /**
  * @DrupalCommand(
@@ -24,8 +26,25 @@ use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
  */
 class TranslationStatusCommand extends Command
 {
+    use CommandTrait;
     use LocaleTrait;
     use ContainerAwareCommandTrait;
+
+    /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
+     * TranslationStatusCommand constructor.
+     * @param DrupalApi $drupalApi
+     */
+    public function __construct(
+      DrupalApi $drupalApi,
+    ) {
+        $this->drupalApi = $drupalApi;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -55,7 +74,7 @@ class TranslationStatusCommand extends Command
         $languages = locale_translatable_language_list();
         $status = locale_translation_get_status();
 
-        $this->getApplication()->getDrupalHelper()->loadLegacyFile($this->getApplication()->getSite()->getModulePath('locale') . '/locale.compare.inc');
+        $this->drupalApi->loadLegacyFile($this->getApplication()->getSite()->getModulePath('locale') . '/locale.compare.inc');
 
         if (!$languages) {
             $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
