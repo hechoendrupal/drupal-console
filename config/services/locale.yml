@@ -1,7 +1,7 @@
 services:
   translation_status:
     class: Drupal\Console\Command\Locale\TranslationStatusCommand
-    arguments: ['@console.drupal_api']
+    arguments: ['@console.drupal_api', '@console.extension_manager']
     tags:
       - { name: console.command }
   language_delete:

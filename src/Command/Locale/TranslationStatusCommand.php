@@ -16,6 +16,7 @@ use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 
 use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Extension\ExtensionManager;
 
 /**
  * @DrupalCommand(
@@ -34,14 +35,21 @@ class TranslationStatusCommand extends Command
       */
     protected $drupalApi;
 
+     /**
+      * @var ExtensionManager
+      */
+    protected $extensionManager;
+
     /**
      * TranslationStatusCommand constructor.
      * @param DrupalApi $drupalApi
      */
     public function __construct(
-      DrupalApi $drupalApi
+      DrupalApi $drupalApi,
+      ExtensionManager $extensionManager
     ) {
         $this->drupalApi = $drupalApi;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
@@ -73,7 +81,7 @@ class TranslationStatusCommand extends Command
         $languages = locale_translatable_language_list();
         $status = locale_translation_get_status();
 
-        $this->drupalApi->loadLegacyFile($this->getApplication()->getSite()->getModulePath('locale') . '/locale.compare.inc');
+        $this->drupalApi->loadLegacyFile($this->$extensionManager->getModulePath('locale') . '/locale.compare.inc');
 
         if (!$languages) {
             $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
