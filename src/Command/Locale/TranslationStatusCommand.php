@@ -16,7 +16,7 @@ use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Extension\ExtensionManager;
+use Drupal\Console\Extension\Manager;
 
 /**
  * @DrupalCommand(
