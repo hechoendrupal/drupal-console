@@ -1,7 +1,7 @@
 services:
   theme_debug:
     class: Drupal\Console\Command\Theme\DebugCommand
-    arguments: ['@theme_handler','@config.factory']
+    arguments: ['@config.factory', '@theme_handler']
     tags:
       - { name: console.command }
   theme_download:
@@ -10,7 +10,7 @@ services:
       - { name: console.command }
   theme_install:
     class: Drupal\Console\Command\Theme\InstallCommand
-    arguments: ['@theme_handler','@config.factory']
+    arguments: ['@config.factory', '@theme_handler']
     tags:
       - { name: console.command }
   theme_path:
@@ -19,6 +19,6 @@ services:
       - { name: console.command }
   theme_uninstall:
     class: Drupal\Console\Command\Theme\UninstallCommand
-    arguments: ['@theme_handler','@config.factory']
+    arguments: ['@config.factory', '@theme_handler']
     tags:
       - { name: console.command }
