@@ -23,6 +23,8 @@ use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\ShellProcess;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
 use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Extension\Manager;
 
 /**
  * Class InstallCommand
@@ -55,6 +57,14 @@ class InstallCommand extends Command
     protected $drupalApi;
 
     /**
+      * @var Validator
+      */
+    protected $validator;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
      * InstallCommand constructor.
      * @param ChainQueue $chainQueue
      * @param ShellProcess $shellProcess
@@ -65,12 +75,16 @@ class InstallCommand extends Command
       ChainQueue $chainQueue,
       ShellProcess $shellProcess,
       ModuleInstaller $moduleInstaller,
-      DrupalApi $drupalApi
+      DrupalApi $drupalApi,
+      Validator $validator,
+      Manager $extensionManager
     ) {
         $this->chainQueue = $chainQueue;
         $this->shellProcess = $shellProcess;
         $this->moduleInstaller = $moduleInstaller;
         $this->drupalApi = $drupalApi;
+        $this->validator = $validator;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
