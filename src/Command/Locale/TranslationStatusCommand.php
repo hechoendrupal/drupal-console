@@ -46,7 +46,7 @@ class TranslationStatusCommand extends Command
      */
     public function __construct(
       DrupalApi $drupalApi,
-      ExtensionManager $extensionManager
+      Manager $extensionManager
     ) {
         $this->drupalApi = $drupalApi;
         $this->extensionManager = $extensionManager;
