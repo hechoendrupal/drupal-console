@@ -80,6 +80,7 @@ class TranslationStatusCommand extends Command
 
         $languages = locale_translatable_language_list();
         $status = locale_translation_get_status();
+        print_r($status);die("11");
 
         $locale = $this->extensionManager->getModule('locale');
         $this->drupalApi->loadLegacyFile( $locale->getPath( true ) . '/locale.compare.inc' );
@@ -93,6 +94,7 @@ class TranslationStatusCommand extends Command
         }
         if ($languages) {
             $projectsStatus = $this->projectsStatus();
+            print_r($projectsStatus);die("22");
 
             foreach ($projectsStatus as $langcode => $rows) {
                 $tableRows = [];
