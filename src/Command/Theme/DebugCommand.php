@@ -37,7 +37,7 @@ class DebugCommand extends Command
      */
     public function __construct(
         ConfigFactory $configFactory,
-        QueryFactory $themeHandler
+        ThemeHandler $themeHandler
     ) {
         $this->configFactory = $configFactory;
         $this->themeHandler = $themeHandler;
