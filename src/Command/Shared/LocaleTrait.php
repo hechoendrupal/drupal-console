@@ -72,6 +72,7 @@ trait LocaleTrait
         $status_report = [];
         $status = locale_translation_get_status();
         foreach ($status as $project_id => $project) {
+          print_r($project); die(33);
             foreach ($project as $langcode => $project_info) {
                 $info = '';
                 if ($project_info->type == LOCALE_TRANSLATION_LOCAL || $project_info->type == LOCALE_TRANSLATION_REMOTE) {
