@@ -81,7 +81,8 @@ trait ProjectDownloadTrait
         }
         drupal_static_reset('system_rebuild_module_data');
 
-        $missingModules = $this->drupalApi->getMissingModules($modules);
+        $validator = $this->validator;
+        $missingModules = $validator->getMissingModules($modules);
 
         $invalidModules = [];
         if ($missingModules) {
@@ -103,7 +104,7 @@ trait ProjectDownloadTrait
             }
         }
 
-        $unInstalledModules = $this->drupalApi->getUninstalledModules($modules);
+        $unInstalledModules = $validator->getUninstalledModules($modules);
 
         $dependencies = $this->calculateDependencies($unInstalledModules);
 
@@ -126,6 +127,7 @@ trait ProjectDownloadTrait
         $moduleList = system_rebuild_module_data();
 
         $dependencies = [];
+        $validator = $this->validator;
 
         foreach ($modules as $moduleName) {
             $module = $moduleList[$moduleName];
@@ -133,7 +135,7 @@ trait ProjectDownloadTrait
             $dependencies = array_unique(
                 array_merge(
                     $dependencies,
-                    $this->drupalApi->getUninstalledModules(
+                    $validator->getUninstalledModules(
                         array_keys($module->requires)?:[]
                     )
                 )
@@ -165,7 +167,7 @@ trait ProjectDownloadTrait
         );
 
         try {
-            $destination = $this->drupalApi->downloadProjectRelease(
+            $destination = $this->getApplication()->getDrupalApi()->downloadProjectRelease(
                 $project,
                 $version
             );
@@ -257,7 +259,7 @@ trait ProjectDownloadTrait
             )
         );
 
-        $releases = $this->drupalApi->getProjectReleases($project, $latest?1:15, $stable);
+        $releases = $this->getApplication()->getDrupalApi()->getProjectReleases($project, $latest?1:15, $stable);
 
         if (!$releases) {
             $io->error(
