@@ -18,6 +18,7 @@ use Drupal\Console\Command\Shared\CommandTrait;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Console\Utils\DrupalApi;
 
 /**
  * @DrupalCommand(
@@ -42,15 +43,22 @@ class LanguageDeleteCommand extends Command
     protected $moduleHandler;
 
     /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
      * LoginUrlCommand constructor.
      * @param EntityTypeManager    $entityTypeManager
      */
     public function __construct(
         EntityTypeManager $entityTypeManager,
-        ModuleHandlerInterface $moduleHandler
+        ModuleHandlerInterface $moduleHandler,
+        DrupalApi $drupalApi
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->moduleHandler = $moduleHandler;
+        $this->drupalApi = $drupalApi;
         parent::__construct();
     }
 
