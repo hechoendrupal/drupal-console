@@ -81,7 +81,7 @@ class TranslationStatusCommand extends Command
         $languages = locale_translatable_language_list();
         $status = locale_translation_get_status();
 
-        $this->drupalApi->loadLegacyFile($this->$extensionManager->getModulePath('locale') . '/locale.compare.inc');
+        $this->drupalApi->loadLegacyFile($this->extensionManager->getModule('locale')->getPath() . '/locale.compare.inc');
 
         if (!$languages) {
             $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
