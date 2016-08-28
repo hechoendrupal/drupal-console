@@ -80,7 +80,6 @@ class TranslationStatusCommand extends Command
 
         $languages = locale_translatable_language_list();
         $status = locale_translation_get_status();
-        print_r($status);die("11");
 
         $locale = $this->extensionManager->getModule('locale');
         $this->drupalApi->loadLegacyFile( $locale->getPath( true ) . '/locale.compare.inc' );
