@@ -93,7 +93,6 @@ class TranslationStatusCommand extends Command
         }
         if ($languages) {
             $projectsStatus = $this->projectsStatus();
-            print_r($projectsStatus);die("22");
 
             foreach ($projectsStatus as $langcode => $rows) {
                 $tableRows = [];
