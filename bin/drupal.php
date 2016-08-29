@@ -22,7 +22,20 @@ if (file_exists($autoLoadFile)) {
     exit(1);
 }
 
-$drupal = new Drupal($autoload, $consoleRoot, $siteRoot);
+if (!file_exists($root.'composer.json')) {
+    $root = realpath($root . '../') . '/';
+}
+
+if (!file_exists($root.'composer.json')) {
+    echo 'No composer.json file found at:' . PHP_EOL .
+        $root . PHP_EOL .
+        'you should try run this command,' . PHP_EOL .
+        'from project root directory.' . PHP_EOL;
+
+    exit(1);
+}
+
+$drupal = new Drupal($autoload, $root);
 $container = $drupal->boot();
 
 if (!$container) {
