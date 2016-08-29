@@ -9,20 +9,17 @@ use Drupal\Console\Utils\Bootstrap\DrupalConsoleCore;
 class Drupal
 {
     protected $autoload;
-    protected $consoleRoot;
-    protected $siteRoot;
+    protected $root;
 
     /**
      * Drupal constructor.
      * @param $autoload
-     * @param $consoleRoot
-     * @param $siteRoot
+     * @param $root
      */
-    public function __construct($autoload, $consoleRoot, $siteRoot)
+    public function __construct($autoload, $root)
     {
         $this->autoload = $autoload;
-        $this->consoleRoot = $consoleRoot;
-        $this->siteRoot = $siteRoot;
+        $this->root = $root;
     }
 
     public function boot()
@@ -37,14 +34,13 @@ class Drupal
                 false
             );
         } catch (\Exception $e) {
-            $drupal = new DrupalConsoleCore($this->siteRoot);
+            $drupal = new DrupalConsoleCore($this->root);
             return $drupal->boot();
         }
 
         $drupalKernel->addServiceModifier(
             new DrupalServiceModifier(
-                $this->consoleRoot,
-                $this->siteRoot,
+                $this->root,
                 'console.command'
             )
         );
@@ -58,22 +54,23 @@ class Drupal
         AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
         $configuration = $container->get('console.configuration_manager')
-            ->loadConfiguration($this->siteRoot)
+            ->loadConfiguration($this->root)
             ->getConfiguration();
 
         $container->get('console.translator_manager')
             ->loadCoreLanguage(
                 $configuration->get('application.language'),
-                $this->siteRoot
+                $this->root
             );
 
         $container->get('console.renderer')
             ->setSkeletonDirs(
                 [
-                    $this->consoleRoot.'/templates/',
-                    $this->siteRoot.DRUPAL_CONSOLE_CORE.'/templates/'
+                    $this->root.DRUPAL_CONSOLE.'/templates/',
+                    $this->root.DRUPAL_CONSOLE_CORE.'/templates/'
                 ]
             );
+
 
         return $container;
     }
