@@ -9,7 +9,8 @@ services:
     arguments: ['@state', '@entity.definition_update_manager']
     tags:
       - { name: console.command }
-#  update_execute:
-#    class: Drupal\Console\Command\Update\ExecuteCommand
-#    tags:
-#      - { name: console.command }
+  console.update_execute:
+    class: Drupal\Console\Command\Update\ExecuteCommand
+    arguments: ['@console.drupal_api', '@state', '@module_handler', '@update.post_update_registry']
+    tags:
+      - { name: console.command }
