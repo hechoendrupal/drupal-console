@@ -38,6 +38,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
         );
 
         $_ = ( basename(dirname($this->root)) == "web" || basename(dirname($this->root)) == "docroot" )? "../":"";
+       echo "hola"; print_r($_); print_r(dirname($this->root)); print_r(basename(dirname($this->root)));
         $loader->load($this->root. $_ . DRUPAL_CONSOLE_CORE . 'services.yml');
         $loader->load($this->root. $_ . DRUPAL_CONSOLE . 'services.yml');
 
