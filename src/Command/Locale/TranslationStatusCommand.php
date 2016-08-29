@@ -101,6 +101,7 @@ class TranslationStatusCommand extends Command
                 }
                 $io->info($languages[$langcode]->getName());
                 foreach ($rows as $row) {
+                  print_r($row[0]);die("wip");
                     if ($row[0] == 'drupal') {
                         $row[0] = $this->trans('commands.common.messages.drupal-core');
                     }
