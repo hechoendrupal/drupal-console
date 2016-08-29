@@ -13,7 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigManager;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigImporterException;
 use Drupal\Core\Config\ConfigImporter;
@@ -22,7 +24,25 @@ use Drupal\Core\Config\StorageComparer;
 
 class ImportCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /** @var ConfigManager  */
+    protected $configManager;
+
+    /**
+     * ImportCommand constructor.
+     * @param CachedStorage $configStorage
+     * @param ConfigurationManager $configManager
+     */
+    public function __construct(CachedStorage $configStorage, ConfigManager $configManager ) {
+        $this->configStorage = $configStorage;
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -67,16 +87,9 @@ class ImportCommand extends Command
             );
         }
 
-        // Determine $source_storage in partial and non-partial cases.
-        $active_storage = \Drupal::service('config.storage');
-
         $source_storage = new FileStorage($configSyncDir);
 
-        /**
- * @var \Drupal\Core\Config\ConfigManagerInterface $config_manager 
-*/
-        $config_manager = \Drupal::service('config.manager');
-        $storage_comparer = new StorageComparer($source_storage, $active_storage, $config_manager);
+        $storage_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);
 
         if (!$storage_comparer->createChangelist()->hasChanges()) {
             $io->success($this->trans('commands.config.import.messages.nothing-to-do'));

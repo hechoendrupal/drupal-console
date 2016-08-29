@@ -77,13 +77,15 @@ trait ExportTrait
 
         $io->info($message);
 
+        $module = $this->extensionManager->getModule($module);
+
         foreach ($this->configExport as $fileName => $config) {
             $yamlConfig = $dumper->dump($config['data'], 10);
 
             if ($config['optional']) {
-                $configDirectory = $this->getApplication()->getSite()->getModuleConfigOptionalDirectory($module, false);
+                $configDirectory = $module->getConfigOptionalDirectory(false);
             } else {
-                $configDirectory = $this->getApplication()->getSite()->getModuleConfigInstallDirectory($module, false);
+                $configDirectory = $module->getConfigInstallDirectory(false);
             }
 
             $configFile = sprintf(
@@ -130,8 +132,9 @@ trait ExportTrait
     protected function exportModuleDependencies($io, $module, $dependencies)
     {
         $yaml = new Yaml();
-        $info_file = file_get_contents($this->getApplication()->getSite()->getModuleInfoFile($module));
-        $info_yaml = $yaml->parse($info_file);
+
+        $module = $this->extensionManager->getModule($module);
+        $info_yaml = $module->info;
 
         if (empty($info_yaml['dependencies'])) {
             $info_yaml['dependencies'] = $dependencies;
@@ -139,12 +142,12 @@ trait ExportTrait
             $info_yaml['dependencies'] = array_unique(array_merge($info_yaml['dependencies'], $dependencies));
         }
 
-        if (file_put_contents($this->getApplication()->getSite()->getModuleInfoFile($module), $yaml->dump($info_yaml))) {
+        if (file_put_contents($module->getPathname(), $yaml->dump($info_yaml))) {
             $io->info(
                 '[+] ' .
                 sprintf(
                     $this->trans('commands.config.export.view.messages.depencies-included'),
-                    $this->getApplication()->getSite()->getModuleInfoFile($module)
+                    $module->getPathname()
                 )
             );
 

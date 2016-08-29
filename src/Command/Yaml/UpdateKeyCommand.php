@@ -15,10 +15,28 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\NestedArray;
 
 class UpdateKeyCommand extends Command
 {
     use CommandTrait;
+
+    /**
+     * @var NestedArray
+     */
+    protected $nestedArray;
+
+    /**
+     * RebuildCommand constructor.
+     * @param NestedArray    $nestedArray
+     */
+    public function __construct(
+        NestedArray $nestedArray
+    ) {
+        $this->nestedArray = $nestedArray;
+        parent::__construct();
+    }
+
 
     protected function configure()
     {
@@ -71,9 +89,8 @@ class UpdateKeyCommand extends Command
             );
         }
 
-        $nested_array = $this->getApplication()->getNestedArrayHelper();
         $parents = explode(".", $yaml_key);
-        $nested_array::replaceKey($yaml_parsed, $parents, $yaml_new_key);
+        $this->nestedArray->replaceKey($yaml_parsed, $parents, $yaml_new_key);
 
         try {
             $yaml = $dumper->dump($yaml_parsed, 10);
