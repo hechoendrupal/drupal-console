@@ -16,6 +16,7 @@ use Drupal\Core\Utility\Error;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\State\State;
 use Drupal\Core\Entity\EntityDefinitionUpdateManager;
+use Drupal\Console\Utils\ChainQueue;
 
 /**
  * Class EntitiesCommand.
@@ -37,16 +38,24 @@ class EntitiesCommand extends Command
     protected $entityDefinitionUpdateManager;
 
     /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
      * EntitiesCommand constructor.
      * @param State                         $state
      * @param EntityDefinitionUpdateManager $entityDefinitionUpdateManager
+     * @param ChainQueue                    $chainQueue
      */
     public function __construct(
         State $state,
-        EntityDefinitionUpdateManager $entityDefinitionUpdateManager
+        EntityDefinitionUpdateManager $entityDefinitionUpdateManager,
+        ChainQueue $chainQueue
     ) {
         $this->state = $state;
         $this->entityDefinitionUpdateManager = $entityDefinitionUpdateManager;
+        $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
@@ -84,7 +93,7 @@ class EntitiesCommand extends Command
 
         $this->state->set('system.maintenance_mode', false);
         $io->info($this->trans('commands.update.entities.messages.end'));
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
     }
 }
