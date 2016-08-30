@@ -2,9 +2,7 @@
 
 namespace Drupal\Console\Utils\Bootstrap;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Console\Utils\Bootstrap\DrupalConsoleCore;
 
 class Drupal
 {
@@ -50,8 +48,6 @@ class Drupal
         $drupalKernel->boot();
 
         $container = $drupalKernel->getContainer();
-
-        AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
         $configuration = $container->get('console.configuration_manager')
             ->loadConfiguration($this->root)
