@@ -19,7 +19,8 @@ use Drupal\Console\Style\DrupalStyle;
 
 /**
  * @DrupalCommand(
- *     extension = "breakpoint"
+ *     extension = "breakpoint",
+ *     extensionType = "module"
  * )
  */
 class DebugCommand extends Command

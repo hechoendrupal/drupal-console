@@ -16,12 +16,18 @@ use Doctrine\Common\Annotations\Annotation;
 class DrupalCommand
 {
     /**
-     * @var array
+     * @var string
      */
-    public $dependencies;
+    public $extension;
 
     /**
      * @var string
      */
-    public $extension;
+    public $extensionType;
+
+    /**
+     * @var array
+     */
+    public $dependencies;
+
 }
