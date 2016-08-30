@@ -26,7 +26,6 @@ services:
     arguments: ['@console.drupal_api', '@app.root']
   console.annotation_command_reader:
     class: Drupal\Console\Annotations\DrupalCommandAnnotationReader
-#    arguments: ['%console.service_definitions%']
   console.annotation_validator:
     class: Drupal\Console\Utils\AnnotationValidator
     arguments: ['@console.annotation_command_reader', '@console.extension_manager']
