@@ -149,10 +149,19 @@ class Application extends ConsoleApplication
                 continue;
             }
 
-            $command = $this->container->get($name);
+            try {
+                $command = $this->container->get($name);
+            }
+            catch (\Exception $e) {
+                echo 'Error registering command: ' . $name . PHP_EOL;
+            }
+
             if (!$command) {
                 continue;
             }
+
+
+
             if (method_exists($command, 'setTranslator')) {
                 $command->setTranslator(
                     $this->container->get('console.translator_manager')
