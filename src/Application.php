@@ -5,6 +5,8 @@ namespace Drupal\Console;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Drupal\Console\Annotations\DrupalCommandAnnotationReader;
+use Drupal\Console\Utils\AnnotationValidator;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -144,8 +146,28 @@ class Application extends ConsoleApplication
             );
         }
 
+        $serviceDefinitions = $this->container
+            ->getParameter('console.service_definitions');
+
+        /** @var DrupalCommandAnnotationReader $annotationReader */
+        $annotationReader = $this->container
+            ->get('console.annotation_command_reader');
+        /* Passing parameter console.service_definitions to a service
+         * as argument break the application,
+         * arguments: ['%console.service_definitions%']
+         */
+        $annotationReader->setServiceDefinitions($serviceDefinitions);
+
+        /** @var AnnotationValidator $annotationValidator */
+        $annotationValidator = $this->container
+            ->get('console.annotation_validator');
+
         foreach ($consoleCommands as $name) {
             if (!$this->container->has($name)) {
+                continue;
+            }
+
+            if (!$annotationValidator->isValidCommand($name)) {
                 continue;
             }
 
@@ -153,14 +175,12 @@ class Application extends ConsoleApplication
                 $command = $this->container->get($name);
             }
             catch (\Exception $e) {
-                echo 'Error registering command: ' . $name . PHP_EOL;
+                continue;
             }
 
             if (!$command) {
                 continue;
             }
-
-
 
             if (method_exists($command, 'setTranslator')) {
                 $command->setTranslator(

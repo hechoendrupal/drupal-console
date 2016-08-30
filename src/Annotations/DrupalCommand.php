@@ -1,14 +1,18 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Annotation\DrupalCommand.
+ * Contains \Drupal\Console\Annotations\DrupalCommand.
  */
 
-namespace Drupal\Console\Annotation;
+namespace Drupal\Console\Annotations;
+
+use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
+ * @Target("CLASS")
  */
+
 class DrupalCommand
 {
     /**
