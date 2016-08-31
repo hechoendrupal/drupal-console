@@ -37,6 +37,7 @@ class DisableCommand extends Command
     /**
      * DisableCommand constructor.
      * @param EntityTypeManager $entityTypeManager
+     * @param QueryFactory      $entityQuery
      */
     public function __construct(
         EntityTypeManager $entityTypeManager,
