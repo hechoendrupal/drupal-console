@@ -35,12 +35,9 @@ class ImportCommand extends Command
     /**
      * ImportCommand constructor.
      * @param CachedStorage $configStorage
-     * @param ConfigManager $configManager
+     * @param ConfigurationManager $configManager
      */
-    public function __construct(
-        CachedStorage $configStorage,
-        ConfigManager $configManager
-    ) {
+    public function __construct(CachedStorage $configStorage, ConfigManager $configManager ) {
         $this->configStorage = $configStorage;
         $this->configManager = $configManager;
         parent::__construct();
