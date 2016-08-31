@@ -1,9 +1,11 @@
-#services:
-#  multisite_debug:
-#    class: Drupal\Console\Command\Multisite\DebugCommand
-#    tags:
-#      - { name: console.command }
-#  multisite_new:
-#    class: Drupal\Console\Command\Multisite\NewCommand
-#    tags:
-#      - { name: console.command }
+services:
+  console.multisite_debug:
+    class: Drupal\Console\Command\Multisite\DebugCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: console.command }
+  console.multisite_new:
+    class: Drupal\Console\Command\Multisite\NewCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: console.command }
