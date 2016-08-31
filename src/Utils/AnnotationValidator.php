@@ -42,7 +42,7 @@ class AnnotationValidator {
      * @return bool
      */
     public function isValidCommand($class) {
-        $annotation = $this->annotationCommandReader->readAnnotations($class);
+        $annotation = $this->annotationCommandReader->readAnnotation($class);
         if (!$annotation) {
             return true;
         }

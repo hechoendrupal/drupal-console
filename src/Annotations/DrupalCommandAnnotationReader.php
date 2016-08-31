@@ -14,7 +14,7 @@ class DrupalCommandAnnotationReader {
      * @param $class
      * @return array
      */
-    public function readAnnotations($class)
+    public function readAnnotation($class)
     {
         $annotation = [];
         $reader = new AnnotationReader();
@@ -30,5 +30,4 @@ class DrupalCommandAnnotationReader {
 
         return $annotation;
     }
-
 }
