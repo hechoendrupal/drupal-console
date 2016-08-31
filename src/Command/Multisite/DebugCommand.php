@@ -20,8 +20,20 @@ use Drupal\Console\Style\DrupalStyle;
 class DebugCommand extends Command
 {
     use CommandTrait;
+
+    protected $appRoot;
+
     /**
-     * @{@inheritdoc}
+     * DebugCommand constructor.
+     * @param $appRoot
+     */
+    public function __construct($appRoot) {
+        $this->appRoot = $appRoot;
+        parent::__construct();
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function configure()
     {
@@ -43,7 +55,7 @@ class DebugCommand extends Command
 
         $multiSiteFile = sprintf(
             '%s/sites/sites.php',
-            $this->get('site')->getRoot()
+            $this->appRoot
         );
 
         if (file_exists($multiSiteFile)) {
@@ -71,10 +83,12 @@ class DebugCommand extends Command
         foreach ($sites as $site => $directory) {
             $tableRows[] = [
                 $site,
-                $this->get('site')->getRoot()  . '/' . $directory
+                $this->appRoot  . '/' . $directory
             ];
         }
 
         $io->table($tableHeader, $tableRows);
+
+        return 0;
     }
 }
