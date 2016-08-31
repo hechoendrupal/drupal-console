@@ -10,37 +10,24 @@ use Doctrine\Common\Annotations\AnnotationReader;
  */
 class DrupalCommandAnnotationReader {
 
-    protected $serviceDefinitions;
-
     /**
-     * setServiceDefinitions.
-     * @param $serviceDefinitions
-     */
-    public function setServiceDefinitions($serviceDefinitions) {
-        $this->serviceDefinitions = $serviceDefinitions;
-    }
-
-    /**
-     * @param $name
+     * @param $class
      * @return array
      */
-    public function readAnnotations($name)
+    public function readAnnotation($class)
     {
         $annotation = [];
-        if (!$serviceDefinition = $this->serviceDefinitions[$name]) {
-            return $annotation;
-        }
         $reader = new AnnotationReader();
         $drupalCommandAnnotation = $reader->getClassAnnotation(
-            new \ReflectionClass($serviceDefinition->getClass()),
+            new \ReflectionClass($class),
             'Drupal\\Console\\Annotations\\DrupalCommand'
         );
         if($drupalCommandAnnotation) {
             $annotation['extension'] = $drupalCommandAnnotation->extension?:'';
+            $annotation['extensionType'] = $drupalCommandAnnotation->extensionType?:'';
             $annotation['dependencies'] = $drupalCommandAnnotation->dependencies?:[];
         }
 
         return $annotation;
     }
-
 }
