@@ -35,12 +35,9 @@ class ExportContentTypeCommand extends Command
     /**
      * ExportContentTypeCommand constructor.
      * @param EntityTypeManager $entityTypeManager
-     * @param CachedStorage     $configStorage
+     * @param CachedStorage $configStorage
      */
-    public function __construct(
-        EntityTypeManager $entityTypeManager,
-        CachedStorage $configStorage
-    ) {
+    public function __construct(EntityTypeManager $entityTypeManager, CachedStorage $configStorage) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         parent::__construct();

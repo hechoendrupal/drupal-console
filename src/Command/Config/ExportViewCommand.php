@@ -32,7 +32,7 @@ class ExportViewCommand extends Command
     /** @var EntityTypeManager  */
     protected $entityTypeManager;
 
-    /** @var CachedStorage  */
+    /** @var use Drupal\Core\Config\CachedStorage;  */
     protected $configStorage;
 
     /** @var Manager  */
@@ -41,14 +41,10 @@ class ExportViewCommand extends Command
     /**
      * ExportViewCommand constructor.
      * @param EntityTypeManager $entityTypeManager
-     * @param CachedStorage     $configStorage
-     * @param Manager           $extensionManager
+     * @param CachedStorage $configStorage
+     * @param Manager $extensionManager
      */
-    public function __construct(
-        EntityTypeManager $entityTypeManager,
-        CachedStorage $configStorage,
-        Manager $extensionManager
-    ) {
+    public function __construct(EntityTypeManager $entityTypeManager, CachedStorage $configStorage, Manager $extensionManager) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;

@@ -30,9 +30,10 @@ class DeleteCommand extends Command
     protected $entityTypeManager;
 
     /**
-     * DeleteCommand constructor.
-     * @param EntityTypeRepository  $entityTypeRepository
-     * @param EntityTypeManager     $entityTypeManager
+     * RebuildCommand constructor.
+     * @param EntityTypeRepository $entityTypeRepository
+     * @param EntityTypeManager $entityTypeManager
+     * @param RequestStack $requestStack
      */
     public function __construct(
         EntityTypeRepository $entityTypeRepository,
