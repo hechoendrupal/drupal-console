@@ -18,12 +18,12 @@ use Drupal\Console\Command\Shared\CommandTrait;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Annotations\DrupalCommand;
 
 /**
  * @DrupalCommand(
- *     dependencies = {
- *         "locale"
- *     }
+ *     extension = "locale",
+ *     extensionType = "module"
  * )
  */
 class LanguageAddCommand extends Command

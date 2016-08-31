@@ -19,12 +19,12 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Annotations\DrupalCommand;
 
 /**
  * @DrupalCommand(
- *     dependencies = {
- *         "locale"
- *     }
+ *     extension = "locale",
+ *     extensionType = "module"
  * )
  */
 class LanguageDeleteCommand extends Command
