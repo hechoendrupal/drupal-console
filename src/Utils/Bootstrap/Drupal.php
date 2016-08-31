@@ -50,6 +50,8 @@ class Drupal
 
         $container = $drupalKernel->getContainer();
 
+        $container->set('console.root', $this->root);
+
         AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
         $configuration = $container->get('console.configuration_manager')
