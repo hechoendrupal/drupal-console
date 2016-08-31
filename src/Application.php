@@ -5,6 +5,7 @@ namespace Drupal\Console;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Console\Utils\AnnotationValidator;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -24,9 +25,12 @@ class Application extends ConsoleApplication
      */
     const VERSION = '1.0.0-rc1';
 
+    /**
+     * @var string
+     */
     protected $commandName;
 
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         parent::__construct($container, $this::NAME, $this::VERSION);
         $this->addOptions();
@@ -40,6 +44,7 @@ class Application extends ConsoleApplication
         if ($commandName = $this->getCommandName($input)) {
             $this->commandName = $commandName;
         }
+        $this->registerGenerators();
         $this->registerCommands();
         parent::doRun($input, $output);
         if ($this->getCommandName($input) == 'list' && $this->container->hasParameter('console.warning')) {
@@ -134,6 +139,43 @@ class Application extends ConsoleApplication
         );
     }
 
+    private function registerGenerators()
+    {
+        if ($this->container->hasParameter('console.generators')) {
+            $consoleGenerators = $this->container->getParameter(
+                'console.generators'
+            );
+        } else {
+            $consoleGenerators = array_keys(
+                $this->container->findTaggedServiceIds('console.generator')
+            );
+        }
+
+        foreach ($consoleGenerators as $name) {
+            if (!$this->container->has($name)) {
+                continue;
+            }
+
+            $generator = $this->container->get($name);
+
+            if (!$generator) {
+                continue;
+            }
+
+            if (method_exists($generator, 'setRenderer')) {
+                $generator->setRenderer(
+                    $this->container->get('console.renderer')
+                );
+            }
+
+            if (method_exists($generator, 'setFileQueue')) {
+                $generator->setFileQueue(
+                    $this->container->get('console.file_queue')
+                );
+            }
+        }
+    }
+
     private function registerCommands()
     {
         $this->registerCommandsAsServices();
@@ -160,8 +202,8 @@ class Application extends ConsoleApplication
             ->getParameter('console.service_definitions');
 
         /**
- * @var AnnotationValidator $annotationValidator 
-*/
+         * @var AnnotationValidator $annotationValidator
+         */
         $annotationValidator = $this->container
             ->get('console.annotation_validator');
 
@@ -193,11 +235,13 @@ class Application extends ConsoleApplication
                     $this->container->get('console.translator_manager')
                 );
             }
+
             if (method_exists($command, 'setContainer')) {
                 $command->setContainer(
                     $this->container->get('service_container')
                 );
             }
+
             $this->add($command);
         }
     }

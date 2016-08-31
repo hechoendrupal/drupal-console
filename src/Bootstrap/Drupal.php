@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Utils\Bootstrap;
+namespace Drupal\Console\Bootstrap;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +40,8 @@ class Drupal
         $drupalKernel->addServiceModifier(
             new DrupalServiceModifier(
                 $this->root,
-                'console.command'
+                'console.command',
+                'console.generator'
             )
         );
 
@@ -71,7 +72,6 @@ class Drupal
                     $this->root.DRUPAL_CONSOLE_CORE.'/templates/'
                 ]
             );
-
 
         return $container;
     }
