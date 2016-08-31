@@ -1,15 +1,8 @@
 services:
+  console.root:
+    class: SplString
   console.redbean:
     class: RedBeanPHP\R
-  console.annotation_reader:
-    class: Doctrine\Common\Annotations\AnnotationReader
-  console.annotation_file_cache:
-    class: Doctrine\Common\Annotations\FileCacheReader
-    factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
-    arguments: ['@console.annotation_reader', '@console.configuration_manager']
-#  console.command_dependencies:
-#    class: Drupal\Console\Command\CommandDependencies
-#    arguments: ["@console.annotation_file_cache"]
   console.validator:
     class: Drupal\Console\Utils\Validator
   console.drupal_api:
@@ -33,3 +26,8 @@ services:
   console.extension_manager:
     class: Drupal\Console\Extension\Manager
     arguments: ['@console.drupal_api', '@app.root']
+  console.annotation_command_reader:
+    class: Drupal\Console\Annotations\DrupalCommandAnnotationReader
+  console.annotation_validator:
+    class: Drupal\Console\Utils\AnnotationValidator
+    arguments: ['@console.annotation_command_reader', '@console.extension_manager']

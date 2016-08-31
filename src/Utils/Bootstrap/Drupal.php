@@ -4,7 +4,6 @@ namespace Drupal\Console\Utils\Bootstrap;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Console\Utils\Bootstrap\DrupalConsoleCore;
 
 class Drupal
 {
@@ -50,6 +49,8 @@ class Drupal
         $drupalKernel->boot();
 
         $container = $drupalKernel->getContainer();
+
+        $container->set('console.root', $this->root);
 
         AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 

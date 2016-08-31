@@ -33,9 +33,7 @@ class LoginUrlCommand extends Command
      * LoginUrlCommand constructor.
      * @param EntityTypeManager    $entityTypeManager
      */
-    public function __construct(
-        EntityTypeManager $entityTypeManager
-    ) {
+    public function __construct(EntityTypeManager $entityTypeManager) {
         $this->entityTypeManager = $entityTypeManager;
         parent::__construct();
     }

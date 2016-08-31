@@ -43,8 +43,8 @@ class DebugCommand extends Command
     /**
      * DebugCommand constructor.
      * @param EntityTypeManager $entityTypeManager
-     * @param QueryFactory $entityQuery
-     * @param DrupalApi $drupalApi
+     * @param QueryFactory      $entityQuery
+     * @param DrupalApi         $drupalApi
      */
     public function __construct(
         EntityTypeManager $entityTypeManager,
