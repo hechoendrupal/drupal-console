@@ -1,7 +1,7 @@
 <?php
 
 use Drupal\Console\Application;
-use Drupal\Console\Utils\Bootstrap\Drupal;
+use Drupal\Console\Bootstrap\Drupal;
 
 set_time_limit(0);
 $consoleRoot = realpath(__DIR__.'/../') . '/';
