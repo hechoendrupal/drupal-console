@@ -198,26 +198,32 @@ class Application extends ConsoleApplication
             );
         }
 
-        $serviceDefinitions = $this->container
-            ->getParameter('console.service_definitions');
+        $serviceDefinitions = [];
+        $annotationValidator = null;
+        if ($this->container->hasParameter('console.service_definitions')) {
+            $serviceDefinitions = $this->container
+                ->getParameter('console.service_definitions');
 
-        /**
-         * @var AnnotationValidator $annotationValidator
-         */
-        $annotationValidator = $this->container
-            ->get('console.annotation_validator');
+            /**
+             * @var AnnotationValidator $annotationValidator
+             */
+            $annotationValidator = $this->container
+                ->get('console.annotation_validator');
+        }
 
         foreach ($consoleCommands as $name) {
             if (!$this->container->has($name)) {
                 continue;
             }
 
-            if (!$serviceDefinition = $serviceDefinitions[$name]) {
-                continue;
-            }
+            if ($annotationValidator) {
+                if (!$serviceDefinition = $serviceDefinitions[$name]) {
+                    continue;
+                }
 
-            if (!$annotationValidator->isValidCommand($serviceDefinition->getClass())) {
-                continue;
+                if (!$annotationValidator->isValidCommand($serviceDefinition->getClass())) {
+                    continue;
+                }
             }
 
             try {
