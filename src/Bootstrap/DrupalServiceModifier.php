@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Utils\Bootstrap;
+namespace Drupal\Console\Bootstrap;
 
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
@@ -15,20 +15,27 @@ class DrupalServiceModifier implements ServiceModifierInterface
     /**
      * @var string
      */
-    protected $serviceTag;
+    protected $commandTag;
+
+    /**
+     * @var string
+     */
+    protected $generatorTag;
 
     /**
      * DrupalServiceModifier constructor.
      * @param string $root
      * @param string $serviceTag
-
+     * @param string $generatorTag
      */
     public function __construct(
         $root = null,
-        $serviceTag
+        $serviceTag,
+        $generatorTag
     ) {
         $this->root = $root;
-        $this->serviceTag = $serviceTag;
+        $this->commandTag = $serviceTag;
+        $this->generatorTag = $generatorTag;
     }
 
 
@@ -38,12 +45,13 @@ class DrupalServiceModifier implements ServiceModifierInterface
     public function alter(ContainerBuilder $container)
     {
         $container->addCompilerPass(
-            new AddServicesCompilerPass(
-                $this->root
-            )
+            new AddServicesCompilerPass($this->root)
         );
         $container->addCompilerPass(
-            new FindCommandsCompilerPass($this->serviceTag)
+            new FindCommandsCompilerPass($this->commandTag)
+        );
+        $container->addCompilerPass(
+            new FindGeneratorsCompilerPass($this->generatorTag)
         );
     }
 }

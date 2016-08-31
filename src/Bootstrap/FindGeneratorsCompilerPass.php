@@ -1,14 +1,14 @@
 <?php
 
-namespace Drupal\Console\Utils\Bootstrap;
+namespace Drupal\Console\Bootstrap;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
- * FindCommandsCompilerPass
+ * FindGeneratorsCompilerPass
  */
-class FindCommandsCompilerPass implements CompilerPassInterface
+class FindGeneratorsCompilerPass implements CompilerPassInterface
 {
     /**
      * @var string
@@ -33,11 +33,11 @@ class FindCommandsCompilerPass implements CompilerPassInterface
             $this->serviceTag
         );
 
-        $commands = [];
+        $generators = [];
         foreach ($taggedServices as $id => $tags) {
-            $commands[] = $id;
+            $generators[] = $id;
         }
 
-        $container->setParameter('console.commands', $commands);
+        $container->setParameter('console.generators', $generators);
     }
 }

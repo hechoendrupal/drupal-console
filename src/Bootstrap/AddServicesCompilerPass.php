@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Utils\Bootstrap;
+namespace Drupal\Console\Bootstrap;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
