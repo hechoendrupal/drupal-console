@@ -11,6 +11,6 @@ services:
       - { name: console.command }
   console.update_execute:
     class: Drupal\Console\Command\Update\ExecuteCommand
-    arguments: ['@console.drupal_api', '@state', '@module_handler', '@update.post_update_registry']
+    arguments: ['@console.drupal_api', '@state', '@module_handler', '@update.post_update_registry', '@console.chain_queue']
     tags:
       - { name: console.command }

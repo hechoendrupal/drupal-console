@@ -16,6 +16,7 @@ use Drupal\Console\Utils\DrupalApi;
 use Drupal\Core\State\State;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Update\UpdateRegistry;
+use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Style\DrupalStyle;
 
 class ExecuteCommand extends Command
@@ -43,6 +44,11 @@ class ExecuteCommand extends Command
     protected $postUpdateRegistry;
 
     /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
      * @var String
      */
     private $module;
@@ -58,17 +64,20 @@ class ExecuteCommand extends Command
      * @param State             $state
      * @param ModuleHandler     $moduleHandler
      * @param UpdateRegistry    $postUpdateRegistry
+     * @param ChainQueue        $chainQueue
      */
     public function __construct(
         DrupalApi $drupalApi,
         State $state,
         ModuleHandler $moduleHandler,
-        UpdateRegistry $postUpdateRegistry
+        UpdateRegistry $postUpdateRegistry,
+        ChainQueue $chainQueue
     ) {
         $this->drupalApi = $drupalApi;
         $this->state = $state;
         $this->moduleHandler = $moduleHandler;
         $this->postUpdateRegistry = $postUpdateRegistry;
+        $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
@@ -119,7 +128,7 @@ class ExecuteCommand extends Command
         $this->state->set('system.maintenance_mode', false);
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
 
-        $this->get('chain_queue')
+        $this->chainQueue
             ->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
@@ -205,7 +214,7 @@ class ExecuteCommand extends Command
      */
     private function runPostUpdates(DrupalStyle $io)
     {
-        $postUpdates = $this->entityDefinitionUpdateManager->getPendingUpdateInformation();
+        $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
         foreach ($postUpdates as $module_name => $module_updates) {
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {
