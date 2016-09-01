@@ -43,7 +43,7 @@ trait LocaleTrait
      *   The string which contains debug information.
      */
     protected function createInfoString($project_info)
-    { print_r($project_info->files);
+    {
         $remote_path = isset($project_info->files['remote']->uri) ? $project_info->files['remote']->uri : false;
         $local_path = isset($project_info->files['local']->uri) ? $project_info->files['local']->uri : false;
 
@@ -67,6 +67,15 @@ trait LocaleTrait
         return $this->trans('commands.locale.translation.status.messages.translation-not-determined');
     }
 
+    /**
+     * LOCALE_TRANSLATION_REMOTE
+     * and LOCALE_TRANSLATION_LOCAL indicate available new translations,
+     * LOCALE_TRANSLATION_CURRENT indicate that the current translation is them
+     * most recent.
+     *
+     *
+     *
+     */
     protected function projectsStatus()
     {
         $status_report = [];
@@ -83,6 +92,8 @@ trait LocaleTrait
                     if ($local_age >= $remote_age) {
                         $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
                     }
+                } else if ($project_info->type == LOCALE_TRANSLATION_CURRENT) {
+                    $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
                 } else {
                     $local_age = '';
                     $remote_age = '';
