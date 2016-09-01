@@ -43,7 +43,7 @@ trait LocaleTrait
      *   The string which contains debug information.
      */
     protected function createInfoString($project_info)
-    {
+    { print_r($project_info->files);
         $remote_path = isset($project_info->files['remote']->uri) ? $project_info->files['remote']->uri : false;
         $local_path = isset($project_info->files['local']->uri) ? $project_info->files['local']->uri : false;
 
@@ -72,7 +72,7 @@ trait LocaleTrait
         $status_report = [];
         $status = locale_translation_get_status();
         foreach ($status as $project_id => $project) {
-            foreach ($project as $langcode => $project_info) {
+            foreach ($project as $langcode => $project_info) { print_r($project_info->type);
                 $info = '';
                 if ($project_info->type == LOCALE_TRANSLATION_LOCAL || $project_info->type == LOCALE_TRANSLATION_REMOTE) {
                     $local = isset($project_info->files[LOCALE_TRANSLATION_LOCAL]) ? $project_info->files[LOCALE_TRANSLATION_LOCAL] : null;
