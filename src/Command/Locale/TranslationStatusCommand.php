@@ -13,19 +13,45 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Annotations\DrupalCommand;
 
 /**
  * @DrupalCommand(
- *     dependencies = {
- *         "locale"
- *     }
+ *     extension = "locale",
+ *     extensionType = "module"
  * )
  */
 class TranslationStatusCommand extends Command
 {
+    use CommandTrait;
     use LocaleTrait;
-    use ContainerAwareCommandTrait;
+
+    /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+     /**
+      * @var ExtensionManager
+      */
+    protected $extensionManager;
+
+    /**
+     * TranslationStatusCommand constructor.
+     * @param DrupalApi $drupalApi
+     */
+    public function __construct(
+      DrupalApi $drupalApi,
+      Manager $extensionManager
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -55,7 +81,8 @@ class TranslationStatusCommand extends Command
         $languages = locale_translatable_language_list();
         $status = locale_translation_get_status();
 
-        $this->getApplication()->getDrupalHelper()->loadLegacyFile($this->getApplication()->getSite()->getModulePath('locale') . '/locale.compare.inc');
+        $locale = $this->extensionManager->getModule('locale');
+        $this->drupalApi->loadLegacyFile( $locale->getPath( true ) . '/locale.compare.inc' );
 
         if (!$languages) {
             $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
@@ -74,6 +101,7 @@ class TranslationStatusCommand extends Command
                 }
                 $io->info($languages[$langcode]->getName());
                 foreach ($rows as $row) {
+
                     if ($row[0] == 'drupal') {
                         $row[0] = $this->trans('commands.common.messages.drupal-core');
                     }

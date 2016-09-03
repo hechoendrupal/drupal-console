@@ -14,19 +14,45 @@ use Drupal\language\Entity\ConfigurableLanguage;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Annotations\DrupalCommand;
 
 /**
  * @DrupalCommand(
- *     dependencies = {
- *         "locale"
- *     }
+ *     extension = "locale",
+ *     extensionType = "module"
  * )
  */
 class LanguageAddCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use LocaleTrait;
+
+    /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
+     * LanguageAddCommand constructor.
+     * @param ModuleHandlerInterface $moduleHandler
+     */
+    public function __construct(
+      ModuleHandlerInterface $moduleHandler,
+      DrupalApi $drupalApi
+    ) {
+        $this->moduleHandler = $moduleHandler;
+        $this->drupalApi = $drupalApi;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -43,7 +69,7 @@ class LanguageAddCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $moduleHandler = $this->getModuleHandler();
+        $moduleHandler = $this->moduleHandler;
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
 

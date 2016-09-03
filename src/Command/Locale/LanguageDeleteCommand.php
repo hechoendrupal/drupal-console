@@ -14,19 +14,53 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Annotations\DrupalCommand;
 
 /**
  * @DrupalCommand(
- *     dependencies = {
- *         "locale"
- *     }
+ *     extension = "locale",
+ *     extensionType = "module"
  * )
  */
 class LanguageDeleteCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use LocaleTrait;
+
+    /**
+     * @var EntityTypeManager
+     */
+    protected $entityTypeManager;
+
+    /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
+     * LoginUrlCommand constructor.
+     * @param EntityTypeManager    $entityTypeManager
+     */
+    public function __construct(
+        EntityTypeManager $entityTypeManager,
+        ModuleHandlerInterface $moduleHandler,
+        DrupalApi $drupalApi
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->moduleHandler = $moduleHandler;
+        $this->drupalApi = $drupalApi;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -43,7 +77,7 @@ class LanguageDeleteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $moduleHandler = $this->getModuleHandler();
+        $moduleHandler = $this->moduleHandler;
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
 
@@ -68,7 +102,7 @@ class LanguageDeleteCommand extends Command
         }
 
         try {
-            $configurable_language_storage = $this->getService('entity_type.manager')->getStorage('configurable_language');
+            $configurable_language_storage = $this->entityTypeManager->getStorage('configurable_language');
             $configurable_language_storage->load($languageEntity->getId())->delete();
 
             $io->info(

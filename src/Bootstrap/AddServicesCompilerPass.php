@@ -36,8 +36,9 @@ class AddServicesCompilerPass implements CompilerPassInterface
             $container,
             new FileLocator($this->root)
         );
-        $loader->load($this->root.DRUPAL_CONSOLE_CORE.'/services.yml');
-        $loader->load($this->root.DRUPAL_CONSOLE.'/services.yml');
+
+        $loader->load($this->root.  DRUPAL_CONSOLE_CORE . 'services.yml');
+        $loader->load($this->root.  DRUPAL_CONSOLE . 'services.yml');
 
         $finder = new Finder();
         $finder->files()
