@@ -9,21 +9,6 @@ namespace Drupal\Console\Command\Shared;
 
 trait LocaleTrait
 {
-    protected function getLanguages()
-    {
-        $drupal = $this->drupalApi;
-        $languages = $drupal->getStandardLanguages();
-
-        return $languages;
-    }
-
-    protected function getDefaultLanguage()
-    {
-        $application = $this->getApplication();
-        $config = $application->getConfig();
-        return $config->get('application.language');
-    }
-
     /**
      * Provides debug info for projects in case translation files are not found.
      *
@@ -72,16 +57,13 @@ trait LocaleTrait
      * and LOCALE_TRANSLATION_LOCAL indicate available new translations,
      * LOCALE_TRANSLATION_CURRENT indicate that the current translation is them
      * most recent.
-     *
-     *
-     *
      */
     protected function projectsStatus()
     {
         $status_report = [];
         $status = locale_translation_get_status();
         foreach ($status as $project_id => $project) {
-            foreach ($project as $langcode => $project_info) { print_r($project_info->type);
+            foreach ($project as $langcode => $project_info) {
                 $info = '';
                 if ($project_info->type == LOCALE_TRANSLATION_LOCAL || $project_info->type == LOCALE_TRANSLATION_REMOTE) {
                     $local = isset($project_info->files[LOCALE_TRANSLATION_LOCAL]) ? $project_info->files[LOCALE_TRANSLATION_LOCAL] : null;
@@ -92,7 +74,7 @@ trait LocaleTrait
                     if ($local_age >= $remote_age) {
                         $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
                     }
-                } else if ($project_info->type == LOCALE_TRANSLATION_CURRENT) {
+                } elseif ($project_info->type == LOCALE_TRANSLATION_CURRENT) {
                     $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
                 } else {
                     $local_age = '';

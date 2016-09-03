@@ -15,9 +15,8 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
-
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Site;
 use Drupal\Console\Annotations\DrupalCommand;
 
 /**
@@ -32,25 +31,26 @@ class LanguageAddCommand extends Command
     use LocaleTrait;
 
     /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
      * @var ModuleHandlerInterface
      */
     protected $moduleHandler;
 
     /**
-      * @var DrupalApi
-      */
-    protected $drupalApi;
-
-    /**
      * LanguageAddCommand constructor.
+     * @param Site                   $site
      * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
-      ModuleHandlerInterface $moduleHandler,
-      DrupalApi $drupalApi
+        Site $site,
+        ModuleHandlerInterface $moduleHandler
     ) {
+        $this->site = $site;
         $this->moduleHandler = $moduleHandler;
-        $this->drupalApi = $drupalApi;
         parent::__construct();
     }
 
@@ -74,17 +74,21 @@ class LanguageAddCommand extends Command
         $moduleHandler->loadInclude('locale', 'module');
 
         $language = $input->getArgument('language');
-
-        $languages = $this->getLanguages();
-
+        $languages = $this->site->getStandardLanguages();
 
         if (isset($languages[$language])) {
             $langcode = $language;
         } elseif (array_search($language, $languages)) {
             $langcode = array_search($language, $languages);
         } else {
-            $io->error(sprintf($this->trans('commands.locale.language.add.messages.invalid-language'), $language));
-            return;
+            $io->error(
+                sprintf(
+                    $this->trans('commands.locale.language.add.messages.invalid-language'),
+                    $language
+                )
+            );
+
+            return 1;
         }
 
         try {
@@ -95,6 +99,10 @@ class LanguageAddCommand extends Command
             $io->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-successfully'), $language->getName()));
         } catch (\Exception $e) {
             $io->error($e->getMessage());
+
+            return 1;
         }
+
+        return 0;
     }
 }

@@ -14,8 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
-
-use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Annotations\DrupalCommand;
 
@@ -31,24 +30,25 @@ class TranslationStatusCommand extends Command
     use LocaleTrait;
 
     /**
-      * @var DrupalApi
+      * @var Site
       */
-    protected $drupalApi;
+    protected $site;
 
      /**
-      * @var ExtensionManager
+      * @var Manager
       */
     protected $extensionManager;
 
     /**
      * TranslationStatusCommand constructor.
-     * @param DrupalApi $drupalApi
+     * @param Site    $site
+     * @param Manager $extensionManager
      */
     public function __construct(
-      DrupalApi $drupalApi,
-      Manager $extensionManager
+        Site $site,
+        Manager $extensionManager
     ) {
-        $this->drupalApi = $drupalApi;
+        $this->site = $site;
         $this->extensionManager = $extensionManager;
         parent::__construct();
     }
@@ -70,19 +70,18 @@ class TranslationStatusCommand extends Command
         $io = new DrupalStyle($input, $output);
         $language = $input->getArgument('language');
         $tableHeader = [
-          $this->trans('commands.locale.translation.status.messages.project'),
-          $this->trans('commands.locale.translation.status.messages.version'),
-          $this->trans('commands.locale.translation.status.messages.local-age'),
-          $this->trans('commands.locale.translation.status.messages.remote-age'),
-          $this->trans('commands.locale.translation.status.messages.info'),
+            $this->trans('commands.locale.translation.status.messages.project'),
+            $this->trans('commands.locale.translation.status.messages.version'),
+            $this->trans('commands.locale.translation.status.messages.local-age'),
+            $this->trans('commands.locale.translation.status.messages.remote-age'),
+            $this->trans('commands.locale.translation.status.messages.info'),
         ];
 
+        $locale = $this->extensionManager->getModule('locale');
+        $this->site->loadLegacyFile($locale->getPath(true) . '/locale.compare.inc');
 
         $languages = locale_translatable_language_list();
         $status = locale_translation_get_status();
-
-        $locale = $this->extensionManager->getModule('locale');
-        $this->drupalApi->loadLegacyFile( $locale->getPath( true ) . '/locale.compare.inc' );
 
         if (!$languages) {
             $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
@@ -101,7 +100,6 @@ class TranslationStatusCommand extends Command
                 }
                 $io->info($languages[$langcode]->getName());
                 foreach ($rows as $row) {
-
                     if ($row[0] == 'drupal') {
                         $row[0] = $this->trans('commands.common.messages.drupal-core');
                     }

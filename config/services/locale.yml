@@ -1,16 +1,16 @@
 services:
   translation_status:
     class: Drupal\Console\Command\Locale\TranslationStatusCommand
-    arguments: ['@console.drupal_api', '@console.extension_manager']
+    arguments: ['@console.site', '@console.extension_manager']
     tags:
       - { name: console.command }
   language_delete:
     class: Drupal\Console\Command\Locale\LanguageDeleteCommand
-    arguments: ['@entity_type.manager', '@module_handler', '@console.drupal_api']
+    arguments: ['@console.site', '@entity_type.manager', '@module_handler']
     tags:
       - { name: console.command }
   language_add:
     class: Drupal\Console\Command\Locale\LanguageAddCommand
-    arguments: ['@module_handler', '@console.drupal_api']
+    arguments: ['@console.site', '@module_handler']
     tags:
       - { name: console.command }

@@ -11,22 +11,22 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\DrupalApi;
 use Drupal\Core\State\State;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Update\UpdateRegistry;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\Site;
 
 class ExecuteCommand extends Command
 {
     use CommandTrait;
 
     /**
-     * @var DrupalApi
+     * @var Site
      */
-    protected $drupalApi;
+    protected $site;
 
     /**
      * @var State
@@ -60,20 +60,20 @@ class ExecuteCommand extends Command
 
     /**
      * EntitiesCommand constructor.
-     * @param DrupalApi         $drupalApi
-     * @param State             $state
-     * @param ModuleHandler     $moduleHandler
-     * @param UpdateRegistry    $postUpdateRegistry
-     * @param ChainQueue        $chainQueue
+     * @param Site           $site
+     * @param State          $state
+     * @param ModuleHandler  $moduleHandler
+     * @param UpdateRegistry $postUpdateRegistry
+     * @param ChainQueue     $chainQueue
      */
     public function __construct(
-        DrupalApi $drupalApi,
+        Site $site,
         State $state,
         ModuleHandler $moduleHandler,
         UpdateRegistry $postUpdateRegistry,
         ChainQueue $chainQueue
     ) {
-        $this->drupalApi = $drupalApi;
+        $this->site = $site;
         $this->state = $state;
         $this->moduleHandler = $moduleHandler;
         $this->postUpdateRegistry = $postUpdateRegistry;
@@ -102,8 +102,7 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -111,8 +110,8 @@ class ExecuteCommand extends Command
         $this->module = $input->getArgument('module');
         $this->update_n = $input->getArgument('update-n');
 
-        $this->drupalApi->loadLegacyFile('/core/includes/install.inc');
-        $this->drupalApi->loadLegacyFile('/core/includes/update.inc');
+        $this->site->loadLegacyFile('/core/includes/install.inc');
+        $this->site->loadLegacyFile('/core/includes/update.inc');
 
         drupal_load_updates();
         update_fix_compatibility();
@@ -169,11 +168,10 @@ class ExecuteCommand extends Command
      */
     private function runUpdates(DrupalStyle $io, $updates)
     {
-
         foreach ($updates as $module_name => $module_updates) {
             $modulePath = $this->getApplication()->getSite()
                 ->getModulePath($this->module);
-            $this->drupalApi
+            $this->site
                 ->loadLegacyFile($modulePath . '/'. $this->module . '.install', false);
 
             foreach ($module_updates['pending'] as $update_number => $update) {
