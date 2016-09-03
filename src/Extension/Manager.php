@@ -2,13 +2,21 @@
 
 namespace Drupal\Console\Extension;
 
+use Drupal\Console\Utils\Site;
+
 /**
  * Class ExtensionManager
  * @package Drupal\Console
  */
 class Manager
 {
-    protected $drupalApi;
+    /**
+     * @var Site
+     */
+    protected $site;
+    /**
+     * @var string
+     */
     protected $appRoot;
 
     /**
@@ -28,12 +36,14 @@ class Manager
 
     /**
      * ExtensionManager constructor.
-     * @param $drupalApi
-     * @param $appRoot
+     * @param Site   $site
+     * @param string $appRoot
      */
-    public function __construct($drupalApi, $appRoot)
-    {
-        $this->drupalApi = $drupalApi;
+    public function __construct(
+        Site $site,
+        $appRoot
+    ) {
+        $this->site = $site;
         $this->appRoot = $appRoot;
         $this->initialize();
     }
@@ -199,7 +209,7 @@ class Manager
     private function discoverExtensions($type)
     {
         if ($type === 'module') {
-            $this->drupalApi->loadLegacyFile('/core/modules/system/system.module');
+            $this->site->loadLegacyFile('/core/modules/system/system.module');
             system_rebuild_module_data();
         }
 

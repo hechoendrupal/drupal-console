@@ -5,10 +5,11 @@ use Drupal\Console\Bootstrap\Drupal;
 
 set_time_limit(0);
 $consoleRoot = realpath(__DIR__.'/../') . '/';
-$root = getcwd() . '/';
+$appRoot = getcwd() . '/';
 $siteRoot = realpath(__DIR__.'/../../../../') . '/';
+$root = $appRoot;
 
-$autoLoadFile = $root.'/autoload.php';
+$autoLoadFile = $appRoot.'/autoload.php';
 
 if (file_exists($autoLoadFile)) {
     $autoload = include_once $autoLoadFile;
@@ -22,8 +23,8 @@ if (file_exists($autoLoadFile)) {
     exit(1);
 }
 
-if (!file_exists($root.'composer.json')) {
-    $root = realpath($root . '../') . '/';
+if (!file_exists($appRoot.'composer.json')) {
+    $root = realpath($appRoot . '../') . '/';
 }
 
 if (!file_exists($root.'composer.json')) {
@@ -35,7 +36,7 @@ if (!file_exists($root.'composer.json')) {
     exit(1);
 }
 
-$drupal = new Drupal($autoload, $root);
+$drupal = new Drupal($autoload, $root, $appRoot);
 $container = $drupal->boot();
 
 if (!$container) {
