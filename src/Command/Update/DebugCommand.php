@@ -10,9 +10,9 @@ namespace Drupal\Console\Command\Update;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\DrupalApi;
 use Drupal\Core\Update\UpdateRegistry;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\Site;
 use Drupal\Console\Style\DrupalStyle;
 
 class DebugCommand extends Command
@@ -20,9 +20,9 @@ class DebugCommand extends Command
     use CommandTrait;
 
     /**
-     * @var DrupalApi
+     * @var Site
      */
-    protected $drupalApi;
+    protected $site;
 
     /**
      * @var UpdateRegistry
@@ -31,14 +31,14 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param DrupalApi      $drupalApi
+     * @param Site           $site
      * @param UpdateRegistry $postUpdateRegistry
      */
     public function __construct(
-        DrupalApi $drupalApi,
+        Site $site,
         UpdateRegistry $postUpdateRegistry
     ) {
-        $this->drupalApi = $drupalApi;
+        $this->site = $site;
         $this->postUpdateRegistry = $postUpdateRegistry;
         parent::__construct();
     }
@@ -54,15 +54,14 @@ class DebugCommand extends Command
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @inheritdoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->drupalApi->loadLegacyFile('/core/includes/update.inc');
-        $this->drupalApi->loadLegacyFile('/core/includes/install.inc');
+        $this->site->loadLegacyFile('/core/includes/update.inc');
+        $this->site->loadLegacyFile('/core/includes/install.inc');
 
         drupal_load_updates();
         update_fix_compatibility();

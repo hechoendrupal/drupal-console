@@ -11,14 +11,12 @@ use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\language\Entity\ConfigurableLanguage;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
-
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Site;
 use Drupal\Console\Annotations\DrupalCommand;
 
 /**
@@ -33,6 +31,11 @@ class LanguageDeleteCommand extends Command
     use LocaleTrait;
 
     /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
      * @var EntityTypeManager
      */
     protected $entityTypeManager;
@@ -43,22 +46,19 @@ class LanguageDeleteCommand extends Command
     protected $moduleHandler;
 
     /**
-      * @var DrupalApi
-      */
-    protected $drupalApi;
-
-    /**
      * LoginUrlCommand constructor.
-     * @param EntityTypeManager    $entityTypeManager
+     * @param Site                   $site
+     * @param EntityTypeManager      $entityTypeManager
+     * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
+        Site $site,
         EntityTypeManager $entityTypeManager,
-        ModuleHandlerInterface $moduleHandler,
-        DrupalApi $drupalApi
+        ModuleHandlerInterface $moduleHandler
     ) {
+        $this->site = $site;
         $this->entityTypeManager = $entityTypeManager;
         $this->moduleHandler = $moduleHandler;
-        $this->drupalApi = $drupalApi;
         parent::__construct();
     }
 
@@ -84,7 +84,7 @@ class LanguageDeleteCommand extends Command
         $language = $input->getArgument('language');
 
         $languagesObjects = locale_translatable_language_list();
-        $languages = $this->getLanguages();
+        $languages = $this->site->getStandardLanguages();
 
         if (isset($languagesObjects[$language])) {
             $languageEntity = $languagesObjects[$language];
@@ -98,7 +98,8 @@ class LanguageDeleteCommand extends Command
                     $language
                 )
             );
-            return;
+
+            return 1;
         }
 
         try {
@@ -113,6 +114,10 @@ class LanguageDeleteCommand extends Command
             );
         } catch (\Exception $e) {
             $io->error($e->getMessage());
+
+            return 1;
         }
+
+        return 0;
     }
 }
