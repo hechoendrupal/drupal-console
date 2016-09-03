@@ -5,6 +5,6 @@ services:
       - { name: console.command }
   console.cache_rebuild:
     class: Drupal\Console\Command\Cache\RebuildCommand
-    arguments: ['@console.drupal_api','@class_loader','@request_stack']
+    arguments: ['@console.drupal_api', '@console.site', '@class_loader', '@request_stack']
     tags:
       - { name: console.command }

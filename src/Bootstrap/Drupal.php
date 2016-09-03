@@ -9,16 +9,18 @@ class Drupal
 {
     protected $autoload;
     protected $root;
+    protected $appRoot;
 
     /**
      * Drupal constructor.
      * @param $autoload
      * @param $root
      */
-    public function __construct($autoload, $root)
+    public function __construct($autoload, $root, $appRoot)
     {
         $this->autoload = $autoload;
         $this->root = $root;
+        $this->appRoot = $appRoot;
     }
 
     public function boot()
@@ -33,7 +35,7 @@ class Drupal
                 false
             );
         } catch (\Exception $e) {
-            $drupal = new DrupalConsoleCore($this->root);
+            $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             return $drupal->boot();
         }
 

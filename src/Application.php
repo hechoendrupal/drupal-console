@@ -229,6 +229,7 @@ class Application extends ConsoleApplication
             try {
                 $command = $this->container->get($name);
             } catch (\Exception $e) {
+                echo 'name: ' . $name . PHP_EOL . $e->getMessage() . PHP_EOL;
                 continue;
             }
 
