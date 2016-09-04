@@ -1,6 +1,7 @@
 services:
   test_debug:
     class: Drupal\Console\Command\Test\DebugCommand
+    arguments: ['@test_discovery']
     tags:
       - { name: console.command }
   test_run:
