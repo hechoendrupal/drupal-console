@@ -17,7 +17,7 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
-use Drupal\simpletest\TestDiscovery;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 class RunCommand extends Command
 {
@@ -44,6 +44,12 @@ class RunCommand extends Command
     protected $test_discovery;
 
 
+    /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+
 
     /**
      * RunCommand constructor.
@@ -51,10 +57,12 @@ class RunCommand extends Command
      */
     public function __construct(
         Site $site,
-        TestDiscovery $test_discovery
+        TestDiscovery $test_discovery,
+        ModuleHandlerInterface $moduleHandler
     ) {
         $this->site = $site;
         $this->test_discovery = $test_discovery;
+        $this->moduleHandler = $moduleHandler;
         parent::__construct();
     }
 
@@ -151,7 +159,7 @@ class RunCommand extends Command
                 $this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug']
             );
 
-            $this->getModuleHandler()->invokeAll(
+            $this->moduleHandler->invokeAll(
                 'test_finished',
                 [$test->results]
             );

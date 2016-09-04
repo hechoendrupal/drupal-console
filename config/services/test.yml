@@ -5,6 +5,6 @@ services:
       - { name: console.command }
   test_run:
     class: Drupal\Console\Command\Test\RunCommand
-    arguments: ['@console.site', 'test_discovery']
+    arguments: ['@console.site', 'test_discovery', '@module_handler']
     tags:
       - { name: console.command }
