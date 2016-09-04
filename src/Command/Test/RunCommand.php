@@ -18,6 +18,7 @@ use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\simpletest\TestDiscovery;
 
 class RunCommand extends Command
 {
