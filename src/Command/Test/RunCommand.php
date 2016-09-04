@@ -17,7 +17,7 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
-use Drupal\simpletest\TestDiscovery
+use Drupal\simpletest\TestDiscovery;
 
 class RunCommand extends Command
 {
