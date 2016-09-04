@@ -48,7 +48,7 @@ class DebugCommand extends Command
      * @param TestDiscovery    $test_discovery
      */
     public function __construct(
-        TestDiscovery $test_discovery,
+        TestDiscovery $test_discovery
     ) {
         $this->test_discovery = $test_discovery;
         parent::__construct();
