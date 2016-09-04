@@ -13,21 +13,49 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 
 class RunCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     /**
      * @DrupalCommand(
+     *     extension = "test",
+     *     extensionType = "module",
      *     dependencies = {
      *         “simpletest"
      *     }
      * )
      */
+
+    /**
+      * @var Site
+      */
+    protected $site;
+
+    /**
+      * @var Test_discovery
+      */
+    protected $test_discovery;
+
+
+
+    /**
+     * RunCommand constructor.
+     * @param Site    $site
+     */
+    public function __construct(
+        Site $site,
+        Test_discovery $test_discovery
+    ) {
+        $this->site = $site;
+        $this->test_discovery = $test_discovery
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -63,7 +91,7 @@ class RunCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         //Registers namespaces for disabled modules.
-        $this->getDrupalService('test_discovery')->registerTestNamespaces();
+        $this->test_discovery->registerTestNamespaces();
 
         $testClass = $input->getArgument('test-class');
         $testMethods = $input->getArgument('test-methods');
@@ -158,7 +186,7 @@ class RunCommand extends Command
                 }
 
                 $io->simple(
-                    $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file)
+                    $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->site->getRoot(), '', $message->file)
                 );
                 $io->simple(
                     $this->trans('commands.test.run.messages.method') . ': ' . $message->function
