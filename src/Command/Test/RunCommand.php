@@ -17,6 +17,7 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
+use Drupal\simpletest\TestDiscovery
 
 class RunCommand extends Command
 {
@@ -38,7 +39,7 @@ class RunCommand extends Command
     protected $site;
 
     /**
-      * @var Test_discovery
+      * @var TestDiscovery
       */
     protected $test_discovery;
 
@@ -50,7 +51,7 @@ class RunCommand extends Command
      */
     public function __construct(
         Site $site,
-        Test_discovery $test_discovery
+        TestDiscovery $test_discovery
     ) {
         $this->site = $site;
         $this->test_discovery = $test_discovery;
