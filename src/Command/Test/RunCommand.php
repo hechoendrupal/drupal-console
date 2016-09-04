@@ -52,7 +52,7 @@ class RunCommand extends Command
         Test_discovery $test_discovery
     ) {
         $this->site = $site;
-        $this->test_discovery = $test_discovery
+        $this->test_discovery = $test_discovery;
         parent::__construct();
     }
 
