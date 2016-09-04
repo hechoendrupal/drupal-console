@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Annotation\DrupalCommand;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Core\Extension\ModuleHandlerInterface;
