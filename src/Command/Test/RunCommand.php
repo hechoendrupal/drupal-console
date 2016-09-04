@@ -19,6 +19,7 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\simpletest\TestDiscovery;
+use Drupal\Core\Datetime\DateFormatter;
 
 class RunCommand extends Command
 {
@@ -51,6 +52,12 @@ class RunCommand extends Command
     protected $moduleHandler;
 
 
+    /**
+     * @var DateFormatter
+     */
+    protected $dateFormatter;
+
+
 
     /**
      * RunCommand constructor.
@@ -61,11 +68,13 @@ class RunCommand extends Command
     public function __construct(
         Site $site,
         TestDiscovery $test_discovery,
-        ModuleHandlerInterface $moduleHandler
+        ModuleHandlerInterface $moduleHandler,
+        DateFormatter $dateFormatter
     ) {
         $this->site = $site;
         $this->test_discovery = $test_discovery;
         $this->moduleHandler = $moduleHandler;
+        $this->dateFormatter = $dateFormatter;
         parent::__construct();
     }
 
@@ -147,7 +156,7 @@ class RunCommand extends Command
             $end = Timer::stop('run-tests');
 
             $io->simple(
-                $this->trans('commands.test.run.messages.test-duration') . ': ' .  \Drupal::service('date.formatter')->formatInterval($end['time'] / 1000)
+                $this->trans('commands.test.run.messages.test-duration') . ': ' .  $this->dateFormatter->formatInterval($end['time'] / 1000)
             );
             $io->simple(
                 $this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass']
