@@ -1,20 +1,20 @@
 services:
-  views_disable:
+  console.views_disable:
     class: Drupal\Console\Command\Views\DisableCommand
     arguments: ['@entity_type.manager', '@entity.query']
     tags:
       - { name: console.command }
-  views_enable:
+  console.views_enable:
     class: Drupal\Console\Command\Views\EnableCommand
     arguments: ['@entity_type.manager', '@entity.query']
     tags:
       - { name: console.command }
-  views_debug:
+  console.views_debug:
     class: Drupal\Console\Command\Views\DebugCommand
     arguments: ['@entity_type.manager']
     tags:
       - { name: console.command }
-  views_plugins_debug:
+  console.views_plugins_debug:
     class: Drupal\Console\Command\Views\PluginsDebugCommand
     tags:
       - { name: console.command }

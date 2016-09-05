@@ -7,11 +7,6 @@ services:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:
       - { name: console.command }
-  console.server:
-    class: Drupal\Console\Command\ServerCommand
-    arguments: ['@app.root', '@console.configuration_manager']
-    tags:
-      - { name: console.command }
   console.event_debug:
     class: Drupal\Console\Command\EventDebugCommand
     arguments: ['@event_dispatcher']

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Utils\Bootstrap;
+namespace Drupal\Console\Bootstrap;
 
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\DrupalKernel as DrupalKernelBase;

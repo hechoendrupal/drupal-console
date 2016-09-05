@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Console\Utils\Bootstrap;
+namespace Drupal\Console\Bootstrap;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -16,21 +16,15 @@ class AddServicesCompilerPass implements CompilerPassInterface
     /**
      * @var string
      */
-    protected $consoleRoot;
-    /**
-     * @var string
-     */
-    protected $siteRoot;
+    protected $root;
 
     /**
      * AddCommandsCompilerPass constructor.
-     * @param string $consoleRoot
-     * @param string $siteRoot
+     * @param string $root
      */
-    public function __construct($consoleRoot, $siteRoot)
+    public function __construct($root)
     {
-        $this->consoleRoot = $consoleRoot;
-        $this->siteRoot = $siteRoot;
+        $this->root = $root;
     }
 
     /**
@@ -40,15 +34,16 @@ class AddServicesCompilerPass implements CompilerPassInterface
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator($this->consoleRoot)
+            new FileLocator($this->root)
         );
-        $loader->load($this->siteRoot.DRUPAL_CONSOLE_CORE.'/services.yml');
-        $loader->load('services.yml');
+
+        $loader->load($this->root.  DRUPAL_CONSOLE_CORE . 'services.yml');
+        $loader->load($this->root.  DRUPAL_CONSOLE . 'services.yml');
 
         $finder = new Finder();
         $finder->files()
             ->name('*.yml')
-            ->in(sprintf('%s/config/services/', $this->consoleRoot));
+            ->in(sprintf('%s/config/services/', $this->root.DRUPAL_CONSOLE));
         foreach ($finder as $file) {
             $loader->load($file->getPathName());
         }

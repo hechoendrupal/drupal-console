@@ -31,7 +31,10 @@ class OverrideCommand extends Command
      * @param CachedStorage $configStorage
      * @param ConfigFactory $configFactory
      */
-    public function __construct(CachedStorage $configStorage, ConfigFactory $configFactory ) {
+    public function __construct(
+        CachedStorage $configStorage,
+        ConfigFactory $configFactory
+    ) {
         $this->configStorage = $configStorage;
         $this->configFactory = $configFactory;
         parent::__construct();

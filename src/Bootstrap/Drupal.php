@@ -1,28 +1,26 @@
 <?php
 
-namespace Drupal\Console\Utils\Bootstrap;
+namespace Drupal\Console\Bootstrap;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Console\Utils\Bootstrap\DrupalConsoleCore;
 
 class Drupal
 {
     protected $autoload;
-    protected $consoleRoot;
-    protected $siteRoot;
+    protected $root;
+    protected $appRoot;
 
     /**
      * Drupal constructor.
      * @param $autoload
-     * @param $consoleRoot
-     * @param $siteRoot
+     * @param $root
      */
-    public function __construct($autoload, $consoleRoot, $siteRoot)
+    public function __construct($autoload, $root, $appRoot)
     {
         $this->autoload = $autoload;
-        $this->consoleRoot = $consoleRoot;
-        $this->siteRoot = $siteRoot;
+        $this->root = $root;
+        $this->appRoot = $appRoot;
     }
 
     public function boot()
@@ -37,15 +35,15 @@ class Drupal
                 false
             );
         } catch (\Exception $e) {
-            $drupal = new DrupalConsoleCore($this->siteRoot);
+            $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             return $drupal->boot();
         }
 
         $drupalKernel->addServiceModifier(
             new DrupalServiceModifier(
-                $this->consoleRoot,
-                $this->siteRoot,
-                'console.command'
+                $this->root,
+                'console.command',
+                'console.generator'
             )
         );
 
@@ -55,23 +53,25 @@ class Drupal
 
         $container = $drupalKernel->getContainer();
 
+        $container->set('console.root', $this->root);
+
         AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
         $configuration = $container->get('console.configuration_manager')
-            ->loadConfiguration($this->siteRoot)
+            ->loadConfiguration($this->root)
             ->getConfiguration();
 
         $container->get('console.translator_manager')
             ->loadCoreLanguage(
                 $configuration->get('application.language'),
-                $this->siteRoot
+                $this->root
             );
 
         $container->get('console.renderer')
             ->setSkeletonDirs(
                 [
-                    $this->consoleRoot.'/templates/',
-                    $this->siteRoot.DRUPAL_CONSOLE_CORE.'/templates/'
+                    $this->root.DRUPAL_CONSOLE.'/templates/',
+                    $this->root.DRUPAL_CONSOLE_CORE.'/templates/'
                 ]
             );
 

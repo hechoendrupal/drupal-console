@@ -32,9 +32,7 @@ class RoleCommand extends Command
      * RoleCommand constructor.
      * @param DrupalApi $drupalApi
      */
-    public function __construct(
-        DrupalApi $drupalApi
-    ) {
+    public function __construct(DrupalApi $drupalApi) {
         $this->drupalApi = $drupalApi;
         parent::__construct();
     }
