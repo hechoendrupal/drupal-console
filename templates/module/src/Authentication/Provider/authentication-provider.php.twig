@@ -82,7 +82,7 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
    * {@inheritdoc}
    */
   public function authenticate(Request $request) {
-    $consumer_ip = $request->getClientIp(TRUE);
+    $consumer_ip = $request->getClientIp();
     $ips = [];
     if (in_array($consumer_ip, $ips)) {
       // Return Anonymous user.
