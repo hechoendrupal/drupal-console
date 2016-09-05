@@ -18,6 +18,13 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigManager;
 
+
+/**
+ * @DrupalCommand(
+ *     extension = "config",
+ *     extensionType = "module"
+ * )
+ */
 class ExportCommand extends Command
 {
     use CommandTrait;
@@ -119,7 +126,6 @@ class ExportCommand extends Command
             $io->error($e->getMessage());
         }
 
-        $io->success($this->trans('commands.config.export.messages.directory'));
-        $io->simple($directory);
+        $io->success($this->trans('commands.config.export.messages.directory'), $directory);
     }
 }
