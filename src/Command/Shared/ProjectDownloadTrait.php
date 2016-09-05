@@ -23,7 +23,11 @@ trait ProjectDownloadTrait
     public function modulesQuestion(DrupalStyle $io)
     {
         $moduleList = [];
-        $modules = $this->getApplication()->getSite()->getModules(true, false, true, true, true, true);
+
+        $modules = $this->extensionManager->discoverModules()
+            ->showUninstalled()
+            ->showNoCore()
+            ->getList(true);
 
         while (true) {
             $moduleName = $io->choiceNoList(
@@ -50,7 +54,12 @@ trait ProjectDownloadTrait
     public function modulesUninstallQuestion(DrupalStyle $io)
     {
         $moduleList = [];
-        $modules = $this->getApplication()->getSite()->getModules(true, true, false, true, true, true);
+
+        $modules = $this->extensionManager->discoverModules()
+            ->showInstalled()
+            ->showNoCore()
+            ->showCore()
+            ->getList(true);
 
         while (true) {
             $moduleName = $io->choiceNoList(

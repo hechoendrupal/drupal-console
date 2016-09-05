@@ -15,6 +15,7 @@ services:
       - { name: console.command }
   theme_path:
     class: Drupal\Console\Command\Theme\PathCommand
+    arguments: ['@console.extension_manager']
     tags:
       - { name: console.command }
   theme_uninstall:

@@ -227,6 +227,19 @@ class Manager
     }
 
     /**
+     * @param string $name
+     * @return \Drupal\Console\Extension\Extension
+     */
+    public function getTheme($name)
+    {
+        if ($extension = $this->getExtension('theme', $name)) {
+            return $this->createExtension($extension);
+        }
+
+        return null;
+    }
+
+    /**
      * @param string $type
      * @param string $name
      *
