@@ -120,7 +120,7 @@ class ExportCommand extends Command
             $io->error($e->getMessage());
         }
 
-        $io->success(
+        $io->info(
           sprintf(
             $this->trans('commands.config.export.messages.directory'),
               $directory
