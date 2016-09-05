@@ -16,7 +16,6 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\Site;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\simpletest\TestDiscovery;
 use Drupal\Core\Datetime\DateFormatter;
@@ -36,9 +35,9 @@ class RunCommand extends Command
      */
 
     /**
-      * @var Site
-      */
-    protected $site;
+     * @var string
+     */
+    protected $appRoot;
 
     /**
       * @var TestDiscovery
@@ -66,12 +65,12 @@ class RunCommand extends Command
      * @param ModuleHandlerInterface    $moduleHandler
      */
     public function __construct(
-        Site $site,
+        $appRoot,
         TestDiscovery $test_discovery,
         ModuleHandlerInterface $moduleHandler,
         DateFormatter $dateFormatter
     ) {
-        $this->site = $site;
+        $this->appRoot = $appRoot;
         $this->test_discovery = $test_discovery;
         $this->moduleHandler = $moduleHandler;
         $this->dateFormatter = $dateFormatter;
@@ -208,7 +207,7 @@ class RunCommand extends Command
                 }
 
                 $io->simple(
-                    $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->site->getRoot(), '', $message->file)
+                    $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->appRoot, '', $message->file)
                 );
                 $io->simple(
                     $this->trans('commands.test.run.messages.method') . ': ' . $message->function
