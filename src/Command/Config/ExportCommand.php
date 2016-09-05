@@ -120,6 +120,11 @@ class ExportCommand extends Command
             $io->error($e->getMessage());
         }
 
-        $io->success($this->trans('commands.config.export.messages.directory', $directory));
+        $io->success(
+          sprintf(
+            $this->trans('commands.config.export.messages.directory'),
+              $directory
+            )
+        );
     }
 }
