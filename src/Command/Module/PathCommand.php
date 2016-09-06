@@ -17,6 +17,7 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\ShellProcess;
 
 class PathCommand extends Command
 {
