@@ -14,7 +14,7 @@ services:
         - { name: console.command }
   module_path:
       class: Drupal\Console\Command\Module\PathCommand
-      arguments: ['@console.drupal_api']
+      arguments: ['@console.site']
       tags:
         - { name: console.command }
 #  module_update:
