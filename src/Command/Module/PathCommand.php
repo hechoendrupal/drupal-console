@@ -36,7 +36,7 @@ class PathCommand extends Command
      * @param DrupalApi $drupalApi
      */
     public function __construct(
-      DrupalApi $drupalApi,
+      DrupalApi $drupalApi
     ) {
         $this->drupalApi = $drupalApi;
         parent::__construct();
