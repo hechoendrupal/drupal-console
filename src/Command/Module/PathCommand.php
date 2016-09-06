@@ -69,7 +69,7 @@ class PathCommand extends Command
 
         $absolute = $input->getOption('absolute');
 
-        $modulePath = $this->site->getModulePath($module, $absolute);
+        $modulePath = $this->getApplication()->getSite()->getModulePath($module, $absolute);
 
         $io->info(
             $modulePath
