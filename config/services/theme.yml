@@ -6,6 +6,7 @@ services:
       - { name: console.command }
   theme_download:
     class: Drupal\Console\Command\Theme\DownloadCommand
+    arguments: ['@console.drupal_api', '@http_client', '@app.root']
     tags:
       - { name: console.command }
   theme_install:

@@ -176,7 +176,8 @@ trait ProjectDownloadTrait
         );
 
         try {
-            $destination = $this->getApplication()->getDrupalApi()->downloadProjectRelease(
+            $destination = $this->drupalApi->downloadProjectRelease(
+                $this->httpClient,
                 $project,
                 $version
             );
@@ -185,10 +186,9 @@ trait ProjectDownloadTrait
                 $path = $this->getExtractPath($type);
             }
 
-            $drupal = $this->get('site');
             $projectPath = sprintf(
                 '%s/%s',
-                $drupal->isValidInstance()?$drupal->getRoot():getcwd(),
+                $this->appRoot,
                 $path
             );
 
@@ -268,7 +268,7 @@ trait ProjectDownloadTrait
             )
         );
 
-        $releases = $this->getApplication()->getDrupalApi()->getProjectReleases($project, $latest?1:15, $stable);
+        $releases = $this->drupalApi->getProjectReleases($this->httpClient, $project, $latest?1:15, $stable);
 
         if (!$releases) {
             $io->error(
