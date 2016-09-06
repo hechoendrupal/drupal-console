@@ -33,7 +33,7 @@ class UpdateCommand extends Command
      * @param ShellProcess           $shellProcess
      */
     public function __construct(
-        ShellProcess $shellProcess,
+        ShellProcess $shellProcess
     ) {
         $this->ShellProcess = $shellProcess;
         parent::__construct();
