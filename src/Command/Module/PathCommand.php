@@ -16,12 +16,32 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
 
 class PathCommand extends Command
 {
     use CommandTrait;
     use ModuleTrait;
     use HelperTrait;
+
+
+    /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+
+    /**
+     * PathCommand constructor.
+     * @param DrupalApi $drupalApi
+     */
+    public function __construct(
+      DrupalApi $drupalApi,
+    ) {
+        $this->drupalApi = $drupalApi;
+        parent::__construct();
+    }
+
 
     protected function configure()
     {
@@ -49,7 +69,7 @@ class PathCommand extends Command
 
         $absolute = $input->getOption('absolute');
 
-        $modulePath = $this->getSite()->getModulePath($module, $absolute);
+        $modulePath = $this->drupalApi->getModulePath($module, $absolute);
 
         $io->info(
             $modulePath

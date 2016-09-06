@@ -12,10 +12,11 @@ services:
       arguments: ['@console.chain_queue', '@console.shell_process', '@module_installer', '@console.drupal_api', '@console.validator', '@console.extension_manager']
       tags:
         - { name: console.command }
-#  module_path:
-#      class: Drupal\Console\Command\Module\PathCommand
-#      tags:
-#        - { name: console.command }
+  module_path:
+      class: Drupal\Console\Command\Module\PathCommand
+      arguments: ['@console.site']
+      tags:
+        - { name: console.command }
 #  module_update:
 #    class: Drupal\Console\Command\Module\UpdateCommand
 #    tags:
