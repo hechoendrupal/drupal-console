@@ -1,14 +1,15 @@
 <?php
 
 use Drupal\Console\Application;
-use Drupal\Console\Utils\Bootstrap\Drupal;
+use Drupal\Console\Bootstrap\Drupal;
 
 set_time_limit(0);
 $consoleRoot = realpath(__DIR__.'/../') . '/';
-$root = getcwd() . '/';
+$appRoot = getcwd() . '/';
 $siteRoot = realpath(__DIR__.'/../../../../') . '/';
+$root = $appRoot;
 
-$autoLoadFile = $root.'/autoload.php';
+$autoLoadFile = $appRoot.'/autoload.php';
 
 if (file_exists($autoLoadFile)) {
     $autoload = include_once $autoLoadFile;
@@ -22,7 +23,20 @@ if (file_exists($autoLoadFile)) {
     exit(1);
 }
 
-$drupal = new Drupal($autoload, $consoleRoot, $siteRoot);
+if (!file_exists($appRoot.'composer.json')) {
+    $root = realpath($appRoot . '../') . '/';
+}
+
+if (!file_exists($root.'composer.json')) {
+    echo 'No composer.json file found at:' . PHP_EOL .
+        $root . PHP_EOL .
+        'you should try run this command,' . PHP_EOL .
+        'from project root directory.' . PHP_EOL;
+
+    exit(1);
+}
+
+$drupal = new Drupal($autoload, $root, $appRoot);
 $container = $drupal->boot();
 
 if (!$container) {

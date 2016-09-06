@@ -1,10 +1,10 @@
 services:
-  chain:
+  console.chain:
     class: Drupal\Console\Command\Chain\ChainCommand
     arguments: ['@console.chain_queue', '@console.configuration_manager', '@app.root', '@console.extension_manager']
     tags:
       - { name: console.command }
-  chain_debug:
+  console.chain_debug:
     class: Drupal\Console\Command\Chain\ChainDebugCommand
     arguments: ['@console.configuration_manager', '@console.extension_manager']
     tags:

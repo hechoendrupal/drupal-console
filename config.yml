@@ -7,5 +7,11 @@ application:
       name:
         elephpant:
           class: '\Drupal\Console\Command\Exclude\ElephpantCommand'
+          arguments: ['@console.root', '@console.renderer']
         druplicon:
           class: '\Drupal\Console\Command\Exclude\DrupliconCommand'
+          arguments: ['@console.root', '@console.renderer']
+        'develop:example':
+          class: '\Drupal\Console\Command\Develop\ExampleCommand'
+        'develop:example:container:aware':
+          class: '\Drupal\Console\Command\Develop\ExampleContainerAwareCommand'

@@ -36,9 +36,13 @@ class DeleteCommand extends Command
      * DeleteCommand constructor.
      * @param ConfigFactory $configFactory
      * @param CachedStorage $configStorage
-     * @param FileStorage $configStorageSync
+     * @param FileStorage   $configStorageSync
      */
-    public function __construct(ConfigFactory $configFactory , CachedStorage $configStorage, FileStorage $configStorageSync ) {
+    public function __construct(
+        ConfigFactory $configFactory ,
+        CachedStorage $configStorage,
+        FileStorage $configStorageSync
+    ) {
         $this->configFactory = $configFactory;
         $this->configStorage = $configStorage;
         $this->configStorageSync = $configStorageSync;

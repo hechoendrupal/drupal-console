@@ -12,11 +12,32 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Finder\Finder;
 use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\TwigRenderer;
 use Drupal\Console\Style\DrupalStyle;
 
 class ElephpantCommand extends Command
 {
     use CommandTrait;
+
+    protected $appRoot;
+    /**
+     * @var TwigRenderer
+     */
+    protected $renderer;
+
+    /**
+     * DrupliconCommand constructor.
+     * @param string       $appRoot
+     * @param TwigRenderer $renderer
+     */
+    public function __construct(
+        $appRoot,
+        TwigRenderer $renderer
+    ) {
+        $this->appRoot = $appRoot;
+        $this->renderer = $renderer;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -29,11 +50,9 @@ class ElephpantCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $renderer = $this->getApplication()->getRenderHelper();
-
         $directory = sprintf(
             '%stemplates/core/elephpant/',
-            $this->getApplication()->getDirectoryRoot()
+            $this->appRoot . DRUPAL_CONSOLE
         );
 
         $finder = new Finder();
@@ -47,7 +66,7 @@ class ElephpantCommand extends Command
             $templates[] = $template->getRelativePathname();
         }
 
-        $elephpant = $renderer->render(
+        $elephpant = $this->renderer->render(
             sprintf(
                 'core/elephpant/%s',
                 $templates[array_rand($templates)]
