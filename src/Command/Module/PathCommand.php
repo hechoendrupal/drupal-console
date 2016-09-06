@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Module\ShellProcess;
 use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
