@@ -26,8 +26,7 @@ trait MigrationTrait
      */
     protected function getMigrations($version_tag = false, $flatList = false)
     {
-        $plugin_manager = $this->getDrupalService('plugin.manager.migration');
-        $all_migrations = $plugin_manager->createInstancesByTag($version_tag);
+        $all_migrations = $this->pluginManagerMigration->createInstancesByTag($version_tag);
  
         $migrations = array();
         foreach ($all_migrations as $migration) {
