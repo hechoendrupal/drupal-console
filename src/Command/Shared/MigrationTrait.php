@@ -9,6 +9,8 @@ namespace Drupal\Console\Command\Shared;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
+use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class MigrationTrait
@@ -26,8 +28,7 @@ trait MigrationTrait
      */
     protected function getMigrations($version_tag = false, $flatList = false)
     {
-        $plugin_manager = $this->getDrupalService('plugin.manager.migration');
-        $all_migrations = $plugin_manager->createInstancesByTag($version_tag);
+        $all_migrations = $this->pluginManagerMigration->createInstancesByTag($version_tag);
  
         $migrations = array();
         foreach ($all_migrations as $migration) {
@@ -48,9 +49,8 @@ trait MigrationTrait
         $database_state['database'] = $database;
         $database_state_key = 'migrate_drupal_' . $drupal_version;
 
-        $state_service = $this->getDrupalService('state');
-        $state_service->set($database_state_key, $database_state);
-        $state_service->set('migrate.fallback_state_key', $database_state_key);
+        $this->state->set($database_state_key, $database_state);
+        $this->state->set('migrate.fallback_state_key', $database_state_key);
     }
 
      /**
@@ -164,7 +164,7 @@ trait MigrationTrait
      * @param InputInterface $input
      * @param DrupalStyle    $io
      */
-    protected function registerMigrateDB(InputInterface $input, DrupalStyle $io)
+    protected function registerMigrateDB(ArgvInput $input, DrupalStyle $io)
     {
         $dbType = $input->getOption('db-type');
         $dbHost = $input->getOption('db-host');
