@@ -8,6 +8,7 @@
 namespace Drupal\Console\Utils;
 
 use Drupal\Core\Cache\Cache;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class DrupalHelper
@@ -134,5 +135,90 @@ class DrupalApi
         }
 
         return $this->roles;
+    }
+
+    /**
+     * @param $httpClient
+     * @param $module
+     * @param $limit
+     * @param $stable
+     * @return array
+     * @throws \Exception
+     */
+    public function getProjectReleases($httpClient, $module, $limit = 10, $stable = false)
+    {
+        if (!$module) {
+            return [];
+        }
+
+        $projectPageResponse = $httpClient->getUrlAsString(
+            sprintf(
+                'https://updates.drupal.org/release-history/%s/8.x',
+                $module
+            )
+        );
+
+        if ($projectPageResponse->getStatusCode() != 200) {
+            throw new \Exception('Invalid path.');
+        }
+
+        $releases = [];
+        $crawler = new Crawler($projectPageResponse->getBody()->getContents());
+        $filter = './project/releases/release/version';
+        if ($stable) {
+            $filter = './project/releases/release[not(version_extra)]/version';
+        }
+
+        foreach ($crawler->filterXPath($filter) as $element) {
+            $releases[] = $element->nodeValue;
+        }
+
+        if (count($releases)>$limit) {
+            array_splice($releases, $limit);
+        }
+
+        return $releases;
+    }
+
+    /**
+     * @param $httpClient
+     * @param $project
+     * @param $release
+     * @param null    $destination
+     * @return null|string
+     */
+    public function downloadProjectRelease($httpClient, $project, $release, $destination = null)
+    {
+        if (!$release) {
+            $releases = $this->getProjectReleases($httpClient, $project, 1);
+            $release = current($releases);
+        }
+
+        if (!$destination) {
+            $destination = sprintf(
+                '%s/%s.tar.gz',
+                sys_get_temp_dir(),
+                $project
+            );
+        }
+
+        $releaseFilePath = sprintf(
+            'https://ftp.drupal.org/files/projects/%s-%s.tar.gz',
+            $project,
+            $release
+        );
+
+        if ($this->downloadFile($httpClient, $releaseFilePath, $destination)) {
+            return $destination;
+        }
+
+        return null;
+    }
+
+    public function downloadFile($httpClient, $url, $destination)
+    {
+        $httpClient->get($url, array('sink' => $destination));
+
+        return file_exists($destination);
     }
 }
