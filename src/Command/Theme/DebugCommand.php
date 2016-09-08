@@ -76,7 +76,7 @@ class DebugCommand extends Command
         $themes = $this->themeHandler->rebuildThemeData();
         $tableRows = [];
         foreach ($themes as $themeId => $theme) {
-            $status = $this->getThemeStatus($themeId);
+            $status = $this->getThemeStatus($theme);
             $tableRows[] = [
                 $themeId, $theme->info['name'],
                 $status, $theme->info['version'],

@@ -11,7 +11,7 @@ services:
       - { name: console.command }
   theme_install:
     class: Drupal\Console\Command\Theme\InstallCommand
-    arguments: ['@config.factory', '@theme_handler']
+    arguments: ['@config.factory', '@theme_handler', '@console.chain_queue']
     tags:
       - { name: console.command }
   theme_path:
@@ -21,6 +21,6 @@ services:
       - { name: console.command }
   theme_uninstall:
     class: Drupal\Console\Command\Theme\UninstallCommand
-    arguments: ['@config.factory', '@theme_handler']
+    arguments: ['@config.factory', '@theme_handler', '@console.chain_queue']
     tags:
       - { name: console.command }

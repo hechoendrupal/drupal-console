@@ -16,6 +16,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Core\Config\UnmetDependenciesException;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ChainQueue;
 
 class UninstallCommand extends Command
 {
@@ -32,16 +33,24 @@ class UninstallCommand extends Command
     protected $themeHandler;
 
     /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
      * DebugCommand constructor.
      * @param ConfigFactory $configFactory
      * @param ThemeHandler $themeHandler
+     * @param ChainQueue $chainQueue
      */
     public function __construct(
         ConfigFactory $configFactory,
-        ThemeHandler $themeHandler
+        ThemeHandler $themeHandler,
+        ChainQueue $chainQueue
     ) {
         $this->configFactory = $configFactory;
         $this->themeHandler = $themeHandler;
+        $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
@@ -211,6 +220,6 @@ class UninstallCommand extends Command
         }
 
         // Run cache rebuild to see changes in Web UI
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }
