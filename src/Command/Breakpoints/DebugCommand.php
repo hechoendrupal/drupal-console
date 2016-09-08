@@ -43,7 +43,7 @@ class DebugCommand extends Command
      * @param string                     $appRoot
      */
     public function __construct(
-        BreakpointManagerInterface $breakpointManager = null,
+        BreakpointManagerInterface $breakpointManager,
         $appRoot
     ) {
         $this->breakpointManager = $breakpointManager;
