@@ -64,14 +64,7 @@ class ServerCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
-
-        $address = $input->getArgument('address');
-        if (false === strpos($address, ':')) {
-            $address = sprintf(
-                '%s:8088',
-                $address
-            );
-        }
+        $address = $this->validatePort($input->getArgument('address'));
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
@@ -138,5 +131,33 @@ class ServerCommand extends Command
         }
 
         return null;
+    }
+
+    /**
+     * @param string $address
+     * @return string
+     */
+    private function validatePort($address)
+    {
+        if (false === strpos($address, ':')) {
+            $host = $address;
+            $port = '8088';
+        } else {
+            $host = explode(':', $address)[0];
+            $port = explode(':', $address)[1];
+        }
+
+        if (fsockopen($host, $port)) {
+            $port = rand(8888, 9999);
+            $address = sprintf(
+                '%s:%s',
+                $host,
+                $port
+            );
+
+            $address = $this->validatePort($address);
+        }
+
+        return $address;
     }
 }
