@@ -82,7 +82,7 @@ You can ask for support at Drupal Console gitter chat room [http://bit.ly/consol
 
 ## Getting The Project To Contribute
 
-For information about how to run this project for development follow instructions at [official documentation](https://gist.github.com/jmolivas/97bbd07f328217be3564a434c5bd2618).
+For information about how to run this project for development follow instructions at [setup instructions](https://gist.github.com/jmolivas/97bbd07f328217be3564a434c5bd2618).
 
 ## Enabling Autocomplete
 ```
