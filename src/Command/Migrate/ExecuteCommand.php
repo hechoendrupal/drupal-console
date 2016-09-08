@@ -16,7 +16,7 @@ use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
 use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\Console\Command\Shared\DatabaseTrait;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\State\StateInterface;
@@ -27,7 +27,7 @@ class ExecuteCommand extends Command
 {
     use DatabaseTrait;
     use MigrationTrait;
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     protected $migrateConnection;
 
