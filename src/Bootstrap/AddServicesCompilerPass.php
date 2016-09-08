@@ -2,6 +2,7 @@
 
 namespace Drupal\Console\Bootstrap;
 
+use Drupal\Console\Extension\Manager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\Config\FileLocator;
@@ -43,9 +44,41 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $finder = new Finder();
         $finder->files()
             ->name('*.yml')
-            ->in(sprintf('%s/config/services/', $this->root.DRUPAL_CONSOLE));
+            ->in(
+                sprintf(
+                    '%s/config/services/drupal-console',
+                    $this->root.DRUPAL_CONSOLE
+                )
+            );
+
         foreach ($finder as $file) {
             $loader->load($file->getPathName());
+        }
+
+        /**
+         * @var Manager $extensionManager
+         */
+        $extensionManager = $container->get('console.extension_manager');
+        $modules = $extensionManager->discoverModules()
+            ->showCore()
+            ->showNoCore()
+            ->showInstalled()
+            ->getList(true);
+
+        $finder = new Finder();
+        $finder->files()
+            ->name('*.yml')
+            ->in(
+                sprintf(
+                    '%s/config/services/drupal-core',
+                    $this->root.DRUPAL_CONSOLE
+                )
+            );
+
+        foreach ($finder as $file) {
+            if (in_array($file->getBasename('.yml'), $modules)) {
+                $loader->load($file->getPathName());
+            }
         }
 
         $container->setParameter(
