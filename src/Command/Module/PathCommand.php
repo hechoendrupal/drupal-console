@@ -16,12 +16,33 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
+
 
 class PathCommand extends Command
 {
     use CommandTrait;
     use ModuleTrait;
     use HelperTrait;
+
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+
+    /**
+     * PathCommand constructor.
+     * @param Site  $site
+     */
+    public function __construct(
+      Site $site
+    ) {
+        $this->site = $site;
+        parent::__construct();
+    }
+
 
     protected function configure()
     {
@@ -49,7 +70,7 @@ class PathCommand extends Command
 
         $absolute = $input->getOption('absolute');
 
-        $modulePath = $this->getSite()->getModulePath($module, $absolute);
+        $modulePath = $this->getApplication()->getSite()->getModulePath($module, $absolute);
 
         $io->info(
             $modulePath

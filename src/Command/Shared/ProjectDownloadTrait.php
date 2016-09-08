@@ -81,7 +81,7 @@ trait ProjectDownloadTrait
         }
         drupal_static_reset('system_rebuild_module_data');
 
-        $validator = $this->getApplication()->getValidator();
+        $validator = $this->validator;
         $missingModules = $validator->getMissingModules($modules);
 
         $invalidModules = [];
@@ -100,7 +100,7 @@ trait ProjectDownloadTrait
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
                 }
-                $this->getApplication()->getSite()->discoverModules();
+                $this->extensionManager->discoverModules();
             }
         }
 
@@ -123,11 +123,11 @@ trait ProjectDownloadTrait
 
     protected function calculateDependencies($modules)
     {
-        $this->getApplication()->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+        $this->drupalApi->loadLegacyFile('/core/modules/system/system.module');
         $moduleList = system_rebuild_module_data();
 
         $dependencies = [];
-        $validator = $this->getApplication()->getValidator();
+        $validator = $this->validator;
 
         foreach ($modules as $moduleName) {
             $module = $moduleList[$moduleName];

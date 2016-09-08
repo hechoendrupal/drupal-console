@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,10 +16,66 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
 
+
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\ShellProcess;
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Core\Config\ConfigFactoryInterface;
+
 class UninstallCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ProjectDownloadTrait;
+
+
+        /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * @var ShellProcess
+     */
+    protected $shellProcess;
+
+    /**
+     * @var ModuleInstaller
+     */
+    protected $moduleInstaller;
+
+    /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
+      * @var ConfigFactoryInterface
+      */
+    protected $configFactory;
+
+    /**
+     * InstallCommand constructor.
+     * @param ChainQueue $chainQueue
+     * @param ShellProcess $shellProcess
+     * @param ModuleInstaller $moduleInstaller
+     * @param DrupalApi $drupalApi
+     */
+    public function __construct(
+      ChainQueue $chainQueue,
+      ShellProcess $shellProcess,
+      ModuleInstaller $moduleInstaller,
+      DrupalApi $drupalApi,
+      ConfigFactoryInterface $config_factory
+    ) {
+        $this->chainQueue = $chainQueue;
+        $this->shellProcess = $shellProcess;
+        $this->moduleInstaller = $moduleInstaller;
+        $this->drupalApi = $drupalApi;
+        $this->configFactory = $config_factory;
+        parent::__construct();
+    }
+
 
     /**
      * {@inheritdoc}
@@ -69,9 +125,9 @@ class UninstallCommand extends Command
         $composer = $input->getOption('composer');
         $module = $input->getArgument('module');
 
-        $this->get('site')->loadLegacyFile('/core/modules/system/system.module');
-        $coreExtension = $this->getDrupalService('config.factory')->getEditable('core.extension');
-        $moduleInstaller = $this->getDrupalService('module_installer');
+        $this->drupalApi->loadLegacyFile('/core/modules/system/system.module');
+        $coreExtension = $this->configFactory->getEditable('core.extension');
+        $moduleInstaller = $this->moduleInstaller;
 
         // Get info about modules available
         $moduleData = system_rebuild_module_data();
@@ -85,7 +141,7 @@ class UninstallCommand extends Command
                     $moduleItem
                 );
 
-                $shellProcess = $this->get('shell_process');
+                $shellProcess = $this->shellProcess;
                 if ($shellProcess->exec($command)) {
                     $io->success(
                         sprintf(
@@ -154,6 +210,6 @@ class UninstallCommand extends Command
             return 1;
         }
 
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 }

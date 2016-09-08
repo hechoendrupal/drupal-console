@@ -7,15 +7,24 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
+
+
+
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\ShellProcess;
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Extension\Manager;
 
 /**
  * Class InstallCommand
@@ -23,9 +32,63 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class InstallCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ProjectDownloadTrait;
     use ModuleTrait;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * @var ShellProcess
+     */
+    protected $shellProcess;
+
+    /**
+     * @var ModuleInstaller
+     */
+    protected $moduleInstaller;
+
+    /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
+      * @var Validator
+      */
+    protected $validator;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * InstallCommand constructor.
+     * @param ChainQueue $chainQueue
+     * @param ShellProcess $shellProcess
+     * @param ModuleInstaller $moduleInstaller
+     * @param DrupalApi $drupalApi
+     */
+    public function __construct(
+      ChainQueue $chainQueue,
+      ShellProcess $shellProcess,
+      ModuleInstaller $moduleInstaller,
+      DrupalApi $drupalApi,
+      Validator $validator,
+      Manager $extensionManager
+    ) {
+        $this->chainQueue = $chainQueue;
+        $this->shellProcess = $shellProcess;
+        $this->moduleInstaller = $moduleInstaller;
+        $this->drupalApi = $drupalApi;
+        $this->validator = $validator;
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
+
+
 
     /**
      * {@inheritdoc}
@@ -79,20 +142,34 @@ class InstallCommand extends Command
         $latest = $input->getOption('latest');
         $composer = $input->getOption('composer');
 
-        $this->get('site')->loadLegacyFile('core/includes/bootstrap.inc');
-        
+        $this->drupalApi->loadLegacyFile('core/includes/bootstrap.inc');
+
         // check module's requirements
         $this->moduleRequirement($module);
 
         if ($composer) {
+
+            // checking if the directory has a composer.json
+
+            if ( basename( getcwd() ) == "web" || basename( getcwd() ) == "docroot")
+            {
+                $cd = "cd ../; ";
+                $cd_back = "cd ". getcwd();
+            } else
+            {
+              $cd = "";
+              $cd_back = "";
+            }
+
             foreach ($module as $moduleItem) {
                 $command = sprintf(
-                    'composer show drupal/%s ',
+                    $cd . 'composer show drupal/%s; ' . $cd_back,
                     $moduleItem
                 );
 
-                $shellProcess = $this->get('shell_process');
-                if ($shellProcess->exec($command)) {
+                $shellProcess = $this->shellProcess;
+                //@TODO:exec() should halt the run on errors
+                if ($proc = $shellProcess->exec($command)) {
                     $io->info(
                         sprintf(
                             'Module %s was downloaded with Composer.',
@@ -145,7 +222,7 @@ class InstallCommand extends Command
                 )
             );
 
-            $moduleInstaller = $this->getDrupalService('module_installer');
+            $moduleInstaller = $this->moduleInstaller;
             drupal_static_reset('system_rebuild_module_data');
 
             $moduleInstaller->install($unInstalledModules, true);
@@ -161,6 +238,6 @@ class InstallCommand extends Command
             return 1;
         }
 
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

@@ -7,19 +7,37 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 
 class UpdateCommand extends Command
 {
     use CommandTrait;
     use ProjectDownloadTrait;
+
+
+    /**
+     * @var ShellProcess
+     */
+    protected $shellProcess;
+
+
+    /**
+     * UpdateCommand constructor.
+     * @param ShellProcess   $shellProcess
+     */
+    public function __construct(
+        ShellProcess $shellProcess
+    ) {
+        $this->shellProcess = $shellProcess;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -105,7 +123,7 @@ class UpdateCommand extends Command
                 $command .= " --dry-run";
             }
 
-            $shellProcess = $this->get('shell_process');
+            $shellProcess = $this->shellProcess;
             if ($shellProcess->exec($command)) {
                 $io->success(
                     sprintf(
