@@ -11,17 +11,39 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
 use \Drupal\Console\Helper\HelperTrait;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\rest\Plugin\Type\ResourcePluginManager;
 
 class DisableCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use RestTrait;
     use HelperTrait;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /** @var ResourcePluginManager  */
+    protected $resourcePluginManager;
+
+    /**
+     * DebugCommand constructor.
+     * @param ConfigFactory $configFactory
+     */
+    public function __construct(
+        ConfigFactory $configFactory,
+        ResourcePluginManager $resourcePluginManager
+    ) {
+        $this->configFactory = $configFactory;
+        $this->resourcePluginManager = $resourcePluginManager;
+        parent::__construct();
+    }
+
 
     /**
      * @DrupalCommand(
@@ -70,8 +92,7 @@ class DisableCommand extends Command
 
         unset($rest_settings[$resource_id]);
 
-        $config = $this->getDrupalService('config.factory')
-            ->getEditable('rest.settings');
+        $config = $this->configFactory->getEditable('rest.settings');
 
         $config->set('resources', $rest_settings);
         $config->save();
