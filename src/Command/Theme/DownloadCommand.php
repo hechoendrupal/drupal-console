@@ -15,11 +15,45 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
+use Drupal\Console\Utils\DrupalApi;
+use GuzzleHttp\Client;
 
 class DownloadCommand extends Command
 {
     use ProjectDownloadTrait;
     use CommandTrait;
+
+    /**
+     * DebugCommand constructor.
+     * @param DrupalApi  $drupalApi
+     */
+
+    protected $drupalApi;
+
+    /**
+     * DebugCommand constructor.
+     * @param Client  $httpClient
+     */
+
+    protected $httpClient;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+
+    public function __construct(
+        DrupalApi $drupalApi,
+        Client $httpClient,
+        $appRoot
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->httpClient = $httpClient;
+        $this->appRoot = $appRoot;
+        parent::__construct();
+    }
+
 
     /**
      * {@inheritdoc}
