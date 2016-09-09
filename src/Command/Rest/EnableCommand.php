@@ -15,7 +15,7 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
-use \Drupal\Console\Helper\HelperTrait;
+use Drupal\Console\Helper\HelperTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 use Drupal\Core\Authentication\AuthenticationCollector;
 use Drupal\Core\Config\ConfigFactory;
