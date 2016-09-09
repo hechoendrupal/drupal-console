@@ -15,11 +15,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Knp\Snappy\Pdf;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 
 class GenerateDocCheatsheetCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     private $singleCommands = [
       'about',
@@ -60,12 +60,20 @@ class GenerateDocCheatsheetCommand extends Command
     private $wkhtmltopdfPath = "/usr/bin/wkhtmltopdf";
 
     /**
+     * GenerateDocCheatsheetCommand constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
     {
         $this
-            ->setName('generate:doc:cheatsheet')
+            ->setName('develop:generate:doc:cheatsheet')
             ->setDescription($this->trans('commands.generate.doc.cheatsheet.description'))
             ->addOption(
                 'path',

@@ -12,11 +12,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 
 class GenerateDocDataCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * GenerateDocDataCommand constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -24,7 +32,7 @@ class GenerateDocDataCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('generate:doc:data')
+            ->setName('develop:generate:doc:data')
             ->setDescription(
                 $this->trans('commands.generate.doc.data.description')
             )
