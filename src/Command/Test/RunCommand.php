@@ -20,19 +20,15 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\simpletest\TestDiscovery;
 use Drupal\Core\Datetime\DateFormatter;
 
+/**
+ * @DrupalCommand(
+ *     extension = "simpletest",
+ *     extensionType = "module",
+ * )
+ */
 class RunCommand extends Command
 {
     use CommandTrait;
-
-    /**
-     * @DrupalCommand(
-     *     extension = "test",
-     *     extensionType = "module",
-     *     dependencies = {
-     *         “simpletest"
-     *     }
-     * )
-     */
 
     /**
      * @var string

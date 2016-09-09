@@ -19,29 +19,19 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\simpletest\TestDiscovery;
 
 /**
- * Class DebugCommand
- * @package Drupal\Console\Command\Test
+ * @DrupalCommand(
+ *     extension = "simpletest",
+ *     extensionType = "module",
+ * )
  */
 class DebugCommand extends Command
 {
     use CommandTrait;
 
     /**
-     * @DrupalCommand(
-     *     extension = "test",
-     *     extensionType = "module",
-     *     dependencies = {
-     *         “simpletest"
-     *     }
-     * )
-     */
-
-
-    /**
       * @var TestDiscovery
       */
     protected $test_discovery;
-
 
     /**
      * DebugCommand constructor.
