@@ -53,8 +53,11 @@ class EnableCommand extends Command
      * @param AuthenticationCollector $authenticationCollector
      * @param ConfigFactory           $configFactory
      */
-    public function __construct(ResourcePluginManager $pluginManagerRest = null, AuthenticationCollector $authenticationCollector, ConfigFactory $configFactory)
-    {
+    public function __construct(
+        ResourcePluginManager $pluginManagerRest,
+        AuthenticationCollector $authenticationCollector,
+        ConfigFactory $configFactory
+    ) {
         $this->pluginManagerRest = $pluginManagerRest;
         $this->authenticationCollector = $authenticationCollector;
         $this->configFactory = $configFactory;

@@ -44,6 +44,7 @@ class DisableCommand extends Command
     /**
      * DisableCommand constructor.
      * @param ConfigFactory $configFactory
+     * @param ResourcePluginManager $pluginManagerRest
      */
     public function __construct(
         ConfigFactory $configFactory,

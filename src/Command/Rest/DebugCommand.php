@@ -39,10 +39,9 @@ class DebugCommand extends Command
      * DebugCommand constructor.
      * @param ResourcePluginManager $pluginManagerRest
      */
-    public function __construct(ResourcePluginManager $pluginManagerRest = null)
+    public function __construct(ResourcePluginManager $pluginManagerRest)
     {
         $this->pluginManagerRest = $pluginManagerRest;
-
         parent::__construct();
     }
 
