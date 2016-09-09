@@ -19,7 +19,8 @@ trait RestTrait
     {
         $config = $this->getRestDrupalConfig();
 
-        $resources = $this->resourcePluginManager->getDefinitions();
+        $resources = $this->pluginManagerRest->getDefinitions();
+
 
         $enabled_resources = array_combine(array_keys($config), array_keys($config));
         $available_resources = ['enabled' => [], 'disabled' => []];

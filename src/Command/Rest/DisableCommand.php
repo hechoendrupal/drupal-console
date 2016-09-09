@@ -25,22 +25,22 @@ class DisableCommand extends Command
     use RestTrait;
     use HelperTrait;
 
-    /** @var CachedStorage  */
-    protected $configStorage;
+    /** @var ConfigFactory  */
+    protected $configFactory;
 
     /** @var ResourcePluginManager  */
-    protected $resourcePluginManager;
+    protected $pluginManagerRest;
 
     /**
-     * DebugCommand constructor.
+     * DisableCommand constructor.
      * @param ConfigFactory $configFactory
      */
     public function __construct(
         ConfigFactory $configFactory,
-        ResourcePluginManager $resourcePluginManager
+        ResourcePluginManager $pluginManagerRest
     ) {
         $this->configFactory = $configFactory;
-        $this->resourcePluginManager = $resourcePluginManager;
+        $this->pluginManagerRest = $pluginManagerRest;
         parent::__construct();
     }
 
