@@ -12,15 +12,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotation\DrupalCommand;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
+use Drupal\rest\Plugin\Type\ResourcePluginManager;
 
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use RestTrait;
 
     /**
@@ -30,6 +31,24 @@ class DebugCommand extends Command
      *     }
      * )
      */
+
+    /**
+     * @var ResourcePluginManager $pluginManagerRest
+     */
+    protected $pluginManagerRest;
+
+    /**
+     * DebugCommand constructor.
+     * @param ResourcePluginManager $pluginManagerRest
+     */
+    public function __construct(ResourcePluginManager $pluginManagerRest = null)
+    {
+        $this->pluginManagerRest = $pluginManagerRest;
+
+        parent::__construct();
+    }
+
+
     protected function configure()
     {
         $this
@@ -65,9 +84,7 @@ class DebugCommand extends Command
     private function restDetail(DrupalStyle $io, $resource_id)
     {
         $config = $this->getRestDrupalConfig();
-
-        $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
-        $plugin = $resourcePluginManager->getInstance(['id' => $resource_id]);
+        $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
         if (empty($plugin)) {
             $io->error(

@@ -11,15 +11,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Annotation\DrupalCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
-use \Drupal\Console\Helper\HelperTrait;
+use Drupal\Console\Helper\HelperTrait;
+use Drupal\rest\Plugin\Type\ResourcePluginManager;
+use Drupal\Core\Authentication\AuthenticationCollector;
+use Drupal\Core\Config\ConfigFactory;
 
 class EnableCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use RestTrait;
     use HelperTrait;
 
@@ -30,6 +33,35 @@ class EnableCommand extends Command
      *     }
      * )
      */
+
+    /**
+     * @var ResourcePluginManager $pluginManagerRest
+     */
+    protected $pluginManagerRest;
+
+    /**
+     * @var AuthenticationCollector $authenticationCollector
+     */
+    protected $authenticationCollector;
+
+    /** @var ConfigFactory  */
+    protected $configFactory;
+
+    /**
+     * EnableCommand constructor.
+     * @param ResourcePluginManager $pluginManagerRest
+     * @param AuthenticationCollector $authenticationCollector
+     * @param ConfigFactory $configFactory
+     */
+    public function __construct(ResourcePluginManager $pluginManagerRest = null, AuthenticationCollector $authenticationCollector, ConfigFactory $configFactory)
+    {
+        $this->pluginManagerRest = $pluginManagerRest;
+        $this->authenticationCollector = $authenticationCollector;
+        $this->configFactory = $configFactory;
+        parent::__construct();
+    }
+
+
     protected function configure()
     {
         $this
@@ -69,8 +101,7 @@ class EnableCommand extends Command
         $input->setArgument('resource-id', $resource_id);
 
         // Calculate states available by resource and generate the question
-        $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
-        $plugin = $resourcePluginManager->getInstance(['id' => $resource_id]);
+        $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
         $states = $plugin->availableMethods();
 
@@ -83,8 +114,7 @@ class EnableCommand extends Command
         );
 
         // Get Authentication Provider and generate the question
-        $authenticationProviders = $this->getDrupalService('authentication_collector')
-            ->getSortedProviders();
+        $authenticationProviders = $this->authenticationCollector->getSortedProviders();
 
         $authenticationProvidersSelected = $io->choice(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
@@ -105,8 +135,7 @@ class EnableCommand extends Command
         $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
         $rest_settings[$resource_id][$state]['supported_auth'] = $authenticationProvidersSelected;
 
-        $config = $this->getDrupalService('config.factory')
-            ->getEditable('rest.settings');
+        $config = $this->configFactory->getEditable('rest.settings');
         $config->set('resources', $rest_settings);
         $config->save();
 
