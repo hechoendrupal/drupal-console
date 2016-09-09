@@ -15,11 +15,81 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
+use GuzzleHttp\Client;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Utils\ShellProcess;
 
 class DownloadCommand extends Command
 {
     use CommandTrait;
     use ProjectDownloadTrait;
+
+    /**
+     * DebugCommand constructor.
+     * @param DrupalApi  $drupalApi
+     */
+
+    protected $drupalApi;
+
+    /**
+     * DebugCommand constructor.
+     * @param Client  $httpClient
+     */
+
+    protected $httpClient;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /** @var ConfigurationManager  */
+    protected $configurationManager;
+
+    /** @var ShellProcess  */
+    protected $shellProcess;
+
+    /**
+     * DownloadCommand constructor.
+     * @param DrupalApi $drupalApi
+     * @param Client     $httpClient
+     * @param $appRoot
+     * @param Manager           $extensionManager
+     * @param Validator $validator
+     * @param Site $site
+     * @param ConfigurationManager $configurationManager
+     * @param ShellProcess $shellProcess
+     */
+    public function __construct(
+        DrupalApi $drupalApi,
+        Client $httpClient,
+        $appRoot,
+        Manager $extensionManager,
+        Validator $validator,
+        Site $site,
+        ConfigurationManager $configurationManager,
+        ShellProcess $shellProcess
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->httpClient = $httpClient;
+        $this->appRoot = $appRoot;
+        $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
+        $this->site = $site;
+        $this->configurationManager = $configurationManager;
+        $this->shellProcess = $shellProcess;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -99,7 +169,7 @@ class DownloadCommand extends Command
         if ($composer) {
             foreach ($modules as $module) {
                 if (!$latest) {
-                    $versions = $this->getApplication()->getDrupalApi()
+                    $versions = $this->drupalApi
                         ->getPackagistModuleReleases($module, 10, $unstable);
 
                     if (!$versions) {
@@ -120,7 +190,7 @@ class DownloadCommand extends Command
                         );
                     }
                 } else {
-                    $versions = $this->getApplication()->getDrupalApi()
+                    $versions = $this->drupalApi
                         ->getPackagistModuleReleases($module, 10, $unstable);
 
                     if (!$versions) {
@@ -135,7 +205,7 @@ class DownloadCommand extends Command
                         return 1;
                     } else {
                         $version = current(
-                            $this->getApplication()->getDrupalApi()
+                            $this->drupalApi
                                 ->getPackagistModuleReleases($module, 1, $unstable)
                         );
                     }
@@ -148,8 +218,7 @@ class DownloadCommand extends Command
                     $version
                 );
 
-                $shellProcess = $this->get('shell_process');
-                if ($shellProcess->exec($command, true)) {
+                if ($this->shellProcess->exec($command, true)) {
                     $io->success(
                         sprintf(
                             $this->trans('commands.module.download.messages.composer'),

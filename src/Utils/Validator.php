@@ -7,6 +7,8 @@
 
 namespace Drupal\Console\Utils;
 
+use Drupal\Console\Extension\Manager;
+
 class Validator
 {
     const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
@@ -14,6 +16,17 @@ class Validator
     const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
     // This REGEX remove spaces between words
     const REGEX_REMOVE_SPACES = '/[\\s+]/';
+
+    protected $appRoot;
+
+    /**
+     * Site constructor.
+     * @param Manager extensionManager
+     */
+    public function __construct(Manager $extensionManager)
+    {
+        $this->extensionManager = $extensionManager;
+    }
 
     public function validateModuleName($module)
     {
@@ -213,5 +226,36 @@ class Validator
     public function removeSpaces($name)
     {
         return preg_replace(self::REGEX_REMOVE_SPACES, '', $name);
+    }
+
+    /**
+     * @param $moduleList
+     * @return array
+     */
+    public function getMissingModules($moduleList)
+    {
+        $modules = $this->extensionManager->discoverModules()
+            ->showInstalled()
+            ->showUninstalled()
+            ->showNoCore()
+            ->showCore()
+            ->getList(true);
+
+        return array_diff($moduleList, $modules);
+    }
+
+    /**
+     * @param $moduleList
+     * @return array
+     */
+    public function getUninstalledModules($moduleList)
+    {
+        $modules = $this->extensionManager->discoverModules()
+            ->showInstalled()
+            ->showNoCore()
+            ->showCore()
+            ->getList(true);
+
+        return array_diff($moduleList, $modules);
     }
 }
