@@ -12,28 +12,39 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Annotation\DrupalCommand;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
 use \Drupal\Console\Helper\HelperTrait;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 
+/**
+ * @DrupalCommand(
+ *     extension = "rest",
+ *     extensionType = "module"
+ * )
+ */
 class DisableCommand extends Command
 {
     use CommandTrait;
     use RestTrait;
     use HelperTrait;
 
-    /** @var ConfigFactory  */
+    /**
+ * @var ConfigFactory  
+*/
     protected $configFactory;
 
-    /** @var ResourcePluginManager  */
+    /**
+ * @var ResourcePluginManager  
+*/
     protected $pluginManagerRest;
 
     /**
      * DisableCommand constructor.
      * @param ConfigFactory $configFactory
+     * @param ResourcePluginManager $pluginManagerRest
      */
     public function __construct(
         ConfigFactory $configFactory,
@@ -103,5 +114,7 @@ class DisableCommand extends Command
                 $resource_id
             )
         );
+
+        return 0;
     }
 }
