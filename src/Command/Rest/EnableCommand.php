@@ -20,19 +20,17 @@ use Drupal\rest\Plugin\Type\ResourcePluginManager;
 use Drupal\Core\Authentication\AuthenticationCollector;
 use Drupal\Core\Config\ConfigFactory;
 
+/**
+ * @DrupalCommand(
+ *     extension = "rest",
+ *     extensionType = "module"
+ * )
+ */
 class EnableCommand extends Command
 {
     use CommandTrait;
     use RestTrait;
     use HelperTrait;
-
-    /**
-     * @DrupalCommand(
-     *     dependencies = {
-     *         “rest"
-     *     }
-     * )
-     */
 
     /**
      * @var ResourcePluginManager $pluginManagerRest
@@ -44,14 +42,16 @@ class EnableCommand extends Command
      */
     protected $authenticationCollector;
 
-    /** @var ConfigFactory  */
+    /**
+ * @var ConfigFactory  
+*/
     protected $configFactory;
 
     /**
      * EnableCommand constructor.
-     * @param ResourcePluginManager $pluginManagerRest
+     * @param ResourcePluginManager   $pluginManagerRest
      * @param AuthenticationCollector $authenticationCollector
-     * @param ConfigFactory $configFactory
+     * @param ConfigFactory           $configFactory
      */
     public function __construct(ResourcePluginManager $pluginManagerRest = null, AuthenticationCollector $authenticationCollector, ConfigFactory $configFactory)
     {
@@ -139,7 +139,6 @@ class EnableCommand extends Command
         $config->set('resources', $rest_settings);
         $config->save();
 
-        // Run cache rebuild to enable rest routing
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        return 0;
     }
 }
