@@ -13,9 +13,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Annotation\DrupalCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\simpletest\TestDiscovery;
 
 /**
  * Class DebugCommand
@@ -23,15 +24,37 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     /**
      * @DrupalCommand(
+     *     extension = "test",
+     *     extensionType = "module",
      *     dependencies = {
      *         “simpletest"
      *     }
      * )
      */
+
+
+    /**
+      * @var TestDiscovery
+      */
+    protected $test_discovery;
+
+
+    /**
+     * DebugCommand constructor.
+     * @param TestDiscovery    $test_discovery
+     */
+    public function __construct(
+        TestDiscovery $test_discovery
+    ) {
+        $this->test_discovery = $test_discovery;
+        parent::__construct();
+    }
+
+
     protected function configure()
     {
         $this
@@ -58,7 +81,7 @@ class DebugCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         //Registers namespaces for disabled modules.
-        $this->getDrupalService('test_discovery')->registerTestNamespaces();
+        $this->test_discovery->registerTestNamespaces();
 
         $testClass = $input->getOption('test-class');
         $group = $input->getArgument('group');
@@ -72,7 +95,7 @@ class DebugCommand extends Command
 
     private function testDetail(DrupalStyle $io, $test_class)
     {
-        $testingGroups = $this->getDrupalService('test_discovery')->getTestClasses(null);
+        $testingGroups = $this->test_discovery->getTestClasses(null);
 
         $testDetails = null;
         foreach ($testingGroups as $testing_group => $tests) {
@@ -93,7 +116,7 @@ class DebugCommand extends Command
             if (is_subclass_of($testDetails['name'], 'PHPUnit_Framework_TestCase')) {
                 $testDetails['type'] = 'phpunit';
             } else {
-                $testDetails = $this->getDrupalService('test_discovery')
+                $testDetails = $this->test_discovery
                     ->getTestInfo($testDetails['name']);
                 $testDetails['type'] = 'simpletest';
             }
@@ -123,7 +146,7 @@ class DebugCommand extends Command
 
     protected function testList(DrupalStyle $io, $group)
     {
-        $testingGroups = $this->getDrupalService('test_discovery')
+        $testingGroups = $this->test_discovery
             ->getTestClasses(null);
 
         if (empty($group)) {
