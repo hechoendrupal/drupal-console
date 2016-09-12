@@ -28,18 +28,10 @@ class DownloadCommand extends Command
     use CommandTrait;
     use ProjectDownloadTrait;
 
-    /**
-     * DebugCommand constructor.
-     * @param DrupalApi  $drupalApi
-     */
-
+    /** @var DrupalApi  */
     protected $drupalApi;
 
-    /**
-     * DebugCommand constructor.
-     * @param Client  $httpClient
-     */
-
+    /** @var Client  */
     protected $httpClient;
 
     /**
@@ -60,6 +52,11 @@ class DownloadCommand extends Command
     protected $shellProcess;
 
     /**
+     * @var string
+     */
+    protected $root;
+
+    /**
      * DownloadCommand constructor.
      * @param DrupalApi $drupalApi
      * @param Client     $httpClient
@@ -69,6 +66,7 @@ class DownloadCommand extends Command
      * @param Site $site
      * @param ConfigurationManager $configurationManager
      * @param ShellProcess $shellProcess
+     * @param $root
      */
     public function __construct(
         DrupalApi $drupalApi,
@@ -78,7 +76,8 @@ class DownloadCommand extends Command
         Validator $validator,
         Site $site,
         ConfigurationManager $configurationManager,
-        ShellProcess $shellProcess
+        ShellProcess $shellProcess,
+        $root
     ) {
         $this->drupalApi = $drupalApi;
         $this->httpClient = $httpClient;
@@ -88,6 +87,7 @@ class DownloadCommand extends Command
         $this->site = $site;
         $this->configurationManager = $configurationManager;
         $this->shellProcess = $shellProcess;
+        $this->root = $root;
         parent::__construct();
     }
 
@@ -211,14 +211,17 @@ class DownloadCommand extends Command
                     }
                 }
 
-                $this->setComposerRepositories("default");
+                // Register composer repository
+                $command = "composer config repositories.drupal composer https://packagist.drupal-composer.org";
+                $this->shellProcess->exec($command, $this->root);
+
                 $command = sprintf(
                     'composer require drupal/%s:%s --prefer-dist --optimize-autoloader --sort-packages --update-no-dev',
                     $module,
                     $version
                 );
 
-                if ($this->shellProcess->exec($command, true)) {
+                if ($this->shellProcess->exec($command, $this->root)) {
                     $io->success(
                         sprintf(
                             $this->trans('commands.module.download.messages.composer'),

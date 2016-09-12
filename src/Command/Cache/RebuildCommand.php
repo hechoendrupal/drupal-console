@@ -100,7 +100,7 @@ class RebuildCommand extends Command
         $io->comment($this->trans('commands.cache.rebuild.messages.rebuild'));
 
         if ($cache === 'all') {
-            drupal_rebuild(
+            $this->drupalApi->drupal_rebuild(
                 $this->classLoader,
                 $this->requestStack->getCurrentRequest()
             );

@@ -310,47 +310,6 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * Includes drupal packagist repository at composer.json file.
-     *
-     * @param \Drupal\Console\Style\DrupalStyle $io
-     */
-    public function setComposerRepositories($repo)
-    {
-        $file = $this->appRoot . "/composer.json";
-        $composerFile = json_decode(file_get_contents($file));
-
-        $config = $this->configurationManager->getConfiguration();
-
-        $repository = $config->get('application.composer.repositories.' . $repo);
-
-        if (!$repository) {
-            throw new \Exception(
-                $this->trans('commands.module.download.messages.no-composer-repo')
-            );
-            return 1;
-        }
-
-        if (!$this->repositoryAlreadySet($composerFile, $repository)) {
-            $repositories = (object) [[
-                'type' => "composer",
-                'url' => $repository
-            ]];
-
-            //@TODO: check it doesn't exist already
-            $composerFile->repositories = $repositories;
-
-            unlink($file);
-            file_put_contents(
-                $file,
-                json_encode(
-                    $composerFile,
-                    JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT
-                )
-            );
-        }
-    }
-
-    /**
      * check if a modules repo is in composer.json
      * check if the repo is setted and matchs the one in config.yml
      *

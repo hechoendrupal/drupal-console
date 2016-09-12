@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,16 +16,55 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\ChainQueue;
 
 /**
- * Class InstallCommand
+ * Class InstallDependencyCommand
  * @package Drupal\Console\Command\Module
  */
 class InstallDependencyCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ProjectDownloadTrait;
     use ModuleTrait;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /** @var ModuleInstaller  */
+    protected $moduleInstaller;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * InstallCommand constructor.
+     * @param Site $site
+     * @param Validator $validator
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        Site $site,
+        Validator $validator,
+        ModuleInstaller $moduleInstaller,
+        ChainQueue $chainQueue
+    ) {
+        $this->site = $site;
+        $this->validator = $validator;
+        $this->moduleInstaller = $moduleInstaller;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
   
     /**
      * {@inheritdoc}
@@ -76,14 +115,13 @@ class InstallDependencyCommand extends Command
             $io->comment(
                 sprintf(
                     $this->trans('commands.module.install.dependencies.messages.installing'),
-                    implode(', ', $unInstalledModules)
+                    implode(', ', $unInstalledDependencies)
                 )
             );
 
-            $moduleInstaller = $this->getDrupalService('module_installer');
             drupal_static_reset('system_rebuild_module_data');
 
-            $moduleInstaller->install($unInstalledDependencies, true);
+            $this->moduleInstaller->install($unInstalledDependencies, true);
             $io->success(
                 sprintf(
                     $this->trans('commands.module.install.dependencies.messages.success'),
@@ -96,6 +134,6 @@ class InstallDependencyCommand extends Command
             return 1;
         }
 
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }
