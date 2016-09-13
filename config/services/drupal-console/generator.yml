@@ -8,3 +8,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.controller_generator:
+    class: Drupal\Console\Generator\ControllerGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
