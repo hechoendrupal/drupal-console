@@ -28,3 +28,5 @@ services:
   console.annotation_validator:
     class: Drupal\Console\Utils\AnnotationValidator
     arguments: ['@console.annotation_command_reader', '@console.extension_manager']
+  console.string_converter:
+      class: Drupal\Console\Utils\StringConverter

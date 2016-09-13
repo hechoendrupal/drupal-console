@@ -58,4 +58,13 @@ class Extension extends BaseExtension
 
         return parent::getPath();
     }
+
+    /**
+     * @param string $authenticationType
+     * @return string
+     */
+    public function getAuthenticationPath($authenticationType, $fullPath = false)
+    {
+        return $this->getPath($fullPath) .'/src/Authentication/' . $authenticationType;
+    }
 }
