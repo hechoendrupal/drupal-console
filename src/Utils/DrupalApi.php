@@ -9,6 +9,7 @@ namespace Drupal\Console\Utils;
 
 use Drupal\Core\Cache\Cache;
 use Symfony\Component\DomCrawler\Crawler;
+use GuzzleHttp\Client;
 
 /**
  * Class DrupalHelper
@@ -25,14 +26,22 @@ class DrupalApi
     private $roles = [];
 
     /**
+     * DebugCommand constructor.
+     * @param Client  $httpClient
+     */
+
+    protected $httpClient;
+
+    /**
      * ServerCommand constructor.
      * @param $appRoot
      * @param $entityTypeManager
      */
-    public function __construct($appRoot, $entityTypeManager)
+    public function __construct($appRoot, $entityTypeManager, Client $httpClient)
     {
         $this->appRoot = $appRoot;
         $this->entityTypeManager = $entityTypeManager;
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -138,20 +147,19 @@ class DrupalApi
     }
 
     /**
-     * @param $httpClient
      * @param $module
      * @param $limit
      * @param $stable
      * @return array
      * @throws \Exception
      */
-    public function getProjectReleases($httpClient, $module, $limit = 10, $stable = false)
+    public function getProjectReleases($module, $limit = 10, $stable = false)
     {
         if (!$module) {
             return [];
         }
 
-        $projectPageResponse = $httpClient->getUrlAsString(
+        $projectPageResponse = $this->httpClient->getUrlAsString(
             sprintf(
                 'https://updates.drupal.org/release-history/%s/8.x',
                 $module
@@ -181,16 +189,15 @@ class DrupalApi
     }
 
     /**
-     * @param $httpClient
      * @param $project
      * @param $release
      * @param null    $destination
      * @return null|string
      */
-    public function downloadProjectRelease($httpClient, $project, $release, $destination = null)
+    public function downloadProjectRelease($project, $release, $destination = null)
     {
         if (!$release) {
-            $releases = $this->getProjectReleases($httpClient, $project, 1);
+            $releases = $this->getProjectReleases($this->httpClient, $project, 1);
             $release = current($releases);
         }
 
@@ -208,17 +215,144 @@ class DrupalApi
             $release
         );
 
-        if ($this->downloadFile($httpClient, $releaseFilePath, $destination)) {
+        if ($this->downloadFile($this->httpClient, $releaseFilePath, $destination)) {
             return $destination;
         }
 
         return null;
     }
 
-    public function downloadFile($httpClient, $url, $destination)
+    public function downloadFile($url, $destination)
     {
-        $httpClient->get($url, array('sink' => $destination));
+        $this->httpClient->get($url, array('sink' => $destination));
 
         return file_exists($destination);
+    }
+
+    /**
+     * Gets Drupal modules releases from Packagist API.
+     *
+     * @param string $module
+     * @param int    $limit
+     * @param bool   $unstable
+     *
+     * @return array
+     */
+    public function getPackagistModuleReleases($module, $limit = 10, $unstable = true)
+    {
+        if (!trim($module)) {
+            return [];
+        }
+
+        return $this->getComposerReleases(
+            sprintf(
+                'http://packagist.drupal-composer.org/packages/drupal/%s.json',
+                trim($module)
+            ),
+            $limit,
+            $unstable
+        );
+    }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param string $url
+     * @param int    $limit
+     * @param bool   $unstable
+     *
+     * @return array
+     */
+    private function getComposerReleases($url, $limit = 10, $unstable = false)
+    {
+        if (!$url) {
+            return [];
+        }
+
+        $packagistResponse = $this->httpClient->getUrlAsString($url);
+
+        if ($packagistResponse->getStatusCode() != 200) {
+            throw new \Exception('Invalid path.');
+        }
+
+        try {
+            $packagistJson = json_decode(
+                $packagistResponse->getBody()->getContents()
+            );
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        $versions = array_keys((array)$packagistJson->package->versions);
+
+        // Remove Drupal 7 versions
+        $i = 0;
+        foreach ($versions as $version) {
+            if (0 === strpos($version, "7.") || 0 === strpos($version, "dev-7.")) {
+                unset($versions[$i]);
+            }
+            $i++;
+        }
+
+        if (!$unstable) {
+            foreach ($versions as $key => $version) {
+                if (strpos($version, "-")) {
+                    unset($versions[$key]);
+                }
+            }
+        }
+
+        if (is_array($versions)) {
+            return array_slice($versions, 0, $limit);
+        }
+
+        return [];
+    }
+
+    /**
+     * @Todo: Remove when issue https://www.drupal.org/node/2556025 get resolved
+     *
+     * Rebuilds all caches even when Drupal itself does not work.
+     *
+     * @param \Composer\Autoload\ClassLoader $class_loader
+     *   The class loader.
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *   The current request.
+     *
+     * @see rebuild.php
+     */
+    public function drupal_rebuild($class_loader, \Symfony\Component\HttpFoundation\Request $request) {
+        // Remove Drupal's error and exception handlers; they rely on a working
+        // service container and other subsystems and will only cause a fatal error
+        // that hides the actual error.
+        restore_error_handler();
+        restore_exception_handler();
+
+        // Force kernel to rebuild php cache.
+        \Drupal\Core\PhpStorage\PhpStorageFactory::get('twig')->deleteAll();
+
+        // Bootstrap up to where caches exist and clear them.
+        $kernel = new \Drupal\Core\DrupalKernel('prod', $class_loader);
+        $kernel->setSitePath(\Drupal\Core\DrupalKernel::findSitePath($request));
+
+        // Invalidate the container.
+        $kernel->invalidateContainer();
+
+        // Prepare a NULL request.
+        $kernel->prepareLegacyRequest($request);
+
+        foreach (Cache::getBins() as $bin) {
+            $bin->deleteAll();
+        }
+
+        // Disable recording of cached pages.
+        \Drupal::service('page_cache_kill_switch')->trigger();
+
+        drupal_flush_all_caches();
+
+        // Restore Drupal's error and exception handlers.
+        // @see \Drupal\Core\DrupalKernel::boot()
+        set_error_handler('_drupal_error_handler');
+        set_exception_handler('_drupal_exception_handler');
     }
 }

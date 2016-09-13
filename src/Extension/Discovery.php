@@ -9,6 +9,10 @@ namespace Drupal\Console\Extension;
 
 use Drupal\Core\Extension\ExtensionDiscovery;
 
+/*
+ * @see Remove DrupalExtensionDiscovery subclass once
+ * https://www.drupal.org/node/2503927 is fixed.
+ */
 class Discovery extends ExtensionDiscovery
 {
     /**
