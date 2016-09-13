@@ -1,1 +1,5 @@
-#services:
+services:
+  console.breakpoint_generator:
+    class: Drupal\Console\Generator\BreakPointGenerator
+    tags:
+      - { name: console.generator }

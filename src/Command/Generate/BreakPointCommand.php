@@ -10,21 +10,37 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ThemeRegionTrait;
 use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
 use Drupal\Console\Generator\BreakPointGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  *
  */
-class BreakPointCommand extends GeneratorCommand
+class BreakPointCommand extends Command
 {
+    use CommandTrait;
     use ConfirmationTrait;
     use ThemeRegionTrait;
     use ThemeBreakpointTrait;
+
+    /**
+     * @var BreakPointGenerator
+     */
+    protected $generator;
+
+    /**
+     * BreakPointCommand constructor.
+     * @param ServiceName $serviceName
+     */
+    public function __construct(BreakPointGenerator $generator) {
+        $this->generator = $generator;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -53,21 +69,19 @@ class BreakPointCommand extends GeneratorCommand
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    {die("hola");
         $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
             return;
         }
-        
+
         $validators = $this->getValidator();
         // we must to ensure theme exist
         $machine_name = $validators->validateMachineName($input->getOption('theme'));
         $theme_path = $drupal_root . $input->getOption('theme');
         $breakpoints = $input->getOption('breakpoints');
-        
-        $generator = $this->getGenerator();
 
         $generator->generate(
             $theme_path,
@@ -86,7 +100,7 @@ class BreakPointCommand extends GeneratorCommand
         $stringUtils = $this->getStringHelper();
         $drupal = $this->getDrupalHelper();
         $drupalRoot = $drupal->getRoot();
-        
+
         // --base-theme option.
         $base_theme = $input->getOption('theme');
 
@@ -103,20 +117,12 @@ class BreakPointCommand extends GeneratorCommand
             );
             $input->setOption('theme', $base_theme);
         }
-         
+
         // --breakpoints option.
         $breakpoints = $input->getOption('breakpoints');
         if (!$breakpoints) {
             $breakpoints = $this->breakpointQuestion($output);
             $input->setOption('breakpoints', $breakpoints);
         }
-    }
-
-    /**
-     * @return BreakPointGenerator
-     */
-    protected function createGenerator()
-    {
-        return new  BreakPointGenerator();
     }
 }
