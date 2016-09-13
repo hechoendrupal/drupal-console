@@ -1,18 +1,11 @@
-#services:
-#  generate_doc_dash:
-#    class: Drupal\Console\Command\Develop\GenerateDocDashCommand
-#    tags:
-#      - { name: console.command }
-#  generate_doc_data:
-#    class: Drupal\Console\Command\Develop\GenerateDocDataCommand
-#    tags:
-#      - { name: console.command }
-#  generate_doc_gitbook:
-#    class: Drupal\Console\Command\Develop\GenerateDocGitbookCommand
-#    tags:
-#      - { name: console.command }
-#  generate_doc_cheatsheet:
-#    class: Drupal\Console\Command\Develop\GenerateDocCheatsheetCommand
-#    tags:
-#      - { name: console.command }
-#
+services:
+  console.generate_module:
+    class: Drupal\Console\Command\Generate\ModuleCommand
+    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api', '@http_client', '@console.site']
+    tags:
+       - { name: console.command }
+  console.generate_authentication_provider:
+    class: Drupal\Console\Command\Generate\AuthenticationProviderCommand
+    arguments: ['@console.extension_manager', '@console.authentication_provider_generator', '@console.string_converter']
+    tags:
+       - { name: console.command }

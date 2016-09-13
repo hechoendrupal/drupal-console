@@ -23,18 +23,15 @@ class DownloadCommand extends Command
     use ProjectDownloadTrait;
     use CommandTrait;
 
-    /**
-     * DebugCommand constructor.
-     * @param DrupalApi  $drupalApi
-     */
 
+    /**
+     * @var DrupalApi
+     */
     protected $drupalApi;
 
     /**
-     * DebugCommand constructor.
-     * @param Client  $httpClient
+     * @var Client
      */
-
     protected $httpClient;
 
     /**
@@ -43,6 +40,12 @@ class DownloadCommand extends Command
     protected $appRoot;
 
 
+    /**
+     * DownloadCommand constructor.
+     * @param DrupalApi  $drupalApi
+     * @param Client  $httpClient
+     * @param $drupalApi
+     */
     public function __construct(
         DrupalApi $drupalApi,
         Client $httpClient,
