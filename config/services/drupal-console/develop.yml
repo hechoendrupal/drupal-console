@@ -1,43 +1,35 @@
 services:
-  console.develop_example:
-    class: Drupal\Console\Command\Develop\ExampleCommand
-    tags:
-      - { name: console.command }
-  console.develop_example_container_aware:
-    class: Drupal\Console\Command\Develop\ExampleContainerAwareCommand
-    tags:
-      - { name: console.command }
-  console.develop_generate_doc_cheatsheet:
+  console.generate_doc_cheatsheet:
     class: Drupal\Console\Command\Develop\GenerateDocCheatsheetCommand
     tags:
       - { name: console.command }
-  console.develop_generate_doc_dash:
+  console.generate_doc_dash:
     class: Drupal\Console\Command\Develop\GenerateDocDashCommand
     arguments: ['@console.renderer', '@console.root']
     tags:
       - { name: console.command }
-  console.develop_generate_doc_data:
+  console.generate_doc_data:
     class: Drupal\Console\Command\Develop\GenerateDocDataCommand
     tags:
       - { name: console.command }
-  console.develop_generate_doc_gitbook:
+  console.generate_doc_gitbook:
     class: Drupal\Console\Command\Develop\GenerateDocGitbookCommand
     arguments: ['@console.renderer']
     tags:
       - { name: console.command }
-  console.develop_translation_cleanup:
+  console.translation_cleanup:
     class: Drupal\Console\Command\Develop\TranslationCleanupCommand
     tags:
       - { name: console.command }
-  console.develop_translation_pending:
+  console.translation_pending:
     class: Drupal\Console\Command\Develop\TranslationPendingCommand
     tags:
       - { name: console.command }
-  console.develop_translation_stats:
+  console.translation_stats:
     class: Drupal\Console\Command\Develop\TranslationStatsCommand
     tags:
       - { name: console.command }
-  console.develop_translation_sync:
+  console.translation_sync:
     class: Drupal\Console\Command\Develop\TranslationSyncCommand
     tags:
       - { name: console.command }

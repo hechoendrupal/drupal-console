@@ -40,7 +40,7 @@ class GenerateDocGitbookCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('develop:generate:doc:gitbook')
+            ->setName('generate:doc:gitbook')
             ->setDescription($this->trans('commands.generate.doc.gitbook.description'))
             ->addOption(
                 'path',

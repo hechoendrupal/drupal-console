@@ -32,7 +32,7 @@ class GenerateDocDataCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('develop:generate:doc:data')
+            ->setName('generate:doc:data')
             ->setDescription(
                 $this->trans('commands.generate.doc.data.description')
             )

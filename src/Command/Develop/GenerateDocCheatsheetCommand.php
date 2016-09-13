@@ -73,7 +73,7 @@ class GenerateDocCheatsheetCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('develop:generate:doc:cheatsheet')
+            ->setName('generate:doc:cheatsheet')
             ->setDescription($this->trans('commands.generate.doc.cheatsheet.description'))
             ->addOption(
                 'path',

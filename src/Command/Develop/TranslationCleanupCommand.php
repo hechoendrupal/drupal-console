@@ -36,7 +36,7 @@ class TranslationCleanupCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('develop:translation:cleanup')
+            ->setName('translation:cleanup')
             ->setDescription($this->trans('commands.translation.cleanup.description'))
             ->addArgument(
                 'language',

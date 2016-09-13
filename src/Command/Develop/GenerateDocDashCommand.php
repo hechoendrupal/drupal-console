@@ -89,7 +89,7 @@ PLIST;
     protected function configure()
     {
         $this
-            ->setName('develop:generate:doc:dash')
+            ->setName('generate:doc:dash')
             ->setDescription($this->trans('commands.generate.doc.dash.description'))
             ->addOption(
                 'path',

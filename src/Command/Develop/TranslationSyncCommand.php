@@ -36,7 +36,7 @@ class TranslationSyncCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('develop:translation:sync')
+            ->setName('translation:sync')
             ->setDescription($this->trans('commands.translation.sync.description'))
             ->addArgument(
                 'language',

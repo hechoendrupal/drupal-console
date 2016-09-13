@@ -39,7 +39,7 @@ class TranslationStatsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('develop:translation:stats')
+            ->setName('translation:stats')
             ->setDescription($this->trans('commands.translation.stats.description'))
             ->addArgument(
                 'language',

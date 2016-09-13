@@ -38,7 +38,7 @@ class TranslationPendingCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('develop:translation:pending')
+            ->setName('translation:pending')
             ->setDescription($this->trans('commands.translation.pending.description'))
             ->addArgument(
                 'language',
