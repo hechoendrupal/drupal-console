@@ -17,6 +17,9 @@ use Drupal\Console\Generator\BreakPointGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Helper\StringHelper;
+use Drupal\Core\Extension\ThemeHandler;
 
 /**
  *
@@ -34,11 +37,40 @@ class BreakPointCommand extends Command
     protected $generator;
 
     /**
-     * BreakPointCommand constructor.
-     * @param ServiceName $serviceName
+     * @var Site
      */
-    public function __construct(BreakPointGenerator $generator) {
+    protected $site;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /**
+     * BreakPointCommand constructor.
+     * @param BreakPointGenerator $generator
+     * @param $appRoot
+     * @param ThemeHandler $themeHandler
+     * @param Validator $validator
+     */
+    public function __construct(
+        BreakPointGenerator $generator,
+        $appRoot,
+        ThemeHandler $themeHandler,
+        Validator $validator
+        ) {
         $this->generator = $generator;
+        $this->appRoot = $appRoot;
+        $this->themeHandler = $themeHandler;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -97,15 +129,13 @@ class BreakPointCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $stringUtils = $this->getStringHelper();
-        $drupal = $this->getDrupalHelper();
-        $drupalRoot = $drupal->getRoot();
+        $drupalRoot = $this->appRoot;
 
         // --base-theme option.
         $base_theme = $input->getOption('theme');
 
         if (!$base_theme) {
-            $themeHandler = $this->getThemeHandler();
+            $themeHandler = $this->themeHandler;
             $themes = $themeHandler->rebuildThemeData();
             $themes['classy'] ='';
 
@@ -121,7 +151,7 @@ class BreakPointCommand extends Command
         // --breakpoints option.
         $breakpoints = $input->getOption('breakpoints');
         if (!$breakpoints) {
-            $breakpoints = $this->breakpointQuestion($output);
+            $breakpoints = $this->breakpointQuestion($io);
             $input->setOption('breakpoints', $breakpoints);
         }
     }
