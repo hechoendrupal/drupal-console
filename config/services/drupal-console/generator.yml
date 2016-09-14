@@ -18,3 +18,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.event_subscriber_generator:
+    class: Drupal\Console\Generator\EventSubscriberGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
