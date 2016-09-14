@@ -8,6 +8,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.help_generator:
+    class: Drupal\Console\Generator\HelpGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.controller_generator:
     class: Drupal\Console\Generator\ControllerGenerator
     arguments: ['@console.extension_manager']
@@ -20,6 +25,11 @@ services:
       - { name: console.generator }
   console.form_alter_generator:
     class: Drupal\Console\Generator\FormAlterGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.permission_generator:
+    class: Drupal\Console\Generator\PermissionGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
