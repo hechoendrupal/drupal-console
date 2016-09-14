@@ -68,14 +68,4 @@ class Extension extends BaseExtension
     {
         return $this->getPath($fullPath) .'/src/Authentication/' . $authenticationType;
     }
-
-    /**
-     * @param string $testType
-     * @param $fullPath
-     * @return string
-     */
-    public function getTestPath( $testType, $fullPath = false)
-    {
-        return $this->getPath($fullPath) . '/Tests/' . $testType;
-    }
 }
