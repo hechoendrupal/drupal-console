@@ -34,7 +34,7 @@ class HelpGenerator extends Generator
      */
     public function generate($module, $description)
     {
-        $module_path =  $this->extensionManager->getModule($module);
+        $module_path =  $this->extensionManager->getModule($module)->getPath();
 
         $parameters = [
           'machine_name' => $module,

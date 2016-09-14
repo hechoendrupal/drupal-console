@@ -18,6 +18,7 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\ChainQueue;
 
 
 class HelpCommand extends Command
@@ -37,21 +38,29 @@ class HelpCommand extends Command
     /** @var Manager  */
     protected $extensionManager;
 
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
 
     /**
      * HelpCommand constructor.
      * @param HelpGenerator $generator
      * @param Site $site
      * @param Manager $extensionManager
+     * @param ChainQueue $chainQueue
      */
     public function __construct(
         HelpGenerator $generator,
         Site $site,
-        Manager $extensionManager
+        Manager $extensionManager,
+        ChainQueue $chainQueue
     ) {
         $this->generator = $generator;
         $this->site = $site;
         $this->extensionManager = $extensionManager;
+        $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
@@ -89,7 +98,7 @@ class HelpCommand extends Command
 
         $module = $input->getOption('module');
 
-        if ($this->validateModuleFunctionExist($module, $module . '_help')) {
+        if ($this->extensionManager->validateModuleFunctionExist($module, $module . '_help')) {
             throw new \Exception(
                 sprintf(
                     $this->trans('commands.generate.help.messages.help-already-implemented'),
@@ -104,7 +113,7 @@ class HelpCommand extends Command
             ->generator
             ->generate($module, $description);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
