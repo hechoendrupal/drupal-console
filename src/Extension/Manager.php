@@ -284,4 +284,31 @@ class Manager
 
         return $consoleExtension;
     }
+
+    /**
+     * @param string $testType
+     * @param $fullPath
+     * @return string
+     */
+    public function getTestPath( $testType, $fullPath = false)
+    {
+        return $this->getPath($fullPath) . '/Tests/' . $testType;
+    }
+
+    public function validateModuleFunctionExist($moduleName, $function, $moduleFile = null)
+    {
+        //Load module file to prevent issue of missing functions used in update
+        $module = $this->getModule($moduleName);
+        $modulePath = $module->getPath();
+        if ($moduleFile) {
+            $this->site->loadLegacyFile($modulePath . '/'. $moduleFile);
+        } else {
+            $this->site->loadLegacyFile($modulePath . '/' . $module->getName() . '.module');
+        }
+
+        if (function_exists($function)) {
+            return true;
+        }
+        return false;
+    }
 }
