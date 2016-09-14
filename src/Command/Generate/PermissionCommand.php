@@ -17,6 +17,8 @@ use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\StringConverter;
 
 class PermissionCommand extends Command
 {
@@ -24,6 +26,28 @@ class PermissionCommand extends Command
     use ModuleTrait;
     use PermissionTrait;
     use ConfirmationTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * PermissionCommand constructor.
+     * @param Manager $extensionManager
+     * @param StringConverter $stringConverter
+     */
+    public function __construct(
+        Manager $extensionManager,
+        StringConverter $stringConverter
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->stringConverter = $stringConverter;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -58,8 +82,9 @@ class PermissionCommand extends Command
 
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
-        $generator->setLearning($learning);
-        $generator->generate($module, $permissions);
+        //@TODO: $this->generator
+        //$generator->setLearning($learning);
+        //$generator->generate($module, $permissions);
     }
 
     /**
