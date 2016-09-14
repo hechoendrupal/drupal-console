@@ -10,16 +10,50 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\HelpGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
 
-class HelpCommand extends GeneratorCommand
+
+class HelpCommand extends Command
 {
+    use CommandTrait;
     use ModuleTrait;
     use ConfirmationTrait;
+
+    /** @var HelpGenerator  */
+    protected $generator;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+
+    /**
+     * HelpCommand constructor.
+     * @param HelpGenerator $generator
+     * @param Site $site
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        HelpGenerator $generator,
+        Site $site,
+        Manager $extensionManager
+    ) {
+        $this->generator = $generator;
+        $this->site = $site;
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -67,7 +101,7 @@ class HelpCommand extends GeneratorCommand
         $description = $input->getOption('description');
 
         $this
-            ->getGenerator()
+            ->generator
             ->generate($module, $description);
 
         $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
@@ -77,8 +111,8 @@ class HelpCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/schema.inc');
+        $this->site->loadLegacyFile('/core/includes/update.inc');
+        $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         $module = $input->getOption('module');
         if (!$module) {
@@ -95,11 +129,5 @@ class HelpCommand extends GeneratorCommand
             );
         }
         $input->setOption('description', $description);
-    }
-
-
-    protected function createGenerator()
-    {
-        return new HelpGenerator();
     }
 }

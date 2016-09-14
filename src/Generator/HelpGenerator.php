@@ -7,8 +7,25 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class HelpGenerator extends Generator
 {
+
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * HelpGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     /**
      * Generator Post Update Name function.
      *
@@ -17,7 +34,7 @@ class HelpGenerator extends Generator
      */
     public function generate($module, $description)
     {
-        $module_path =  $this->getSite()->getModulePath($module);
+        $module_path =  $this->extensionManager->getModule($module);
 
         $parameters = [
           'machine_name' => $module,
