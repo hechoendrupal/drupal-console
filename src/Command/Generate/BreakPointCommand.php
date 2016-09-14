@@ -11,15 +11,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Console\Command\Shared\ThemeRegionTrait;
 use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
-use Drupal\Console\Generator\BreakPointGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
+use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Helper\StringHelper;
-use Drupal\Core\Extension\ThemeHandler;
+use Drupal\Console\Generator\BreakPointGenerator;
 
 /**
  *
@@ -51,8 +52,14 @@ class BreakPointCommand extends Command
      */
     protected $themeHandler;
 
+
     /** @var Validator  */
     protected $validator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
 
     /**
      * BreakPointCommand constructor.
@@ -60,17 +67,20 @@ class BreakPointCommand extends Command
      * @param $appRoot
      * @param ThemeHandler $themeHandler
      * @param Validator $validator
+     * @param StringConverter $stringConverter
      */
     public function __construct(
         BreakPointGenerator $generator,
         $appRoot,
         ThemeHandler $themeHandler,
-        Validator $validator
+        Validator $validator,
+        StringConverter $stringConverter
         ) {
         $this->generator = $generator;
         $this->appRoot = $appRoot;
         $this->themeHandler = $themeHandler;
         $this->validator = $validator;
+        $this->stringConverter = $stringConverter;
         parent::__construct();
     }
 
@@ -101,7 +111,7 @@ class BreakPointCommand extends Command
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
-    {die("hola");
+    {
         $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
@@ -109,13 +119,13 @@ class BreakPointCommand extends Command
             return;
         }
 
-        $validators = $this->getValidator();
+        $validators = $this->validator;
         // we must to ensure theme exist
         $machine_name = $validators->validateMachineName($input->getOption('theme'));
         $theme_path = $drupal_root . $input->getOption('theme');
         $breakpoints = $input->getOption('breakpoints');
 
-        $generator->generate(
+        $this->generator->generate(
             $theme_path,
             $breakpoints,
             $machine_name
