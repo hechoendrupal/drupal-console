@@ -10,16 +10,59 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\HelpGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\ChainQueue;
 
-class HelpCommand extends GeneratorCommand
+
+class HelpCommand extends Command
 {
+    use CommandTrait;
     use ModuleTrait;
     use ConfirmationTrait;
+
+    /** @var HelpGenerator  */
+    protected $generator;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+
+    /**
+     * HelpCommand constructor.
+     * @param HelpGenerator $generator
+     * @param Site $site
+     * @param Manager $extensionManager
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        HelpGenerator $generator,
+        Site $site,
+        Manager $extensionManager,
+        ChainQueue $chainQueue
+    ) {
+        $this->generator = $generator;
+        $this->site = $site;
+        $this->extensionManager = $extensionManager;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -55,7 +98,7 @@ class HelpCommand extends GeneratorCommand
 
         $module = $input->getOption('module');
 
-        if ($this->validateModuleFunctionExist($module, $module . '_help')) {
+        if ($this->extensionManager->validateModuleFunctionExist($module, $module . '_help')) {
             throw new \Exception(
                 sprintf(
                     $this->trans('commands.generate.help.messages.help-already-implemented'),
@@ -67,18 +110,18 @@ class HelpCommand extends GeneratorCommand
         $description = $input->getOption('description');
 
         $this
-            ->getGenerator()
+            ->generator
             ->generate($module, $description);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/schema.inc');
+        $this->site->loadLegacyFile('/core/includes/update.inc');
+        $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         $module = $input->getOption('module');
         if (!$module) {
@@ -95,11 +138,5 @@ class HelpCommand extends GeneratorCommand
             );
         }
         $input->setOption('description', $description);
-    }
-
-
-    protected function createGenerator()
-    {
-        return new HelpGenerator();
     }
 }
