@@ -83,6 +83,7 @@ class ModuleCommand extends Command
         $this->stringConverter = $stringConverter;
         $this->drupalApi = $drupalApi;
         $this->httpClient = $httpClient;
+        $this->site = $site;
         parent::__construct();
     }
 

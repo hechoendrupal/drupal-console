@@ -65,7 +65,7 @@ class InstallDependencyCommand extends Command
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
-  
+
     /**
      * {@inheritdoc}
      */
@@ -105,12 +105,12 @@ class InstallDependencyCommand extends Command
 
         $module = $input->getArgument('module');
         $unInstalledDependencies = $this->calculateDependencies((array)$module);
-        
+
         if (!$unInstalledDependencies) {
             $io->warning($this->trans('commands.module.install.dependencies.messages.no-depencies'));
             return 0;
         }
-        
+
         try {
             $io->comment(
                 sprintf(
