@@ -17,7 +17,7 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ControllerGenerator;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\StringConverter;;
+use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Utils\Validator;

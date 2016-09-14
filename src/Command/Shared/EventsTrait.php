@@ -55,4 +55,13 @@ trait EventsTrait
 
         return $eventCollection;
     }
+
+    public function getEvents()
+    {
+        if (null === $this->events) {
+            $this->events = [];
+            $this->events = array_keys($this->eventDispatcher->getListeners());
+        }
+        return $this->events;
+    }
 }
