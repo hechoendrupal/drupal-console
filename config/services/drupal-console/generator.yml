@@ -38,3 +38,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.form_generator:
+    class: Drupal\Console\Generator\FormGenerator
+    arguments: ['@console.extension_manager', '@console.string_converter']
+    tags:
+      - { name: console.generator }
