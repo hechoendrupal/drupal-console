@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Lock\LockBackendInterface;
-use Drupal\Core\State\State;
+use Drupal\Core\State\StateInterface;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\ChainQueue;
@@ -33,7 +33,7 @@ class ExecuteCommand extends Command
     protected $lock;
 
     /**
-     * @var State
+     * @var StateInterface
      */
     protected $state;
 
@@ -46,13 +46,13 @@ class ExecuteCommand extends Command
      * DebugCommand constructor.
      * @param ModuleHandlerInterface $moduleHandler
      * @param LockBackendInterface   $lock
-     * @param State                  $state
+     * @param StateInterface                  $state
      * @param ChainQueue             $chainQueue
      */
     public function __construct(
         ModuleHandlerInterface $moduleHandler,
         LockBackendInterface $lock,
-        State $state,
+        StateInterface $state,
         ChainQueue $chainQueue
     ) {
         $this->moduleHandler = $moduleHandler;

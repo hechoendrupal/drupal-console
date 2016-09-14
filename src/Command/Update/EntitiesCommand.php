@@ -14,7 +14,7 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Utility\Error;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Core\State\State;
+use Drupal\Core\State\StateInterface;
 use Drupal\Core\Entity\EntityDefinitionUpdateManager;
 use Drupal\Console\Utils\ChainQueue;
 
@@ -28,7 +28,7 @@ class EntitiesCommand extends Command
     use CommandTrait;
 
     /**
-     * @var State
+     * @var StateInterface
      */
     protected $state;
 
@@ -44,12 +44,12 @@ class EntitiesCommand extends Command
 
     /**
      * EntitiesCommand constructor.
-     * @param State                         $state
+     * @param StateInterface                         $state
      * @param EntityDefinitionUpdateManager $entityDefinitionUpdateManager
      * @param ChainQueue                    $chainQueue
      */
     public function __construct(
-        State $state,
+        StateInterface $state,
         EntityDefinitionUpdateManager $entityDefinitionUpdateManager,
         ChainQueue $chainQueue
     ) {

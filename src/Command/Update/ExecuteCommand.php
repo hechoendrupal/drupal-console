@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Core\State\State;
+use Drupal\Core\State\StateInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Update\UpdateRegistry;
 use Drupal\Console\Command\Shared\CommandTrait;
@@ -29,7 +29,7 @@ class ExecuteCommand extends Command
     protected $site;
 
     /**
-     * @var State
+     * @var StateInterface
      */
     protected $state;
 
@@ -61,14 +61,14 @@ class ExecuteCommand extends Command
     /**
      * EntitiesCommand constructor.
      * @param Site           $site
-     * @param State          $state
+     * @param StateInterface          $state
      * @param ModuleHandler  $moduleHandler
      * @param UpdateRegistry $postUpdateRegistry
      * @param ChainQueue     $chainQueue
      */
     public function __construct(
         Site $site,
-        State $state,
+        StateInterface $state,
         ModuleHandler $moduleHandler,
         UpdateRegistry $postUpdateRegistry,
         ChainQueue $chainQueue
