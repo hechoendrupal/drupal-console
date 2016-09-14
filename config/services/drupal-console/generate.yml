@@ -19,6 +19,11 @@ services:
     arguments: ['@console.extension_manager', '@console.form_alter_generator', '@console.string_converter', '@module_handler', '@plugin.manager.element_info', '@?profiler', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_permissions:
+    class: Drupal\Console\Command\Generate\PermissionCommand
+    arguments: ['@console.extension_manager', '@console.string_converter']
+    tags:
+       - { name: console.command }
   console.generate_event_subscriber:
     class: Drupal\Console\Command\Generate\EventSubscriberCommand
     arguments: ['@console.extension_manager', '@console.event_subscriber_generator', '@console.string_converter', '@event_dispatcher', '@console.chain_queue']
