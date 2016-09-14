@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Core\State\State;
+use Drupal\Core\State\StateInterface;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -24,15 +24,15 @@ class AccessRebuildCommand extends Command
     use CommandTrait;
 
     /**
-     * @var State
+     * @var StateInterface
      */
     protected $state;
 
     /**
      * AccessRebuildCommand constructor.
-     * @param State $state
+     * @param StateInterface $state
      */
-    public function __construct(State $state) {
+    public function __construct(StateInterface $state) {
         $this->state = $state;
         parent::__construct();
     }

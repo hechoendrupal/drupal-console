@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
@@ -29,7 +29,7 @@ class ExportViewCommand extends Command
     protected $configExport;
 
 
-    /** @var EntityTypeManager  */
+    /** @var EntityTypeManagerInterface  */
     protected $entityTypeManager;
 
     /** @var CachedStorage  */
@@ -40,12 +40,12 @@ class ExportViewCommand extends Command
 
     /**
      * ExportViewCommand constructor.
-     * @param EntityTypeManager $entityTypeManager
+     * @param EntityTypeManagerInterface $entityTypeManager
      * @param CachedStorage     $configStorage
      * @param Manager           $extensionManager
      */
     public function __construct(
-        EntityTypeManager $entityTypeManager,
+        EntityTypeManagerInterface $entityTypeManager,
         CachedStorage $configStorage,
         Manager $extensionManager
     ) {
