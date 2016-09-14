@@ -18,7 +18,7 @@ use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;;
+use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 
 class AuthenticationProviderCommand extends Command

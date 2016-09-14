@@ -18,6 +18,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.breakpoint_generator:
+    class: Drupal\Console\Generator\BreakPointGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.form_alter_generator:
     class: Drupal\Console\Generator\FormAlterGenerator
     arguments: ['@console.extension_manager']
