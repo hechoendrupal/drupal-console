@@ -118,7 +118,7 @@ class UpdateCommand extends Command
         }
 
         $this->generator->generate($module, $updateNumber);
-        
+
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 

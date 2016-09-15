@@ -18,9 +18,9 @@ use Drupal\Console\Command\Shared\EventsTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Utils\StringConverter;;
+use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
-use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Drupal\Console\Utils\ChainQueue;
 
 class EventSubscriberCommand extends Command
@@ -58,14 +58,14 @@ class EventSubscriberCommand extends Command
      * @param Manager $extensionManager
      * @param EventSubscriberGenerator $generator
      * @param StringConverter $stringConverter
-     * @param TraceableEventDispatcherInterface $eventDispatcher
+     * @param EventDispatcherInterface $eventDispatcher
      * @param ChainQueue $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
         EventSubscriberGenerator $generator,
         StringConverter $stringConverter,
-        TraceableEventDispatcherInterface $eventDispatcher,
+        EventDispatcherInterface $eventDispatcher,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;

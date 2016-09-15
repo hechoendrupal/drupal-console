@@ -61,6 +61,7 @@ class ControllerCommand extends Command
      * @param ControllerGenerator $generator
      * @param StringConverter $stringConverter
      * @param Validator $validator
+     * @param RouteProviderInterface $routeProvider
      * @param ChainQueue $chainQueue
      */
     public function __construct(

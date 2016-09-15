@@ -32,6 +32,7 @@ trait FormTrait
             ];
 
             if (!$this->elementInfoManager) {
+                $io->writeln('Please inject service plugin.manager.element_info');
                 return false;
             }
 

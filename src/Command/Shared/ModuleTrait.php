@@ -15,6 +15,7 @@ use Drupal\Console\Style\DrupalStyle;
  */
 trait ModuleTrait
 {
+
     /**
      * @param \Drupal\Console\Style\DrupalStyle $io
      * @param bool|true                         $showProfile

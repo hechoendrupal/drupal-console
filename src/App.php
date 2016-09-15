@@ -200,12 +200,16 @@ class App extends BaseApplication
 
         $uri = $input->getParameterOption(['--uri', '-l']);
 
-        /*Checking if the URI has http of not in begenning*/
-        if ($uri && !preg_match('/^(http|https):\/\//', $uri)) {
-            $uri = sprintf(
-                'http://%s',
-                $uri
-            );
+        if (!$uri) {
+          // When uri is empty it's impossible to view logged
+          // messages because of InvalidArguemntException.
+          $uri = 'http://default';
+        } elseif (!preg_match('/^(http|https):\/\//', $uri)) {
+          // Make sure uri starts with a protocol.
+          $uri = sprintf(
+            'http://%s',
+            $uri
+          );
         }
 
         $env = $input->getParameterOption(['--env', '-e'], getenv('DRUPAL_ENV') ?: 'prod');

@@ -8,8 +8,18 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.help_generator:
+    class: Drupal\Console\Generator\HelpGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.controller_generator:
     class: Drupal\Console\Generator\ControllerGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.breakpoint_generator:
+    class: Drupal\Console\Generator\BreakPointGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
@@ -18,11 +28,20 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.permission_generator:
+    class: Drupal\Console\Generator\PermissionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.event_subscriber_generator:
     class: Drupal\Console\Generator\EventSubscriberGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.form_generator:
+    class: Drupal\Console\Generator\FormGenerator
+    arguments: ['@console.extension_manager', '@console.string_converter']
+    tags:
       - { name: console.generator }
   console.update_generator:
     class: Drupal\Console\Generator\UpdateGenerator
