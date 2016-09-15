@@ -23,3 +23,9 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+      - { name: console.generator }
+  console.update_generator:
+    class: Drupal\Console\Generator\UpdateGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
