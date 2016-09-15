@@ -43,6 +43,16 @@ services:
     arguments: ['@console.extension_manager', '@console.string_converter']
     tags:
       - { name: console.generator }
+  console.service_generator:
+    class: Drupal\Console\Generator\ServiceGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.twig_extension_generator:
+    class: Drupal\Console\Generator\TwigExtensionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.update_generator:
     class: Drupal\Console\Generator\UpdateGenerator
     arguments: ['@console.extension_manager']

@@ -36,7 +36,7 @@ class TwigExtensionCommand extends Command
     /** @var Manager  */
     protected $extensionManager;
 
-    /** @var ServiceGenerator  */
+    /** @var TwigExtensionGenerator  */
     protected $generator;
 
     /**
@@ -58,13 +58,13 @@ class TwigExtensionCommand extends Command
     /**
      * ModuleCommand constructor.
      * @param Manager $extensionManager
-     * @param ServiceGenerator $generator
+     * @param TwigExtensionGenerator $generator
      * @param StringConverter $stringConverter
      * @param ChainQueue $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
-        ServiceGenerator $generator,
+        TwigExtensionGenerator $generator,
         Site $site,
         StringConverter $stringConverter,
         ChainQueue $chainQueue
@@ -182,13 +182,5 @@ class TwigExtensionCommand extends Command
             $services = $this->servicesQuestion($io);
             $input->setOption('services', $services);
         }
-    }
-
-    /**
-   * {@inheritdoc}
-   */
-    protected function createGenerator()
-    {
-        return new TwigExtensionGenerator();
     }
 }
