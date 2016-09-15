@@ -43,3 +43,8 @@ services:
     arguments: ['@console.extension_manager', '@console.string_converter']
     tags:
       - { name: console.generator }
+  console.update_generator:
+    class: Drupal\Console\Generator\UpdateGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }

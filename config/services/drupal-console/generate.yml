@@ -44,3 +44,8 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_update:
+    class: Drupal\Console\Command\Generate\UpdateCommand
+    arguments: ['@console.extension_manager', '@console.update_generator', '@console.string_converter', '@console.site', '@console.chain_queue']
+    tags:
+       - { name: console.command }
