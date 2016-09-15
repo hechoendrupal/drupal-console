@@ -16,7 +16,6 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\StringConverter;;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
@@ -32,11 +31,6 @@ class UpdateCommand extends Command
 
     /** @var UpdateGenerator  */
     protected $generator;
-
-    /**
-     * @var StringConverter
-     */
-    protected $stringConverter;
 
     /**
      * @var Site
@@ -59,13 +53,11 @@ class UpdateCommand extends Command
     public function __construct(
         Manager $extensionManager,
         UpdateGenerator $generator,
-        StringConverter $stringConverter,
         Site $site,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
-        $this->stringConverter = $stringConverter;
         $this->site = $site;
         $this->chainQueue = $chainQueue;
         parent::__construct();
