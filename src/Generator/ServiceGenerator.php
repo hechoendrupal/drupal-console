@@ -7,8 +7,23 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class ServiceGenerator extends Generator
 {
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * AuthenticationProviderGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     /**
      * Generator Service.
      *
@@ -29,12 +44,12 @@ class ServiceGenerator extends Generator
             'interface' => $interface,
             'services' => $services,
             'path_service' => $path_service,
-            'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
+            'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
         ];
        
         $this->renderFile(
             'module/services.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.services.yml',
+            $this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml',
             $parameters,
             FILE_APPEND
         );
@@ -61,14 +76,14 @@ class ServiceGenerator extends Generator
 
         switch ($template) {
         case 'service.php.twig':
-            $default_target = $this->getSite()->getModulePath($module).'/src/'.$class.'.php';
-            $custom_target = $this->getSite()->getModulePath($module).'/'.$target.'/'.$class.'.php';
+            $default_target = $this->extensionManager->getModule($module)->getPath() .'/src/'.$class.'.php';
+            $custom_target = $this->extensionManager->getModule($module)->getPath() .'/'.$target.'/'.$class.'.php';
 
             $directory = (strcmp($target, $default_path) == 0) ? $default_target : $custom_target;
             break;
         case 'interface.php.twig':
-            $default_target = $this->getSite()->getModulePath($module).'/src/'.$class.'Interface.php';
-            $custom_target = $this->getSite()->getModulePath($module).'/'.$target.'/'.$class.'Interface.php';
+            $default_target = $this->extensionManager->getModule($module)->getPath() .'/src/'.$class.'Interface.php';
+            $custom_target = $this->extensionManager->getModule($module)->getPath() .'/'.$target.'/'.$class.'Interface.php';
 
             $directory = (strcmp($target, $default_path) == 0) ? $default_target : $custom_target;
             break;

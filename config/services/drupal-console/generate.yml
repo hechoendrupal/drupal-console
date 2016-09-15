@@ -46,6 +46,11 @@ services:
        - { name: console.command }
   console.generate_update:
     class: Drupal\Console\Command\Generate\UpdateCommand
-    arguments: ['@console.extension_manager', '@console.update_generator', '@console.string_converter', '@console.site', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.update_generator', '@console.site', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_twig_extension:
+    class: Drupal\Console\Command\Generate\TwigExtensionCommand
+    arguments: ['@console.extension_manager', '@console.service_generator', '@console.site', '@console.string_converter', '@console.chain_queue']
     tags:
        - { name: console.command }
