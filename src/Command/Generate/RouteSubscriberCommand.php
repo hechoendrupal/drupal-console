@@ -13,13 +13,47 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\RouteSubscriberGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Command\Shared\CommandTrait;
 
-class RouteSubscriberCommand extends GeneratorCommand
+class RouteSubscriberCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
+    use CommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var RouteSubscriberGenerator  */
+    protected $generator;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * ModuleCommand constructor.
+     * @param Manager $extensionManager
+     * @param RouteSubscriberGenerator $generator
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        RouteSubscriberGenerator $generator,
+        StringConverter $stringConverter,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -66,11 +100,9 @@ class RouteSubscriberCommand extends GeneratorCommand
         $name = $input->getOption('name');
         $class = $input->getOption('class');
 
-        $this
-            ->getGenerator()
-            ->generate($module, $name, $class);
+        $this->generator->generate($module, $name, $class);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     /**
@@ -84,7 +116,7 @@ class RouteSubscriberCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 

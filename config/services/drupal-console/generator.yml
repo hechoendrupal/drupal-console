@@ -43,6 +43,11 @@ services:
     arguments: ['@console.extension_manager', '@console.string_converter']
     tags:
       - { name: console.generator }
+  console.route_subscriber_generator:
+    class: Drupal\Console\Generator\RouteSubscriberGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.service_generator:
     class: Drupal\Console\Generator\ServiceGenerator
     arguments: ['@console.extension_manager']
