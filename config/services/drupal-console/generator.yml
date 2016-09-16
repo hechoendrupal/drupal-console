@@ -43,13 +43,18 @@ services:
     arguments: ['@console.extension_manager', '@console.string_converter']
     tags:
       - { name: console.generator }
-  console.route_subscriber_generator:
-    class: Drupal\Console\Generator\RouteSubscriberGenerator
-    arguments: ['@console.extension_manager']
   console.profile_generator:
     class: Drupal\Console\Generator\ProfileGenerator
     tags:
       - { name: console.generator }
+  console.post_update_generator:
+    class: Drupal\Console\Generator\PostUpdateGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.route_subscriber_generator:
+    class: Drupal\Console\Generator\RouteSubscriberGenerator
+    arguments: ['@console.extension_manager']
   console.service_generator:
     class: Drupal\Console\Generator\ServiceGenerator
     arguments: ['@console.extension_manager']
