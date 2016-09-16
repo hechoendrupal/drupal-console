@@ -81,8 +81,16 @@ drupal self-update
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
 ## Getting The Project To Contribute
-
 For information about how to run this project for development follow instructions at [setup instructions](https://gist.github.com/jmolivas/97bbd07f328217be3564a434c5bd2618).
+
+An optional way you can execute this:
+```
+composer require --dev drupal/console:dev-master
+```
+You might have to execute too:
+```
+composer require symfony/dom-crawler:2.8 symfony:debug:2.8
+```
 
 ## Enabling Autocomplete
 ```
