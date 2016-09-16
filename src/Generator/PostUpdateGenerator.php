@@ -15,7 +15,7 @@ class PostUpdateGenerator extends Generator
     protected $extensionManager;
 
     /**
-     * AuthenticationProviderGenerator constructor.
+     * PostUpdateGenerator constructor.
      * @param Manager $extensionManager
      */
     public function __construct(

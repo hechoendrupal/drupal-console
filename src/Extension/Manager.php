@@ -311,4 +311,16 @@ class Manager
         }
         return false;
     }
+
+    /**
+     * @param string $moduleName
+     * @param string $pluginType
+     * @return string
+     */
+    public function getPluginPath($moduleName, $pluginType)
+    {
+        $module = $this->getModule($moduleName);
+
+        return $module->getPath() . '/src/Plugin/'.$pluginType;
+    }
 }
