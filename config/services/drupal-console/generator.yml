@@ -48,6 +48,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.theme_generator:
+    class: Drupal\Console\Generator\ThemeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.twig_extension_generator:
     class: Drupal\Console\Generator\TwigExtensionGenerator
     arguments: ['@console.extension_manager']
@@ -58,8 +63,4 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
-  console.service_generator:
-    class: Drupal\Console\Generator\ServiceGenerator
-    arguments: ['@console.extension_manager']
-    tags:
-      - { name: console.generator }
+
