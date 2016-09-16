@@ -44,9 +44,14 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_service:
+    class: Drupal\Console\Command\Generate\ServiceCommand
+    arguments: ['@console.extension_manager', '@console.service_generator', '@console.site', '@console.string_converter', '@console.chain_queue']
+    tags:
+       - { name: console.command }
   console.generate_theme:
     class: Drupal\Console\Command\Generate\ThemeCommand
-    arguments: ['@console.extension_manager', '@console.theme_generator', '@console.validator', '@app.root', '@theme_handler', '@console.site', '@console.string_converter', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.theme_generator', '@console.validator', '@app.root', '@theme_handler', '@console.site', '@console.string_converter']
     tags:
        - { name: console.command }
   console.generate_twig_extension:
