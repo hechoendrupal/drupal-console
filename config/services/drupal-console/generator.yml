@@ -46,6 +46,8 @@ services:
   console.route_subscriber_generator:
     class: Drupal\Console\Generator\RouteSubscriberGenerator
     arguments: ['@console.extension_manager']
+  console.profile_generator:
+    class: Drupal\Console\Generator\ProfileGenerator
     tags:
       - { name: console.generator }
   console.service_generator:

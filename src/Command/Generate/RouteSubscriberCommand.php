@@ -46,7 +46,6 @@ class RouteSubscriberCommand extends Command
     public function __construct(
         Manager $extensionManager,
         RouteSubscriberGenerator $generator,
-        StringConverter $stringConverter,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;

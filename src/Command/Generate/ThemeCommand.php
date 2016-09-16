@@ -68,6 +68,7 @@ class ThemeCommand extends Command
      * @param Validator $validator
      * @param $appRoot
      * @param ThemeHandler $themeHandler
+     * @param Site $site
      * @param StringConverter $stringConverter
      */
     public function __construct(
