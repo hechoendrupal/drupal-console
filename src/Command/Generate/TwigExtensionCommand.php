@@ -10,7 +10,6 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Generator\TwigExtensionGenerator;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;

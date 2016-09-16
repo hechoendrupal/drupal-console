@@ -17,7 +17,6 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Command\Shared\CommandTrait;
@@ -63,12 +62,6 @@ class ThemeCommand extends Command
     protected $stringConverter;
 
     /**
-     * @var ChainQueue
-     */
-    protected $chainQueue;
-
-
-    /**
      * ModuleCommand constructor.
      * @param Manager $extensionManager
      * @param ThemeGenerator $generator
@@ -76,7 +69,6 @@ class ThemeCommand extends Command
      * @param $appRoot
      * @param ThemeHandler $themeHandler
      * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
@@ -85,8 +77,7 @@ class ThemeCommand extends Command
         $appRoot,
         ThemeHandler $themeHandler,
         Site $site,
-        StringConverter $stringConverter,
-        ChainQueue $chainQueue
+        StringConverter $stringConverter
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
@@ -95,7 +86,6 @@ class ThemeCommand extends Command
         $this->themeHandler = $themeHandler;
         $this->site = $site;
         $this->stringConverter = $stringConverter;
-        $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
