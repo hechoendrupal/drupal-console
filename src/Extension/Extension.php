@@ -77,4 +77,13 @@ class Extension extends BaseExtension
     {
         return $this->getPath($fullPath) . '/src/Form';
     }
+
+    /**
+     * @param $fullPath
+     * @return string
+     */
+    public function getRoutingPath($fullPath = false)
+    {
+        return $this->getPath($fullPath) . '/src/Routing';
+    }
 }

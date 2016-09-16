@@ -19,7 +19,6 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\StringConverter;
 
 class ServiceCommand extends Command
@@ -34,11 +33,6 @@ class ServiceCommand extends Command
 
     /** @var ServiceGenerator  */
     protected $generator;
-
-    /**
-     * @var Site
-     */
-    protected $site;
 
     /**
      * @var StringConverter
@@ -60,13 +54,11 @@ class ServiceCommand extends Command
     public function __construct(
         Manager $extensionManager,
         ServiceGenerator $generator,
-        Site $site,
         StringConverter $stringConverter,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
-        $this->site = $site;
         $this->stringConverter = $stringConverter;
         $this->chainQueue = $chainQueue;
         parent::__construct();
