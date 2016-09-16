@@ -44,6 +44,11 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_post_update:
+    class: Drupal\Console\Command\Generate\PostUpdateCommand
+    arguments: ['@console.extension_manager', '@console.post_update_generator', '@console.site', '@console.validator','@console.chain_queue']
+    tags:
+       - { name: console.command }
   console.generate_profile:
     class: Drupal\Console\Command\Generate\ProfileCommand
     arguments: ['@console.extension_manager', '@console.profile_generator', '@console.string_converter', '@console.validator', '@app.root', '@console.site', '@http_client']

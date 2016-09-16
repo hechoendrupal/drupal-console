@@ -17,7 +17,6 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Command\Shared\CommandTrait;
 
 class RouteSubscriberCommand extends Command
