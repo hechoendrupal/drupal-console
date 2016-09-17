@@ -130,8 +130,8 @@ class ServiceCommand extends Command
         $interface = $input->getOption('interface');
         $services = $input->getOption('services');
         $path_service = $input->getOption('path_service');
-        
-        $available_services = $this->container->getServiceIds();;
+
+        $available_services = $this->container->getServiceIds();
 
         if (in_array($name, array_values($available_services))) {
             throw new \Exception(
@@ -141,7 +141,7 @@ class ServiceCommand extends Command
                 )
             );
         }
-        
+
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
         $this->generator->generate($module, $name, $class, $interface, $build_services, $path_service);
