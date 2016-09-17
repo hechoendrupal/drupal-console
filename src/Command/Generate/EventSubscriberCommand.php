@@ -32,13 +32,13 @@ class EventSubscriberCommand extends Command
     use ContainerAwareCommandTrait;
 
     /**
- * @var Manager  
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var EventSubscriberGenerator  
-*/
+     * @var EventSubscriberGenerator
+     */
     protected $generator;
 
     /**
@@ -55,7 +55,6 @@ class EventSubscriberCommand extends Command
      * @var ChainQueue
      */
     protected $chainQueue;
-
 
     /**
      * ModuleCommand constructor.
