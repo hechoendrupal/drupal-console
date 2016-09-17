@@ -44,9 +44,7 @@ class PluginTypeAnnotationGenerator extends Generator
         if (!is_dir($directory)) {
             mkdir($directory, 0777, true);
         }
-
-        print $this->extensionManager->getModule($module)->getSourcePath();
-
+        
         $this->renderFile(
             'module/src/Annotation/plugin-type.php.twig',
             $this->extensionManager->getModule($module)->getSourcePath() . '/Annotation/' . $class_name . '.php',
