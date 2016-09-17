@@ -71,6 +71,7 @@ class PluginViewsFieldCommand extends Command
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
+
     protected function configure()
     {
         $this
