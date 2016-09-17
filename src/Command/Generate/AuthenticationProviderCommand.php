@@ -147,9 +147,4 @@ class AuthenticationProviderCommand extends Command
             $input->setOption('provider-id', $provider_id);
         }
     }
-
-    protected function createGenerator()
-    {
-        return new AuthenticationProviderGenerator();
-    }
 }

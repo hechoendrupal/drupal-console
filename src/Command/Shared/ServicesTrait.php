@@ -24,7 +24,6 @@ trait ServicesTrait
         )) {
             $service_collection = [];
             $io->writeln($this->trans('commands.common.questions.services.message'));
-
             $services = $this->container->getServiceIds();
             while (true) {
                 $service = $io->choiceNoList(

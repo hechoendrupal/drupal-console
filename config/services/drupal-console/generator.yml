@@ -85,4 +85,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
-
+  console.pluginblock_generator:
+    class: Drupal\Console\Generator\PluginBlockGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
