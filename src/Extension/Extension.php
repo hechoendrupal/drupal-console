@@ -50,7 +50,7 @@ class Extension extends BaseExtension
      * @param $fullPath
      * @return string
      */
-    public function getPath($fullPath)
+    public function getPath($fullPath = false)
     {
         if ($fullPath) {
             return $this->root . '/' . parent::getPath();
@@ -85,5 +85,14 @@ class Extension extends BaseExtension
     public function getRoutingPath($fullPath = false)
     {
         return $this->getPath($fullPath) . '/src/Routing';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getCommandDirectory($fullPath=false)
+    {
+        return $this->getSourcePath($fullPath) . '/Command/';
     }
 }

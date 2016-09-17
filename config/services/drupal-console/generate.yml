@@ -89,3 +89,8 @@ services:
     arguments: ['@console.extension_manager', '@console.update_generator', '@console.site', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_command:
+    class: Drupal\Console\Command\Generate\CommandCommand
+    arguments: ['@console.command_generator', '@console.extension_manager', '@console.validator', '@console.string_converter' ]
+    tags:
+       - { name: console.command }
