@@ -20,10 +20,18 @@ use Drupal\Console\Style\DrupalStyle;
 class ExampleCommand extends Command
 {
     use CommandTrait;
-
     /**
      * {@inheritdoc}
      */
+
+    /**
+     * ExampleCommand constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this->setName('develop:example');

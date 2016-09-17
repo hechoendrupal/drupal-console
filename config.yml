@@ -1,11 +1,9 @@
 application:
   autowire:
     commands:
-      forced:
-        _completion:
-          class: '\Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand'
+      forced: {}
       name:
-        elephpant:
-          class: '\Drupal\Console\Command\Exclude\ElephpantCommand'
-        druplicon:
-          class: '\Drupal\Console\Command\Exclude\DrupliconCommand'
+        'develop:example':
+          class: '\Drupal\Console\Command\Develop\ExampleCommand'
+        'develop:example:container:aware':
+          class: '\Drupal\Console\Command\Develop\ExampleContainerAwareCommand'

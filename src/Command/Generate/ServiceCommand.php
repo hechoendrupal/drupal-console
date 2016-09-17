@@ -14,14 +14,56 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\StringConverter;
 
-class ServiceCommand extends GeneratorCommand
+class ServiceCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
     use ConfirmationTrait;
+    use ContainerAwareCommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var ServiceGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * ModuleCommand constructor.
+     * @param Manager $extensionManager
+     * @param ServiceGenerator $generator
+     * @param StringConverter $stringConverter
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        ServiceGenerator $generator,
+        StringConverter $stringConverter,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
+
 
     /**
      * {@inheritdoc}
@@ -89,7 +131,7 @@ class ServiceCommand extends GeneratorCommand
         $services = $input->getOption('services');
         $path_service = $input->getOption('path_service');
         
-        $available_services = $this->getServices();
+        $available_services = $this->container->getServiceIds();;
 
         if (in_array($name, array_values($available_services))) {
             throw new \Exception(
@@ -102,11 +144,9 @@ class ServiceCommand extends GeneratorCommand
         
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
-        $this
-            ->getGenerator()
-            ->generate($module, $name, $class, $interface, $build_services, $path_service);
+        $this->generator->generate($module, $name, $class, $interface, $build_services, $path_service);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     /**
@@ -120,7 +160,7 @@ class ServiceCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -158,7 +198,7 @@ class ServiceCommand extends GeneratorCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($output);
+            $services = $this->servicesQuestion($io);
             $input->setOption('services', $services);
         }
 
@@ -171,10 +211,5 @@ class ServiceCommand extends GeneratorCommand
             );
             $input->setOption('path_service', $path_service);
         }
-    }
-
-    protected function createGenerator()
-    {
-        return new ServiceGenerator();
     }
 }

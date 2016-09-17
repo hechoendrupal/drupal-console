@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Entity\EntityTypeRepository;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -25,19 +25,18 @@ class DeleteCommand extends Command
     protected $entityTypeRepository;
 
     /**
-     * @var EntityTypeManager
+     * @var EntityTypeManagerInterface
      */
     protected $entityTypeManager;
 
     /**
-     * RebuildCommand constructor.
-     * @param EntityTypeRepository $entityTypeRepository
-     * @param EntityTypeManager $entityTypeManager
-     * @param RequestStack $requestStack
+     * DeleteCommand constructor.
+     * @param EntityTypeRepository  $entityTypeRepository
+     * @param EntityTypeManagerInterface     $entityTypeManager
      */
     public function __construct(
         EntityTypeRepository $entityTypeRepository,
-        EntityTypeManager $entityTypeManager
+        EntityTypeManagerInterface $entityTypeManager
     ) {
         $this->entityTypeRepository = $entityTypeRepository;
         $this->entityTypeManager = $entityTypeManager;

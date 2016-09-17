@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Site;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -29,6 +30,11 @@ class RebuildCommand extends Command
       */
     protected $drupalApi;
 
+    /**
+     * @var Site
+     */
+    protected $site;
+
     protected $classLoader;
     /**
      * @var RequestStack
@@ -38,15 +44,18 @@ class RebuildCommand extends Command
     /**
      * RebuildCommand constructor.
      * @param DrupalApi    $drupalApi
+     * @param Site         $site
      * @param $classLoader
      * @param RequestStack $requestStack
      */
     public function __construct(
         DrupalApi $drupalApi,
+        Site $site,
         $classLoader,
         RequestStack $requestStack
     ) {
         $this->drupalApi = $drupalApi;
+        $this->site = $site;
         $this->classLoader = $classLoader;
         $this->requestStack = $requestStack;
         parent::__construct();
@@ -74,7 +83,7 @@ class RebuildCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $cache = $input->getArgument('cache');
-        $this->drupalApi->loadLegacyFile('/core/includes/utility.inc');
+        $this->site->loadLegacyFile('/core/includes/utility.inc');
 
         if ($cache && !$this->drupalApi->isValidCache($cache)) {
             $io->error(
@@ -91,7 +100,7 @@ class RebuildCommand extends Command
         $io->comment($this->trans('commands.cache.rebuild.messages.rebuild'));
 
         if ($cache === 'all') {
-            drupal_rebuild(
+            $this->drupalApi->drupal_rebuild(
                 $this->classLoader,
                 $this->requestStack->getCurrentRequest()
             );

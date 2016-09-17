@@ -23,7 +23,11 @@ trait ProjectDownloadTrait
     public function modulesQuestion(DrupalStyle $io)
     {
         $moduleList = [];
-        $modules = $this->getApplication()->getSite()->getModules(true, false, true, true, true, true);
+
+        $modules = $this->extensionManager->discoverModules()
+            ->showUninstalled()
+            ->showNoCore()
+            ->getList(true);
 
         while (true) {
             $moduleName = $io->choiceNoList(
@@ -50,7 +54,12 @@ trait ProjectDownloadTrait
     public function modulesUninstallQuestion(DrupalStyle $io)
     {
         $moduleList = [];
-        $modules = $this->getApplication()->getSite()->getModules(true, true, false, true, true, true);
+
+        $modules = $this->extensionManager->discoverModules()
+            ->showInstalled()
+            ->showNoCore()
+            ->showCore()
+            ->getList(true);
 
         while (true) {
             $moduleName = $io->choiceNoList(
@@ -81,8 +90,7 @@ trait ProjectDownloadTrait
         }
         drupal_static_reset('system_rebuild_module_data');
 
-        $validator = $this->getApplication()->getValidator();
-        $missingModules = $validator->getMissingModules($modules);
+        $missingModules = $this->validator->getMissingModules($modules);
 
         $invalidModules = [];
         if ($missingModules) {
@@ -100,11 +108,11 @@ trait ProjectDownloadTrait
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
                 }
-                $this->getApplication()->getSite()->discoverModules();
+                $this->extensionManager->discoverModules();
             }
         }
 
-        $unInstalledModules = $validator->getUninstalledModules($modules);
+        $unInstalledModules = $this->validator->getUninstalledModules($modules);
 
         $dependencies = $this->calculateDependencies($unInstalledModules);
 
@@ -123,11 +131,10 @@ trait ProjectDownloadTrait
 
     protected function calculateDependencies($modules)
     {
-        $this->getApplication()->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+        $this->site->loadLegacyFile('/core/modules/system/system.module');
         $moduleList = system_rebuild_module_data();
 
         $dependencies = [];
-        $validator = $this->getApplication()->getValidator();
 
         foreach ($modules as $moduleName) {
             $module = $moduleList[$moduleName];
@@ -135,7 +142,7 @@ trait ProjectDownloadTrait
             $dependencies = array_unique(
                 array_merge(
                     $dependencies,
-                    $validator->getUninstalledModules(
+                    $this->validator->getUninstalledModules(
                         array_keys($module->requires)?:[]
                     )
                 )
@@ -167,7 +174,8 @@ trait ProjectDownloadTrait
         );
 
         try {
-            $destination = $this->getApplication()->getDrupalApi()->downloadProjectRelease(
+            $destination = $this->drupalApi->downloadProjectRelease(
+                $this->httpClient,
                 $project,
                 $version
             );
@@ -176,10 +184,9 @@ trait ProjectDownloadTrait
                 $path = $this->getExtractPath($type);
             }
 
-            $drupal = $this->get('site');
             $projectPath = sprintf(
                 '%s/%s',
-                $drupal->isValidInstance()?$drupal->getRoot():getcwd(),
+                $this->appRoot,
                 $path
             );
 
@@ -259,7 +266,7 @@ trait ProjectDownloadTrait
             )
         );
 
-        $releases = $this->getApplication()->getDrupalApi()->getProjectReleases($project, $latest?1:15, $stable);
+        $releases = $this->drupalApi->getProjectReleases($project, $latest?1:15, $stable);
 
         if (!$releases) {
             $io->error(
@@ -299,48 +306,6 @@ trait ProjectDownloadTrait
             return 'profiles';
         case 'core':
             return '';
-        }
-    }
-
-    /**
-     * Includes drupal packagist repository at composer.json file.
-     *
-     * @param \Drupal\Console\Style\DrupalStyle $io
-     */
-    public function setComposerRepositories($repo)
-    {
-        $file = $this->getApplication()->getSite()->getSiteRoot() . "/composer.json";
-        $composerFile = json_decode(file_get_contents($file));
-
-        $application = $this->getApplication();
-        $config = $application->getConfig();
-
-        $repository = $config->get('application.composer.repositories.' . $repo);
-
-        if (!$repository) {
-            throw new \Exception(
-                $this->trans('commands.module.download.messages.no-composer-repo')
-            );
-            return 1;
-        }
-
-        if (!$this->repositoryAlreadySet($composerFile, $repository)) {
-            $repositories = (object) [[
-                'type' => "composer",
-                'url' => $repository
-            ]];
-
-            //@TODO: check it doesn't exist already
-            $composerFile->repositories = $repositories;
-
-            unlink($file);
-            file_put_contents(
-                $file,
-                json_encode(
-                    $composerFile,
-                    JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT
-                )
-            );
         }
     }
 

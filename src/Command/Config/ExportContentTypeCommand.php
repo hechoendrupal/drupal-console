@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Config\CachedStorage;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
@@ -34,10 +34,13 @@ class ExportContentTypeCommand extends Command
 
     /**
      * ExportContentTypeCommand constructor.
-     * @param EntityTypeManager $entityTypeManager
-     * @param CachedStorage $configStorage
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param CachedStorage     $configStorage
      */
-    public function __construct(EntityTypeManager $entityTypeManager, CachedStorage $configStorage) {
+    public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
+        CachedStorage $configStorage
+    ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         parent::__construct();

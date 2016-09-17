@@ -1,9 +1,0 @@
-#services:
-#  migrate_execute:
-#    class: Drupal\Console\Command\Migrate\ExecuteCommand
-#    tags:
-#      - { name: console.command }
-#  migrate_debug:
-#    class: Drupal\Console\Command\Migrate\DebugCommand
-#    tags:
-#      - { name: console.command }

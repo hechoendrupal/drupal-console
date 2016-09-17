@@ -13,17 +13,50 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
 
-class AuthenticationProviderCommand extends GeneratorCommand
+class AuthenticationProviderCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
+    use CommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var AuthenticationProviderGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+
+    /**
+     * ModuleCommand constructor.
+     * @param Manager $extensionManager
+     * @param AuthenticationProviderGenerator $generator
+     * @param StringConverter $stringConverter
+     */
+    public function __construct(
+        Manager $extensionManager,
+        AuthenticationProviderGenerator $generator,
+        StringConverter $stringConverter
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -62,21 +95,20 @@ class AuthenticationProviderCommand extends GeneratorCommand
         $class = $input->getOption('class');
         $provider_id = $input->getOption('provider-id');
 
-        $this->getGenerator()
-            ->generate($module, $class, $provider_id);
+        $this->generator->generate($module, $class, $provider_id);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $stringUtils = $this->getStringHelper();
+        $stringUtils = $this->stringConverter;
 
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 

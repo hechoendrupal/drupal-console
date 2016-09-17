@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
@@ -26,7 +26,7 @@ class DeleteCommand extends Command
     use CommandTrait;
 
     /**
-     * @var EntityTypeManager
+     * @var EntityTypeManagerInterface
      */
     protected $entityTypeManager;
 
@@ -42,12 +42,12 @@ class DeleteCommand extends Command
 
     /**
      * DeleteCommand constructor.
-     * @param DrupalApi $entityTypeManager
-     * @param QueryFactory $entityQuery
-     * @param DrupalApi $drupalApi
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param QueryFactory      $entityQuery
+     * @param DrupalApi         $drupalApi
      */
     public function __construct(
-        EntityTypeManager $entityTypeManager,
+        EntityTypeManagerInterface $entityTypeManager,
         QueryFactory $entityQuery,
         DrupalApi $drupalApi
     ) {

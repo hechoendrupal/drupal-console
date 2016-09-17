@@ -1,0 +1,88 @@
+services:
+  console.module_generator:
+    class: Drupal\Console\Generator\ModuleGenerator
+    tags:
+      - { name: console.generator }
+  console.authentication_provider_generator:
+    class: Drupal\Console\Generator\AuthenticationProviderGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.help_generator:
+    class: Drupal\Console\Generator\HelpGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.controller_generator:
+    class: Drupal\Console\Generator\ControllerGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.breakpoint_generator:
+    class: Drupal\Console\Generator\BreakPointGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.form_alter_generator:
+    class: Drupal\Console\Generator\FormAlterGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.permission_generator:
+    class: Drupal\Console\Generator\PermissionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.event_subscriber_generator:
+    class: Drupal\Console\Generator\EventSubscriberGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.form_generator:
+    class: Drupal\Console\Generator\FormGenerator
+    arguments: ['@console.extension_manager', '@console.string_converter']
+    tags:
+      - { name: console.generator }
+  console.profile_generator:
+    class: Drupal\Console\Generator\ProfileGenerator
+    tags:
+      - { name: console.generator }
+  console.post_update_generator:
+    class: Drupal\Console\Generator\PostUpdateGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.plugin_views_field_generator:
+    class: Drupal\Console\Generator\PluginViewsFieldGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.plugin_type_yaml_generator:
+    class: Drupal\Console\Generator\PluginTypeYamlGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.route_subscriber_generator:
+    class: Drupal\Console\Generator\RouteSubscriberGenerator
+    arguments: ['@console.extension_manager']
+  console.service_generator:
+    class: Drupal\Console\Generator\ServiceGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.theme_generator:
+    class: Drupal\Console\Generator\ThemeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.twig_extension_generator:
+    class: Drupal\Console\Generator\TwigExtensionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.update_generator:
+    class: Drupal\Console\Generator\UpdateGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+

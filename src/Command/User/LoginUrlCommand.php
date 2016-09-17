@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -25,17 +25,15 @@ class LoginUrlCommand extends Command
     use CommandTrait;
 
     /**
-     * @var EntityTypeManager
+     * @var EntityTypeManagerInterface
      */
     protected $entityTypeManager;
 
     /**
      * LoginUrlCommand constructor.
-     * @param EntityTypeManager    $entityTypeManager
+     * @param EntityTypeManagerInterface    $entityTypeManager
      */
-    public function __construct(
-        EntityTypeManager $entityTypeManager
-    ) {
+    public function __construct(EntityTypeManagerInterface $entityTypeManager) {
         $this->entityTypeManager = $entityTypeManager;
         parent::__construct();
     }

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\views\Entity\View;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -26,17 +26,15 @@ class DebugCommand extends Command
     use CommandTrait;
 
     /**
-     * @var EntityTypeManager
+     * @var EntityTypeManagerInterface
      */
     protected $entityTypeManager;
 
     /**
      * DebugCommand constructor.
-     * @param EntityTypeManager $entityTypeManager
+     * @param EntityTypeManagerInterface $entityTypeManager
      */
-    public function __construct(
-        EntityTypeManager $entityTypeManager
-    ) {
+    public function __construct(EntityTypeManagerInterface $entityTypeManager) {
         $this->entityTypeManager = $entityTypeManager;
         parent::__construct();
     }

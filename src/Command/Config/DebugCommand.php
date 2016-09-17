@@ -32,7 +32,10 @@ class DebugCommand extends Command
      * @param ConfigFactory $configFactory
      * @param CachedStorage $configStorage
      */
-    public function __construct(ConfigFactory $configFactory, CachedStorage $configStorage) {
+    public function __construct(
+        ConfigFactory $configFactory,
+        CachedStorage $configStorage
+    ) {
         $this->configFactory = $configFactory;
         $this->configStorage = $configStorage;
         parent::__construct();

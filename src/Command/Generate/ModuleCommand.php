@@ -12,12 +12,80 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\ModuleGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Utils\DrupalApi;
+use GuzzleHttp\Client;
+use Drupal\Console\Utils\Site;
 
-class ModuleCommand extends GeneratorCommand
+class ModuleCommand extends Command
 {
     use ConfirmationTrait;
+    use CommandTrait;
+
+    /** @var ModuleGenerator  */
+    protected $generator;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+
+    /**
+     * @var Client
+     */
+    protected $httpClient;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+
+    /**
+     * ModuleCommand constructor.
+     * @param ModuleGenerator $generator
+     * @param Validator $validator
+     * @param $appRoot
+     * @param StringConverter $stringConverter
+     * @param DrupalApi $drupalApi
+     * @param Client $httpClient
+     * @param Site $site
+     */
+    public function __construct(
+        ModuleGenerator $generator,
+        Validator $validator,
+        $appRoot,
+        StringConverter $stringConverter,
+        DrupalApi $drupalApi,
+        Client $httpClient,
+        Site $site
+    ) {
+        $this->generator = $generator;
+        $this->validator = $validator;
+        $this->appRoot = $appRoot;
+        $this->stringConverter = $stringConverter;
+        $this->drupalApi = $drupalApi;
+        $this->httpClient = $httpClient;
+        $this->site = $site;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -98,21 +166,17 @@ class ModuleCommand extends GeneratorCommand
         $io = new DrupalStyle($input, $output);
         $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
 
-        $validators = $this->getValidator();
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
             return;
         }
 
-        $module = $validators->validateModuleName($input->getOption('module'));
+        $module = $this->validator->validateModuleName($input->getOption('module'));
 
-        $drupal = $this->getDrupalHelper();
-        $drupalRoot = $drupal->getRoot();
-        $modulePath = $drupalRoot.$input->getOption('module-path');
-        $modulePath = $validators->validateModulePath($modulePath, true);
+        $modulePath = $this->appRoot . $input->getOption('module-path');
+        $modulePath = $this->validator->validateModulePath($modulePath, true);
 
-        $machineName = $validators->validateMachineName($input->getOption('machine-name'));
+        $machineName = $this->validator->validateMachineName($input->getOption('machine-name'));
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
@@ -121,7 +185,7 @@ class ModuleCommand extends GeneratorCommand
         $composer = $input->getOption('composer');
 
          // Modules Dependencies, re-factor and share with other commands
-        $dependencies = $validators->validateModuleDependencies($input->getOption('dependencies'));
+        $dependencies = $this->validator->validateModuleDependencies($input->getOption('dependencies'));
         // Check if all module dependencies are available
         if ($dependencies) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
@@ -136,8 +200,7 @@ class ModuleCommand extends GeneratorCommand
             $dependencies = $dependencies['success'];
         }
 
-        $generator = $this->getGenerator();
-        $generator->generate(
+        $this->generator->generate(
             $module,
             $machineName,
             $modulePath,
@@ -157,7 +220,7 @@ class ModuleCommand extends GeneratorCommand
      */
     private function checkDependencies(array $dependencies)
     {
-        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
+        $this->site->loadLegacyFile('/core/modules/system/system.module');
         $client = $this->getHttpClient();
         $localModules = array();
 
@@ -196,9 +259,7 @@ class ModuleCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $stringUtils = $this->getStringHelper();
-        $validators = $this->getValidator();
-        $drupal = $this->getDrupalHelper();
+        $validator = $this->validator;
 
         try {
             $module = $input->getOption('module') ?
@@ -215,8 +276,8 @@ class ModuleCommand extends GeneratorCommand
             $module = $io->ask(
                 $this->trans('commands.generate.module.questions.module'),
                 null,
-                function ($module) use ($validators) {
-                    return $validators->validateModuleName($module);
+                function ($module) use ($validator) {
+                    return $validator->validateModuleName($module);
                 }
             );
             $input->setOption('module', $module);
@@ -234,9 +295,9 @@ class ModuleCommand extends GeneratorCommand
         if (!$machineName) {
             $machineName = $io->ask(
                 $this->trans('commands.generate.module.questions.machine-name'),
-                $stringUtils->createMachineName($module),
-                function ($machine_name) use ($validators) {
-                    return $validators->validateMachineName($machine_name);
+                $this->stringConverter->createMachineName($module),
+                function ($machine_name) use ($validator) {
+                    return $validator->validateMachineName($machine_name);
                 }
             );
             $input->setOption('machine-name', $machineName);
@@ -244,7 +305,7 @@ class ModuleCommand extends GeneratorCommand
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
-            $drupalRoot = $drupal->getRoot();
+            $drupalRoot = $this->appRoot;
             $modulePath = $io->ask(
                 $this->trans('commands.generate.module.questions.module-path'),
                 '/modules/custom',

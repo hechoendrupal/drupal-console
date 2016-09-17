@@ -4,7 +4,8 @@ namespace Drupal\Console;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Console\Utils\AnnotationValidator;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -23,10 +24,9 @@ class Application extends ConsoleApplication
      */
     const VERSION = '1.0.0-rc1';
 
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         parent::__construct($container, $this::NAME, $this::VERSION);
-        $this->addOptions();
     }
 
     /**
@@ -34,6 +34,7 @@ class Application extends ConsoleApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $this->registerGenerators();
         $this->registerCommands();
         parent::doRun($input, $output);
         if ($this->getCommandName($input) == 'list' && $this->container->hasParameter('console.warning')) {
@@ -44,88 +45,41 @@ class Application extends ConsoleApplication
         }
     }
 
-    private function addOptions()
+    private function registerGenerators()
     {
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--env',
-                '-e',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('application.options.env'), 'prod'
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--root',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('application.options.root')
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--no-debug',
-                null,
-                InputOption::VALUE_NONE,
-                $this->trans('application.options.no-debug')
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--learning',
-                null,
-                InputOption::VALUE_NONE,
-                $this->trans('application.options.learning')
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--generate-chain',
-                '-c',
-                InputOption::VALUE_NONE,
-                $this->trans('application.options.generate-chain')
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--generate-inline',
-                '-i',
-                InputOption::VALUE_NONE,
-                $this->trans('application.options.generate-inline')
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--generate-doc',
-                '-d',
-                InputOption::VALUE_NONE,
-                $this->trans('application.options.generate-doc')
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--target',
-                '-t',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('application.options.target')
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--uri',
-                '-l',
-                InputOption::VALUE_REQUIRED,
-                $this->trans('application.options.uri')
-            )
-        );
-        $this->getDefinition()->addOption(
-            new InputOption(
-                '--yes',
-                '-y',
-                InputOption::VALUE_NONE,
-                $this->trans('application.options.yes')
-            )
-        );
+        if ($this->container->hasParameter('console.generators')) {
+            $consoleGenerators = $this->container->getParameter(
+                'console.generators'
+            );
+        } else {
+            $consoleGenerators = array_keys(
+                $this->container->findTaggedServiceIds('console.generator')
+            );
+        }
+
+        foreach ($consoleGenerators as $name) {
+            if (!$this->container->has($name)) {
+                continue;
+            }
+
+            $generator = $this->container->get($name);
+
+            if (!$generator) {
+                continue;
+            }
+
+            if (method_exists($generator, 'setRenderer')) {
+                $generator->setRenderer(
+                    $this->container->get('console.renderer')
+                );
+            }
+
+            if (method_exists($generator, 'setFileQueue')) {
+                $generator->setFileQueue(
+                    $this->container->get('console.file_queue')
+                );
+            }
+        }
     }
 
     private function registerCommands()
@@ -144,25 +98,56 @@ class Application extends ConsoleApplication
             );
         }
 
+        $serviceDefinitions = [];
+        $annotationValidator = null;
+        if ($this->container->hasParameter('console.service_definitions')) {
+            $serviceDefinitions = $this->container
+                ->getParameter('console.service_definitions');
+
+            /**
+             * @var AnnotationValidator $annotationValidator
+             */
+            $annotationValidator = $this->container
+                ->get('console.annotation_validator');
+        }
+
         foreach ($consoleCommands as $name) {
             if (!$this->container->has($name)) {
                 continue;
             }
 
-            $command = $this->container->get($name);
+            if ($annotationValidator) {
+                if (!$serviceDefinition = $serviceDefinitions[$name]) {
+                    continue;
+                }
+
+                if (!$annotationValidator->isValidCommand($serviceDefinition->getClass())) {
+                    continue;
+                }
+            }
+
+            try {
+                $command = $this->container->get($name);
+            } catch (\Exception $e) {
+                continue;
+            }
+
             if (!$command) {
                 continue;
             }
+
             if (method_exists($command, 'setTranslator')) {
                 $command->setTranslator(
                     $this->container->get('console.translator_manager')
                 );
             }
+
             if (method_exists($command, 'setContainer')) {
                 $command->setContainer(
                     $this->container->get('service_container')
                 );
             }
+
             $this->add($command);
         }
     }

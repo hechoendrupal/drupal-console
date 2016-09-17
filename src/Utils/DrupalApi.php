@@ -7,15 +7,9 @@
 
 namespace Drupal\Console\Utils;
 
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Parser;
-use Drupal\Core\DependencyInjection\ContainerBuilder;
-use Drupal\Core\Logger\LoggerChannelFactory;
-use Drupal\Core\Language\LanguageManager;
-use Drupal\Core\Language\Language;
-use Drupal\Core\Site\Settings;
 use Drupal\Core\Cache\Cache;
+use Symfony\Component\DomCrawler\Crawler;
+use GuzzleHttp\Client;
 
 /**
  * Class DrupalHelper
@@ -32,139 +26,22 @@ class DrupalApi
     private $roles = [];
 
     /**
+     * DebugCommand constructor.
+     * @param Client  $httpClient
+     */
+
+    protected $httpClient;
+
+    /**
      * ServerCommand constructor.
      * @param $appRoot
+     * @param $entityTypeManager
      */
-    public function __construct($appRoot, $entityTypeManager)
+    public function __construct($appRoot, $entityTypeManager, Client $httpClient)
     {
         $this->appRoot = $appRoot;
         $this->entityTypeManager = $entityTypeManager;
-    }
-
-    public function loadLegacyFile($legacyFile, $relative = true)
-    {
-        if ($relative) {
-            $legacyFile = realpath(
-                sprintf('%s/%s', $this->appRoot, $legacyFile)
-            );
-        }
-
-        if (file_exists($legacyFile)) {
-            include_once $legacyFile;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @return mixed array
-     */
-    public function getStandardLanguages()
-    {
-        $standard_languages = LanguageManager::getStandardLanguageList();
-        $languages = [];
-        foreach ($standard_languages as $langcode => $standard_language) {
-            $languages[$langcode] = $standard_language[0];
-        }
-
-        return $languages;
-    }
-
-    public function setMinimalContainerPreKernel()
-    {
-        // Create a minimal mocked container to support calls to t() in the pre-kernel
-        // base system verification code paths below. The strings are not actually
-        // used or output for these calls.
-        $container = new ContainerBuilder();
-        $container->setParameter('language.default_values', Language::$defaultValues);
-        $container
-            ->register('language.default', 'Drupal\Core\Language\LanguageDefault')
-            ->addArgument('%language.default_values%');
-        $container
-            ->register('string_translation', 'Drupal\Core\StringTranslation\TranslationManager')
-            ->addArgument(new Reference('language.default'));
-
-        // Register the stream wrapper manager.
-        $container
-            ->register('stream_wrapper_manager', 'Drupal\Core\StreamWrapper\StreamWrapperManager')
-            ->addMethodCall('setContainer', array(new Reference('service_container')));
-        $container
-            ->register('file_system', 'Drupal\Core\File\FileSystem')
-            ->addArgument(new Reference('stream_wrapper_manager'))
-            ->addArgument(Settings::getInstance())
-            ->addArgument((new LoggerChannelFactory())->get('file'));
-
-        \Drupal::setContainer($container);
-    }
-    /**
-     * @return mixed array
-     */
-    public function getDatabaseTypes()
-    {
-        $this->loadLegacyFile('/core/includes/install.inc');
-        $this->setMinimalContainerPreKernel();
-
-        $finder = new Finder();
-        $finder->directories()
-            ->in($this->appRoot . '/core/lib/Drupal/Core/Database/Driver')
-            ->depth('== 0');
-
-        $databases = [];
-        foreach ($finder as $driver_folder) {
-            if (file_exists($driver_folder->getRealpath() . '/Install/Tasks.php')) {
-                $driver  = $driver_folder->getBasename();
-                $installer = db_installer_object($driver);
-                // Verify is database is installable
-                if ($installer->installable()) {
-                    $reflection = new \ReflectionClass($installer);
-                    $install_namespace = $reflection->getNamespaceName();
-                    // Cut the trailing \Install from namespace.
-                    $driver_class = substr($install_namespace, 0, strrpos($install_namespace, '\\'));
-                    $databases[$driver] = ['namespace' => $driver_class, 'name' =>$installer->name()];
-                }
-            }
-        }
-
-        return $databases;
-    }
-
-    public function getDatabaseTypeDriver($driver)
-    {
-        // We cannot use Database::getConnection->getDriverClass() here, because
-        // the connection object is not yet functional.
-        $task_class = "Drupal\\Core\\Database\\Driver\\{$driver}\\Install\\Tasks";
-        if (class_exists($task_class)) {
-            return new $task_class();
-        } else {
-            $task_class = "Drupal\\Driver\\Database\\{$driver}\\Install\\Tasks";
-            return new $task_class();
-        }
-    }
-
-    /**
-     * @return mixed array
-     */
-    public function getProfiles()
-    {
-        $parser = new Parser();
-        $finder = new Finder();
-        $finder->files()
-            ->name('*.info.yml')
-            ->in($this->appRoot . '/core/profiles/')
-            ->in($this->appRoot . '/profiles/')
-            ->contains('type: profile')
-            ->notContains('hidden: true')
-            ->depth('1');
-
-        $profiles = [];
-        foreach ($finder as $file) {
-            $profile_key = $file->getBasename('.info.yml');
-            $profiles[$profile_key] = $parser->parse($file->getContents());
-        }
-
-        return $profiles;
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -269,95 +146,213 @@ class DrupalApi
         return $this->roles;
     }
 
-    /* @todo fix */
     /**
-     * Validate if module name exist.
-     *
-     * @param string $moduleName Module name
-     *
-     * @return string
+     * @param $module
+     * @param $limit
+     * @param $stable
+     * @return array
+     * @throws \Exception
      */
-    public function validateModuleExist($moduleName)
+    public function getProjectReleases($module, $limit = 10, $stable = false)
     {
-        if (!$this->isModule($moduleName)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Module "%s" is not in your application. Try generate:module to create it.',
-                    $moduleName
-                )
+        if (!$module) {
+            return [];
+        }
+
+        $projectPageResponse = $this->httpClient->getUrlAsString(
+            sprintf(
+                'https://updates.drupal.org/release-history/%s/8.x',
+                $module
+            )
+        );
+
+        if ($projectPageResponse->getStatusCode() != 200) {
+            throw new \Exception('Invalid path.');
+        }
+
+        $releases = [];
+        $crawler = new Crawler($projectPageResponse->getBody()->getContents());
+        $filter = './project/releases/release/version';
+        if ($stable) {
+            $filter = './project/releases/release[not(version_extra)]/version';
+        }
+
+        foreach ($crawler->filterXPath($filter) as $element) {
+            $releases[] = $element->nodeValue;
+        }
+
+        if (count($releases)>$limit) {
+            array_splice($releases, $limit);
+        }
+
+        return $releases;
+    }
+
+    /**
+     * @param $project
+     * @param $release
+     * @param null    $destination
+     * @return null|string
+     */
+    public function downloadProjectRelease($project, $release, $destination = null)
+    {
+        if (!$release) {
+            $releases = $this->getProjectReleases($this->httpClient, $project, 1);
+            $release = current($releases);
+        }
+
+        if (!$destination) {
+            $destination = sprintf(
+                '%s/%s.tar.gz',
+                sys_get_temp_dir(),
+                $project
             );
         }
 
-        return $moduleName;
-    }
+        $releaseFilePath = sprintf(
+            'https://ftp.drupal.org/files/projects/%s-%s.tar.gz',
+            $project,
+            $release
+        );
 
-    /**
-     * Check if module name exist.
-     *
-     * @param string $moduleName Module name
-     *
-     * @return string
-     */
-    public function isModule($moduleName)
-    {
-        $modules = $this->getSite()->getModules(false, true, true, true, true, true);
-
-        return in_array($moduleName, $modules);
-    }
-
-    /**
-     * @param $moduleList
-     * @return array
-     */
-    public function getMissingModules($moduleList)
-    {
-        $modules = $this->getSite()->getModules(true, true, true, true, true, true);
-
-        return array_diff($moduleList, $modules);
-    }
-
-    /**
-     * Validate if module is installed.
-     *
-     * @param string $moduleName Module name
-     *
-     * @return string
-     */
-    public function validateModuleInstalled($moduleName)
-    {
-        if (!$this->isModuleInstalled($moduleName)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Module "%s" is not installed. Try module:install to install it.',
-                    $moduleName
-                )
-            );
+        if ($this->downloadFile($this->httpClient, $releaseFilePath, $destination)) {
+            return $destination;
         }
 
-        return $moduleName;
+        return null;
     }
 
-    /**
-     * Check if module is installed.
-     *
-     * @param  $moduleName
-     * @return bool
-     */
-    public function isModuleInstalled($moduleName)
+    public function downloadFile($url, $destination)
     {
-        $modules = $this->getSite()->getModules(false, true, false, true, true, true);
+        $this->httpClient->get($url, array('sink' => $destination));
 
-        return in_array($moduleName, $modules);
+        return file_exists($destination);
     }
 
     /**
-     * @param $moduleList
+     * Gets Drupal modules releases from Packagist API.
+     *
+     * @param string $module
+     * @param int    $limit
+     * @param bool   $unstable
+     *
      * @return array
      */
-    public function getUninstalledModules($moduleList)
+    public function getPackagistModuleReleases($module, $limit = 10, $unstable = true)
     {
-        $modules = $this->getSite()->getModules(true, true, false, true, true, true);
+        if (!trim($module)) {
+            return [];
+        }
 
-        return array_diff($moduleList, $modules);
+        return $this->getComposerReleases(
+            sprintf(
+                'http://packagist.drupal-composer.org/packages/drupal/%s.json',
+                trim($module)
+            ),
+            $limit,
+            $unstable
+        );
+    }
+
+    /**
+     * Gets Drupal releases from Packagist API.
+     *
+     * @param string $url
+     * @param int    $limit
+     * @param bool   $unstable
+     *
+     * @return array
+     */
+    private function getComposerReleases($url, $limit = 10, $unstable = false)
+    {
+        if (!$url) {
+            return [];
+        }
+
+        $packagistResponse = $this->httpClient->getUrlAsString($url);
+
+        if ($packagistResponse->getStatusCode() != 200) {
+            throw new \Exception('Invalid path.');
+        }
+
+        try {
+            $packagistJson = json_decode(
+                $packagistResponse->getBody()->getContents()
+            );
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        $versions = array_keys((array)$packagistJson->package->versions);
+
+        // Remove Drupal 7 versions
+        $i = 0;
+        foreach ($versions as $version) {
+            if (0 === strpos($version, "7.") || 0 === strpos($version, "dev-7.")) {
+                unset($versions[$i]);
+            }
+            $i++;
+        }
+
+        if (!$unstable) {
+            foreach ($versions as $key => $version) {
+                if (strpos($version, "-")) {
+                    unset($versions[$key]);
+                }
+            }
+        }
+
+        if (is_array($versions)) {
+            return array_slice($versions, 0, $limit);
+        }
+
+        return [];
+    }
+
+    /**
+     * @Todo: Remove when issue https://www.drupal.org/node/2556025 get resolved
+     *
+     * Rebuilds all caches even when Drupal itself does not work.
+     *
+     * @param \Composer\Autoload\ClassLoader $class_loader
+     *   The class loader.
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *   The current request.
+     *
+     * @see rebuild.php
+     */
+    public function drupal_rebuild($class_loader, \Symfony\Component\HttpFoundation\Request $request) {
+        // Remove Drupal's error and exception handlers; they rely on a working
+        // service container and other subsystems and will only cause a fatal error
+        // that hides the actual error.
+        restore_error_handler();
+        restore_exception_handler();
+
+        // Force kernel to rebuild php cache.
+        \Drupal\Core\PhpStorage\PhpStorageFactory::get('twig')->deleteAll();
+
+        // Bootstrap up to where caches exist and clear them.
+        $kernel = new \Drupal\Core\DrupalKernel('prod', $class_loader);
+        $kernel->setSitePath(\Drupal\Core\DrupalKernel::findSitePath($request));
+
+        // Invalidate the container.
+        $kernel->invalidateContainer();
+
+        // Prepare a NULL request.
+        $kernel->prepareLegacyRequest($request);
+
+        foreach (Cache::getBins() as $bin) {
+            $bin->deleteAll();
+        }
+
+        // Disable recording of cached pages.
+        \Drupal::service('page_cache_kill_switch')->trigger();
+
+        drupal_flush_all_caches();
+
+        // Restore Drupal's error and exception handlers.
+        // @see \Drupal\Core\DrupalKernel::boot()
+        set_error_handler('_drupal_error_handler');
+        set_exception_handler('_drupal_exception_handler');
     }
 }

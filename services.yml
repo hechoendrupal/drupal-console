@@ -1,20 +1,14 @@
+imports:
+    - { resource: 'services-drupal-install.yml' }
 services:
   console.redbean:
     class: RedBeanPHP\R
-  console.annotation_reader:
-    class: Doctrine\Common\Annotations\AnnotationReader
-  console.annotation_file_cache:
-    class: Doctrine\Common\Annotations\FileCacheReader
-    factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
-    arguments: ['@console.annotation_reader', '@console.configuration_manager']
-#  console.command_dependencies:
-#    class: Drupal\Console\Command\CommandDependencies
-#    arguments: ["@console.annotation_file_cache"]
   console.validator:
     class: Drupal\Console\Utils\Validator
+    arguments: ['@console.extension_manager']
   console.drupal_api:
     class: Drupal\Console\Utils\DrupalApi
-    arguments: ['@app.root', '@entity_type.manager']
+    arguments: ['@app.root', '@entity_type.manager', '@http_client']
   console.create_node_data:
     class: Drupal\Console\Utils\Create\NodeData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getBundles()']
@@ -30,6 +24,10 @@ services:
   console.create_vocabulary_data:
     class: Drupal\Console\Utils\Create\VocabularyData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
-  console.extension_manager:
-    class: Drupal\Console\Extension\Manager
-    arguments: ['@console.drupal_api', '@app.root']
+  console.annotation_command_reader:
+    class: Drupal\Console\Annotations\DrupalCommandAnnotationReader
+  console.annotation_validator:
+    class: Drupal\Console\Utils\AnnotationValidator
+    arguments: ['@console.annotation_command_reader', '@console.extension_manager']
+  console.string_converter:
+      class: Drupal\Console\Utils\StringConverter

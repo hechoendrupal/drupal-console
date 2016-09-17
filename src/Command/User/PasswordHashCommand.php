@@ -28,11 +28,9 @@ class PasswordHashCommand extends Command
 
     /**
      * PasswordHashCommand constructor.
-     * @param PhpassHashedPassword $entityQuery
+     * @param PhpassHashedPassword $password
      */
-    public function __construct(
-        PhpassHashedPassword $password
-    ) {
+    public function __construct(PhpassHashedPassword $password) {
         $this->password = $password;
         parent::__construct();
     }

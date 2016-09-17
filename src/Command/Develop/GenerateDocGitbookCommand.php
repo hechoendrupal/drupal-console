@@ -12,11 +12,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\TwigRenderer;
 
 class GenerateDocGitbookCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+    /**
+     * @var TwigRenderer $renderer
+     */
+    protected $renderer;
+
+    /**
+     * GenerateDocGitbookCommand constructor.
+     * @param TwigRenderer $renderer
+     */
+    public function __construct(TwigRenderer $renderer)
+    {
+        $this->renderer = $renderer;
+        parent::__construct();
+    }
+
 
     /**
      * {@inheritdoc}
@@ -42,8 +58,6 @@ class GenerateDocGitbookCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $renderer = $this->getApplication()->getRenderHelper();
-
         $path = null;
         if ($input->hasOption('path')) {
             $path = $input->getOption('path');
@@ -67,7 +81,7 @@ class GenerateDocGitbookCommand extends Command
                     $path . DIRECTORY_SEPARATOR . 'commands' . DIRECTORY_SEPARATOR . $command['dashed'] . '.md',
                     $command,
                     null,
-                    $renderer
+                    $this->renderer
                 );
             }
         }
@@ -77,7 +91,7 @@ class GenerateDocGitbookCommand extends Command
             $path . DIRECTORY_SEPARATOR . 'commands'.DIRECTORY_SEPARATOR.'available-commands.md',
             $applicationData,
             null,
-            $renderer
+            $this->renderer
         );
 
         $this->renderFile(
@@ -85,7 +99,7 @@ class GenerateDocGitbookCommand extends Command
             $path . DIRECTORY_SEPARATOR . 'commands'.DIRECTORY_SEPARATOR.'available-commands-list.md',
             $applicationData,
             null,
-            $renderer
+            $this->renderer
         );
     }
 

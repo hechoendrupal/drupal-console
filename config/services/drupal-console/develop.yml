@@ -1,0 +1,35 @@
+services:
+  console.generate_doc_cheatsheet:
+    class: Drupal\Console\Command\Develop\GenerateDocCheatsheetCommand
+    tags:
+      - { name: console.command }
+  console.generate_doc_dash:
+    class: Drupal\Console\Command\Develop\GenerateDocDashCommand
+    arguments: ['@console.renderer', '@console.root']
+    tags:
+      - { name: console.command }
+  console.generate_doc_data:
+    class: Drupal\Console\Command\Develop\GenerateDocDataCommand
+    tags:
+      - { name: console.command }
+  console.generate_doc_gitbook:
+    class: Drupal\Console\Command\Develop\GenerateDocGitbookCommand
+    arguments: ['@console.renderer']
+    tags:
+      - { name: console.command }
+  console.translation_cleanup:
+    class: Drupal\Console\Command\Develop\TranslationCleanupCommand
+    tags:
+      - { name: console.command }
+  console.translation_pending:
+    class: Drupal\Console\Command\Develop\TranslationPendingCommand
+    tags:
+      - { name: console.command }
+  console.translation_stats:
+    class: Drupal\Console\Command\Develop\TranslationStatsCommand
+    tags:
+      - { name: console.command }
+  console.translation_sync:
+    class: Drupal\Console\Command\Develop\TranslationSyncCommand
+    tags:
+      - { name: console.command }

@@ -14,8 +14,15 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\breakpoint\BreakpointManagerInterface;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 
+/**
+ * @DrupalCommand(
+ *     extension = "breakpoint",
+ *     extensionType = "module"
+ * )
+ */
 class DebugCommand extends Command
 {
     use CommandTrait;

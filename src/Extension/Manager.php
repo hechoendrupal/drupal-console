@@ -2,13 +2,21 @@
 
 namespace Drupal\Console\Extension;
 
+use Drupal\Console\Utils\Site;
+
 /**
  * Class ExtensionManager
  * @package Drupal\Console
  */
 class Manager
 {
-    protected $drupalApi;
+    /**
+     * @var Site
+     */
+    protected $site;
+    /**
+     * @var string
+     */
     protected $appRoot;
 
     /**
@@ -28,12 +36,14 @@ class Manager
 
     /**
      * ExtensionManager constructor.
-     * @param $drupalApi
-     * @param $appRoot
+     * @param Site   $site
+     * @param string $appRoot
      */
-    public function __construct($drupalApi, $appRoot)
-    {
-        $this->drupalApi = $drupalApi;
+    public function __construct(
+        Site $site,
+        $appRoot
+    ) {
+        $this->site = $site;
         $this->appRoot = $appRoot;
         $this->initialize();
     }
@@ -199,7 +209,7 @@ class Manager
     private function discoverExtensions($type)
     {
         if ($type === 'module') {
-            $this->drupalApi->loadLegacyFile('/core/modules/system/system.module');
+            $this->site->loadLegacyFile('/core/modules/system/system.module');
             system_rebuild_module_data();
         }
 
@@ -220,6 +230,19 @@ class Manager
     public function getModule($name)
     {
         if ($extension = $this->getExtension('module', $name)) {
+            return $this->createExtension($extension);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $name
+     * @return \Drupal\Console\Extension\Extension
+     */
+    public function getTheme($name)
+    {
+        if ($extension = $this->getExtension('theme', $name)) {
             return $this->createExtension($extension);
         }
 
@@ -260,5 +283,44 @@ class Manager
         $consoleExtension->unserialize($extension->serialize());
 
         return $consoleExtension;
+    }
+
+    /**
+     * @param string $testType
+     * @param $fullPath
+     * @return string
+     */
+    public function getTestPath( $testType, $fullPath = false)
+    {
+        return $this->getPath($fullPath) . '/Tests/' . $testType;
+    }
+
+    public function validateModuleFunctionExist($moduleName, $function, $moduleFile = null)
+    {
+        //Load module file to prevent issue of missing functions used in update
+        $module = $this->getModule($moduleName);
+        $modulePath = $module->getPath();
+        if ($moduleFile) {
+            $this->site->loadLegacyFile($modulePath . '/'. $moduleFile);
+        } else {
+            $this->site->loadLegacyFile($modulePath . '/' . $module->getName() . '.module');
+        }
+
+        if (function_exists($function)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $moduleName
+     * @param string $pluginType
+     * @return string
+     */
+    public function getPluginPath($moduleName, $pluginType)
+    {
+        $module = $this->getModule($moduleName);
+
+        return $module->getPath() . '/src/Plugin/'.$pluginType;
     }
 }
