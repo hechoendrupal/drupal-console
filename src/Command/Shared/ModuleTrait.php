@@ -15,7 +15,6 @@ use Drupal\Console\Style\DrupalStyle;
  */
 trait ModuleTrait
 {
-
     /**
      * @param \Drupal\Console\Style\DrupalStyle $io
      * @param bool|true                         $showProfile
@@ -31,8 +30,9 @@ trait ModuleTrait
             ->getList(true);
 
         if ($showProfile) {
-            $profiles = $this->extensionManager->discoverModules()
+            $profiles = $this->extensionManager->discoverProfiles()
                 ->showInstalled()
+                ->showUninstalled()
                 ->showNoCore()
                 ->showCore()
                 ->getList(true);

@@ -31,10 +31,14 @@ class EventSubscriberCommand extends Command
     use ConfirmationTrait;
     use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
-    /** @var EventSubscriberGenerator  */
+    /**
+     * @var EventSubscriberGenerator
+     */
     protected $generator;
 
     /**
@@ -43,7 +47,7 @@ class EventSubscriberCommand extends Command
     protected $stringConverter;
 
     /**
-     * @var TraceableEventDispatcherInterface
+     * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
 
@@ -52,14 +56,13 @@ class EventSubscriberCommand extends Command
      */
     protected $chainQueue;
 
-
     /**
      * ModuleCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager                  $extensionManager
      * @param EventSubscriberGenerator $generator
-     * @param StringConverter $stringConverter
+     * @param StringConverter          $stringConverter
      * @param EventDispatcherInterface $eventDispatcher
-     * @param ChainQueue $chainQueue
+     * @param ChainQueue               $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
@@ -189,10 +192,4 @@ class EventSubscriberCommand extends Command
             $input->setOption('services', $services);
         }
     }
-
-    protected function createGenerator()
-    {
-        return new EventSubscriberGenerator();
-    }
-
 }

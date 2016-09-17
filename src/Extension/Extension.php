@@ -11,46 +11,10 @@ use Drupal\Core\Extension\Extension as BaseExtension;
 class Extension extends BaseExtension
 {
     /**
-     * @param bool $fullPath
-     * @return string
-     */
-    public function getControllerDirectory($fullPath=false)
-    {
-        return $this->getSourcePath($fullPath) . '/Controller/';
-    }
-
-    /**
-     * @param bool $fullPath
-     * @return string
-     */
-    public function getConfigInstallDirectory($fullPath=false)
-    {
-        return $this->getPath($fullPath) .'/config/install';
-    }
-
-    /**
-     * @param bool $fullPath
-     * @return string
-     */
-    public function getConfigOptionalDirectory($fullPath=false)
-    {
-        return $this->getPath($fullPath) .'/config/optional';
-    }
-
-    /**
-     * @param bool $fullPath
-     * @return string
-     */
-    private function getSourcePath($fullPath)
-    {
-        return $this->getPath($fullPath) . '/src';
-    }
-
-    /**
      * @param $fullPath
      * @return string
      */
-    public function getPath($fullPath)
+    public function getPath($fullPath = false)
     {
         if ($fullPath) {
             return $this->root . '/' . parent::getPath();
@@ -60,13 +24,49 @@ class Extension extends BaseExtension
     }
 
     /**
-     * @param string $authenticationType
-     * @param $fullPath
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getControllerDirectory($fullPath = false)
+    {
+        return $this->getSourcePath($fullPath) . '/Controller/';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getConfigInstallDirectory($fullPath = false)
+    {
+        return $this->getPath($fullPath) .'/config/install';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getConfigOptionalDirectory($fullPath = false)
+    {
+        return $this->getPath($fullPath) .'/config/optional';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getSourcePath($fullPath=false)
+    {
+        return $this->getPath($fullPath) . '/src';
+    }
+
+    /**
+     * @param string  $authenticationType
+     * @param boolean $fullPath
      * @return string
      */
     public function getAuthenticationPath($authenticationType, $fullPath = false)
     {
-        return $this->getPath($fullPath) .'/src/Authentication/' . $authenticationType;
+        return $this->getSourcePath($fullPath) .'/Authentication/' . $authenticationType;
     }
 
     /**
@@ -75,7 +75,7 @@ class Extension extends BaseExtension
      */
     public function getFormPath($fullPath = false)
     {
-        return $this->getPath($fullPath) . '/src/Form';
+        return $this->getSourcePath($fullPath) . '/Form';
     }
 
     /**
@@ -84,6 +84,15 @@ class Extension extends BaseExtension
      */
     public function getRoutingPath($fullPath = false)
     {
-        return $this->getPath($fullPath) . '/src/Routing';
+        return $this->getSourcePath($fullPath) . '/Routing';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getCommandDirectory($fullPath=false)
+    {
+        return $this->getSourcePath($fullPath) . '/Command/';
     }
 }

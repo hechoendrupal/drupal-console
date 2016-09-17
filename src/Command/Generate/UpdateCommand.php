@@ -20,6 +20,10 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
 
+/**
+ * Class UpdateCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class UpdateCommand extends Command
 {
     use ModuleTrait;
