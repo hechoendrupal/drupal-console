@@ -57,6 +57,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_type_annotation_generator:
+    class: Drupal\Console\Generator\PluginTypeAnnotationGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.plugin_type_yaml_generator:
     class: Drupal\Console\Generator\PluginTypeYamlGenerator
     arguments: ['@console.extension_manager']

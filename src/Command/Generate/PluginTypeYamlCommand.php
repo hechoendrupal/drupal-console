@@ -41,7 +41,7 @@ class PluginTypeYamlCommand extends Command
     protected $stringConverter;
 
     /**
-     * ModuleCommand constructor.
+     * PluginTypeYamlCommand constructor.
      * @param Manager $extensionManager
      * @param PluginTypeYamlGenerator $generator
      * @param StringConverter $stringConverter

@@ -44,6 +44,11 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_plugin_type_annotation:
+    class: Drupal\Console\Command\Generate\PluginTypeAnnotationCommand
+    arguments: ['@console.extension_manager', '@console.plugin_type_annotation_generator','@console.string_converter']
+    tags:
+       - { name: console.command }
   console.generate_plugin_type_yaml:
     class: Drupal\Console\Command\Generate\PluginTypeYamlCommand
     arguments: ['@console.extension_manager', '@console.plugin_type_yaml_generator','@console.string_converter']
