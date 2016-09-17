@@ -57,6 +57,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_type_yaml_generator:
+    class: Drupal\Console\Generator\PluginTypeYamlGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.route_subscriber_generator:
     class: Drupal\Console\Generator\RouteSubscriberGenerator
     arguments: ['@console.extension_manager']
