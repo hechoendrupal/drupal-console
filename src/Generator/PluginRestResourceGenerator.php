@@ -12,7 +12,7 @@ use Drupal\Console\Extension\Manager;
 class PluginRestResourceGenerator extends Generator
 {
     /**
-     * PluginSkeletonGenerator constructor.
+     * PluginRestResourceGenerator constructor.
      * @param Manager $extensionManager
      */
     public function __construct(

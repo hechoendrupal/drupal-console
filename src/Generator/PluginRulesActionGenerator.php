@@ -13,7 +13,7 @@ class PluginRulesActionGenerator extends Generator
 {
 
     /**
-     * PluginSkeletonGenerator constructor.
+     * PluginRulesActionGenerator constructor.
      * @param Manager $extensionManager
      */
     public function __construct(

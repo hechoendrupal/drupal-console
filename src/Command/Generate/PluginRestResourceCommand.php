@@ -48,7 +48,7 @@ class PluginRestResourceCommand extends Command
 
 
     /**
-     * PluginRulesActionCommand constructor.
+     * PluginRestResourceCommand constructor.
      * @param Manager $extensionManager
      * @param PluginRestResourceGenerator $generator
      * @param StringConverter $stringConverter
