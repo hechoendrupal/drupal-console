@@ -103,3 +103,8 @@ services:
     arguments: ['@console.extension_manager', '@console.translator_manager']
     tags:
       - { name: console.generator }
+  console.command_ckeditorbutton:
+    class: Drupal\Console\Generator\PluginCKEditorButtonGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
