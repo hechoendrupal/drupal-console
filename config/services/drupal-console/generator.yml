@@ -52,6 +52,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_mail:
+    class: Drupal\Console\Generator\PluginMailGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.plugin_rest_resource:
     class: Drupal\Console\Generator\PluginRestResourceGenerator
     arguments: ['@console.extension_manager']
