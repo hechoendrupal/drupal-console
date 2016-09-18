@@ -52,6 +52,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_rest_resource:
+    class: Drupal\Console\Generator\PluginRestResourceGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.plugin_rules_action_generator:
     class: Drupal\Console\Generator\PluginRulesActionGenerator
     arguments: ['@console.extension_manager']
