@@ -19,7 +19,7 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;;
+use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Render\ElementInfoManager;

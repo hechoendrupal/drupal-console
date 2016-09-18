@@ -142,9 +142,9 @@ class Manager
     {
         $this->extension = 'module';
         $this->extensions = [
-            'module' =>[],
-            'theme' =>[],
-            'profile' =>[],
+            'module' => [],
+            'theme' => [],
+            'profile' => [],
         ];
         $this->filters = [
             'showInstalled' => false,
@@ -169,8 +169,8 @@ class Manager
         $showNoCore = $this->filters['showNoCore'];
 
         $extensions = [];
-        if (!$this->extensions[$type]) {
-            return [];
+        if (!array_key_exists($type, $this->extensions)) {
+            return $extensions;
         }
 
         foreach ($this->extensions[$type] as $extension) {
@@ -192,14 +192,12 @@ class Manager
             if (!$showNoCore && $extension->origin != 'core') {
                 continue;
             }
-            if ($nameOnly) {
-                $extensions[] = $name;
-            } else {
-                $extensions[$name] = $extension;
-            }
+
+            $extensions[$name] = $extension;
         }
 
-        return $extensions;
+
+        return $nameOnly?array_keys($extensions):$extensions;
     }
 
     /**

@@ -54,7 +54,6 @@ class ControllerCommand extends Command
      */
     protected $chainQueue;
 
-
     /**
      * ModuleCommand constructor.
      * @param Manager $extensionManager
@@ -146,7 +145,13 @@ class ControllerCommand extends Command
         $build_services = $this->buildServices($services);
 
         //$this->generator->setLearning($learning);
-        $this->generator->generate($module, $class, $routes, $test, $build_services);
+        $this->generator->generate(
+            $module,
+            $class,
+            $routes,
+            $test,
+            $build_services
+        );
 
         // Run cache rebuild to see changes in Web UI
         $this->chainQueue->addCommand('router:rebuild', []);
