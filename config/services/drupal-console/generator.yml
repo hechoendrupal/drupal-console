@@ -52,6 +52,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_field_type_generator:
+    class: Drupal\Console\Generator\PluginFieldTypeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.plugin_field_widget_generator:
     class: Drupal\Console\Generator\PluginFieldWidgetGenerator
     arguments: ['@console.extension_manager']
