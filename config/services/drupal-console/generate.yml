@@ -44,6 +44,11 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_plugin_field_type:
+    class: Drupal\Console\Command\Generate\PluginFieldTypeCommand
+    arguments: ['@console.extension_manager', '@console.plugin_field_type_generator','@console.string_converter', '@console.chain_queue']
+    tags:
+       - { name: console.command }
   console.generate_plugin_field_widget:
     class: Drupal\Console\Command\Generate\PluginFieldWidgetCommand
     arguments: ['@console.extension_manager', '@console.plugin_field_widget_generator','@console.string_converter', '@plugin.manager.field.field_type', '@console.chain_queue']
