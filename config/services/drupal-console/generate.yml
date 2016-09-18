@@ -44,6 +44,11 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_plugin_field_formatter:
+    class: Drupal\Console\Command\Generate\PluginFieldFormatterCommand
+    arguments: ['@console.extension_manager', '@console.plugin_field_formatter_generator','@console.string_converter', '@plugin.manager.field.field_type', '@console.chain_queue']
+    tags:
+       - { name: console.command }
   console.generate_plugin_field_type:
     class: Drupal\Console\Command\Generate\PluginFieldTypeCommand
     arguments: ['@console.extension_manager', '@console.plugin_field_type_generator','@console.string_converter', '@console.chain_queue']
@@ -56,7 +61,7 @@ services:
        - { name: console.command }
   console.generate_plugin_image_effect:
     class: Drupal\Console\Command\Generate\PluginImageEffectCommand
-    arguments: ['@console.extension_manager', '@console.plugin_image_effect_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.plugin_image_effect_generator','@console.string_converter', '@console.chain_queue']
     tags:
        - { name: console.command }
   console.generate_plugin_image_formatter:
