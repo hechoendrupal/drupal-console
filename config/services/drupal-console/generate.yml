@@ -44,14 +44,19 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_plugin_image_formatter:
+    class: Drupal\Console\Command\Generate\PluginImageFormatterCommand
+    arguments: ['@console.extension_manager', '@console.plugin_image_formatter_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+    tags:
+       - { name: console.command }
   console.generate_plugin_mail:
     class: Drupal\Console\Command\Generate\PluginMailCommand
-    arguments: ['@console.extension_manager', '@console.plugin_mail','@console.string_converter', '@console.validator', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.plugin_mail_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: console.command }
   console.generate_plugin_rest_resource:
     class: Drupal\Console\Command\Generate\PluginRestResourceCommand
-    arguments: ['@console.extension_manager', '@console.plugin_rest_resource','@console.string_converter', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.plugin_rest_resource_generator','@console.string_converter', '@console.chain_queue']
     tags:
        - { name: console.command }
   console.generate_plugin_rules_action:
