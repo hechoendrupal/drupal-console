@@ -52,12 +52,17 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
-  console.plugin_mail:
+  console.plugin_image_formatter_generator:
+    class: Drupal\Console\Generator\PluginImageFormatterGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.plugin_mail_generator:
     class: Drupal\Console\Generator\PluginMailGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
-  console.plugin_rest_resource:
+  console.plugin_rest_resource_generator:
     class: Drupal\Console\Generator\PluginRestResourceGenerator
     arguments: ['@console.extension_manager']
     tags:
