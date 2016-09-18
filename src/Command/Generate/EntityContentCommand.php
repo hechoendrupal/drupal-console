@@ -10,12 +10,35 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityContentGenerator;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ChainQueue;
 
 class EntityContentCommand extends EntityCommand
 {
+    use CommandTrait;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+
+    /**
+     * EntityContentCommand constructor.
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        ChainQueue $chainQueue
+    ) {
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -89,7 +112,7 @@ class EntityContentCommand extends EntityCommand
         $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name);
 
         if ($has_bundles) {
-            $this->getChain()->addCommand(
+            $this->chainQueue->addCommand(
                 'generate:entity:config', [
                 '--module' => $module,
                 '--entity-class' => $entity_class . 'Type',
@@ -99,10 +122,5 @@ class EntityContentCommand extends EntityCommand
                 ]
             );
         }
-    }
-
-    protected function createGenerator()
-    {
-        return new EntityContentGenerator();
     }
 }

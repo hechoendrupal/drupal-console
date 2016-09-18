@@ -154,3 +154,13 @@ services:
     arguments: ['@console.chain_queue', '@console.command_ckeditorbutton', '@console.extension_manager', '@console.string_converter']
     tags:
        - { name: console.command }
+  console.generate_entity:
+    class: Drupal\Console\Command\Generate\EntityCommand
+    arguments: ['@console.string_converter']
+    tags:
+       - { name: console.command }
+  console.generate_entitycontent:
+    class: Drupal\Console\Command\Generate\EntityContentCommand
+    arguments: ['@console.chain_queue', '@console.entitycontent_generator']
+    tags:
+       - { name: console.command }

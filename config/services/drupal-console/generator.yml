@@ -148,3 +148,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.entitycontent_generator:
+    class: Drupal\Console\Generator\PluginCKEditorButtonGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }

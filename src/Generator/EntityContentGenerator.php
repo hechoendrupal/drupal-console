@@ -7,8 +7,25 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class EntityContentGenerator extends Generator
 {
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * EntityContentGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+
     /**
      * Generator Entity.
      *
@@ -34,120 +51,120 @@ class EntityContentGenerator extends Generator
 
         $this->renderFile(
             'module/permissions-entity-content.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.permissions.yml',
+            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.permissions.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/links.menu-entity-content.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.links.menu.yml',
+            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.links.menu.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/links.task-entity-content.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.links.task.yml',
+            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.links.task.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/links.action-entity-content.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.links.action.yml',
+            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.links.action.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/src/accesscontrolhandler-entity-content.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
+            $this->extensionManager->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
             $parameters
         );
 
         if ($is_translatable) {
             $this->renderFile(
                 'module/src/entity-translation-handler.php.twig',
-                $this->getSite()->getSourcePath($module).'/'.$entity_class.'TranslationHandler.php',
+                $this->extensionManager->getSourcePath($module).'/'.$entity_class.'TranslationHandler.php',
                 $parameters
             );
         }
 
         $this->renderFile(
             'module/src/Entity/interface-entity-content.php.twig',
-            $this->getSite()->getEntityPath($module).'/'.$entity_class.'Interface.php',
+            $this->extensionManager->getEntityPath($module).'/'.$entity_class.'Interface.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/entity-content.php.twig',
-            $this->getSite()->getEntityPath($module).'/'.$entity_class.'.php',
+            $this->extensionManager->getEntityPath($module).'/'.$entity_class.'.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/entity-content-route-provider.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'HtmlRouteProvider.php',
+            $this->extensionManager->getSourcePath($module).'/'.$entity_class.'HtmlRouteProvider.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/entity-content-views-data.php.twig',
-            $this->getSite()->getEntityPath($module).'/'.$entity_class.'ViewsData.php',
+            $this->extensionManager->getEntityPath($module).'/'.$entity_class.'ViewsData.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/listbuilder-entity-content.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
+            $this->extensionManager->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/Form/entity-settings.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$entity_class.'SettingsForm.php',
+            $this->extensionManager->getFormPath($module).'/'.$entity_class.'SettingsForm.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/Form/entity-content.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$entity_class.'Form.php',
+            $this->extensionManager->getFormPath($module).'/'.$entity_class.'Form.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/Form/entity-content-delete.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
+            $this->extensionManager->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
             $parameters
         );
 
         $this->renderFile(
             'module/entity-content-page.php.twig',
-            $this->getSite()->getModulePath($module).'/'.$entity_name.'.page.inc',
+            $this->extensionManager->getModulePath($module).'/'.$entity_name.'.page.inc',
             $parameters
         );
 
         $this->renderFile(
             'module/templates/entity-html.twig',
-            $this->getSite()->getTemplatePath($module).'/'.$entity_name.'.html.twig',
+            $this->extensionManager->getTemplatePath($module).'/'.$entity_name.'.html.twig',
             $parameters
         );
 
         if ($bundle_entity_type) {
             $this->renderFile(
                 'module/templates/entity-with-bundle-content-add-list-html.twig',
-                $this->getSite()->getTemplatePath($module).'/'.str_replace('_', '-', $entity_name).'-content-add-list.html.twig',
+                $this->extensionManager->getTemplatePath($module).'/'.str_replace('_', '-', $entity_name).'-content-add-list.html.twig',
                 $parameters
             );
 
             // Check for hook_theme() in module file and warn ...
-            $module_filename = $this->getSite()->getModulePath($module).'/'.$module.'.module';
+            $module_filename = $this->extensionManager->getModule($module)->getPath().'/'.$module.'.module';
             // Check if the module file exists.
             if (!file_exists($module_filename)) {
                 $this->renderFile(
                     'module/module.twig',
-                    $this->getSite()->getModulePath($module).'/'.$module . '.module',
+                    $this->extensionManager->getModule($module)->getPath().'/'.$module . '.module',
                     [
                         'machine_name' => $module,
                         'description' => '',
@@ -167,7 +184,7 @@ class EntityContentGenerator extends Generator
 
             $this->renderFile(
                 'module/src/Entity/entity-content-with-bundle.theme.php.twig',
-                $this->getSite()->getModulePath($module).'/'.$module.'.module',
+                $this->extensionManager->getModule($module)->getPath().'/'.$module.'.module',
                 $parameters,
                 FILE_APPEND
             );
@@ -184,7 +201,7 @@ class EntityContentGenerator extends Generator
 
             $this->renderFile(
                 'module/src/Entity/entity-content-with-bundle.theme_hook_suggestions.php.twig',
-                $this->getSite()->getModulePath($module).'/'.$module.'.module',
+                $this->extensionManager->getModule($module)->getPath().'/'.$module.'.module',
                 $parameters,
                 FILE_APPEND
             );
@@ -195,6 +212,9 @@ class EntityContentGenerator extends Generator
             $parameters
         );
 
+
+        //@TODO:
+        /**
         if ($this->isLearning()) {
             $this->io->commentBlock(
                 [
@@ -203,5 +223,6 @@ class EntityContentGenerator extends Generator
                 ]
             );
         }
+        */
     }
 }
