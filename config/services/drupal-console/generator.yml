@@ -52,6 +52,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_rules_action_generator:
+    class: Drupal\Console\Generator\PluginRulesActionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.plugin_skeleton_generator:
     class: Drupal\Console\Generator\PluginSkeletonGenerator
     arguments: ['@console.extension_manager']
@@ -96,5 +101,10 @@ services:
   console.command_generator:
     class: Drupal\Console\Generator\CommandGenerator
     arguments: ['@console.extension_manager', '@console.translator_manager']
+    tags:
+      - { name: console.generator }
+  console.command_ckeditorbutton:
+    class: Drupal\Console\Generator\PluginCKEditorButtonGenerator
+    arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }

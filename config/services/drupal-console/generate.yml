@@ -44,6 +44,11 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_plugin_rules_action:
+    class: Drupal\Console\Command\Generate\PluginRulesActionCommand
+    arguments: ['@console.extension_manager', '@console.plugin_rules_action_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+    tags:
+       - { name: console.command }
   console.generate_plugin_skeleton:
     class: Drupal\Console\Command\Generate\PluginSkeletonCommand
     arguments: ['@console.extension_manager', '@console.plugin_skeleton_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
@@ -102,5 +107,10 @@ services:
   console.generate_command:
     class: Drupal\Console\Command\Generate\CommandCommand
     arguments: ['@console.command_generator', '@console.extension_manager', '@console.validator', '@console.string_converter' ]
+    tags:
+       - { name: console.command }
+  console.generate_ckeditorbutton:
+    class: Drupal\Console\Command\Generate\PluginCKEditorButtonCommand
+    arguments: ['@console.chain_queue', '@console.command_ckeditorbutton', '@console.extension_manager', '@console.string_converter']
     tags:
        - { name: console.command }
