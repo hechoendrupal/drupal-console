@@ -44,6 +44,14 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_plugin_type_annotation:
+    class: Drupal\Console\Command\Generate\PluginTypeAnnotationCommand
+    arguments: ['@console.extension_manager', '@console.plugin_type_annotation_generator','@console.string_converter']
+  console.generate_plugin_field:
+    class: Drupal\Console\Command\Generate\PluginFieldCommand
+    arguments: ['@console.extension_manager','@console.string_converter', '@console.chain_queue']
+    tags:
+       - { name: console.command }
   console.generate_plugin_field_formatter:
     class: Drupal\Console\Command\Generate\PluginFieldFormatterCommand
     arguments: ['@console.extension_manager', '@console.plugin_field_formatter_generator','@console.string_converter', '@plugin.manager.field.field_type', '@console.chain_queue']
@@ -147,5 +155,10 @@ services:
   console.generate_ckeditorbutton:
     class: Drupal\Console\Command\Generate\PluginCKEditorButtonCommand
     arguments: ['@console.chain_queue', '@console.command_ckeditorbutton', '@console.extension_manager', '@console.string_converter']
+    tags:
+       - { name: console.command }
+  console.generate_entitybundle:
+    class: Drupal\Console\Command\Generate\EntityBundleCommand
+    arguments: ['@console.validator', '@console.entitybundle_generator', '@console.extension_manager']
     tags:
        - { name: console.command }

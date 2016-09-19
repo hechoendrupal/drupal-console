@@ -12,7 +12,7 @@ use Drupal\Console\Extension\Manager;
 class PluginTypeYamlGenerator extends Generator
 {
     /**
-     * PluginViewsFieldGenerator constructor.
+     * PluginTypeYamlGenerator constructor.
      * @param Manager $extensionManager
      */
     public function __construct(

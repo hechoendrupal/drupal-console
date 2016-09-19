@@ -52,6 +52,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_field_generator:
+    class: Drupal\Console\Generator\PluginFieldFormatterGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.plugin_field_formatter_generator:
     class: Drupal\Console\Generator\PluginFieldFormatterGenerator
     arguments: ['@console.extension_manager']
@@ -102,6 +107,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_type_annotation_generator:
+    class: Drupal\Console\Generator\PluginTypeAnnotationGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.plugin_type_yaml_generator:
     class: Drupal\Console\Generator\PluginTypeYamlGenerator
     arguments: ['@console.extension_manager']
@@ -140,6 +150,11 @@ services:
       - { name: console.generator }
   console.command_ckeditorbutton:
     class: Drupal\Console\Generator\PluginCKEditorButtonGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.entitybundle_generator:
+    class: Drupal\Console\Generator\EntityBundleGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
