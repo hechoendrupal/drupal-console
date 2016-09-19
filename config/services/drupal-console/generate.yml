@@ -44,6 +44,9 @@ services:
     arguments: ['@console.extension_manager', '@console.form_generator', '@console.string_converter', '@router.route_provider', '@plugin.manager.element_info', '@app.root', '@console.chain_queue']
     tags:
        - { name: console.command }
+  console.generate_plugin_type_annotation:
+    class: Drupal\Console\Command\Generate\PluginTypeAnnotationCommand
+    arguments: ['@console.extension_manager', '@console.plugin_type_annotation_generator','@console.string_converter']
   console.generate_plugin_field:
     class: Drupal\Console\Command\Generate\PluginFieldCommand
     arguments: ['@console.extension_manager','@console.string_converter', '@console.chain_queue']
@@ -157,5 +160,10 @@ services:
   console.generate_entitycontent:
     class: Drupal\Console\Command\Generate\EntityContentCommand
     arguments: ['@console.chain_queue', '@console.entitycontent_generator']
+    tags:
+       - { name: console.command }
+  console.generate_entitybundle:
+    class: Drupal\Console\Command\Generate\EntityBundleCommand
+    arguments: ['@console.validator', '@console.entitybundle_generator', '@console.extension_manager']
     tags:
        - { name: console.command }

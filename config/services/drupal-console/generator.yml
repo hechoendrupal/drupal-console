@@ -107,6 +107,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.plugin_type_annotation_generator:
+    class: Drupal\Console\Generator\PluginTypeAnnotationGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
   console.plugin_type_yaml_generator:
     class: Drupal\Console\Generator\PluginTypeYamlGenerator
     arguments: ['@console.extension_manager']
@@ -149,7 +154,12 @@ services:
     tags:
       - { name: console.generator }
   console.entitycontent_generator:
-    class: Drupal\Console\Generator\PluginCKEditorButtonGenerator
+    class: Drupal\Console\Generator\EntityContentGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.entitybundle_generator:
+    class: Drupal\Console\Generator\EntityBundleGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
