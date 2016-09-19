@@ -159,11 +159,16 @@ services:
        - { name: console.command }
   console.generate_entitycontent:
     class: Drupal\Console\Command\Generate\EntityContentCommand
-    arguments: ['@console.chain_queue', '@console.entitycontent_generator']
+    arguments: ['@console.chain_queue', '@console.entitycontent_generator', '@console.string_converter', '@console.extension_manager', '@console.validator']
     tags:
        - { name: console.command }
   console.generate_entitybundle:
     class: Drupal\Console\Command\Generate\EntityBundleCommand
     arguments: ['@console.validator', '@console.entitybundle_generator', '@console.extension_manager']
+    tags:
+       - { name: console.command }
+  console.generate_entityconfig:
+    class: Drupal\Console\Command\Generate\EntityConfigCommand
+    arguments: ['@console.extension_manager', '@console.entityconfig_generator', '@console.validator', '@console.string_converter']
     tags:
        - { name: console.command }

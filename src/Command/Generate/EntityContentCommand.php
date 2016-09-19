@@ -14,8 +14,11 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityContentGenerator;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
@@ -26,15 +29,43 @@ class EntityContentCommand extends EntityCommand
      */
     protected $chainQueue;
 
+    /** @var EntityContentGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
+
 
     /**
      * EntityContentCommand constructor.
      * @param ChainQueue $chainQueue
+     * @param EntityContentGenerator $generator
+     * @param StringConverter  $stringConverter
+     * @param Manager $extensionManager
+     * @param Validator        $validator
      */
     public function __construct(
-        ChainQueue $chainQueue
+        ChainQueue $chainQueue,
+        EntityContentGenerator $generator,
+        StringConverter $stringConverter,
+        Manager $extensionManager,
+        Validator $validator
     ) {
         $this->chainQueue = $chainQueue;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -105,9 +136,11 @@ class EntityContentCommand extends EntityCommand
         $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
 
         $io = new DrupalStyle($input, $output);
-        $generator = $this->getGenerator();
+        $generator = $this->generator;
+
         $generator->setIo($io);
-        $generator->setLearning($learning);
+        //@TODO:
+        //$generator->setLearning($learning);
 
         $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name);
 

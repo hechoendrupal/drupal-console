@@ -100,7 +100,7 @@ abstract class EntityCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $commandKey = str_replace(':', '.', $this->commandName);
-        $utils = $this->getStringHelper();
+        $utils = $this->stringConverter;
 
         // --module option
         $module = $input->getOption('module');
@@ -117,7 +117,7 @@ abstract class EntityCommand extends Command
                 $this->trans('commands.'.$commandKey.'.questions.entity-class'),
                 'DefaultEntity',
                 function ($entityClass) {
-                    return $this->validateSpaces($entityClass);
+                    return $this->validator->validateSpaces($entityClass);
                 }
             );
 
@@ -131,7 +131,7 @@ abstract class EntityCommand extends Command
                 $this->trans('commands.'.$commandKey.'.questions.entity-name'),
                 $utils->camelCaseToMachineName($entityClass),
                 function ($entityName) {
-                    return $this->validateMachineName($entityName);
+                    return $this->validator->validateMachineName($entityName);
                 }
             );
             $input->setOption('entity-name', $entityName);

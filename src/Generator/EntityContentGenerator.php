@@ -8,6 +8,9 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\TwigRenderer;
+use Drupal\Console\Style\DrupalStyle;
 
 class EntityContentGenerator extends Generator
 {
@@ -16,13 +19,34 @@ class EntityContentGenerator extends Generator
     protected $extensionManager;
 
     /**
+     * @var Site
+     */
+    protected $site;
+
+    /** @var TwigRenderer*/
+    protected $twigrenderer;
+
+    protected $io;
+
+    /**
      * EntityContentGenerator constructor.
      * @param Manager $extensionManager
+     * @param Site $site
+     * @param TwigRenderer $twigrenderer
      */
     public function __construct(
-        Manager $extensionManager
+        Manager $extensionManager,
+        Site $site,
+        TwigRenderer $twigrenderer
     ) {
         $this->extensionManager = $extensionManager;
+        $this->site = $site;
+        $this->twigrenderer = $twigrenderer;
+    }
+
+    public function setIo($io)
+    {
+        $this->io = $io;
     }
 
 
@@ -79,82 +103,82 @@ class EntityContentGenerator extends Generator
 
         $this->renderFile(
             'module/src/accesscontrolhandler-entity-content.php.twig',
-            $this->extensionManager->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
+            $this->extensionManager->getModule($module)->getSourcePath().'/'.$entity_class.'AccessControlHandler.php',
             $parameters
         );
 
         if ($is_translatable) {
             $this->renderFile(
                 'module/src/entity-translation-handler.php.twig',
-                $this->extensionManager->getSourcePath($module).'/'.$entity_class.'TranslationHandler.php',
+                $this->extensionManager->getModule($module)->getSourcePath().'/'.$entity_class.'TranslationHandler.php',
                 $parameters
             );
         }
 
         $this->renderFile(
             'module/src/Entity/interface-entity-content.php.twig',
-            $this->extensionManager->getEntityPath($module).'/'.$entity_class.'Interface.php',
+            $this->extensionManager->getModule($module)->getEntityPath().'/'.$entity_class.'Interface.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/entity-content.php.twig',
-            $this->extensionManager->getEntityPath($module).'/'.$entity_class.'.php',
+            $this->extensionManager->getModule($module)->getEntityPath().'/'.$entity_class.'.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/entity-content-route-provider.php.twig',
-            $this->extensionManager->getSourcePath($module).'/'.$entity_class.'HtmlRouteProvider.php',
+            $this->extensionManager->getModule($module)->getSourcePath().'/'.$entity_class.'HtmlRouteProvider.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/entity-content-views-data.php.twig',
-            $this->extensionManager->getEntityPath($module).'/'.$entity_class.'ViewsData.php',
+            $this->extensionManager->getModule($module)->getEntityPath().'/'.$entity_class.'ViewsData.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/listbuilder-entity-content.php.twig',
-            $this->extensionManager->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
+            $this->extensionManager->getModule($module)->getSourcePath().'/'.$entity_class.'ListBuilder.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/Form/entity-settings.php.twig',
-            $this->extensionManager->getFormPath($module).'/'.$entity_class.'SettingsForm.php',
+            $this->extensionManager->getModule($module)->getFormPath().'/'.$entity_class.'SettingsForm.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/Form/entity-content.php.twig',
-            $this->extensionManager->getFormPath($module).'/'.$entity_class.'Form.php',
+            $this->extensionManager->getModule($module)->getFormPath().'/'.$entity_class.'Form.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/Form/entity-content-delete.php.twig',
-            $this->extensionManager->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
+            $this->extensionManager->getModule($module)->getFormPath().'/'.$entity_class.'DeleteForm.php',
             $parameters
         );
 
         $this->renderFile(
             'module/entity-content-page.php.twig',
-            $this->extensionManager->getModulePath($module).'/'.$entity_name.'.page.inc',
+            $this->extensionManager->getModule($module)->getSourcePath().'/'.$entity_name.'.page.inc',
             $parameters
         );
 
         $this->renderFile(
             'module/templates/entity-html.twig',
-            $this->extensionManager->getTemplatePath($module).'/'.$entity_name.'.html.twig',
+            $this->extensionManager->getModule($module)->getTemplatePath().'/'.$entity_name.'.html.twig',
             $parameters
         );
 
         if ($bundle_entity_type) {
             $this->renderFile(
                 'module/templates/entity-with-bundle-content-add-list-html.twig',
-                $this->extensionManager->getTemplatePath($module).'/'.str_replace('_', '-', $entity_name).'-content-add-list.html.twig',
+                $this->extensionManager->getModule($module)->getTemplatePath().'/'.str_replace('_', '-', $entity_name).'-content-add-list.html.twig',
                 $parameters
             );
 
@@ -207,7 +231,7 @@ class EntityContentGenerator extends Generator
             );
         }
 
-        $content = $this->getRenderHelper()->render(
+        $content = $this->twigrenderer->render(
             'module/src/Entity/entity-content.theme.php.twig',
             $parameters
         );
