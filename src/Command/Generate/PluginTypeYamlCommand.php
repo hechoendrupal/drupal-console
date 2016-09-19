@@ -20,6 +20,7 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Utils\ChainQueue;
 
 class PluginTypeYamlCommand extends Command
 {

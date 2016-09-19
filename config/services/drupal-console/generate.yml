@@ -47,6 +47,54 @@ services:
   console.generate_plugin_type_annotation:
     class: Drupal\Console\Command\Generate\PluginTypeAnnotationCommand
     arguments: ['@console.extension_manager', '@console.plugin_type_annotation_generator','@console.string_converter']
+  console.generate_plugin_field:
+    class: Drupal\Console\Command\Generate\PluginFieldCommand
+    arguments: ['@console.extension_manager','@console.string_converter', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_field_formatter:
+    class: Drupal\Console\Command\Generate\PluginFieldFormatterCommand
+    arguments: ['@console.extension_manager', '@console.plugin_field_formatter_generator','@console.string_converter', '@plugin.manager.field.field_type', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_field_type:
+    class: Drupal\Console\Command\Generate\PluginFieldTypeCommand
+    arguments: ['@console.extension_manager', '@console.plugin_field_type_generator','@console.string_converter', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_field_widget:
+    class: Drupal\Console\Command\Generate\PluginFieldWidgetCommand
+    arguments: ['@console.extension_manager', '@console.plugin_field_widget_generator','@console.string_converter', '@plugin.manager.field.field_type', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_image_effect:
+    class: Drupal\Console\Command\Generate\PluginImageEffectCommand
+    arguments: ['@console.extension_manager', '@console.plugin_image_effect_generator','@console.string_converter', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_image_formatter:
+    class: Drupal\Console\Command\Generate\PluginImageFormatterCommand
+    arguments: ['@console.extension_manager', '@console.plugin_image_formatter_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_mail:
+    class: Drupal\Console\Command\Generate\PluginMailCommand
+    arguments: ['@console.extension_manager', '@console.plugin_mail_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_rest_resource:
+    class: Drupal\Console\Command\Generate\PluginRestResourceCommand
+    arguments: ['@console.extension_manager', '@console.plugin_rest_resource_generator','@console.string_converter', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_rules_action:
+    class: Drupal\Console\Command\Generate\PluginRulesActionCommand
+    arguments: ['@console.extension_manager', '@console.plugin_rules_action_generator','@console.string_converter', '@console.chain_queue']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_skeleton:
+    class: Drupal\Console\Command\Generate\PluginSkeletonCommand
+    arguments: ['@console.extension_manager', '@console.plugin_skeleton_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: console.command }
   console.generate_plugin_type_yaml:
@@ -102,5 +150,15 @@ services:
   console.generate_command:
     class: Drupal\Console\Command\Generate\CommandCommand
     arguments: ['@console.command_generator', '@console.extension_manager', '@console.validator', '@console.string_converter' ]
+    tags:
+       - { name: console.command }
+  console.generate_ckeditorbutton:
+    class: Drupal\Console\Command\Generate\PluginCKEditorButtonCommand
+    arguments: ['@console.chain_queue', '@console.command_ckeditorbutton', '@console.extension_manager', '@console.string_converter']
+    tags:
+       - { name: console.command }
+  console.generate_entitybundle:
+    class: Drupal\Console\Command\Generate\EntityBundleCommand
+    arguments: ['@console.validator', '@console.entitybundle_generator', '@console.extension_manager']
     tags:
        - { name: console.command }
