@@ -51,7 +51,14 @@ services:
        - { name: console.command }
   console.generate_plugin_type_annotation:
     class: Drupal\Console\Command\Generate\PluginTypeAnnotationCommand
-    arguments: ['@console.extension_manager', '@console.plugin_type_annotation_generator','@console.string_converter']
+    arguments: ['@console.extension_manager', '@console.plugin_type_annotation_generator', '@console.string_converter']
+    tags:
+       - { name: console.command }
+  console.generate_plugin_condition:
+    class: Drupal\Console\Command\Generate\PluginConditionCommand
+    arguments: ['@console.extension_manager', '@console.plugin_condition_generator', '@console.chain_queue', '@entity_type.repository', '@console.string_converter']
+    tags:
+       - { name: console.command }
   console.generate_plugin_field:
     class: Drupal\Console\Command\Generate\PluginFieldCommand
     arguments: ['@console.extension_manager','@console.string_converter', '@console.chain_queue']
