@@ -3,6 +3,10 @@ services:
     class: Drupal\Console\Generator\ModuleGenerator
     tags:
       - { name: console.generator }
+  console.modulefile_generator:
+    class: Drupal\Console\Generator\ModuleFileGenerator
+    tags:
+      - { name: console.generator }
   console.authentication_provider_generator:
     class: Drupal\Console\Generator\AuthenticationProviderGenerator
     arguments: ['@console.extension_manager']
