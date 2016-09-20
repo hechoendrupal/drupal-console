@@ -40,7 +40,7 @@ class PluginFieldCommand extends Command
 
 
     /**
-     * PluginImageFormatterCommand constructor.
+     * PluginFieldCommand constructor.
      * @param Manager $extensionManager
      * @param StringConverter $stringConverter
      * @param ChainQueue $chainQueue
@@ -48,7 +48,6 @@ class PluginFieldCommand extends Command
     public function __construct(
         Manager $extensionManager,
         StringConverter $stringConverter,
-        FieldTypePluginManager $fieldTypePluginManager,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
