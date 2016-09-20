@@ -10,12 +10,57 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityConfigGenerator;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Style\DrupalStyle;
 
 class EntityConfigCommand extends EntityCommand
 {
+    use CommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var EntityConfigGenerator  */
+    protected $generator;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+
+    /**
+     * EntityConfigCommand constructor.
+     * @param Manager $extensionManager
+     * @param EntityConfigGenerator $generator
+     * @param Validator  $validator
+     * @param StringConverter  $stringConverter
+     */
+    public function __construct(
+        Manager $extensionManager,
+        EntityConfigGenerator $generator,
+        Validator $validator,
+        StringConverter $stringConverter
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->validator = $validator;
+        $this->stringConverter = $stringConverter;
+        parent::__construct();
+    }
+
+
     protected function configure()
     {
         $this->setEntityType('EntityConfig');
@@ -51,12 +96,7 @@ class EntityConfigCommand extends EntityCommand
         $base_path = $input->getOption('base-path');
 
         $this
-            ->getGenerator()
+            ->generator
             ->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_of);
-    }
-
-    protected function createGenerator()
-    {
-        return new EntityConfigGenerator();
     }
 }

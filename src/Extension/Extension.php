@@ -95,4 +95,22 @@ class Extension extends BaseExtension
     {
         return $this->getSourcePath($fullPath) . '/Command/';
     }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getEntityPath($fullPath = false)
+    {
+        return $this->getSourcePath($fullPath) . '/Entity';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getTemplatePath($fullPath = false)
+    {
+        return $this->getSourcePath($fullPath) . '/templates';
+    }
 }

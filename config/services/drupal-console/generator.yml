@@ -153,8 +153,18 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
+  console.entitycontent_generator:
+    class: Drupal\Console\Generator\EntityContentGenerator
+    arguments: ['@console.extension_manager', '@console.site', '@console.renderer']
+    tags:
+      - { name: console.generator }
   console.entitybundle_generator:
     class: Drupal\Console\Generator\EntityBundleGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.entityconfig_generator:
+    class: Drupal\Console\Generator\EntityConfigGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }
