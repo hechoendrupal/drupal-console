@@ -44,10 +44,10 @@ class ModuleFileCommand extends GeneratorCommand
         if (!$this->confirmGeneration($io, $yes)) {
             return;
         }
-        
+
         $machine_name =  $input->getOption('module');
         $file_path =  $this->getSite()->getModulePath($machine_name);
-        
+
         $generator = $this->getGenerator();
         $generator->generate(
             $machine_name,
@@ -70,15 +70,7 @@ class ModuleFileCommand extends GeneratorCommand
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
-       
-        $input->setOption('module', $module);
-    }
 
-    /**
-     * @return ModuleFileGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ModuleFileGenerator();
+        $input->setOption('module', $module);
     }
 }

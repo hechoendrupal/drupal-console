@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\GeneratorPluginFieldFormatterCommand.
+ * Contains \Drupal\Console\Command\PluginConditionCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -190,10 +190,5 @@ class PluginConditionCommand extends GeneratorCommand
             );
             $input->setOption('context-definition-required', $context_definition_required);
         }
-    }
-
-    protected function createGenerator()
-    {
-        return new PluginConditionGenerator();
     }
 }

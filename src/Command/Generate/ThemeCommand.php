@@ -22,8 +22,10 @@ use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\Extension\ThemeHandler;
+
 /**
- *
+ * Class ThemeCommand
+ * @package Drupal\Console\Command\Generate
  */
 class ThemeCommand extends Command
 {
@@ -62,13 +64,13 @@ class ThemeCommand extends Command
     protected $stringConverter;
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
-     * @param ThemeGenerator $generator
-     * @param Validator $validator
-     * @param $appRoot
-     * @param ThemeHandler $themeHandler
-     * @param Site $site
+     * ThemeCommand constructor.
+     * @param Manager         $extensionManager
+     * @param ThemeGenerator  $generator
+     * @param Validator       $validator
+     * @param                 $appRoot
+     * @param ThemeHandler    $themeHandler
+     * @param Site            $site
      * @param StringConverter $stringConverter
      */
     public function __construct(

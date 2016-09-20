@@ -41,10 +41,10 @@ class EntityBundleCommand extends Command
     protected $extensionManager;
 
     /**
-     * CommandCommand constructor.
-     * @param Validator        $validator
+     * EntityBundleCommand constructor.
+     * @param Validator             $validator
      * @param EntityBundleGenerator $generator
-     * @param Manager $extensionManager
+     * @param Manager               $extensionManager
      */
     public function __construct(
         Validator $validator,

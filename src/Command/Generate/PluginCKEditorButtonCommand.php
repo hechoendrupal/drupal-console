@@ -46,11 +46,11 @@ class PluginCKEditorButtonCommand extends Command
 
 
     /**
-     * DebugCommand constructor.
-     * @param ChainQueue $chainQueue
+     * PluginCKEditorButtonCommand constructor.
+     * @param ChainQueue                    $chainQueue
      * @param PluginCKEditorButtonGenerator $generator
-     * @param Manager $extensionManager
-     * @param StringConverter $stringConverter
+     * @param Manager                       $extensionManager
+     * @param StringConverter               $stringConverter
      */
     public function __construct(
         ChainQueue $chainQueue,

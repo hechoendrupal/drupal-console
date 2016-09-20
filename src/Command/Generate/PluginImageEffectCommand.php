@@ -20,6 +20,10 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
 
+/**
+ * Class PluginImageEffectCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginImageEffectCommand extends Command
 {
     use ModuleTrait;
@@ -44,11 +48,11 @@ class PluginImageEffectCommand extends Command
 
 
     /**
-     * PluginImageFormatterCommand constructor.
-     * @param Manager $extensionManager
+     * PluginImageEffectCommand constructor.
+     * @param Manager                    $extensionManager
      * @param PluginImageEffectGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * @param StringConverter            $stringConverter
+     * @param ChainQueue                 $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

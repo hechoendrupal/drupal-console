@@ -66,14 +66,14 @@ class PluginBlockCommand extends Command
 
 
     /**
-     * DebugCommand constructor.
-     * @param ConfigFactory $configFactory
-     * @param ChainQueue $chainQueue
-     * @param PluginBlockGenerator $generator
+     * PluginBlockCommand constructor.
+     * @param ConfigFactory              $configFactory
+     * @param ChainQueue                 $chainQueue
+     * @param PluginBlockGenerator       $generator
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param Manager $extensionManager
-     * @param Validator $validator
-     * @param StringConverter $stringConverter
+     * @param Manager                    $extensionManager
+     * @param Validator                  $validator
+     * @param StringConverter            $stringConverter
      */
     public function __construct(
         ConfigFactory $configFactory,

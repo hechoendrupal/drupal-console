@@ -48,11 +48,11 @@ class EntityContentCommand extends EntityCommand
 
     /**
      * EntityContentCommand constructor.
-     * @param ChainQueue $chainQueue
+     * @param ChainQueue             $chainQueue
      * @param EntityContentGenerator $generator
-     * @param StringConverter  $stringConverter
-     * @param Manager $extensionManager
-     * @param Validator        $validator
+     * @param StringConverter        $stringConverter
+     * @param Manager                $extensionManager
+     * @param Validator              $validator
      */
     public function __construct(
         ChainQueue $chainQueue,

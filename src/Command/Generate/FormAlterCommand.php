@@ -81,15 +81,15 @@ class FormAlterCommand extends Command
 
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
-     * @param FormAlterGenerator $generator
-     * @param StringConverter $stringConverter
+     * FormAlterCommand constructor.
+     * @param Manager                $extensionManager
+     * @param FormAlterGenerator     $generator
+     * @param StringConverter        $stringConverter
      * @param ModuleHandlerInterface $moduleHandler
-     * @param ElementInfoManager $elementInfoManager
-     * @param Profiler $profiler
-     * @param $appRoot
-     * @param ChainQueue $chainQueue
+     * @param ElementInfoManager     $elementInfoManager
+     * @param Profiler               $profiler
+     * @param                        $appRoot
+     * @param ChainQueue             $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

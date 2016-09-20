@@ -57,7 +57,7 @@ class EventSubscriberCommand extends Command
     protected $chainQueue;
 
     /**
-     * ModuleCommand constructor.
+     * EventSubscriberCommand constructor.
      * @param Manager                  $extensionManager
      * @param EventSubscriberGenerator $generator
      * @param StringConverter          $stringConverter

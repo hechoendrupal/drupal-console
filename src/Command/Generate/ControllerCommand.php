@@ -55,13 +55,13 @@ class ControllerCommand extends Command
     protected $chainQueue;
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
-     * @param ControllerGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param Validator $validator
+     * ControllerCommand constructor.
+     * @param Manager                $extensionManager
+     * @param ControllerGenerator    $generator
+     * @param StringConverter        $stringConverter
+     * @param Validator              $validator
      * @param RouteProviderInterface $routeProvider
-     * @param ChainQueue $chainQueue
+     * @param ChainQueue             $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
@@ -240,7 +240,7 @@ class ControllerCommand extends Command
                         return $method;
                     }
                 );
-                
+
                 $path = $io->ask(
                     $this->trans('commands.generate.controller.questions.path'),
                     sprintf('/%s/hello/{name}', $module),
@@ -268,7 +268,7 @@ class ControllerCommand extends Command
                 ) {
                     $routeName .= '_' . rand(0, 100);
                 }
-                
+
                 $routes[] = [
                     'title' => $title,
                     'name' => $routeName,

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Generate\PluginBlockCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginMailCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -23,6 +23,10 @@ use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\ChainQueue;
 
+/**
+ * Class PluginMailCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginMailCommand extends Command
 {
     use ServicesTrait;
@@ -52,12 +56,12 @@ class PluginMailCommand extends Command
 
 
     /**
-     * PluginRulesActionCommand constructor.
-     * @param Manager $extensionManager
+     * PluginMailCommand constructor.
+     * @param Manager             $extensionManager
      * @param PluginMailGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param Validator $validator
-     * @param ChainQueue $chainQueue
+     * @param StringConverter     $stringConverter
+     * @param Validator           $validator
+     * @param ChainQueue          $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
