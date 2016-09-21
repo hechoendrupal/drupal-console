@@ -7,8 +7,24 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class FormAlterGenerator extends Generator
 {
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * AuthenticationProviderGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     /**
      * Generator Plugin Block.
      *
@@ -26,7 +42,7 @@ class FormAlterGenerator extends Generator
           'metadata' => $metadata
         ];
 
-        $module_path =  $this->getSite()->getModulePath($module);
+        $module_path =  $this->extensionManager->getModule($module)->getPath();
 
         $this->renderFile(
             'module/src/Form/form-alter.php.twig',

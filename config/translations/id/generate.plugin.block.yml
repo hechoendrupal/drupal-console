@@ -18,4 +18,4 @@ questions:
     services: common.questions.services
 messages:
     inputs: "\nYou can add input fields to create special configurations in the block.\nThis is optional, press <info>enter</info> to <info>continue</info>"
-    invalid-theme-region: 'Region %s is invalid'
+    invalid-theme-region: 'Region "%s" is invalid'

@@ -8,5 +8,5 @@ messages:
     original: 原始值
     override: 覆写值
 errors:
-    no-key: '覆写必须提供一个状态键'
-    no-value: '必须提供一个覆写值'
+    no-key: 覆写必须提供一个状态键
+    no-value: 必须提供一个覆写值

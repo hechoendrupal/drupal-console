@@ -19,6 +19,6 @@ questions:
     files-directory: 'Fájlok könyvtára'
 messages:
     not-drupal: 'A forrás adatbázis nem tartalmaz felismerhető Drupal verziót.'
-    migrations-created: '%s költöztetés sikeresen létrejött a következőhöz: %s.'
+    migrations-created: '"%s" költöztetés sikeresen létrejött a következőhöz: "%s".'
     migrations-not-found: 'Nem állnak rendelkezésre költöztetések'
     migrations-already-exist: 'Már minden rendelkezésre álló költöztetés létre van hozva'

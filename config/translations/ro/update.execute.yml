@@ -2,7 +2,7 @@ description: 'Execută o funcţie specifică Update N dintr-un modul sau execut�
 options:
     update-n: 'Funcţia specifică Update N care va fi executată'
 messages:
-    no-module-updates: 'Nu sunt actualizări disponibile pentru modulul %s'
-    executing-update: 'Se execută funcţia de actualizare %s a modulului %s'
-    module-update-function-not-found: 'Modulul %s nu are o funcţie de actualizare pentru %s'
+    no-module-updates: 'Nu sunt actualizări disponibile pentru modulul "%s"'
+    executing-update: 'Se execută funcţia de actualizare "%s" a modulului "%s"'
+    module-update-function-not-found: 'Modulul "%s" nu are o funcţie de actualizare pentru "%s"'
     executing-required-previous-updates: 'Executarea actualizărilor anterioare necesare'

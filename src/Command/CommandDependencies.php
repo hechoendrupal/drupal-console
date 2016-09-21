@@ -33,14 +33,16 @@ class CommandDependencies
     public function read(ReflectionClass $class)
     {
         /**
- * @var DrupalCommand $definition 
-*/
+         * @var DrupalCommand $definition
+         */
         $definitions = $this->reader->getClassAnnotations($class);
 
         $dependencies = [];
         foreach ($definitions as $definition) {
             if ($definition instanceof DrupalCommand) {
+                //                var_export($class);
                 foreach ($definition->dependencies as $dependency) {
+                    //                    echo $definition->getName() . PHP_EOL;
                     $dependencies[] = $dependency;
                 }
             }

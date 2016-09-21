@@ -5,7 +5,7 @@ value:
         yaml-key: '欲更新的 YAML 鍵名'
         yaml-value: '欲更新的 YAML 值'
     messages:
-        updated: 'YAML 檔案 %s 更新成功。'
+        updated: 'YAML 檔案 "%s" 更新成功。'
 key:
     description: '取代 YAML 檔案中的鍵名。'
     arguments:
@@ -13,4 +13,4 @@ key:
         yaml-key: '欲取代的 YAML 鍵名'
         yaml-new-key: 新鍵名
     messages:
-        updated: 'YAML 檔案 %s 更新成功。'
+        updated: 'YAML 檔案 "%s" 更新成功。'

@@ -2,7 +2,7 @@ description: 'PHPのbuilt-in web serverでDrupalを起動する'
 arguments:
     address: IPアドレスとポート番号
 messages:
-    executing: 'Executing php from %s.'
+    executing: 'Executing php from "%s".'
 errors:
     binary: サーバーを起動するためのphpが見つかりません。
 examples:

@@ -15,6 +15,7 @@ use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
 
 /**
  * Class SiteDebugCommand
@@ -23,6 +24,22 @@ use Drupal\Console\Style\DrupalStyle;
 class DebugCommand extends Command
 {
     use CommandTrait;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
+     * DebugCommand constructor.
+     * @param Site $site
+     */
+    public function __construct(
+        Site $site
+    ) {
+        $this->site = $site;
+        parent::__construct();
+    }
 
     /**
      * @{@inheritdoc}

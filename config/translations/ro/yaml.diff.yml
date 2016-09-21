@@ -13,6 +13,6 @@ questions:
 messages:
     key: 'Cheia YAML'
     value: 'Valoarea YAML'
-    total: 'Total: %s'
-    diff: 'Diferență: %s'
-    equal: 'Egalitate: %s'
+    total: 'Total: "%s"'
+    diff: 'Diferență: "%s"'
+    equal: 'Egalitate: "%s"'

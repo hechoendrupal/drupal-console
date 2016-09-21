@@ -11,9 +11,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Database\Connection;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
+use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class DropCommand
@@ -21,8 +22,22 @@ use Drupal\Console\Command\Shared\ConnectTrait;
  */
 class DropCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ConnectTrait;
+
+    /**
+     * @var Connection
+     */
+    protected $database;
+
+    /**
+     * DropCommand constructor.
+     * @param Connection $database
+     */
+    public function __construct(Connection $database) {
+        $this->database = $database;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -48,7 +63,7 @@ class DropCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $database = $input->getArgument('database');
-        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
+        $yes = $input->getOption('yes');
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
@@ -64,8 +79,7 @@ class DropCommand extends Command
             }
         }
 
-        $databaseService = $this->getDrupalService('database');
-        $schema = $databaseService->schema();
+        $schema = $this->database->schema();
         $tables = $schema->findTables('%');
         $tableRows = [];
 
@@ -83,5 +97,7 @@ class DropCommand extends Command
                 count($tableRows['success'])
             )
         );
+
+        return 0;
     }
 }

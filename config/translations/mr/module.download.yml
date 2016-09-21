@@ -8,15 +8,15 @@ options:
 questions:
     path: 'Enter the contrib project Path'
 messages:
-    no-releases: 'There aren''t any releases for module %s'
-    getting-releases: 'Getting releases for module %s'
-    downloading: 'Downloading module %s release %s'
-    downloaded: 'Module %s version %s was downloaded successfully at %s'
+    no-releases: 'There aren''t any releases for module "%s"'
+    getting-releases: 'Getting releases for module "%s"'
+    downloading: 'Downloading module "%s" release "%s"'
+    downloaded: 'Module "%s" version "%s" was downloaded successfully at "%s"'
     select-release: 'Please select your favorite release'
     outside-drupal: 'Drupal root can''t be determined. Use --root to set the destination, current folder will be used instead of.'
-    error-creating-folder: 'Error creating folder %s, please check your permissions'
+    error-creating-folder: 'Error creating folder "%s", please check your permissions'
     no-composer-repo: 'Please, configure Composer in ~/.console/config.yml'
-    composer: 'Module %s was downloaded successfully using Composer'
+    composer: 'Module "%s" was downloaded successfully using Composer'
 tips:
     -
         tip: 'Pass a «true» value to «shellexec_output» key in your config.yml file to see interactively Composer''s output or «false» to hide it'

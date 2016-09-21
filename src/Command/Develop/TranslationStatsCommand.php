@@ -15,15 +15,27 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
 
 class TranslationStatsCommand extends Command
 {
     use TranslationTrait;
+    use CommandTrait;
+
+    /**
+     * TranslationStatsCommand constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
+
     protected function configure()
     {
         $this

@@ -1,5 +1,0 @@
-services:
-  libraries_debug:
-    class: Drupal\Console\Command\Libraries\DebugCommand
-    tags:
-      - { name: console.command }

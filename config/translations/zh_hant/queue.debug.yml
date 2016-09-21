@@ -1,5 +1,5 @@
 description: 顯示網站應用中的排程隊列
 messages:
     queue: 排程隊列
-    items: '項目數量'
+    items: 項目數量
     class: 類別（Class）

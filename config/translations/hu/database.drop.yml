@@ -3,7 +3,7 @@ help: 'A <info>database:drop</info> parancs adatbázistáblák eldobását segí
 arguments:
     database: 'Adatbáziskulcs a settings.php fájlból'
 question:
-    drop-tables: 'Biztosan el legyen dobva az összes tábla a következő adatbázisból: %s?'
+    drop-tables: 'Biztosan el legyen dobva az összes tábla a következő adatbázisból: "%s"?'
 messages:
     table: Tábla
-    table-drop: '%s tábláinak eldobása sikerült'
+    table-drop: '"%s" tábláinak eldobása sikerült'

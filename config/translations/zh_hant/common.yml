@@ -1,48 +1,48 @@
 options:
-    class: 'Class name'
-    events: 'Load events from the container'
-    module: 'The Module name.'
-    services: 'Load services from the container.'
-    tags: 'Set service tags from the container.'
-    inputs: 'Create inputs in a form.'
-    permissions: 'Create permissions.'
+    class: '類別名稱'
+    events: '載入容器中的事件'
+    module: '模組名稱。'
+    services: '載入容器中的服務。'
+    tags: '設定容器中的服務標籤。'
+    inputs: '在表單中新增輸入元件。'
+    permissions: '新增權限。'
 questions:
-    class: 'Enter the Class name'
-    module: 'Enter the module name'
-    confirm: 'Do you confirm generation?'
-    canceled: 'Command generation canceled.'
+    class: '輸入類別 (Class) 名稱'
+    module: '輸入模組名稱'
+    confirm: '確定要建立嗎？'
+    canceled: '建立命令已被取消。'
     events:
-        message: "\nType the event name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter event name'
+        message: "\n輸入事件名稱或使用上下鍵選擇。\n此為選填項目，要 <info>繼續</info> 請按 <info>Enter</info>\n"
+        name: '輸入事件名稱'
     services:
-        confirm: 'Do you want to load services from the container'
-        message: "\nType the service name or use keyup or keydown.\nThis is optional, press <info>enter</info> to <info>continue</info>\n"
-        name: 'Enter your service'
+        confirm: '您是否要載入容器中的服務？'
+        message: "\n輸入服務名稱或使用上下鍵選擇。\n此為選填項目，要 <info>繼續</info> 請按 <info>Enter</info>\n"
+        name: '輸入服務名稱'
     inputs:
-        confirm: 'Do you want to generate a form structure?'
-        label: 'Input label'
-        machine_name: 'Input machine name'
-        permission: 'Do you want to generate permissions?'
-        type: Type
-        invalid: 'Field Type "%s" is invalid.'
-        description: Description
+        confirm: '您是否要建立表單？'
+        label: '輸入欄位標籤'
+        machine_name: '輸入欄位可機讀名稱'
+        permission: '您是否要建立權限？'
+        type: 類型
+        invalid: '無效的欄位類型 "%s"'
+        description: 描述
         default-value:
-            default-value: 'Default value'
-            checkboxes: 'Default value(s) separated by commas'
-        weight: 'Weight for input item'
-        title: Title
-        fieldset: Fieldset
+            default-value: '預設值'
+            checkboxes: '用逗點 (,) 區隔多個預設值'
+        weight: '輸入欄位項目的權重'
+        title: 標題
+        fieldset: 欄位集合
 errors:
-    module-dependency: 'Missing module dependency "%s" is not installed. Try module:install to install it.'
-    class-name-empty: 'The Class name can not be empty'
-    invalid-file-path: 'You must provide a valid file path'
-    module-exist: 'Module "%s" already exist.'
-    machine-name-duplicated: 'Machine name "%s" is duplicated.'
+    module-dependency: '尚未安裝相依的 "%s" 模組。 請嘗試使用 module:install 指令來安裝它。'
+    class-name-empty: '類別 (Class) 名稱不允許空白'
+    invalid-file-path: '您必須提供有效的檔案路徑'
+    module-exist: '"%s" 模組已經存在。'
+    machine-name-duplicated: '不允許重複的機讀名稱 "%s"'
 status:
-    enabled: Enabled
-    disabled: Disabled
+    enabled: 已啟用
+    disabled: 已停用
 messages:
-    canceled: 'The generation was cancelled'
-    drupal-core: 'Drupal Core'
-    move-phar: 'Accessing console from anywhere on your system'
-    quick-start: 'Download, install and serve Drupal 8'
+    canceled: '建立命令已被取消。'
+    drupal-core: 'Drupal 核心'
+    move-phar: '在您系統的任意位置存取 console'
+    quick-start: '下載，安裝與提供 Drupal 8 服務'

@@ -38,7 +38,7 @@ errors:
     machine-name-duplicated: 'Machine name "%s" is duplicated.'
 status:
     enabled: सक्षम
-    disabled: 'अक्षम'
+    disabled: अक्षम
 messages:
     canceled: 'निर्मिती रद्द करण्यात आली'
     drupal-core: 'ड्रुपल कोर'

@@ -10,16 +10,60 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\PluginCKEditorButtonGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\StringConverter;
 
-class PluginCKEditorButtonCommand extends GeneratorCommand
+class PluginCKEditorButtonCommand extends Command
 {
+    use CommandTrait;
     use ModuleTrait;
     use ConfirmationTrait;
+
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+
+    /** @var PluginCKEditorButtonGenerator  */
+    protected $generator;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+
+    /**
+     * DebugCommand constructor.
+     * @param ChainQueue $chainQueue
+     * @param PluginCKEditorButtonGenerator $generator
+     * @param Manager $extensionManager
+     * @param StringConverter $stringConverter
+     */
+    public function __construct(
+        ChainQueue $chainQueue,
+        PluginCKEditorButtonGenerator $generator,
+        Manager $extensionManager,
+        StringConverter $stringConverter
+    ) {
+        $this->chainQueue = $chainQueue;
+        $this->generator = $generator;
+        $this->extensionManager = $extensionManager;
+        $this->stringConverter = $stringConverter;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -85,10 +129,10 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         $button_icon_path = $input->getOption('button-icon-path');
 
         $this
-            ->getGenerator()
+            ->generator
             ->generate($module, $class_name, $label, $plugin_id, $button_name, $button_icon_path);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -99,7 +143,7 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -118,7 +162,7 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         if (!$label) {
             $label = $io->ask(
                 $this->trans('commands.generate.plugin.ckeditorbutton.questions.label'),
-                $this->getStringHelper()->camelCaseToHuman($class_name)
+                $this->stringConverter->camelCaseToHuman($class_name)
             );
             $input->setOption('label', $label);
         }
@@ -128,7 +172,7 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         if (!$plugin_id) {
             $plugin_id = $io->ask(
                 $this->trans('commands.generate.plugin.ckeditorbutton.questions.plugin-id'),
-                $this->getStringHelper()->camelCaseToLowerCase($label)
+                $this->stringConverter->camelCaseToLowerCase($label)
             );
             $input->setOption('plugin-id', $plugin_id);
         }
@@ -138,7 +182,7 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
         if (!$button_name) {
             $button_name = $io->ask(
                 $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-name'),
-                $this->getStringHelper()->anyCaseToUcFirst($plugin_id)
+                $this->stringConverter->anyCaseToUcFirst($plugin_id)
             );
             $input->setOption('button-name', $button_name);
         }
@@ -152,10 +196,5 @@ class PluginCKEditorButtonCommand extends GeneratorCommand
             );
             $input->setOption('button-icon-path', $button_icon_path);
         }
-    }
-
-    protected function createGenerator()
-    {
-        return new PluginCKEditorButtonGenerator();
     }
 }

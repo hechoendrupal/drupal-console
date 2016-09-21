@@ -1,5 +1,0 @@
-services:
-  breakpoints_debug:
-    class: Drupal\Console\Command\Breakpoints\DebugCommand
-    tags:
-      - { name: console.command }

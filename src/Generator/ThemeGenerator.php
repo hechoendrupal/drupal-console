@@ -7,11 +7,27 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 /**
  *
  */
 class ThemeGenerator extends Generator
 {
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * AuthenticationProviderGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     public function generate(
         $theme,
         $machine_name,

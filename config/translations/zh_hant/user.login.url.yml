@@ -1,7 +1,7 @@
-description: '為使用者取得一次性登入網址。'
+description: 為使用者取得一次性登入網址。
 options:
     user-id: '使用者 ID'
 messages:
-    url: '%s 的一次性登入網址為：%s'
+    url: '"%s" 的一次性登入網址為："%s"'
 errors:
-    invalid-user: '無法取得使用者資料（使用者 ID: %s）'
+    invalid-user: '無法取得使用者資料（使用者 ID: "%s"）'

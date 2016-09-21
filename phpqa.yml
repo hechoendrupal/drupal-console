@@ -63,7 +63,7 @@ application:
       enabled: false
       exception: false
     phpunit:
-      enabled: true
+      enabled: false
       exception: true
       file:
         configuration: phpunit.xml.dist

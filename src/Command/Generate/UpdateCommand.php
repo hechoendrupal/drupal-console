@@ -13,13 +13,59 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\UpdateGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\Site;
 
-class UpdateCommand extends GeneratorCommand
+/**
+ * Class UpdateCommand
+ * @package Drupal\Console\Command\Generate
+ */
+class UpdateCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
+    use CommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var UpdateGenerator  */
+    protected $generator;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+
+    /**
+     * ModuleCommand constructor.
+     * @param Manager $extensionManager
+     * @param UpdateGenerator $generator
+     * @param StringConverter $stringConverter
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        UpdateGenerator $generator,
+        Site $site,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->site = $site;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -67,19 +113,17 @@ class UpdateCommand extends GeneratorCommand
             );
         }
 
-        $this
-            ->getGenerator()
-            ->generate($module, $updateNumber);
+        $this->generator->generate($module, $updateNumber);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/schema.inc');
+        $this->site->loadLegacyFile('/core/includes/update.inc');
+        $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         $module = $input->getOption('module');
         if (!$module) {
@@ -130,8 +174,8 @@ class UpdateCommand extends GeneratorCommand
 
     protected function getLastUpdate($module)
     {
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/schema.inc');
+        $this->site->loadLegacyFile('/core/includes/update.inc');
+        $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         $updates = update_get_update_list();
 

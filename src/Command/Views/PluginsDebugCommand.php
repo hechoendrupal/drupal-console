@@ -50,8 +50,7 @@ class PluginsDebugCommand extends Command
 
     /**
      * @param \Drupal\Console\Style\DrupalStyle $io
-     * @param $tag
-     * @param $status
+     * @param $type
      */
     protected function pluginList(DrupalStyle $io, $type)
     {

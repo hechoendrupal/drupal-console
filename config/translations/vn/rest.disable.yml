@@ -5,5 +5,5 @@ arguments:
 questions:
     resource-id: 'Rest ID'
 messages:
-    invalid-rest-id: 'Rest ID %s không hợp lệ'
-    success: 'Rest ID %s disabled'
+    invalid-rest-id: 'Rest ID "%s" không hợp lệ'
+    success: 'Rest ID "%s" disabled'

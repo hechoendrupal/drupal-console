@@ -1,31 +1,9 @@
 application:
   autowire:
     commands:
-      forced:
-        _completion:
-          class: '\Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand'
+      forced: {}
       name:
-        elephpant:
-          class: '\Drupal\Console\Command\Exclude\ElephpantCommand'
-        druplicon:
-          class: '\Drupal\Console\Command\Exclude\DrupliconCommand'
-  languages:
-    en: 'English'
-    es: 'Español'
-    ca: 'Català'
-    fr: 'Français'
-    gu: 'ગુજરાત'
-    ko: '한국어'
-    hi: 'हिन्दी'
-    hu: 'Magyar'
-    id: 'Bahasa Indonesia'
-    ja: '日本語'
-    mr: 'मराठी'
-    pa: 'ਪੰਜਾਬੀ'
-    pt_br: 'Português'
-    ro: 'Romanian'
-    ru: 'pусский язык'
-    tl: 'Tagalog'
-    vn: 'Tiếng Việt'
-    zh_hans: '简体中文'
-    zh_hant: '繁體中文'
+        'develop:example':
+          class: '\Drupal\Console\Command\Develop\ExampleCommand'
+        'develop:example:container:aware':
+          class: '\Drupal\Console\Command\Develop\ExampleContainerAwareCommand'

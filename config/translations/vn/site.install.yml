@@ -21,7 +21,7 @@ questions:
 messages:
     installing: 'Đang bắt đầu quá trình cài đặt Drupal 8'
     installed: 'Quá trình cài đặt Drupal 8 đã thành công'
-    using-current-database: 'Sử dụng %s database với tên %s và người dùng %s'
+    using-current-database: 'Sử dụng "%s" database với tên "%s" và người dùng "%s"'
     already-installed: 'Drupal đã được cài đặt, đang cắt bớt database của bạn và chạy lại site:install'
     sites-backup: 'The sites.php file has temporarily been renamed to backup.sites.php while Drupal installs.'
     sites-restore: 'The backup of sites.php has been been restored to sites.php.'

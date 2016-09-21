@@ -7,7 +7,7 @@ questions:
     numeric-uid: 'ID-ul trebuie să fie un număr întreg.'
     invalid-uid: 'ID-ul utilizatorului trebuie să fie mai mare decât zero.'
 messages:
-    successful: 'Tentativele de autentificare pentru utilizatorul cu ID-ul %s au fost şterse cu succes.'
+    successful: 'Tentativele de autentificare pentru utilizatorul cu ID-ul "%s" au fost şterse cu succes.'
 errors:
-    invalid-user: 'Nu se poate încărca entitatea utilizator (Uid: %s).'
+    invalid-user: 'Nu se poate încărca entitatea utilizator (Uid: "%s").'
     no-flood: 'No flood table on the system.'

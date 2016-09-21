@@ -7,8 +7,25 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class PermissionGenerator extends Generator
 {
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+
+    /**
+     * PermissionGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     /**
      * @param  $module
      * @param  $permissions
@@ -22,7 +39,7 @@ class PermissionGenerator extends Generator
 
         $this->renderFile(
             'module/permission.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.permissions.yml',
+            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.permissions.yml',
             $parameters,
             FILE_APPEND
         );

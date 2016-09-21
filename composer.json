@@ -33,37 +33,32 @@
     "support": {
         "issues": "https://github.com/hechoendrupal/DrupalConsole/issues",
         "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
-        "docs": "https://hechoendrupal.gitbooks.io/drupal-console/"
+        "docs": "https://docs.drupalconsole.com/"
     },
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^5.5.9 || ^7.0",
         "alchemy/zippy": "0.3.5",
         "composer/installers": "~1.0",
-        "symfony/config": "~2.8",
-        "symfony/console": "~2.8",
-        "symfony/css-selector": "~2.7",
-        "symfony/debug": "~2.7",
-        "symfony/dependency-injection": "~2.8",
-        "symfony/dom-crawler": "~2.7",
-        "symfony/event-dispatcher": "~2.8",
-        "symfony/filesystem": "~2.8",
-        "symfony/finder": "~2.8",
+        "drupal/console-core" : "dev-master",
+        "symfony/css-selector": "~2.8",
+        "symfony/debug": "~2.8",
+        "symfony/dom-crawler": "~2.8",
         "symfony/http-foundation": "~2.8",
-        "symfony/translation": "~2.8",
-        "symfony/yaml": "~2.8",
-        "twig/twig": "^1.23.1",
         "phpseclib/phpseclib": "2.*",
         "stecman/symfony-console-completion": "^0.5.1",
         "guzzlehttp/guzzle": "~6.1",
         "padraic/phar-updater": "~1.0@dev",
         "gabordemooij/redbean": "@stable",
         "doctrine/annotations": "1.2.*",
-        "dflydev/placeholder-resolver": "~1.0"
+        "dflydev/placeholder-resolver": "~1.0",
+        "symfony/expression-language": "^2.8"
     },
     "bin": ["bin/drupal"],
     "config": {
         "bin-dir": "bin/"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {"Drupal\\Console\\": "src"}
     }

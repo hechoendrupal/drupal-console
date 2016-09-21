@@ -12,11 +12,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\TwigRenderer;
+use Drupal\Console\Utils\ConfigurationManager;
 
-class GenerateDocDashCommand extends ContainerAwareCommand
+class GenerateDocDashCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * @var TwigRenderer $renderer
+     */
+    protected $renderer;
+    protected $consoleRoot;
     /**
      * @constant Contents of the plist file required by the docset format.
      */
@@ -55,6 +65,25 @@ PLIST;
     private $sqlite;
 
     /**
+     * @var ConfigurationManager $configurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * GenerateDocDashCommand constructor.
+     * @param $renderer
+     * @param $consoleRoot
+     */
+    public function __construct(TwigRenderer $renderer, $consoleRoot)
+    {
+        $this->renderer = $renderer;
+        $this->consoleRoot = $consoleRoot;
+        parent::__construct();
+    }
+
+
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -77,7 +106,6 @@ PLIST;
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $renderer = $this->getRenderHelper();
 
         $path = null;
         if ($input->hasOption('path')) {
@@ -104,7 +132,7 @@ PLIST;
               'name' => $command->getName(),
               'description' => $command->getDescription(),
             ];
-            $this->renderCommand($command, $path, $renderer);
+            $this->renderCommand($command, $path, $this->renderer);
             $this->registerCommand($command, $path);
         }
 
@@ -132,7 +160,7 @@ PLIST;
                       'name' => $command->getName(),
                       'description' => $command->getDescription(),
                     ];
-                    $this->renderCommand($command, $path, $renderer);
+                    $this->renderCommand($command, $path, $this->renderer);
                     $this->registerCommand($command, $path);
                 }
             }
@@ -154,7 +182,7 @@ PLIST;
             $path . '/DrupalConsole.docset/Contents/Resources/Documents/index.html',
             $parameters,
             null,
-            $renderer
+            $this->renderer
         );
     }
 
@@ -230,13 +258,13 @@ PLIST;
                 $path . '/DrupalConsole.docset/Contents/Info.plist',
                 self::PLIST
             );
-            $source_dir = $this->getApplication()->getDirectoryRoot();
+
             $filesystem->copy(
-                $source_dir . '/resources/drupal-console.png',
+                $this->consoleRoot . '/resources/drupal-console.png',
                 $path . '/DrupalConsole.docset/icon.png'
             );
             $filesystem->copy(
-                $source_dir . '/resources/dash.css',
+                $this->consoleRoot . '/resources/dash.css',
                 $path . '/DrupalConsole.docset/Contents/Resources/Documents/style.css'
             );
             // create the required sqlite db

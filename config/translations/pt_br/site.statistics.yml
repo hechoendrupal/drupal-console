@@ -3,7 +3,7 @@ help: 'Exibe as estatísticas atuais de um website.'
 messages:
     stat-name: Nome
     stat-quantity: Quantidade
-    node-type: 'Node:%s'
+    node-type: 'Node:"%s"'
     comments: Comentárioa
     vocabulary: Vocabulários
     taxonomy-terms: 'Termos de taxonomia'
