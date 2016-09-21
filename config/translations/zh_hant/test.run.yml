@@ -19,4 +19,4 @@ messages:
     method: 方法
     line: 行
     message: 訊息
-    invalid-class: '測試類別 %s 不存在'
+    invalid-class: '測試類別 "%s" 不存在'

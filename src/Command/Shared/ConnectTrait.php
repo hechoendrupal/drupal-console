@@ -46,8 +46,6 @@ trait ConnectTrait
 
     public function getRedBeanConnection($database = 'default')
     {
-        $redBean = $this->get('redbean');
-
         $connectionInfo = Database::getConnectionInfo();
         $databaseConnection = $connectionInfo[$database];
         if ($databaseConnection['driver'] == 'mysql') {
@@ -57,14 +55,14 @@ trait ConnectTrait
                 $databaseConnection['database']
             );
 
-            $redBean->setup(
+            $this->redBean->setup(
                 $dsn,
                 $databaseConnection['username'],
                 $databaseConnection['password'],
                 true
             );
 
-            return $redBean;
+            return $this->redBean;
         }
 
         return null;

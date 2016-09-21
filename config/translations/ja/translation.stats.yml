@@ -4,10 +4,10 @@ arguments:
 options:
     format: '出力フォーマットの定義 table|markdown'
 messages:
-    invalid-language: '言語 %s は不正な値です。'
+    invalid-language: '言語 "%s" は不正な値です。'
     language: 言語
     percentage: パーセンテージ
     iso: ISOコード
 tips:
     -
-        tip: 'Pass a language ISO code as argument to restrict the languages list'
+        tip: 言語リストを制限するには言語のISOコードを引数として渡してください

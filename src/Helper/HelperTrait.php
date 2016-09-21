@@ -91,14 +91,6 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\NestedArrayHelper
-     */
-    public function getNestedArrayHelper()
-    {
-        return $this->getHelperSet()->get('nested-array');
-    }
-
-    /**
      * @return \Drupal\Console\Helper\CommandDiscoveryHelper
      */
     public function getCommandDiscoveryHelper()

@@ -7,8 +7,23 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class PostUpdateGenerator extends Generator
 {
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * PostUpdateGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     /**
      * Generator Post Update Name function.
      *
@@ -17,7 +32,7 @@ class PostUpdateGenerator extends Generator
      */
     public function generate($module, $post_update_name)
     {
-        $module_path =  $this->getSite()->getModulePath($module);
+        $module_path =  $this->extensionManager->getModule($module)->getPath();
 
         $parameters = [
           'module' => $module,

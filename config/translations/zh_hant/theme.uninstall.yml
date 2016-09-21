@@ -1,20 +1,20 @@
 description: 解除安裝網站應用中，一或多個版型
 questions:
     theme: '版型名稱（不再輸入版型，請直接按下 <return> ）'
-    invalid-theme: '不存在的版型 %s'
+    invalid-theme: '不存在的版型 "%s"'
 options:
     theme: '以逗點(,)分隔一個以上將要移除的版型名稱'
 messages:
     no-themes: 請至少提供一個以上要移除的版型名稱。
-    themes-missing: '由於版型不存在，無法移除這些版型 %s'
-    theme-missing: '由於版型不存在，無法移除此版型 %s'
+    themes-missing: '由於版型不存在，無法移除這些版型 "%s"'
+    theme-missing: '由於版型不存在，無法移除此版型 "%s"'
     missing-dependencies: '遺失必要的模組（或版型） %2$s ，因而無法解除安裝版型 %1$s'
-    themes-nothing: '所有版型 %s 都已經解除安裝，將不會有進一步動作。'
-    theme-nothing: '版型 %s 已經解除安裝，將不會有進一步動作。'
-    dependencies: 可能遺失了必要模組（或版型）：%s？
-    theme-success: '版型 %s 已經解除安裝完成'
-    themes-success: '已經解除安裝完成所有版型，包含： %s '
+    themes-nothing: '所有版型 "%s" 都已經解除安裝，將不會有進一步動作。'
+    theme-nothing: '版型 "%s" 已經解除安裝，將不會有進一步動作。'
+    dependencies: '可能遺失了必要模組（或版型）："%s"？'
+    theme-success: '版型 "%s" 已經解除安裝完成'
+    themes-success: '已經解除安裝完成所有版型，包含： "%s" '
     installed-themes: 只有安裝過的版型會出現在自動完成列表當中
     invalid-theme-default: 只能指定一個預設版型
-    error-default-theme: '版型 %s 是預設版型，無法解除安裝。'
-    error-admin-theme: '版型 %s 是管理員版型，無法解除安裝。'
+    error-default-theme: '版型 "%s" 是預設版型，無法解除安裝。'
+    error-admin-theme: '版型 "%s" 是管理員版型，無法解除安裝。'

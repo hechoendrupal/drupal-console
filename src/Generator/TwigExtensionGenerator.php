@@ -7,12 +7,27 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 /**
  * Class TwigExtensionGenerator
  * @package Drupal\Console\Generator
  */
 class TwigExtensionGenerator extends Generator
 {
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * AuthenticationProviderGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     /**
    * Generator Service.
    *
@@ -30,19 +45,19 @@ class TwigExtensionGenerator extends Generator
         'class_path' => sprintf('Drupal\%s\TwigExtension\%s', $module, $class),
         'services' => $services,
         'tags' => ['name' => 'twig.extension'],
-        'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
+        'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
         ];
 
         $this->renderFile(
             'module/services.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.services.yml',
+            $this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/src/TwigExtension/twig-extension.php.twig',
-            $this->getSite()->getModulePath($module).'/src/TwigExtension/'.$class.'.php',
+            $this->extensionManager->getModule($module)->getPath() .'/src/TwigExtension/'.$class.'.php',
             $parameters
         );
     }

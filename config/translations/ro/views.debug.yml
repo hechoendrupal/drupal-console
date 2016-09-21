@@ -10,7 +10,7 @@ messages:
     tag: Etichetă
     status: Status
     path: Cale
-    not-found: 'View-ul %s nu a fost găsit.'
+    not-found: 'View-ul "%s" nu a fost găsit.'
     display-list: 'Lista de afișare'
     display-id: ID
     display-name: Nume

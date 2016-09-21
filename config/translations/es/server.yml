@@ -2,7 +2,7 @@ description: 'Lanza el servidor web PHP interno'
 arguments:
     address: 'Los valores dirección:puerto'
 messages:
-    executing: 'Ejecutando php desde %s.'
+    executing: 'Ejecutando php desde "%s".'
 errors:
     binary: 'Ha sido imposible encontrar el binario PHP para ejecutar el servidor.'
 examples:

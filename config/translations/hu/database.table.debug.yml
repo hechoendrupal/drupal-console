@@ -6,7 +6,7 @@ arguments:
 options:
     database: 'Database key from settings.php'
 messages:
-    table-show: '%s adatbázis tábláinak megjelenítése'
+    table-show: '"%s" adatbázis tábláinak megjelenítése'
     table: Tábla
     column: Oszlop
     type: Típus

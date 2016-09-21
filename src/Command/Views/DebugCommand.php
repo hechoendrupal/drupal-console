@@ -13,7 +13,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\views\Entity\View;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -22,7 +23,22 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
+     * DebugCommand constructor.
+     * @param EntityTypeManagerInterface $entityTypeManager
+     */
+    public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+        $this->entityTypeManager = $entityTypeManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -82,8 +98,7 @@ class DebugCommand extends Command
      */
     private function viewDetail(DrupalStyle $io, $view_id)
     {
-        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
-        $view = $entityTypeManager->getStorage('view')->load($view_id);
+        $view = $this->entityTypeManager->getStorage('view')->load($view_id);
 
         if (empty($view)) {
             $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $view_id));
@@ -132,9 +147,7 @@ class DebugCommand extends Command
      */
     protected function viewList(DrupalStyle $io, $tag, $status)
     {
-        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
-
-        $views = $entityTypeManager->getStorage('view')->loadMultiple();
+        $views = $this->entityTypeManager->getStorage('view')->loadMultiple();
 
         $tableHeader = [
           $this->trans('commands.views.debug.messages.view-id'),

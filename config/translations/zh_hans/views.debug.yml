@@ -10,7 +10,7 @@ messages:
     tag: 标签
     status: 状态
     path: 路径
-    not-found: 没找到视图%s.
+    not-found: '没找到视图"%s".'
     display-list: 显示列表
     display-id: ID
     display-name: 名字

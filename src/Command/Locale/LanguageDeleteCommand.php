@@ -11,13 +11,56 @@ use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\language\Entity\ConfigurableLanguage;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Annotations\DrupalCommand;
 
-class LanguageDeleteCommand extends ContainerAwareCommand
+/**
+ * @DrupalCommand(
+ *     extension = "locale",
+ *     extensionType = "module"
+ * )
+ */
+class LanguageDeleteCommand extends Command
 {
+    use CommandTrait;
     use LocaleTrait;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
+     * @var EntityTypeManager
+     */
+    protected $entityTypeManager;
+
+    /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
+     * LoginUrlCommand constructor.
+     * @param Site                   $site
+     * @param EntityTypeManager      $entityTypeManager
+     * @param ModuleHandlerInterface $moduleHandler
+     */
+    public function __construct(
+        Site $site,
+        EntityTypeManager $entityTypeManager,
+        ModuleHandlerInterface $moduleHandler
+    ) {
+        $this->site = $site;
+        $this->entityTypeManager = $entityTypeManager;
+        $this->moduleHandler = $moduleHandler;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -29,21 +72,19 @@ class LanguageDeleteCommand extends ContainerAwareCommand
                 InputArgument::REQUIRED,
                 $this->trans('commands.locale.translation.status.arguments.language')
             );
-
-        $this->addDependency('locale');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $moduleHandler = $this->getModuleHandler();
+        $moduleHandler = $this->moduleHandler;
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
 
         $language = $input->getArgument('language');
 
         $languagesObjects = locale_translatable_language_list();
-        $languages = $this->getLanguages();
+        $languages = $this->site->getStandardLanguages();
 
         if (isset($languagesObjects[$language])) {
             $languageEntity = $languagesObjects[$language];
@@ -57,11 +98,12 @@ class LanguageDeleteCommand extends ContainerAwareCommand
                     $language
                 )
             );
-            return;
+
+            return 1;
         }
 
         try {
-            $configurable_language_storage = $this->getService('entity_type.manager')->getStorage('configurable_language');
+            $configurable_language_storage = $this->entityTypeManager->getStorage('configurable_language');
             $configurable_language_storage->load($languageEntity->getId())->delete();
 
             $io->info(
@@ -72,6 +114,10 @@ class LanguageDeleteCommand extends ContainerAwareCommand
             );
         } catch (\Exception $e) {
             $io->error($e->getMessage());
+
+            return 1;
         }
+
+        return 0;
     }
 }

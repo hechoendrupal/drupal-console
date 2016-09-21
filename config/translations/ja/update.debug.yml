@@ -1,23 +1,23 @@
 description: 利用可能なアップデートを表示
 messages:
-    no-updates: 'No pending updates'
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
-    requirements-error: 'The following requirement weren''t completed'
-    module-list: 'Modules with pending updates'
-    module-list-post-update: 'Modules with pending post updates'
-    module: Module
+    no-updates: 実行待ちのアップデートはありません
+    severity: 深刻度
+    title: タイトル
+    value: 値
+    description: 説明
+    requirements-error: 以下の要件が満たされていません
+    module-list: 実行待ちのアップデートのあるモジュール
+    module-list-post-update: アップデート後の処理の実行待ちのモジュール
+    module: モジュール
     update-n: 'Update N'
-    post-update: 'Post update function'
+    post-update: アップデート後処理の関数
 message:
     no-updates: 適用されていないアップデートはありません。
-    severity: Severity
-    title: Title
-    value: Value
-    description: Description
-    requirements-error: 'The following requirement weren''t completed'
-    module-list: 'Modules with pending updates'
-    module: Module
+    severity: 深刻度
+    title: タイトル
+    value: 値
+    description: 説明
+    requirements-error: 以下の要件が満たされていません
+    module-list: 実行待ちのアップデートのあるモジュール
+    module: モジュール
     update-n: 'Update N'

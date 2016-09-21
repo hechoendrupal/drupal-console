@@ -12,21 +12,37 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Annotation\DrupalCommand;
+use Drupal\Console\Annotations\DrupalCommand;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 
 /**
  * @DrupalCommand(
- *     dependencies = {
- *         "migrate"
- *     }
+ *     extension = "migrate",
+ *     extensionType = "module"
  * )
  */
+
 class DebugCommand extends Command
 {
     use MigrationTrait;
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var MigrationPluginManagerInterface $pluginManagerMigration
+     */
+    protected $pluginManagerMigration;
+
+    /**
+     * DebugCommand constructor.
+     * @param MigrationPluginManagerInterface $pluginManagerMigration
+     */
+    public function __construct(MigrationPluginManagerInterface $pluginManagerMigration)
+    {
+        $this->pluginManagerMigration = $pluginManagerMigration;
+        parent::__construct();
+    }
 
     protected function configure()
     {

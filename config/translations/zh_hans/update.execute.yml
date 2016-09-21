@@ -2,7 +2,7 @@ description: 执行的给出的某个模块的更新程序或者执行所有的�
 options:
     update-n: 所需执行的更新程序号
 messages:
-    no-module-updates: 没有%s模块的更新
+    no-module-updates: '没有"%s"模块的更新'
     executing-update: 执行%2$s模块的更新程序%1$s
-    module-update-function-not-found: '%s模块没有为%s的更新程序'
+    module-update-function-not-found: '"%s"模块没有为"%s"的更新程序'
     executing-required-previous-updates: 执行所需的以前更新

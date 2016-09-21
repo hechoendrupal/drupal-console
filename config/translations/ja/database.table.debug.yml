@@ -5,7 +5,7 @@ arguments:
 options:
     database: settings.phpのデータベースのキー
 messages:
-    table-show: 'データベース %s のテーブルを表示しています。'
+    table-show: 'データベース "%s" のテーブルを表示しています。'
     table: テーブル
     column: カラム
     type: タイプ

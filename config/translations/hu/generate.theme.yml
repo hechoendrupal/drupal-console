@@ -21,7 +21,7 @@ questions:
     core: 'Meg kell adni a drupal alaprendszer verzióját'
     package: 'Meg kell adni a csomag nevét'
     dependencies: 'Modulfüggőségek hozzáadása most?'
-    invalid-theme: 'Érvénytelen smink volt kiválasztva: %s'
+    invalid-theme: 'Érvénytelen smink volt kiválasztva: "%s"'
     global-library: 'Meg kell adni a globális stíluskönyvtár nevét'
     regions: 'Sminkrégiók előállítása most?'
     region-name: 'Meg kell adni a régió nevét'

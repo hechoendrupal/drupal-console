@@ -1,0 +1,5 @@
+description: アプリケーションの現在のキャッシュコンテクストを表示する。
+messages:
+    code: コンテクストID
+    label: ラベル
+    class: クラスパス

@@ -39,8 +39,8 @@ trait PermissionTrait
                 'none'
             );
 
-            $permission = $this->getStringHelper()->camelCaseToLowerCase($permission);
-            $title = $this->getStringHelper()->anyCaseToUcFirst($title);
+            $permission = $this->stringConverter->camelCaseToLowerCase($permission);
+            $title = $this->stringConverter->anyCaseToUcFirst($title);
 
             array_push(
                 $permissions,

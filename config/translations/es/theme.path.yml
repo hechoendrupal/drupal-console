@@ -3,4 +3,4 @@ arguments:
     module: 'El nombre del theme (nombre máquina)'
 options:
     absolute: 'Devuelve la ruta absoluta del theme'
-messages:
+messages: null

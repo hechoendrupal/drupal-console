@@ -6,3 +6,4 @@ messages:
     inputs: '通过添加字段修改表单。 这是可选的，按下 <info>enter</info> 键 <info>继续</info>'
     loading-forms: '从 Webprofiler 模块中导入表单定义'
     hide-form-elements: 选择表单项并隐藏（可选）
+    help-already-implemented: 'hook form alter 在模块 "%s" 中已经被实现'

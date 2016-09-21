@@ -1,5 +1,5 @@
-description: 'List image styles on the site'
+description: 列出网站的图像样式
 messages:
-    styles-list: 'Image Styles defined in the site'
-    styles-label: Label
-    styles-name: 'Machine Name'
+    styles-list: 网站中定义的图像样式
+    styles-label: 标签
+    styles-name: 机读名称

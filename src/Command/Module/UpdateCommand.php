@@ -15,12 +15,35 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
+use Drupal\Console\Utils\ShellProcess;
 
 class UpdateCommand extends Command
 {
     use CommandTrait;
     use ProjectDownloadTrait;
 
+
+    /** @var ShellProcess  */
+    protected $shellProcess;
+
+    /**
+     * @var string
+     */
+    protected $root;
+
+    /**
+     * UpdateCommand constructor.
+     * @param ShellProcess $shellProcess
+     * @param $root
+     */
+    public function __construct(
+        ShellProcess $shellProcess,
+        $root
+    ) {
+        $this->shellProcess = $shellProcess;
+        $this->root = $root;
+        parent::__construct();
+    }
     protected function configure()
     {
         $this
@@ -98,15 +121,17 @@ class UpdateCommand extends Command
         }
 
         if ($composer) {
-            $this->setComposerRepositories("default");
+            // Register composer repository
+            $command = "composer config repositories.drupal composer https://packagist.drupal-composer.org";
+            $this->shellProcess->exec($command, $this->root);
+
             $command = 'composer update ' . $modules . ' --optimize-autoloader --prefer-dist --no-dev --root-reqs ';
 
             if ($simulate) {
                 $command .= " --dry-run";
             }
 
-            $shellProcess = $this->get('shell_process');
-            if ($shellProcess->exec($command)) {
+            if ($this->shellProcess->exec($command, $this->root)) {
                 $io->success(
                     sprintf(
                         $this->trans('commands.module.update.messages.composer'),

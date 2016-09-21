@@ -7,7 +7,8 @@ use Drupal\Core\Config\ConfigFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\devel\DevelDumperPluginManager;
 use Drupal\devel\DevelDumperManager;
@@ -15,20 +16,30 @@ use Drupal\devel\DevelDumperManager;
 /**
  * Class DumperCommand.
  * Command to quickly change between devel dumpers from the command line
+ *
  * @package Drupal\Console\Command
+ *
+ * @todo Inject services using \Drupal
+ * @todo Move to namespace Devel
+ * @todo Load devel.module legacy file
  */
-class DumperCommand extends ContainerAwareCommand
+class DumperCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        //Dumper is optional, if no input present a list
         $this
             ->setName('devel:dumper')
             ->setDescription($this->trans('Change the devel dumper plugin'))
-            ->addArgument('dumper', InputArgument::OPTIONAL, $this->trans('Name of the devel dumper plugin'));
+            ->addArgument(
+                'dumper',
+                InputArgument::OPTIONAL,
+                $this->trans('Name of the devel dumper plugin')
+            );
     }
 
     /**
@@ -37,26 +48,25 @@ class DumperCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        //Without devel we will not get very far
-        $d = $this->getModuleHandler()->moduleExists('devel');
-        if (!$d) {
+        if (!\Drupal::moduleHandler()->moduleExists('devel')) {
             $io->error($this->trans('Devel must be installed'));
+
+            return 1;
         }
 
-        $name = $input->getArgument('dumper');
-        if (!$name) {
+        $dumper = $input->getArgument('dumper');
+        if (!$dumper) {
             /* @var string[] $dumpKeys */
             $dumpKeys = $this->getDumperKeys();
 
-            $name = $io->choice(
+            $dumper = $io->choice(
                 $this->trans('Select a Debug Dumper'),
                 $dumpKeys,
                 'kint', //Make kint the default for quick 'switchback'
                 false
             );
 
-            $input->setArgument('dumper', $name);
+            $input->setArgument('dumper', $dumper);
         }
     }
 
@@ -68,27 +78,30 @@ class DumperCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         //Check the dumper actually exists
-        $name = $input->getArgument('dumper');
+        $dumper = $input->getArgument('dumper');
         $dumpKeys = $this->getDumperKeys();
-        if (!in_array($name, $dumpKeys)) {
+        if (!in_array($dumper, $dumpKeys)) {
             $io->error($this->trans('Dumper does not exist'));
-            return;
+
+            return 1;
         }
-        //Set the dumper in config
-        /* @var ConfigFactory $cf */
-        $cf = $this->getContainer()->get('config.factory');
-        /* @var Config $ds */
-        $ds = $cf->getEditable('devel.settings');
-        $ds->set('devel_dumper', $name)->save();
-        //By actually retrieving the value from config again here and printing it we confirm it was set properly
-        $set = $cf->get('devel.settings')->get('devel_dumper');
-        $io->info($this->trans("Devel Dumper set to $set"));
+        /* @var ConfigFactory $configFactory */
+        $configFactory = \Drupal::configFactory();
+        /* @var Config $develSettings */
+        $develSettings = $configFactory->getEditable('devel.settings');
+        $develSettings->set('devel_dumper', $dumper)->save();
+        $io->info(
+            sprintf(
+                $this->trans('Devel Dumper set to: %s'),
+                $configFactory->get('devel.settings')->get('devel_dumper')
+            )
+        );
     }
 
     protected function getDumperKeys()
     {
         /* @var DevelDumperPluginManager $manager */
-        $manager = $this->getContainer()->get('plugin.manager.devel_dumper');
+        $manager = \Drupal::service('plugin.manager.devel_dumper');
         $plugins = $manager->getDefinitions();
         return array_keys($plugins);
     }

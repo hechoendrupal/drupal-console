@@ -13,21 +13,66 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Annotation\DrupalCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\simpletest\TestDiscovery;
+use Drupal\Core\Datetime\DateFormatter;
 
+/**
+ * @DrupalCommand(
+ *     extension = "simpletest",
+ *     extensionType = "module",
+ * )
+ */
 class RunCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
 
     /**
-     * @DrupalCommand(
-     *     dependencies = {
-     *         “simpletest"
-     *     }
-     * )
+     * @var string
      */
+    protected $appRoot;
+
+    /**
+      * @var TestDiscovery
+      */
+    protected $test_discovery;
+
+
+    /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+
+    /**
+     * @var DateFormatter
+     */
+    protected $dateFormatter;
+
+
+
+    /**
+     * RunCommand constructor.
+     * @param Site    $site
+     * @param TestDiscovery    $test_discovery
+     * @param ModuleHandlerInterface    $moduleHandler
+     */
+    public function __construct(
+        $appRoot,
+        TestDiscovery $test_discovery,
+        ModuleHandlerInterface $moduleHandler,
+        DateFormatter $dateFormatter
+    ) {
+        $this->appRoot = $appRoot;
+        $this->test_discovery = $test_discovery;
+        $this->moduleHandler = $moduleHandler;
+        $this->dateFormatter = $dateFormatter;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -63,7 +108,7 @@ class RunCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         //Registers namespaces for disabled modules.
-        $this->getDrupalService('test_discovery')->registerTestNamespaces();
+        $this->test_discovery->registerTestNamespaces();
 
         $testClass = $input->getArgument('test-class');
         $testMethods = $input->getArgument('test-methods');
@@ -106,7 +151,7 @@ class RunCommand extends Command
             $end = Timer::stop('run-tests');
 
             $io->simple(
-                $this->trans('commands.test.run.messages.test-duration') . ': ' .  \Drupal::service('date.formatter')->formatInterval($end['time'] / 1000)
+                $this->trans('commands.test.run.messages.test-duration') . ': ' .  $this->dateFormatter->formatInterval($end['time'] / 1000)
             );
             $io->simple(
                 $this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass']
@@ -121,7 +166,7 @@ class RunCommand extends Command
                 $this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug']
             );
 
-            $this->getModuleHandler()->invokeAll(
+            $this->moduleHandler->invokeAll(
                 'test_finished',
                 [$test->results]
             );
@@ -158,7 +203,7 @@ class RunCommand extends Command
                 }
 
                 $io->simple(
-                    $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->getDrupalHelper()->getRoot(), '', $message->file)
+                    $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->appRoot, '', $message->file)
                 );
                 $io->simple(
                     $this->trans('commands.test.run.messages.method') . ': ' . $message->function

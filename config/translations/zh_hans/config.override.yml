@@ -1,10 +1,10 @@
 description: 覆写活动配置
 questions:
-    name: 'Enter configuration name'
-    key: 'Enter the configuration key'
-    value: 'Enter the configuration value'
+    name: 输入配置名称
+    key: 输入配置的键
+    value: 输入配置的值
 arguments:
-    name: 'Configuration name'
+    name: 配置名称
     key: 键
     value: 值
     config-name: 配置名称
@@ -13,7 +13,7 @@ messages:
     configuration-key: 配置的键
     original: 原始值
     updated: 覆写后的值
-    invalid-name: 'Config object "%s", does not exists'
+    invalid-name: '配置对象 "%s" 不存在'
 examples:
     -
         description: '设置 Contact 模块 flood limit 为 10.'

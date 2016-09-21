@@ -24,4 +24,4 @@ messages:
     roles: Szerepkörök
     username: Felhasználónév
     created: 'Létrehozás időpontja'
-    created-users: '%s felhasználó sikeresen létrejött'
+    created-users: '"%s" felhasználó sikeresen létrejött'

@@ -14,4 +14,4 @@ messages:
     methods: 測試類別方法（Method）
     not-found: '找不到測試指令，嘗試為測試 ID 加上雙引號。'
     success-groups: '已列出所有測試群組，使用群組參數來篩選單元測試，例如： $ drupal test:debug Url'
-    success-group: '已列出 %s 群組中所有單元測試'
+    success-group: '已列出 "%s" 群組中所有單元測試'

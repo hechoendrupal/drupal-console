@@ -10,8 +10,8 @@ questions:
 messages:
     user-id: '使用者 ID'
     username: 使用者名稱
-    user-deleted: '成功刪除使用者 %s'
-    users-deleted: '成功刪除使用者 %s'
+    user-deleted: '成功刪除使用者 "%s"'
+    users-deleted: '成功刪除使用者 "%s"'
 errors:
-    invalid-user-id: '不正確的使用者 ID %s'
-    invalid-user: '不正確的使用者 ID %s'
+    invalid-user-id: '不正確的使用者 ID "%s"'
+    invalid-user: '不正確的使用者 ID "%s"'

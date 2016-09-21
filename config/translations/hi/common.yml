@@ -1,4 +1,5 @@
 options:
+    class: 'Class name'
     events: 'घटनाओ को container से लोड करें।'
     module: 'मोड्यूल का नाम।'
     services: 'सर्विसेज़ को container से लोड करें।'
@@ -6,6 +7,7 @@ options:
     inputs: 'एक फॉर्म के लिए आदानो को बनाएँ।'
     permissions: 'अनुमतियों को बनाएँ।'
 questions:
+    class: 'Enter the Class name'
     module: 'मोड्यूल का नाम डालें।'
     confirm: 'क्या आप उत्पन्न की पुष्टि करते हैं।'
     canceled: 'कमाण्ड उत्पन्न रद्द करें।'

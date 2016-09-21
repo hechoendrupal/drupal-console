@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,11 +15,54 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Core\Config\ConfigFactory;
 
 class UninstallCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ProjectDownloadTrait;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /** @var ModuleInstaller  */
+    protected $moduleInstaller;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /** @var ConfigFactory  */
+    protected $configFactory;
+
+
+    /**
+     * InstallCommand constructor.
+     * @param Site $site
+     * @param Validator $validator
+     * @param ChainQueue $chainQueue
+     * @param ConfigFactory $configFactory
+     */
+    public function __construct(
+        Site $site,
+        ModuleInstaller $moduleInstaller,
+        ChainQueue $chainQueue,
+        ConfigFactory $configFactory
+
+    ) {
+        $this->site = $site;
+        $this->moduleInstaller = $moduleInstaller;
+        $this->chainQueue = $chainQueue;
+        $this->configFactory = $configFactory;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -69,9 +112,9 @@ class UninstallCommand extends Command
         $composer = $input->getOption('composer');
         $module = $input->getArgument('module');
 
-        $this->get('site')->loadLegacyFile('/core/modules/system/system.module');
-        $coreExtension = $this->getDrupalService('config.factory')->getEditable('core.extension');
-        $moduleInstaller = $this->getDrupalService('module_installer');
+        $this->site->loadLegacyFile('/core/modules/system/system.module');
+
+        $coreExtension = $this->configFactory->getEditable('core.extension');
 
         // Get info about modules available
         $moduleData = system_rebuild_module_data();
@@ -140,7 +183,7 @@ class UninstallCommand extends Command
         }
 
         try {
-            $moduleInstaller->uninstall($moduleList);
+            $this->moduleInstaller->uninstall($moduleList);
 
             $io->info(
                 sprintf(
@@ -154,6 +197,6 @@ class UninstallCommand extends Command
             return 1;
         }
 
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

@@ -6,26 +6,75 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Generator\TwigExtensionGenerator;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
 /**
  * Class TwigExtensionCommand
  * @package Drupal\Console\Command\Generate
  */
-class TwigExtensionCommand extends GeneratorCommand
+class TwigExtensionCommand extends Command
 {
     use ModuleTrait;
     use ServicesTrait;
     use ConfirmationTrait;
+    use ContainerAwareCommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var TwigExtensionGenerator  */
+    protected $generator;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+
+    /**
+     * ModuleCommand constructor.
+     * @param Manager $extensionManager
+     * @param TwigExtensionGenerator $generator
+     * @param StringConverter $stringConverter
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        TwigExtensionGenerator $generator,
+        Site $site,
+        StringConverter $stringConverter,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->site = $site;
+        $this->stringConverter = $stringConverter;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     /**
    * {@inheritdoc}
@@ -85,11 +134,9 @@ class TwigExtensionCommand extends GeneratorCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        $this
-            ->getGenerator()
-            ->generate($module, $name, $class, $build_services);
+        $this->generator->generate($module, $name, $class, $build_services);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     /**
@@ -103,7 +150,7 @@ class TwigExtensionCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -131,16 +178,8 @@ class TwigExtensionCommand extends GeneratorCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($output);
+            $services = $this->servicesQuestion($io);
             $input->setOption('services', $services);
         }
-    }
-
-    /**
-   * {@inheritdoc}
-   */
-    protected function createGenerator()
-    {
-        return new TwigExtensionGenerator();
     }
 }

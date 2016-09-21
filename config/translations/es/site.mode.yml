@@ -13,4 +13,4 @@ messages:
     service-value: Valor
     error-copying-file: 'Error copiando el archivo'
     error-writing-file: 'Error copiando el archivo'
-    services-file-overwritten: 'El archivo de servicios %s ha sido sobreescrito'
+    services-file-overwritten: 'El archivo de servicios "%s" ha sido sobreescrito'

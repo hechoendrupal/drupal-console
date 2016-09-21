@@ -1,14 +1,14 @@
-description: 'Update core, module or modules in the application'
+description: '更新核心,模块'
 arguments:
-    module: 'Module or modules to be updated should be separated by a space. Leave empty for updating the core and all your modules managed by Composer.'
+    module: '模块之间以空格间隔, 留空更新核心以及所有被 Composer 管理的模块'
 options:
-    composer: 'Update the module using Composer'
-    simulate: 'Simulate the update process with Composer'
+    composer: '使用 Composer 更新模块'
+    simulate: '使用 Composer 模拟更新模块'
 questions:
-    module: 'Module name (press <return> to stop adding modules)'
-    invalid-module: 'Invalid module %s'
+    module: '模块名称 (按下 <return> 停止添加模块)'
+    invalid-module: '无效模块 "%s"'
 messages:
-    success: 'The following module(s) were installed successfully: %s'
-    composer: 'The module %s was installed successfully with Composer'
-    only-composer: 'This command only updates modules via Composer. Use --composer option.'
-    missing-module: 'Enter a module(s) name(s) to update.'
+    success: '以下模块被成功安装: "%s"'
+    composer: '模块 "%s" 使用 Composer 安装成功'
+    only-composer: '仅仅更新通过 Composer 管理的模块,使用 --composer 选项'
+    missing-module: 输入要更新的模块名称

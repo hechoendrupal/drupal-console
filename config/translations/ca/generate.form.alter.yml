@@ -6,3 +6,4 @@ messages:
     inputs: "Es poden afegir camps per modificar el formulari.\nAixò es opcional, tecleja <info>enter</info> per <info>continuar</info>"
     loading-forms: 'Carregant definició dels formularis des del mòdul Webprofiler'
     hide-form-elements: 'Opcionalment pot seleccionar elements de formulari per ocultar-los'
+    help-already-implemented: 'The hook form alter was already implemented in module "%s"'

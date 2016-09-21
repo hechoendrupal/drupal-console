@@ -7,7 +7,7 @@ arguments:
     user: 目標使用者名稱（僅限一位）
 messages:
     bad-arguments: '缺少必要的參數！請加入以下所有參數：[add/remove] [username] [role]'
-    no-user-found: '找不到使用者 %s '
-    no-role-found: '找不到符合的角色 %s'
-    add-success: '已指派使用者 %1$s 為 %2$s 角色'
-    remove-success: '已移除使用者 %1$s 的 %2$s 角色'
+    no-user-found: '找不到使用者 "%s" '
+    no-role-found: '找不到符合的角色 "%s"'
+    add-success: '已指派使用者 "%1$s" 為 "%2$s" 角色'
+    remove-success: '已移除使用者 "%1$s" 的 "%2$s" 角色'

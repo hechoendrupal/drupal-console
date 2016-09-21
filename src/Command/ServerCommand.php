@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
@@ -20,9 +20,26 @@ use Drupal\Console\Style\DrupalStyle;
  * Class ServerCommand
  * @package Drupal\Console\Command
  */
-class ServerCommand extends BaseCommand
+class ServerCommand extends Command
 {
     use CommandTrait;
+
+    protected $appRoot;
+
+    protected $configurationManager;
+
+    /**
+     * ServerCommand constructor.
+     * @param $appRoot
+     * @param $configurationManager
+     */
+    public function __construct($appRoot, $configurationManager)
+    {
+        $this->appRoot = $appRoot;
+        $this->configurationManager = $configurationManager;
+
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -47,14 +64,7 @@ class ServerCommand extends BaseCommand
     {
         $io = new DrupalStyle($input, $output);
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
-
-        $address = $input->getArgument('address');
-        if (false === strpos($address, ':')) {
-            $address = sprintf(
-                '%s:8088',
-                $address
-            );
-        }
+        $address = $this->validatePort($input->getArgument('address'));
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
@@ -84,8 +94,12 @@ class ServerCommand extends BaseCommand
 
         $processBuilder = new ProcessBuilder(explode(' ', $cli));
         $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->get('site')->getRoot());
-        $process->setTty('true');
+        $process->setWorkingDirectory($this->appRoot);
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
+            $process->setTty('true');
+        } else {
+            $process->setTimeout(null);
+        }
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -100,7 +114,7 @@ class ServerCommand extends BaseCommand
     {
         $router = sprintf(
             '%s/.console/router.php',
-            $this->getApplication()->getConfig()->getUserHomeDir()
+            $this->configurationManager->getHomeDirectory()
         );
 
         if (file_exists($router)) {
@@ -109,7 +123,7 @@ class ServerCommand extends BaseCommand
 
         $router = sprintf(
             '%s/config/dist/router.php',
-            $this->getApplication()->getDirectoryRoot()
+            $this->configurationManager->getApplicationDirectory()
         );
 
         if (file_exists($router)) {
@@ -117,5 +131,33 @@ class ServerCommand extends BaseCommand
         }
 
         return null;
+    }
+
+    /**
+     * @param string $address
+     * @return string
+     */
+    private function validatePort($address)
+    {
+        if (false === strpos($address, ':')) {
+            $host = $address;
+            $port = '8088';
+        } else {
+            $host = explode(':', $address)[0];
+            $port = explode(':', $address)[1];
+        }
+
+        if (fsockopen($host, $port)) {
+            $port = rand(8888, 9999);
+            $address = sprintf(
+                '%s:%s',
+                $host,
+                $port
+            );
+
+            $address = $this->validatePort($address);
+        }
+
+        return $address;
     }
 }

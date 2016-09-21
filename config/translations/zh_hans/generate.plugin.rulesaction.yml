@@ -1,5 +1,5 @@
-description: 生成一个插件的规则（Rule）行为（action）
-help: '<info>generate:plugin:rulesaction</info> 命令帮助生成一个性的插件的规则（Rule）行为（action） helps you generate a new Plugin rule action.'
+description: 生成一个规则（Rule）行为（action）插件
+help: '<info>generate:plugin:rulesaction</info> 命令帮助生成一个新的规则（Rule）行为（action）插件'
 welcome: 欢迎到Drupal插件规则行为生成器
 options:
     module: common.options.module

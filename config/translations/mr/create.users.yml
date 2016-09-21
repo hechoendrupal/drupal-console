@@ -24,4 +24,4 @@ messages:
     roles: Roles
     username: Username
     created: 'Created Time'
-    created-users: 'Created %s users successfully'
+    created-users: 'Created "%s" users successfully'

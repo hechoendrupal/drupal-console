@@ -24,4 +24,4 @@ messages:
     roles: Роли
     username: 'Имя пользователя'
     created: 'Время создания'
-    created-users: '%s пользователей создано успешно.'
+    created-users: '"%s" пользователей создано успешно.'

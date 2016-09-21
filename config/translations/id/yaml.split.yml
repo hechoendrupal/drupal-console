@@ -7,5 +7,5 @@ options:
     starting-key: 'Indeks YAML pertama yang digunakan untuk pemisahan - berguna untuk mengambil sebagian elemen'
 messages:
     generating-split: 'Membuat file-file baru'
-    split-generated: 'File %s telah dibuat'
+    split-generated: 'File "%s" telah dibuat'
     invalid-key: 'Indeks YAML pertama yang digunakan untuk pemisahan tidak dapat ditemukan, gabungkan dengan indent-level 0 untuk mengambil nilai-nilai'
