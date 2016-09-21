@@ -21,6 +21,8 @@ class LogClearCommand extends Command
 {
     use CommandTrait;
 
+    use LogCommandTrait;
+
     /**
      * @var Connection
      */
@@ -42,30 +44,9 @@ class LogClearCommand extends Command
     {
         $this
             ->setName('database:log:clear')
-            ->setDescription($this->trans('commands.database.log.clear.description'))
-            ->addArgument(
-                'event-id',
-                InputArgument::OPTIONAL,
-                $this->trans('commands.database.log.clear.arguments.event-id')
-            )
-            ->addOption(
-                'type',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.clear.options.type')
-            )
-            ->addOption(
-                'severity',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.clear.options.severity')
-            )
-            ->addOption(
-                'user-id',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.clear.options.user-id')
-            );
+            ->setDescription($this->trans('commands.database.log.clear.description'));
+
+      LogCommandTrait::addBasicLoggingConfiguration($this);
     }
 
     /**

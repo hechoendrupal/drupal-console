@@ -12,60 +12,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Core\StringTranslation\Translator\TranslatorInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Core\Database\Connection;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Logger\RfcLogLevel;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class LogDebugCommand extends Command
+class LogDebugCommand extends LogCommandBase
 {
-    use CommandTrait;
 
-    /**
-     * @var Connection
-     */
-    protected $database;
-
-    /**
-     * @var DateFormatterInterface
-     */
-    protected $dateFormatter;
-
-    /**
-     * @var EntityTypeManagerInterface
-     */
-    protected $entityTypeManager;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $stringTranslation;
-
-    /**
-     * LogDebugCommand constructor.
-     * @param Connection $database
-     * @param DateFormatterInterface $dateFormatter
-     * @param EntityTypeManagerInterface $entityTypeManager
-     * @param TranslatorInterface $stringTranslation
-     */
-    public function __construct(
-        Connection $database,
-        DateFormatterInterface $dateFormatter,
-        EntityTypeManagerInterface $entityTypeManager,
-        TranslatorInterface $stringTranslation
-    ) {
-        $this->database = $database;
-        $this->dateFormatter = $dateFormatter;
-        $this->entityTypeManager = $entityTypeManager;
-        $this->stringTranslation = $stringTranslation;
-        parent::__construct();
-    }
 
     /**
      * {@inheritdoc}
@@ -74,35 +29,15 @@ class LogDebugCommand extends Command
     {
         $this
             ->setName('database:log:debug')
-            ->setDescription($this->trans('commands.database.log.debug.description'))
-            ->addArgument(
-                'event-id',
-                InputArgument::OPTIONAL,
-                $this->trans('commands.database.log.debug.arguments.event-id')
-            )
-            ->addOption(
-                'type',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.debug.options.type')
-            )
-            ->addOption(
-                'severity',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.debug.options.severity')
-            )
-            ->addOption(
-                'user-id',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.debug.options.user-id')
-            )
-            ->addOption(
-                'asc',
-                false,
-                InputOption::VALUE_NONE,
-                $this->trans('commands.database.log.debug.options.asc')
+            ->setDescription($this->trans('commands.database.log.debug.description'));
+
+        $this->addBasicLoggingConfiguration();
+
+        $this->addOption(
+              'asc',
+              FALSE,
+              InputOption::VALUE_NONE,
+              $this->trans('commands.database.log.debug.options.asc')
             )
             ->addOption(
                 'limit',
@@ -117,7 +52,7 @@ class LogDebugCommand extends Command
                 $this->trans('commands.database.log.debug.options.offset'),
                 0
             );
-        ;
+
     }
 
     /**
@@ -242,27 +177,11 @@ class LogDebugCommand extends Command
 
         $result = $query->execute();
 
-        $tableHeader = [
-            $this->trans('commands.database.log.debug.messages.event-id'),
-            $this->trans('commands.database.log.debug.messages.type'),
-            $this->trans('commands.database.log.debug.messages.date'),
-            $this->trans('commands.database.log.debug.messages.message'),
-            $this->trans('commands.database.log.debug.messages.user'),
-            $this->trans('commands.database.log.debug.messages.severity'),
-        ];
+        $tableHeader = $this->createTableHeader();
 
         $tableRows = [];
         foreach ($result as $dblog) {
-            $user= $userStorage->load($dblog->uid);
-
-            $tableRows[] = [
-                $dblog->wid,
-                $dblog->type,
-                $this->dateFormatter->format($dblog->timestamp, 'short'),
-                Unicode::truncate(Html::decodeEntities(strip_tags($this->formatMessage($dblog))), 56, true, true),
-                $user->getUsername() . ' (' . $user->id() .')',
-                $severity[$dblog->severity]
-            ];
+          $this->createTableRow($dblog,$userStorage,$this->dateFormatter,$severity);
         }
 
         $io->table(
@@ -273,33 +192,4 @@ class LogDebugCommand extends Command
         return true;
     }
 
-    /**
-     * Formats a database log message.
-     *
-     * @param $event
-     *   The record from the watchdog table. The object properties are: wid, uid,
-     *   severity, type, timestamp, message, variables, link, name.
-     *
-     * @return string|false
-     *   The formatted log message or FALSE if the message or variables properties
-     *   are not set.
-     */
-    private function formatMessage($event)
-    {
-        $message = false;
-
-        // Check for required properties.
-        if (isset($event->message) && isset($event->variables)) {
-            // Messages without variables or user specified text.
-            if ($event->variables === 'N;') {
-                return $event->message;
-            }
-
-            return $this->stringTranslation->translate(
-                $event->message, unserialize($event->variables)
-            );
-        }
-
-        return $message;
-    }
 }
