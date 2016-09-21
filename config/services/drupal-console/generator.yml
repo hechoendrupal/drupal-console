@@ -3,6 +3,10 @@ services:
     class: Drupal\Console\Generator\ModuleGenerator
     tags:
       - { name: console.generator }
+  console.modulefile_generator:
+    class: Drupal\Console\Generator\ModuleFileGenerator
+    tags:
+      - { name: console.generator }
   console.authentication_provider_generator:
     class: Drupal\Console\Generator\AuthenticationProviderGenerator
     arguments: ['@console.extension_manager']
@@ -49,6 +53,11 @@ services:
       - { name: console.generator }
   console.post_update_generator:
     class: Drupal\Console\Generator\PostUpdateGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: console.generator }
+  console.plugin_condition_generator:
+    class: Drupal\Console\Generator\PluginConditionGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: console.generator }

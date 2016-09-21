@@ -18,13 +18,6 @@ class GenerateDocDataCommand extends Command
 {
     use CommandTrait;
 
-    /**
-     * GenerateDocDataCommand constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * {@inheritdoc}
@@ -56,15 +49,13 @@ class GenerateDocDataCommand extends Command
             $file = $input->getOption('file');
         }
 
-        if (!$file) {
-            $io->error(
-                $this->trans('commands.generate.doc.data.messages.missing_file')
-            );
+        $data = $this->getApplication()->getData();
+        if ($file) {
+            file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 
-            return 1;
+            return 0;
         }
 
-        $data = $this->getApplication()->getData();
-        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+        $io->write(json_encode($data, JSON_PRETTY_PRINT));
     }
 }

@@ -36,7 +36,7 @@ trait ChainFilesTrait
             $modulePath = sprintf(
                 '%s/%s/console/chain/',
                 $this->appRoot,
-                $module->getPath()
+                $module
             );
 
             if (is_dir($modulePath)) {
@@ -47,7 +47,7 @@ trait ChainFilesTrait
             $themePath = sprintf(
                 '%s/%s/console/chain',
                 $this->appRoot,
-                $theme->getPath()
+                $theme
             );
             if (is_dir($themePath)) {
                 $directories[] = $themePath;
