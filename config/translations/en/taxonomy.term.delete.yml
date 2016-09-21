@@ -1,0 +1,1 @@
+description: 'Delete taxonomy terms from a vocabulary, command takes the VID as argument or all which will delete every term from every vocabulary'

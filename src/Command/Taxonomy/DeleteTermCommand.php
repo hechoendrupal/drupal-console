@@ -4,17 +4,17 @@ namespace Drupal\Console\Command\Taxonomy;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Class TaxoDeleteCommand.
+ * Class DeleteTermCommand.
  *
  * @package Drupal\eco_migrate
  */
-class TaxoDeleteCommand extends BaseCommand {
+class DeleteTermCommand extends Command {
 
   use ContainerAwareCommandTrait;
 
@@ -25,8 +25,8 @@ class TaxoDeleteCommand extends BaseCommand {
    */
   protected function configure() {
     $this
-      ->setName('taxo:delete')
-      ->setDescription($this->trans('commands.taxo.delete.description'))
+      ->setName('taxonomy:term:delete')
+      ->setDescription($this->trans('commands.taxonomy.term.delete.description'))
       ->addArgument('vid',InputArgument::REQUIRED);
   }
 
@@ -34,9 +34,11 @@ class TaxoDeleteCommand extends BaseCommand {
    * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
+
     $io = new DrupalStyle($input, $output);
 
-    $this->deleteExistingTerms($input->getArgument('vid'),$io);
+    $this->deleteExistingTerms($input->getArgument('vid'), $io);
+
   }
 
 }

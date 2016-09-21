@@ -25,7 +25,7 @@ trait TermDeletionTrait {
     //Load the vid
     $vocabularies = Vocabulary::loadMultiple();
 
-    if($vid !== null){
+    if($vid !== 'all'){
       $vid = [$vid];
     } else {
       $vid = array_keys($vocabularies);
