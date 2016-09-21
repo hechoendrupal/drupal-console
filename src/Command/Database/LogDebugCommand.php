@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Database;
 
+use Drupal\user\Entity\User;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,9 +19,10 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Console\Style\DrupalStyle;
 
-class LogDebugCommand extends LogCommandBase
+class LogDebugCommand extends Command
 {
 
+    use LogCommandTrait;
 
     /**
      * {@inheritdoc}
@@ -86,10 +88,10 @@ class LogDebugCommand extends LogCommandBase
      */
     private function getEventDetails(DrupalStyle $io, $eventId)
     {
-        $userStorage = $this->entityTypeManager->getStorage('user');
+        $userStorage = $this->getUserStorage();
         $severity = RfcLogLevel::getLevels();
 
-        $dblog = $this->database
+        $dblog = $this->getDatabase()
             ->query(
                 'SELECT w.*, u.uid FROM {watchdog} w LEFT JOIN {users} u ON u.uid = w.uid WHERE w.wid = :id',
                 [':id' => $eventId]
@@ -107,12 +109,13 @@ class LogDebugCommand extends LogCommandBase
             return false;
         }
 
+        /** @var User $user */
         $user = $userStorage->load($dblog->uid);
 
         $configuration = [
             $this->trans('commands.database.log.debug.messages.event-id') => $eventId,
             $this->trans('commands.database.log.debug.messages.type') => $dblog->type,
-            $this->trans('commands.database.log.debug.messages.date') => $this->dateFormatter->format($dblog->timestamp, 'short'),
+            $this->trans('commands.database.log.debug.messages.date') => $this->getDateFormatter()->format($dblog->timestamp, 'short'),
             $this->trans('commands.database.log.debug.messages.user') => $user->getUsername() . ' (' . $user->id() .')',
             $this->trans('commands.database.log.debug.messages.severity') => (string) $severity[$dblog->severity],
             $this->trans('commands.database.log.debug.messages.message') => Html::decodeEntities(strip_tags($this->formatMessage($dblog)))
@@ -125,10 +128,9 @@ class LogDebugCommand extends LogCommandBase
 
     private function getAllEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId, $asc, $offset, $limit)
     {
-        $userStorage = $this->entityTypeManager->getStorage('user');
         $severity = RfcLogLevel::getLevels();
 
-        $query = $this->database->select('watchdog', 'w');
+        $query = $this->getDatabase()->select('watchdog', 'w');
         $query->fields(
             'w',
             [
@@ -181,7 +183,7 @@ class LogDebugCommand extends LogCommandBase
 
         $tableRows = [];
         foreach ($result as $dblog) {
-          $this->createTableRow($dblog,$userStorage,$this->dateFormatter,$severity);
+          $this->createTableRow($dblog, $severity);
         }
 
         $io->table(

@@ -2,16 +2,17 @@
 
 namespace Drupal\Console\Command\Database;
 
-use Drupal\Component\Utility\Html;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\Logger\RfcLogLevel;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 
-class LogPollCommand extends LogCommandBase
+class LogPollCommand extends Command
 {
+
+  use LogCommandTrait;
 
   protected $severity;
   protected $user;
@@ -35,6 +36,8 @@ class LogPollCommand extends LogCommandBase
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
+
+
     $io = new DrupalStyle($input, $output);
 
     $io->note('For site performance it is strongly advised to have more than one core in your vm when using this script.');
@@ -47,7 +50,7 @@ class LogPollCommand extends LogCommandBase
     $this->duration = $input->getArgument('duration');
 
     $this->pollForEvents($io);
-    
+
   }
 
   private function makeQuery($connection, $io, $offset = null)
@@ -101,13 +104,9 @@ class LogPollCommand extends LogCommandBase
   }
 
   protected function pollForEvents(DrupalStyle $io) {
-    $connection = $this->getDrupalService('database');
-    $dateFormatter = $this->getDrupalService('date.formatter');
-    $userStorage = $this->getDrupalService('entity_type.manager')
-      ->getStorage('user');
 
 
-    $query = $this->makeQuery($connection,$io);
+    $query = $this->makeQuery($this->getDatabase(),$io);
 
 
     $result = $query->execute();
@@ -119,7 +118,7 @@ class LogPollCommand extends LogCommandBase
     $tableRows = [];
     if($results){
       $lastResult = array_pop($results);
-      $tableRows[] = $this->createTableRow($lastResult, $userStorage, $dateFormatter, $this->severity);
+      $tableRows[] = $this->createTableRow($lastResult, $this->severity);
       $io->table($tableHeader,$tableRows);
     }
 
@@ -129,13 +128,13 @@ class LogPollCommand extends LogCommandBase
     while (1) {
       if (time() > $lastExec + $this->duration) {
         //Print out any new db logs
-        $query = $this->makeQuery($connection,$io,$count);
+        $query = $this->makeQuery($this->getDatabase(),$io,$count);
         $result = $query->execute();
         $results = $result->fetchAll();
         $count += count($results);
         $tableRows = [];
         foreach ($results as $r) {
-          $tableRows[] = $this->createTableRow($r, $userStorage, $dateFormatter, $this->severity);
+          $tableRows[] = $this->createTableRow($r, $this->severity);
         }
         if (!empty($tableRows)) {
           $io->table($tableHeader, $tableRows);

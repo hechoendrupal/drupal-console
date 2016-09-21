@@ -37,3 +37,11 @@ services:
     arguments: ['@console.redbean', '@database']
     tags:
       - { name: console.command }
+  console.database_log_debug:
+      class: Drupal\Console\Command\Database\LogDebugCommand
+      tags:
+        - { name: console.command }
+  console.database_log_poll:
+      class: Drupal\Console\Command\Database\LogPollCommand
+      tags:
+        - { name: console.command }
