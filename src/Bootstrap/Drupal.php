@@ -43,7 +43,7 @@ class Drupal
             new DrupalServiceModifier(
                 $this->root,
                 'drupal.command',
-                'console.generator'
+                'drupal.generator'
             )
         );
 

@@ -47,13 +47,13 @@ class Application extends ConsoleApplication
 
     private function registerGenerators()
     {
-        if ($this->container->hasParameter('console.generators')) {
+        if ($this->container->hasParameter('drupal.generators')) {
             $consoleGenerators = $this->container->getParameter(
-                'console.generators'
+                'drupal.generators'
             );
         } else {
             $consoleGenerators = array_keys(
-                $this->container->findTaggedServiceIds('console.generator')
+                $this->container->findTaggedServiceIds('drupal.generator')
             );
         }
 
