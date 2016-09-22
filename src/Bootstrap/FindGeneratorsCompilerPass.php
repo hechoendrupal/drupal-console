@@ -38,6 +38,6 @@ class FindGeneratorsCompilerPass implements CompilerPassInterface
             $generators[] = $id;
         }
 
-        $container->setParameter('console.generators', $generators);
+        $container->setParameter('drupal.generators', $generators);
     }
 }

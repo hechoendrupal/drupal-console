@@ -3,9 +3,9 @@ services:
     class: Drupal\Console\Command\Multisite\DebugCommand
     arguments: ['@app.root']
     tags:
-      - { name: console.command }
+      - { name: drupal.command }
   console.multisite_new:
     class: Drupal\Console\Command\Multisite\NewCommand
     arguments: ['@app.root']
     tags:
-      - { name: console.command }
+      - { name: drupal.command }
