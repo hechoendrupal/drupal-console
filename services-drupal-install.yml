@@ -12,9 +12,9 @@ services:
     class: Drupal\Console\Command\ServerCommand
     arguments: ['@app.root', '@console.configuration_manager']
     tags:
-      - { name: console.command }
+      - { name: drupal.command }
   console.site_install:
     class: Drupal\Console\Command\Site\InstallCommand
     arguments: ['@console.extension_manager', '@console.site', '@console.configuration_manager', '@app.root']
     tags:
-      - { name: console.command }
+      - { name: drupal.command }

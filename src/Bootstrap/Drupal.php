@@ -42,7 +42,7 @@ class Drupal
         $drupalKernel->addServiceModifier(
             new DrupalServiceModifier(
                 $this->root,
-                'console.command',
+                'drupal.command',
                 'console.generator'
             )
         );

@@ -62,7 +62,7 @@ class CommandGenerator extends Generator
             'container_aware' => $containerAware,
             'command_key' => $command_key,
             'services' => $services,
-            'tags' => ['name' => 'console.command'],
+            'tags' => ['name' => 'drupal.command'],
             'class_path' => sprintf('Drupal\%s\Command\%s', $module, $class),
             'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
         ];

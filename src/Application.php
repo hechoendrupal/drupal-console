@@ -84,13 +84,13 @@ class Application extends ConsoleApplication
 
     private function registerCommands()
     {
-        if ($this->container->hasParameter('console.commands')) {
+        if ($this->container->hasParameter('drupal.commands')) {
             $consoleCommands = $this->container->getParameter(
-                'console.commands'
+                'drupal.commands'
             );
         } else {
             $consoleCommands = array_keys(
-                $this->container->findTaggedServiceIds('console.command')
+                $this->container->findTaggedServiceIds('drupal.command')
             );
             $this->container->setParameter(
                 'console.warning',

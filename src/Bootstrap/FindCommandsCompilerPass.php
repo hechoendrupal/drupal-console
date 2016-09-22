@@ -38,6 +38,6 @@ class FindCommandsCompilerPass implements CompilerPassInterface
             $commands[] = $id;
         }
 
-        $container->setParameter('console.commands', $commands);
+        $container->setParameter('drupal.commands', $commands);
     }
 }
