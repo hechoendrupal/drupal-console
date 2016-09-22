@@ -73,6 +73,8 @@ trait LocaleTrait
 
                     if ($local_age >= $remote_age) {
                         $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
+                    } else {
+                        $info = $this->trans('commands.locale.translation.status.messages.translation-project-available');
                     }
                 } elseif ($project_info->type == LOCALE_TRANSLATION_CURRENT) {
                     $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
