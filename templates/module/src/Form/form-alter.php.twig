@@ -55,9 +55,9 @@ function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_i
         ];
 
 {% endfor %}
-{% if form_id == '' %}
-    }
 {% endif %}
+{% if form_id is empty %}
+    }
 {% endif %}
 }
 {% endblock %}
