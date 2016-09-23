@@ -191,6 +191,15 @@ class UninstallCommand extends Command
                     implode(', ', $moduleList)
                 )
             );
+
+            $io->comment(
+                sprintf(
+                    $this->trans('commands.module.uninstall.messages.composer-success'),
+                    implode(', ', $moduleList),
+                    false
+                )
+            );
+
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
