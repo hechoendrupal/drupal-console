@@ -47,9 +47,9 @@ class HelpCommand extends Command
     /**
      * HelpCommand constructor.
      * @param HelpGenerator $generator
-     * @param Site $site
-     * @param Manager $extensionManager
-     * @param ChainQueue $chainQueue
+     * @param Site          $site
+     * @param Manager       $extensionManager
+     * @param ChainQueue    $chainQueue
      */
     public function __construct(
         HelpGenerator $generator,

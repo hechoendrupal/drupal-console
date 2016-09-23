@@ -64,10 +64,10 @@ class BreakPointCommand extends Command
     /**
      * BreakPointCommand constructor.
      * @param BreakPointGenerator $generator
-     * @param $appRoot
-     * @param ThemeHandler $themeHandler
-     * @param Validator $validator
-     * @param StringConverter $stringConverter
+     * @param                     $appRoot
+     * @param ThemeHandler        $themeHandler
+     * @param Validator           $validator
+     * @param StringConverter     $stringConverter
      */
     public function __construct(
         BreakPointGenerator $generator,

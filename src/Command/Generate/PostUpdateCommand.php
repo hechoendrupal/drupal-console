@@ -21,6 +21,10 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\Validator;
 
+/**
+ * Class PostUpdateCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PostUpdateCommand extends Command
 {
     use ModuleTrait;
@@ -47,12 +51,12 @@ class PostUpdateCommand extends Command
     protected $chainQueue;
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
+     * PostUpdateCommand constructor.
+     * @param Manager             $extensionManager
      * @param PostUpdateGenerator $generator
-     * @param Site $site
-     * @param Validator $validator
-     * @param ChainQueue $chainQueue
+     * @param Site                $site
+     * @param Validator           $validator
+     * @param ChainQueue          $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

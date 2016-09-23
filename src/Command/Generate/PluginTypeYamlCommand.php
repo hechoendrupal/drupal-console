@@ -22,6 +22,10 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
 
+/**
+ * Class PluginTypeYamlCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginTypeYamlCommand extends Command
 {
     use ServicesTrait;
@@ -43,9 +47,9 @@ class PluginTypeYamlCommand extends Command
 
     /**
      * PluginTypeYamlCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager                 $extensionManager
      * @param PluginTypeYamlGenerator $generator
-     * @param StringConverter $stringConverter
+     * @param StringConverter         $stringConverter
      */
     public function __construct(
         Manager $extensionManager,

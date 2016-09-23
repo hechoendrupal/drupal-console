@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\Generate\FormBaseCommand.
+ * Contains Drupal\Console\Command\Generate\ConfigFormBaseCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -51,14 +51,14 @@ class ConfigFormBaseCommand extends FormCommand
 
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
-     * @param EventSubscriberGenerator $generator
-     * @param StringConverter $stringConverter
+     * ConfigFormBaseCommand constructor.
+     * @param Manager                $extensionManager
+     * @param FormGenerator          $generator
+     * @param StringConverter        $stringConverter
      * @param RouteProviderInterface $routeProvider
-     * @param ElementInfoManager $elementInfoManager
-     * @param $appRoot
-     * @param ChainQueue $chainQueue
+     * @param ElementInfoManager     $elementInfoManager
+     * @param                        $appRoot
+     * @param ChainQueue             $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

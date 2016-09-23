@@ -21,6 +21,10 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\StringConverter;
 
+/**
+ * Class PluginViewsFieldCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginViewsFieldCommand extends Command
 {
     use ModuleTrait;
@@ -50,12 +54,12 @@ class PluginViewsFieldCommand extends Command
     protected $chainQueue;
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
+     * PluginViewsFieldCommand constructor.
+     * @param Manager                   $extensionManager
      * @param PluginViewsFieldGenerator $generator
-     * @param Site $site
-     * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * @param Site                      $site
+     * @param StringConverter           $stringConverter
+     * @param ChainQueue                $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

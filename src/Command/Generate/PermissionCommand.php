@@ -37,7 +37,7 @@ class PermissionCommand extends Command
 
     /**
      * PermissionCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager         $extensionManager
      * @param StringConverter $stringConverter
      */
     public function __construct(

@@ -55,11 +55,11 @@ class TwigExtensionCommand extends Command
 
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
+     * TwigExtensionCommand constructor.
+     * @param Manager                $extensionManager
      * @param TwigExtensionGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * @param StringConverter        $stringConverter
+     * @param ChainQueue             $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

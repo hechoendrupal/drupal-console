@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Generate\PluginFieldTypeCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginFieldCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -41,9 +41,9 @@ class PluginFieldCommand extends Command
 
     /**
      * PluginFieldCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager         $extensionManager
      * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * @param ChainQueue      $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

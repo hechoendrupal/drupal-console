@@ -22,6 +22,10 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
 
+/**
+ * Class PluginRulesActionCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginRulesActionCommand extends Command
 {
     use ServicesTrait;
@@ -49,10 +53,10 @@ class PluginRulesActionCommand extends Command
 
     /**
      * PluginRulesActionCommand constructor.
-     * @param Manager $extensionManager
-     * @param PluginRulesActionGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * @param Manager                     $extensionManager
+     * @param PluginRulesActionGenerator  $generator
+     * @param StringConverter             $stringConverter
+     * @param ChainQueue                  $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

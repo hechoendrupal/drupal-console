@@ -21,6 +21,10 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\StringConverter;
 
+/**
+ * Class ServiceCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class ServiceCommand extends Command
 {
     use ServicesTrait;
@@ -45,11 +49,11 @@ class ServiceCommand extends Command
     protected $chainQueue;
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
-     * @param ServiceGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * ServiceCommand constructor.
+     * @param Manager            $extensionManager
+     * @param ServiceGenerator   $generator
+     * @param StringConverter    $stringConverter
+     * @param ChainQueue         $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
