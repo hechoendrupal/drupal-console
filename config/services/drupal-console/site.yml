@@ -1,21 +1,18 @@
 services:
-#  site_debug:
-#    class: Drupal\Console\Command\Site\DebugCommand
-#    tags:
-#      - { name: drupal.command }
+  console.site_debug:
+    class: Drupal\Console\Command\Site\DebugCommand
+    arguments: ['@console.site','@console.configuration_manager']
+    tags:
+      - { name: drupal.command }
 #  site_import_local:
 #    class: Drupal\Console\Command\Site\ImportLocalCommand
-#    tags:
-#      - { name: drupal.command }
-#  site_install:
-#    class: Drupal\Console\Command\Site\InstallCommand
 #    tags:
 #      - { name: drupal.command }
 #  site_maintenance:
 #    class: Drupal\Console\Command\Site\MaintenanceCommand
 #    tags:
 #      - { name: drupal.command }
-  site_mode:
+  console.site_mode:
     class: Drupal\Console\Command\Site\ModeCommand
     arguments: ['@config.factory', '@console.configuration_manager', '@app.root', '@console.chain_queue']
     tags:
@@ -24,12 +21,12 @@ services:
 #    class: Drupal\Console\Command\Site\NewCommand
 #    tags:
 #      - { name: drupal.command }
-  site_statistics:
+  console.site_statistics:
     class: Drupal\Console\Command\Site\StatisticsCommand
     arguments: ['@console.drupal_api', '@entity.query', '@console.extension_manager']
     tags:
       - { name: drupal.command }
-  site_status:
+  console.site_status:
     class: Drupal\Console\Command\Site\StatusCommand
     arguments: ['@system.manager', '@settings', '@config.factory', '@theme_handler', '@app.root']
     tags:
