@@ -48,11 +48,11 @@ class UpdateCommand extends Command
 
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
+     * UpdateCommand constructor.
+     * @param Manager         $extensionManager
      * @param UpdateGenerator $generator
      * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * @param ChainQueue      $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

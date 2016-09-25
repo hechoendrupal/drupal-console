@@ -47,13 +47,13 @@ class Application extends ConsoleApplication
 
     private function registerGenerators()
     {
-        if ($this->container->hasParameter('console.generators')) {
+        if ($this->container->hasParameter('drupal.generators')) {
             $consoleGenerators = $this->container->getParameter(
-                'console.generators'
+                'drupal.generators'
             );
         } else {
             $consoleGenerators = array_keys(
-                $this->container->findTaggedServiceIds('console.generator')
+                $this->container->findTaggedServiceIds('drupal.generator')
             );
         }
 
@@ -84,13 +84,13 @@ class Application extends ConsoleApplication
 
     private function registerCommands()
     {
-        if ($this->container->hasParameter('console.commands')) {
+        if ($this->container->hasParameter('drupal.commands')) {
             $consoleCommands = $this->container->getParameter(
-                'console.commands'
+                'drupal.commands'
             );
         } else {
             $consoleCommands = array_keys(
-                $this->container->findTaggedServiceIds('console.command')
+                $this->container->findTaggedServiceIds('drupal.command')
             );
             $this->container->setParameter(
                 'console.warning',

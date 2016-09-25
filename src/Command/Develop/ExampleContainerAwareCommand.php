@@ -52,12 +52,12 @@ class ExampleContainerAwareCommand extends Command
         /* Register your command as a service
          *
          * Make sure you register your command class at
-         * config/services/namespace.yml file and add the `console.command` tag.
+         * config/services/namespace.yml file and add the `drupal.command` tag.
          *
          * develop_example_container_aware:
          *   class: Drupal\Console\Command\Develop\ExampleContainerAwareCommand
          *   tags:
-         *     - { name: console.command }
+         *     - { name: drupal.command }
          *
          * NOTE: Make the proper changes on the namespace and class
          *       according your new command.

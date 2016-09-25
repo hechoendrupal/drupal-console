@@ -2,18 +2,18 @@ services:
   console.container_debug:
     class: Drupal\Console\Command\ContainerDebugCommand
     tags:
-      - { name: console.command }
+      - { name: drupal.command }
   console.plugin_debug:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:
-      - { name: console.command }
+      - { name: drupal.command }
   console.event_debug:
     class: Drupal\Console\Command\EventDebugCommand
     arguments: ['@event_dispatcher']
     tags:
-      - { name: console.command }
+      - { name: drupal.command }
 #  console.devel_dumper:
 #    class: Drupal\Console\Command\DumperCommand
 #    arguments: ['@app.root']
 #    tags:
-#      - { name: console.command }
+#      - { name: drupal.command }

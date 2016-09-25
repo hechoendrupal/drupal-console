@@ -42,10 +42,10 @@ class AuthenticationProviderCommand extends Command
 
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
+     * AuthenticationProviderCommand constructor.
+     * @param Manager                         $extensionManager
      * @param AuthenticationProviderGenerator $generator
-     * @param StringConverter $stringConverter
+     * @param StringConverter                 $stringConverter
      */
     public function __construct(
         Manager $extensionManager,

@@ -22,6 +22,10 @@ use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
 
+/**
+ * Class PluginSkeletonCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginSkeletonCommand extends Command
 {
     use ModuleTrait;
@@ -51,11 +55,11 @@ class PluginSkeletonCommand extends Command
 
     /**
      * PluginSkeletonCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager                 $extensionManager
      * @param PluginSkeletonGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param Validator $validator
-     * @param ChainQueue $chainQueue
+     * @param StringConverter         $stringConverter
+     * @param Validator               $validator
+     * @param ChainQueue              $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

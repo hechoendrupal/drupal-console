@@ -21,6 +21,10 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
 
+/**
+ * Class PluginFieldFormatterCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginFieldFormatterCommand extends Command
 {
     use ModuleTrait;

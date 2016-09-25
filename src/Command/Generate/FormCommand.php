@@ -245,12 +245,4 @@ abstract class FormCommand extends Command
             }
         }
     }
-
-    /**
-     * @return \Drupal\Console\Generator\FormGenerator.
-     */
-    protected function createGenerator()
-    {
-        return new FormGenerator();
-    }
 }

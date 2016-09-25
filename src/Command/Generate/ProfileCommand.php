@@ -21,6 +21,12 @@ use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\Site;
 use GuzzleHttp\Client;
 
+
+/**
+ * Class ProfileCommand
+ * @package Drupal\Console\Command\Generate
+ */
+
 class ProfileCommand extends Command
 {
     use ConfirmationTrait;
@@ -51,14 +57,14 @@ class ProfileCommand extends Command
     protected $httpClient;
 
     /**
-     * ModuleCommand constructor.
-     * @param Manager $extensionManager
+     * ProfileCommand constructor.
+     * @param Manager          $extensionManager
      * @param ProfileGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param Validator $validator
-     * @param $appRoot
-     * @param Site $site
-     * @param Client $httpClient
+     * @param StringConverter  $stringConverter
+     * @param Validator        $validator
+     * @param                  $appRoot
+     * @param Site             $site
+     * @param Client           $httpClient
      */
     public function __construct(
         Manager $extensionManager,

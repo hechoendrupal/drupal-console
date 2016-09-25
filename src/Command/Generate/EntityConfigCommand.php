@@ -42,10 +42,10 @@ class EntityConfigCommand extends EntityCommand
 
     /**
      * EntityConfigCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager               $extensionManager
      * @param EntityConfigGenerator $generator
-     * @param Validator  $validator
-     * @param StringConverter  $stringConverter
+     * @param Validator             $validator
+     * @param StringConverter       $stringConverter
      */
     public function __construct(
         Manager $extensionManager,

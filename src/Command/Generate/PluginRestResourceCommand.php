@@ -22,6 +22,10 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
 
+/**
+ * Class PluginRestResourceCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginRestResourceCommand extends Command
 {
     use ServicesTrait;
@@ -49,10 +53,10 @@ class PluginRestResourceCommand extends Command
 
     /**
      * PluginRestResourceCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager                     $extensionManager
      * @param PluginRestResourceGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * @param StringConverter             $stringConverter
+     * @param ChainQueue                  $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

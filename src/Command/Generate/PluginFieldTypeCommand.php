@@ -21,6 +21,10 @@ use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Core\Field\FieldTypePluginManager;
 
+/**
+ * Class PluginFieldTypeCommand
+ * @package Drupal\Console\Command\Generate
+ */
 class PluginFieldTypeCommand extends Command
 {
     use ModuleTrait;
@@ -45,11 +49,11 @@ class PluginFieldTypeCommand extends Command
 
 
     /**
-     * PluginImageFormatterCommand constructor.
-     * @param Manager $extensionManager
+     * PluginFieldTypeCommand constructor.
+     * @param Manager                  $extensionManager
      * @param PluginFieldTypeGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param ChainQueue $chainQueue
+     * @param StringConverter          $stringConverter
+     * @param ChainQueue               $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

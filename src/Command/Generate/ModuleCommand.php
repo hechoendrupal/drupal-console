@@ -61,12 +61,12 @@ class ModuleCommand extends Command
     /**
      * ModuleCommand constructor.
      * @param ModuleGenerator $generator
-     * @param Validator $validator
-     * @param $appRoot
+     * @param Validator       $validator
+     * @param                 $appRoot
      * @param StringConverter $stringConverter
-     * @param DrupalApi $drupalApi
-     * @param Client $httpClient
-     * @param Site $site
+     * @param DrupalApi       $drupalApi
+     * @param Client          $httpClient
+     * @param Site            $site
      */
     public function __construct(
         ModuleGenerator $generator,
