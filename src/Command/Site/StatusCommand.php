@@ -14,6 +14,10 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Database\Database;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\system\SystemManager;
+use Drupal\Core\Site\Settings;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Extension\ThemeHandler;
 
 /**
  *  This command provides a report of the current drupal installation.
@@ -40,6 +44,54 @@ class StatusCommand extends Command
       'theme',
       'directory',
     ];
+
+    /**
+     * @var SystemManager
+     */
+    protected $systemManager;
+
+    /**
+     * @var Settings
+     */
+    protected $settings;
+
+    /**
+     * @var ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * DebugCommand constructor.
+     * @param SystemManager           $systemManager
+     * @param Settings $settings
+     * @param ConfigFactory $configFactory
+     * @param ThemeHandler  $themeHandler
+     * @param $appRoot
+     */
+    public function __construct(
+        SystemManager $systemManager,
+        Settings $settings,
+        ConfigFactory $configFactory,
+        ThemeHandler $themeHandler,
+        $appRoot
+    ) {
+        $this->systemManager = $systemManager;
+        $this->settings = $settings;
+        $this->configFactory = $configFactory;
+        $this->themeHandler = $themeHandler;
+        $this->appRoot = $appRoot;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -90,12 +142,11 @@ class StatusCommand extends Command
 
     protected function getSystemData()
     {
-        $systemManager = $this->getDrupalService('system.manager');
-        if (!$systemManager) {
+        if (!$this->systemManager) {
             return [];
         }
 
-        $requirements = $systemManager->listRequirements();
+        $requirements = $this->systemManager->listRequirements();
         $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
@@ -108,9 +159,9 @@ class StatusCommand extends Command
             $systemData['system'][$title] = $requirement['value'];
         }
 
-        if ($settings = $this->getDrupalService('settings')) {
+        if ($this->settings) {
             try {
-                $hashSalt = $settings->getHashSalt();
+                $hashSalt = $this->settings->getHashSalt();
             } catch (\Exception $e) {
                 $hashSalt = '';
             }
@@ -150,8 +201,7 @@ class StatusCommand extends Command
 
     protected function getThemeData()
     {
-        $configFactory = $this->getDrupalService('config.factory');
-        $config = $configFactory->get('system.theme');
+        $config = $this->configFactory->get('system.theme');
 
         return [
           'theme' => [
@@ -163,34 +213,29 @@ class StatusCommand extends Command
 
     protected function getDirectoryData()
     {
-        $drupal = $this->get('site');
-        $drupal_root = $drupal->getRoot();
 
-        $configFactory = $this->getDrupalService('config.factory');
-        $systemTheme = $configFactory->get('system.theme');
+        $systemTheme = $this->configFactory->get('system.theme');
 
         $themeDefaultDirectory = '';
         $themeAdminDirectory = '';
         try {
-            $themeHandler = $this->getDrupalService('theme_handler');
-            $themeDefault = $themeHandler->getTheme(
+            $themeDefault = $this->themeHandler->getTheme(
                 $systemTheme->get('default')
             );
             $themeDefaultDirectory = sprintf('/%s', $themeDefault->getpath());
 
-            $themeAdmin = $themeHandler->getTheme(
+            $themeAdmin = $this->themeHandler->getTheme(
                 $systemTheme->get('admin')
             );
             $themeAdminDirectory = sprintf('/%s', $themeAdmin->getpath());
         } catch (\Exception $e) {
         }
 
-        $systemFile = $this->getDrupalService('config.factory')
-            ->get('system.file');
+        $systemFile = $this->configFactory->get('system.file');
 
         return [
           'directory' => [
-            $this->trans('commands.site.status.messages.directory_root') => $drupal_root,
+            $this->trans('commands.site.status.messages.directory_root') => $this->appRoot,
             $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
             $this->trans('commands.site.status.messages.directory_theme_default') => $themeDefaultDirectory,
             $this->trans('commands.site.status.messages.directory_theme_admin') => $themeAdminDirectory,
