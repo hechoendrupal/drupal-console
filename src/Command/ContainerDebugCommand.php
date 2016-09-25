@@ -61,6 +61,8 @@ class ContainerDebugCommand extends Command
 
         $tableRows = $this->getServiceList();
         $io->table($tableHeader, $tableRows, 'compact');
+
+        return 0;
     }
 
     private function getServiceList()
@@ -72,7 +74,6 @@ class ContainerDebugCommand extends Command
         foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
             $services[] = [$serviceId, $serviceDefinition->getClass()];
         }
-
         return $services;
     }
 

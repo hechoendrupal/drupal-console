@@ -1,14 +1,11 @@
 services:
-#  site_debug:
-#    class: Drupal\Console\Command\Site\DebugCommand
-#    tags:
-#      - { name: drupal.command }
+  site_debug:
+    class: Drupal\Console\Command\Site\DebugCommand
+    arguments: ['@console.site','@console.configuration_manager']
+    tags:
+      - { name: drupal.command }
 #  site_import_local:
 #    class: Drupal\Console\Command\Site\ImportLocalCommand
-#    tags:
-#      - { name: drupal.command }
-#  site_install:
-#    class: Drupal\Console\Command\Site\InstallCommand
 #    tags:
 #      - { name: drupal.command }
 #  site_maintenance:
