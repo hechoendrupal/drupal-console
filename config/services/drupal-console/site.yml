@@ -15,10 +15,11 @@ services:
 #    class: Drupal\Console\Command\Site\MaintenanceCommand
 #    tags:
 #      - { name: drupal.command }
-#  site_mode:
-#    class: Drupal\Console\Command\Site\ModeCommand
-#    tags:
-#      - { name: drupal.command }
+  site_mode:
+    class: Drupal\Console\Command\Site\ModeCommand
+    arguments: ['@config.factory', '@console.configuration_manager', '@app.root', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }
 #  site_new:
 #    class: Drupal\Console\Command\Site\NewCommand
 #    tags:
