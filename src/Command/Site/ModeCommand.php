@@ -14,10 +14,52 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Console\Utils\ChainQueue;
 
 class ModeCommand extends Command
 {
     use ContainerAwareCommandTrait;
+
+    /**
+     * @var ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * DebugCommand constructor.
+     * @param ConfigFactory           $configFactory
+     * @param ConfigurationManager $configurationManager
+     * @param ChainQueue $chainQueue,
+     */
+    public function __construct(
+        ConfigFactory $configFactory,
+        ConfigurationManager $configurationManager,
+        $appRoot,
+        ChainQueue $chainQueue
+    ) {
+        $this->configFactory = $configFactory;
+        $this->configurationManager = $configurationManager;
+        $this->appRoot = $appRoot;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -83,16 +125,14 @@ class ModeCommand extends Command
             $io->table($tableHeaders, $servicesOverrideResult);
         }
 
-        $this->get('chain_queue')
-            ->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     protected function overrideConfigurations($configurations)
     {
         $result = [];
         foreach ($configurations as $configName => $options) {
-            $config = $this->getDrupalService('config.factory')
-                ->getEditable($configName);
+            $config = $this->configFactory->getEditable($configName);
             foreach ($options as $key => $value) {
                 $original = $config->get($key);
                 if (is_bool($original)) {
@@ -136,14 +176,14 @@ class ModeCommand extends Command
     {
         $directory = sprintf(
             '%s/%s',
-            $this->get('site')->getRoot(),
+            $this->appRoot,
             \Drupal::service('site.path')
         );
 
         $settingsServicesFile = $directory . '/services.yml';
         if (!file_exists($settingsServicesFile)) {
             // Copying default services
-            $defaultServicesFile = $this->get('site')->getRoot() . '/sites/default/default.services.yml';
+            $defaultServicesFile = $this->appRoot . '/sites/default/default.services.yml';
             if (!copy($defaultServicesFile, $settingsServicesFile)) {
                 $io->error(
                     sprintf(
@@ -199,20 +239,19 @@ class ModeCommand extends Command
 
     protected function loadConfigurations($env)
     {
-        $config = $this->getApplication()->getConfig();
         $configFile = sprintf(
             '%s/.console/site.mode.yml',
-            $config->getUserHomeDir()
+            $this->configurationManager->getHomeDirectory()
         );
 
         if (!file_exists($configFile)) {
             $configFile = sprintf(
                 '%s/config/dist/site.mode.yml',
-                $this->getApplication()->getDirectoryRoot()
+                $this->appRoot
             );
         }
 
-        $siteModeConfiguration = $config->getFileContents($configFile);
+        $siteModeConfiguration = Yaml::dump(file_get_contents($configFile));
         $configKeys = array_keys($siteModeConfiguration);
 
         $configurationSettings = [];
