@@ -23,10 +23,11 @@ services:
 #    class: Drupal\Console\Command\Site\NewCommand
 #    tags:
 #      - { name: drupal.command }
-#  site_statistics:
-#    class: Drupal\Console\Command\Site\StatisticsCommand
-#    tags:
-#      - { name: drupal.command }
+  site_statistics:
+    class: Drupal\Console\Command\Site\StatisticsCommand
+    arguments: ['@console.drupal_api', '@entity.query', '@console.extension_manager']
+    tags:
+      - { name: drupal.command }
   site_status:
     class: Drupal\Console\Command\Site\StatusCommand
     arguments: ['@system.manager', '@settings', '@config.factory', '@theme_handler', '@app.root']
