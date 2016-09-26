@@ -4,10 +4,11 @@ services:
     arguments: ['@console.site','@console.configuration_manager']
     tags:
       - { name: drupal.command }
-#  site_import_local:
-#    class: Drupal\Console\Command\Site\ImportLocalCommand
-#    tags:
-#      - { name: drupal.command }
+  site_import_local:
+    class: Drupal\Console\Command\Site\ImportLocalCommand
+    arguments: ['@app.root','@console.configuration_manager']
+    tags:
+      - { name: drupal.command }
   site_maintenance:
     class: Drupal\Console\Command\Site\MaintenanceCommand
     arguments: ['@state', '@console.chain_queue']
