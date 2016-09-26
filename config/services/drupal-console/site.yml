@@ -8,10 +8,11 @@ services:
 #    class: Drupal\Console\Command\Site\ImportLocalCommand
 #    tags:
 #      - { name: drupal.command }
-#  site_maintenance:
-#    class: Drupal\Console\Command\Site\MaintenanceCommand
-#    tags:
-#      - { name: drupal.command }
+  site_maintenance:
+    class: Drupal\Console\Command\Site\MaintenanceCommand
+    arguments: ['@state', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }
   console.site_mode:
     class: Drupal\Console\Command\Site\ModeCommand
     arguments: ['@config.factory', '@console.configuration_manager', '@app.root', '@console.chain_queue']
