@@ -19,7 +19,6 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Helper\StringHelper;
 use Drupal\Console\Generator\BreakPointGenerator;
 
 /**

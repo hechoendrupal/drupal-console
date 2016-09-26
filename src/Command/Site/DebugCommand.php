@@ -14,6 +14,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 
@@ -31,13 +32,21 @@ class DebugCommand extends Command
     protected $site;
 
     /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
      * DebugCommand constructor.
-     * @param Site $site
+     * @param Site                 $site
+     * @param ConfigurationManager $configurationManager
      */
     public function __construct(
-        Site $site
+        Site $site,
+        ConfigurationManager $configurationManager
     ) {
         $this->site = $site;
+        $this->configurationManager = $configurationManager;
         parent::__construct();
     }
 
@@ -56,7 +65,6 @@ class DebugCommand extends Command
                 null
             )
             ->setHelp($this->trans('commands.site.debug.help'));
-        ;
     }
 
     /**
@@ -66,8 +74,7 @@ class DebugCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $application = $this->getApplication();
-        $sitesDirectory = $application->getConfig()->getSitesDirectory();
+        $sitesDirectory =  $this->configurationManager->getSitesDirectory();
 
         if (!is_dir($sitesDirectory)) {
             $io->error(
@@ -77,47 +84,18 @@ class DebugCommand extends Command
                 )
             );
 
-            return;
+            return 1;
         }
 
         // --target argument
         $target = $input->getArgument('target');
         if ($target) {
-            $this->siteDetail($io, $target);
+            $io->write(
+                $this->siteDetail($target)
+            );
 
-            return;
+            return 0;
         }
-
-        $this->siteList($io, $sitesDirectory);
-    }
-
-    /**
-     * @param string $target
-     */
-    private function siteDetail(DrupalStyle $io, $target)
-    {
-        $application = $this->getApplication();
-        if ($application->getConfig()->loadTarget($target)) {
-            $targetConfig = $application->getConfig()->getTarget($target);
-            $dumper = new Dumper();
-            $yaml = $dumper->dump($targetConfig, 5);
-            $io->writeln($yaml);
-
-            return;
-        }
-    }
-
-    /**
-     * @param DrupalStyle $io
-     * @param string      $sitesDirectory
-     */
-    private function siteList(DrupalStyle $io, $sitesDirectory)
-    {
-        $application = $this->getApplication();
-
-        $finder = new Finder();
-        $finder->in($sitesDirectory);
-        $finder->name("*.yml");
 
         $tableHeader =[
             $this->trans('commands.site.debug.messages.site'),
@@ -125,20 +103,52 @@ class DebugCommand extends Command
             $this->trans('commands.site.debug.messages.root')
         ];
 
+        $tableRows = $this->siteList($sitesDirectory);
+
+        $io->table($tableHeader, $tableRows);
+        return 0;
+    }
+
+    /**
+     * @param string $target
+     *
+     * @return string
+     */
+    private function siteDetail($target)
+    {
+        if ($targetConfig = $this->configurationManager->readTarget($target)) {
+            $dumper = new Dumper();
+
+            return $dumper->dump($targetConfig, 2);
+        }
+    }
+
+    /**
+     * @param DrupalStyle $io
+     * @param string      $sitesDirectory
+     * @return array
+     */
+    private function siteList($sitesDirectory)
+    {
+        $finder = new Finder();
+        $finder->in($sitesDirectory);
+        $finder->name("*.yml");
+
         $tableRows = [];
         foreach ($finder as $site) {
-            $siteConfiguration = $site->getBasename('.yml');
-            $application->getConfig()->loadSite($siteConfiguration);
-            $environments = $application->getConfig()->get('sites.'.$siteConfiguration);
+            $siteName = $site->getBasename('.yml');
+            $environments = $this->configurationManager
+                ->readSite($site->getRealPath());
+
             foreach ($environments as $env => $config) {
                 $tableRows[] = [
-                  $siteConfiguration . '.' . $env,
+                    $siteName . '.' . $env,
                   array_key_exists('host', $config) ? $config['host'] : 'local',
                   array_key_exists('root', $config) ? $config['root'] : ''
                 ];
             }
         }
 
-        $io->table($tableHeader, $tableRows);
+        return $tableRows;
     }
 }
