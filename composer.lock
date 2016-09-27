@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8e28cb591671afbe04e293e46c41d235",
-    "content-hash": "06110decdbf4b7dea8987189660ae066",
+    "hash": "03b014d22db648acf92ee35823154e28",
+    "content-hash": "0ac79572d196856709a04da22f8d4a39",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -532,21 +532,21 @@
         },
         {
             "name": "drupal/console-core",
-            "version": "dev-master",
+            "version": "1.0.0-rc1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "7c4e810780972b9e47e658f1a3c5200a8ed6dec4"
+                "reference": "bbec9234a7afe6f1d696d2eb19fbf624254d4915"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/7c4e810780972b9e47e658f1a3c5200a8ed6dec4",
-                "reference": "7c4e810780972b9e47e658f1a3c5200a8ed6dec4",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/bbec9234a7afe6f1d696d2eb19fbf624254d4915",
+                "reference": "bbec9234a7afe6f1d696d2eb19fbf624254d4915",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.*",
-                "drupal/console-en": "dev-master",
+                "drupal/console-en": "~1.0",
                 "php": "^5.5.9 || ^7.0",
                 "stecman/symfony-console-completion": "^0.5.1",
                 "symfony/config": "~2.8",
@@ -607,20 +607,20 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-09-17 02:53:50"
+            "time": "2016-09-27 12:18:20"
         },
         {
             "name": "drupal/console-en",
-            "version": "dev-master",
+            "version": "1.0.0-rc1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-en.git",
-                "reference": "31f93b7b966256cdf18278237378854a9e02a5cf"
+                "reference": "2cf5746d56aab2a2b16f09f1875be6456363055f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/31f93b7b966256cdf18278237378854a9e02a5cf",
-                "reference": "31f93b7b966256cdf18278237378854a9e02a5cf",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/2cf5746d56aab2a2b16f09f1875be6456363055f",
+                "reference": "2cf5746d56aab2a2b16f09f1875be6456363055f",
                 "shasum": ""
             },
             "type": "drupal-console-language",
@@ -661,7 +661,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-09-17 02:43:14"
+            "time": "2016-09-23 07:54:23"
         },
         {
             "name": "gabordemooij/redbean",
@@ -1170,22 +1170,30 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+                "reference": "5277094ed527a1c4477177d102fe4c53551953e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/5277094ed527a1c4477177d102fe4c53551953e0",
+                "reference": "5277094ed527a1c4477177d102fe4c53551953e0",
                 "shasum": ""
             },
+            "require": {
+                "php": ">=5.3.0"
+            },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Psr\\Log\\": ""
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1199,12 +1207,13 @@
                 }
             ],
             "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
             "keywords": [
                 "log",
                 "psr",
                 "psr-3"
             ],
-            "time": "2012-12-21 11:40:51"
+            "time": "2016-09-19 16:02:08"
         },
         {
             "name": "stecman/symfony-console-completion",
@@ -2192,16 +2201,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.24.2",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "33093f6e310e6976baeac7b14f3a6ec02f2d79b7"
+                "reference": "f16a634ab08d87e520da5671ec52153d627f10f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/33093f6e310e6976baeac7b14f3a6ec02f2d79b7",
-                "reference": "33093f6e310e6976baeac7b14f3a6ec02f2d79b7",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/f16a634ab08d87e520da5671ec52153d627f10f6",
+                "reference": "f16a634ab08d87e520da5671ec52153d627f10f6",
                 "shasum": ""
             },
             "require": {
@@ -2214,7 +2223,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.24-dev"
+                    "dev-master": "1.25-dev"
                 }
             },
             "autoload": {
@@ -2249,14 +2258,13 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-09-01 17:50:53"
+            "time": "2016-09-21 23:05:12"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/console-core": 20,
         "padraic/phar-updater": 20,
         "gabordemooij/redbean": 0
     },

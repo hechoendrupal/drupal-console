@@ -4,12 +4,12 @@ services:
     arguments: ['@console.site','@console.configuration_manager']
     tags:
       - { name: drupal.command }
-  site_import_local:
+  console.site_import_local:
     class: Drupal\Console\Command\Site\ImportLocalCommand
     arguments: ['@app.root','@console.configuration_manager']
     tags:
       - { name: drupal.command }
-  site_maintenance:
+  console.site_maintenance:
     class: Drupal\Console\Command\Site\MaintenanceCommand
     arguments: ['@state', '@console.chain_queue']
     tags:
@@ -19,7 +19,7 @@ services:
     arguments: ['@config.factory', '@console.configuration_manager', '@app.root', '@console.chain_queue']
     tags:
       - { name: drupal.command }
-#  site_new:
+#  console.site_new:
 #    class: Drupal\Console\Command\Site\NewCommand
 #    tags:
 #      - { name: drupal.command }
