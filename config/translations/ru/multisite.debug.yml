@@ -1,7 +1,0 @@
-description: 'Список всех мультисайтов доступных в системе'
-help: '<info>multisite:debug</info> список всех известных мультисайтов.'
-messages:
-    no-multisites: 'Мультисайтинг не настроен'
-    site: Site
-    directory: Directory
-    site-format: 'Сайты описаны в формате: <port>.<domain>.<path>'

@@ -1,7 +1,0 @@
-description: 'Mostrar tots els multisites disponibles del sistema'
-help: 'El comandament <info>multisite:debug</info> mostra tots el multisites coneguts.'
-messages:
-    no-multisites: 'No hi ha cap multisite configurat'
-    site: Lloc
-    directory: Directori
-    site-format: 'Els llocs s''escriuen utilitzant el format: <port>.<domini>.<ruta>'

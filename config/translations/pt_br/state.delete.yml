@@ -1,7 +1,0 @@
-description: 'Apagar Estado'
-arguments:
-    name: 'Nome do estado.'
-messages:
-    enter-name: 'Nome do estado deve conter um valor.'
-    state-not-exists: 'O estado "%s" não existe.'
-    deleted: 'Estado "%s" apagado com sucesso.'

@@ -1,8 +1,0 @@
-description: 'अनुप्रयोग के मौजूदा प्रवसन को दिखाएँ'
-arguments:
-    tag: 'माइग्रेट टैग'
-messages:
-    id: 'प्रवसन क्रमांक'
-    description: विवरण
-    no-migrations: 'उपलब्ध माइग्रेशन नहीं हैं| यह आदेश निष्पादित करें: migrate:setup:migrations'
-    tags: टैग

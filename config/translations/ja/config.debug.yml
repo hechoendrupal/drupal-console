@@ -1,5 +1,0 @@
-description: 現在の設定を表示する
-arguments:
-    name: 設定の名前
-errors:
-    not-exists: '設定 "%s" は存在しません'

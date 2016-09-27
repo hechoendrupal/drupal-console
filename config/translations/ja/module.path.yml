@@ -1,6 +1,0 @@
-description: モジュールの相対パスまたは絶対パスを返す
-arguments:
-    module: 'モジュール名 (システム内部名称)'
-options:
-    absolute: 絶対パスを返す
-messages: null

@@ -1,5 +1,0 @@
-description: 'Generate documentations for Commands.'
-options:
-    file: 'The file to render the command data'
-messages:
-    missing_file: 'The file is missing, use --file option.'

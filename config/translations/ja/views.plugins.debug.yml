@@ -1,8 +1,0 @@
-description: Viewsのプラグインを表示
-arguments:
-    type: Viewsのプラグインをタイプでフィルタ
-messages:
-    type: タイプ
-    name: 名称
-    provider: プロバイダー
-    views: Views

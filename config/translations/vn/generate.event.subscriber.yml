@@ -1,4 +1,0 @@
-description: 'Tạo một event subscriber'
-questions:
-    class: 'Tên lớp'
-    callback-name: 'Gọi lại tên chức năng để xử lý sự kiện'

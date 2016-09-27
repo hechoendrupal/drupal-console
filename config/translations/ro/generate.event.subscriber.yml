@@ -1,4 +1,0 @@
-description: 'Generează un abonat la eveniment'
-questions:
-    class: 'Numele clasei'
-    callback-name: 'Numele functiei de callback ce se ocupă de eveniment'

@@ -1,3 +1,0 @@
-description: 'Copiar los archivos de configuración al directorio home del usuario.'
-options:
-    override: 'Sobreescribir los archivos de configuración'

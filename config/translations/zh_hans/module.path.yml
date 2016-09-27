@@ -1,6 +1,0 @@
-description: 返回模块的相对路径(或绝对路径)
-arguments:
-    module: '模块名称 (机读名称)'
-options:
-    absolute: 返回模块绝对路径
-messages: null

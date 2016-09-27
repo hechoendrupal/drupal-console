@@ -1,3 +1,0 @@
-description: 'Release cron system lock to run cron again'
-messages:
-    released: 'Cron lock was released successfully'

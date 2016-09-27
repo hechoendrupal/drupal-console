@@ -1,6 +1,0 @@
-description: 'Tạo ra một Authentication Provider'
-help: 'The <info>generate:authentication:provider</info> Câu lệnh giúp bạn tạo ra một Authentication Provider mới.'
-options:
-    class: 'Lớp Authentication Provider'
-    provider-id: 'Provider ID'
-module: common.options.module

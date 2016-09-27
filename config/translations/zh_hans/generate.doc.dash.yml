@@ -1,5 +1,0 @@
-description: '生成 Dash 文档'
-options:
-    path: '保存 Docset 的文件夹路径'
-messages:
-    missing_path: 路径丢失

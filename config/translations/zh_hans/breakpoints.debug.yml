@@ -1,5 +1,0 @@
-description: 显示可用的断点
-options:
-    group-name: 输入断点组名称
-messages:
-    name: 包含断点的扩展

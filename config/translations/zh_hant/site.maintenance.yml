@@ -1,8 +1,0 @@
-description: 切換網站維護模式
-arguments:
-    mode: 維護模式
-messages:
-    maintenance-on: 以維護模式運作中
-    maintenance-off: 網站上線中
-errors:
-    invalid-mode: 錯誤的維護模式

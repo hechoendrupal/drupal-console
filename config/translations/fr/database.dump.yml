@@ -1,7 +1,0 @@
-description: 'Exporte la structure et le contenu de votre base de données MySQL'
-arguments:
-    database: 'Clé de la base de données du fichier settings.php'
-options:
-    file: 'Le nom du fichier pour votre sauvegarde de base de données'
-messages:
-    success: 'Database exportée vers :'

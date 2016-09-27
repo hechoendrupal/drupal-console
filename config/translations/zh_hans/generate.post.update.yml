@@ -1,9 +1,0 @@
-description: '生成一个 hook_post_update_NAME() 的实现'
-help: '命令 <info>"%s"</info> 帮助您生成一个 hook post update NAME "%s"'
-options:
-    post-update-name: 'Post Update 名称'
-questions:
-    post-update-name: '请提供 Post Update 名称'
-messages:
-    wrong-post-update-name: 'Post update 名称 "%s" 无效'
-    post-update-name-already-implemented: 'Post update 出门 "%s" 已经被实现'
