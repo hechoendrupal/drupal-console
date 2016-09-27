@@ -51,7 +51,8 @@
         "gabordemooij/redbean": "@stable",
         "doctrine/annotations": "1.2.*",
         "dflydev/placeholder-resolver": "~1.0",
-        "symfony/expression-language": "^2.8"
+        "symfony/expression-language": "^2.8",
+        "drupal/console-en": "~1.0"
     },
     "bin": ["bin/drupal"],
     "config": {
