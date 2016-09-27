@@ -1,6 +1,0 @@
-description: 'Generate an Authentication Provider'
-help: 'The <info>generate:authentication:provider</info> command helps you generate a new Authentication Provider.'
-options:
-    class: 'Authentication Provider class'
-    provider-id: 'Provider ID'
-module: common.options.module

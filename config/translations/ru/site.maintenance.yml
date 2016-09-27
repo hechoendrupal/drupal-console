@@ -1,8 +1,0 @@
-description: 'Переключить сайт в режим обслуживания'
-arguments:
-    mode: 'Режим обслуживания сайта'
-messages:
-    maintenance-on: 'Включить режим обслуживания'
-    maintenance-off: 'Выключить режим обслуживания'
-errors:
-    invalid-mode: 'Неверный режим обслуживания'

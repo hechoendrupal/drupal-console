@@ -1,8 +1,0 @@
-description: 'Limpar arquivos de tradução'
-arguments:
-    language: 'Idioma para limpar os arquivos em comparação Inglês'
-messages:
-    invalid-language: 'Idioma "%s" é inválido'
-    language: Idioma
-    file-deleted: 'Arquivo "%s" foi deletado de "%s" devido não ser mais necessário.'
-    success: 'Arquivos desnecessários foram apagados'

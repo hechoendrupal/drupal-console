@@ -1,5 +1,0 @@
-description: 生成事件订阅者
-questions:
-    class: 类名
-    callback-name: 事件的回调函数名
-    class-name: 类名

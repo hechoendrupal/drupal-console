@@ -1,5 +1,0 @@
-description: '顯示目前配置。'
-arguments:
-    name: '配置名稱'
-errors:
-    not-exists: '配置設定 %s 不存在'

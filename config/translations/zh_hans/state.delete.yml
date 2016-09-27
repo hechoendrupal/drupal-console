@@ -1,7 +1,0 @@
-description: 删除状态
-arguments:
-    name: 状态名称
-messages:
-    enter-name: 状态名称不能为空
-    state-not-exists: '状态 "%s" 不存在'
-    deleted: '成功删除状态 "%s"'

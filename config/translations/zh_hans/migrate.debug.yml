@@ -1,9 +1,0 @@
-description: 显示当前可用迁移
-arguments:
-    tag: 迁移标签
-messages:
-    id: '迁移 Id'
-    description: 描述
-    no-migrations: '没有可用迁移，尝试执行 migrate:setup:migrations 命令'
-    tags: 标签
-    version: 版本

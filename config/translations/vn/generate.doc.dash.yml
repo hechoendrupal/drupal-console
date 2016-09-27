@@ -1,5 +1,0 @@
-description: 'Tạo gói DrupalConsole.docset cho Dash'
-options:
-    path: 'Đường dẫn đến thư mục mà docset sẽ được lưu.'
-messages:
-    missing_path: 'thiếu đường dẫn'

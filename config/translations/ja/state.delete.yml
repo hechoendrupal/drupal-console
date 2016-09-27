@@ -1,7 +1,0 @@
-description: ステートを削除する
-arguments:
-    name: ステートの名前
-messages:
-    enter-name: ステートの名前は値を含む必要があります。
-    state-not-exists: 'ステート "%s" は存在しません。'
-    deleted: 'ステート "%s" の削除に成功しました。'

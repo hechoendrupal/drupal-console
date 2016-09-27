@@ -1,5 +1,0 @@
-description: 'ਮੌਜੂਦਾ ਸੰਰਚਨਾ ਦਿਖਾਓ.'
-arguments:
-    name: 'ਸੰਰਚਨਾ ਨਾਮ.'
-errors:
-    not-exists: 'ਸੰਰਚਨਾ "%s" ਮੌਜੂਦ ਨਹੀ ਹੈ.'

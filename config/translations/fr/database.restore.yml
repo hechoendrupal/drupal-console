@@ -1,9 +1,0 @@
-description: 'Restore la structure et le contenu de votre base de données MySQL depuis une sauvegarde'
-arguments:
-    database: 'Clé de la base de données du fichier settings.php'
-options:
-    file: 'Le nom du fichier de votre sauvegarde de base de données'
-messages:
-    success: 'Base de données restorée depuis :'
-    no-file: 'Missing file option'
-help: 'Restaurer une structure et les contenus d''une base de données.'

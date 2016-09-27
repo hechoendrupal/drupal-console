@@ -1,7 +1,0 @@
-description: Twigエクステンションを生成
-help: '<info>generate:twig:extension</info> コマンドはTwigエクステンションの生成に役立ちます。'
-welcome: 'Welcome to the Drupal Twig Extension generator'
-options:
-    name: Twigエクステンションの名前
-questions:
-    twig-extension: Twigエクステンションの名前を入力してください

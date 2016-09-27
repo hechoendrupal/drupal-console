@@ -1,6 +1,0 @@
-description: 認証プロバイダーを生成
-help: '<info>generate:authentication:provider</info> コマンドは新しい認証プロバイダーの生成に役立ちます。'
-options:
-    class: 認証プロバイダークラス
-    provider-id: プロバイダーID
-module: common.options.module

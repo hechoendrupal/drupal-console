@@ -1,8 +1,0 @@
-description: 'Chuyển site sang chế độ bảo trì'
-arguments:
-    mode: 'Chế độ bảo trì site'
-messages:
-    maintenance-on: 'Đang bật chế độ bảo trì'
-    maintenance-off: 'Đang tắt chế độ bảo trì'
-errors:
-    invalid-mode: 'Chế độ bảo trì không hợp lệ'

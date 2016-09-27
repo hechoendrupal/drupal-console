@@ -1,5 +1,0 @@
-description: 'Ipakita ang breakpoints sa application'
-options:
-    group-name: 'Pasukin ang grupo ng Breakpoint'
-messages:
-    name: 'Extensions with breakpoints'

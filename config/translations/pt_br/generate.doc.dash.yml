@@ -1,5 +1,0 @@
-description: 'Gerar o pacote DrupalConsole.docset para Dash'
-options:
-    path: 'O endereço do diretório onde o docset será armazenado.'
-messages:
-    missing_path: 'O caminho não foi encontrado'
