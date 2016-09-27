@@ -1,7 +1,0 @@
-description: データベースの構造とコンテンツをダンプ
-arguments:
-    database: settings.phpのデータベースのキー
-options:
-    file: データベースをバックアップするファイル名
-messages:
-    success: 'データベースをエクスポートしました:'

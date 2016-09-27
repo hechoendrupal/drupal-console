@@ -1,6 +1,0 @@
-description: 显示当前状态的键(s)
-help: 显示当前状态的键(s)
-arguments:
-    key: 状态的键
-messages:
-    key: 状态的键

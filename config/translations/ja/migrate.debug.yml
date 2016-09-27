@@ -1,8 +1,0 @@
-description: マイグレーションを表示
-arguments:
-    tag: マイグレーションのタグ
-messages:
-    id: マイグレーションID
-    description: 説明
-    no-migrations: 'マイグレーションが見つかりませんでした。migrate:setup:migrations コマンドを試してください。'
-    tags: タグ

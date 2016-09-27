@@ -4,9 +4,9 @@
 
 - [Drupal Console](#drupal-console)
   - [Required PHP version](#required-php-version)
-  - [Supported Drupal version](#supported-drupal-version)
   - [Drupal Console documentation](#documentation)
-  - [Installing Drupal Console](#installing-drupal-console)
+  - [Download as new dependency](#download-as-new-dependency)
+  - [Download using DrupalComposer](#download-using-drupalcomposer)
   - [Running Drupal Console](#running-drupal-console)
   - [Supporting organizations](#supporting-organizations)
 
@@ -38,12 +38,31 @@ More information about using this project at the [official documentation](http:/
 ## Required PHP Version
 PHP 5.5.9 or higher is required to use the Drupal Console application.
 
-## Supported Drupal Version
-The Drupal 8 supported version is [Drupal 8.0.x](https://www.drupal.org/node/3060/release).
-
-## Installing Drupal Console
+## Downloading as new dependency
 ```
-# Run this in your terminal to get the latest Console version:
+# Change directory to Drupal site
+cd /path/to/drupal8.dev
+
+# Download DrupalConsole
+composer require drupal/console:~1.0 \
+--prefer-dist \
+--optimize-autoloader \
+--sort-packages
+```
+
+### Downloading using DrupalComposer
+```
+composer create-project \
+drupal-composer/drupal-project:8.x-dev \
+drupal8.dev \
+--prefer-dist \
+--no-progress \
+--no-interaction
+```
+
+## Installing Drupal Console Launcher
+```
+# Run this in your terminal to get the latest version:
 curl https://drupalconsole.com/installer -L -o drupal.phar
 
 # Or if you don't have curl:
@@ -63,19 +82,18 @@ drupal check
 ```
 
 ## Running Drupal Console
+We highly recommend you to install the global executable, but if is not installed, then you can run DrupalConsole by:  
+
+Using default Drupal + DrupalConsole
 ```
-# Download, install and serve Drupal 8:
-drupal chain --file=~/.console/chain/quick-start.yml
-
-# Create a new Drupal 8 project:
-drupal site:new drupal8.dev --latest
-
-# Lists all available commands:
-drupal list
-
-# Update to the latest version.
-drupal self-update
+vendor/bin/drupal
 ```
+Using default Drupal + DrupalComposer
+Change directory `web`, `docroot` or any other.
+```
+../vendor/bin/drupal
+```
+
 
 ## Drupal Console Support
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).

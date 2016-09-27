@@ -1,5 +1,0 @@
-description: 'DashのためのDrupal Consoleのdocsetパッケージを生成する'
-options:
-    path: docsetを保存するディレクトリのパス
-messages:
-    missing_path: パスが見つかりません

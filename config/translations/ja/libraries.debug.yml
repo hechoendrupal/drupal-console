@@ -1,6 +1,0 @@
-description: ライブラリを表示
-options:
-    name: ライブラリ名を入力してください
-messages:
-    name: ライブラリを持っているモジュール
-    info: ライブラリの情報

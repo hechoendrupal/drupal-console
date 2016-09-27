@@ -1,6 +1,0 @@
-description: 'Mostrar l''estat actual de les claus.'
-help: 'Mostrar l''estat actual de les claus.'
-arguments:
-    key: 'L''estat de la clau a depurar.'
-messages:
-    key: 'L''estat de la clau'

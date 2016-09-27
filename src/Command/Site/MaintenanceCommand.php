@@ -13,10 +13,38 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\State\StateInterface;
+use Drupal\Console\Utils\ChainQueue;
 
 class MaintenanceCommand extends Command
 {
     use ContainerAwareCommandTrait;
+
+
+    /**
+     * @var StateInterface
+     */
+    protected $state;
+
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * DebugCommand constructor.
+     * @param StateInterface           $state
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        StateInterface $state,
+        ChainQueue $chainQueue
+    ) {
+        $this->state = $state;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -34,19 +62,17 @@ class MaintenanceCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $state = $this->getDrupalService('state');
-
         $mode = $input->getArgument('mode');
         $stateName = 'system.maintenance_mode';
         $modeMessage = null;
         $cacheRebuild = true;
 
         if ('ON' === strtoupper($mode)) {
-            $state->set($stateName, true);
+            $this->state->set($stateName, true);
             $modeMessage = 'commands.site.maintenance.messages.maintenance-on';
         }
         if ('OFF' === strtoupper($mode)) {
-            $state->set($stateName, false);
+            $this->state->set($stateName, false);
             $modeMessage = 'commands.site.maintenance.messages.maintenance-off';
         }
 
@@ -58,8 +84,7 @@ class MaintenanceCommand extends Command
         $io->info($this->trans($modeMessage));
 
         if ($cacheRebuild) {
-            $this->get('chain_queue')
-                ->addCommand('cache:rebuild', ['cache' => 'all']);
+            $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
         }
     }
 }

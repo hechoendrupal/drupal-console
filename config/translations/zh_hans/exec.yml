@@ -1,7 +1,0 @@
-description: 执行一个外部命令
-arguments:
-    bin: 可执行命令名称
-messages:
-    success: 命令已执行
-    invalid-bin: 执行命令出错
-    missing-bin: 可执行命令缺失

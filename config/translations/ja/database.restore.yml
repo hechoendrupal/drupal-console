@@ -1,9 +1,0 @@
-description: データベースの構造とコンテンツをリストア
-arguments:
-    database: settings.phpのデータベースのキー
-options:
-    file: データベースのバックアップファイルの名前
-messages:
-    success: 'データベースを次のファイルからインポートしました:'
-    no-file: fileオプションが見つかりません。
-help: データベースの構造とコンテンツをリストア

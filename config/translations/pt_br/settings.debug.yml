@@ -1,5 +1,0 @@
-description: 'Lista configurações do Drupal Console do usuário'
-messages:
-    config-key: 'Identificador da configuração'
-    config-value: 'Valor da configuração'
-    config-file: 'Arquivo de configuração'

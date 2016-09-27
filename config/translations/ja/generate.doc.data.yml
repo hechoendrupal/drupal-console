@@ -1,5 +1,0 @@
-description: コマンドのためのドキュメントを生成する
-options:
-    file: コマンドデータを出力するファイル名
-messages:
-    missing_file: 'ファイルが見つかりません、--file オプションを使用してください。'

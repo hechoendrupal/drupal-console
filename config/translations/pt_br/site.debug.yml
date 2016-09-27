@@ -1,9 +1,0 @@
-description: 'Listar todos os sites locais e remotos.'
-help: 'O comando <info>site:debug</info> lista todos os sites locais e remotos.'
-messages:
-    site: Site
-    host: Host
-    root: 'Diretório raíz'
-    directory-not-found: 'Diretório do site local não encontrado'
-    private-key: 'Erro com a chave privada'
-    connect-error: 'Erro ao conectar o servidor remoto'

@@ -1,7 +1,0 @@
-description: ワンタイムログインURLを生成する
-options:
-    user-id: ユーザーID
-messages:
-    url: '"%s" のワンタイムログインURL: "%s"'
-errors:
-    invalid-user: 'ユーザーエンティティがロードできませんでした (User ID: "%s")。'

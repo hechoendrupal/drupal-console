@@ -1,9 +1,0 @@
-description: 'Восстановление структуры и содержимого базы данных'
-arguments:
-    database: 'Ключ базы данных из settings.php'
-options:
-    file: 'Имя файла резервной копии базы данных'
-messages:
-    success: 'База данных импортирована из:'
-    no-file: 'Missing file option'
-help: 'Восстановление структуры и содержимого базы данных.'

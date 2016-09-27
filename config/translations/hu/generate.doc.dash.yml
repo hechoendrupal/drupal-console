@@ -1,5 +1,0 @@
-description: 'DrupalConsole.docset csomag létrehozása a Dash számára'
-options:
-    path: 'A docset mentési könyvtárának útvonala.'
-messages:
-    missing_path: 'Az útvonal hiányzik'

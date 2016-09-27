@@ -1,8 +1,0 @@
-description: データベースクライアントを起動
-arguments:
-    database: settings.phpのデータベースのキー
-messages:
-    database-not-found: 'データベース "%s" が見つかりません。'
-    database-not-supported: 'データベースタイプ "%s" はまだサポートされていません。'
-    database-client-not-found: 'データベースクライアント "%s" が見つかりません。'
-    connection: 'Connection: "%s"'

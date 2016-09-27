@@ -1,6 +1,0 @@
-description: 'Generar un Proveïdor d''Autenticació'
-help: 'El comandament <info>generate:authentication:provider</info> t''ajuda a generar un nou Proveïdor d''Autenticació.'
-options:
-    class: 'Clase del Proveïdor d''Autenticació'
-    provider-id: 'Identificador del proveïdor'
-module: common.options.module

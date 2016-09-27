@@ -1,5 +1,0 @@
-description: '顯示網站應用中可用的分段點（Breakpoints）'
-options:
-    group-name: '請輸入分段點群組名稱'
-messages:
-    name: '具有分段點設定的延伸模組'

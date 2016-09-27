@@ -1,9 +1,0 @@
-description: 現在のイベントを表示
-help: '<info>event:debug</info> コマンドはイベントのデバッグに役立ちます。'
-arguments:
-    event: デバッグ対象イベント
-messages:
-    event: イベント名
-    class: クラス
-    method: メソッド
-    no-events: 'このイベントは存在しません。次のコマンドを試してください。 event:debug'

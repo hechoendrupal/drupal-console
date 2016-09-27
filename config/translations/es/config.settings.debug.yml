@@ -1,5 +1,0 @@
-description: 'Muestra el par clave:valor actual en el archivo de configuración.'
-help: 'El comando <info>config:settings:debug</info> le ayuda a mostrar el par clave:valor actual en el archivo de configuración.'
-welcome: 'Bienvenido al comando de debug de configuración de Drupal'
-messages:
-    current: 'Par clave:valor actual en el archivo de configuración'

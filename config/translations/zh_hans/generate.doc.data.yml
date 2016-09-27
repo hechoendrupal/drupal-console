@@ -1,5 +1,0 @@
-description: '为命令生成文档Generate documentations for Commands.'
-options:
-    file: 呈现命令数据的文件
-messages:
-    missing_file: '文件缺失,使用 --file 选项'

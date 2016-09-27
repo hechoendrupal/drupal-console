@@ -1,5 +1,0 @@
-description: 利用可能なブレークポイントの一覧を表示
-options:
-    group-name: 'Enter Breakpoint Group Name'
-messages:
-    name: 'Extensions with breakpoints'

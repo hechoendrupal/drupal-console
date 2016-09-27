@@ -1,7 +1,0 @@
-description: 'Còpia de seguretat d''estructura, continguts i taules de la base de dades MySQL'
-arguments:
-    database: 'Clau de la base de dades des de settings.php'
-options:
-    file: ' Nom del fitxer de la còpia de la base de dades'
-messages:
-    success: 'S''ha exportat la base de dades a:'

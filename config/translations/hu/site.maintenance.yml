@@ -1,8 +1,0 @@
-description: 'Webhely karbantartási módba állítása'
-arguments:
-    mode: 'Webhely karbantartási módja'
-messages:
-    maintenance-on: 'Karbantartási mód bekapcsolva'
-    maintenance-off: 'Karbantartási mód kikapcsolva'
-errors:
-    invalid-mode: 'Érvénytelen karbantartási mód'
