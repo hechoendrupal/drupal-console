@@ -175,7 +175,6 @@ trait ProjectDownloadTrait
 
         try {
             $destination = $this->drupalApi->downloadProjectRelease(
-                $this->httpClient,
                 $project,
                 $version
             );
@@ -192,7 +191,12 @@ trait ProjectDownloadTrait
 
             if (!file_exists($projectPath)) {
                 if (!mkdir($projectPath, 0777, true)) {
-                    $io->error($this->trans('commands.'.$commandKey.'.messages.error-creating-folder') . ': ' . $projectPath);
+                    $io->error(
+                        sprintf(
+                            $this->trans('commands.'.$commandKey.'.messages.error-creating-folder'),
+                            $projectPath
+                        )
+                    );
                     return null;
                 }
             }

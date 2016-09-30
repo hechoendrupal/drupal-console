@@ -197,7 +197,7 @@ class DrupalApi
     public function downloadProjectRelease($project, $release, $destination = null)
     {
         if (!$release) {
-            $releases = $this->getProjectReleases($this->httpClient, $project, 1);
+            $releases = $this->getProjectReleases($project, 1);
             $release = current($releases);
         }
 
@@ -215,7 +215,7 @@ class DrupalApi
             $release
         );
 
-        if ($this->downloadFile($this->httpClient, $releaseFilePath, $destination)) {
+        if ($this->downloadFile($releaseFilePath, $destination)) {
             return $destination;
         }
 
