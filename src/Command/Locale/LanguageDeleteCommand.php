@@ -15,7 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Annotations\DrupalCommand;
 
@@ -36,7 +36,7 @@ class LanguageDeleteCommand extends Command
     protected $site;
 
     /**
-     * @var EntityTypeManager
+     * @var EntityTypeManagerInterface
      */
     protected $entityTypeManager;
 
@@ -48,12 +48,12 @@ class LanguageDeleteCommand extends Command
     /**
      * LoginUrlCommand constructor.
      * @param Site                   $site
-     * @param EntityTypeManager      $entityTypeManager
+     * @param EntityTypeManagerInterface      $entityTypeManager
      * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
         Site $site,
-        EntityTypeManager $entityTypeManager,
+        EntityTypeManagerInterface $entityTypeManager,
         ModuleHandlerInterface $moduleHandler
     ) {
         $this->site = $site;
