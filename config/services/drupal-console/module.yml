@@ -17,7 +17,7 @@ services:
       - { name: drupal.command }
   module_install:
       class: Drupal\Console\Command\Module\InstallCommand
-      arguments: ['@console.site', '@console.validator', '@module_installer', '@console.chain_queue']
+      arguments: ['@console.site', '@console.validator', '@module_installer', '@console.drupal_api', '@console.extension_manager', '@app.root', '@console.chain_queue']
       tags:
         - { name: drupal.command }
   module_path:

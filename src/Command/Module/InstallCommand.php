@@ -19,6 +19,8 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
 
 /**
@@ -42,6 +44,17 @@ class InstallCommand extends Command
     /** @var ModuleInstaller  */
     protected $moduleInstaller;
 
+    /** @var DrupalApi  */
+    protected $drupalApi;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
     /**
      * @var ChainQueue
      */
@@ -52,17 +65,26 @@ class InstallCommand extends Command
      * @param Site $site
      * @param Validator $validator
      * @param ModuleInstaller $moduleInstaller
+     * @param DrupalApi $drupalApi
+     * @param Manager           $extensionManager
+     * @param $appRoot
      * @param ChainQueue $chainQueue
      */
     public function __construct(
         Site $site,
         Validator $validator,
         ModuleInstaller $moduleInstaller,
+        DrupalApi $drupalApi,
+        Manager $extensionManager,
+        $appRoot,
         ChainQueue $chainQueue
     ) {
         $this->site = $site;
         $this->validator = $validator;
         $this->moduleInstaller = $moduleInstaller;
+        $this->drupalApi = $drupalApi;
+        $this->extensionManager = $extensionManager;
+        $this->appRoot = $appRoot;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
