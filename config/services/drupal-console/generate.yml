@@ -156,17 +156,17 @@ services:
        - { name: drupal.command }
   console.generate_pluginblock:
     class: Drupal\Console\Command\Generate\PluginBlockCommand
-    arguments: ['@config.factory', '@console.chain_queue', '@console.pluginblock_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter']
+    arguments: ['@config.factory', '@console.chain_queue', '@console.pluginblock_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
     tags:
        - { name: drupal.command }
   console.generate_command:
     class: Drupal\Console\Command\Generate\CommandCommand
-    arguments: ['@drupal.command_generator', '@console.extension_manager', '@console.validator', '@console.string_converter' ]
+    arguments: ['@console.command_generator', '@console.extension_manager', '@console.validator', '@console.string_converter' ]
     tags:
        - { name: drupal.command }
   console.generate_ckeditorbutton:
     class: Drupal\Console\Command\Generate\PluginCKEditorButtonCommand
-    arguments: ['@console.chain_queue', '@drupal.command_ckeditorbutton', '@console.extension_manager', '@console.string_converter']
+    arguments: ['@console.chain_queue', '@console.command_ckeditorbutton', '@console.extension_manager', '@console.string_converter']
     tags:
        - { name: drupal.command }
   console.generate_entitycontent:
