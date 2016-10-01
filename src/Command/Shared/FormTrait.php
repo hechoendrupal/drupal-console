@@ -31,11 +31,6 @@ trait FormTrait
                 'text_format'
             ];
 
-            if (!$this->elementInfoManager) {
-                $io->writeln('Please inject service plugin.manager.element_info');
-                return false;
-            }
-
             foreach ($this->elementInfoManager->getDefinitions() as $definition) {
                 $type = $definition['id'];
                 $elementInfo = $this->elementInfoManager->getInfo($type);

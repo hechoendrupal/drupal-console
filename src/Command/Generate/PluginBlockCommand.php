@@ -24,7 +24,7 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-
+use Drupal\Core\Render\ElementInfoManagerInterface;
 
 class PluginBlockCommand extends Command
 {
@@ -33,7 +33,6 @@ class PluginBlockCommand extends Command
     use FormTrait;
     use ConfirmationTrait;
     use ContainerAwareCommandTrait;
-
 
     /**
      * @var ConfigFactory
@@ -45,7 +44,9 @@ class PluginBlockCommand extends Command
      */
     protected $chainQueue;
 
-    /** @var PluginBlockGenerator  */
+    /**
+     * @var PluginBlockGenerator
+     */
     protected $generator;
 
     /**
@@ -53,10 +54,14 @@ class PluginBlockCommand extends Command
      */
     protected $entityTypeManager;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
-    /** @var Validator  */
+    /**
+     * @var Validator
+     */
     protected $validator;
 
     /**
@@ -64,16 +69,21 @@ class PluginBlockCommand extends Command
      */
     protected $stringConverter;
 
+    /**
+     * @var ElementInfoManagerInterface
+     */
+    protected $elementInfoManager;
 
     /**
      * PluginBlockCommand constructor.
-     * @param ConfigFactory              $configFactory
-     * @param ChainQueue                 $chainQueue
-     * @param PluginBlockGenerator       $generator
-     * @param EntityTypeManagerInterface $entityTypeManager
-     * @param Manager                    $extensionManager
-     * @param Validator                  $validator
-     * @param StringConverter            $stringConverter
+     * @param ConfigFactory               $configFactory
+     * @param ChainQueue                  $chainQueue
+     * @param PluginBlockGenerator        $generator
+     * @param EntityTypeManagerInterface  $entityTypeManager
+     * @param Manager                     $extensionManager
+     * @param Validator                   $validator
+     * @param StringConverter             $stringConverter
+     * @param ElementInfoManagerInterface $elementInfoManager
      */
     public function __construct(
         ConfigFactory $configFactory,
@@ -82,7 +92,8 @@ class PluginBlockCommand extends Command
         EntityTypeManagerInterface $entityTypeManager,
         Manager $extensionManager,
         Validator $validator,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        ElementInfoManagerInterface $elementInfoManager
     ) {
         $this->configFactory = $configFactory;
         $this->chainQueue = $chainQueue;
@@ -91,6 +102,7 @@ class PluginBlockCommand extends Command
         $this->extensionManager = $extensionManager;
         $this->validator = $validator;
         $this->stringConverter = $stringConverter;
+        $this->elementInfoManager = $elementInfoManager;
         parent::__construct();
     }
 
@@ -176,15 +188,28 @@ class PluginBlockCommand extends Command
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        $this
-            ->generator
-            ->generate($module, $class_name, $label, $plugin_id, $build_services, $inputs);
+        $this->generator
+            ->generate(
+                $module,
+                $class_name,
+                $label,
+                $plugin_id,
+                $build_services,
+                $inputs
+            );
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
         if ($theme_region) {
-            // Load block to set theme region
-            $block = $this->entityTypeManager->getStorage('block')->create(array('id'=> $plugin_id, 'plugin' => $plugin_id, 'theme' => $theme));
+            $block = $this->entityTypeManager
+                ->getStorage('block')
+                ->create(
+                    [
+                        'id'=> $plugin_id,
+                        'plugin' => $plugin_id,
+                        'theme' => $theme
+                    ]
+                );
             $block->setRegion($theme_region);
             $block->save();
         }
@@ -212,7 +237,6 @@ class PluginBlockCommand extends Command
                 $this->trans('commands.generate.plugin.block.options.class'),
                 'DefaultBlock',
                 function ($class) {
-                    return $this->validator->validateClassName($class);
                     return $this->validator->validateClassName($class);
                 }
             );

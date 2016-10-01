@@ -11,10 +11,10 @@ use Drupal\Console\Extension\Manager;
 
 class PluginBlockGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
-
 
     /**
      * PermissionGenerator constructor.
@@ -25,7 +25,6 @@ class PluginBlockGenerator extends Generator
     ) {
         $this->extensionManager = $extensionManager;
     }
-
 
     /**
      * Generator Plugin Block.
