@@ -117,15 +117,20 @@ class ExecuteCommand extends Command
         update_fix_compatibility();
         $updates = update_get_update_list();
         $this->checkUpdates($io);
+        $maintenance_mode = $this->state->get('system.maintenance_mode', false);
 
-        $io->info($this->trans('commands.site.maintenance.description'));
-        $this->state->set('system.maintenance_mode', true);
+        if (!$maintenance_mode) {
+            $io->info($this->trans('commands.site.maintenance.description'));
+            $this->state->set('system.maintenance_mode', true);
+        }
 
         $this->runUpdates($io, $updates);
         $this->runPostUpdates($io);
 
-        $this->state->set('system.maintenance_mode', false);
-        $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
+        if (!$maintenance_mode) {
+            $this->state->set('system.maintenance_mode', false);
+            $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
+        }
 
         $this->chainQueue
             ->addCommand('cache:rebuild', ['cache' => 'all']);
