@@ -7,20 +7,58 @@
 
 namespace Drupal\Console\Command\Update;
 
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Core\Entity\EntityStorageException;
-use Drupal\Core\Utility\Error;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Utility\Error;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\State\StateInterface;
+use Drupal\Core\Entity\EntityDefinitionUpdateManager;
+use Drupal\Console\Utils\ChainQueue;
 
 /**
  * Class EntitiesCommand.
  *
  * @package Drupal\Console\Command\Update
  */
-class EntitiesCommand extends ContainerAwareCommand
+class EntitiesCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * @var StateInterface
+     */
+    protected $state;
+
+    /**
+     * @var EntityDefinitionUpdateManager
+     */
+    protected $entityDefinitionUpdateManager;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * EntitiesCommand constructor.
+     * @param StateInterface                         $state
+     * @param EntityDefinitionUpdateManager $entityDefinitionUpdateManager
+     * @param ChainQueue                    $chainQueue
+     */
+    public function __construct(
+        StateInterface $state,
+        EntityDefinitionUpdateManager $entityDefinitionUpdateManager,
+        ChainQueue $chainQueue
+    ) {
+        $this->state = $state;
+        $this->entityDefinitionUpdateManager = $entityDefinitionUpdateManager;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -38,22 +76,24 @@ class EntitiesCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $state = $this->getService('state');
+        //$state = $this->getDrupalService('state');
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-on'));
         $io->info($this->trans('commands.update.entities.messages.start'));
-        $state->set('system.maintenance_mode', true);
+        $this->state->set('system.maintenance_mode', true);
 
         try {
-            $this->getService('entity.definition_update_manager')->applyUpdates();
+            $this->entityDefinitionUpdateManager->applyUpdates();
+            /* @var EntityStorageException $e */
         } catch (EntityStorageException $e) {
+            /* @var Error $variables */
             $variables = Error::decodeException($e);
             $io->info($this->trans('commands.update.entities.messages.error'));
             $io->info($variables);
         }
 
-        $state->set('system.maintenance_mode', false);
+        $this->state->set('system.maintenance_mode', false);
         $io->info($this->trans('commands.update.entities.messages.end'));
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
         $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
     }
 }

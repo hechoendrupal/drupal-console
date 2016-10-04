@@ -11,11 +11,36 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use CommandTrait;
+
+    /** @var ConfigFactory  */
+    protected $configFactory;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /**
+     * DebugCommand constructor.
+     * @param ConfigFactory $configFactory
+     * @param CachedStorage $configStorage
+     */
+    public function __construct(
+        ConfigFactory $configFactory,
+        CachedStorage $configStorage
+    ) {
+        $this->configFactory = $configFactory;
+        $this->configStorage = $configStorage;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -25,9 +50,9 @@ class DebugCommand extends ContainerAwareCommand
             ->setName('config:debug')
             ->setDescription($this->trans('commands.config.debug.description'))
             ->addArgument(
-                'config-name',
+                'name',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.config.debug.arguments.config-name')
+                $this->trans('commands.config.debug.arguments.name')
             );
     }
 
@@ -38,7 +63,7 @@ class DebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $configName = $input->getArgument('config-name');
+        $configName = $input->getArgument('name');
         if (!$configName) {
             $this->getAllConfigurations($io);
         } else {
@@ -51,10 +76,9 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getAllConfigurations(DrupalStyle $io)
     {
-        $configFactory = $this->getConfigFactory();
-        $names = $configFactory->listAll();
+        $names = $this->configFactory->listAll();
         $tableHeader = [
-            $this->trans('commands.config.debug.arguments.config-name'),
+            $this->trans('commands.config.debug.arguments.name'),
         ];
         $tableRows = [];
         foreach ($names as $name) {
@@ -72,14 +96,12 @@ class DebugCommand extends ContainerAwareCommand
      */
     private function getConfigurationByName(DrupalStyle $io, $config_name)
     {
-        $configStorage = $this->getConfigStorage();
-
-        if ($configStorage->exists($config_name)) {
+        if ($this->configStorage->exists($config_name)) {
             $tableHeader = [
                 $config_name,
             ];
 
-            $configuration = $configStorage->read($config_name);
+            $configuration = $this->configStorage->read($config_name);
             $configurationEncoded = Yaml::encode($configuration);
             $tableRows = [];
             $tableRows[] = [
@@ -89,7 +111,7 @@ class DebugCommand extends ContainerAwareCommand
             $io->table($tableHeader, $tableRows, 'compact');
         } else {
             $io->error(
-                sprintf($this->trans('commands.config.debug.errors.config-not-exists'), $config_name)
+                sprintf($this->trans('commands.config.debug.errors.not-exists'), $config_name)
             );
         }
     }

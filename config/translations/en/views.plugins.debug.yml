@@ -1,9 +1,0 @@
-description: 'Display current views plugins for the application'
-arguments:
-    type: 'Filter views plugins by type'
-messages:
-  type: 'Type'
-  name: 'Name'
-  provider: 'Provider'
-  views: 'Views'
-

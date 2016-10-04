@@ -1,0 +1,39 @@
+# {{ name }}
+{{ description }}
+
+**{{ messages.usage }}:**
+```
+$ drupal {{ name }}{% if arguments|length>0 %} [arguments]{% endif %}{% if options|length>0 %} [options]{% endif %}
+
+{% for alias in aliases %}
+$ {{ alias }}  
+{% endfor %}
+```
+{% if options|length>0 %}
+
+## {{ messages.options }}
+{{ messages.option  }} | {{ messages.details }}
+-------|-------------
+{% for option in options %}
+--{{ option.name }} | {{ option.description }}
+{% endfor %}
+{% endif %}
+{% if arguments|length>0 %}
+
+## {{ messages.arguments }}
+{{ messages.argument }} | {{ messages.details }}
+---------|-------------
+{% for argument in arguments %}
+{{ argument.name }} | {{ argument.description }}
+{% endfor %}
+{% endif %}
+{% if examples|length>0 %}
+
+## {{ messages.examples }}
+{% for example in examples %}
+* {{ example.description }}
+```
+$ {{ example.execution }}
+```
+{% endfor %}
+{% endif %}

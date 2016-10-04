@@ -1,8 +1,0 @@
-description: '生成 hook_form_alter() 或 hook_form_FORM_ID_alter 实现'
-help: '命令 <info>"%s"</info> 用于生成一个新的 "%s"'
-options:
-    form-id: 要修改（Alter）的的表单(Form)ID
-messages:
-    inputs: '通过添加字段修改表单。 这是可选的，按下 <info>enter</info> 键 <info>继续</info>'
-    loading-forms: '从 Webprofiler 模块中导入表单定义'
-    hide-form-elements: 选择表单项并隐藏（可选）

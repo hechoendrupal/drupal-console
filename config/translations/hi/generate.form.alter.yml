@@ -1,8 +1,0 @@
-description: 'एक hook_form_alter() या hook_form_FORM_ID_alter कार्यान्वयन उत्पन्न करें'
-help: '<info>%s</info> कमाण्ड आपको नया %s उत्पन्न करने में मदद करें'
-options:
-    form-id: 'Form ID को बदलने के लिए'
-messages:
-    inputs: "फॉर्म को बदलने लिए फॉर्म में आप खाने डाल सकते हैं।\nइच्छानुसार <info>जारी</info> रखने के लिए <info>enter</info> कुंजी दबाएँ"
-    loading-forms: 'वेबप्रोफिलेर मोड्यूल से फोर्म परिभाषा भर रही है'
-    hide-form-elements: 'इच्छानुसार आप फॉर्म के विषयों को छिपाने के लिये उनका चयन कर सकते हैं'

@@ -11,19 +11,56 @@ use Drupal\Console\Generator\PluginTypeYamlGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ServicesTrait;
-use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Command\FormTrait;
-use Drupal\Console\Command\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\FormTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Utils\ChainQueue;
 
-class PluginTypeYamlCommand extends GeneratorCommand
+/**
+ * Class PluginTypeYamlCommand
+ * @package Drupal\Console\Command\Generate
+ */
+class PluginTypeYamlCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
+    use CommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var PluginTypeYamlGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * PluginTypeYamlCommand constructor.
+     * @param Manager                 $extensionManager
+     * @param PluginTypeYamlGenerator $generator
+     * @param StringConverter         $stringConverter
+     */
+    public function __construct(
+        Manager $extensionManager,
+        PluginTypeYamlGenerator $generator,
+        StringConverter $stringConverter
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -62,8 +99,7 @@ class PluginTypeYamlCommand extends GeneratorCommand
         $plugin_name = $input->getOption('plugin-name');
         $plugin_file_name = $input->getOption('plugin-file-name');
 
-        $generator = $this->getGenerator();
-        $generator->generate($module, $class_name, $plugin_name, $plugin_file_name);
+        $this->generator->generate($module, $class_name, $plugin_name, $plugin_file_name);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -73,8 +109,8 @@ class PluginTypeYamlCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -93,7 +129,7 @@ class PluginTypeYamlCommand extends GeneratorCommand
         if (!$plugin_name) {
             $plugin_name = $io->ask(
                 $this->trans('commands.generate.plugin.type.yaml.options.plugin-name'),
-                $this->getStringHelper()->camelCaseToUnderscore($class_name)
+                $this->stringConverter->camelCaseToUnderscore($class_name)
             );
             $input->setOption('plugin-name', $plugin_name);
         }
@@ -107,10 +143,5 @@ class PluginTypeYamlCommand extends GeneratorCommand
             );
             $input->setOption('plugin-file-name', $plugin_file_name);
         }
-    }
-
-    protected function createGenerator()
-    {
-        return new PluginTypeYamlGenerator();
     }
 }

@@ -1,24 +1,31 @@
+imports:
+    - { resource: 'services-drupal-install.yml' }
 services:
-  parser:
-    class: Symfony\Component\Yaml\Parser
-    lazy: true
-  finder:
-    class: Symfony\Component\Finder\Finder
-    lazy: true
-  filesystem:
-    class: Symfony\Component\Filesystem\Filesystem
-    lazy: true
-  yaml:
-    class: Symfony\Component\Yaml\Yaml
-    lazy: true
-  config:
-    class: Drupal\Console\Config
-    arguments: ["@parser"]
-  requirement_checker:
-    class: Drupal\Console\Utils\RequirementChecker
-    arguments: ["@parser"]
-    lazy: true
-  redbean:
+  console.redbean:
     class: RedBeanPHP\R
-    lazy: true
-
+  console.validator:
+    class: Drupal\Console\Utils\Validator
+    arguments: ['@console.extension_manager']
+  console.drupal_api:
+    class: Drupal\Console\Utils\DrupalApi
+    arguments: ['@app.root', '@entity_type.manager', '@http_client']
+  console.create_node_data:
+    class: Drupal\Console\Utils\Create\NodeData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getBundles()']
+  console.create_comment_data:
+    class: Drupal\Console\Utils\Create\CommentData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+  console.create_term_data:
+    class: Drupal\Console\Utils\Create\TermData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getVocabularies()']
+  console.create_user_data:
+    class: Drupal\Console\Utils\Create\UserData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getRoles()']
+  console.create_vocabulary_data:
+    class: Drupal\Console\Utils\Create\VocabularyData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+  console.annotation_command_reader:
+    class: Drupal\Console\Annotations\DrupalCommandAnnotationReader
+  console.annotation_validator:
+    class: Drupal\Console\Utils\AnnotationValidator
+    arguments: ['@console.annotation_command_reader', '@console.extension_manager']

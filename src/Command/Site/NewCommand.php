@@ -8,16 +8,19 @@ namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ProjectDownloadTrait;
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 
 class NewCommand extends Command
 {
     use ProjectDownloadTrait;
+    use CommandTrait;
 
     /**
      * {@inheritdoc}
@@ -36,6 +39,24 @@ class NewCommand extends Command
                 'version',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.site.new.arguments.version')
+            )
+            ->addOption(
+                'latest',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.new.options.latest')
+            )
+            ->addOption(
+                'composer',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.new.options.composer')
+            )
+            ->addOption(
+                'unstable',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.new.options.unstable')
             );
     }
 
@@ -48,10 +69,76 @@ class NewCommand extends Command
 
         $directory = $input->getArgument('directory');
         $version = $input->getArgument('version');
+        $latest = $input->getOption('latest');
+        $composer = $input->getOption('composer');
+
+        if (!$directory) {
+            $io->error(
+                $this->trans('commands.site.new.messages.missing-directory')
+            );
+
+            return 1;
+        }
+
+        if ($composer) {
+            if (!$version) {
+                $version = '8.x-dev';
+            }
+
+            $io->newLine();
+            $io->comment(
+                sprintf(
+                    $this->trans('commands.site.new.messages.executing'),
+                    'drupal',
+                    $version
+                )
+            );
+
+            $command = sprintf(
+                'composer create-project %s:%s %s --no-interaction',
+                'drupal-composer/drupal-project',
+                $version,
+                $directory
+            );
+
+            $io->commentBlock($command);
+
+            $shellProcess = $this->get('shell_process');
+            if ($shellProcess->exec($command)) {
+                $io->success(
+                    sprintf(
+                        $this->trans('commands.site.new.messages.composer'),
+                        $version,
+                        $directory
+                    )
+                );
+
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+
+        if (!$version && $latest) {
+            $version = current(
+                $this->getApplication()->getDrupalApi()->getProjectReleases('drupal', 1, true)
+            );
+        }
+
+        if (!$version) {
+            $io->error('Missing version');
+
+            return 1;
+        }
 
         $projectPath = $this->downloadProject($io, 'drupal', $version, 'core');
         $downloadPath = sprintf('%sdrupal-%s', $projectPath, $version);
-        $copyPath = sprintf('%s%s', $projectPath, $directory);
+
+        if ($this->isAbsolutePath($directory)) {
+            $copyPath = $directory;
+        } else {
+            $copyPath = sprintf('%s%s', $projectPath, $directory);
+        }
 
         try {
             $fileSystem = new Filesystem();
@@ -72,7 +159,7 @@ class NewCommand extends Command
                 )
             );
 
-            return;
+            return 1;
         }
 
         $io->success(
@@ -82,6 +169,8 @@ class NewCommand extends Command
                 $copyPath
             )
         );
+
+        return 0;
     }
 
     /**
@@ -92,6 +181,11 @@ class NewCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $directory = $input->getArgument('directory');
+        $version   = $input->getArgument('version');
+        $latest    = $input->getOption('latest');
+        $unstable  = $input->getOption('unstable');
+        $composer  = $input->getOption('composer');
+
         if (!$directory) {
             $directory = $io->ask(
                 $this->trans('commands.site.new.questions.directory')
@@ -99,10 +193,29 @@ class NewCommand extends Command
             $input->setArgument('directory', $directory);
         }
 
-        $version = $input->getArgument('version');
-        if (!$version) {
-            $version = $this->releasesQuestion($io, 'drupal');
-            $input->setArgument('version', $version);
+        if ($composer) {
+            $input->setArgument('version', '8.x-dev');
+
+            return 0;
         }
+
+        if (!$version && $latest) {
+            $version = current(
+                $this->getApplication()->getDrupalApi()->getProjectReleases('drupal', 1, true)
+            );
+        }
+
+        if (!$version) {
+            $version = $this->releasesQuestion($io, 'drupal', false, !$unstable);
+        }
+
+        $input->setArgument('version', $version);
+
+        return 0;
+    }
+
+    protected function isAbsolutePath($path)
+    {
+        return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i', $path) > 0;
     }
 }

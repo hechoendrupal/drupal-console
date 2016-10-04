@@ -1,8 +1,0 @@
-description: 'लॉन्च एक DB क्लाइंट अगर यह उपलब्ध है'
-arguments:
-    database: 'Settings.php से डाटाबेस कुंज'
-messages:
-    database-not-found: 'डाटाबेस %s कनेक्शन की जानकारी नहीं मिला था'
-    database-not-supported: 'डाटाबेस %s टाइप अभी तक समर्थित नहीं है'
-    database-client-not-found: 'डाटाबेस क्लाइंट %s नहीं मिला था'
-    connection: 'कनेक्शन: %s'

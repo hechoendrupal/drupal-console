@@ -1,5 +1,0 @@
-description: 現在のコンフィグレーションを表示
-arguments:
-    config-name: コンフィグレーションの名前
-errors:
-    config-not-exists: 'コンフィグレーション "%s" は存在しません'

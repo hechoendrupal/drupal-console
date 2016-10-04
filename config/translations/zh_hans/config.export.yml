@@ -1,6 +1,0 @@
-description: '导出配置'
-arguments:
-    directory: '导出配置存放目录'
-    tar: '如果启用，配置文件会导出到一个存档文件.'
-messages:
-    directory: '导出配置存放目录：'

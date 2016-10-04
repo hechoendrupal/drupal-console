@@ -11,17 +11,45 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\CreateTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Command\Shared\CreateTrait;
+use Drupal\Console\Utils\Create\UserData;
+use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class UsersCommand
  * @package Drupal\Console\Command\Create
  */
-class UsersCommand extends ContainerAwareCommand
+class UsersCommand extends Command
 {
     use CreateTrait;
+    use CommandTrait;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+    /**
+     * @var UserData
+     */
+    protected $createUserData;
+
+    /**
+     * UsersCommand constructor.
+     * @param DrupalApi $drupalApi
+     * @param UserData  $createUserData
+     */
+    public function __construct(
+        DrupalApi $drupalApi,
+        UserData $createUserData
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->createUserData = $createUserData;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -64,7 +92,7 @@ class UsersCommand extends ContainerAwareCommand
 
         $rids = $input->getArgument('roles');
         if (!$rids) {
-            $roles = $this->getDrupalApi()->getRoles();
+            $roles = $this->drupalApi->getRoles();
             $rids = $io->choice(
                 $this->trans('commands.create.users.questions.roles'),
                 array_values($roles),
@@ -127,11 +155,10 @@ class UsersCommand extends ContainerAwareCommand
         $timeRange = $input->getOption('time-range')?:31536000;
 
         if (!$roles) {
-            $roles = $this->getDrupalApi()->getRoles();
+            $roles = $this->drupalApi->getRoles();
         }
 
-        $createUsers = $this->getDrupalApi()->getCreateUsers();
-        $users = $createUsers->createUser(
+        $users = $this->createUserData->create(
             $roles,
             $limit,
             $password,
@@ -155,5 +182,7 @@ class UsersCommand extends ContainerAwareCommand
                 )
             );
         }
+
+        return 0;
     }
 }

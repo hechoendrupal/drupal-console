@@ -1,6 +1,0 @@
-description: 'Az alkalmazás útvonalainak újraépítése'
-arguments:
-    route-name: Útvonalnevek
-messages:
-    rebuilding: 'Kis türelmet, az útvonalak újraépítése folyamatban van'
-    completed: 'Az útvonalak újraépítése befejeződött.'

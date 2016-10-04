@@ -1,5 +1,0 @@
-description: 'Lancer une tâche cron d''un module particulier ou l''ensembles des tâches'
-messages:
-    module-invalid: 'Le module %s ne défini pas de tâche cron'
-    executing-cron: 'Execution des tâches cron du module %s'
-    success: 'Toutes les implantations cron demandées ont été exécutées avec succès.'

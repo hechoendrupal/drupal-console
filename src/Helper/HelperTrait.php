@@ -34,11 +34,12 @@ trait HelperTrait
     }
 
     /**
-     * @return \Drupal\Console\Helper\ChainCommandHelper
+     * return value replaced with service definition.
+     * to be removed once helpers are replaced by services.
      */
     public function getChain()
     {
-        return $this->getHelperSet()->get('chain');
+        return $this->getContainerHelper()->get('chain_queue');
     }
 
     /**
@@ -87,14 +88,6 @@ trait HelperTrait
     public function getRenderHelper()
     {
         return $this->getHelperSet()->get('renderer');
-    }
-
-    /**
-     * @return \Drupal\Console\Helper\NestedArrayHelper
-     */
-    public function getNestedArrayHelper()
-    {
-        return $this->getHelperSet()->get('nested-array');
     }
 
     /**

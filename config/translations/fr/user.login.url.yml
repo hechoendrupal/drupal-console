@@ -1,7 +1,0 @@
-description: 'Retourne une url de connection à validité unique pour un utilisateur.'
-options:
-    user-id: 'Identifiant de l''utilisateur'
-messages:
-    url: 'Url de connection à validité unique pour @name : @url'
-errors:
-    invalid-user: 'Impossible de charger l''utilisateur (UID : @uid).'

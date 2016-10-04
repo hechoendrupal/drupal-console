@@ -11,14 +11,29 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Dumper;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Site\Settings;
 
 /**
  * Class DebugCommand
  * @package Drupal\Console\Command\Config
  */
-class SettingsDebugCommand extends ContainerAwareCommand
+class SettingsDebugCommand extends Command
 {
+    use CommandTrait;
+
+    /** @var Settings  */
+    protected $settings;
+
+    /**
+     * SettingsDebugCommand constructor.
+     * @param Settings $settings
+     */
+    public function __construct(Settings $settings) {
+        $this->settings = $settings;;
+        parent::__construct();
+    }
     /**
      * {@inheritdoc}
      */
@@ -37,8 +52,7 @@ class SettingsDebugCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $settings = $this->getSettings();
-        $settingKeys = array_keys($settings->getAll());
+        $settingKeys = array_keys($this->settings->getAll());
         $dumper = new Dumper();
 
         $io->newLine();
@@ -47,7 +61,7 @@ class SettingsDebugCommand extends ContainerAwareCommand
 
         foreach ($settingKeys as $settingKey) {
             $io->comment($settingKey, false);
-            $io->simple($dumper->dump($settings->get($settingKey), 10));
+            $io->simple($dumper->dump($this->settings->get($settingKey), 10));
         }
         $io->newLine();
     }

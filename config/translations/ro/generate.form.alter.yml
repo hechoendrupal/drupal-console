@@ -1,8 +1,0 @@
-description: 'Generează o implementare a hook_form_alter() sau hook_form_FORM_ID_alter()'
-help: 'Comanda <info>"%s"</info> vă va ajuta să generați un nou "%s"'
-options:
-    form-id: 'ID-ul formularului de alterat'
-messages:
-    inputs: "Puteți adăuga câmpuri noi în scopul de a modifica structura formularului.\nAceasta este opțional, apăsați <info>enter</info> pentru a <info>continua</info>"
-    loading-forms: 'Încărcați definițiile formularelor din modulul Webprofiler'
-    hide-form-elements: 'În mod opțional puteți selecta elementele formularului pentru a le ascunde'

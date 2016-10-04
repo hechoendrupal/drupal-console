@@ -1,8 +1,0 @@
-description: 'Generar una implementació de hook_form_alter() o hook_form_FORM_ID_alter'
-help: 'El comandament <info>"%s"</info> t''ajuda a generar un nou "%s"'
-options:
-    form-id: 'Identificador del formulari a alterar'
-messages:
-    inputs: "Es poden afegir camps per modificar el formulari.\nAixò es opcional, tecleja <info>enter</info> per <info>continuar</info>"
-    loading-forms: 'Carregant definició dels formularis des del mòdul Webprofiler'
-    hide-form-elements: 'Opcionalment pot seleccionar elements de formulari per ocultar-los'

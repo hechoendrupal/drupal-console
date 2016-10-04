@@ -1,6 +1,0 @@
-description: 'Exportar la configuració actual de l''aplicació'
-arguments:
-    directory: 'Defineix el directori d''exportació per desar la configuració.'
-    tar: 'La configuració s''exportarà a un fitxer si s''ha definit.'
-messages:
-    directory: 'S''ha exportat la configuració a:'

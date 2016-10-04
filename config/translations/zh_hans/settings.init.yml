@@ -1,3 +1,0 @@
-description: '拷贝配置文件到用户的 home 目录'
-options:
-    override: '覆盖配置文件'

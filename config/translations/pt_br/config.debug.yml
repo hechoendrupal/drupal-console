@@ -1,5 +1,0 @@
-description: 'Exibe a configuração atual.'
-arguments:
-    config-name: 'Nome da configuração.'
-errors:
-    config-not-exists: 'The configuration "%s" does not exists.'

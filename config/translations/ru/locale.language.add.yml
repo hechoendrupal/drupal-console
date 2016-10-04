@@ -1,4 +1,0 @@
-description: 'Добавить поддержку языка вашим сайтом'
-messages:
-    invalid-language: 'Язык %s является недопустимым языком'
-    language-add-successfully: 'Язык %s был успешно добавлен.'

@@ -12,11 +12,29 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\NestedArray;
 
 class DiffCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * @var NestedArray
+     */
+    protected $nestedArray;
+
+    /**
+     * RebuildCommand constructor.
+     * @param NestedArray    $nestedArray
+     */
+    public function __construct(NestedArray $nestedArray) {
+        $this->nestedArray = $nestedArray;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -108,10 +126,11 @@ class DiffCommand extends Command
             return;
         }
 
-        $nestedArray = $this->getNestedArrayHelper();
-
         $statistics = ['total' => 0, 'equal'=> 0 , 'diff' => 0];
-        $diff = $nestedArray->arrayDiff($yamlLeftParsed, $yamlRightParsed, $negate, $statistics);
+/*        print_r($yamlLeftParsed);
+        print_r($yamlRightParsed);*/
+        $diff = $this->nestedArray->arrayDiff($yamlLeftParsed, $yamlRightParsed, $negate, $statistics);
+        print_r($diff);
 
         if ($stats) {
             $io->info(
@@ -140,13 +159,13 @@ class DiffCommand extends Command
         // FLAT YAML file to display full yaml to be used with command yaml:update:key or yaml:update:value
         $diffFlatten = array();
         $keyFlatten = '';
-        $nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
+        $this->nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
 
         if ($limit !== null) {
             if (!$offset) {
                 $offset = 0;
             }
-            $diff_flatten = array_slice($diffFlatten, $offset, $limit);
+            $diffFlatten = array_slice($diffFlatten, $offset, $limit);
         }
 
         $tableHeader = [
@@ -155,11 +174,13 @@ class DiffCommand extends Command
         ];
 
         $tableRows = [];
-        foreach ($diff_flatten as $yamlKey => $yamlValue) {
+        foreach ($diffFlatten as $yamlKey => $yamlValue) {
             $tableRows[] = [
                 $yamlKey,
                 $yamlValue
             ];
+            print $yamlKey . "\n";
+            print $yamlValue . "\n";
         }
 
         $io->table($tableHeader, $tableRows, 'compact');

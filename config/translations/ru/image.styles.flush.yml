@@ -1,8 +1,0 @@
-description: 'Execute flush function by image style or execute all flush images styles'
-messages:
-    executing-flush: 'Executing flush function on image style %s'
-    success: 'All flush functions requested were executed successfully'
-options:
-    image-style: 'The Images Styles name.'
-questions:
-    image-style: 'Select Images Styles to flush.'

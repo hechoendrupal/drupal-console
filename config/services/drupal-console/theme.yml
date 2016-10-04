@@ -1,0 +1,26 @@
+services:
+  theme_debug:
+    class: Drupal\Console\Command\Theme\DebugCommand
+    arguments: ['@config.factory', '@theme_handler']
+    tags:
+      - { name: drupal.command }
+  theme_download:
+    class: Drupal\Console\Command\Theme\DownloadCommand
+    arguments: ['@console.drupal_api', '@http_client', '@app.root']
+    tags:
+      - { name: drupal.command }
+  theme_install:
+    class: Drupal\Console\Command\Theme\InstallCommand
+    arguments: ['@config.factory', '@theme_handler', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }
+  theme_path:
+    class: Drupal\Console\Command\Theme\PathCommand
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.command }
+  theme_uninstall:
+    class: Drupal\Console\Command\Theme\UninstallCommand
+    arguments: ['@config.factory', '@theme_handler', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }

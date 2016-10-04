@@ -9,15 +9,53 @@ namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Console\Extension\Manager;
 
 /**
  * Class StatisticsCommand
  * @package Drupal\Console\Command\Site
  */
-class StatisticsCommand extends ContainerAwareCommand
+class StatisticsCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+
+    /**
+     * @var QueryFactory
+     */
+    protected $entityQuery;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * StatisticsCommand constructor.
+     * @param DrupalApi         $drupalApi
+     * @param QueryFactory $entityQuery;
+     * @param Manager          $extensionManager
+     */
+    public function __construct(
+        DrupalApi $drupalApi,
+        QueryFactory $entityQuery,
+        Manager $extensionManager
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->entityQuery = $entityQuery;
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
+
     /**
      * @{@inheritdoc}
      */
@@ -37,7 +75,7 @@ class StatisticsCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $bundles = $this->getDrupalApi()->getBundles();
+        $bundles = $this->drupalApi->getBundles();
         foreach ($bundles as $bundleType => $bundleName) {
             $key = sprintf(
                 $this->trans('commands.site.statistics.messages.node-type'),
@@ -50,6 +88,7 @@ class StatisticsCommand extends ContainerAwareCommand
         $statistics[$this->trans('commands.site.statistics.messages.taxonomy-terms')] = $this->getTaxonomyTermCount();
         $statistics[$this->trans('commands.site.statistics.messages.files')] = $this->getFileCount();
         $statistics[$this->trans('commands.site.statistics.messages.users')] = $this->getUserCount();
+        $statistics[$this->trans('commands.site.statistics.messages.views')] = $this->getViewCount();
         $statistics[$this->trans('commands.site.statistics.messages.modules-enabled')] = $this->getModuleCount(true);
         $statistics[$this->trans('commands.site.statistics.messages.modules-disabled')] = $this->getModuleCount(false);
         $statistics[$this->trans('commands.site.statistics.messages.themes-enabled')] = $this->getThemeCount(true);
@@ -65,7 +104,7 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getNodeTypeCount($nodeType)
     {
-        $nodesPerType = $this->getEntityQuery()->get('node')->condition('type', $nodeType)->count();
+        $nodesPerType = $this->entityQuery->get('node')->condition('type', $nodeType)->count();
         $nodes = $nodesPerType->execute();
 
         return $nodes;
@@ -76,7 +115,7 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getCommentCount()
     {
-        $entityQuery = $this->getEntityQuery()->get('comment')->count();
+        $entityQuery = $this->entityQuery->get('comment')->count();
         $comments = $entityQuery->execute();
 
         return $comments;
@@ -87,7 +126,7 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getTaxonomyVocabularyCount()
     {
-        $entityQuery = $this->getEntityQuery()->get('taxonomy_vocabulary')->count();
+        $entityQuery = $this->entityQuery->get('taxonomy_vocabulary')->count();
         $vocabularies = $entityQuery->execute();
 
         return $vocabularies;
@@ -98,7 +137,7 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getTaxonomyTermCount()
     {
-        $entityQuery = $this->getEntityQuery()->get('taxonomy_term')->count();
+        $entityQuery = $this->entityQuery->get('taxonomy_term')->count();
         $terms = $entityQuery->execute();
 
         return $terms;
@@ -109,7 +148,7 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getFileCount()
     {
-        $entityQuery = $this->getEntityQuery()->get('file')->count();
+        $entityQuery = $this->entityQuery->get('file')->count();
         $files = $entityQuery->execute();
 
         return $files;
@@ -120,7 +159,7 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getUserCount()
     {
-        $entityQuery = $this->getEntityQuery()->get('user')->count();
+        $entityQuery = $this->entityQuery->get('user')->count();
         $users = $entityQuery->execute();
 
         return $users;
@@ -133,10 +172,10 @@ class StatisticsCommand extends ContainerAwareCommand
     private function getModuleCount($status = true)
     {
         if ($status) {
-            return count($this->getSite()->getModules(true));
+            return count($this->extensionManager->discoverModules()->showCore()->showNoCore()->showInstalled()->getList());
         }
 
-        return count($this->getSite()->getModules(true, false, true));
+        return count($this->extensionManager->discoverModules()->showCore()->showNoCore()->showUninstalled()->getList());
     }
 
     /**
@@ -146,10 +185,21 @@ class StatisticsCommand extends ContainerAwareCommand
     private function getThemeCount($status = true)
     {
         if ($status) {
-            return count($this->getSite()->getThemes(true));
+            return count($this->extensionManager->discoverThemes()->showCore()->showNoCore()->showInstalled()->getList());
         }
 
-        return count($this->getSite()->getThemes(true, false, true));
+        return count($this->extensionManager->discoverThemes()->showCore()->showNoCore()->showUninstalled()->getList());
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getViewCount($status = true, $tag = 'default')
+    {
+        $entityQuery = $this->entityQuery->get('view')->condition('tag', 'default', '<>')->count();
+        $views = $entityQuery->execute();
+
+        return $views;
     }
 
     /**

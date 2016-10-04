@@ -10,20 +10,21 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ServicesTrait;
-use Drupal\Console\Command\ModuleTrait;
-use Drupal\Console\Command\MenuTrait;
-use Drupal\Console\Command\FormTrait;
-use Drupal\Console\Generator\FormGenerator;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\MenuTrait;
+use Drupal\Console\Command\Shared\FormTrait;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
 
-abstract class FormCommand extends GeneratorCommand
+abstract class FormCommand extends Command
 {
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;
     use MenuTrait;
+    use CommandTrait;
 
     private $formType;
     private $commandName;
@@ -55,7 +56,12 @@ abstract class FormCommand extends GeneratorCommand
                     $this->formType
                 )
             )
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 '',
@@ -68,18 +74,48 @@ abstract class FormCommand extends GeneratorCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.form-id')
             )
-            ->addOption('services', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.services'))
-            ->addOption('inputs', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.common.options.inputs'))
-            ->addOption('routing', '', InputOption::VALUE_NONE, $this->trans('commands.generate.form.options.routing'))
+            ->addOption(
+                'services',
+                '',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.common.options.services')
+            )
+            ->addOption(
+                'inputs',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.common.options.inputs')
+            )
+            ->addOption(
+                'path',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.form.options.path')
+            )
             ->addOption(
                 'menu_link_gen',
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.menu_link_gen')
             )
-            ->addOption('menu_link_title', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.menu_link_title'))
-            ->addOption('menu_parent', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.menu_parent'))
-            ->addOption('menu_link_desc', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.form.options.menu_link_desc'));
+            ->addOption(
+                'menu_link_title',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.form.options.menu_link_title')
+            )
+            ->addOption(
+                'menu_parent',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.form.options.menu_parent')
+            )
+            ->addOption(
+                'menu_link_desc',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.form.options.menu_link_desc')
+            );
     }
 
     /**
@@ -89,7 +125,7 @@ abstract class FormCommand extends GeneratorCommand
     {
         $module = $input->getOption('module');
         $services = $input->getOption('services');
-        $update_routing = $input->getOption('routing');
+        $path = $input->getOption('path');
         $class_name = $input->getOption('class');
         $form_id = $input->getOption('form-id');
         $form_type = $this->formType;
@@ -103,10 +139,10 @@ abstract class FormCommand extends GeneratorCommand
         $build_services = $this->buildServices($services);
 
         $this
-            ->getGenerator()
-            ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $update_routing, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
+            ->generator
+            ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
 
-        $this->getChain()->addCommand('router:rebuild');
+        $this->chainQueue->addCommand('router:rebuild', []);
     }
 
     /**
@@ -119,8 +155,8 @@ abstract class FormCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -139,39 +175,64 @@ abstract class FormCommand extends GeneratorCommand
         if (!$formId) {
             $formId = $io->ask(
                 $this->trans('commands.generate.form.questions.form-id'),
-                $this->getStringHelper()->camelCaseToMachineName($className)
+                $this->stringConverter->camelCaseToMachineName($className)
             );
             $input->setOption('form-id', $formId);
         }
 
         // --services option
-        // @see use Drupal\Console\Command\ServicesTrait::servicesQuestion
-        $services = $this->servicesQuestion($output);
+        // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
+        $services = $this->servicesQuestion($io);
         $input->setOption('services', $services);
 
         // --inputs option
         $inputs = $input->getOption('inputs');
         if (!$inputs) {
-            // @see \Drupal\Console\Command\FormTrait::formQuestion
-            $inputs = $this->formQuestion($output);
+            // @see \Drupal\Console\Command\Shared\FormTrait::formQuestion
+            $inputs = $this->formQuestion($io);
             $input->setOption('inputs', $inputs);
         }
 
-        // --routing option for ConfigFormBase
-        if ($this->formType == 'ConfigFormBase') {
-            $routing = $input->getOption('routing');
-            if (!$routing) {
-                $routing = $io->confirm(
-                    $this->trans('commands.generate.form.questions.routing'),
-                    true
+        $path = $input->getOption('path');
+        if (!$path) {
+            if ($this->formType == 'ConfigFormBase') {
+                $form_path = '/admin/config/{{ module_name }}/{{ class_name_short }}';
+                $form_path = sprintf(
+                    '/admin/config/%s/%s',
+                    $module,
+                    strtolower($this->stringConverter->removeSuffix($className))
                 );
-                $input->setOption('routing', $routing);
+            } else {
+                $form_path = sprintf(
+                    '/%s/form/%s',
+                    $module,
+                    $this->getStringHelper()->camelCaseToMachineName($this->stringConverter->removeSuffix($className))
+                );
             }
+            $path = $io->ask(
+                $this->trans('commands.generate.form.questions.path'),
+                $form_path,
+                function ($path) {
+                    if (count($this->routeProvider->getRoutesByPattern($path)) > 0) {
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                $this->trans(
+                                    'commands.generate.form.messages.path-already-added'
+                                ),
+                                $path
+                            )
+                        );
+                    }
+
+                    return $path;
+                }
+            );
+            $input->setOption('path', $path);
         }
 
         // --link option for links.menu
         if ($this->formType == 'ConfigFormBase') {
-            $menu_options = $this->menuQuestion($output, $className);
+            $menu_options = $this->menuQuestion($io, $className);
             $menu_link_gen = $input->getOption('menu_link_gen');
             $menu_link_title = $input->getOption('menu_link_title');
             $menu_parent = $input->getOption('menu_parent');
@@ -183,13 +244,5 @@ abstract class FormCommand extends GeneratorCommand
                 $input->setOption('menu_link_desc', $menu_options['menu_link_desc']);
             }
         }
-    }
-
-    /**
-     * @return \Drupal\Console\Generator\FormGenerator.
-     */
-    protected function createGenerator()
-    {
-        return new FormGenerator();
     }
 }

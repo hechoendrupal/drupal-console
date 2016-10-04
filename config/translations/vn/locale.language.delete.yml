@@ -1,4 +1,0 @@
-description: 'Xóa một ngôn ngữ được hỗ trợ bởi site cuuar bạn'
-messages:
-    invalid-language: 'Ngôn ngữ %s là ngôn ngữ không hợp lệ'
-    language-deleted-successfully: 'Ngôn ngữ %s được thêm thành công'

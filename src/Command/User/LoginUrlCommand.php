@@ -10,8 +10,9 @@ namespace Drupal\Console\Command\User;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Component\Utility\SafeMarkup;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -19,8 +20,24 @@ use Drupal\Console\Style\DrupalStyle;
  *
  * @package Drupal\Console
  */
-class LoginUrlCommand extends ContainerAwareCommand
+class LoginUrlCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
+     * LoginUrlCommand constructor.
+     * @param EntityTypeManagerInterface    $entityTypeManager
+     */
+    public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+        $this->entityTypeManager = $entityTypeManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -45,18 +62,26 @@ class LoginUrlCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         $uid = $input->getArgument('user-id');
-        $user = $this->getEntityManager()->getStorage('user')->load($uid);
+        $user = $this->entityTypeManager->getStorage('user')->load($uid);
 
         if (!$user) {
-            $text = $this->trans('commands.user.login.url.errors.invalid-user');
-            $text = SafeMarkup::format($text, ['@uid' => $uid]);
-            $io->error($text);
-            return;
+            $io->error(
+                sprintf(
+                    $this->trans('commands.user.login.url.errors.invalid-user'),
+                    $uid
+                )
+            );
+
+            return 1;
         }
 
         $url = user_pass_reset_url($user);
-        $text = $this->trans('commands.user.login.url.messages.url');
-        $text = SafeMarkup::format($text, ['@name' => $user->getUsername(), '@url' => $url]);
-        $io->success($text);
+        $io->success(
+            sprintf(
+                $this->trans('commands.user.login.url.messages.url'),
+                $user->getUsername(),
+                $url
+            )
+        );
     }
 }

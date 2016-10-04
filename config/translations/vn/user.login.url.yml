@@ -1,7 +1,0 @@
-description: 'Quay lại một url đăng nhập của người dùng một lần.'
-options:
-    user-id: 'ID người dùng.'
-messages:
-    url: 'Đăng nhập một lần cho @name: @url'
-errors:
-    invalid-user: 'Không thể tải entity của người dùng (User ID: @uid).'

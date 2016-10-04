@@ -1,4 +1,0 @@
-description: 'Ajoute une langue à votre site'
-messages:
-    invalid-language: 'Le code langue %s n''est pas valide'
-    language-add-successfully: 'La langue %s a été correctement ajoutée.'

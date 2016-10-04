@@ -1,6 +1,0 @@
-description: 'Экспорт текущей конфигурации приложения.'
-arguments:
-    directory: 'Задать директорию для экспорта конфигурации.'
-    tar: 'If set, the configuration will be exported to an archive file.'
-messages:
-    directory: 'Конфигурация была экспортирована в:'

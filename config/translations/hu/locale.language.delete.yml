@@ -1,4 +1,0 @@
-description: 'A webhely által támogatott nyelv törlése'
-messages:
-    invalid-language: '%s nyelv érvénytelen'
-    language-deleted-successfully: '%s nyelv törlése sikerült.'

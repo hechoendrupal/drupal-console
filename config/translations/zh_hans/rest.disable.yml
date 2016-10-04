@@ -1,8 +1,0 @@
-description: '禁用 REST 资源'
-arguments:
-    resource-id: 'REST ID'
-    states: '为当前 REST 资源禁用的 REST 状态'
-questions:
-    resource-id: 'REST ID'
-messages:
-    invalid-rest-id: 'REST ID %s 无效'

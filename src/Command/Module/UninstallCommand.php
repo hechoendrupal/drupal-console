@@ -7,111 +7,205 @@
 
 namespace Drupal\Console\Command\Module;
 
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Core\Config\ConfigFactory;
 
-class UninstallCommand extends ContainerAwareCommand
+class UninstallCommand extends Command
 {
+    use CommandTrait;
+    use ProjectDownloadTrait;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /** @var ModuleInstaller  */
+    protected $moduleInstaller;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /** @var ConfigFactory  */
+    protected $configFactory;
+
+
+    /**
+     * InstallCommand constructor.
+     * @param Site $site
+     * @param Validator $validator
+     * @param ChainQueue $chainQueue
+     * @param ConfigFactory $configFactory
+     */
+    public function __construct(
+        Site $site,
+        ModuleInstaller $moduleInstaller,
+        ChainQueue $chainQueue,
+        ConfigFactory $configFactory
+
+    ) {
+        $this->site = $site;
+        $this->moduleInstaller = $moduleInstaller;
+        $this->chainQueue = $chainQueue;
+        $this->configFactory = $configFactory;
+        parent::__construct();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
             ->setName('module:uninstall')
             ->setDescription($this->trans('commands.module.uninstall.description'))
-            ->addArgument('module', InputArgument::REQUIRED, $this->trans('commands.module.uninstall.options.module'))
-            ->addOption('force', '', InputOption::VALUE_NONE, $this->trans('commands.module.uninstall.options.force'));
+            ->addArgument(
+                'module',
+                InputArgument::IS_ARRAY,
+                $this->trans('commands.module.uninstall.questions.module')
+            )
+            ->addOption(
+                'force',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.uninstall.options.force')
+            )
+            ->addOption(
+                'composer',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.module.uninstall.options.composer')
+            );
     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+        $module = $input->getArgument('module');
 
+        if (!$module) {
+            $module = $this->modulesUninstallQuestion($io);
+            $input->setArgument('module', $module);
+        }
+    }
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io =  new DrupalStyle($input, $output);
-
-        $this->getDrupalHelper()->loadLegacyFile('/core/modules/system/system.module');
-
-        $extension_config = $this->getConfigFactory()->getEditable('core.extension');
-
-        $moduleInstaller = $this->getModuleInstaller();
-
-        // Get info about modules available
-        $module_data = system_rebuild_module_data();
-
+        $composer = $input->getOption('composer');
         $module = $input->getArgument('module');
 
-        $modules = array_filter(array_map('trim', explode(',', $module)));
+        $this->site->loadLegacyFile('/core/modules/system/system.module');
 
-        $module_list = array_combine($modules, $modules);
+        $coreExtension = $this->configFactory->getEditable('core.extension');
 
-        // Determine if some module request is missing
-        if ($missing_modules = array_diff_key($module_list, $module_data)) {
+        // Get info about modules available
+        $moduleData = system_rebuild_module_data();
+        $moduleList = array_combine($module, $module);
+
+        if ($composer) {
+            //@TODO: check with Composer if the module is previously required in composer.json!
+            foreach ($module as $moduleItem) {
+                $command = sprintf(
+                    'composer remove drupal/%s ',
+                    $moduleItem
+                );
+
+                $shellProcess = $this->get('shell_process');
+                if ($shellProcess->exec($command)) {
+                    $io->success(
+                        sprintf(
+                            $this->trans('commands.module.uninstall.messages.composer-success'),
+                            $moduleItem
+                        )
+                    );
+                }
+            }
+        }
+
+        if ($missingModules = array_diff_key($moduleList, $moduleData)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.module.uninstall.messages.missing'),
-                    implode(', ', $modules),
-                    implode(', ', $missing_modules)
+                    implode(', ', $module),
+                    implode(', ', $missingModules)
                 )
             );
 
-            return true;
+            return 1;
         }
 
-        // Only process currently installed modules.
-        $installed_modules = $extension_config->get('module') ?: array();
-        if (!$module_list = array_intersect_key($module_list, $installed_modules)) {
+        $installedModules = $coreExtension->get('module') ?: array();
+        if (!$moduleList = array_intersect_key($moduleList, $installedModules)) {
             $io->info($this->trans('commands.module.uninstall.messages.nothing'));
 
-            return true;
+            return 0;
         }
 
-        $force = $input->getOption('force');
-
-        if (!$force) {
-            // Calculate $dependents
-            $dependents = array();
-            while (list($module) = each($module_list)) {
-                foreach (array_keys($module_data[$module]->required_by) as $dependent) {
-                    // Skip already uninstalled modules.
-                    if (isset($installed_modules[$dependent]) && !isset($module_list[$dependent]) && $dependent != $profile) {
-                        $dependents[] = $dependent;
+        if (!$force = $input->getOption('force')) {
+            $dependencies = [];
+            while (list($module) = each($moduleList)) {
+                foreach (array_keys($moduleData[$module]->required_by) as $dependency) {
+                    if (isset($installedModules[$dependency]) && !isset($moduleList[$dependency]) && $dependency != $profile) {
+                        $dependencies[] = $dependency;
                     }
                 }
             }
 
-            // Error if there are missing dependencies
-            if (!empty($dependents)) {
+            if (!empty($dependencies)) {
                 $io->error(
-                  sprintf(
-                    $this->trans('commands.module.uninstall.messages.dependents'),
-                    implode(', ', $modules),
-                    implode(', ', $dependents)
-                  )
+                    sprintf(
+                        $this->trans('commands.module.uninstall.messages.dependents'),
+                        implode(', ', $module),
+                        implode(', ', $dependencies)
+                    )
                 );
 
-                return true;
+                return 1;
             }
-
         }
 
-        // Installing modules
         try {
-            // Install the modules.
-            $moduleInstaller->uninstall($module_list);
+            $this->moduleInstaller->uninstall($moduleList);
 
             $io->info(
                 sprintf(
                     $this->trans('commands.module.uninstall.messages.success'),
-                    implode(', ', $modules)
+                    implode(', ', $moduleList)
                 )
             );
+
+            $io->comment(
+                sprintf(
+                    $this->trans('commands.module.uninstall.messages.composer-success'),
+                    implode(', ', $moduleList),
+                    false
+                )
+            );
+
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
-            return;
+            return 1;
         }
 
-        // Run cache rebuild to see changes in Web UI
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

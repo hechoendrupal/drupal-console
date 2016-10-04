@@ -1,0 +1,18 @@
+{% extends "base/class.php.twig" %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\content_translation\ContentTranslationHandler;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines the translation handler for {{ entity_name }}.
+ */
+class {{ entity_class }}TranslationHandler extends ContentTranslationHandler {% endblock %}
+{% block class_methods %}
+  // Override here the needed methods from ContentTranslationHandler.
+{% endblock %}

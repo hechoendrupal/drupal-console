@@ -10,11 +10,61 @@ namespace Drupal\Console\Command\Rest;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\RestTrait;
+use Drupal\Console\Helper\HelperTrait;
+use Drupal\rest\Plugin\Type\ResourcePluginManager;
+use Drupal\Core\Authentication\AuthenticationCollector;
+use Drupal\Core\Config\ConfigFactory;
 
-class EnableCommand extends ContainerAwareCommand
+/**
+ * @DrupalCommand(
+ *     extension = "rest",
+ *     extensionType = "module"
+ * )
+ */
+class EnableCommand extends Command
 {
+    use CommandTrait;
+    use RestTrait;
+    use HelperTrait;
+
+    /**
+     * @var ResourcePluginManager $pluginManagerRest
+     */
+    protected $pluginManagerRest;
+
+    /**
+     * @var AuthenticationCollector $authenticationCollector
+     */
+    protected $authenticationCollector;
+
+    /**
+ * @var ConfigFactory  
+*/
+    protected $configFactory;
+
+    /**
+     * EnableCommand constructor.
+     * @param ResourcePluginManager   $pluginManagerRest
+     * @param AuthenticationCollector $authenticationCollector
+     * @param ConfigFactory           $configFactory
+     */
+    public function __construct(
+        ResourcePluginManager $pluginManagerRest,
+        AuthenticationCollector $authenticationCollector,
+        ConfigFactory $configFactory
+    ) {
+        $this->pluginManagerRest = $pluginManagerRest;
+        $this->authenticationCollector = $authenticationCollector;
+        $this->configFactory = $configFactory;
+        parent::__construct();
+    }
+
+
     protected function configure()
     {
         $this
@@ -25,8 +75,6 @@ class EnableCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.rest.debug.arguments.resource-id')
             );
-
-        $this->addDependency('rest');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,12 +96,15 @@ class EnableCommand extends ContainerAwareCommand
             );
         }
 
-        $this->validateRestResource($resource_id, $rest_resources_ids, $this->getTranslator());
+        $this->validateRestResource(
+            $resource_id,
+            $rest_resources_ids,
+            $this->getTranslator()
+        );
         $input->setArgument('resource-id', $resource_id);
 
         // Calculate states available by resource and generate the question
-        $resourcePluginManager = $this->getPluginManagerRest();
-        $plugin = $resourcePluginManager->getInstance(array('id' => $resource_id));
+        $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
         $states = $plugin->availableMethods();
 
@@ -61,26 +112,12 @@ class EnableCommand extends ContainerAwareCommand
             $this->trans('commands.rest.enable.arguments.states'),
             $states
         );
-        $io->writeln($this->trans('commands.rest.enable.messages.selected-state').' '.$state);
-
-        // Get serializer formats available and generate the question.
-        $serializedFormats = $this->getSerializerFormats();
-        $formats = $io->choice(
-            $this->trans('commands.rest.enable.messages.formats'),
-            $serializedFormats,
-            0,
-            true
-        );
-
         $io->writeln(
-            $this->trans('commands.rest.enable.messages.selected-formats').' '.implode(
-                ', ',
-                $formats
-            )
+            $this->trans('commands.rest.enable.messages.selected-state').' '.$state
         );
 
         // Get Authentication Provider and generate the question
-        $authenticationProviders = $this->getAuthenticationProviders();
+        $authenticationProviders = $this->authenticationCollector->getSortedProviders();
 
         $authenticationProvidersSelected = $io->choice(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
@@ -101,12 +138,10 @@ class EnableCommand extends ContainerAwareCommand
         $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
         $rest_settings[$resource_id][$state]['supported_auth'] = $authenticationProvidersSelected;
 
-        $config = $this->getConfigFactory()
-            ->getEditable('rest.settings');
+        $config = $this->configFactory->getEditable('rest.settings');
         $config->set('resources', $rest_settings);
         $config->save();
 
-        // Run cache rebuild to enable rest routing
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        return 0;
     }
 }

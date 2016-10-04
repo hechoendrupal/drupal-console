@@ -1,4 +1,0 @@
-description: 'Muestra los servicios actuales de la aplicación.'
-messages:
-    service_id: 'ID del servicio'
-    class_name: 'Nombre de la clase'

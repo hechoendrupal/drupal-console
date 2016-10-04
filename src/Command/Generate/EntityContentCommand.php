@@ -10,12 +10,66 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityContentGenerator;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\Validator;
 use Drupal\Console\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
+    use CommandTrait;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /** @var EntityContentGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
+
+
+    /**
+     * EntityContentCommand constructor.
+     * @param ChainQueue             $chainQueue
+     * @param EntityContentGenerator $generator
+     * @param StringConverter        $stringConverter
+     * @param Manager                $extensionManager
+     * @param Validator              $validator
+     */
+    public function __construct(
+        ChainQueue $chainQueue,
+        EntityContentGenerator $generator,
+        StringConverter $stringConverter,
+        Manager $extensionManager,
+        Validator $validator
+    ) {
+        $this->chainQueue = $chainQueue;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
+        parent::__construct();
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -30,6 +84,13 @@ class EntityContentCommand extends EntityCommand
             null,
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.has-bundles')
+        );
+
+        $this->addOption(
+            'is-translatable',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.is-translatable')
         );
     }
 
@@ -50,6 +111,13 @@ class EntityContentCommand extends EntityCommand
             );
             $input->setOption('has-bundles', $bundle_of);
         }
+
+        // --is-translatable option
+        $is_translatable = $io->confirm(
+            $this->trans('commands.generate.entity.content.questions.is-translatable'),
+            true
+        );
+        $input->setOption('is-translatable', $is_translatable);
     }
 
     /**
@@ -65,16 +133,19 @@ class EntityContentCommand extends EntityCommand
         $base_path = $input->getOption('base-path');
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
         $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
+        $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
 
         $io = new DrupalStyle($input, $output);
-        $generator = $this->getGenerator();
-        $generator->setIo($io);
-        $generator->setLearning($learning);
+        $generator = $this->generator;
 
-        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_entity_name);
+        $generator->setIo($io);
+        //@TODO:
+        //$generator->setLearning($learning);
+
+        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name);
 
         if ($has_bundles) {
-            $this->getChain()->addCommand(
+            $this->chainQueue->addCommand(
                 'generate:entity:config', [
                 '--module' => $module,
                 '--entity-class' => $entity_class . 'Type',
@@ -84,10 +155,5 @@ class EntityContentCommand extends EntityCommand
                 ]
             );
         }
-    }
-
-    protected function createGenerator()
-    {
-        return new EntityContentGenerator();
     }
 }

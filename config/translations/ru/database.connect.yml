@@ -1,8 +1,0 @@
-description: 'Показывает соединение с базой данных'
-arguments:
-    database: 'Ключ базы данных из settings.php'
-messages:
-    database-not-found: 'Информация о соединении с базой данных %s не найдена'
-    database-not-supported: 'Тип базы данных %s пока не поддерживается'
-    database-client-not-found: 'Клиент базы данных %s не найден'
-    connection: 'Соединение: %s'

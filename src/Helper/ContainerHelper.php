@@ -17,15 +17,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class ContainerHelper extends Helper
 {
     /**
-     * @var $container ContainerBuilder
+     * @var $container
      */
     private $container;
 
     /**
      * ContainerHelper constructor.
-     * @param ContainerBuilder $container
+     * @param $container
      */
-    public function __construct(ContainerBuilder $container)
+    public function __construct($container)
     {
         $this->container = $container;
     }
@@ -41,6 +41,11 @@ class ContainerHelper extends Helper
         }
 
         return null;
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
     }
 
     /**

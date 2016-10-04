@@ -1,9 +1,0 @@
-description: 連続した複数のコマンドを実行
-options:
-    file: 実行するコマンドが定義されたファイル
-questions:
-    chain-file: 'Select chain file to execute'
-messages:
-    missing_file: '有効なファイルパスを指定してください。'
-    invalid_file: 'ファイル "%s" が存在しません。'
-    module_install: 'module:install コマンドはchain queueの中では実行できません。個別に実行する必要があります。'

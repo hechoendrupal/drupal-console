@@ -1,7 +1,0 @@
-description: 'Supprimer la configuration'
-arguments:
-    name: 'Nom de la configuration'
-messages:
-    enter-name: 'Le nom de la configuration ne peut pas être vide.'
-    config-not-exists: 'La configuration "%s" n''existe pas.'
-    deleted: 'La configuration "%s" a été supprimée.'

@@ -1,0 +1,183 @@
+services:
+  console.module_generator:
+    class: Drupal\Console\Generator\ModuleGenerator
+    tags:
+      - { name: drupal.generator }
+  console.modulefile_generator:
+    class: Drupal\Console\Generator\ModuleFileGenerator
+    tags:
+      - { name: drupal.generator }
+  console.authentication_provider_generator:
+    class: Drupal\Console\Generator\AuthenticationProviderGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.help_generator:
+    class: Drupal\Console\Generator\HelpGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.controller_generator:
+    class: Drupal\Console\Generator\ControllerGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.breakpoint_generator:
+    class: Drupal\Console\Generator\BreakPointGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.form_alter_generator:
+    class: Drupal\Console\Generator\FormAlterGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.permission_generator:
+    class: Drupal\Console\Generator\PermissionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.event_subscriber_generator:
+    class: Drupal\Console\Generator\EventSubscriberGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.form_generator:
+    class: Drupal\Console\Generator\FormGenerator
+    arguments: ['@console.extension_manager', '@console.string_converter']
+    tags:
+      - { name: drupal.generator }
+  console.profile_generator:
+    class: Drupal\Console\Generator\ProfileGenerator
+    tags:
+      - { name: drupal.generator }
+  console.post_update_generator:
+    class: Drupal\Console\Generator\PostUpdateGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_condition_generator:
+    class: Drupal\Console\Generator\PluginConditionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_field_generator:
+    class: Drupal\Console\Generator\PluginFieldFormatterGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_field_formatter_generator:
+    class: Drupal\Console\Generator\PluginFieldFormatterGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_field_type_generator:
+    class: Drupal\Console\Generator\PluginFieldTypeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_field_widget_generator:
+    class: Drupal\Console\Generator\PluginFieldWidgetGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_image_effect_generator:
+    class: Drupal\Console\Generator\PluginImageEffectGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_image_formatter_generator:
+    class: Drupal\Console\Generator\PluginImageFormatterGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_mail_generator:
+    class: Drupal\Console\Generator\PluginMailGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_rest_resource_generator:
+    class: Drupal\Console\Generator\PluginRestResourceGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_rules_action_generator:
+    class: Drupal\Console\Generator\PluginRulesActionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_skeleton_generator:
+    class: Drupal\Console\Generator\PluginSkeletonGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_views_field_generator:
+    class: Drupal\Console\Generator\PluginViewsFieldGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_type_annotation_generator:
+    class: Drupal\Console\Generator\PluginTypeAnnotationGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_type_yaml_generator:
+    class: Drupal\Console\Generator\PluginTypeYamlGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.route_subscriber_generator:
+    class: Drupal\Console\Generator\RouteSubscriberGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.service_generator:
+    class: Drupal\Console\Generator\ServiceGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.theme_generator:
+    class: Drupal\Console\Generator\ThemeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.twig_extension_generator:
+    class: Drupal\Console\Generator\TwigExtensionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.update_generator:
+    class: Drupal\Console\Generator\UpdateGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.pluginblock_generator:
+    class: Drupal\Console\Generator\PluginBlockGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.command_generator:
+    class: Drupal\Console\Generator\CommandGenerator
+    arguments: ['@console.extension_manager', '@console.translator_manager']
+    tags:
+      - { name: drupal.generator }
+  console.command_ckeditorbutton:
+    class: Drupal\Console\Generator\PluginCKEditorButtonGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.entitycontent_generator:
+    class: Drupal\Console\Generator\EntityContentGenerator
+    arguments: ['@console.extension_manager', '@console.site', '@console.renderer']
+    tags:
+      - { name: drupal.generator }
+  console.entitybundle_generator:
+    class: Drupal\Console\Generator\EntityBundleGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.entityconfig_generator:
+    class: Drupal\Console\Generator\EntityConfigGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }

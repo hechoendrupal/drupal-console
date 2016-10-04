@@ -1,4 +1,0 @@
-description: 'Adaugă o limbă ce va avea suport pe situl dvs.'
-messages:
-    invalid-language: 'Limba %s nu este o limbă validă'
-    language-add-successfully: 'Limba %s a fost adăugată cu succes.'

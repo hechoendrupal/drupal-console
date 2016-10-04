@@ -7,8 +7,25 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class PluginBlockGenerator extends Generator
 {
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * PermissionGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     /**
      * Generator Plugin Block.
      *
@@ -31,7 +48,7 @@ class PluginBlockGenerator extends Generator
 
         $this->renderFile(
             'module/src/Plugin/Block/block.php.twig',
-            $this->getSite()->getPluginPath($module, 'Block').'/'.$class_name.'.php',
+            $this->extensionManager->getPluginPath($module, 'Block').'/'.$class_name.'.php',
             $parameters
         );
     }

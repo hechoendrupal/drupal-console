@@ -1,4 +1,0 @@
-description: 'Danh sách của các module đang thực hiện một lệnh cron'
-messages:
-    module-list: 'Các module đang thực hiện một phương pháp cron'
-    module: Module

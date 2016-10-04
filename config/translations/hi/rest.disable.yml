@@ -1,8 +1,0 @@
-description: 'अनुप्रयोग में REST संसाधन अक्षम करें|'
-arguments:
-    resource-id: 'REST क्रमांक'
-    states: 'REST स्टेट को REST संसाधन के लिए अक्षम हैं|'
-questions:
-    resource-id: 'REST क्रमांक'
-messages:
-    invalid-rest-id: 'REST क्रमांक %sअमान्य है।'

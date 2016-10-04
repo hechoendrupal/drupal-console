@@ -1,5 +1,0 @@
-description: 'Hiển thị cấu hình hiện tại'
-arguments:
-    config-name: 'Tên cấu hình'
-errors:
-    config-not-exists: 'Cấu hình "%s" không tồn tại.'

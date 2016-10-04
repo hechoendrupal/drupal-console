@@ -1,6 +1,0 @@
-description: 'Reconstruye las rutas de la aplicación'
-arguments:
-    route-name: 'Nombres de ruta'
-messages:
-    rebuilding: 'Reconstruyendo las rutas, espere un momento por favor'
-    completed: 'El proceso de reconstrucción de ruta(s) ha finalizado.'

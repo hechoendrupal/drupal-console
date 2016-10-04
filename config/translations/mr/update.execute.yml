@@ -1,8 +1,0 @@
-description: 'विभागाची एक विशिष्ट सुधारणा N कार्य चालवा, किंवा सर्व कार्ये चालवा'
-options:
-    update-n: 'विशिष्ट सुधारणा कार्याची अंमलबजावणी करण्यासाठी'
-messages:
-    no-module-updates: 'विभागासाठी सुधारणा उपलब्ध नाहीत %s'
-    executing-update: 'विभाग %s सुधारणा कार्य  %s चालू आहे'
-    module-update-function-not-found: '%s विभागात %s सुधारणेला कार्य नाही'
-    executing-required-previous-updates: 'मागील आवश्यक सुधारणाची अंमलबजावणी चालू'

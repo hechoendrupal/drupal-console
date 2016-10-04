@@ -7,8 +7,21 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class PluginRestResourceGenerator extends Generator
 {
+    /**
+     * PluginRestResourceGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+
     /**
      * Generator Plugin Block.
      *
@@ -32,7 +45,7 @@ class PluginRestResourceGenerator extends Generator
 
         $this->renderFile(
             'module/src/Plugin/Rest/Resource/rest.php.twig',
-            $this->getSite()->getPluginPath($module, 'rest').'/resource/'.$class_name.'.php',
+            $this->extensionManager->getPluginPath($module, 'rest') .'/resource/'.$class_name.'.php',
             $parameters
         );
     }

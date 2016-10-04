@@ -1,4 +1,0 @@
-description: 'Ștergeți o limbă ce are suport pe situl dvs.'
-messages:
-    invalid-language: 'Limba %s nu este o limbă validă'
-    language-deleted-successfully: 'Limba %s a fost ștearsă cu succes.'

@@ -1,9 +1,0 @@
-description: 'Chain parancs végrehajtása'
-options:
-    file: 'A végrehajtandó parancsokat tartalmazó, felhasználó által megadott fájl.'
-questions:
-    chain-file: 'Select chain file to execute'
-messages:
-    missing_file: 'Meg kell adni egy érvényes fájlútvonalat és nevet.'
-    invalid_file: '"%s" nevű fájl nem létezik.'
-    module_install: 'A module:install parancs nem futtatható láncolt sorban, azt külön kell futtatni.'

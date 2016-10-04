@@ -7,19 +7,37 @@
 
 namespace Drupal\Console\Command\Create;
 
-use Symfony\Component\Console\Input\InputArgument;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Utils\Create\VocabularyData;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
  * Class VocabulariesCommand
  * @package Drupal\Console\Command\Generate
  */
-class VocabulariesCommand extends ContainerAwareCommand
+class VocabulariesCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * @var VocabularyData
+     */
+    protected $vocabularyData;
+
+    /**
+     * UsersCommand constructor.
+     * @param $vocabularyData
+     */
+    public function __construct(VocabularyData $vocabularyData)
+    {
+        $this->vocabularyData = $vocabularyData;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -79,8 +97,7 @@ class VocabulariesCommand extends ContainerAwareCommand
         $limit = $input->getOption('limit')?:25;
         $nameWords = $input->getOption('name-words')?:5;
 
-        $createVocabularies = $this->getDrupalApi()->getCreateVocabularies();
-        $vocabularies = $createVocabularies->createVocabulary(
+        $vocabularies = $this->vocabularyData->create(
             $limit,
             $nameWords
         );
@@ -108,6 +125,6 @@ class VocabulariesCommand extends ContainerAwareCommand
             );
         }
 
-        return;
+        return 0;
     }
 }

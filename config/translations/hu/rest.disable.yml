@@ -1,8 +1,0 @@
-description: 'REST-erőforrás letiltása'
-arguments:
-    resource-id: REST-azonosító
-    states: 'A REST-erőforrás letiltandó REST-állapotai'
-questions:
-    resource-id: REST-azonosító
-messages:
-    invalid-rest-id: '%s REST-azonosító érvénytelen'

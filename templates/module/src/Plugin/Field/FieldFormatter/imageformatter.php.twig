@@ -102,7 +102,7 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
      $configuration['third_party_settings'],
      $container->get('current_user'),
      $container->get('link_generator'),
-     $container->get('entity.manager')->getStorage('image_style')
+     $container->get('entity_type.manager')->getStorage('image_style')
    );
  }
 
@@ -110,10 +110,10 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
  * {@inheritdoc}
  */
  public static function defaultSettings() {
-   return array(
+   return [
      'image_style' => '',
      'image_link' => '',
-   ) + parent::defaultSettings();
+   ] + parent::defaultSettings();
  }
 
 /**
@@ -121,17 +121,17 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
  */
  public function settingsForm(array $form, FormStateInterface $form_state) {
    $image_styles = image_style_options(FALSE);
-   $element['image_style'] = array(
+   $element['image_style'] = [
      '#title' => t('Image style'),
      '#type' => 'select',
      '#default_value' => $this->getSetting('image_style'),
      '#empty_option' => t('None (original image)'),
      '#options' => $image_styles,
-     '#description' => array(
+     '#description' => [
        '#markup' => $this->linkGenerator->generate($this->t('Configure Image Styles'), new Url('entity.image_style.collection')),
        '#access' => $this->currentUser->hasPermission('administer image styles'),
-     ),
-   );
+     ],
+   ];
 
    return $element;
  }
@@ -140,7 +140,7 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
  * {@inheritdoc}
  */
  public function settingsSummary() {
-   $summary = array();
+   $summary = [];
    $image_styles = image_style_options(FALSE);
 
    // Unset possible 'No defined styles' option.
@@ -150,7 +150,7 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
    // their styles in code.
    $image_style_setting = $this->getSetting('image_style');
    if (isset($image_styles[$image_style_setting])) {
-     $summary[] = t('Image style: @style', array('@style' => $image_styles[$image_style_setting]));
+     $summary[] = t('Image style: @style', ['@style' => $image_styles[$image_style_setting]]);
    }
    else {
      $summary[] = t('Original image');
@@ -163,7 +163,7 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
  * {@inheritdoc}
  */
  public function viewElements(FieldItemListInterface $items, $langcode) {
-   $elements = array();
+   $elements = [];
     $files = $this->getEntitiesToView($items, $langcode);
 
    // Early opt-out if the field is empty.
@@ -187,7 +187,7 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
    $image_style_setting = $this->getSetting('image_style');
 
    // Collect cache tags to be added for each item in the field.
-   $cache_tags = array();
+   $cache_tags = [];
    if (!empty($image_style_setting)) {
      $image_style = $this->imageStyleStorage->load($image_style_setting);
      $cache_tags = $image_style->getCacheTags();
@@ -207,16 +207,16 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
      $item_attributes = $item->_attributes;
      unset($item->_attributes);
 
-     $elements[$delta] = array(
+     $elements[$delta] = [
        '#theme' => 'image_formatter',
        '#item' => $item,
        '#item_attributes' => $item_attributes,
        '#image_style' => $image_style_setting,
        '#url' => $url,
-       '#cache' => array(
+       '#cache' => [
          'tags' => $cache_tags,
-       ),
-     );
+       ],
+     ];
    }
 
    return $elements;

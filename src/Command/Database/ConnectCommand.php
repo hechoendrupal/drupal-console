@@ -10,12 +10,14 @@ namespace Drupal\Console\Command\Database;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\Database\ConnectTrait;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-class ConnectCommand extends ContainerAwareCommand
+class ConnectCommand extends Command
 {
+    use CommandTrait;
     use ConnectTrait;
 
     /**
@@ -61,5 +63,7 @@ class ConnectCommand extends ContainerAwareCommand
                 $connection
             )
         );
+
+        return 0;
     }
 }

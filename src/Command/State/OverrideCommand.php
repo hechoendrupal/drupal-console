@@ -10,7 +10,10 @@ namespace Drupal\Console\Command\State;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
+use Drupal\Core\State\StateInterface;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
@@ -18,8 +21,35 @@ use Drupal\Component\Serialization\Yaml;
  * Class DebugCommand
  * @package Drupal\Console\Command\State
  */
-class OverrideCommand extends ContainerAwareCommand
+class OverrideCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * @var StateInterface
+     */
+    protected $state;
+
+    /**
+     * @var KeyValueFactoryInterface
+     */
+    protected $keyValue;
+
+    /**
+     * OverrideCommand constructor.
+     * @param StateInterface           $state
+     * @param KeyValueFactoryInterface $keyValue
+     */
+    public function __construct(
+        StateInterface $state,
+        KeyValueFactoryInterface $keyValue
+    ) {
+        $this->state = $state;
+        $this->keyValue = $keyValue;
+        parent::__construct();
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -49,8 +79,7 @@ class OverrideCommand extends ContainerAwareCommand
         $value = $input->getArgument('value');
 
         if (!$key) {
-            $keyValue = $this->getService('keyvalue');
-            $names = array_keys($keyValue->get('state')->getAll());
+            $names = array_keys($this->keyValue->get('state')->getAll());
             $key = $io->choiceNoList(
                 $this->trans('commands.state.override.arguments.key'),
                 $names
@@ -75,17 +104,20 @@ class OverrideCommand extends ContainerAwareCommand
 
         if (!$key) {
             $io->error($this->trans('commands.state.override.errors.no-key'));
+
+            return 1;
         }
 
         if (!$value) {
             $io->error($this->trans('commands.state.override.errors.no-value'));
+
+            return 1;
         }
 
         if ($key && $value) {
-            $state = $this->getState();
-            $originalValue = Yaml::encode($state->get($key));
+            $originalValue = Yaml::encode($this->state->get($key));
             $overrideValue = is_array($value)?Yaml::encode($value):$value;
-            $state->set($key, $overrideValue);
+            $this->state->set($key, $overrideValue);
             $tableHeaders = [
                 $this->trans('commands.state.override.messages.key'),
                 $this->trans('commands.state.override.messages.original'),
@@ -99,5 +131,7 @@ class OverrideCommand extends ContainerAwareCommand
                 $tableRows
             );
         }
+
+        return 0;
     }
 }

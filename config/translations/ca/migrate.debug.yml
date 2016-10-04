@@ -1,8 +1,0 @@
-description: 'Mostrar les migracions disponibles per l''aplicació'
-arguments:
-    tag: 'Etiqueta de la migració'
-messages:
-    id: 'Id de la migració'
-    description: Descripció
-    no-migrations: 'No hi han migracions disponibles. Prova executar el comandament: migrate:setup:migrations'
-    tags: Etiqueta

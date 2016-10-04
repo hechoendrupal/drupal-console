@@ -32,6 +32,7 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
+
   /**
    * The entity type manager.
    *
@@ -41,6 +42,7 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
 {% endblock %}
 
 {% block class_construct %}
+
   /**
    * Constructs a HTTP basic authentication provider object.
    *
@@ -59,6 +61,7 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
 {% endblock %}
 
 {% block class_methods %}
+
   /**
    * Checks whether suitable authentication credentials are on the request.
    *
@@ -74,11 +77,13 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
     // you will get out from Drupal navigation if you are logged in.
     return FALSE;
   }
+
   /**
    * {@inheritdoc}
    */
   public function authenticate(Request $request) {
-    $consumer_ip = $request->getClientIp(TRUE);
+    $consumer_ip = $request->getClientIp();
+    $ips = [];
     if (in_array($consumer_ip, $ips)) {
       // Return Anonymous user.
       return $this->entityTypeManager->getStorage('user')->load(0);
@@ -87,17 +92,21 @@ class {{ class }} implements AuthenticationProviderInterface {% endblock %}
       throw new AccessDeniedHttpException();
     }
   }
+
   /**
    * {@inheritdoc}
    */
   public function cleanup(Request $request) {}
+
   /**
    * {@inheritdoc}
    */
   public function handleException(GetResponseForExceptionEvent $event) {
     $exception = $event->getException();
     if ($exception instanceof AccessDeniedHttpException) {
-      $event->setException(new UnauthorizedHttpException('Invalid consumer origin.', $exception));
+      $event->setException(
+        new UnauthorizedHttpException('Invalid consumer origin.', $exception)
+      );
       return TRUE;
     }
     return FALSE;

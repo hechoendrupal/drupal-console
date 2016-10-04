@@ -12,17 +12,62 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
-use Drupal\Console\Command\Database\DatabaseTrait;
-use Drupal\Console\Command\Command;
+use Drupal\Console\Command\Shared\DatabaseTrait;
+use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class InstallCommand extends Command
 {
+    use CommandTrait;
     use DatabaseTrait;
 
-    protected $connection;
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
+     * @var  ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * InstallCommand constructor.
+     * @param Manager              $extensionManager
+     * @param Site                 $site
+     * @param ConfigurationManager $configurationManager
+     * @param string               $appRoot
+     */
+    public function __construct(
+        Manager $extensionManager,
+        Site $site,
+        ConfigurationManager $configurationManager,
+        $appRoot
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->site = $site;
+        $this->configurationManager = $configurationManager;
+        $this->appRoot = $appRoot;
+        parent::__construct();
+    }
+
+    //    protected $connection;
 
     protected function configure()
     {
@@ -123,22 +168,39 @@ class InstallCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        // profile option
+        // --profile option
         $profile = $input->getArgument('profile');
         if (!$profile) {
-            $profiles = $this->getProfiles();
+            $profiles = $this->extensionManager
+                ->discoverProfiles()
+                ->showCore()
+                ->showNoCore()
+                ->showInstalled()
+                ->showUninstalled()
+                ->getList(true);
+
+            $profiles = array_filter(
+                $profiles,
+                function ($profile) {
+                    return strpos($profile, 'testing') !== 0;
+                }
+            );
+
             $profile = $io->choice(
                 $this->trans('commands.site.install.questions.profile'),
-                array_values($profiles)
+                $profiles
             );
-            $input->setArgument('profile', array_search($profile, $profiles));
+
+            $input->setArgument('profile', $profile);
         }
 
-        // --langcode option
+        //        // --langcode option
         $langcode = $input->getOption('langcode');
         if (!$langcode) {
-            $languages = $this->getLanguages();
-            $defaultLanguage = $this->getDefaultLanguage();
+            $languages = $this->site->getStandardLanguages();
+            $defaultLanguage = $this->configurationManager
+                ->getConfiguration()
+                ->get('application.language');
 
             $langcode = $io->choiceNoList(
                 $this->trans('commands.site.install.questions.langcode'),
@@ -156,17 +218,32 @@ class InstallCommand extends Command
             // --db-type option
             $dbType = $input->getOption('db-type');
             if (!$dbType) {
-                $dbType = $this->dbTypeQuestion($io);
+                $databases = $this->site->getDatabaseTypes();
+                $dbType = $io->choice(
+                    $this->trans('commands.migrate.setup.questions.db-type'),
+                    array_column($databases, 'name')
+                );
+
+                foreach ($databases as $dbIndex => $database) {
+                    if ($database['name'] == $dbType) {
+                        $dbType = $dbIndex;
+                    }
+                }
+
                 $input->setOption('db-type', $dbType);
             }
 
-            // --db-file option
-            $dbFile = $input->getOption('db-file');
-            if ($dbType == 'sqlite' && !$dbFile) {
-                $dbFile = $this->dbFileQuestion($io);
-                $input->setOption('db-file', $dbFile);
-            }
-            if ($dbType != 'sqlite') {
+            if ($dbType === 'sqlite') {
+                // --db-file option
+                $dbFile = $input->getOption('db-file');
+                if (!$dbFile) {
+                    $dbFile = $io->ask(
+                        $this->trans('commands.migrate.execute.questions.db-file'),
+                        'sites/default/files/.ht.sqlite'
+                    );
+                    $input->setOption('db-file', $dbFile);
+                }
+            } else {
                 // --db-host option
                 $dbHost = $input->getOption('db-host');
                 if (!$dbHost) {
@@ -228,52 +305,52 @@ class InstallCommand extends Command
         }
 
         // --site-name option
-        $site_name = $input->getOption('site-name');
-        if (!$site_name) {
-            $site_name = $io->ask(
+        $siteName = $input->getOption('site-name');
+        if (!$siteName) {
+            $siteName = $io->ask(
                 $this->trans('commands.site.install.questions.site-name'),
                 'Drupal 8 Site Install'
             );
-            $input->setOption('site-name', $site_name);
+            $input->setOption('site-name', $siteName);
         }
 
         // --site-mail option
-        $site_mail = $input->getOption('site-mail');
-        if (!$site_mail) {
-            $site_mail = $io->ask(
+        $siteMail = $input->getOption('site-mail');
+        if (!$siteMail) {
+            $siteMail = $io->ask(
                 $this->trans('commands.site.install.questions.site-mail'),
                 'admin@example.com'
             );
-            $input->setOption('site-mail', $site_mail);
+            $input->setOption('site-mail', $siteMail);
         }
 
         // --account-name option
-        $account_name = $input->getOption('account-name');
-        if (!$account_name) {
-            $account_name = $io->ask(
+        $accountName = $input->getOption('account-name');
+        if (!$accountName) {
+            $accountName = $io->ask(
                 $this->trans('commands.site.install.questions.account-name'),
                 'admin'
             );
-            $input->setOption('account-name', $account_name);
-        }
-
-        // --account-mail option
-        $account_mail = $input->getOption('account-mail');
-        if (!$account_mail) {
-            $account_mail = $io->ask(
-                $this->trans('commands.site.install.questions.account-mail'),
-                $site_mail
-            );
-            $input->setOption('account-mail', $account_mail);
+            $input->setOption('account-name', $accountName);
         }
 
         // --account-pass option
-        $account_pass = $input->getOption('account-pass');
-        if (!$account_pass) {
-            $account_pass = $io->askHidden(
+        $accountPass = $input->getOption('account-pass');
+        if (!$accountPass) {
+            $accountPass = $io->askHidden(
                 $this->trans('commands.site.install.questions.account-pass')
             );
-            $input->setOption('account-pass', $account_pass);
+            $input->setOption('account-pass', $accountPass);
+        }
+
+        // --account-mail option
+        $accountMail = $input->getOption('account-mail');
+        if (!$accountMail) {
+            $accountMail = $io->ask(
+                $this->trans('commands.site.install.questions.account-mail'),
+                $siteMail
+            );
+            $input->setOption('account-mail', $accountMail);
         }
     }
 
@@ -282,7 +359,7 @@ class InstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output = new DrupalStyle($input, $output);
+        $io = new DrupalStyle($input, $output);
 
         // Database options
         $dbType = $input->getOption('db-type');
@@ -294,9 +371,9 @@ class InstallCommand extends Command
         $dbPrefix = $input->getOption('db-prefix');
         $dbPort = $input->getOption('db-port');
 
-        $databases = $this->getDatabaseTypes();
+        $databases = $this->site->getDatabaseTypes();
 
-        if ($dbType == 'sqlite') {
+        if ($dbType === 'sqlite') {
             $database = array(
               'database' => $dbFile,
               'prefix' => $dbPrefix,
@@ -316,40 +393,52 @@ class InstallCommand extends Command
             );
         }
 
+        $this->backupSitesFile($io);
+
         try {
-            $this->runInstaller($output, $input, $database);
+            $this->runInstaller($io, $input, $database);
         } catch (Exception $e) {
             $output->error($e->getMessage());
             return;
         }
+
+        $this->restoreSitesFile($io);
     }
 
-    protected function getProfiles()
+    /**
+     * Backs up sites.php to backup.sites.php (if needed).
+     *
+     * This is needed because of a bug with install_drupal() that causes the
+     * install files to be placed directly under /sites instead of the
+     * appropriate subdir when run from a script and a sites.php file exists.
+     *
+     * @param DrupalStyle $output
+     */
+    protected function backupSitesFile(DrupalStyle $output)
     {
-        $drupal = $this->getDrupalHelper();
-        $profiles = $drupal->getProfiles();
-
-        $names = [];
-        foreach ($profiles as $profile_key => $profile) {
-            $names[$profile_key] = $profile['name'];
+        if (!file_exists($this->appRoot . '/sites/sites.php')) {
+            return;
         }
 
-        return $names;
+        rename($this->appRoot . '/sites/sites.php', $this->appRoot . '/sites/backup.sites.php');
+
+        $output->info($this->trans('commands.site.install.messages.sites-backup'));
     }
 
-    protected function getLanguages()
+    /**
+     * Restores backup.sites.php to sites.php (if needed).
+     *
+     * @param DrupalStyle $output
+     */
+    protected function restoreSitesFile(DrupalStyle $output)
     {
-        $drupal = $this->getDrupalHelper();
-        $languages = $drupal->getStandardLanguages();
+        if (!file_exists($this->appRoot . '/sites/backup.sites.php')) {
+            return;
+        }
 
-        return $languages;
-    }
+        rename($this->appRoot . '/sites/backup.sites.php', $this->appRoot . '/sites/sites.php');
 
-    protected function getDefaultLanguage()
-    {
-        $application = $this->getApplication();
-        $config = $application->getConfig();
-        return $config->get('application.language');
+        $output->info($this->trans('commands.site.install.messages.sites-restore'));
     }
 
     protected function runInstaller(
@@ -357,8 +446,7 @@ class InstallCommand extends Command
         InputInterface $input,
         $database
     ) {
-        $drupal = $this->getDrupalHelper();
-        $drupal->loadLegacyFile('/core/includes/install.core.inc');
+        $this->site->loadLegacyFile('/core/includes/install.core.inc');
 
         $driver = (string) $database['driver'];
         $settings = [
@@ -396,7 +484,8 @@ class InstallCommand extends Command
         $output->info($this->trans('commands.site.install.messages.installing'));
 
         try {
-            install_drupal($drupal->getAutoLoadClass(), $settings);
+            $autoload = $this->site->getAutoload();
+            install_drupal($autoload, $settings);
         } catch (AlreadyInstalledException $e) {
             $output->error($this->trans('commands.site.install.messages.already-installed'));
             return;

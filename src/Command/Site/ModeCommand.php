@@ -11,11 +11,56 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Console\Utils\ChainQueue;
 
-class ModeCommand extends ContainerAwareCommand
+class ModeCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
+    /**
+     * @var ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * DebugCommand constructor.
+     * @param ConfigFactory           $configFactory
+     * @param ConfigurationManager $configurationManager
+     * @param ChainQueue $chainQueue,
+     */
+    public function __construct(
+        ConfigFactory $configFactory,
+        ConfigurationManager $configurationManager,
+        $appRoot,
+        ChainQueue $chainQueue
+    ) {
+        $this->configFactory = $configFactory;
+        $this->configurationManager = $configurationManager;
+        $this->appRoot = $appRoot;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -80,14 +125,14 @@ class ModeCommand extends ContainerAwareCommand
             $io->table($tableHeaders, $servicesOverrideResult);
         }
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     protected function overrideConfigurations($configurations)
     {
         $result = [];
         foreach ($configurations as $configName => $options) {
-            $config = $this->getConfigFactory()->getEditable($configName);
+            $config = $this->configFactory->getEditable($configName);
             foreach ($options as $key => $value) {
                 $original = $config->get($key);
                 if (is_bool($original)) {
@@ -108,6 +153,22 @@ class ModeCommand extends ContainerAwareCommand
             $config->save();
         }
 
+        //        $this->getDrupalService('settings');die();
+        //
+        //        $drupal = $this->getDrupalHelper();
+        //        $fs = $this->getApplication()->getContainerHelper()->get('filesystem');
+        //
+        //        $cache_render  = '$settings = ["cache"]["bins"]["render"] = "cache.backend.null";';
+        //        $cache_dynamic = '$settings =["cache"]["bins"]["dynamic_page_cache"] = "cache.backend.null";';
+        //
+        //        $settings_file = $fs->exists($drupal->getRoot() . '/sites/default/local.settings.php')?:$drupal->getRoot() . '/sites/default/settings.php';
+        //        chmod($drupal->getRoot() . '/sites/default/', 0775);
+        //        chmod($settings_file, 0775);
+        //        $settings_file = $fs->dumpFile($settings_file, file_get_contents($settings_file) . $cache_render . $cache_dynamic);
+        //        chmod($drupal->getRoot() . '/sites/default/', 0644);
+        //        chmod($settings_file, 0644);
+        //        @TODO: $io->commentBlock()
+
         return $result;
     }
 
@@ -115,14 +176,14 @@ class ModeCommand extends ContainerAwareCommand
     {
         $directory = sprintf(
             '%s/%s',
-            $this->getDrupalHelper()->getRoot(),
+            $this->appRoot,
             \Drupal::service('site.path')
         );
 
         $settingsServicesFile = $directory . '/services.yml';
         if (!file_exists($settingsServicesFile)) {
             // Copying default services
-            $defaultServicesFile = $this->getDrupalHelper()->getRoot() . '/sites/default/default.services.yml';
+            $defaultServicesFile = $this->appRoot . '/sites/default/default.services.yml';
             if (!copy($defaultServicesFile, $settingsServicesFile)) {
                 $io->error(
                     sprintf(
@@ -178,20 +239,19 @@ class ModeCommand extends ContainerAwareCommand
 
     protected function loadConfigurations($env)
     {
-        $config = $this->getApplication()->getConfig();
         $configFile = sprintf(
             '%s/.console/site.mode.yml',
-            $config->getUserHomeDir()
+            $this->configurationManager->getHomeDirectory()
         );
 
         if (!file_exists($configFile)) {
             $configFile = sprintf(
                 '%s/config/dist/site.mode.yml',
-                $this->getApplication()->getDirectoryRoot()
+                $this->appRoot
             );
         }
 
-        $siteModeConfiguration = $config->getFileContents($configFile);
+        $siteModeConfiguration = Yaml::dump(file_get_contents($configFile));
         $configKeys = array_keys($siteModeConfiguration);
 
         $configurationSettings = [];

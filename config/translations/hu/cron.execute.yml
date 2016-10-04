@@ -1,5 +1,0 @@
-description: 'Cron megvalósítások végrehajtása modul szerint, vagy az összes cron metódus végrehajtása'
-messages:
-    module-invalid: '%s modul nem rendelkezik cron metódus megvalósításával'
-    executing-cron: '%s modul cron metódusának végrehajtása'
-    success: 'Minden kért cron megvalósítás végrehajtása sikerült'

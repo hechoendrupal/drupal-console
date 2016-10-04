@@ -10,19 +10,29 @@ namespace Drupal\Console\Command\Develop;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\TwigRenderer;
 
-class GenerateDocGitbookCommand extends ContainerAwareCommand
+class GenerateDocGitbookCommand extends Command
 {
-    private $singleCommands = [
-      'about',
-      'chain',
-      'help',
-      'init',
-      'list',
-      'server'
-    ];
+    use CommandTrait;
+    /**
+     * @var TwigRenderer $renderer
+     */
+    protected $renderer;
+
+    /**
+     * GenerateDocGitbookCommand constructor.
+     * @param TwigRenderer $renderer
+     */
+    public function __construct(TwigRenderer $renderer)
+    {
+        $this->renderer = $renderer;
+        parent::__construct();
+    }
+
 
     /**
      * {@inheritdoc}
@@ -48,8 +58,6 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $renderer = $this->getRenderHelper();
-
         $path = null;
         if ($input->hasOption('path')) {
             $path = $input->getOption('path');
@@ -64,163 +72,34 @@ class GenerateDocGitbookCommand extends ContainerAwareCommand
         }
 
         $application = $this->getApplication();
-        $command_list = [];
-
-        foreach ($this->singleCommands as $single_command) {
-            $command = $application->find($single_command);
-            $command_list['none'][] = [
-                'name' => $command->getName(),
-                'description' => $command->getDescription(),
-            ];
-            $this->renderCommand($command, $path, $renderer);
-        }
-
-        $namespaces = $application->getNamespaces();
-        sort($namespaces);
-
-        $namespaces = array_filter(
-            $namespaces, function ($item) {
-                return (strpos($item, ':')<=0);
-            }
-        );
-
+        $applicationData = $application->getData();
+        $namespaces = $applicationData['application']['namespaces'];
         foreach ($namespaces as $namespace) {
-            $commands = $application->all($namespace);
-
-            usort(
-                $commands, function ($cmd1, $cmd2) {
-                    return strcmp($cmd1->getName(), $cmd2->getName());
-                }
-            );
-
-            foreach ($commands as $command) {
-                if ($command->getModule()=='Console') {
-                    $command_list[$namespace][] = [
-                        'name' => $command->getName(),
-                        'description' => $command->getDescription(),
-                    ];
-                    $this->renderCommand($command, $path, $renderer);
-                }
+            foreach ($applicationData['commands'][$namespace] as $command) {
+                $this->renderFile(
+                    'gitbook' . DIRECTORY_SEPARATOR . 'command.md.twig',
+                    $path . DIRECTORY_SEPARATOR . 'commands' . DIRECTORY_SEPARATOR . $command['dashed'] . '.md',
+                    $command,
+                    null,
+                    $this->renderer
+                );
             }
         }
 
-        $input = $application->getDefinition();
-        $option_list = $input->getOptions();
-        $argument_list = $input->getArguments();
-        $options = [];
-        foreach ($option_list as $option) {
-            $options[] = [
-                'name' => $option->getName(),
-                'description' => $this->trans('application.options.'.$option->getName())
-            ];
-        }
-        $arguments = [];
-        foreach ($argument_list as $argument) {
-            $arguments[] = [
-              'name' => $argument->getName(),
-              'description' => $this->trans('application.arguments.'.$argument->getName())
-            ];
-        }
-
-        $parameters = [
-            'command_list' => $command_list,
-            'options' => $options,
-            'arguments' => $arguments,
-            'messages' => [
-                'title' =>  $this->trans('commands.generate.doc.gitbook.messages.title'),
-                'note' =>  $this->trans('commands.generate.doc.gitbook.messages.note'),
-                'note_description' =>  $this->trans('commands.generate.doc.gitbook.messages.note-description'),
-                'command' =>  $this->trans('commands.generate.doc.gitbook.messages.command'),
-                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
-                'option' => $this->trans('commands.generate.doc.gitbook.messages.option'),
-                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
-                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
-                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
-                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
-            ],
-            'examples' => []
-        ];
-
         $this->renderFile(
-            'gitbook/available-commands.md.twig',
-            $path . '/commands/available-commands.md',
-            $parameters,
+            'gitbook'.DIRECTORY_SEPARATOR.'available-commands.md.twig',
+            $path . DIRECTORY_SEPARATOR . 'commands'.DIRECTORY_SEPARATOR.'available-commands.md',
+            $applicationData,
             null,
-            $renderer
+            $this->renderer
         );
 
         $this->renderFile(
-            'gitbook/available-commands-list.md.twig',
-            $path . '/commands/available-commands-list.md',
-            $parameters,
+            'gitbook'.DIRECTORY_SEPARATOR.'available-commands-list.md.twig',
+            $path . DIRECTORY_SEPARATOR . 'commands'.DIRECTORY_SEPARATOR.'available-commands-list.md',
+            $applicationData,
             null,
-            $renderer
-        );
-    }
-
-    private function renderCommand($command, $path, $renderer)
-    {
-        $input = $command->getDefinition();
-        $options = $input->getOptions();
-        $arguments = $input->getArguments();
-
-        $commandKey = str_replace(':', '.', $command->getName());
-
-        $examples = [];
-        $index = 0;
-        while (true) {
-            $description = sprintf(
-                'commands.%s.examples.%s.description',
-                $commandKey,
-                $index
-            );
-            $execution = sprintf(
-                'commands.%s.examples.%s.execution',
-                $commandKey,
-                $index
-            );
-
-            if ($description != $this->trans($description)) {
-                $examples[] = [
-                    'description' => $this->trans($description),
-                    'execution' => $this->trans($execution)
-                ];
-            } else {
-                break;
-            }
-            $index++;
-        }
-
-        if ($commandKey == 'generate.doc.gitbook') {
-            $options = [$input->getOption('path')];
-            $arguments = [];
-        }
-
-        $parameters = [
-            'options' => $options,
-            'arguments' => $arguments,
-            'command' => $command->getName(),
-            'description' => $command->getDescription(),
-            'aliases' => $command->getAliases(),
-            'messages' => [
-                'command_description' => sprintf($this->trans('commands.generate.doc.gitbook.messages.command_description'), $command->getName(), $command->getDescription()),
-                'usage' =>  $this->trans('commands.generate.doc.gitbook.messages.usage'),
-                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
-                'option' => $this->trans('commands.generate.doc.gitbook.messages.option'),
-                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
-                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
-                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
-                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
-            ],
-            'examples' => $examples
-        ];
-
-        $this->renderFile(
-            'gitbook/generate-doc.md.twig',
-            $path . '/commands/' . str_replace(':', '-', $command->getName()) . '.md',
-            $parameters,
-            null,
-            $renderer
+            $this->renderer
         );
     }
 

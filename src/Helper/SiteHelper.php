@@ -254,11 +254,13 @@ class SiteHelper extends Helper
             $this->modules = $this->discoverProfiles();
         }
 
-        $modulePath = sprintf(
-            '%s/%s',
-            $this->siteRoot,
-            $this->modules[$moduleName]->getPath()
-        );
+        if (array_key_exists($moduleName, $this->modules)) {
+            $modulePath = sprintf(
+                '%s/%s',
+                $this->siteRoot,
+                $this->modules[$moduleName]->getPath()
+            );
+        }
 
         if (!$fullPath) {
             $modulePath = str_replace(
@@ -272,6 +274,37 @@ class SiteHelper extends Helper
         }
 
         return $modulePath;
+    }
+
+    /**
+     * @param string $themeName
+     * @param bool   $fullPath
+     * @return string
+     */
+    public function getThemePath($themeName, $fullPath=true)
+    {
+        if (!$this->themes || !$this->themes[$themeName]) {
+            $this->themes = $this->discoverExtensions('theme');
+        }
+
+        $themePath = sprintf(
+            '%s/%s',
+            $this->siteRoot,
+            $this->themes[$themeName]->getPath()
+        );
+
+        if (!$fullPath) {
+            $themePath = str_replace(
+                sprintf(
+                    '%s/',
+                    $this->siteRoot
+                ),
+                '',
+                $themePath
+            );
+        }
+
+        return $themePath;
     }
 
     /**

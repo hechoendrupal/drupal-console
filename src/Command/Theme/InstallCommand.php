@@ -11,13 +11,49 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Core\Config\UnmetDependenciesException;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ChainQueue;
 
-class InstallCommand extends ContainerAwareCommand
+class InstallCommand extends Command
 {
-    protected $moduleInstaller;
+    use CommandTrait;
+
+    /**
+     * @var ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * DebugCommand constructor.
+     * @param ConfigFactory $configFactory
+     * @param ThemeHandler $themeHandler
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        ConfigFactory $configFactory,
+        ThemeHandler $themeHandler,
+        ChainQueue $chainQueue
+    ) {
+        $this->configFactory = $configFactory;
+        $this->themeHandler = $themeHandler;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -45,7 +81,7 @@ class InstallCommand extends ContainerAwareCommand
         if (!$theme) {
             $theme_list = [];
 
-            $themes = $this->getThemeHandler()->rebuildThemeData();
+            $themes = $this->themeHandler->rebuildThemeData();
 
             foreach ($themes as $theme_id => $theme) {
                 if (!empty($theme->info['hidden'])) {
@@ -86,12 +122,9 @@ class InstallCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $configFactory = $this->getConfigFactory();
+        $config = $this->configFactory->getEditable('system.theme');
 
-        $config = $configFactory->getEditable('system.theme');
-
-        $themeHandler = $this->getThemeHandler();
-        $themeHandler->refreshInfo();
+        $this->themeHandler->refreshInfo();
         $theme = $input->getArgument('theme');
         $default = $input->getOption('set-default');
 
@@ -101,8 +134,7 @@ class InstallCommand extends ContainerAwareCommand
             return;
         }
 
-
-        $themes  = $themeHandler->rebuildThemeData();
+        $themes  = $this->themeHandler->rebuildThemeData();
         $themesAvailable = [];
         $themesInstalled = [];
         $themesUnavailable = [];
@@ -119,7 +151,7 @@ class InstallCommand extends ContainerAwareCommand
 
         if (count($themesAvailable) > 0) {
             try {
-                if ($themeHandler->install($theme)) {
+                if ($this->themeHandler->install($theme)) {
                     if (count($themesAvailable) > 1) {
                         $io->info(
                             sprintf(
@@ -191,6 +223,6 @@ class InstallCommand extends ContainerAwareCommand
         }
 
         // Run cache rebuild to see changes in Web UI
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

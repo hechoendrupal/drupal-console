@@ -1,0 +1,37 @@
+services:
+  module_debug:
+    class: Drupal\Console\Command\Module\DebugCommand
+    arguments: ['@console.configuration_manager', '@console.site', '@http_client']
+    tags:
+      - { name: drupal.command }
+  module_dependency_install:
+    class: Drupal\Console\Command\Module\InstallDependencyCommand
+    arguments: ['@console.site', '@console.validator', '@module_installer', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }
+
+  module_download:
+    class: Drupal\Console\Command\Module\DownloadCommand
+    arguments: ['@console.drupal_api', '@http_client',  '@app.root', '@console.extension_manager', '@console.validator', '@console.site', '@console.configuration_manager', '@console.shell_process', '@console.root']
+    tags:
+      - { name: drupal.command }
+  module_install:
+      class: Drupal\Console\Command\Module\InstallCommand
+      arguments: ['@console.site', '@console.validator', '@module_installer', '@console.drupal_api', '@console.extension_manager', '@app.root', '@console.chain_queue']
+      tags:
+        - { name: drupal.command }
+  module_path:
+      class: Drupal\Console\Command\Module\PathCommand
+      arguments: ['@console.extension_manager']
+      tags:
+        - { name: drupal.command }
+  module_uninstall:
+    class: Drupal\Console\Command\Module\UninstallCommand
+    arguments: ['@console.site','@module_installer', '@console.chain_queue', '@config.factory']
+    tags:
+      - { name: drupal.command }
+  module_update:
+    class: Drupal\Console\Command\Module\UpdateCommand
+    arguments: ['@console.shell_process', '@console.root']
+    tags:
+      - { name: drupal.command }

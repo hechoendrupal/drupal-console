@@ -4,9 +4,9 @@
 
 - [Drupal Console](#drupal-console)
   - [Required PHP version](#required-php-version)
-  - [Supported Drupal version](#supported-drupal-version)
   - [Drupal Console documentation](#documentation)
-  - [Installing Drupal Console](#installing-drupal-console)
+  - [Download as new dependency](#download-as-new-dependency)
+  - [Download using DrupalComposer](#download-using-drupalcomposer)
   - [Running Drupal Console](#running-drupal-console)
   - [Supporting organizations](#supporting-organizations)
 
@@ -38,12 +38,31 @@ More information about using this project at the [official documentation](http:/
 ## Required PHP Version
 PHP 5.5.9 or higher is required to use the Drupal Console application.
 
-## Supported Drupal Version
-The Drupal 8 supported version is [Drupal 8.0.x](https://www.drupal.org/node/3060/release).
-
-## Installing Drupal Console
+## Downloading as new dependency
 ```
-# Run this in your terminal to get the latest Console version:
+# Change directory to Drupal site
+cd /path/to/drupal8.dev
+
+# Download DrupalConsole
+composer require drupal/console:~1.0 \
+--prefer-dist \
+--optimize-autoloader \
+--sort-packages
+```
+
+### Downloading using DrupalComposer
+```
+composer create-project \
+drupal-composer/drupal-project:8.x-dev \
+drupal8.dev \
+--prefer-dist \
+--no-progress \
+--no-interaction
+```
+
+## Installing Drupal Console Launcher
+```
+# Run this in your terminal to get the latest version:
 curl https://drupalconsole.com/installer -L -o drupal.phar
 
 # Or if you don't have curl:
@@ -63,59 +82,25 @@ drupal check
 ```
 
 ## Running Drupal Console
+We highly recommend you to install the global executable, but if is not installed, then you can run DrupalConsole by:  
+
+Using default Drupal + DrupalConsole
 ```
-# Download, install and serve Drupal 8:
-drupal chain --file=~/.console/chain/quick-start.yml
-
-# Create a new Drupal 8 project:
-drupal site:new drupal8.dev
-
-# Lists all available commands:
-drupal list
-
-# Update to the latest version.
-drupal self-update
+vendor/bin/drupal
 ```
+Using default Drupal + DrupalComposer
+Change directory `web`, `docroot` or any other.
+```
+../vendor/bin/drupal
+```
+
 
 ## Drupal Console Support
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
 ## Getting The Project To Contribute
 
-### Fork
-Fork your own copy of the [Console](https://github.com/hechoendrupal/DrupalConsole/fork) repository to your account
-
-### Clone
-Get a copy of your recently cloned version of console in your machine.
-```
-$ git clone git@github.com:[your-git-user-here]/DrupalConsole.git
-```
-### Install dependencies
-Now that you have cloned the project, you need to download dependencies via Composer.
-
-```
-$ cd /path/to/DrupalConsole
-$ composer install
-```
-
-### Running the project
-After using Composer to download dependencies, you can run the project by executing:
-
-```
-$ bin/drupal
-```
-
-### Create a symbolic link
-
-You can run this command to easily access the Drupal Console from anywhere on your system:
-
-```
-$ sudo ln -s /path/to/DrupalConsole/bin/drupal /usr/local/bin/drupal
-```
-
-**NOTE:** The name `drupal` is just an alias you can name it anything you like.
-
-More information about how to contribute with this project at the [official documentation](http://docs.drupalconsole.com/en/contributing/new-features.html).
+For information about how to run this project for development follow instructions at [setup instructions](https://gist.github.com/jmolivas/97bbd07f328217be3564a434c5bd2618).
 
 ## Enabling Autocomplete
 ```
@@ -135,10 +120,13 @@ ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
 ## Supporting Organizations
-[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)
+
+[![weKnow](https://www.drupal.org/files/weKnow-logo_5.png)](http://weknowinc.com)
 
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
 
 [![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
+
+[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)
 
 > Drupal is a registered trademark of Dries Buytaert.

@@ -12,17 +12,17 @@ use {{ service.class }};
 {% endblock %}
 
 {% block class_declaration %}{% endblock -%}{
+
 {% block use_trait %}{% endblock %}
 {% block class_properties %}
 {% if services is defined %}
 {% for service in services %}
-
   /**
    * {{ service.class }} definition.
    *
-   * @var {{ service.class }}
+   * @var \{{ service.class }}
    */
-  protected ${{service.machine_name}};
+  protected ${{service.camel_case_name}};
 {% endfor %}
 {% endif %}
 {% endblock %}

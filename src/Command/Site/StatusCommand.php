@@ -10,16 +10,24 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Database\Database;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\system\SystemManager;
+use Drupal\Core\Site\Settings;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Extension\ThemeHandler;
 
 /**
  *  This command provides a report of the current drupal installation.
  *
  *  @category site
  */
-class StatusCommand extends ContainerAwareCommand
+class StatusCommand extends Command
 {
+    use ContainerAwareCommandTrait;
+
     /* @var $connectionInfoKeys array */
     protected $connectionInfoKeys = [
       'driver',
@@ -36,6 +44,54 @@ class StatusCommand extends ContainerAwareCommand
       'theme',
       'directory',
     ];
+
+    /**
+     * @var SystemManager
+     */
+    protected $systemManager;
+
+    /**
+     * @var Settings
+     */
+    protected $settings;
+
+    /**
+     * @var ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * DebugCommand constructor.
+     * @param SystemManager           $systemManager
+     * @param Settings $settings
+     * @param ConfigFactory $configFactory
+     * @param ThemeHandler  $themeHandler
+     * @param $appRoot
+     */
+    public function __construct(
+        SystemManager $systemManager,
+        Settings $settings,
+        ConfigFactory $configFactory,
+        ThemeHandler $themeHandler,
+        $appRoot
+    ) {
+        $this->systemManager = $systemManager;
+        $this->settings = $settings;
+        $this->configFactory = $configFactory;
+        $this->themeHandler = $themeHandler;
+        $this->appRoot = $appRoot;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -86,12 +142,11 @@ class StatusCommand extends ContainerAwareCommand
 
     protected function getSystemData()
     {
-        $systemManager = $this->getSystemManager();
-        if (!$systemManager) {
+        if (!$this->systemManager) {
             return [];
         }
 
-        $requirements = $systemManager->listRequirements();
+        $requirements = $this->systemManager->listRequirements();
         $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
@@ -104,26 +159,29 @@ class StatusCommand extends ContainerAwareCommand
             $systemData['system'][$title] = $requirement['value'];
         }
 
-        $settings = $this->getSettings();
-
-        try {
-            $hashSalt = $settings->getHashSalt();
-        } catch (\Exception $e) {
-            $hashSalt = '';
+        if ($this->settings) {
+            try {
+                $hashSalt = $this->settings->getHashSalt();
+            } catch (\Exception $e) {
+                $hashSalt = '';
+            }
+            $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = $hashSalt;
+            $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
         }
-
-        $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = $hashSalt;
-        $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
 
         return $systemData;
     }
 
     protected function getConnectionData()
     {
-        $connectionInfo = $this->getConnectionInfo();
+        $connectionInfo = Database::getConnectionInfo();
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
+            if ("password" == $connectionInfoKey) {
+                continue;
+            }
+
             $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
         }
@@ -143,8 +201,7 @@ class StatusCommand extends ContainerAwareCommand
 
     protected function getThemeData()
     {
-        $configFactory = $this->getConfigFactory();
-        $config = $configFactory->get('system.theme');
+        $config = $this->configFactory->get('system.theme');
 
         return [
           'theme' => [
@@ -156,33 +213,29 @@ class StatusCommand extends ContainerAwareCommand
 
     protected function getDirectoryData()
     {
-        $drupal = $this->getDrupalHelper();
-        $drupal_root = $drupal->getRoot();
 
-        $configFactory = $this->getConfigFactory();
-        $systemTheme = $configFactory->get('system.theme');
+        $systemTheme = $this->configFactory->get('system.theme');
 
         $themeDefaultDirectory = '';
         $themeAdminDirectory = '';
         try {
-            $themeHandler = $this->getThemeHandler();
-            $themeDefault = $themeHandler->getTheme(
+            $themeDefault = $this->themeHandler->getTheme(
                 $systemTheme->get('default')
             );
             $themeDefaultDirectory = sprintf('/%s', $themeDefault->getpath());
 
-            $themeAdmin = $themeHandler->getTheme(
+            $themeAdmin = $this->themeHandler->getTheme(
                 $systemTheme->get('admin')
             );
             $themeAdminDirectory = sprintf('/%s', $themeAdmin->getpath());
         } catch (\Exception $e) {
         }
 
-        $systemFile = $this->getConfigFactory()->get('system.file');
+        $systemFile = $this->configFactory->get('system.file');
 
         return [
           'directory' => [
-            $this->trans('commands.site.status.messages.directory_root') => $drupal_root,
+            $this->trans('commands.site.status.messages.directory_root') => $this->appRoot,
             $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
             $this->trans('commands.site.status.messages.directory_theme_default') => $themeDefaultDirectory,
             $this->trans('commands.site.status.messages.directory_theme_admin') => $themeAdminDirectory,

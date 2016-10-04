@@ -1,8 +1,0 @@
-description: 'Выполнить конкретный update_N хук в модуле или выполнить все'
-options:
-    update-n: 'Конкретный update_N хук будет выполнен'
-messages:
-    no-module-updates: 'Нет доступных обновлений для модуля %s'
-    executing-update: 'Выполнение функции обновления %s модуля %s'
-    module-update-function-not-found: 'Модуль %s не содержит функции обновления %s'
-    executing-required-previous-updates: 'Выполнение требуемых предыдущих обновлений'

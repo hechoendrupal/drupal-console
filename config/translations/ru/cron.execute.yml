@@ -1,5 +1,0 @@
-description: 'Выполнить cron реализацию для модуля иои выполнить все cron-задачи'
-messages:
-    module-invalid: 'В модуле %s не найдена cron реализация'
-    executing-cron: 'Выполнение cron-задачи в модуле %s'
-    success: 'Все cron реализации были выполнены успешно'

@@ -1,8 +1,0 @@
-description: 'Gera uma implementação de hook_form_alter() ou hook_form_FORM_ID_alter'
-help: 'O comando <info>"%s"</info> ajuda você gerar um novo "%s"'
-options:
-    form-id: 'Form ID para alterar'
-messages:
-    inputs: "Você pode adicionar campos para modificar formulário..\nIsto é opcional, tecle <info>enter</info> para <info>continuar</info>"
-    loading-forms: 'Carregando definições de forms a partir do módulo Webprofiler'
-    hide-form-elements: 'Opcionalmente você pode selecionar itens do form para esconder'

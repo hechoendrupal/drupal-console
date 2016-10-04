@@ -15,11 +15,42 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ConfigurationManager;
 
-class EditCommand extends ContainerAwareCommand
+class EditCommand extends Command
 {
+    use CommandTrait;
+
+    /** @var ConfigFactory  */
+    protected $configFactory;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /** @var ConfigurationManager  */
+    protected $configurationManager;
+
+    /**
+     * EditCommand constructor.
+     * @param ConfigFactory         $configFactory
+     * @param CachedStorage         $configStorage
+     * @param ConfigurationManager  $configurationManager
+     */
+    public function __construct(
+        ConfigFactory $configFactory ,
+        CachedStorage $configStorage,
+        ConfigurationManager $configurationManager
+    ) {
+        $this->configFactory = $configFactory;
+        $this->configStorage = $configStorage;
+        $this->configurationManager = $configurationManager;
+        parent::__construct();
+    }
     /**
      * {@inheritdoc}
      */
@@ -49,8 +80,8 @@ class EditCommand extends ContainerAwareCommand
 
         $configName = $input->getArgument('config-name');
         $editor = $input->getArgument('editor');
-        $config = $this->getConfigFactory()->getEditable($configName);
-        $configSystem = $this->getConfigFactory()->get('system.file');
+        $config = $this->configFactory->getEditable($configName);
+        $configSystem = $this->configFactory->get('system.file');
         $temporaryDirectory = $configSystem->get('path.temporary') ?: '/tmp';
         $configFile = $temporaryDirectory.'/config-edit/'.$configName.'.yml';
         $ymlFile = new Parser();
@@ -95,8 +126,7 @@ class EditCommand extends ContainerAwareCommand
 
         $configName = $input->getArgument('config-name');
         if (!$configName) {
-            $configFactory = $this->getConfigFactory();
-            $configNames = $configFactory->listAll();
+            $configNames = $this->configFactory->listAll();
             $configName = $io->choice(
                 'Choose a configuration',
                 $configNames
@@ -113,9 +143,8 @@ class EditCommand extends ContainerAwareCommand
      */
     protected function getYamlConfig($config_name)
     {
-        $configStorage = $this->getConfigStorage();
-        if ($configStorage->exists($config_name)) {
-            $configuration = $configStorage->read($config_name);
+        if ($this->configStorage->exists($config_name)) {
+            $configuration = $this->configStorage->read($config_name);
             $configurationEncoded = Yaml::encode($configuration);
         }
 
@@ -127,8 +156,7 @@ class EditCommand extends ContainerAwareCommand
      */
     protected function getEditor()
     {
-        $app = $this->getApplication();
-        $config = $app->getConfig();
+        $config = $this->configurationManager->getConfiguration();
         $editor = $config->get('application.editor', 'vi');
 
         if ($editor != '') {

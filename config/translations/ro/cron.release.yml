@@ -1,3 +1,0 @@
-description: 'Lansează sistemul de blocare pentru a repermite reluarea rulării cron-ului'
-messages:
-    released: 'Sistemul de blocare a cron-ului a fost lansat cu succes!'

@@ -1,0 +1,6 @@
+services:
+  console.libraries_debug:
+    class: Drupal\Console\Command\Libraries\DebugCommand
+    arguments: ['@module_handler', '@theme_handler', '@library.discovery', '@app.root']
+    tags:
+      - { name: drupal.command }

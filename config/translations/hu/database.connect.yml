@@ -1,8 +1,0 @@
-description: 'Megjeleníti az adatbázis-kapcsolatot'
-arguments:
-    database: 'Adatbáziskulcs a settings.php fájlból'
-messages:
-    database-not-found: 'Nem találhatók %s adatbázis kapcsolatinformációi'
-    database-not-supported: 'Még nem támogatott adatbázistípus: %s'
-    database-client-not-found: 'Nem található az adatbázisügyfél:  %s'
-    connection: 'Kapcsolat: %s'

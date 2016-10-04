@@ -1,6 +1,0 @@
-description: 'लॉन्च एक DB क्लाइंट अगर यह उपलब्ध है'
-arguments:
-    database: 'Settings.php से डाटाबेस कुंजी'
-messages:
-    connection: 'कनेक्शन: %s'
-    executing: 'निष्पादित कर: %s'

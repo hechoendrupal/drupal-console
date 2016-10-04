@@ -10,11 +10,40 @@ namespace Drupal\Console\Command\Theme;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Console\Style\DrupalStyle;
 
-class DebugCommand extends ContainerAwareCommand
+class DebugCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * @var ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+    /**
+     * DebugCommand constructor.
+     * @param ConfigFactory $configFactory
+     * @param ThemeHandler $themeHandler
+     */
+    public function __construct(
+        ConfigFactory $configFactory,
+        ThemeHandler $themeHandler
+    ) {
+        $this->configFactory = $configFactory;
+        $this->themeHandler = $themeHandler;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -44,10 +73,10 @@ class DebugCommand extends ContainerAwareCommand
             $this->trans('commands.theme.debug.messages.version'),
         ];
 
-        $themes = $this->getThemeHandler()->rebuildThemeData();
+        $themes = $this->themeHandler->rebuildThemeData();
         $tableRows = [];
         foreach ($themes as $themeId => $theme) {
-            $status = $this->getThemeStatus($themeId);
+            $status = $this->getThemeStatus($theme);
             $tableRows[] = [
                 $themeId, $theme->info['name'],
                 $status, $theme->info['version'],
@@ -60,7 +89,7 @@ class DebugCommand extends ContainerAwareCommand
     protected function themeDetail(DrupalStyle $io, $themeId)
     {
         $theme = null;
-        $themes = $this->getThemeHandler()->rebuildThemeData();
+        $themes = $this->themeHandler->rebuildThemeData();
 
         if (isset($themes[$themeId])) {
             $theme = $themes[$themeId];
@@ -111,8 +140,7 @@ class DebugCommand extends ContainerAwareCommand
 
     protected function getThemeStatus($theme)
     {
-        $configFactory = $this->getConfigFactory();
-        $defaultTheme = $configFactory->get('system.theme')->get('default');
+        $defaultTheme = $this->configFactory->get('system.theme')->get('default');
 
         $status = ($theme->status)?$this->trans('commands.theme.debug.messages.installed'):$this->trans('commands.theme.debug.messages.uninstalled');
         if ($defaultTheme == $theme) {

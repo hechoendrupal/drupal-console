@@ -1,5 +1,0 @@
-description: 'Generează un "Authentication Provider"'
-help: 'Comanda <info>generate:authentication:provider</info> vă va ajuta să generați un nou "Authentication Provider".'
-options: 'null'
-module: common.options.module
-class: 'Clasa pentru "Authentication Provider"'

@@ -1,8 +1,0 @@
-description: 'Ficheros de limpieza de traducción'
-arguments:
-    language: 'Idioma al que hacer limpieza de sus ficheros contra el inglés'
-messages:
-    invalid-language: 'El idioma %s no es válido'
-    language: Idioma
-    file-deleted: 'El fichero %s ha sido eliminado de %s ya que ya no es necesario.'
-    success: 'Los ficheros innecesarios han sido limpiados'

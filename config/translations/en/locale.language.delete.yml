@@ -1,4 +1,0 @@
-description: 'Delete a language to be supported by your site'
-messages:
-  invalid-language: "Language %s it's an invalid language"
-  language-deleted-successfully: "Language %s was deleted successfully."

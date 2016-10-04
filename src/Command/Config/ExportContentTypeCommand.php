@@ -7,22 +7,44 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ExportTrait;
 
-class ExportContentTypeCommand extends ContainerAwareCommand
+class ExportContentTypeCommand extends Command
 {
+    use CommandTrait;
     use ModuleTrait;
     use ExportTrait;
 
-    protected $entity_manager;
+    /** @var EntityTypeManager  */
+    protected $entityTypeManager;
+
+    /** @var CachedStorage  */
     protected $configStorage;
     protected $configExport;
+
+    /**
+     * ExportContentTypeCommand constructor.
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param CachedStorage     $configStorage
+     */
+    public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
+        CachedStorage $configStorage
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->configStorage = $configStorage;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -57,7 +79,7 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
         $input->setOption('module', $module);
@@ -65,8 +87,8 @@ class ExportContentTypeCommand extends ContainerAwareCommand
         // --content-type argument
         $contentType = $input->getArgument('content-type');
         if (!$contentType) {
-            $entity_manager = $this->getEntityManager();
-            $bundles_entities = $entity_manager->getStorage('node_type')->loadMultiple();
+            $entityTypeManager = $this->getDrupalService('entity_type.manager');
+            $bundles_entities = $entityTypeManager->getStorage('node_type')->loadMultiple();
             $bundles = array();
             foreach ($bundles_entities as $entity) {
                 $bundles[$entity->id()] = $entity->label();
@@ -96,14 +118,11 @@ class ExportContentTypeCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->entity_manager = $this->getEntityManager();
-        $this->configStorage = $this->getConfigStorage();
-
         $module = $input->getOption('module');
         $contentType = $input->getArgument('content-type');
         $optionalConfig = $input->getOption('optional-config');
 
-        $contentTypeDefinition = $this->entity_manager->getDefinition('node_type');
+        $contentTypeDefinition = $this->entityTypeManager->getDefinition('node_type');
         $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
 
         $contentTypeNameConfig = $this->getConfiguration($contentTypeName);
@@ -116,14 +135,14 @@ class ExportContentTypeCommand extends ContainerAwareCommand
 
         $this->getViewDisplays($contentType, $optionalConfig);
 
-        $this->exportConfig($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
+        $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
     }
 
     protected function getFields($contentType, $optional = false)
     {
-        $fields_definition = $this->entity_manager->getDefinition('field_config');
+        $fields_definition = $this->entityTypeManager->getDefinition('field_config');
 
-        $fields_storage = $this->entity_manager->getStorage('field_config');
+        $fields_storage = $this->entityTypeManager->getStorage('field_config');
         foreach ($fields_storage->loadMultiple() as $field) {
             $field_name = $fields_definition->getConfigPrefix() . '.' . $field->id();
             $field_name_config = $this->getConfiguration($field_name);
@@ -140,8 +159,8 @@ class ExportContentTypeCommand extends ContainerAwareCommand
 
     protected function getFormDisplays($contentType, $optional = false)
     {
-        $form_display_definition = $this->entity_manager->getDefinition('entity_form_display');
-        $form_display_storage = $this->entity_manager->getStorage('entity_form_display');
+        $form_display_definition = $this->entityTypeManager->getDefinition('entity_form_display');
+        $form_display_storage = $this->entityTypeManager->getStorage('entity_form_display');
         foreach ($form_display_storage->loadMultiple() as $form_display) {
             $form_display_name = $form_display_definition->getConfigPrefix() . '.' . $form_display->id();
             $form_display_name_config = $this->getConfiguration($form_display_name);
@@ -158,8 +177,8 @@ class ExportContentTypeCommand extends ContainerAwareCommand
 
     protected function getViewDisplays($contentType, $optional = false)
     {
-        $view_display_definition = $this->entity_manager->getDefinition('entity_view_display');
-        $view_display_storage = $this->entity_manager->getStorage('entity_view_display');
+        $view_display_definition = $this->entityTypeManager->getDefinition('entity_view_display');
+        $view_display_storage = $this->entityTypeManager->getStorage('entity_view_display');
         foreach ($view_display_storage->loadMultiple() as $view_display) {
             $view_display_name = $view_display_definition->getConfigPrefix() . '.' . $view_display->id();
             $view_display_name_config = $this->getConfiguration($view_display_name);

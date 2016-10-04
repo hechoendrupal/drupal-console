@@ -1,8 +1,0 @@
-description: 'अर्ज रेस्ट संसाधन अक्षम'
-arguments:
-    resource-id: 'रेस्ट आयडी'
-    states: 'रेस्ट स्टेट्स अक्षम करण्यासाठी रेस्ट संसाधन'
-questions:
-    resource-id: 'रेस्ट आयडी'
-messages:
-    invalid-rest-id: 'रेस्ट आयडी %s अवैध आहे'

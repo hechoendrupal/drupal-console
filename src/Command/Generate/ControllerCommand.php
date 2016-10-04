@@ -7,21 +7,78 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\InputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ServicesTrait;
-use Drupal\Console\Command\ConfirmationTrait;
-use Drupal\Console\Command\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ControllerGenerator;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\Routing\RouteProviderInterface;
+use Drupal\Console\Utils\ChainQueue;
 
-class ControllerCommand extends GeneratorCommand
+class ControllerCommand extends Command
 {
     use ModuleTrait;
     use ServicesTrait;
     use ConfirmationTrait;
+    use InputTrait;
+    use ContainerAwareCommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var ControllerGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /** @var RouteProviderInterface  */
+    protected $routeProvider;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * ControllerCommand constructor.
+     * @param Manager                $extensionManager
+     * @param ControllerGenerator    $generator
+     * @param StringConverter        $stringConverter
+     * @param Validator              $validator
+     * @param RouteProviderInterface $routeProvider
+     * @param ChainQueue             $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        ControllerGenerator $generator,
+        StringConverter $stringConverter,
+        Validator $validator,
+        RouteProviderInterface $routeProvider,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
+        $this->routeProvider = $routeProvider;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -69,7 +126,7 @@ class ControllerCommand extends GeneratorCommand
         $io = new DrupalStyle($input, $output);
         $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
 
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
             return;
         }
@@ -81,34 +138,23 @@ class ControllerCommand extends GeneratorCommand
         $test = $input->getOption('test');
         $services = $input->getOption('services');
 
-        // Refactor as Trait to share array argument/option validation passed inline.
-        $overrideRoutes = false;
-        foreach ($routes as $key => $route) {
-            if (!is_array($route)) {
-                $routeItems = [];
-                foreach (explode(" ", $route) as $routeItem) {
-                    list($routeItemKey, $routeItemKeyValue) = explode(":", $routeItem);
-                    $routeItems[$routeItemKey] = $routeItemKeyValue;
-                }
-                $routes[$key] = $routeItems;
-                $overrideRoutes = true;
-            }
-        }
-        if ($overrideRoutes) {
-            $input->setOption('routes', $routes);
-        }
+        $routes = $this->inlineValueAsArray($routes);
+        $input->setOption('routes', $routes);
 
-        // @see use Drupal\Console\Command\ServicesTrait::buildServices
+        // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        // Controller machine name
-        $classMachineName = $this->getStringHelper()->camelCaseToMachineName($class);
+        //$this->generator->setLearning($learning);
+        $this->generator->generate(
+            $module,
+            $class,
+            $routes,
+            $test,
+            $build_services
+        );
 
-        $generator = $this->getGenerator();
-        $generator->setLearning($learning);
-        $generator->generate($module, $class, $routes, $test, $build_services, $classMachineName);
-
-        $this->getChain()->addCommand('router:rebuild');
+        // Run cache rebuild to see changes in Web UI
+        $this->chainQueue->addCommand('router:rebuild', []);
     }
 
     /**
@@ -121,8 +167,8 @@ class ControllerCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -133,7 +179,7 @@ class ControllerCommand extends GeneratorCommand
                 $this->trans('commands.generate.controller.questions.class'),
                 'DefaultController',
                 function ($class) {
-                    return $this->validateClassName($class);
+                    return $this->validator->validateClassName($class);
                 }
             );
             $input->setOption('class', $class);
@@ -199,7 +245,9 @@ class ControllerCommand extends GeneratorCommand
                     $this->trans('commands.generate.controller.questions.path'),
                     sprintf('/%s/hello/{name}', $module),
                     function ($path) use ($routes) {
-                        if (in_array($path, array_column($routes, 'path'))) {
+                        if (count($this->routeProvider->getRoutesByPattern($path)) > 0
+                            || in_array($path, array_column($routes, 'path'))
+                        ) {
                             throw new \InvalidArgumentException(
                                 sprintf(
                                     $this->trans(
@@ -213,9 +261,17 @@ class ControllerCommand extends GeneratorCommand
                         return $path;
                     }
                 );
+                $classMachineName = $this->stringConverter->camelCaseToMachineName($class);
+                $routeName = $module . '.' . $classMachineName . '_' . $method;
+                if ($this->routeProvider->getRoutesByNames([$routeName])
+                    || in_array($routeName, $routes)
+                ) {
+                    $routeName .= '_' . rand(0, 100);
+                }
 
                 $routes[] = [
                     'title' => $title,
+                    'name' => $routeName,
                     'method' => $method,
                     'path' => $path
                 ];
@@ -235,8 +291,8 @@ class ControllerCommand extends GeneratorCommand
         }
 
         // --services option
-        // @see use Drupal\Console\Command\ServicesTrait::servicesQuestion
-        $services = $this->servicesQuestion($output);
+        // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
+        $services = $this->servicesQuestion($io);
         $input->setOption('services', $services);
     }
 

@@ -7,28 +7,43 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class ControllerGenerator extends Generator
 {
-    public function generate($module, $class, $routes, $test, $services, $classMachineName)
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * AuthenticationProviderGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+    public function generate($module, $class, $routes, $test, $services)
     {
         $parameters = [
           'class_name' => $class,
           'services' => $services,
           'module' => $module,
-          'class_machine_name' => $classMachineName,
           'routes' => $routes,
-          'learning' => $this->isLearning(),
+          //'learning' => $this->isLearning(),
         ];
 
         $this->renderFile(
             'module/src/Controller/controller.php.twig',
-            $this->getSite()->getControllerPath($module).'/'.$class.'.php',
+            $this->extensionManager->getModule($module)->getControllerDirectory().'/'.$class.'.php',
             $parameters
         );
 
         $this->renderFile(
             'module/routing-controller.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
+            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.routing.yml',
             $parameters,
             FILE_APPEND
         );
@@ -36,7 +51,7 @@ class ControllerGenerator extends Generator
         if ($test) {
             $this->renderFile(
                 'module/Tests/Controller/controller.php.twig',
-                $this->getSite()->getTestPath($module, 'Controller').'/'.$class.'Test.php',
+                $this->extensionManager->getModule($module)->getTestPath('Controller').'/'.$class.'Test.php',
                 $parameters
             );
         }

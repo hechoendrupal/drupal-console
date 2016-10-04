@@ -1,7 +1,0 @@
-description: 'Delete configuration'
-arguments:
-    name: 'Configuration name.'
-messages:
-    enter-name: 'Configuration name must contain a value.'
-    config-not-exists: 'The configuration "%s" does not exists.'
-    deleted: 'Configuration "%s" sucessfully deleted.'

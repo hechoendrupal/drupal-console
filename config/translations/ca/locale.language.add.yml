@@ -1,4 +1,0 @@
-description: 'Afegir un idioma per el teu lloc web'
-messages:
-    invalid-language: 'L''idioma %s no és vàlid'
-    language-add-successfully: 'L''idioma %s s''ha afegit correctament.'
