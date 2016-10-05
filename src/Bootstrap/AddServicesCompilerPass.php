@@ -38,8 +38,8 @@ class AddServicesCompilerPass implements CompilerPassInterface
             new FileLocator($this->root)
         );
 
-        $loader->load($this->root.  DRUPAL_CONSOLE_CORE . 'services.yml');
-        $loader->load($this->root.  DRUPAL_CONSOLE . 'services.yml');
+        $loader->load(DRUPAL_CONSOLE_CORE . '/services.yml');
+        $loader->load(DRUPAL_CONSOLE . '/services.yml');
 
         $finder = new Finder();
         $finder->files()
@@ -47,7 +47,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
             ->in(
                 sprintf(
                     '%s/config/services/drupal-console',
-                    $this->root.DRUPAL_CONSOLE
+                    DRUPAL_CONSOLE
                 )
             );
 
@@ -71,7 +71,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
             ->in(
                 sprintf(
                     '%s/config/services/drupal-core',
-                    $this->root.DRUPAL_CONSOLE
+                    DRUPAL_CONSOLE
                 )
             );
 

@@ -1,18 +1,15 @@
 <?php
 
 use Drupal\Console\Application;
-use Drupal\Console\Bootstrap\Drupal;
+use Drupal\Console\Bootstrap\Drupal as DrupalConsole;
+use Drupal\Console\ConsoleApplication;
+use Drupal\Console\ConsolePaths;
 
 set_time_limit(0);
-$consoleRoot = realpath(__DIR__.'/../') . '/';
-$appRoot = getcwd() . '/';
-$siteRoot = realpath(__DIR__.'/../../../../') . '/';
-$root = $appRoot;
-
-$autoLoadFile = $appRoot.'/autoload.php';
+$autoLoadFile = __DIR__ . '/../../../autoload.php';
 
 if (file_exists($autoLoadFile)) {
-    $autoload = include_once $autoLoadFile;
+    $autoload = require_once $autoLoadFile;
 } else {
     echo PHP_EOL .
         ' Something goes wrong with your package.'.PHP_EOL.
@@ -23,20 +20,11 @@ if (file_exists($autoLoadFile)) {
     exit(1);
 }
 
-if (!file_exists($appRoot.'composer.json')) {
-    $root = realpath($appRoot . '../') . '/';
-}
+$reflector = new ReflectionClass(Drupal::class);
+$drupalRoot = dirname(dirname(dirname($reflector->getFileName())));
+chdir($drupalRoot);
 
-if (!file_exists($root.'composer.json')) {
-    echo 'No composer.json file found at:' . PHP_EOL .
-        $root . PHP_EOL .
-        'you should try run this command,' . PHP_EOL .
-        'from project root directory.' . PHP_EOL;
-
-    exit(1);
-}
-
-$drupal = new Drupal($autoload, $root, $appRoot);
+$drupal = new DrupalConsole($autoload, $drupalRoot, ConsolePaths::consoleCore());
 $container = $drupal->boot();
 
 if (!$container) {

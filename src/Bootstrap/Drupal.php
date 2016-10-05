@@ -70,8 +70,8 @@ class Drupal
         $container->get('console.renderer')
             ->setSkeletonDirs(
                 [
-                    $this->root.DRUPAL_CONSOLE.'/templates/',
-                    $this->root.DRUPAL_CONSOLE_CORE.'/templates/'
+                    DRUPAL_CONSOLE.'/templates/',
+                    DRUPAL_CONSOLE_CORE.'/templates/'
                 ]
             );
 
