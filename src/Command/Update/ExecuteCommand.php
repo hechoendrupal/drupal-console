@@ -16,8 +16,9 @@ use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Update\UpdateRegistry;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
@@ -43,6 +44,10 @@ class ExecuteCommand extends Command
      */
     protected $postUpdateRegistry;
 
+
+    /** @var Manager  */
+    protected $extensionManager;
+
     /**
      * @var ChainQueue
      */
@@ -64,6 +69,7 @@ class ExecuteCommand extends Command
      * @param StateInterface          $state
      * @param ModuleHandler  $moduleHandler
      * @param UpdateRegistry $postUpdateRegistry
+     * @param Manager $extensionManager
      * @param ChainQueue     $chainQueue
      */
     public function __construct(
@@ -71,12 +77,14 @@ class ExecuteCommand extends Command
         StateInterface $state,
         ModuleHandler $moduleHandler,
         UpdateRegistry $postUpdateRegistry,
+        Manager $extensionManager,
         ChainQueue $chainQueue
     ) {
         $this->site = $site;
         $this->state = $state;
         $this->moduleHandler = $moduleHandler;
         $this->postUpdateRegistry = $postUpdateRegistry;
+        $this->extensionManager = $extensionManager;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
@@ -169,10 +177,8 @@ class ExecuteCommand extends Command
     private function runUpdates(DrupalStyle $io, $updates)
     {
         foreach ($updates as $module_name => $module_updates) {
-            $modulePath = $this->getApplication()->getSite()
-                ->getModulePath($this->module);
             $this->site
-                ->loadLegacyFile($modulePath . '/'. $this->module . '.install', false);
+                ->loadLegacyFile($this->extensionManager->getModule($this->module)->getPath() . '/'. $this->module . '.install', false);
 
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {
