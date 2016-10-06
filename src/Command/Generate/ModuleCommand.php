@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,6 +21,7 @@ use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\DrupalApi;
 use GuzzleHttp\Client;
 use Drupal\Console\Utils\Site;
+use GuzzleHttp\Exception\ClientException;
 
 class ModuleCommand extends Command
 {
@@ -188,7 +190,7 @@ class ModuleCommand extends Command
         $dependencies = $this->validator->validateModuleDependencies($input->getOption('dependencies'));
         // Check if all module dependencies are available
         if ($dependencies) {
-            $checked_dependencies = $this->checkDependencies($dependencies['success']);
+            $checked_dependencies = $this->checkDependencies($dependencies['success'], $io);
             if (!empty($checked_dependencies['no_modules'])) {
                 $io->warning(
                     sprintf(
@@ -218,10 +220,9 @@ class ModuleCommand extends Command
      * @param  array $dependencies
      * @return array
      */
-    private function checkDependencies(array $dependencies)
+    private function checkDependencies(array $dependencies, DrupalStyle $io)
     {
         $this->site->loadLegacyFile('/core/modules/system/system.module');
-        $client = $this->getHttpClient();
         $localModules = array();
 
         $modules = system_rebuild_module_data();
@@ -239,12 +240,16 @@ class ModuleCommand extends Command
             if (in_array($module, $localModules)) {
                 $checkDependencies['local_modules'][] = $module;
             } else {
-                $response = $client->head('https://www.drupal.org/project/'.$module);
-                $header_link = explode(';', $response->getHeader('link'));
-                if (empty($header_link[0])) {
+                try {
+                    $response = $this->httpClient->head('https://www.drupal.org/project/' . $module);
+                    $header_link = explode(';', $response->getHeader('link'));
+                    if (empty($header_link[0])) {
+                        $checkDependencies['no_modules'][] = $module;
+                    } else {
+                        $checkDependencies['drupal_modules'][] = $module;
+                    }
+                } catch (ClientException $e) {
                     $checkDependencies['no_modules'][] = $module;
-                } else {
-                    $checkDependencies['drupal_modules'][] = $module;
                 }
             }
         }

@@ -16,7 +16,7 @@ use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 
 abstract class FormCommand extends Command
 {
@@ -24,7 +24,7 @@ abstract class FormCommand extends Command
     use ServicesTrait;
     use FormTrait;
     use MenuTrait;
-    use CommandTrait;
+    use ContainerAwareCommandTrait;
 
     private $formType;
     private $commandName;
