@@ -13,14 +13,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
 
 class TranslationCleanupCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * TranslationCleanupCommand constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
+
     protected function configure()
     {
         $this

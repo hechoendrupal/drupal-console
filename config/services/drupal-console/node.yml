@@ -1,0 +1,6 @@
+services:
+  console.node_access_rebuild:
+    class: Drupal\Console\Command\Node\AccessRebuildCommand
+    arguments: ['@state']
+    tags:
+      - { name: drupal.command }

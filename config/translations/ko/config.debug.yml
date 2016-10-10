@@ -1,5 +1,0 @@
-description: '현재 설정을 보여줍니다.'
-arguments:
-    name: 설정명
-errors:
-    not-exists: '"%s" 설정은 없습니다.'

@@ -1,4 +1,0 @@
-description: 'Gerar um assinante do evento'
-questions:
-    class: 'Nome da classe'
-    callback-name: 'Nome da função callback para manipular o evento'

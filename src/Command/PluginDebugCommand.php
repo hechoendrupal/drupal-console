@@ -10,7 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
@@ -19,7 +19,7 @@ use Drupal\Console\Style\DrupalStyle;
  * Class DebugCommand
  * @package Drupal\Console\Command
  */
-class PluginDebugCommand extends BaseCommand
+class PluginDebugCommand extends Command
 {
     use ContainerAwareCommandTrait;
     /**
@@ -59,21 +59,26 @@ class PluginDebugCommand extends BaseCommand
                 $this->trans('commands.plugin.debug.table-headers.plugin-type-class')
             ];
             $tableRows = [];
-            $drupalContainer = $this->getDrupalContainer();
-            foreach ($drupalContainer->getServiceIds() as $serviceId) {
+            $serviceDefinitions = $this->container
+                ->getParameter('console.service_definitions');
+
+            foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
                 if (strpos($serviceId, 'plugin.manager.') === 0) {
-                    $service = $drupalContainer->get($serviceId);
-                    $typeName = substr($serviceId, 15);
-                    $class = get_class($service);
-                    $tableRows[$typeName] = [$typeName, $class];
+                    $serviceName = substr($serviceId, 15);
+                    $tableRows[$serviceName] = [
+                        $serviceName,
+                        $serviceDefinition->getClass()
+                    ];
                 }
             }
+
             ksort($tableRows);
             $io->table($tableHeader, array_values($tableRows));
+
             return true;
         }
 
-        $service = $this->getDrupalService('plugin.manager.' . $pluginType);
+        $service = $this->container->get('plugin.manager.' . $pluginType);
         if (!$service) {
             $io->error(
                 sprintf(

@@ -1,5 +1,0 @@
-description: 'Mostra l''actual clau:valor del fitxer de configuració.'
-help: 'El comandament <info>config:settings:debug</info> t''ajuda a mostrar l''actual clau:valor al fitxer de configuració.'
-welcome: 'Us donem la benvinguda al commandament de depuració de configuració de Drupal'
-messages:
-    current: 'L''actual clau:valor del fitxer de configuració'

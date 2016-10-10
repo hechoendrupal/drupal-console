@@ -10,7 +10,8 @@ namespace Drupal\Console\Command\Image;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -19,7 +20,26 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class StylesDebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
+     * StylesDebugCommand constructor.
+     * @param EntityTypeManagerInterface $entityTypeManager
+     */
+    public function __construct(EntityTypeManagerInterface $entityTypeManager)
+    {
+        $this->entityTypeManager = $entityTypeManager;
+        parent::__construct();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -27,34 +47,41 @@ class StylesDebugCommand extends Command
             ->setDescription($this->trans('commands.image.styles.debug.description'));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $image_handler = $this->getDrupalService('entity_type.manager')->getStorage('image_style');
+        $imageStyle = $this->entityTypeManager->getStorage('image_style');
 
         $io->newLine();
         $io->comment(
             $this->trans('commands.image.styles.debug.messages.styles-list')
         );
 
-        if ($image_handler) {
-            $this->imageStyleList($io, $image_handler);
+        if ($imageStyle) {
+            $this->imageStyleList($io, $imageStyle);
         }
+
+        return 0;
     }
 
     /**
      * @param \Drupal\Console\Style\DrupalStyle $io
-     * @param $image_handler
+     * @param $imageStyle
      */
-    protected function imageStyleList(DrupalStyle $io, $image_handler)
+    protected function imageStyleList(DrupalStyle $io, $imageStyle)
     {
         $tableHeader = [
           $this->trans('commands.image.styles.debug.messages.styles-name'),
           $this->trans('commands.image.styles.debug.messages.styles-label')
         ];
 
-        foreach ($image_handler->loadMultiple() as $styles) {
+        $tableRows = [];
+
+        foreach ($imageStyle->loadMultiple() as $styles) {
             $tableRows[] = [
               $styles->get('name'),
               $styles->get('label')

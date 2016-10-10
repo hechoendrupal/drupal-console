@@ -1,0 +1,6 @@
+services:
+  console.breakpoints_debug:
+    class: Drupal\Console\Command\Breakpoints\DebugCommand
+    arguments: ['@breakpoint.manager', '@app.root']
+    tags:
+      - { name: drupal.command }

@@ -12,18 +12,69 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\GeneratorCommand;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\Validator;
 
-class PluginSkeletonCommand extends GeneratorCommand
+/**
+ * Class PluginSkeletonCommand
+ * @package Drupal\Console\Command\Generate
+ */
+class PluginSkeletonCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
     use ServicesTrait;
+    use ContainerAwareCommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var PluginSkeletonGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+
+    /**
+     * PluginSkeletonCommand constructor.
+     * @param Manager                 $extensionManager
+     * @param PluginSkeletonGenerator $generator
+     * @param StringConverter         $stringConverter
+     * @param Validator               $validator
+     * @param ChainQueue              $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        PluginSkeletonGenerator $generator,
+        StringConverter $stringConverter,
+        Validator $validator,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected $pluginGeneratorsImplemented = [
         'block' => 'generate:plugin:block',
@@ -74,6 +125,7 @@ class PluginSkeletonCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        $plugins = $this->getPlugins();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
@@ -83,10 +135,10 @@ class PluginSkeletonCommand extends GeneratorCommand
         $module = $input->getOption('module');
 
         $pluginId = $input->getOption('plugin-id');
-        $plugin = ucfirst($this->getStringHelper()->underscoreToCamelCase($pluginId));
+        $plugin = ucfirst($this->stringConverter->underscoreToCamelCase($pluginId));
 
         // Confirm that plugin.manager is available
-        if (!$this->validatePluginManagerServiceExist('plugin.manager.' . $pluginId)) {
+        if (!$this->validator->validatePluginManagerServiceExist($pluginId, $plugins)) {
             throw new \Exception(
                 sprintf(
                     $this->trans('commands.generate.plugin.skeleton.messages.plugin-dont-exist'),
@@ -112,11 +164,9 @@ class PluginSkeletonCommand extends GeneratorCommand
         $buildServices = $this->buildServices($services);
         $pluginMetaData = $this->getPluginMetadata($pluginId);
 
-        $this
-            ->getGenerator()
-            ->generate($module, $pluginId, $plugin, $className, $pluginMetaData, $buildServices);
+        $this->generator->generate($module, $pluginId, $plugin, $className, $pluginMetaData, $buildServices);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -155,9 +205,9 @@ class PluginSkeletonCommand extends GeneratorCommand
         if (!$class) {
             $class = $io->ask(
                 $this->trans('commands.generate.plugin.skeleton.options.class'),
-                sprintf('%s%s', 'Default', ucfirst($this->getStringHelper()->underscoreToCamelCase($pluginId))),
+                sprintf('%s%s', 'Default', ucfirst($this->stringConverter->underscoreToCamelCase($pluginId))),
                 function ($class) {
-                    return $this->validateClassName($class);
+                    return $this->validator->validateClassName($class);
                 }
             );
             $input->setOption('class', $class);
@@ -167,15 +217,9 @@ class PluginSkeletonCommand extends GeneratorCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $input->getOption('services');
         if (!$services) {
-            $services = $this->servicesQuestion($output);
+            $services = $this->servicesQuestion($io);
             $input->setOption('services', $services);
         }
-    }
-
-
-    protected function createGenerator()
-    {
-        return new PluginSkeletonGenerator();
     }
 
     protected function getPluginMetadata($pluginId)
@@ -319,8 +363,7 @@ class PluginSkeletonCommand extends GeneratorCommand
     {
         $plugins = [];
 
-        $drupalContainer = $this->getContainer();
-        foreach ($drupalContainer->getServiceIds() as $serviceId) {
+        foreach ($this->container->getServiceIds() as $serviceId) {
             if (strpos($serviceId, 'plugin.manager.') === 0) {
                 $plugins[] = substr($serviceId, 15);
             }

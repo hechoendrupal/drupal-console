@@ -12,12 +12,48 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
+use GuzzleHttp\Client;
+use Drupal\Console\Utils\ConfigurationManager;
 
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
+     * DebugCommand constructor.
+     * @param Client  $httpClient
+     */
+
+    protected $httpClient;
+
+    /**
+     * ChainDebugCommand constructor.
+     * @param ConfigurationManager $configurationManager
+     * @param Site $site
+     */
+    public function __construct(
+        ConfigurationManager $configurationManager,
+        Site $site,
+        Client $httpClient
+    ) {
+        $this->configurationManager = $configurationManager;
+        $this->site = $site;
+        $this->httpClient = $httpClient;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -47,14 +83,14 @@ class DebugCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->get('site')->loadLegacyFile('/core/modules/system/system.module');
+        $this->site->loadLegacyFile('/core/modules/system/system.module');
 
         $status = strtolower($input->getOption('status'));
         $type = strtolower($input->getOption('type'));
         $modules = strtolower($input->getArgument('module'));
 
         if ($modules) {
-            $config = $this->getApplication()->getConfig();
+            $config = $this->configurationManager->getConfiguration();
             $repo = $config->get('application.composer.repositories.default');
 
             foreach ($modules as $module) {
@@ -65,7 +101,7 @@ class DebugCommand extends Command
                 );
 
                 try {
-                    $data = $this->getApplication()->getHttpClientHelper()->getUrlAsJson($repo . $url);
+                    $data = $this->httpClient->getUrlAsJson($repo . $url);
                 } catch (\Exception $e) {
                     $io->error(
                         sprintf(

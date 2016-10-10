@@ -12,14 +12,29 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Database\Connection;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\user\Entity\User;
 
 class LoginCleanAttemptsCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ConfirmationTrait;
+
+    /**
+     * @var Connection
+     */
+    protected $database;
+
+    /**
+     * LoginCleanAttemptsCommand constructor.
+     * @param Connection $database
+     */
+    public function __construct(Connection $database) {
+        $this->database = $database;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -105,8 +120,7 @@ class LoginCleanAttemptsCommand extends Command
         $identifier = "{$account->id()}-";
 
         // Retrieve current database connection.
-        $database = $this->getDrupalService('database');
-        $schema = $database->schema();
+        $schema = $this->database->schema();
         $flood = $schema->findTables('flood');
 
         if (!$flood) {
@@ -118,9 +132,9 @@ class LoginCleanAttemptsCommand extends Command
         }
 
         // Clear login attempts.
-        $database->delete('flood')
+        $this->database->delete('flood')
             ->condition('event', $event)
-            ->condition('identifier', $database->escapeLike($identifier) . '%', 'LIKE')
+            ->condition('identifier', $this->database->escapeLike($identifier) . '%', 'LIKE')
             ->execute();
 
         // Command executed successful.

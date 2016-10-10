@@ -1,8 +1,0 @@
-description: '生成一个 hook_update_N() 的实现'
-help: '命令 <info>"%s"</info> 帮助您生成一个 hook update N "%s"'
-options:
-    update-n: 更新数字
-questions:
-    update-n: '请提供 Update N 中的 N 这一数字'
-messages:
-    wrong-update-n: '更新数字 "%s" 无效'

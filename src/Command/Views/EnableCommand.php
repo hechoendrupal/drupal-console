@@ -12,7 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -21,7 +23,32 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class EnableCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
+     * @var QueryFactory
+     */
+    protected $entityQuery;
+
+    /**
+     * EnableCommand constructor.
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param QueryFactory      $entityQuery
+     */
+    public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
+        QueryFactory $entityQuery
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->entityQuery = $entityQuery;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +72,7 @@ class EnableCommand extends Command
         $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-            $views = $this->getDrupalService('entity.query')
+            $views = $this->entityQuery
                 ->get('view')
                 ->condition('status', 0)
                 ->execute();
@@ -65,8 +92,7 @@ class EnableCommand extends Command
         $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
 
-        $entityTypeManager =  $this->getDrupalService('entity_type.manager');
-        $view = $entityTypeManager->getStorage('view')->load($viewId);
+        $view = $this->entityTypeManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
             $io->error(

@@ -15,15 +15,52 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\StringConverter;
 
-class PluginTypeAnnotationCommand extends GeneratorCommand
+
+/**
+ * Class PluginTypeAnnotationCommand
+ * @package Drupal\Console\Command\Generate
+ */
+class PluginTypeAnnotationCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
+    use CommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var PluginTypeAnnotationGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * PluginTypeAnnotationCommand constructor.
+     * @param Manager                       $extensionManager
+     * @param PluginTypeAnnotationGenerator $generator
+     * @param StringConverter               $stringConverter
+     */
+    public function __construct(
+        Manager $extensionManager,
+        PluginTypeAnnotationGenerator $generator,
+        StringConverter $stringConverter
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -62,8 +99,7 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
         $machine_name = $input->getOption('machine-name');
         $label = $input->getOption('label');
 
-        $generator = $this->getGenerator();
-        $generator->generate($module, $class_name, $machine_name, $label);
+        $this->generator->generate($module, $class_name, $machine_name, $label);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -74,7 +110,7 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -93,7 +129,7 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
         if (!$machine_name) {
             $machine_name = $io->ask(
                 $this->trans('commands.generate.plugin.type.annotation.options.machine-name'),
-                $this->getStringHelper()->camelCaseToUnderscore($class_name)
+                $this->stringConverter->camelCaseToUnderscore($class_name)
             );
             $input->setOption('machine-name', $machine_name);
         }
@@ -101,16 +137,11 @@ class PluginTypeAnnotationCommand extends GeneratorCommand
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $output->ask(
+            $label = $io->ask(
                 $this->trans('commands.generate.plugin.type.annotation.options.label'),
-                $this->getStringHelper()->camelCaseToHuman($class_name)
+                $this->stringConverter->camelCaseToHuman($class_name)
             );
             $input->setOption('label', $label);
         }
-    }
-
-    protected function createGenerator()
-    {
-        return new PluginTypeAnnotationGenerator();
     }
 }

@@ -40,9 +40,9 @@ class CommandDependencies
         $dependencies = [];
         foreach ($definitions as $definition) {
             if ($definition instanceof DrupalCommand) {
-//                var_export($class);
+                //                var_export($class);
                 foreach ($definition->dependencies as $dependency) {
-//                    echo $definition->getName() . PHP_EOL;
+                    //                    echo $definition->getName() . PHP_EOL;
                     $dependencies[] = $dependency;
                 }
             }

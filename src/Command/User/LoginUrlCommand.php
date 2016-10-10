@@ -11,7 +11,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -21,7 +22,21 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class LoginUrlCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
+     * LoginUrlCommand constructor.
+     * @param EntityTypeManagerInterface    $entityTypeManager
+     */
+    public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+        $this->entityTypeManager = $entityTypeManager;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -47,7 +62,7 @@ class LoginUrlCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $uid = $input->getArgument('user-id');
-        $user = $this->getDrupalService('entity_type.manager')->getStorage('user')->load($uid);
+        $user = $this->entityTypeManager->getStorage('user')->load($uid);
 
         if (!$user) {
             $io->error(

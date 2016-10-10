@@ -1,8 +1,0 @@
-description: 'Chỉnh sửa cấu hình đã được chọn'
-arguments:
-    config-name: 'Tên cấu hình'
-    editor: Editor.
-questions:
-    config-name: 'Chọn một đơn vị cấu hình'
-messages:
-    no-directory: 'Một lỗi đã xuất hiện trong khi đang tạo thư mục của bạn ở'

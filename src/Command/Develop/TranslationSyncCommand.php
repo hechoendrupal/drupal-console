@@ -14,11 +14,22 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-use Drupal\Console\Command\Command;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
 
 class TranslationSyncCommand extends Command
 {
+    use CommandTrait;
+
+    /**
+     * TranslationSyncCommand constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */

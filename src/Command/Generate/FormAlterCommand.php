@@ -16,16 +16,101 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Render\ElementInfoManager;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\Routing\RouteProviderInterface;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\webprofiler\Profiler\Profiler;
 
-class FormAlterCommand extends GeneratorCommand
+class FormAlterCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;
     use MenuTrait;
     use ConfirmationTrait;
+    use CommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var FormAlterGenerator  */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
+     * @var ElementInfoManager
+     */
+    protected $elementInfoManager;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /** @var RouteProviderInterface  */
+    protected $routeProvider;
+
+    /**
+     * @var Profiler
+     */
+    protected $profiler;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+
+    /**
+     * FormAlterCommand constructor.
+     * @param Manager                $extensionManager
+     * @param FormAlterGenerator     $generator
+     * @param StringConverter        $stringConverter
+     * @param ModuleHandlerInterface $moduleHandler
+     * @param ElementInfoManager     $elementInfoManager
+     * @param Profiler               $profiler
+     * @param                        $appRoot
+     * @param ChainQueue             $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        FormAlterGenerator $generator,
+        StringConverter $stringConverter,
+        ModuleHandlerInterface $moduleHandler,
+        ElementInfoManager $elementInfoManager,
+        Profiler $profiler = null,
+        $appRoot,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        $this->moduleHandler = $moduleHandler;
+        $this->elementInfoManager = $elementInfoManager;
+        $this->profiler = $profiler;
+        $this->appRoot = $appRoot;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected $metadata = [
       'class' => [],
@@ -80,7 +165,7 @@ class FormAlterCommand extends GeneratorCommand
 
         $function = $module . '_form_' .$formId . '_alter';
 
-        if ($this->validateModuleFunctionExist($module, $function)) {
+        if ($this->extensionManager->validateModuleFunctionExist($module, $function)) {
             throw new \Exception(
                 sprintf(
                     $this->trans('commands.generate.form.alter.messages.help-already-implemented'),
@@ -95,18 +180,15 @@ class FormAlterCommand extends GeneratorCommand
         }
 
         $this
-            ->getGenerator()
+            ->generator
             ->generate($module, $formId, $inputs, $this->metadata);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        $moduleHandler = $this->getModuleHandler();
-        $drupal = $this->getDrupalHelper();
 
         // --module option
         $module = $input->getOption('module');
@@ -122,7 +204,7 @@ class FormAlterCommand extends GeneratorCommand
         if (!$formId) {
             $forms = [];
             // Get form ids from webprofiler
-            if ($moduleHandler->moduleExists('webprofiler')) {
+            if ($this->moduleHandler->moduleExists('webprofiler')) {
                 $io->info(
                     $this->trans('commands.generate.form.alter.messages.loading-forms')
                 );
@@ -137,11 +219,11 @@ class FormAlterCommand extends GeneratorCommand
             }
         }
 
-        if ($moduleHandler->moduleExists('webprofiler') && isset($forms[$formId])) {
+        if ($this->moduleHandler->moduleExists('webprofiler') && isset($forms[$formId])) {
             $this->metadata['class'] = $forms[$formId]['class']['class'];
             $this->metadata['method'] = $forms[$formId]['class']['method'];
             $this->metadata['file'] = str_replace(
-                $drupal->getRoot(),
+                $this->appRoot,
                 '',
                 $forms[$formId]['class']['file']
             );
@@ -209,4 +291,23 @@ class FormAlterCommand extends GeneratorCommand
     {
         return new FormAlterGenerator();
     }
+
+    public function getWebprofilerForms()
+    {
+        $tokens = $this->profiler->find(null, null, 1000, null, '', '');
+        $forms = array();
+        foreach ($tokens as $token) {
+            $token = [$token['token']];
+            $profile = $this->profiler->loadProfile($token);
+            $formCollector = $profile->getCollector('forms');
+            $collectedForms = $formCollector->getForms();
+            if (empty($forms)) {
+                $forms = $collectedForms;
+            } elseif (!empty($collectedForms)) {
+                $forms = array_merge($forms, $collectedForms);
+            }
+        }
+        return $forms;
+    }
+
 }

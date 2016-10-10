@@ -1,8 +1,0 @@
-description: 'Canviar al mode manteniment'
-arguments:
-    mode: 'Mode de manteniment del lloc'
-messages:
-    maintenance-on: 'El mode de manteniment és habilitat'
-    maintenance-off: 'El mode manteniment és deshabilitat'
-errors:
-    invalid-mode: 'No és vàlid el mode de manteniment'

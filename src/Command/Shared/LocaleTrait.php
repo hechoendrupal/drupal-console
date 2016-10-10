@@ -9,21 +9,6 @@ namespace Drupal\Console\Command\Shared;
 
 trait LocaleTrait
 {
-    protected function getLanguages()
-    {
-        $drupal = $this->getDrupalHelper();
-        $languages = $drupal->getStandardLanguages();
-
-        return $languages;
-    }
-
-    protected function getDefaultLanguage()
-    {
-        $application = $this->getApplication();
-        $config = $application->getConfig();
-        return $config->get('application.language');
-    }
-
     /**
      * Provides debug info for projects in case translation files are not found.
      *
@@ -67,6 +52,12 @@ trait LocaleTrait
         return $this->trans('commands.locale.translation.status.messages.translation-not-determined');
     }
 
+    /**
+     * LOCALE_TRANSLATION_REMOTE
+     * and LOCALE_TRANSLATION_LOCAL indicate available new translations,
+     * LOCALE_TRANSLATION_CURRENT indicate that the current translation is them
+     * most recent.
+     */
     protected function projectsStatus()
     {
         $status_report = [];
@@ -82,7 +73,11 @@ trait LocaleTrait
 
                     if ($local_age >= $remote_age) {
                         $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
+                    } else {
+                        $info = $this->trans('commands.locale.translation.status.messages.translation-project-available');
                     }
+                } elseif ($project_info->type == LOCALE_TRANSLATION_CURRENT) {
+                    $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
                 } else {
                     $local_age = '';
                     $remote_age = '';

@@ -1,5 +1,0 @@
-description: 'Générer un fournisseur d''authentification'
-help: 'La commande <info>generate:authentication:provider</info> vous permet de générer un fournisseur d''authentification.'
-options: null
-module: common.options.module
-class: 'Nom de la classe du fournisseur d''authentification'

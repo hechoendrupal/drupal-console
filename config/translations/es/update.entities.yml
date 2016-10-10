@@ -1,5 +1,0 @@
-description: 'Aplicar actualizaciones a entidades'
-messages:
-    start: 'Iniciando las actualizaciones a entidades'
-    end: 'Las actualizaciones a entidades han terminado'
-    error: 'Error al intentar actualizar las entidades'

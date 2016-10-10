@@ -1,6 +1,0 @@
-description: 'Exibir as chaves atuais de Estado.'
-help: 'Exibir as chaves atuais de Estado.'
-arguments:
-    key: 'Debug para a chave de Estado.'
-messages:
-    key: 'Chave de Estado'

@@ -10,8 +10,11 @@ namespace Drupal\Console\Command\Cache;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Site;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -20,7 +23,43 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class RebuildCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+      * @var DrupalApi
+      */
+    protected $drupalApi;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    protected $classLoader;
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * RebuildCommand constructor.
+     * @param DrupalApi    $drupalApi
+     * @param Site         $site
+     * @param $classLoader
+     * @param RequestStack $requestStack
+     */
+    public function __construct(
+        DrupalApi $drupalApi,
+        Site $site,
+        $classLoader,
+        RequestStack $requestStack
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->site = $site;
+        $this->classLoader = $classLoader;
+        $this->requestStack = $requestStack;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -43,14 +82,10 @@ class RebuildCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $this->get('site')->loadLegacyFile('/core/includes/utility.inc');
-        $validators = $this->getApplication()->getValidator();
-
-        // Get the --cache option and make validation
         $cache = $input->getArgument('cache');
+        $this->site->loadLegacyFile('/core/includes/utility.inc');
 
-        $validated_cache = $validators->validateCache($cache);
-        if (!$validated_cache) {
+        if ($cache && !$this->drupalApi->isValidCache($cache)) {
             $io->error(
                 sprintf(
                     $this->trans('commands.cache.rebuild.messages.invalid_cache'),
@@ -58,29 +93,25 @@ class RebuildCommand extends Command
                 )
             );
 
-            return;
+            return 1;
         }
 
-        // Start rebuilding cache
         $io->newLine();
         $io->comment($this->trans('commands.cache.rebuild.messages.rebuild'));
 
-        // Get data needed to rebuild cache
-        $kernelHelper = $this->getApplication()->getKernelHelper();
-        $classLoader = $kernelHelper->getClassLoader();
-        $request = $kernelHelper->getRequest();
-
-        // Check cache to rebuild
         if ($cache === 'all') {
-            // If cache is all, then clear all caches
-            drupal_rebuild($classLoader, $request);
+            $this->drupalApi->drupal_rebuild(
+                $this->classLoader,
+                $this->requestStack->getCurrentRequest()
+            );
         } else {
-            // Else, clear the selected cache
-            $caches = $validators->getCaches();
+            $caches = $this->drupalApi->getCaches();
             $caches[$cache]->deleteAll();
         }
 
         $io->success($this->trans('commands.cache.rebuild.messages.completed'));
+
+        return 0;
     }
 
     /**
@@ -92,13 +123,11 @@ class RebuildCommand extends Command
 
         $cache = $input->getArgument('cache');
         if (!$cache) {
-            $validators = $this->getApplication()->getValidator();
-            $caches = $validators->getCaches();
-            $cache_keys = array_keys($caches);
+            $cacheKeys = array_keys($this->drupalApi->getCaches());
 
             $cache = $io->choiceNoList(
                 $this->trans('commands.cache.rebuild.questions.cache'),
-                $cache_keys,
+                $cacheKeys,
                 'all'
             );
 

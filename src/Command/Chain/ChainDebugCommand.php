@@ -10,6 +10,8 @@ namespace Drupal\Console\Command\Chain;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
@@ -22,6 +24,30 @@ class ChainDebugCommand extends Command
 {
     use CommandTrait;
     use ChainFilesTrait;
+
+    /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * ChainDebugCommand constructor.
+     * @param ConfigurationManager $configurationManager
+     * @param Manager              $extensionManager
+     */
+    public function __construct(
+        ConfigurationManager $configurationManager,
+        Manager $extensionManager
+    ) {
+        $this->configurationManager = $configurationManager;
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
     /**
      * {@inheritdoc}
      */
@@ -55,5 +81,7 @@ class ChainDebugCommand extends Command
 
             $io->table($tableHeader, $tableRows);
         }
+
+        return 0;
     }
 }

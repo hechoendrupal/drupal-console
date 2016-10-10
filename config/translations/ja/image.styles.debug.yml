@@ -1,5 +1,0 @@
-description: 画像スタイルの一覧を表示
-messages:
-    styles-list: サイトで定義されている画像スタイル
-    styles-label: 画像スタイル名称
-    styles-name: システム内部名称

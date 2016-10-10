@@ -13,13 +13,65 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PostUpdateGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
 
-class PostUpdateCommand extends GeneratorCommand
+/**
+ * Class PostUpdateCommand
+ * @package Drupal\Console\Command\Generate
+ */
+class PostUpdateCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
+    use CommandTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var PostUpdateGenerator  */
+    protected $generator;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * PostUpdateCommand constructor.
+     * @param Manager             $extensionManager
+     * @param PostUpdateGenerator $generator
+     * @param Site                $site
+     * @param Validator           $validator
+     * @param ChainQueue          $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        PostUpdateGenerator $generator,
+        Site $site,
+        Validator $validator,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->site = $site;
+        $this->validator = $validator;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -58,19 +110,17 @@ class PostUpdateCommand extends GeneratorCommand
 
         $this->validatePostUpdateName($module, $postUpdateName);
 
-        $this
-            ->getGenerator()
-            ->generate($module, $postUpdateName);
+        $this->generator->generate($module, $postUpdateName);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/schema.inc');
+        $this->site->loadLegacyFile('/core/includes/update.inc');
+        $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         $module = $input->getOption('module');
         if (!$module) {
@@ -85,7 +135,7 @@ class PostUpdateCommand extends GeneratorCommand
                 $this->trans('commands.generate.post.update.questions.post-update-name'),
                 '',
                 function ($postUpdateName) {
-                    return $this->validateSpaces($postUpdateName);
+                    return $this->validator->validateSpaces($postUpdateName);
                 }
             );
 
@@ -101,8 +151,8 @@ class PostUpdateCommand extends GeneratorCommand
 
     protected function getLastUpdate($module)
     {
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/update.inc');
-        $this->getDrupalHelper()->loadLegacyFile('/core/includes/schema.inc');
+        $this->site->loadLegacyFile('/core/includes/update.inc');
+        $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         $updates = update_get_update_list();
 
@@ -117,7 +167,7 @@ class PostUpdateCommand extends GeneratorCommand
 
     protected function validatePostUpdateName($module, $postUpdateName)
     {
-        if (!$this->validateSpaces($postUpdateName)) {
+        if (!$this->validator->validateSpaces($postUpdateName)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     $this->trans('commands.generate.post.update.messages.wrong-post-update-name'),
@@ -126,7 +176,7 @@ class PostUpdateCommand extends GeneratorCommand
             );
         }
 
-        if ($this->validateModuleFunctionExist($module, $module . '_post_update_' . $postUpdateName, $module . '.post_update.php')) {
+        if ($this->extensionManager->validateModuleFunctionExist($module, $module . '_post_update_' . $postUpdateName, $module . '.post_update.php')) {
             throw new \InvalidArgumentException(
                 sprintf(
                     $this->trans('commands.generate.post.update.messages.post-update-name-already-implemented'),

@@ -1,5 +1,0 @@
-description: 'Drupal Consoleのユーザー設定を表示する'
-messages:
-    config-key: 'Config key'
-    config-value: 'Config value'
-    config-file: 'Config file'

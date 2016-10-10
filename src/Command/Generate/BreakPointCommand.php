@@ -10,21 +10,78 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Console\Command\Shared\ThemeRegionTrait;
 use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
-use Drupal\Console\Generator\BreakPointGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Generator\BreakPointGenerator;
 
 /**
  *
  */
-class BreakPointCommand extends GeneratorCommand
+class BreakPointCommand extends Command
 {
+    use CommandTrait;
     use ConfirmationTrait;
     use ThemeRegionTrait;
     use ThemeBreakpointTrait;
+
+    /**
+     * @var BreakPointGenerator
+     */
+    protected $generator;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+
+    /** @var Validator  */
+    protected $validator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * BreakPointCommand constructor.
+     * @param BreakPointGenerator $generator
+     * @param                     $appRoot
+     * @param ThemeHandler        $themeHandler
+     * @param Validator           $validator
+     * @param StringConverter     $stringConverter
+     */
+    public function __construct(
+        BreakPointGenerator $generator,
+        $appRoot,
+        ThemeHandler $themeHandler,
+        Validator $validator,
+        StringConverter $stringConverter
+        ) {
+        $this->generator = $generator;
+        $this->appRoot = $appRoot;
+        $this->themeHandler = $themeHandler;
+        $this->validator = $validator;
+        $this->stringConverter = $stringConverter;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -60,16 +117,14 @@ class BreakPointCommand extends GeneratorCommand
         if (!$this->confirmGeneration($io)) {
             return;
         }
-        
-        $validators = $this->getValidator();
+
+        $validators = $this->validator;
         // we must to ensure theme exist
         $machine_name = $validators->validateMachineName($input->getOption('theme'));
         $theme_path = $drupal_root . $input->getOption('theme');
         $breakpoints = $input->getOption('breakpoints');
-        
-        $generator = $this->getGenerator();
 
-        $generator->generate(
+        $this->generator->generate(
             $theme_path,
             $breakpoints,
             $machine_name
@@ -83,15 +138,13 @@ class BreakPointCommand extends GeneratorCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $stringUtils = $this->getStringHelper();
-        $drupal = $this->getDrupalHelper();
-        $drupalRoot = $drupal->getRoot();
-        
+        $drupalRoot = $this->appRoot;
+
         // --base-theme option.
         $base_theme = $input->getOption('theme');
 
         if (!$base_theme) {
-            $themeHandler = $this->getThemeHandler();
+            $themeHandler = $this->themeHandler;
             $themes = $themeHandler->rebuildThemeData();
             $themes['classy'] ='';
 
@@ -103,20 +156,12 @@ class BreakPointCommand extends GeneratorCommand
             );
             $input->setOption('theme', $base_theme);
         }
-         
+
         // --breakpoints option.
         $breakpoints = $input->getOption('breakpoints');
         if (!$breakpoints) {
-            $breakpoints = $this->breakpointQuestion($output);
+            $breakpoints = $this->breakpointQuestion($io);
             $input->setOption('breakpoints', $breakpoints);
         }
-    }
-
-    /**
-     * @return BreakPointGenerator
-     */
-    protected function createGenerator()
-    {
-        return new  BreakPointGenerator();
     }
 }

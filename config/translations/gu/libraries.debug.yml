@@ -1,6 +1,0 @@
-description: 'Displays libraries available in application'
-options:
-    name: 'Enter Libraries Name'
-messages:
-    name: 'Extension with Libraries'
-    info: 'Libraries Information'

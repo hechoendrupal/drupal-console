@@ -1,9 +1,0 @@
-services:
-  test_debug:
-    class: Drupal\Console\Command\Test\DebugCommand
-    tags:
-      - { name: console.command }
-  test_run:
-    class: Drupal\Console\Command\Test\RunCommand
-    tags:
-      - { name: console.command }

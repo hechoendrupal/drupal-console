@@ -1,7 +1,0 @@
-description: 'Generar un archivo .module'
-help: 'El comando <info>generate:module:file</info> le ayuda a generar un archivo .module nuevo'
-welcome: 'Bienvenido al generador de módulos para Drupal'
-options:
-    module: 'Nombre del módulo'
-questions:
-    module: 'Introduzca el nombre del nuevo módulo'

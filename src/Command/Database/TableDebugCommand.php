@@ -12,7 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use RedBeanPHP\R;
+use Drupal\Core\Database\Connection;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ConnectTrait;
 
@@ -22,8 +24,32 @@ use Drupal\Console\Command\Shared\ConnectTrait;
  */
 class TableDebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ConnectTrait;
+
+    /**
+     * @var Connection
+     */
+    protected $database;
+
+    /**
+     * @var R
+     */
+    protected $redBean;
+
+    /**
+     * TableDebugCommand constructor.
+     * @param R $redBean
+     * @param Connection $database
+     */
+    public function __construct(
+        R $redBean,
+        Connection $database
+    ) {
+        $this->redBean = $redBean;
+        $this->database = $database;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -61,8 +87,8 @@ class TableDebugCommand extends Command
         $databaseConnection = $this->resolveConnection($io, $database);
 
         if ($table) {
-            $redBean = $this->getRedBeanConnection($database);
-            $tableInfo = $redBean->inspect($table);
+            $this->redBean = $this->getRedBeanConnection($database);
+            $tableInfo = $this->redBean->inspect($table);
 
             $tableHeader = [
                 $this->trans('commands.database.table.debug.messages.column'),
@@ -81,8 +107,7 @@ class TableDebugCommand extends Command
             return 0;
         }
 
-        $databaseService = $this->getDrupalService('database');
-        $schema = $databaseService->schema();
+        $schema = $this->database->schema();
         $tables = $schema->findTables('%');
 
         $io->comment(
@@ -96,5 +121,7 @@ class TableDebugCommand extends Command
             [$this->trans('commands.database.table.debug.messages.table')],
             $tables
         );
+
+        return 0;
     }
 }

@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,6 +16,12 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
 
 /**
  * Class InstallCommand
@@ -23,9 +29,65 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class InstallCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ProjectDownloadTrait;
     use ModuleTrait;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /** @var ModuleInstaller  */
+    protected $moduleInstaller;
+
+    /** @var DrupalApi  */
+    protected $drupalApi;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * InstallCommand constructor.
+     * @param Site $site
+     * @param Validator $validator
+     * @param ModuleInstaller $moduleInstaller
+     * @param DrupalApi $drupalApi
+     * @param Manager           $extensionManager
+     * @param $appRoot
+     * @param ChainQueue $chainQueue
+     */
+    public function __construct(
+        Site $site,
+        Validator $validator,
+        ModuleInstaller $moduleInstaller,
+        DrupalApi $drupalApi,
+        Manager $extensionManager,
+        $appRoot,
+        ChainQueue $chainQueue
+    ) {
+        $this->site = $site;
+        $this->validator = $validator;
+        $this->moduleInstaller = $moduleInstaller;
+        $this->drupalApi = $drupalApi;
+        $this->extensionManager = $extensionManager;
+        $this->appRoot = $appRoot;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -79,7 +141,7 @@ class InstallCommand extends Command
         $latest = $input->getOption('latest');
         $composer = $input->getOption('composer');
 
-        $this->get('site')->loadLegacyFile('core/includes/bootstrap.inc');
+        $this->site->loadLegacyFile('/core/includes/bootstrap.inc');
         
         // check module's requirements
         $this->moduleRequirement($module);
@@ -145,10 +207,9 @@ class InstallCommand extends Command
                 )
             );
 
-            $moduleInstaller = $this->getDrupalService('module_installer');
             drupal_static_reset('system_rebuild_module_data');
 
-            $moduleInstaller->install($unInstalledModules, true);
+            $this->moduleInstaller->install($unInstalledModules, true);
             $io->success(
                 sprintf(
                     $this->trans('commands.module.install.messages.success'),
@@ -161,6 +222,6 @@ class InstallCommand extends Command
             return 1;
         }
 
-        $this->get('chain_queue')->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

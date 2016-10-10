@@ -1,6 +1,0 @@
-description: 生成认证提供者
-help: '命令 <info>generate:authentication:provider</info> 用于生成新的认证提供者'
-options:
-    class: 认证提供者类
-    provider-id: '提供者 ID'
-module: common.options.module

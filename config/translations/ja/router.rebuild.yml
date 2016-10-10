@@ -1,6 +1,0 @@
-description: ルートを再構築する
-arguments:
-    route-name: ルートの名前
-messages:
-    rebuilding: ルートを再構築しています、少々お待ち下さい。
-    completed: ルートの再構築が完了しました。

@@ -12,12 +12,15 @@ namespace Drupal\Console\Command\Develop;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Knp\Snappy\Pdf;
+use Drupal\Console\Command\Shared\CommandTrait;
 
-class GenerateDocCheatsheetCommand extends ContainerAwareCommand
+class GenerateDocCheatsheetCommand extends Command
 {
+    use CommandTrait;
+
     private $singleCommands = [
       'about',
       'chain',
@@ -55,6 +58,14 @@ class GenerateDocCheatsheetCommand extends ContainerAwareCommand
     private $logoUrl = 'http://drupalconsole.com/themes/custom/drupalconsole/assets/src/images/drupal-console.png';
 
     private $wkhtmltopdfPath = "/usr/bin/wkhtmltopdf";
+
+    /**
+     * GenerateDocCheatsheetCommand constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}

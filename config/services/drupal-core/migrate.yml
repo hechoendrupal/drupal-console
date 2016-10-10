@@ -1,0 +1,16 @@
+services:
+  migrate_execute:
+    class: Drupal\Console\Command\Migrate\ExecuteCommand
+    arguments: ['@plugin.manager.migration']
+    tags:
+      - { name: drupal.command }
+  migrate_debug:
+    class: Drupal\Console\Command\Migrate\DebugCommand
+    arguments: ['@plugin.manager.migration']
+    tags:
+      - { name: drupal.command }
+  migrate_setup:
+    class: Drupal\Console\Command\Migrate\SetupCommand
+    arguments: ['@state', '@plugin.manager.migration']
+    tags:
+      - { name: drupal.command }

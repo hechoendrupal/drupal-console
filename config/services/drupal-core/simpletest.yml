@@ -1,0 +1,11 @@
+services:
+  test_debug:
+    class: Drupal\Console\Command\Test\DebugCommand
+    arguments: ['@test_discovery']
+    tags:
+      - { name: drupal.command }
+  test_run:
+    class: Drupal\Console\Command\Test\RunCommand
+    arguments: ['@app.root', '@test_discovery', '@module_handler', '@date.formatter']
+    tags:
+      - { name: drupal.command }

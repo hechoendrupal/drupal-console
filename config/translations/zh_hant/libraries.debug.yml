@@ -1,6 +1,0 @@
-description: '顯示可用的 libraries'
-options:
-    name: '輸入 Libraries 名稱'
-messages:
-    name: 'Extension with Libraries'
-    info: 'Libraries 資訊'

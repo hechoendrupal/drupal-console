@@ -1,8 +1,0 @@
-description: 'निवडलेले संरचना संपादित करा.'
-arguments:
-    config-name: 'संरचने नाव.'
-    editor: संपादक.
-questions:
-    config-name: 'संरचना माप निवडा.'
-messages:
-    no-directory: 'आपल्या डिरेक्ट्री निर्माण करताना त्रुटी आली.'

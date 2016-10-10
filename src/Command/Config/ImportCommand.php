@@ -13,7 +13,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigManager;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigImporterException;
 use Drupal\Core\Config\ConfigImporter;
@@ -22,7 +24,28 @@ use Drupal\Core\Config\StorageComparer;
 
 class ImportCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /** @var CachedStorage  */
+    protected $configStorage;
+
+    /** @var ConfigManager  */
+    protected $configManager;
+
+    /**
+     * ImportCommand constructor.
+     * @param CachedStorage $configStorage
+     * @param ConfigManager $configManager
+     */
+    public function __construct(
+        CachedStorage $configStorage,
+        ConfigManager $configManager
+    ) {
+        $this->configStorage = $configStorage;
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -35,19 +58,19 @@ class ImportCommand extends Command
                 'file',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.arguments.file')
+                $this->trans('commands.config.import.options.file')
             )
             ->addOption(
                 'directory',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.arguments.directory')
+                $this->trans('commands.config.import.options.directory')
             )
             ->addOption(
                 'remove-files',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.config.import.arguments.remove-files')
+                $this->trans('commands.config.import.options.remove-files')
             );
     }
 
@@ -57,10 +80,7 @@ class ImportCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        $archiveFile = $input->getOption('file');
         $directory = $input->getOption('directory');
-        $removeFiles = $input->getOption('remove-files');
 
         if ($directory) {
             $configSyncDir = $directory;
@@ -70,29 +90,21 @@ class ImportCommand extends Command
             );
         }
 
-        // Determine $source_storage in partial and non-partial cases.
-        $active_storage = \Drupal::service('config.storage');
-
         $source_storage = new FileStorage($configSyncDir);
 
-        /** @var \Drupal\Core\Config\ConfigManagerInterface $config_manager */
-        $config_manager = \Drupal::service('config.manager');
-        $storage_comparer = new StorageComparer($source_storage, $active_storage, $config_manager);
+        $storage_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);
 
         if (!$storage_comparer->createChangelist()->hasChanges()) {
             $io->success($this->trans('commands.config.import.messages.nothing-to-do'));
-
         }
 
-        if ($this->configImport($io,$storage_comparer)) {
+        if ($this->configImport($io, $storage_comparer)) {
             $io->success($this->trans('commands.config.import.messages.imported'));
-
         }
-
     }
 
 
-    private function configImport($io,StorageComparer $storage_comparer)
+    private function configImport(DrupalStyle $io, StorageComparer $storage_comparer)
     {
         $config_importer = new ConfigImporter(
             $storage_comparer,
@@ -108,17 +120,11 @@ class ImportCommand extends Command
 
         if ($config_importer->alreadyImporting()) {
             $io->success($this->trans('commands.config.import.messages.already-imported'));
-
-
-        }
-
-        else{
+        } else {
             try {
                 $config_importer->import();
                 $io->info($this->trans('commands.config.import.messages.importing'));
-
-            }
-            catch (ConfigImporterException $e) {
+            } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
                 $message .= implode("\n", $config_importer->getErrors());
                 $io->error(
@@ -127,18 +133,14 @@ class ImportCommand extends Command
                         $message
                     )
                 );
-            }
-
-            catch (\Exception $e){
+            } catch (\Exception $e) {
                 $io->error(
                     sprintf(
                         $this->trans('commands.site.import.local.messages.error-writing'),
                         $e->getMessage()
                     )
                 );
-
             }
         }
     }
-
 }

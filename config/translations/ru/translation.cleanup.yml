@@ -1,8 +1,0 @@
-description: 'Очистить файлы переводов'
-arguments:
-    language: 'Language to clean up files against English'
-messages:
-    invalid-language: 'Недопустимый язык "%s"'
-    language: Язык
-    file-deleted: 'Файл "%s" был удалён "%s" т.к. больше не требуется'
-    success: 'Ненужные файлы были удалены'

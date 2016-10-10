@@ -10,12 +10,14 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
-abstract class EntityCommand extends GeneratorCommand
+abstract class EntityCommand extends Command
 {
+    use CommandTrait;
     use ModuleTrait;
     private $entityType;
     private $commandName;
@@ -98,7 +100,7 @@ abstract class EntityCommand extends GeneratorCommand
         $io = new DrupalStyle($input, $output);
 
         $commandKey = str_replace(':', '.', $this->commandName);
-        $utils = $this->getStringHelper();
+        $utils = $this->stringConverter;
 
         // --module option
         $module = $input->getOption('module');
@@ -115,7 +117,7 @@ abstract class EntityCommand extends GeneratorCommand
                 $this->trans('commands.'.$commandKey.'.questions.entity-class'),
                 'DefaultEntity',
                 function ($entityClass) {
-                    return $this->validateSpaces($entityClass);
+                    return $this->validator->validateSpaces($entityClass);
                 }
             );
 
@@ -129,7 +131,7 @@ abstract class EntityCommand extends GeneratorCommand
                 $this->trans('commands.'.$commandKey.'.questions.entity-name'),
                 $utils->camelCaseToMachineName($entityClass),
                 function ($entityName) {
-                    return $this->validateMachineName($entityName);
+                    return $this->validator->validateMachineName($entityName);
                 }
             );
             $input->setOption('entity-name', $entityName);
@@ -159,10 +161,6 @@ abstract class EntityCommand extends GeneratorCommand
             $base_path = '/' . $base_path;
         }
         $input->setOption('base-path', $base_path);
-    }
-
-    protected function createGenerator()
-    {
     }
 
     /**

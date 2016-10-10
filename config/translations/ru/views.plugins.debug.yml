@@ -1,8 +1,0 @@
-description: 'Отображает существующие плагины Представлений для приложения'
-arguments:
-    type: 'Отфильтровать плагины Представлений по типу'
-messages:
-    type: Type
-    name: Name
-    provider: Provider
-    views: Views

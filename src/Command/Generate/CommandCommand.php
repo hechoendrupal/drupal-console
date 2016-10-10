@@ -7,19 +7,66 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\CommandGenerator;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\Validator;
 
-class CommandCommand extends GeneratorCommand
+class CommandCommand extends Command
 {
-    use ModuleTrait;
+    use ContainerAwareCommandTrait;
     use ConfirmationTrait;
+    use ServicesTrait;
+    use ModuleTrait;
+
+    /**
+     * @var CommandGenerator
+     */
+    protected $generator;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * CommandCommand constructor.
+     * @param CommandGenerator $generator
+     * @param Manager          $extensionManager
+     * @param Validator        $validator
+     * @param StringConverter  $stringConverter
+     */
+    public function __construct(
+        CommandGenerator $generator,
+        Manager $extensionManager,
+        Validator $validator,
+        StringConverter $stringConverter
+    ) {
+        $this->generator = $generator;
+        $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
+        $this->stringConverter = $stringConverter;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -30,17 +77,22 @@ class CommandCommand extends GeneratorCommand
             ->setName('generate:command')
             ->setDescription($this->trans('commands.generate.command.description'))
             ->setHelp($this->trans('commands.generate.command.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 '',
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.command.options.class')
             )
             ->addOption(
                 'name',
                 '',
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.command.options.name')
             )
             ->addOption(
@@ -48,7 +100,14 @@ class CommandCommand extends GeneratorCommand
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.command.options.container-aware')
-            );
+            )
+            ->addOption(
+                'services',
+                '',
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.common.options.services')
+            )
+        ;
     }
 
     /**
@@ -62,6 +121,7 @@ class CommandCommand extends GeneratorCommand
         $class = $input->getOption('class');
         $name = $input->getOption('name');
         $containerAware = $input->getOption('container-aware');
+        $services = $input->getOption('services');
         $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
@@ -69,9 +129,16 @@ class CommandCommand extends GeneratorCommand
             return;
         }
 
-        $this
-            ->getGenerator()
-            ->generate($module, $name, $class, $containerAware);
+        // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
+        $build_services = $this->buildServices($services);
+
+        $this->generator->generate(
+            $module,
+            $name,
+            $class,
+            $containerAware,
+            $build_services
+        );
     }
 
     /**
@@ -84,8 +151,7 @@ class CommandCommand extends GeneratorCommand
         // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -106,7 +172,7 @@ class CommandCommand extends GeneratorCommand
                 $this->trans('commands.generate.command.questions.class'),
                 'DefaultCommand',
                 function ($class) {
-                    return $this->getValidator()->validateCommandName($class);
+                    return $this->validator->validateCommandName($class);
                 }
             );
             $input->setOption('class', $class);
@@ -117,14 +183,16 @@ class CommandCommand extends GeneratorCommand
         if (!$containerAware) {
             $containerAware = $io->confirm(
                 $this->trans('commands.generate.command.questions.container-aware'),
-                true
+                false
             );
             $input->setOption('container-aware', $containerAware);
         }
-    }
 
-    protected function createGenerator()
-    {
-        return new CommandGenerator();
+        if (!$containerAware) {
+            // --services option
+            // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
+            $services = $this->servicesQuestion($io);
+            $input->setOption('services', $services);
+        }
     }
 }
