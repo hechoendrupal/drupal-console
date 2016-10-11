@@ -38,7 +38,7 @@ trait MigrationTrait
         $migration_plugin_configuration = array_fill_keys($keys, $configuration);
 
         //Create all migration instances
-        $all_migrations = $this->createInstances(array_keys($migrations), $migration_plugin_configuration);
+        $all_migrations = $this->pluginManagerMigration->createInstances(array_keys($migrations), $migration_plugin_configuration);
 
         $migrations = array();
         foreach ($all_migrations as $migration) {

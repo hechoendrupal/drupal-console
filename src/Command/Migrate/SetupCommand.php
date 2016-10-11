@@ -159,7 +159,7 @@ class SetupCommand extends Command
             $input->setOption('db-port', $db_port);
         }
 
-         // --source-base_path
+        // --source-base_path
         $sourceBasepath = $input->getOption('source-base_path');
         if (!$sourceBasepath) {
             $sourceBasepath = $io->ask(
