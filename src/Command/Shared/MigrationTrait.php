@@ -29,17 +29,16 @@ trait MigrationTrait
     protected function getMigrations($version_tag = false, $flatList = false)
     {
         $all_migrations = $this->pluginManagerMigration->createInstancesByTag($version_tag);
- 
+
         $migrations = array();
         foreach ($all_migrations as $migration) {
             if ($flatList) {
                 $migrations[$migration->id()] = ucwords($migration->label());
             } else {
-                $migrations[$migration->id()]['tags'] = implode(', ', $migration->migration_tags);
+                $migrations[$migration->id()]['tags'] = implode(', ', $migration->getMigrationTags());
                 $migrations[$migration->id()]['description'] = ucwords($migration->label());
             }
         }
-        
         return  $migrations;
     }
 
