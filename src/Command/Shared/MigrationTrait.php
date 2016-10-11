@@ -26,10 +26,20 @@ trait MigrationTrait
      *
      * @return array list of migrations
      */
-    protected function getMigrations($version_tag = false, $flatList = false)
+    protected function getMigrations($version_tag = false, $flatList = false, $configuration = [])
     {
-        $all_migrations = $this->pluginManagerMigration->createInstancesByTag($version_tag);
- 
+        //Get migration definitions by tag
+        $migrations = array_filter($this->pluginManagerMigration->getDefinitions(), function($migration) use ($version_tag) {
+            return !empty($migration['migration_tags']) && in_array($version_tag, $migration['migration_tags']);
+        });
+
+        // Create an array to configure all migration plugins with same configuration
+        $keys = array_keys($migrations);
+        $migration_plugin_configuration = array_fill_keys($keys, $configuration);
+
+        //Create all migration instances
+        $all_migrations = $this->createInstances(array_keys($migrations), $migration_plugin_configuration);
+
         $migrations = array();
         foreach ($all_migrations as $migration) {
             if ($flatList) {
