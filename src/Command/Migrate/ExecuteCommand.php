@@ -113,7 +113,13 @@ class ExecuteCommand extends Command
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.migrate.execute.options.exclude'),
                 array()
-            );
+            )
+            ->addOption(
+                'source-base_path',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.migrate.execute.options.source-base_path')
+            );;
     }
 
     /**
@@ -259,6 +265,16 @@ class ExecuteCommand extends Command
             }
             $input->setOption('exclude', $exclude_ids);
         }
+
+        // --source-base_path
+        $sourceBasepath = $input->getOption('source-base_path');
+        if (!$sourceBasepath) {
+            $sourceBasepath = $io->ask(
+                $this->trans('commands.migrate.setup.questions.source-base_path'),
+                ''
+            );
+            $input->setOption('source-base_path', $sourceBasepath);
+        }
     }
     
     /**
@@ -269,6 +285,10 @@ class ExecuteCommand extends Command
         $io = new DrupalStyle($input, $output);
         $migration_ids = $input->getArgument('migration-ids');
         $exclude_ids = $input->getOption('exclude');
+
+        $sourceBasepath = $input->getOption('source-base_path');
+        $configuration['source']['constants']['source_base_path'] = rtrim($sourceBasepath, '/') . '/';
+
 
         // If migrations weren't provided finish execution
         if (empty($migration_ids)) {
@@ -311,7 +331,7 @@ class ExecuteCommand extends Command
                 )
             );
 
-            $migration_service = $this->pluginManagerMigration->createInstance($migration_id);
+            $migration_service = $this->pluginManagerMigration->createInstance($migration_id, $configuration);
 
             if ($migration_service) {
                 $messages = new MigrateExecuteMessageCapture();
