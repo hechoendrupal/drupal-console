@@ -45,11 +45,10 @@ trait MigrationTrait
             if ($flatList) {
                 $migrations[$migration->id()] = ucwords($migration->label());
             } else {
-                $migrations[$migration->id()]['tags'] = implode(', ', $migration->migration_tags);
+                $migrations[$migration->id()]['tags'] = implode(', ', $migration->getMigrationTags());
                 $migrations[$migration->id()]['description'] = ucwords($migration->label());
             }
         }
-        
         return  $migrations;
     }
 
