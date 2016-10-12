@@ -124,7 +124,7 @@ class ExportSingleCommand extends Command
 
         // For a given entity type, load all entities.
         if ($config_type && $config_type !== 'system.simple') {
-            $entity_storage = $this->entityManager->getStorage($config_type);
+            $entity_storage = $this->entityTypeManager->getStorage($config_type);
             foreach ($entity_storage->loadMultiple() as $entity) {
                 $entity_id = $entity->id();
                 $label = $entity->label() ?: $entity_id;
