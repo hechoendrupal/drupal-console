@@ -16,6 +16,7 @@ if (file_exists($autoLoadFile)) {
         ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL.
         ' Try changing to a Drupal site directory and download it by executing:'. PHP_EOL .
         ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL .
+        ' composer update drupal/console --with-dependencies'. PHP_EOL .
         PHP_EOL;
 
     exit(1);
