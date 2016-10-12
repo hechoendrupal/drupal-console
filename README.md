@@ -44,13 +44,23 @@ PHP 5.5.9 or higher is required to use the Drupal Console application.
 cd /path/to/drupal8.dev
 
 # Download DrupalConsole
+```
 composer require drupal/console:~1.0 \
 --prefer-dist \
 --optimize-autoloader \
 --sort-packages
 ```
 
-### Downloading using DrupalComposer
+## Fix Getting the latest version
+
+Drupal 8 include some libraries with old version of Symfony 2.7.x, as result you get an old release of Drupal Console.
+
+To fix that, execute the following command and you will get the latest release of Drupal Console.
+```
+composer update drupal/console --with-dependencies
+```
+
+## Downloading using DrupalComposer
 ```
 composer create-project \
 drupal-composer/drupal-project:8.x-dev \
