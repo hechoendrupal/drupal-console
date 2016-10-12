@@ -10,6 +10,7 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
@@ -115,7 +116,12 @@ class StatisticsCommand extends Command
      */
     private function getCommentCount()
     {
-        $entityQuery = $this->entityQuery->get('comment')->count();
+        try {
+            $entityQuery = $this->entityQuery->get('comment')->count();
+        } catch (PluginNotFoundException $e) {
+            return 0;
+        }
+
         $comments = $entityQuery->execute();
 
         return $comments;
