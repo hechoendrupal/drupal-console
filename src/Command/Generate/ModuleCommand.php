@@ -268,7 +268,7 @@ class ModuleCommand extends Command
 
         try {
             $module = $input->getOption('module') ?
-              $this->validateModuleName(
+              $this->validator->validateModuleName(
                   $input->getOption('module')
               ) : null;
         } catch (\Exception $error) {
