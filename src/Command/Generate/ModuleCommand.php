@@ -290,7 +290,7 @@ class ModuleCommand extends Command
 
         try {
             $machineName = $input->getOption('machine-name') ?
-              $this->validateModule(
+              $this->validate->validateModule(
                   $input->getOption('machine-name')
               ) : null;
         } catch (\Exception $error) {
