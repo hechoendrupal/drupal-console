@@ -42,7 +42,7 @@
         "drupal/console-core" : "^1.0",
         "symfony/css-selector": "~2.8",
         "symfony/debug": "~2.6|~2.8",
-        "symfony/dom-crawler": "~2.8",
+        "symfony/dom-crawler": "~2.7|~2.8",
         "symfony/http-foundation": "~2.8",
         "phpseclib/phpseclib": "2.*",
         "stecman/symfony-console-completion": "^0.5.1",
