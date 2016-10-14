@@ -10,12 +10,12 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Extension\Manager;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Class StatisticsCommand
@@ -41,19 +41,27 @@ class StatisticsCommand extends Command
     protected $extensionManager;
 
     /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
      * StatisticsCommand constructor.
-     * @param DrupalApi         $drupalApi
-     * @param QueryFactory $entityQuery;
-     * @param Manager          $extensionManager
+     * @param DrupalApi                 $drupalApi
+     * @param QueryFactory              $entityQuery;
+     * @param Manager                   $extensionManager
+     * @param ModuleHandlerInterface    $moduleHandler
      */
     public function __construct(
         DrupalApi $drupalApi,
         QueryFactory $entityQuery,
-        Manager $extensionManager
+        Manager $extensionManager,
+        ModuleHandlerInterface $moduleHandler
     ) {
         $this->drupalApi = $drupalApi;
         $this->entityQuery = $entityQuery;
         $this->extensionManager = $extensionManager;
+        $this->moduleHandler = $moduleHandler;
         parent::__construct();
     }
 
@@ -116,12 +124,11 @@ class StatisticsCommand extends Command
      */
     private function getCommentCount()
     {
-        try {
-            $entityQuery = $this->entityQuery->get('comment')->count();
-        } catch (PluginNotFoundException $e) {
+        if (!$this->moduleHandler->moduleExists('comment')) {
             return 0;
         }
-
+        
+        $entityQuery = $this->entityQuery->get('comment')->count();
         $comments = $entityQuery->execute();
 
         return $comments;
