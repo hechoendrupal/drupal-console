@@ -16,7 +16,7 @@ trait EntityContentDataProviderTrait
         $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), 'Bar', 'bar', 'admin/structure', 'true'],
+          ['Foo', 'foo' . rand(), 'Bar', 'bar', 'admin/structure', 'true', true],
         ];
     }
 }

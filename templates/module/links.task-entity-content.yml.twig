@@ -6,6 +6,7 @@
   title: 'Settings'
   base_route: {{ entity_name }}.settings
 {% endif %}
+
 entity.{{ entity_name }}.canonical:
   route_name: entity.{{ entity_name }}.canonical
   base_route: entity.{{ entity_name }}.canonical
@@ -14,7 +15,14 @@ entity.{{ entity_name }}.canonical:
 entity.{{ entity_name }}.edit_form:
   route_name: entity.{{ entity_name }}.edit_form
   base_route: entity.{{ entity_name }}.canonical
-  title: Edit
+  title: 'Edit'
+{% if revisionable %}
+
+entity.{{ entity_name }}.version_history:
+  route_name: entity.{{ entity_name }}.version_history
+  base_route: entity.{{ entity_name }}.canonical
+  title: 'Revisions'
+{% endif %}
 
 entity.{{ entity_name }}.delete_form:
   route_name:  entity.{{ entity_name }}.delete_form
