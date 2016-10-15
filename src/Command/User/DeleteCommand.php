@@ -171,7 +171,7 @@ class DeleteCommand extends Command
         $roles = $input->getOption('roles');
 
         if ($roles) {
-            $userStorage = $this->entityManager->getStorage('user');
+            $userStorage = $this->entityTypeManager->getStorage('user');
 
             $query = $this->entityQuery->get('user');
             $query->condition('roles', is_array($roles)?$roles:[$roles], 'IN');
