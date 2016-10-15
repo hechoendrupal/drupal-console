@@ -15,7 +15,6 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
-use Drupal\Console\Helper\HelperTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 use Drupal\Core\Authentication\AuthenticationCollector;
 use Drupal\Core\Config\ConfigFactory;
@@ -30,7 +29,6 @@ class EnableCommand extends Command
 {
     use CommandTrait;
     use RestTrait;
-    use HelperTrait;
 
     /**
      * @var ResourcePluginManager $pluginManagerRest
@@ -99,7 +97,7 @@ class EnableCommand extends Command
         $this->validateRestResource(
             $resource_id,
             $rest_resources_ids,
-            $this->getTranslator()
+            $this->translator
         );
         $input->setArgument('resource-id', $resource_id);
 
