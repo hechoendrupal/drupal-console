@@ -7,7 +7,11 @@
     - {{ value }}
 {% endfor %}
 {% else %}
+{% if input.type in ['checkbox','number','radio'] %}
+  {{ input.name }}: {{ input.default_value }}
+{% else %}
   {{ input.name }}: "{{ input.default_value }}"
+{% endif %}
 {% endif %}
 {% endif %}
 {% endfor %}

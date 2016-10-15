@@ -10,10 +10,7 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityContentGenerator;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
@@ -22,14 +19,14 @@ use Drupal\Console\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
-    use CommandTrait;
-
     /**
      * @var ChainQueue
      */
     protected $chainQueue;
 
-    /** @var EntityContentGenerator  */
+    /**
+     * @var EntityContentGenerator
+     */
     protected $generator;
 
     /**
@@ -37,14 +34,15 @@ class EntityContentCommand extends EntityCommand
      */
     protected $stringConverter;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * @var Validator
      */
     protected $validator;
-
 
     /**
      * EntityContentCommand constructor.
@@ -94,10 +92,10 @@ class EntityContentCommand extends EntityCommand
         );
 
         $this->addOption(
-          'revisionable',
-          null,
-          InputOption::VALUE_NONE,
-          $this->trans('commands.generate.entity.content.options.revisionable')
+            'revisionable',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.revisionable')
         );
     }
 
@@ -128,8 +126,8 @@ class EntityContentCommand extends EntityCommand
 
         // --revisionable option
         $revisionable = $io->confirm(
-          $this->trans('commands.generate.entity.content.questions.revisionable'),
-          true
+            $this->trans('commands.generate.entity.content.questions.revisionable'),
+            true
         );
         $input->setOption('revisionable', $revisionable);
     }

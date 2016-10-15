@@ -3,6 +3,10 @@ services:
     class: Drupal\Console\Command\ContainerDebugCommand
     tags:
       - { name: drupal.command }
+  console.parameters_debug:
+    class: Drupal\Console\Command\ContainerParametersCommand
+    tags:
+      - { name: drupal.command }
   console.plugin_debug:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:

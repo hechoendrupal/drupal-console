@@ -1,5 +1,5 @@
 services:
-  taxonomy_delete:
-     class: Drupal\Console\Command\Taxonomy\DeleteCommand
-      tags:
-        - { name: console.command }
+  console.taxonomy_delete:
+    class: Drupal\Console\Command\Taxonomy\DeleteTermCommand
+    tags:
+      - { name: drupal.command }
