@@ -12,18 +12,18 @@ use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Core\Routing\RouteProviderInterface;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Core\Render\ElementInfoManager;
 
 class ConfigFormBaseCommand extends FormCommand
 {
-
-    use ContainerAwareCommandTrait;
-
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
-    /** @var FormGenerator  */
+    /**
+     * @var FormGenerator
+     */
     protected $generator;
 
     /**
@@ -31,7 +31,9 @@ class ConfigFormBaseCommand extends FormCommand
      */
     protected $stringConverter;
 
-    /** @var RouteProviderInterface  */
+    /**
+     * @var RouteProviderInterface
+     */
     protected $routeProvider;
 
     /**
@@ -48,7 +50,6 @@ class ConfigFormBaseCommand extends FormCommand
      * @var ChainQueue
      */
     protected $chainQueue;
-
 
     /**
      * ConfigFormBaseCommand constructor.
