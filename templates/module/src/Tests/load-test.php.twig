@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{ module }}\Tests\LoadTest
+\Drupal\{{ machine_name }}\Tests\LoadTest
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{ module }}\Tests;
+namespace Drupal\{{ machine_name }}\Tests;
 {% endblock %}
 
 {% block use_class %}
@@ -17,7 +17,7 @@ use Drupal\simpletest\WebTestBase;
 /**
  * Simple test to ensure that main page loads with module enabled.
  *
- * @group {{ module }}
+ * @group {{ machine_name }}
  */
 class LoadTest extends WebTestBase{% endblock %}
 {% block class_methods %}
@@ -26,7 +26,7 @@ class LoadTest extends WebTestBase{% endblock %}
    *
    * @var array
    */
-  public static $modules = ['{{ module }}'];
+  public static $modules = ['{{ machine_name }}'];
 
   /**
    * A user with permission to administer site configuration.
