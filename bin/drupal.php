@@ -7,10 +7,13 @@ set_time_limit(0);
 $appRoot = getcwd() . '/';
 $root = $appRoot;
 
-$autoLoadFile = $appRoot.'/autoload.php';
+$globalAutoLoadFile = $appRoot.'/autoload.php';
+$projectAutoLoadFile = $appRoot.'/vendor/autoload.php';
 
-if (file_exists($autoLoadFile)) {
-    $autoload = include_once $autoLoadFile;
+if (file_exists($globalAutoLoadFile)) {
+    $autoload = include_once $globalAutoLoadFile;
+} elseif (file_exists($projectAutoLoadFile)) {
+    $autoload = include_once $projectAutoLoadFile;
 } else {
     echo PHP_EOL .
         ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL.
