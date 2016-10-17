@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\Console\Utils\ArgvInputReader;
 use Drupal\Console\Application;
 use Drupal\Console\Bootstrap\Drupal;
 
@@ -38,6 +39,18 @@ if (!file_exists($root.'composer.json')) {
     exit(1);
 }
 
+$argvInputReader = new ArgvInputReader();
+if ($root === $appRoot && $argvInputReader->get('root')) {
+    $appRoot = $argvInputReader->get('root');
+    if (is_dir($appRoot)) {
+        chdir($appRoot);
+    }
+    else {
+        $appRoot = $root;
+    }
+}
+$argvInputReader->setOptionsAsArgv();
+
 $drupal = new Drupal($autoload, $root, $appRoot);
 $container = $drupal->boot();
 
@@ -48,6 +61,16 @@ if (!$container) {
 
     exit(1);
 }
+
+$configuration = $container->get('console.configuration_manager')
+    ->getConfiguration();
+
+$translator = $container->get('console.translator_manager');
+
+if ($options = $configuration->get('application.options') ?: []) {
+    $argvInputReader->setOptionsFromConfiguration($options);
+}
+$argvInputReader->setOptionsAsArgv();
 
 $application = new Application($container);
 $application->setDefaultCommand('about');
