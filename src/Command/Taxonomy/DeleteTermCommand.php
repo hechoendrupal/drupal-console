@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Console\Command\Shared\CommandTrait;
@@ -19,6 +20,22 @@ use Drupal\Console\Style\DrupalStyle;
 class DeleteTermCommand extends Command
 {
     use CommandTrait;
+
+    /**
+     * The entity_type storage.
+     *
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
+     * InfoCommand constructor.
+     * @param EntityTypeManagerInterface $entityTypeManager
+     */
+    public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+        $this->entityTypeManager = $entityTypeManager;
+        parent::__construct();
+    }
 
     /**
    * {@inheritdoc}
@@ -52,7 +69,9 @@ class DeleteTermCommand extends Command
     private function deleteExistingTerms($vid = null, DrupalStyle $io)
     {
         //Load the vid
-        $vocabularies = Vocabulary::loadMultiple();
+        $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
+	$vocabularies = $this->entityTypeManager->getStorage('taxonomy_vocabulary')
+	    ->loadMultiple();
 
         if ($vid !== 'all') {
             $vid = [$vid];
@@ -65,13 +84,10 @@ class DeleteTermCommand extends Command
                 $io->error("Invalid vid: {$item}.");
             }
             $vocabulary = $vocabularies[$item];
-            $terms = \Drupal::getContainer()
-              ->get('entity.manager')
-              ->getStorage('taxonomy_term')
-              ->loadTree($vocabulary->id());
+            $terms = $termStorage->loadTree($vocabulary->id());
 
             foreach ($terms as $term) {
-                $treal = Term::load($term->tid);
+                $treal = $termStorage->load($term->tid);
                 if ($treal !== null) {
                     $io->info("Deleting '{$term->name}' and all translations.");
                     $treal->delete();
