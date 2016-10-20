@@ -36,7 +36,12 @@ class Application extends ConsoleApplication
     {
         $this->registerGenerators();
         $this->registerCommands();
-        $output->write(sprintf("\033\143"));
+        $clear = $this->container->get('console.configuration_manager')
+            ->getConfiguration()
+            ->get('application.clear')?:false;
+        if ($clear === true || $clear === 'true') {
+            $output->write(sprintf("\033\143"));
+        }
         parent::doRun($input, $output);
         if ($this->getCommandName($input) == 'list' && $this->container->hasParameter('console.warning')) {
             $io = new DrupalStyle($input, $output);
