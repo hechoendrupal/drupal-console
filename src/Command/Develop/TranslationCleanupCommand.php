@@ -16,16 +16,35 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\ConfigurationManager;
 
 class TranslationCleanupCommand extends Command
 {
     use CommandTrait;
 
     /**
-     * TranslationCleanupCommand constructor.
+     * @var string
      */
-    public function __construct()
-    {
+		protected $consoleRoot;
+
+    /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * TranslationCleanupCommand constructor.
+     *
+     * @param $consoleRoot
+     * @param configurationManager $configurationManager
+     *
+     */
+    public function __construct(
+        $consoleRoot,
+        ConfigurationManager $configurationManager
+    ) {
+        $this->consoleRoot = $consoleRoot;
+        $this->configurationManager = $configurationManager;
         parent::__construct();
     }
 
@@ -55,10 +74,7 @@ class TranslationCleanupCommand extends Command
 
         $language = $input->getArgument('language');
 
-        $application = $this->getApplication();
-        $appRoot = $application->getDirectoryRoot();
-
-        $languages = $application->getConfig()->get('application.languages');
+        $languages = $this->configurationManager->getConfiguration()->get('application.languages');
         unset($languages['en']);
 
         if ($language && !isset($languages[$language])) {
@@ -75,31 +91,33 @@ class TranslationCleanupCommand extends Command
             $languages = [$language => $languages[$language]];
         }
 
-        $this->cleanupTranslations($io, $language, $languages, $appRoot);
+        $this->cleanupTranslations($io, $language, $languages);
 
         $io->success(
             $this->trans('commands.translation.cleanup.messages.success')
         );
     }
 
-    protected function cleanupTranslations($io, $language = null, $languages, $appRoot)
+    protected function cleanupTranslations($io, $language = null, $languages)
     {
         $finder = new Finder();
 
         foreach ($languages as $langCode => $languageName) {
-            foreach ($finder->files()->name('*.yml')->in($appRoot . 'config/translations/' . $langCode) as $file) {
-                $filename = $file->getBasename('.yml');
-                if (!file_exists($appRoot . 'config/translations/en/' . $filename . '.yml')) {
-                    $io->info(
-                        sprintf(
-                            $this->trans('commands.translation.cleanup.messages.file-deleted'),
-                            $filename,
-                            $languageName
-                        )
-                    );
-                    unlink($appRoot . 'config/translations/' . $langCode. '/' . $filename . '.yml');
-                }
-            }
-        }
+						if (file_exists($this->consoleRoot . sprintf( DRUPAL_CONSOLE_LANGUAGE, $langCode ))) {
+							foreach ($finder->files()->name('*.yml')->in($this->consoleRoot . sprintf( DRUPAL_CONSOLE_LANGUAGE, $langCode )) as $file) {
+									$filename = $file->getBasename('.yml');
+									if (!file_exists($this->consoleRoot . sprintf( DRUPAL_CONSOLE_LANGUAGE, 'en') . $filename . '.yml')) {
+											$io->info(
+													sprintf(
+															$this->trans('commands.translation.cleanup.messages.file-deleted'),
+															$filename,
+															$languageName
+													)
+											);
+											unlink($this->consoleRoot . sprintf( DRUPAL_CONSOLE_LANGUAGE, $langCode ). '/' . $filename . '.yml');
+									}
+							}
+						}
+				}
     }
 }
