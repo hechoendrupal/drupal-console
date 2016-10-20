@@ -14,7 +14,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 {% if revisionable %}
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 {% else %}
-use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\ContentEntityBase;
 {% endif %}
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
