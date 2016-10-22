@@ -1,0 +1,7 @@
+key:
+    description: 'Unset a YAML key in a YAML file.'
+    arguments:
+        yaml-file: 'Path of YAML file to update'
+        yaml-key: 'YAML key to be unset'
+    messages:
+        unset: 'YAML file "%s" was unset successfully.'
