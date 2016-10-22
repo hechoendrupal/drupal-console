@@ -28,3 +28,8 @@ services:
     arguments: ['@console.nested_array']
     tags:
       - { name: drupal.command }
+  console.yaml_unset_key:
+      class: Drupal\Console\Command\Yaml\UnsetKeyCommand
+      arguments: ['@console.nested_array']
+      tags:
+        - { name: drupal.command }
