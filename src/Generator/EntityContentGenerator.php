@@ -167,7 +167,7 @@ class EntityContentGenerator extends Generator
 
         $this->renderFile(
             'module/entity-content-page.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath().'/'.$entity_name.'.page.inc',
+            $this->extensionManager->getModule($module)->getPath().'/'.$entity_name.'.page.inc',
             $parameters
         );
 
