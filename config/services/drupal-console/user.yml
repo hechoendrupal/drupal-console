@@ -34,3 +34,8 @@ services:
     arguments: ['@console.drupal_api']
     tags:
       - { name: drupal.command }
+  console.user_create:
+    class: Drupal\Console\Command\User\CreateCommand
+    arguments: ['@database', '@entity_type.manager', '@date.formatter', '@console.drupal_api']
+    tags:
+      - { name: drupal.command }
