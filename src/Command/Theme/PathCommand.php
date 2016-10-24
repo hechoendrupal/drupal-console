@@ -15,23 +15,24 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class PathCommand extends Command
 {
     use CommandTrait;
     use ModuleTrait;
-    use HelperTrait;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * PathCommand constructor.
      * @param Manager $extensionManager
      */
-    public function __construct(Manager $extensionManager) {
+    public function __construct(Manager $extensionManager)
+    {
         $this->extensionManager = $extensionManager;
         parent::__construct();
     }
@@ -64,7 +65,6 @@ class PathCommand extends Command
 
         $theme = $this->extensionManager->getTheme($theme);
 
-
         $io->info(
             $theme->getPath($fullPath)
         );
@@ -81,7 +81,7 @@ class PathCommand extends Command
         $theme = $input->getArgument('theme');
         if (!$theme) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setArgument('theme', $module);
         }
     }

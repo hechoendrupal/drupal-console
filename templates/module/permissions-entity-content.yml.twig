@@ -20,3 +20,16 @@ view published {{ label|lower }} entities:
 
 view unpublished {{ label|lower }} entities:
   title: 'View unpublished {{ label }} entities'
+{% if revisionable %}
+
+view all {{ label|lower }} revisions:
+  title: 'View all {{ label }} revisions'
+
+revert all {{ label|lower }} revisions:
+  title: 'Revert all {{ label }} revisions'
+  description: 'Role requires permission <em>view {{ label }} revisions</em> and <em>edit rights</em> for {{ label|lower }} entities in question or <em>administer {{ label|lower }} entities</em>.'
+
+delete all {{ label|lower }} revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view {{ label }} revisions</em> and <em>delete rights</em> for {{ label|lower }} entities in question or <em>administer {{ label|lower }} entities</em>.'
+{% endif %}

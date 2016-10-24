@@ -96,10 +96,10 @@ class SetupCommand extends Command
                 $this->trans('commands.migrate.setup.options.db-port')
             )
             ->addOption(
-                'files-directory',
+                'source-base_path',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.migrate.setup.options.files-directory')
+                $this->trans('commands.migrate.setup.options.source-base_path')
             );
     }
 
@@ -159,21 +159,23 @@ class SetupCommand extends Command
             $input->setOption('db-port', $db_port);
         }
 
-         // --files-directory
-        $files_directory = $input->getOption('files-directory');
-        if (!$files_directory) {
-            $files_directory = $io->ask(
-                $this->trans('commands.migrate.setup.questions.files-directory'),
+        // --source-base_path
+        $sourceBasepath = $input->getOption('source-base_path');
+        if (!$sourceBasepath) {
+            $sourceBasepath = $io->ask(
+                $this->trans('commands.migrate.setup.questions.source-base_path'),
                 ''
             );
-            $input->setOption('files-directory', $files_directory);
+            $input->setOption('source-base_path', $sourceBasepath);
         }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-       
+
+        $sourceBasepath = $input->getOption('source-base_path');
+        $configuration['source']['constants']['source_base_path'] = rtrim($sourceBasepath, '/') . '/';
 
         $this->registerMigrateDB($input, $io);
         $this->migrateConnection = $this->getDBConnection($io, 'default', 'upgrade');
@@ -188,7 +190,7 @@ class SetupCommand extends Command
         
         $this->createDatabaseStateSettings($database, $drupal_version);
         
-        $migrations  = $this->getMigrations($version_tag);
+        $migrations  = $this->getMigrations($version_tag, false, $configuration);
         
         if ($migrations) {
             $io->info(

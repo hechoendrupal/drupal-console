@@ -25,56 +25,60 @@ class Drupal
 
     public function boot()
     {
-        $request = Request::createFromGlobals();
+        if (!class_exists('Drupal\Core\DrupalKernel')) {
+            $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
+            return $drupal->boot();
+        }
 
         try {
+            $request = Request::createFromGlobals();
             $drupalKernel = DrupalKernel::createFromRequest(
                 $request,
                 $this->autoload,
                 'prod',
                 false
             );
+
+            $drupalKernel->addServiceModifier(
+                new DrupalServiceModifier(
+                    $this->root,
+                    'drupal.command',
+                    'drupal.generator'
+                )
+            );
+
+            $drupalKernel->invalidateContainer();
+            $drupalKernel->rebuildContainer();
+            $drupalKernel->boot();
+
+            $container = $drupalKernel->getContainer();
+
+            $container->set('console.root', $this->root);
+
+            AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
+
+            $configuration = $container->get('console.configuration_manager')
+                ->loadConfiguration($this->root)
+                ->getConfiguration();
+
+            $container->get('console.translator_manager')
+                ->loadCoreLanguage(
+                    $configuration->get('application.language'),
+                    $this->root
+                );
+
+            $container->get('console.renderer')
+                ->setSkeletonDirs(
+                    [
+                        $this->root.DRUPAL_CONSOLE.'/templates/',
+                        $this->root.DRUPAL_CONSOLE_CORE.'/templates/'
+                    ]
+                );
+
+            return $container;
         } catch (\Exception $e) {
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             return $drupal->boot();
         }
-
-        $drupalKernel->addServiceModifier(
-            new DrupalServiceModifier(
-                $this->root,
-                'drupal.command',
-                'drupal.generator'
-            )
-        );
-
-        $drupalKernel->invalidateContainer();
-        $drupalKernel->rebuildContainer();
-        $drupalKernel->boot();
-
-        $container = $drupalKernel->getContainer();
-
-        $container->set('console.root', $this->root);
-
-        AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
-
-        $configuration = $container->get('console.configuration_manager')
-            ->loadConfiguration($this->root)
-            ->getConfiguration();
-
-        $container->get('console.translator_manager')
-            ->loadCoreLanguage(
-                $configuration->get('application.language'),
-                $this->root
-            );
-
-        $container->get('console.renderer')
-            ->setSkeletonDirs(
-                [
-                    $this->root.DRUPAL_CONSOLE.'/templates/',
-                    $this->root.DRUPAL_CONSOLE_CORE.'/templates/'
-                ]
-            );
-
-        return $container;
     }
 }

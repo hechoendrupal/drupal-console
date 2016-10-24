@@ -157,6 +157,12 @@ class ModuleCommand extends Command
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.dependencies')
+            )
+            ->addOption(
+              'test',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.module.options.test')
             );
     }
 
@@ -185,6 +191,7 @@ class ModuleCommand extends Command
         $moduleFile = $input->getOption('module-file');
         $featuresBundle = $input->getOption('features-bundle');
         $composer = $input->getOption('composer');
+        $test = $input->getOption('test');
 
          // Modules Dependencies, re-factor and share with other commands
         $dependencies = $this->validator->validateModuleDependencies($input->getOption('dependencies'));
@@ -212,7 +219,8 @@ class ModuleCommand extends Command
             $moduleFile,
             $featuresBundle,
             $composer,
-            $dependencies
+            $dependencies,
+            $test
         );
     }
 
@@ -268,7 +276,7 @@ class ModuleCommand extends Command
 
         try {
             $module = $input->getOption('module') ?
-              $this->validateModuleName(
+              $this->validator->validateModuleName(
                   $input->getOption('module')
               ) : null;
         } catch (\Exception $error) {
@@ -290,7 +298,7 @@ class ModuleCommand extends Command
 
         try {
             $machineName = $input->getOption('machine-name') ?
-              $this->validateModule(
+              $this->validate->validateModule(
                   $input->getOption('machine-name')
               ) : null;
         } catch (\Exception $error) {
@@ -416,6 +424,15 @@ class ModuleCommand extends Command
                 );
             }
             $input->setOption('dependencies', $dependencies);
+        }
+
+        $test = $input->getOption('test');
+        if (!$test) {
+            $test = $io->confirm(
+                $this->trans('commands.generate.module.questions.test'),
+                true
+            );
+            $input->setOption('test', $test);
         }
     }
 

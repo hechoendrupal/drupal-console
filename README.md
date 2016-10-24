@@ -6,8 +6,10 @@
   - [Required PHP version](#required-php-version)
   - [Drupal Console documentation](#documentation)
   - [Download as new dependency](#download-as-new-dependency)
+  - [Fix download the latest version](#fix-download-the-latest-version)
   - [Download using DrupalComposer](#download-using-drupalcomposer)
-  - [Running Drupal Console](#running-drupal-console)
+  - [Install Drupal Console Launcher](#install-drupal-console-launcher)
+  - [Run Drupal Console](#running-drupal-console)
   - [Supporting organizations](#supporting-organizations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -38,7 +40,7 @@ More information about using this project at the [official documentation](http:/
 ## Required PHP Version
 PHP 5.5.9 or higher is required to use the Drupal Console application.
 
-## Downloading as new dependency
+## Download as new dependency
 ```
 # Change directory to Drupal site
 cd /path/to/drupal8.dev
@@ -50,7 +52,16 @@ composer require drupal/console:~1.0 \
 --sort-packages
 ```
 
-### Downloading using DrupalComposer
+## Fix download the latest version
+
+Drupal 8 include some outdated libraries of Symfony 2.7.x, as result you get an old release of Drupal Console.
+
+To fix that, execute the following command and you will get the latest release of Drupal Console.
+```
+composer update drupal/console --with-dependencies
+```
+
+## Download using DrupalComposer
 ```
 composer create-project \
 drupal-composer/drupal-project:8.x-dev \
@@ -60,7 +71,7 @@ drupal8.dev \
 --no-interaction
 ```
 
-## Installing Drupal Console Launcher
+## Install Drupal Console Launcher
 ```
 # Run this in your terminal to get the latest version:
 curl https://drupalconsole.com/installer -L -o drupal.phar
@@ -81,14 +92,14 @@ drupal init --override
 drupal check
 ```
 
-## Running Drupal Console
+## Run Drupal Console
 We highly recommend you to install the global executable, but if is not installed, then you can run DrupalConsole by:  
 
 Using default Drupal + DrupalConsole
 ```
 vendor/bin/drupal
 ```
-Using default Drupal + DrupalComposer
+Using DrupalComposer
 Change directory `web`, `docroot` or any other.
 ```
 ../vendor/bin/drupal

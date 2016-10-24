@@ -22,6 +22,8 @@ class EntityContentGeneratorTest extends GeneratorTest
      * @param $entity_class
      * @param $label
      * @param $base_path
+     * @param $is_translatable
+     * @param $revisionable
      *
      * @dataProvider commandData
      */
@@ -31,7 +33,8 @@ class EntityContentGeneratorTest extends GeneratorTest
         $entity_class,
         $label,
         $base_path,
-        $is_translatable
+        $is_translatable,
+        $revisionable
     ) {
         $generator = new EntityContentGenerator();
         $this->getRenderHelper()->setSkeletonDirs($this->getSkeletonDirs());
@@ -44,7 +47,9 @@ class EntityContentGeneratorTest extends GeneratorTest
             $entity_class,
             $label,
             $base_path,
-            $is_translatable
+            $is_translatable,
+            null,
+            $revisionable
         );
 
         $files = [
@@ -58,9 +63,15 @@ class EntityContentGeneratorTest extends GeneratorTest
           $generator->getSite()->getSourcePath($module).'/'.$entity_class.'AccessControlHandler.php',
           $generator->getSite()->getSourcePath($module).'/'.$entity_class.'HtmlRouteProvider.php',
           $generator->getSite()->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
+          $generator->getSite()->getSourcePath($module).'/'.$entity_class.'Storage.php',
+          $generator->getSite()->getSourcePath($module).'/'.$entity_class.'StorageInterface.php',
           $generator->getSite()->getFormPath($module).'/'.$entity_class.'SettingsForm.php',
           $generator->getSite()->getFormPath($module).'/'.$entity_class.'Form.php',
           $generator->getSite()->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
+          $generator->getSite()->getFormPath($module).'/'.$entity_class.'RevisionDeleteForm.php',
+          $generator->getSite()->getFormPath($module).'/'.$entity_class.'RevisionRevertTranslationForm.php',
+          $generator->getSite()->getFormPath($module).'/'.$entity_class.'RevisionRevertForm.php',
+          $generator->getSite()->getControllerPath($module).'/'.$entity_class.'Controller.php',
           $generator->getSite()->getModulePath($module).'/'.$entity_name.'.page.inc',
           $generator->getSite()->getTemplatePath($module).'/'.$entity_name.'.html.twig',
         ];

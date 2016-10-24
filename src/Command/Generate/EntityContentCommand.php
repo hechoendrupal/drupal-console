@@ -10,10 +10,7 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityContentGenerator;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\ChainQueue;
@@ -22,14 +19,14 @@ use Drupal\Console\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
-    use CommandTrait;
-
     /**
      * @var ChainQueue
      */
     protected $chainQueue;
 
-    /** @var EntityContentGenerator  */
+    /**
+     * @var EntityContentGenerator
+     */
     protected $generator;
 
     /**
@@ -37,14 +34,15 @@ class EntityContentCommand extends EntityCommand
      */
     protected $stringConverter;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * @var Validator
      */
     protected $validator;
-
 
     /**
      * EntityContentCommand constructor.
@@ -92,6 +90,13 @@ class EntityContentCommand extends EntityCommand
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.is-translatable')
         );
+
+        $this->addOption(
+            'revisionable',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.revisionable')
+        );
     }
 
     /**
@@ -118,6 +123,13 @@ class EntityContentCommand extends EntityCommand
             true
         );
         $input->setOption('is-translatable', $is_translatable);
+
+        // --revisionable option
+        $revisionable = $io->confirm(
+            $this->trans('commands.generate.entity.content.questions.revisionable'),
+            true
+        );
+        $input->setOption('revisionable', $revisionable);
     }
 
     /**
@@ -134,6 +146,7 @@ class EntityContentCommand extends EntityCommand
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
         $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
         $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
+        $revisionable = $input->hasOption('revisionable') ? $input->getOption('revisionable') : false;
 
         $io = new DrupalStyle($input, $output);
         $generator = $this->generator;
@@ -142,7 +155,7 @@ class EntityContentCommand extends EntityCommand
         //@TODO:
         //$generator->setLearning($learning);
 
-        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name);
+        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name, $revisionable);
 
         if ($has_bundles) {
             $this->chainQueue->addCommand(

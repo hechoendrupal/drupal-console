@@ -10,23 +10,21 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Generate\EntityCommand;
 use Drupal\Console\Generator\EntityConfigGenerator;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Style\DrupalStyle;
 
 class EntityConfigCommand extends EntityCommand
 {
-    use CommandTrait;
-
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var EntityConfigGenerator  */
+    /**
+ * @var EntityConfigGenerator  
+*/
     protected $generator;
 
     /**
@@ -38,7 +36,6 @@ class EntityConfigCommand extends EntityCommand
      * @var StringConverter
      */
     protected $stringConverter;
-
 
     /**
      * EntityConfigCommand constructor.

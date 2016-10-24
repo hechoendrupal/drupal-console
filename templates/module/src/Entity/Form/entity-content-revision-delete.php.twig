@@ -1,0 +1,131 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Form\{{ entity_class }}RevisionDeleteForm.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Form;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Form\ConfirmFormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a form for deleting a {{ label }} revision.
+ *
+ * @ingroup {{module}}
+ */
+class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %}
+{% block class_methods %}
+
+  /**
+   * The {{ label }} revision.
+   *
+   * @var \Drupal\{{module}}\Entity\{{ entity_class }}Interface
+   */
+  protected $revision;
+
+  /**
+   * The {{ label }} storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected ${{ entity_class }}Storage;
+
+  /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $connection;
+
+  /**
+   * Constructs a new {{ entity_class }}RevisionDeleteForm.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
+   *   The entity storage.
+   * @param \Drupal\Core\Database\Connection $connection
+   *   The database connection.
+   */
+  public function __construct(EntityStorageInterface $entity_storage, Connection $connection) {
+    $this->{{ entity_class }}Storage = $entity_storage;
+    $this->connection = $connection;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $entity_manager = $container->get('entity.manager');
+    return new static(
+      $entity_manager->getStorage('{{ entity_name }}'),
+      $container->get('database')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return '{{ entity_name }}_revision_delete_confirm';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getQuestion() {
+    return t('Are you sure you want to delete the revision from %revision-date?', array('%revision-date' => format_date($this->revision->getRevisionCreationTime())));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCancelUrl() {
+    return new Url('entity.{{ entity_name }}.version_history', array('{{ entity_name }}' => $this->revision->id()));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getConfirmText() {
+    return t('Delete');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state, ${{ entity_name }}_revision = NULL) {
+    $this->revision = $this->{{ entity_class }}Storage->loadRevision(${{ entity_name }}_revision);
+    $form = parent::buildForm($form, $form_state);
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $this->{{ entity_class }}Storage->deleteRevision($this->revision->getRevisionId());
+
+    $this->logger('content')->notice('{{ label }}: deleted %title revision %revision.', array('%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()));
+    drupal_set_message(t('Revision from %revision-date of {{ label }} %title has been deleted.', array('%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label())));
+    $form_state->setRedirect(
+      'entity.{{ entity_name }}.canonical',
+       array('{{ entity_name }}' => $this->revision->id())
+    );
+    if ($this->connection->query('SELECT COUNT(DISTINCT vid) FROM {{ '{'~entity_name~'_field_revision}' }} WHERE id = :id', array(':id' => $this->revision->id()))->fetchField() > 1) {
+      $form_state->setRedirect(
+        'entity.{{ entity_name }}.version_history',
+         array('{{ entity_name }}' => $this->revision->id())
+      );
+    }
+  }
+{% endblock %}

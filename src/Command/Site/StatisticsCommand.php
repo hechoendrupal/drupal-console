@@ -15,6 +15,7 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Extension\Manager;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Class StatisticsCommand
@@ -40,19 +41,27 @@ class StatisticsCommand extends Command
     protected $extensionManager;
 
     /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
      * StatisticsCommand constructor.
-     * @param DrupalApi         $drupalApi
-     * @param QueryFactory $entityQuery;
-     * @param Manager          $extensionManager
+     * @param DrupalApi                 $drupalApi
+     * @param QueryFactory              $entityQuery;
+     * @param Manager                   $extensionManager
+     * @param ModuleHandlerInterface    $moduleHandler
      */
     public function __construct(
         DrupalApi $drupalApi,
         QueryFactory $entityQuery,
-        Manager $extensionManager
+        Manager $extensionManager,
+        ModuleHandlerInterface $moduleHandler
     ) {
         $this->drupalApi = $drupalApi;
         $this->entityQuery = $entityQuery;
         $this->extensionManager = $extensionManager;
+        $this->moduleHandler = $moduleHandler;
         parent::__construct();
     }
 
@@ -115,6 +124,10 @@ class StatisticsCommand extends Command
      */
     private function getCommentCount()
     {
+        if (!$this->moduleHandler->moduleExists('comment')) {
+            return 0;
+        }
+        
         $entityQuery = $this->entityQuery->get('comment')->count();
         $comments = $entityQuery->execute();
 

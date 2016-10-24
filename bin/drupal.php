@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\Console\Utils\ArgvInputReader;
 use Drupal\Console\Application;
 use Drupal\Console\Bootstrap\Drupal;
 
@@ -7,15 +8,19 @@ set_time_limit(0);
 $appRoot = getcwd() . '/';
 $root = $appRoot;
 
-$autoLoadFile = $appRoot.'/autoload.php';
+$globalAutoLoadFile = $appRoot.'/autoload.php';
+$projectAutoLoadFile = $appRoot.'/vendor/autoload.php';
 
-if (file_exists($autoLoadFile)) {
-    $autoload = include_once $autoLoadFile;
+if (file_exists($globalAutoLoadFile)) {
+    $autoload = include_once $globalAutoLoadFile;
+} elseif (file_exists($projectAutoLoadFile)) {
+    $autoload = include_once $projectAutoLoadFile;
 } else {
     echo PHP_EOL .
         ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL.
         ' Try changing to a Drupal site directory and download it by executing:'. PHP_EOL .
         ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL .
+        ' composer update drupal/console --with-dependencies'. PHP_EOL .
         PHP_EOL;
 
     exit(1);
@@ -34,6 +39,18 @@ if (!file_exists($root.'composer.json')) {
     exit(1);
 }
 
+$argvInputReader = new ArgvInputReader();
+if ($root === $appRoot && $argvInputReader->get('root')) {
+    $appRoot = $argvInputReader->get('root');
+    if (is_dir($appRoot)) {
+        chdir($appRoot);
+    }
+    else {
+        $appRoot = $root;
+    }
+}
+$argvInputReader->setOptionsAsArgv();
+
 $drupal = new Drupal($autoload, $root, $appRoot);
 $container = $drupal->boot();
 
@@ -44,6 +61,16 @@ if (!$container) {
 
     exit(1);
 }
+
+$configuration = $container->get('console.configuration_manager')
+    ->getConfiguration();
+
+$translator = $container->get('console.translator_manager');
+
+if ($options = $configuration->get('application.options') ?: []) {
+    $argvInputReader->setOptionsFromConfiguration($options);
+}
+$argvInputReader->setOptionsAsArgv();
 
 $application = new Application($container);
 $application->setDefaultCommand('about');
