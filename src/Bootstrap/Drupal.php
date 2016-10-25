@@ -4,6 +4,7 @@ namespace Drupal\Console\Bootstrap;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Console\Utils\ArgvInputReader;
 
 class Drupal
 {
@@ -31,8 +32,20 @@ class Drupal
         }
 
         try {
-            $request = Request::createFromGlobals();
-            $drupalKernel = DrupalKernel::createFromRequest(
+            $argvInputReader = new ArgvInputReader();
+            if ($argvInputReader->get('uri')) {
+              $uri = $argvInputReader->get('uri');
+              if (substr($uri, -1) != '/') {
+                $uri .= '/';
+              }
+              $uri .= 'index.php';
+              $request = Request::create($uri, 'GET', array()  , array(), array(), array('SCRIPT_NAME' => $this->appRoot . '/index.php'));
+            }
+            else {
+              $request = Request::createFromGlobals();
+            }
+
+            $drupalKernel = DrupalKernel::createFromRequest  (
                 $request,
                 $this->autoload,
                 'prod',
