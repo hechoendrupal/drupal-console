@@ -17,10 +17,10 @@ if (strpos(__DIR__, '/vendor/') !== FALSE) {
 }
 else {
   echo PHP_EOL .
-    ' Unable to discover composer autoload file.'.PHP_EOL.
-    ' Try changing to a Drupal site directory and download it by executing:'. PHP_EOL .
-    ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL .
-    ' composer update drupal/console --with-dependencies'. PHP_EOL .
+    ' Unable to discover composer autoload file.' . PHP_EOL .
+    ' Try changing to a Drupal site directory and download it by executing:' . PHP_EOL .
+    ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader' . PHP_EOL .
+    ' composer update drupal/console --with-dependencies' . PHP_EOL .
     PHP_EOL;
 
   exit(1);
@@ -39,17 +39,17 @@ if ($argvInputReader->get('root')) {
 
 $root = $appRoot;
 
-if (!file_exists($appRoot.'composer.json')) {
-    $root = realpath($appRoot . '../') . '/';
+if (!file_exists($appRoot . 'composer.json')) {
+  $root = realpath($appRoot . '../') . '/';
 }
 
-if (!file_exists($root.'composer.json')) {
-    echo ' No composer.json file found at:' . PHP_EOL .
-         ' '. $root . PHP_EOL .
-         ' you should try run this command,' . PHP_EOL .
-         ' from the Drupal root directory.' . PHP_EOL;
+if (!file_exists($root . 'composer.json')) {
+  echo ' No composer.json file found at:' . PHP_EOL .
+    ' ' . $root . PHP_EOL .
+    ' you should try run this command,' . PHP_EOL .
+    ' from the Drupal root directory.' . PHP_EOL;
 
-    exit(1);
+  exit(1);
 }
 
 $argvInputReader->setOptionsAsArgv();
@@ -58,20 +58,20 @@ $drupal = new Drupal($autoload, $root, $appRoot);
 $container = $drupal->boot();
 
 if (!$container) {
-    echo ' In order to list all of the available commands you should try: ' . PHP_EOL .
-         ' Copy config files: drupal init ' . PHP_EOL .
-         ' Install Drupal site: drupal site:install ' . PHP_EOL;
+  echo ' In order to list all of the available commands you should try: ' . PHP_EOL .
+       ' Copy config files: drupal init ' . PHP_EOL .
+       ' Install Drupal site: drupal site:install ' . PHP_EOL;
 
-    exit(1);
+  exit(1);
 }
 
 $configuration = $container->get('console.configuration_manager')
-    ->getConfiguration();
+  ->getConfiguration();
 
 $translator = $container->get('console.translator_manager');
 
 if ($options = $configuration->get('application.options') ?: []) {
-    $argvInputReader->setOptionsFromConfiguration($options);
+  $argvInputReader->setOptionsFromConfiguration($options);
 }
 $argvInputReader->setOptionsAsArgv();
 
