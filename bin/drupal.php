@@ -15,7 +15,8 @@ if (strpos(__DIR__, '/vendor/') !== FALSE) {
     $autoload = include_once $projectAutoLoadFile;
   }
 }
-else {
+
+if (!$autoload) {
   echo PHP_EOL .
     ' Unable to discover composer autoload file.' . PHP_EOL .
     ' Try changing to a Drupal site directory and download it by executing:' . PHP_EOL .
