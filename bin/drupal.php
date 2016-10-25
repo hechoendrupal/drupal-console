@@ -5,26 +5,39 @@ use Drupal\Console\Application;
 use Drupal\Console\Bootstrap\Drupal;
 
 set_time_limit(0);
-$appRoot = getcwd() . '/';
-$root = $appRoot;
 
-$globalAutoLoadFile = $appRoot.'/autoload.php';
-$projectAutoLoadFile = $appRoot.'/vendor/autoload.php';
+$autoload = FALSE;
 
-if (file_exists($globalAutoLoadFile)) {
-    $autoload = include_once $globalAutoLoadFile;
-} elseif (file_exists($projectAutoLoadFile)) {
+if (strpos(__DIR__, '/vendor/') !== FALSE) {
+  $composerPath = substr(__DIR__, 0, strpos(__DIR__, '/vendor/'));
+  $projectAutoLoadFile = $composerPath . '/vendor/autoload.php';
+  if (file_exists($projectAutoLoadFile)) {
     $autoload = include_once $projectAutoLoadFile;
-} else {
-    echo PHP_EOL .
-        ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL.
-        ' Try changing to a Drupal site directory and download it by executing:'. PHP_EOL .
-        ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL .
-        ' composer update drupal/console --with-dependencies'. PHP_EOL .
-        PHP_EOL;
-
-    exit(1);
+  }
 }
+else {
+  echo PHP_EOL .
+    ' Unable to discover composer autoload file.'.PHP_EOL.
+    ' Try changing to a Drupal site directory and download it by executing:'. PHP_EOL .
+    ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL .
+    ' composer update drupal/console --with-dependencies'. PHP_EOL .
+    PHP_EOL;
+
+  exit(1);
+}
+
+$argvInputReader = new ArgvInputReader();
+if ($argvInputReader->get('root')) {
+  $appRoot = $argvInputReader->get('root');
+  if (is_dir($appRoot)) {
+    chdir($appRoot);
+  }
+  if (substr($appRoot, -1) != '/') {
+    $appRoot .= '/';
+  }
+}
+
+$root = $appRoot;
 
 if (!file_exists($appRoot.'composer.json')) {
     $root = realpath($appRoot . '../') . '/';
@@ -39,16 +52,6 @@ if (!file_exists($root.'composer.json')) {
     exit(1);
 }
 
-$argvInputReader = new ArgvInputReader();
-if ($root === $appRoot && $argvInputReader->get('root')) {
-    $appRoot = $argvInputReader->get('root');
-    if (is_dir($appRoot)) {
-        chdir($appRoot);
-    }
-    else {
-        $appRoot = $root;
-    }
-}
 $argvInputReader->setOptionsAsArgv();
 
 $drupal = new Drupal($autoload, $root, $appRoot);
