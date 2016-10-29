@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Database;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
@@ -15,11 +16,27 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\ShellProcess;
 
 class ClientCommand extends Command
 {
     use ConnectTrait;
     use CommandTrait;
+
+    /** @var ShellProcess  */
+    protected $shellProcess;
+
+
+    /**
+     * ClientCommand constructor.
+     * @param ShellProcess $shellProcess
+     */
+    public function __construct(
+        ShellProcess $shellProcess
+    ) {
+        $this->shellProcess = $shellProcess;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -35,6 +52,12 @@ class ClientCommand extends Command
                 $this->trans('commands.database.client.arguments.database'),
                 'default'
             )
+            ->addOption(
+								'query',
+								null,
+								InputOption::VALUE_OPTIONAL,
+								$this->trans('commands.database.client.arguments.query')
+						)
             ->setHelp($this->trans('commands.database.client.help'));
     }
 
@@ -46,6 +69,7 @@ class ClientCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $database = $input->getArgument('database');
+        $query    = $input->getOption('query');
         $learning = $input->getOption('learning');
 
         $databaseConnection = $this->resolveConnection($io, $database);
@@ -69,15 +93,28 @@ class ClientCommand extends Command
             );
         }
 
-        $processBuilder = new ProcessBuilder([]);
-        $processBuilder->setArguments(explode(' ', $connection));
-        $process = $processBuilder->getProcess();
-        $process->setTty('true');
-        $process->run();
+				if (!$query) {
+					$processBuilder = new ProcessBuilder([]);
+					$processBuilder->setArguments(explode(' ', $connection));
+					$process = $processBuilder->getProcess();
+					$process->setTty('true');
+					$process->run();
 
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-        }
+					if (!$process->isSuccessful()) {
+						throw new \RuntimeException($process->getErrorOutput());
+					}
+
+				}else{
+					$shellProcess = $this->shellProcess;
+					if ($shellProcess->exec($command)) {
+							$io->info(
+									sprintf(
+											'Query "%s" executed.',
+                      $query
+                  )
+              );
+          }
+				}
 
         return 0;
     }
