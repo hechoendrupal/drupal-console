@@ -40,7 +40,7 @@ class ClientCommand extends Command
                 'query',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.client.arguments.query')
+                $this->trans('commands.database.client.options.query')
             )
             ->setHelp($this->trans('commands.database.client.help'));
     }
