@@ -9,6 +9,7 @@ namespace Drupal\Console\Command\Database;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Command\Command;
@@ -35,6 +36,12 @@ class ClientCommand extends Command
                 $this->trans('commands.database.client.arguments.database'),
                 'default'
             )
+            ->addOption(
+                'query',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.form.options.query')
+            )
             ->setHelp($this->trans('commands.database.client.help'));
     }
 
@@ -47,18 +54,19 @@ class ClientCommand extends Command
 
         $database = $input->getArgument('database');
         $learning = $input->getOption('learning');
+        $query    = $input->getOption('query');
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
-        $connection = sprintf(
-            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
-            $databaseConnection['driver'],
-            $databaseConnection['database'],
-            $databaseConnection['username'],
-            $databaseConnection['password'],
-            $databaseConnection['host'],
-            $databaseConnection['port']
-        );
+				$connection = sprintf(
+						'%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+						$databaseConnection['driver'],
+						$databaseConnection['database'],
+						$databaseConnection['username'],
+						$databaseConnection['password'],
+						$databaseConnection['host'],
+						$databaseConnection['port']
+				);
 
         if ($learning) {
             $io->commentBlock(
@@ -69,8 +77,13 @@ class ClientCommand extends Command
             );
         }
 
+				$args = explode(' ', $connection);
+				if ($query) {
+						$args[] = "--execute=$query";
+				}
+
         $processBuilder = new ProcessBuilder([]);
-        $processBuilder->setArguments(explode(' ', $connection));
+        $processBuilder->setArguments($args);
         $process = $processBuilder->getProcess();
         $process->setTty('true');
         $process->run();
