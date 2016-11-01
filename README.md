@@ -83,15 +83,6 @@ You can ask for support at Drupal Console gitter chat room [http://bit.ly/consol
 ## Getting The Project To Contribute
 For information about how to run this project for development follow instructions at [setup instructions](https://gist.github.com/jmolivas/97bbd07f328217be3564a434c5bd2618).
 
-An optional way you can execute this:
-```
-composer require --dev drupal/console:dev-master
-```
-You might have to execute too:
-```
-composer require symfony/dom-crawler:2.8 symfony:debug:2.8
-```
-
 ## Enabling Autocomplete
 ```
 # You can enable autocomplete by executing
@@ -108,6 +99,15 @@ source "$HOME/.console/console.rc" 2>/dev/null
 # Fish: Create a symbolic link
 ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
+
+## FAQ
+
+An optional quickest way to start to contribute is execute:
+```
+composer require --dev drupal/console:dev-master
+```
+and inside of the vendor add your remote repository.
+
 
 ## Supporting Organizations
 
