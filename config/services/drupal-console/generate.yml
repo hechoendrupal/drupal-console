@@ -31,7 +31,7 @@ services:
        - { name: drupal.command }
   console.generate_form:
     class: Drupal\Console\Command\Generate\FormBaseCommand
-    arguments: ['@console.extension_manager', '@console.form_generator', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.form_generator', '@console.chain_queue', '@console.string_converter', '@plugin.manager.element_info', '@router.route_provider']
     tags:
        - { name: drupal.command }
   console.generate_form_alter:
