@@ -77,7 +77,7 @@ class ConfigFormBaseCommand extends FormCommand
         $this->elementInfoManager = $elementInfoManager;
         $this->appRoot = $appRoot;
         $this->chainQueue = $chainQueue;
-        parent::__construct();
+        parent::__construct($extensionManager, $generator, $chainQueue, $stringConverter, $elementInfoManager, $routeProvider);
     }
 
     protected function configure()
