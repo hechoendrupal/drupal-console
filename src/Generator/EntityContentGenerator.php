@@ -180,32 +180,32 @@ class EntityContentGenerator extends Generator
         if ($revisionable) {
           $this->renderFile(
             'module/src/Entity/Form/entity-content-revision-delete.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$entity_class.'RevisionDeleteForm.php',
+            $this->site->getFormPath($module).'/'.$entity_class.'RevisionDeleteForm.php',
             $parameters
           );
           $this->renderFile(
             'module/src/Entity/Form/entity-content-revision-revert-translation.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$entity_class.'RevisionRevertTranslationForm.php',
+            $this->site->getFormPath($module).'/'.$entity_class.'RevisionRevertTranslationForm.php',
             $parameters
           );
           $this->renderFile(
             'module/src/Entity/Form/entity-content-revision-revert.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$entity_class.'RevisionRevertForm.php',
+            $this->site->getFormPath($module).'/'.$entity_class.'RevisionRevertForm.php',
             $parameters
           );
           $this->renderFile(
             'module/src/entity-storage.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'Storage.php',
+            $this->site->getSourcePath($module).'/'.$entity_class.'Storage.php',
             $parameters
           );
           $this->renderFile(
             'module/src/interface-entity-storage.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'StorageInterface.php',
+            $this->site->getSourcePath($module).'/'.$entity_class.'StorageInterface.php',
             $parameters
           );
           $this->renderFile(
             'module/src/Controller/entity-controller.php.twig',
-            $this->getSite()->getControllerPath($module).'/'.$entity_class.'Controller.php',
+            $this->site->getControllerPath($module).'/'.$entity_class.'Controller.php',
             $parameters
           );
         }
