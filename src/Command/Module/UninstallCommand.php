@@ -173,7 +173,7 @@ class UninstallCommand extends Command
                 $io->error(
                     sprintf(
                         $this->trans('commands.module.uninstall.messages.dependents'),
-                        implode(', ', $module),
+                        implode('", "', $moduleList),
                         implode(', ', $dependencies)
                     )
                 );

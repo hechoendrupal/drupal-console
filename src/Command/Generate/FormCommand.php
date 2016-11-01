@@ -16,18 +16,48 @@ use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
 
 abstract class FormCommand extends Command
 {
+    use CommandTrait;
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;
     use MenuTrait;
-    use ContainerAwareCommandTrait;
 
     private $formType;
     private $commandName;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var FormGenerator  */
+    protected $generator;
+
+    /** @var ChainQueue */
+    protected $chainQueue;
+
+
+    /**
+     * FormCommand constructor.
+     * @param Manager                $extensionManager
+     * @param FormGenerator          $generator
+     * @param ChainQueue             $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        FormGenerator $generator,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function setFormType($formType)
     {
