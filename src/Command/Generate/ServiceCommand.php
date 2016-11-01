@@ -103,6 +103,12 @@ class ServiceCommand extends Command
                 $this->trans('commands.common.service.options.interface')
             )
             ->addOption(
+                'interface_name',
+                false,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.common.service.options.interface_name')
+            )
+            ->addOption(
                 'services',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
@@ -132,6 +138,7 @@ class ServiceCommand extends Command
         $name = $input->getOption('name');
         $class = $input->getOption('class');
         $interface = $input->getOption('interface');
+        $interface_name = $input->getOption('interface_name');
         $services = $input->getOption('services');
         $path_service = $input->getOption('path_service');
 
@@ -148,7 +155,7 @@ class ServiceCommand extends Command
 
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
-        $this->generator->generate($module, $name, $class, $interface, $build_services, $path_service);
+        $this->generator->generate($module, $name, $class, $interface, $interface_name, $build_services, $path_service);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
@@ -196,6 +203,15 @@ class ServiceCommand extends Command
                 true
             );
             $input->setOption('interface', $interface);
+        }
+
+        // --interface_name option
+        $interface_name = $input->getOption('interface_name');
+        if ($interface && !$interface_name) {
+            $interface_name = $io->askEmpty(
+                $this->trans('commands.generate.service.questions.interface_name')
+            );
+            $input->setOption('interface_name', $interface_name);
         }
 
         // --services option
