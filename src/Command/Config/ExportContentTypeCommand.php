@@ -18,6 +18,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Extension\Manager;
 
 class ExportContentTypeCommand extends Command
 {
@@ -30,19 +31,26 @@ class ExportContentTypeCommand extends Command
 
     /** @var CachedStorage  */
     protected $configStorage;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
     protected $configExport;
 
     /**
      * ExportContentTypeCommand constructor.
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param CachedStorage     $configStorage
+     * @param Manager           $extensionManager
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
-        CachedStorage $configStorage
+        CachedStorage $configStorage,
+        Manager $extensionManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
@@ -87,8 +95,7 @@ class ExportContentTypeCommand extends Command
         // --content-type argument
         $contentType = $input->getArgument('content-type');
         if (!$contentType) {
-            $entityTypeManager = $this->getDrupalService('entity_type.manager');
-            $bundles_entities = $entityTypeManager->getStorage('node_type')->loadMultiple();
+            $bundles_entities = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
             $bundles = array();
             foreach ($bundles_entities as $entity) {
                 $bundles[$entity->id()] = $entity->label();
