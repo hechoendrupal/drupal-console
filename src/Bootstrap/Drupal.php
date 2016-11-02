@@ -96,8 +96,7 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
-            $this->loggerOutput->writeln('Error ' . $e->getCode() . ':');
-            $this->loggerOutput->writeln($e->getMessage());
+            $this->loggerOutput->writeln('Error ' . $e->getCode() . ': ' . $e->getMessage());
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             return $drupal->boot();
         }
