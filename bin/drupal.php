@@ -47,21 +47,28 @@ if (!file_exists($root.'composer.json')) {
 $today = date('Y-m-d');
 $loggerFile = $root.'console/log/' . $today . '.log';
 $handle = null;
-if (!file_exists($loggerFile)){
+
+if (!is_file($loggerFile)) {
     try {
-        mkdir(dirname($loggerFile), 0777, TRUE);
+        $directoryName = dirname($loggerFile);
+        if (!is_dir($directoryName )) {
+            mkdir($directoryName, 0777, TRUE);
+        }
+        touch($loggerFile);
     } catch (\Exception $e) {
         $loggerFile = null;
         $loggerOutput = new ConsoleOutput();
     }
 }
-if ($loggerFile) {
+if ($loggerFile && is_writable($loggerFile)) {
     try {
         $handle = fopen($loggerFile, 'a+');
         $loggerOutput = new StreamOutput($handle);
     } catch (\Exception $e) {
         $loggerOutput = new ConsoleOutput();
     }
+} else {
+    $loggerOutput = new ConsoleOutput();
 }
 /* relocate to a class */
 
