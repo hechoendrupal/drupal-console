@@ -1,6 +1,6 @@
 {% if not file_exists %}
 services:
 {% endif %}
-  plugin.manager.{{ machine_name | lower }}.processor:
+  plugin.manager.{{ machine_name | lower }}:
     class: Drupal\{{ module }}\Plugin\{{ class_name }}Manager
     parent: default_plugin_manager
