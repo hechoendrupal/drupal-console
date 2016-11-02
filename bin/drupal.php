@@ -1,9 +1,12 @@
 <?php
 
+use Symfony\Component\Console\Output\StreamOutput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Utils\ArgvInputReader;
 use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Application;
+
 
 set_time_limit(0);
 $appRoot = getcwd() . '/';
@@ -40,8 +43,29 @@ if (!file_exists($root.'composer.json')) {
     exit(1);
 }
 
-$argvInputReader = new ArgvInputReader();
+/* relocate to a class */
+$today = date('Y-m-d');
+$loggerFile = $root.'console/log/' . $today . '.log';
+$handle = null;
+if (!file_exists($loggerFile)){
+    try {
+        mkdir(dirname($loggerFile), 0777, TRUE);
+    } catch (\Exception $e) {
+        $loggerFile = null;
+        $loggerOutput = new ConsoleOutput();
+    }
+}
+if ($loggerFile) {
+    try {
+        $handle = fopen($loggerFile, 'a+');
+        $loggerOutput = new StreamOutput($handle);
+    } catch (\Exception $e) {
+        $loggerOutput = new ConsoleOutput();
+    }
+}
+/* relocate to a class */
 
+$argvInputReader = new ArgvInputReader();
 $configurationManager = new ConfigurationManager();
 $configuration = $configurationManager->loadConfiguration($root)
     ->getConfiguration();
@@ -60,8 +84,14 @@ if ($root === $appRoot && $argvInputReader->get('root')) {
     }
 }
 
-$drupal = new Drupal($autoload, $root, $appRoot);
+$drupal = new Drupal($autoload, $root, $appRoot, $loggerOutput);
 $container = $drupal->boot();
+
+/* relocate to a class */
+if ($handle) {
+    fclose($handle);
+}
+/* relocate to a class */
 
 if (!$container) {
     echo ' In order to list all of the available commands you should try: ' . PHP_EOL .
