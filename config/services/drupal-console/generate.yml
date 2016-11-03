@@ -29,6 +29,11 @@ services:
     arguments: ['@console.help_generator', '@console.site', '@console.extension_manager', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_form:
+    class: Drupal\Console\Command\Generate\FormBaseCommand
+    arguments: ['@console.extension_manager', '@console.form_generator', '@console.chain_queue', '@console.string_converter', '@plugin.manager.element_info', '@router.route_provider']
+    tags:
+       - { name: drupal.command }
   console.generate_form_alter:
     class: Drupal\Console\Command\Generate\FormAlterCommand
     arguments: ['@console.extension_manager', '@console.form_alter_generator', '@console.string_converter', '@module_handler', '@plugin.manager.element_info', '@?profiler', '@app.root', '@console.chain_queue']

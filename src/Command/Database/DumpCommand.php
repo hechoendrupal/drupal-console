@@ -63,6 +63,12 @@ class DumpCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.dump.option.file')
             )
+            ->addOption(
+                'gz',
+                false,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.dump.option.gz')
+            )
             ->setHelp($this->trans('commands.database.dump.help'));
     }
 
@@ -76,6 +82,7 @@ class DumpCommand extends Command
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
         $learning = $input->getOption('learning');
+        $gz = $input->getOption('gz');
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
@@ -118,11 +125,24 @@ class DumpCommand extends Command
         }
 
         if ($this->shellProcess->exec($command, $this->appRoot)) {
+						$resultFile = $file;
+						if ($gz) {
+							$resultFile = $file . ".gz";
+							file_put_contents(
+									$resultFile,
+									gzencode(
+											file_get_contents(
+													$file)
+									)
+							);
+							unlink($file);
+						}
+
             $io->success(
                 sprintf(
                     '%s %s',
                     $this->trans('commands.database.dump.messages.success'),
-                    $file
+                    $resultFile
                 )
             );
         }

@@ -1,8 +1,12 @@
 <?php
 
+use Symfony\Component\Console\Output\StreamOutput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Utils\ArgvInputReader;
-use Drupal\Console\Application;
 use Drupal\Console\Bootstrap\Drupal;
+use Drupal\Console\Application;
+
 
 set_time_limit(0);
 
@@ -53,10 +57,62 @@ if (!file_exists($root . 'composer.json')) {
   exit(1);
 }
 
+/* relocate to a class */
+$today = date('Y-m-d');
+$loggerFile = $root.'console/log/' . $today . '.log';
+$handle = null;
+
+if (!is_file($loggerFile)) {
+    try {
+        $directoryName = dirname($loggerFile);
+        if (!is_dir($directoryName )) {
+            mkdir($directoryName, 0777, TRUE);
+        }
+        touch($loggerFile);
+    } catch (\Exception $e) {
+        $loggerFile = null;
+        $loggerOutput = new ConsoleOutput();
+    }
+}
+if ($loggerFile && is_writable($loggerFile)) {
+    try {
+        $handle = fopen($loggerFile, 'a+');
+        $loggerOutput = new StreamOutput($handle);
+    } catch (\Exception $e) {
+        $loggerOutput = new ConsoleOutput();
+    }
+} else {
+    $loggerOutput = new ConsoleOutput();
+}
+/* relocate to a class */
+
+$argvInputReader = new ArgvInputReader();
+$configurationManager = new ConfigurationManager();
+$configuration = $configurationManager->loadConfiguration($root)
+    ->getConfiguration();
+if ($options = $configuration->get('application.options') ?: []) {
+    $argvInputReader->setOptionsFromConfiguration($options);
+}
 $argvInputReader->setOptionsAsArgv();
 
-$drupal = new Drupal($autoload, $root, $appRoot);
+if ($root === $appRoot && $argvInputReader->get('root')) {
+    $appRoot = $argvInputReader->get('root');
+    if (is_dir($appRoot)) {
+        chdir($appRoot);
+    }
+    else {
+        $appRoot = $root;
+    }
+}
+
+$drupal = new Drupal($autoload, $root, $appRoot, $loggerOutput);
 $container = $drupal->boot();
+
+/* relocate to a class */
+if ($handle) {
+    fclose($handle);
+}
+/* relocate to a class */
 
 if (!$container) {
   echo ' In order to list all of the available commands you should try: ' . PHP_EOL .

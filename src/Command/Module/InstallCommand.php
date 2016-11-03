@@ -12,6 +12,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
@@ -142,7 +144,7 @@ class InstallCommand extends Command
         $composer = $input->getOption('composer');
 
         $this->site->loadLegacyFile('/core/includes/bootstrap.inc');
-        
+
         // check module's requirements
         $this->moduleRequirement($module);
 
@@ -153,8 +155,14 @@ class InstallCommand extends Command
                     $moduleItem
                 );
 
-                $shellProcess = $this->get('shell_process');
-                if ($shellProcess->exec($command)) {
+                $processBuilder = new ProcessBuilder([]);
+                $processBuilder->setWorkingDirectory($this->appRoot);
+								$processBuilder->setArguments(explode(" ", $command));
+								$process = $processBuilder->getProcess();
+								$process->setTty('true');
+								$process->run();
+
+								if ($process->isSuccessful()) {
                     $io->info(
                         sprintf(
                             'Module %s was downloaded with Composer.',
@@ -168,6 +176,7 @@ class InstallCommand extends Command
                             $moduleItem
                         )
                     );
+                    throw new \RuntimeException($process->getErrorOutput());
 
                     return 0;
                 }

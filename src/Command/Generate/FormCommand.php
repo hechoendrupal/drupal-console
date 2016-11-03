@@ -17,17 +17,74 @@ use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Core\Render\ElementInfoManager;
+use Drupal\Core\Routing\RouteProviderInterface;
 
 abstract class FormCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;
     use MenuTrait;
-    use ContainerAwareCommandTrait;
 
     private $formType;
     private $commandName;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var FormGenerator  */
+    protected $generator;
+
+    /** @var ChainQueue */
+    protected $chainQueue;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var ElementInfoManager
+     */
+    protected $elementInfoManager;
+
+    /**
+     * @var RouteProviderInterface
+     */
+    protected $routeProvider;
+
+
+    /**
+     * FormCommand constructor.
+     * @param Manager                $extensionManager
+     * @param FormGenerator          $generator
+     * @param ChainQueue             $chainQueue
+     * @param StringConverter        $stringConverter
+     * @param ElementInfoManager     $elementInfoManager
+     * @param RouteProviderInterface $routeProvider
+     */
+    public function __construct(
+        Manager $extensionManager,
+        FormGenerator $generator,
+        ChainQueue $chainQueue,
+        StringConverter $stringConverter,
+        ElementInfoManager $elementInfoManager,
+        RouteProviderInterface $routeProvider
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->chainQueue = $chainQueue;
+        $this->stringConverter = $stringConverter;
+        $this->elementInfoManager = $elementInfoManager;
+        $this->routeProvider = $routeProvider;
+        parent::__construct();
+    }
 
     protected function setFormType($formType)
     {
@@ -206,7 +263,7 @@ abstract class FormCommand extends Command
                 $form_path = sprintf(
                     '/%s/form/%s',
                     $module,
-                    $this->getStringHelper()->camelCaseToMachineName($this->stringConverter->removeSuffix($className))
+                    $this->stringConverter->camelCaseToMachineName($this->stringConverter->removeSuffix($className))
                 );
             }
             $path = $io->ask(

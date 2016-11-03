@@ -185,7 +185,11 @@ class DownloadCommand extends Command
                         return 1;
                     } else {
                         $version = $io->choice(
-                            $this->trans('commands.site.new.questions.composer-release'),
+                            sprintf(
+																$this->trans(
+																		'commands.site.new.questions.composer-release'),
+																		$module
+																),
                             $versions
                         );
                     }
