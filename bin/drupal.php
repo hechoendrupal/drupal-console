@@ -86,7 +86,6 @@ if ($loggerFile && is_writable($loggerFile)) {
 }
 /* relocate to a class */
 
-$argvInputReader = new ArgvInputReader();
 $configurationManager = new ConfigurationManager();
 $configuration = $configurationManager->loadConfiguration($root)
     ->getConfiguration();
