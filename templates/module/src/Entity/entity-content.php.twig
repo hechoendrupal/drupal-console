@@ -56,7 +56,9 @@ use Drupal\user\UserInterface;
  *     },
  *   },
  *   base_table = "{{ entity_name }}",
+{% if is_translatable %}
  *   data_table = "{{ entity_name }}_field_data",
+{% endif %}
 {% if revisionable %}
  *   revision_table = "{{ entity_name }}_revision",
  *   revision_data_table = "{{ entity_name }}_field_revision",
