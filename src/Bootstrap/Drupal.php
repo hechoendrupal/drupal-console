@@ -2,39 +2,42 @@
 
 namespace Drupal\Console\Bootstrap;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Utils\ArgvInputReader;
+use Drupal\Console\Utils\Logger;
 
 class Drupal
 {
     protected $autoload;
     protected $root;
     protected $appRoot;
-    protected $loggerOutput;
 
     /**
      * Drupal constructor.
      * @param $autoload
      * @param $root
      * @param $appRoot
-     * @param $loggerOutput
      */
-    public function __construct($autoload, $root, $appRoot, OutputInterface $loggerOutput)
+    public function __construct($autoload, $root, $appRoot)
     {
         $this->autoload = $autoload;
         $this->root = $root;
         $this->appRoot = $appRoot;
-        $this->loggerOutput = $loggerOutput;
     }
 
     public function boot()
     {
+        $logger = new Logger($this->root);
         if (!class_exists('Drupal\Core\DrupalKernel')) {
-            $this->loggerOutput->writeln('Class Drupal\Core\DrupalKernel not found.');
+            $logger->writeln('Class Drupal\Core\DrupalKernel not found.');
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
-            return $drupal->boot();
+            $container = $drupal->boot();
+            $container->set(
+                'console.logger',
+                $logger
+            );
+            return $container;
         }
 
         try {
@@ -74,6 +77,11 @@ class Drupal
 
             $container->set('console.root', $this->root);
 
+            $container->set(
+                'console.logger',
+                $logger
+            );
+
             AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
             $configuration = $container->get('console.configuration_manager')
@@ -96,9 +104,14 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
-            $this->loggerOutput->writeln('Error ' . $e->getCode() . ': ' . $e->getMessage());
+            $logger->writeln($e->getMessage());
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
-            return $drupal->boot();
+            $container = $drupal->boot();
+            $container->set(
+                'console.logger',
+                $logger
+            );
+            return $container;
         }
     }
 }
