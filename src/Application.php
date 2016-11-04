@@ -90,6 +90,7 @@ class Application extends ConsoleApplication
 
     private function registerCommands()
     {
+        $logger = $this->container->get('console.logger');
         if ($this->container->hasParameter('drupal.commands')) {
             $consoleCommands = $this->container->getParameter(
                 'drupal.commands'
@@ -102,6 +103,8 @@ class Application extends ConsoleApplication
                 'console.warning',
                 'application.site.errors.settings'
             );
+
+            $logger->writeln($this->trans('application.site.errors.settings'));
         }
 
         $serviceDefinitions = [];
@@ -135,6 +138,7 @@ class Application extends ConsoleApplication
             try {
                 $command = $this->container->get($name);
             } catch (\Exception $e) {
+                $logger->writeln($e->getMessage());
                 continue;
             }
 
