@@ -6,7 +6,9 @@
 
 namespace Drupal\Console\Test\Command;
 
+use Drupal\Console\Test\Builders\a as an;
 use Drupal\Console\Command\Generate\EntityBundleCommand;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\EntityBundleDataProviderTrait;
 
@@ -18,40 +20,38 @@ class GenerateEntityBundleCommandTest extends GenerateCommandTest
      * ContentType generator test
      *
      * @param $module
-     * @param $bundle_name
-     * @param $bundle_title
+     * @param $bundleName
+     * @param $bundleTitle
      *
      * @dataProvider commandData
      */
     public function testGenerateContentType(
         $module,
-        $bundle_name,
-        $bundle_title
+        $bundleName,
+        $bundleTitle
     ) {
-        $command = new EntityBundleCommand($this->getHelperSet());
-        $command->setHelperSet($this->getHelperSet());
-        $command->setGenerator($this->getGenerator());
-
+        $manager = an::extensionManager();
+        $generator = an::entityBundleGenerator();
+        $command = new EntityBundleCommand(
+            new Validator($manager),
+            $generator->reveal(),
+            $manager
+        );
         $commandTester = new CommandTester($command);
 
         $code = $commandTester->execute(
             [
-              '--module'         => $module,
-              '--bundle-name'    => $bundle_name,
-              '--bundle-title'   => $bundle_title
+                '--module' => $module,
+                '--bundle-name' => $bundleName,
+                '--bundle-title' => $bundleTitle
             ],
             ['interactive' => false]
         );
 
+        $generator
+            ->generate($module, $bundleName, $bundleTitle)
+            ->shouldHaveBeenCalled()
+        ;
         $this->assertEquals(0, $code);
-    }
-
-    private function getGenerator()
-    {
-        return $this
-            ->getMockBuilder('Drupal\Console\Generator\EntityBundleGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(['generate'])
-            ->getMock();
     }
 }

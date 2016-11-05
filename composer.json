@@ -63,5 +63,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {"Drupal\\Console\\": "src"}
+    },
+    "autoload-dev": {
+        "psr-4": {"Drupal\\Console\\": "Test"}
     }
 }
