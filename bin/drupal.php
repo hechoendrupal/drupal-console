@@ -1,8 +1,9 @@
 <?php
 
+use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Utils\ArgvInputReader;
-use Drupal\Console\Application;
 use Drupal\Console\Bootstrap\Drupal;
+use Drupal\Console\Application;
 
 set_time_limit(0);
 $appRoot = getcwd() . '/';
@@ -40,6 +41,14 @@ if (!file_exists($root.'composer.json')) {
 }
 
 $argvInputReader = new ArgvInputReader();
+$configurationManager = new ConfigurationManager();
+$configuration = $configurationManager->loadConfiguration($root)
+    ->getConfiguration();
+if ($options = $configuration->get('application.options') ?: []) {
+    $argvInputReader->setOptionsFromConfiguration($options);
+}
+$argvInputReader->setOptionsAsArgv();
+
 if ($root === $appRoot && $argvInputReader->get('root')) {
     $appRoot = $argvInputReader->get('root');
     if (is_dir($appRoot)) {
@@ -49,7 +58,6 @@ if ($root === $appRoot && $argvInputReader->get('root')) {
         $appRoot = $root;
     }
 }
-$argvInputReader->setOptionsAsArgv();
 
 $drupal = new Drupal($autoload, $root, $appRoot);
 $container = $drupal->boot();

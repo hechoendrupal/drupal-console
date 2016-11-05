@@ -4,6 +4,8 @@ namespace Drupal\Console\Bootstrap;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Console\Utils\ArgvInputReader;
+use Drupal\Console\Utils\Logger;
 
 class Drupal
 {
@@ -15,6 +17,7 @@ class Drupal
      * Drupal constructor.
      * @param $autoload
      * @param $root
+     * @param $appRoot
      */
     public function __construct($autoload, $root, $appRoot)
     {
@@ -25,14 +28,33 @@ class Drupal
 
     public function boot()
     {
+        $logger = new Logger($this->root);
         if (!class_exists('Drupal\Core\DrupalKernel')) {
+            $logger->writeln('Class Drupal\Core\DrupalKernel not found.');
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
-            return $drupal->boot();
+            $container = $drupal->boot();
+            $container->set(
+                'console.logger',
+                $logger
+            );
+            return $container;
         }
 
         try {
-            $request = Request::createFromGlobals();
-            $drupalKernel = DrupalKernel::createFromRequest(
+            $argvInputReader = new ArgvInputReader();
+            if ($argvInputReader->get('uri')) {
+              $uri = $argvInputReader->get('uri');
+              if (substr($uri, -1) != '/') {
+                $uri .= '/';
+              }
+              $uri .= 'index.php';
+              $request = Request::create($uri, 'GET', array()  , array(), array(), array('SCRIPT_NAME' => $this->appRoot . '/index.php'));
+            }
+            else {
+              $request = Request::createFromGlobals();
+            }
+
+            $drupalKernel = DrupalKernel::createFromRequest  (
                 $request,
                 $this->autoload,
                 'prod',
@@ -54,6 +76,11 @@ class Drupal
             $container = $drupalKernel->getContainer();
 
             $container->set('console.root', $this->root);
+
+            $container->set(
+                'console.logger',
+                $logger
+            );
 
             AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
@@ -77,8 +104,14 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
+            $logger->writeln($e->getMessage());
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
-            return $drupal->boot();
+            $container = $drupal->boot();
+            $container->set(
+                'console.logger',
+                $logger
+            );
+            return $container;
         }
     }
 }
