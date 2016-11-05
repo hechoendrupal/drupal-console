@@ -7,6 +7,8 @@
 namespace Drupal\Console\Test\Command;
 
 use Drupal\Console\Command\Generate\AuthenticationProviderCommand;
+use Drupal\Console\Test\Builders\a as an;
+use Drupal\Console\Utils\StringConverter;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\AuthenticationProviderDataProviderTrait;
 
@@ -17,38 +19,39 @@ class GeneratorAuthenticationProviderCommandTest extends GenerateCommandTest
     /**
      * AuthenticationProvider generator test
      *
-     * @param $module
-     * @param $class
+     * @param string $module
+     * @param string $class
+     * @param int $providerId
      *
      * @dataProvider commandData
      */
     public function testGenerateAuthenticationProvider(
         $module,
-        $class
+        $class,
+        $providerId
     ) {
-        $command = new AuthenticationProviderCommand($this->getHelperSet());
-        $command->setHelperSet($this->getHelperSet());
-        $command->setGenerator($this->getGenerator());
+        $generator = an::authenticationProviderGenerator();
+        $command = new AuthenticationProviderCommand(
+            an::extensionManager(),
+            $generator->reveal(),
+            new StringConverter()
+        );
 
         $commandTester = new CommandTester($command);
 
         $code = $commandTester->execute(
             [
-              '--module'    => $module,
-              '--class'     => $class
+                '--module' => $module,
+                '--class' => $class,
+                '--provider-id' => $providerId,
             ],
             ['interactive' => false]
         );
 
+        $generator
+            ->generate($module, $class, $providerId)
+            ->shouldHaveBeenCalled()
+        ;
         $this->assertEquals(0, $code);
-    }
-
-    private function getGenerator()
-    {
-        return $this
-            ->getMockBuilder('Drupal\Console\Generator\AuthenticationProviderGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(['generate'])
-            ->getMock();
     }
 }
