@@ -52,6 +52,9 @@
         "dflydev/placeholder-resolver": "~1.0",
         "symfony/expression-language": "^2.8"
     },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
+    },
     "bin": ["bin/drupal"],
     "config": {
         "bin-dir": "bin/"
