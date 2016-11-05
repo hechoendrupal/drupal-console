@@ -33,8 +33,7 @@ class QueryCommand extends Command
             ->addArgument(
                 'query',
                 InputArgument::REQUIRED,
-                $this->trans('commands.database.query.arguments.query'),
-                ''
+                $this->trans('commands.database.query.arguments.query')
             )
             ->addArgument(
                 'database',
@@ -52,7 +51,7 @@ class QueryCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $database = $input->getArgument('query');
+        $query = $input->getArgument('query');
         $database = $input->getArgument('database');
         $learning = $input->getOption('learning');
 
@@ -68,17 +67,14 @@ class QueryCommand extends Command
 						$databaseConnection['port']
 				);
 
-        if ($learning) {
+				$args = explode(' ', $connection);
+				$args[] = sprintf('--execute=%s', $query);
+
+				if ($learning) {
             $io->commentBlock(
-                sprintf(
-                    $this->trans('commands.database.query.messages.connection'),
-                    $connection
-                )
+                implode(" ", $args)
             );
         }
-
-				$args = explode(' ', $connection);
-				$args[] = "--execute=$query";
 
         $processBuilder = new ProcessBuilder([]);
         $processBuilder->setArguments($args);
