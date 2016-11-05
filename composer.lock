@@ -532,16 +532,16 @@
         },
         {
             "name": "drupal/console-core",
-            "version": "1.0.0-rc8",
+            "version": "v1.0.0-rc8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "23cd7c4526c031d9eca4570395a7b5ab381ea4a9"
+                "reference": "44d2b0e7772a7f6bf25e0ff07944d15797ffb0f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/23cd7c4526c031d9eca4570395a7b5ab381ea4a9",
-                "reference": "23cd7c4526c031d9eca4570395a7b5ab381ea4a9",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/44d2b0e7772a7f6bf25e0ff07944d15797ffb0f2",
+                "reference": "44d2b0e7772a7f6bf25e0ff07944d15797ffb0f2",
                 "shasum": ""
             },
             "require": {
@@ -607,20 +607,20 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-11-05 06:04:55"
+            "time": "2016-11-05 06:47:58"
         },
         {
             "name": "drupal/console-en",
-            "version": "1.0.0-rc6",
+            "version": "1.0.0-rc7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-en.git",
-                "reference": "29ed613511bb15e830b449d7a2ec1d01c4f36078"
+                "reference": "5807dce9efd84ccb1198a926eea03b600b8a93e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/29ed613511bb15e830b449d7a2ec1d01c4f36078",
-                "reference": "29ed613511bb15e830b449d7a2ec1d01c4f36078",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/5807dce9efd84ccb1198a926eea03b600b8a93e6",
+                "reference": "5807dce9efd84ccb1198a926eea03b600b8a93e6",
                 "shasum": ""
             },
             "type": "drupal-console-language",
@@ -661,7 +661,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-11-05 05:52:10"
+            "time": "2016-11-05 06:21:34"
         },
         {
             "name": "gabordemooij/redbean",
