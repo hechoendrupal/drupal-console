@@ -7,6 +7,7 @@
 namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\ServiceCommand;
+use Drupal\Console\Test\Builders\a;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ServiceDataProviderTrait;
 use Drupal\Console\Test\Command\GenerateCommandTest;
@@ -35,9 +36,12 @@ class ServiceCommandTest extends GenerateCommandTest
         $services,
         $path_service
     ) {
-        $command = new ServiceCommand($this->getHelperSet());
-        $command->setHelperSet($this->getHelperSet());
-        $command->setGenerator($this->getGenerator());
+        $command = new ServiceCommand(
+            a::extensionManager(),
+            a::serviceGenerator()->reveal(),
+            a::stringConverter()->reveal(),
+            a::chainQueue()->reveal()
+        );
 
         $commandTester = new CommandTester($command);
 
@@ -58,14 +62,5 @@ class ServiceCommandTest extends GenerateCommandTest
         );
 
         $this->assertEquals(0, $code);
-    }
-
-    private function getGenerator()
-    {
-        return $this
-            ->getMockBuilder('Drupal\Console\Generator\ServiceGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(['generate'])
-            ->getMock();
     }
 }
