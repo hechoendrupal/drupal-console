@@ -19,10 +19,6 @@ services:
     arguments: ['@config.factory', '@console.configuration_manager', '@app.root', '@console.chain_queue']
     tags:
       - { name: drupal.command }
-#  console.site_new:
-#    class: Drupal\Console\Command\Site\NewCommand
-#    tags:
-#      - { name: drupal.command }
   console.site_statistics:
     class: Drupal\Console\Command\Site\StatisticsCommand
     arguments: ['@console.drupal_api', '@entity.query', '@console.extension_manager', '@module_handler']
