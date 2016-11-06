@@ -4,15 +4,16 @@
  * Contains \Drupal\Console\Test\Command\GenerateEntityBundleCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Test\Builders\a as an;
 use Drupal\Console\Command\Generate\EntityBundleCommand;
+use Drupal\Console\Test\Command\GenerateCommandTest;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\EntityBundleDataProviderTrait;
 
-class GenerateEntityBundleCommandTest extends GenerateCommandTest
+class EntityBundleCommandTest extends GenerateCommandTest
 {
     use EntityBundleDataProviderTrait;
 

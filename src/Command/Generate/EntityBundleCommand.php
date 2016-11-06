@@ -94,12 +94,12 @@ class EntityBundleCommand extends Command
         $module = $input->getOption('module');
         $bundleName = $input->getOption('bundle-name');
         $bundleTitle = $input->getOption('bundle-title');
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
-        $generator = $this->generator;
         //TODO:
         //$generator->setLearning($learning);
-        $generator->generate($module, $bundleName, $bundleTitle);
+        //$learning = $input->hasOption('learning')?$input->getOption('learning'):false;
+
+        $this->generator->generate($module, $bundleName, $bundleTitle);
     }
 
     /**

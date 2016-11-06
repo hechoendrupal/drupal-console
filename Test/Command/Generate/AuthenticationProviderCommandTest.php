@@ -4,15 +4,16 @@
  * Contains \Drupal\Console\Test\Command\GeneratorAuthenticationProviderCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\AuthenticationProviderCommand;
 use Drupal\Console\Test\Builders\a as an;
+use Drupal\Console\Test\Command\GenerateCommandTest;
 use Drupal\Console\Utils\StringConverter;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\AuthenticationProviderDataProviderTrait;
 
-class GeneratorAuthenticationProviderCommandTest extends GenerateCommandTest
+class AuthenticationProviderCommandTest extends GenerateCommandTest
 {
     use AuthenticationProviderDataProviderTrait;
 

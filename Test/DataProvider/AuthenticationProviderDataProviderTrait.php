@@ -16,7 +16,11 @@ trait AuthenticationProviderDataProviderTrait
         $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), 0],
+            'Valid provider' => [
+                'module' => 'Foo',
+                'class' => 'foo' . rand(),
+                'provider ID' => 0
+            ],
         ];
     }
 }

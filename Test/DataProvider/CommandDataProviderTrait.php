@@ -16,8 +16,18 @@ trait CommandDataProviderTrait
         $this->setUpTemporaryDirectory();
 
         return [
-            ['command_' . rand(), 'command:default', 'CommandDefault', false],
-            ['command_' . rand(), 'command:default', 'CommandDefault', true]
+            'Container aware' => [
+                'module' => 'command_' . rand(),
+                'name' => 'command:default',
+                'class' => 'CommandDefault',
+                'is container aware?' => false
+            ],
+            'Non container aware' => [
+                'module' => 'command_' . rand(),
+                'name' => 'command:default',
+                'class' => 'CommandDefault',
+                'is container aware?' => true,
+            ]
         ];
     }
 }
