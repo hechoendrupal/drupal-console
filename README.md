@@ -6,8 +6,8 @@
   - [Required PHP version](#required-php-version)
   - [Drupal Console documentation](#documentation)
   - [Download as new dependency](#download-as-new-dependency)
-  - [Fix download the latest version](#fix-download-the-latest-version)
   - [Download using DrupalComposer](#download-using-drupalcomposer)
+  - [Update DrupalConsole](#update-drupalconsole)
   - [Install Drupal Console Launcher](#install-drupal-console-launcher)
   - [Run Drupal Console](#running-drupal-console)
   - [Supporting organizations](#supporting-organizations)
@@ -24,7 +24,7 @@ Drupal Console
 [![Software License](https://img.shields.io/badge/license-GPL%202.0+-blue.svg)](https://packagist.org/packages/drupal/console)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-The Drupal Console is a CLI tool to generate boilerplate code, interact and debug Drupal 8.
+The Drupal CLI. A tool to generate boilerplate code, interact with and debug Drupal.
 
 ## Latest Version
 Details of the latest version can be found on the Drupal Console project page under https://drupalconsole.com/.
@@ -52,15 +52,6 @@ composer require drupal/console:~1.0 \
 --sort-packages
 ```
 
-## Fix download the latest version
-
-Drupal 8 include some outdated libraries of Symfony 2.7.x, as result you get an old release of Drupal Console.
-
-To fix that, execute the following command and you will get the latest release of Drupal Console.
-```
-composer update drupal/console --with-dependencies
-```
-
 ## Download using DrupalComposer
 ```
 composer create-project \
@@ -69,6 +60,12 @@ drupal8.dev \
 --prefer-dist \
 --no-progress \
 --no-interaction
+```
+
+## Update DrupalConsole
+
+```
+composer update drupal/console --with-dependencies
 ```
 
 ## Install Drupal Console Launcher
@@ -81,30 +78,26 @@ php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
 
 # Accessing from anywhere on your system:
 mv drupal.phar /usr/local/bin/drupal
-
-# Apply executable permissions on the downloaded file:
-chmod +x /usr/local/bin/drupal
-
-# Copy configuration files.
-drupal init --override
-
-# Check and validate system requirements
-drupal check
 ```
 
 ## Run Drupal Console
+Using the DrupalConsole Launcher
+```
+drupal
+```
+> NOTE: If using a DrupalComposer make sure you execute the `init` command and answer yest to ` Copy at current directory console/config.yml? (yes/no) [yes]:` question. 
+
 We highly recommend you to install the global executable, but if is not installed, then you can run DrupalConsole by:  
 
 Using default Drupal + DrupalConsole
 ```
 vendor/bin/drupal
 ```
-Using DrupalComposer
-Change directory `web`, `docroot` or any other.
+
+Using DrupalComposer you can also change directory `web`, `docroot` and
 ```
 ../vendor/bin/drupal
 ```
-
 
 ## Drupal Console Support
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
