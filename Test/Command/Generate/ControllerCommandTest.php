@@ -4,13 +4,13 @@
  * Contains \Drupal\Console\Test\Command\GeneratorControllerCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\ControllerCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ControllerDataProviderTrait;
 
-class GeneratorControllerCommandTest extends GenerateCommandTest
+class ControllerCommandTest extends GenerateCommandTest
 {
     use ControllerDataProviderTrait;
 

@@ -4,13 +4,13 @@
  * Contains \Drupal\Console\Test\Command\GeneratorFormCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\FormCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\FormDataProviderTrait;
 
-class GeneratorFormCommandTest extends GenerateCommandTest
+class FormCommandTest extends GenerateCommandTest
 {
     use FormDataProviderTrait;
 
