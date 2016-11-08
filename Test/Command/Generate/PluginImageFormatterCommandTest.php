@@ -4,16 +4,16 @@
  * Contains \Drupal\Console\Test\Command\GeneratorPluginImageFormatterCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\PluginImageFormatterCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginImageFormatterDataProviderTrait;
 
-class GeneratorPluginImageFormatterCommandTest extends GenerateCommandTest
+class PluginImageFormatterCommandTest extends GenerateCommandTest
 {
     use PluginImageFormatterDataProviderTrait;
-    
+
     /**
      * Plugin image effect generator test
      *
