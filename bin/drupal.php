@@ -42,8 +42,8 @@ if (!file_exists($root.'composer.json')) {
 
 $argvInputReader = new ArgvInputReader();
 $configurationManager = new ConfigurationManager();
-$configuration = $configurationManager->loadConfiguration($root)
-    ->getConfiguration();
+$configuration = $configurationManager
+    ->loadConfigurationFromDirectory($root);
 if ($options = $configuration->get('application.options') ?: []) {
     $argvInputReader->setOptionsFromConfiguration($options);
 }
