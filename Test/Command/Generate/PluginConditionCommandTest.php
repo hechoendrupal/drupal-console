@@ -4,7 +4,7 @@
  * Contains \Drupal\Console\Test\Command\GeneratorPluginConditionCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\PluginConditionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
