@@ -4,16 +4,17 @@
  * Contains \Drupal\Console\Test\Command\GeneratorCommandCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\CommandCommand;
 use Drupal\Console\Test\Builders\a;
+use Drupal\Console\Test\Command\GenerateCommandTest;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\CommandDataProviderTrait;
 
-class GeneratorCommandCommandTest extends GenerateCommandTest
+class CommandCommandTest extends GenerateCommandTest
 {
     use CommandDataProviderTrait;
 
