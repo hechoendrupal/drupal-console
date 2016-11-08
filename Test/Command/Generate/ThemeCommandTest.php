@@ -4,7 +4,7 @@
  * Contains Drupal\Console\Test\Command\GeneratorThemeCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\ThemeCommand;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -13,7 +13,7 @@ use Drupal\Console\Test\DataProvider\ThemeDataProviderTrait;
 class GeneratorThemeCommandTest extends GenerateCommandTest
 {
     use ThemeDataProviderTrait;
-    
+
     /**
      * Theme generator test
      *
