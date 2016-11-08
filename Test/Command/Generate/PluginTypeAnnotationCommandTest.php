@@ -4,13 +4,13 @@
  * Contains \Drupal\Console\Test\Command\GeneratorPluginTypeAnnotationCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\PluginTypeAnnotationCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginTypeYamlDataProviderTrait;
 
-class GeneratorPluginTypeAnnotationCommandTest extends GenerateCommandTest
+class PluginTypeAnnotationCommandTest extends GenerateCommandTest
 {
     use PluginTypeYamlDataProviderTrait;
 
