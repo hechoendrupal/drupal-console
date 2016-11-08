@@ -120,6 +120,10 @@ class Application extends ConsoleApplication
                 ->get('console.annotation_validator');
         }
 
+        $aliases = $this->container->get('console.configuration_manager')
+            ->getConfiguration()
+            ->get('application.commands.aliases')?:[];
+
         foreach ($consoleCommands as $name) {
             if (!$this->container->has($name)) {
                 continue;
@@ -156,6 +160,11 @@ class Application extends ConsoleApplication
                 $command->setContainer(
                     $this->container->get('service_container')
                 );
+            }
+
+            if (array_key_exists($command->getName(), $aliases)) {
+                $commandAliases = $aliases[$command->getName()];
+                $command->setAliases([$commandAliases]);
             }
 
             $this->add($command);
