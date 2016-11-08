@@ -10,7 +10,7 @@ use Drupal\Console\Command\Generate\EntityConfigCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\EntityDataProviderTrait;
 
-class GeneratorEntityCommandTest extends GenerateCommandTest
+class EntityCommandTest extends GenerateCommandTest
 {
     use EntityDataProviderTrait;
 

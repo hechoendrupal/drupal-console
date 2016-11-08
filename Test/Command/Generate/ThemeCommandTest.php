@@ -10,7 +10,7 @@ use Drupal\Console\Command\Generate\ThemeCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ThemeDataProviderTrait;
 
-class GeneratorThemeCommandTest extends GenerateCommandTest
+class ThemeCommandTest extends GenerateCommandTest
 {
     use ThemeDataProviderTrait;
 

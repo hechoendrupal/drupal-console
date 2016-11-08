@@ -10,7 +10,7 @@ use Drupal\Console\Command\Generate\PluginTypeYamlCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginTypeYamlDataProviderTrait;
 
-class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
+class PluginTypeYamlCommandTest extends GenerateCommandTest
 {
     use PluginTypeYamlDataProviderTrait;
 

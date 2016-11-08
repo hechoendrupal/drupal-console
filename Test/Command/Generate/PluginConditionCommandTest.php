@@ -10,7 +10,7 @@ use Drupal\Console\Command\Generate\PluginConditionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginConditionDataProviderTrait;
 
-class GeneratorPluginConditionCommandTest extends GenerateCommandTest
+class PluginConditionCommandTest extends GenerateCommandTest
 {
     use PluginConditionDataProviderTrait;
 
