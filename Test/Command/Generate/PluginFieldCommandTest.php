@@ -4,16 +4,16 @@
  * Contains \Drupal\Console\Test\Command\GeneratorPluginFieldCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\PluginFieldCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginFieldDataProviderTrait;
 
-class GeneratorPluginFieldCommandTest extends GenerateCommandTest
+class PluginFieldCommandTest extends GenerateCommandTest
 {
     use PluginFieldDataProviderTrait;
-    
+
     /**
      * Plugin block generator test
      *
