@@ -4,7 +4,7 @@
  * Contains \Drupal\Console\Test\Command\GeneratorPluginTypeYamlCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\PluginTypeYamlCommand;
 use Symfony\Component\Console\Tester\CommandTester;
