@@ -14,9 +14,13 @@ trait EntityBundleDataProviderTrait
     public function commandData()
     {
         $this->setUpTemporaryDirectory();
-        
+
         return [
-          ['foo', 'default_type', 'default']
+            'Valid provider' => [
+                'module' => 'foo',
+                'bundle name' => 'default_type',
+                'bundle title' => 'default',
+            ]
         ];
     }
 }
