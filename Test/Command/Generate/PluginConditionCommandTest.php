@@ -13,7 +13,7 @@ use Drupal\Console\Test\DataProvider\PluginConditionDataProviderTrait;
 class GeneratorPluginConditionCommandTest extends GenerateCommandTest
 {
     use PluginConditionDataProviderTrait;
-    
+
     /**
      * Plugin block generator test
      *
