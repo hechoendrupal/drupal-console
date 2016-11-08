@@ -4,13 +4,13 @@
  * Contains \Drupal\Console\Test\Command\GeneratorModuleCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\ModuleCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ModuleDataProviderTrait;
 
-class GeneratorModuleCommandTest extends GenerateCommandTest
+class ModuleCommandTest extends GenerateCommandTest
 {
     use ModuleDataProviderTrait;
 
