@@ -1,16 +1,16 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Test\Command\GeneratorPluginTypeYamlCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginTypeAnnotationCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
-use Drupal\Console\Command\Generate\PluginTypeYamlCommand;
+use Drupal\Console\Command\Generate\PluginTypeAnnotationCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginTypeYamlDataProviderTrait;
 
-class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
+class PluginTypeAnnotationCommandTest extends GenerateCommandTest
 {
     use PluginTypeYamlDataProviderTrait;
 
@@ -18,19 +18,19 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
      * Plugin type yaml generator test
      *
      * @param $module
-     * @param $plugin_class
-     * @param $plugin_name
-     * @param $plugin_file_name
+     * @param $class_name
+     * @param $machine_name
+     * @param $label
      *
      * @dataProvider commandData
      */
     public function testGeneratePluginTypeYaml(
         $module,
-        $plugin_class,
-        $plugin_name,
-        $plugin_file_name
+        $class_name,
+        $machine_name,
+        $label
     ) {
-        $command = new PluginTypeYamlCommand($this->getHelperSet());
+        $command = new PluginTypeAnnotationCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -39,9 +39,9 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'            => $module,
-              '--class'        => $plugin_class,
-              '--plugin-name'       => $plugin_name,
-              '--plugin-file-name'  => $plugin_file_name
+              '--class'        => $class_name,
+              '--machine-name'      => $machine_name,
+              '--label'             => $label
             ],
             ['interactive' => false]
         );

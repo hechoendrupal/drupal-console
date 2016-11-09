@@ -4,16 +4,16 @@
  * Contains \Drupal\Console\Test\Command\GeneratorPermissionCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\PermissionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PermissionDataProviderTrait;
 
-class GeneratorPermissionCommandTest extends GenerateCommandTest
+class PermissionCommandTest extends GenerateCommandTest
 {
     use PermissionDataProviderTrait;
-    
+
     /**
      * Permission generator test
      *

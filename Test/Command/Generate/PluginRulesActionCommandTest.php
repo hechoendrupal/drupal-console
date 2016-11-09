@@ -4,13 +4,13 @@
  * Contains \Drupal\Console\Test\Command\GeneratorPluginRulesActionCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\PluginRulesActionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginRulesActionDataProviderTrait;
 
-class GeneratorPluginRulesActionCommandTest extends GenerateCommandTest
+class PluginRulesActionCommandTest extends GenerateCommandTest
 {
     use PluginRulesActionDataProviderTrait;
 

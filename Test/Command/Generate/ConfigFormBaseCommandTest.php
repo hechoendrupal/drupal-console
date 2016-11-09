@@ -4,7 +4,7 @@
  * Contains \Drupal\Console\Test\Command\GeneratorConfigFormBaseCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Test\Builders\a as an;
 use Drupal\Console\Generator\FormGenerator;
@@ -14,7 +14,7 @@ use Drupal\Console\Command\Generate\ConfigFormBaseCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ConfigFormBaseDataProviderTrait;
 
-class GeneratorConfigFormBaseCommandTest extends GenerateCommandTest
+class ConfigFormBaseCommandTest extends GenerateCommandTest
 {
     use ConfigFormBaseDataProviderTrait;
 

@@ -1,19 +1,19 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Test\Command\GeneratorPluginFieldFormatterCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginFieldWidgetCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
-use Drupal\Console\Command\Generate\PluginFieldFormatterCommand;
+use Drupal\Console\Command\Generate\PluginFieldWidgetCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\Console\Test\DataProvider\PluginFieldFormatterDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginFieldWidgetDataProviderTrait;
 
-class GeneratorPluginFieldFormatterCommandTest extends GenerateCommandTest
+class PluginFieldWidgetCommandTest extends GenerateCommandTest
 {
-    use PluginFieldFormatterDataProviderTrait;
-    
+    use PluginFieldWidgetDataProviderTrait;
+
     /**
      * Plugin block generator test
      *
@@ -25,14 +25,14 @@ class GeneratorPluginFieldFormatterCommandTest extends GenerateCommandTest
      *
      * @dataProvider commandData
      */
-    public function testGeneratePluginFieldFormatter(
+    public function testGeneratePluginFieldWidget(
         $module,
         $class_name,
         $label,
         $plugin_id,
         $field_type
     ) {
-        $command = new PluginFieldFormatterCommand($this->getHelperSet());
+        $command = new PluginFieldWidgetCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -40,11 +40,11 @@ class GeneratorPluginFieldFormatterCommandTest extends GenerateCommandTest
 
         $code = $commandTester->execute(
             [
-              '--module'                => $module,
-              '--class'            => $class_name,
-              '--label'                 => $label,
-              '--plugin-id'             => $plugin_id,
-              '--field-type'            => $field_type
+              '--module'               => $module,
+              '--class'           => $class_name,
+              '--label'                => $label,
+              '--plugin-id'            => $plugin_id,
+              '--field-type'           => $field_type
             ],
             ['interactive' => false]
         );
@@ -55,7 +55,7 @@ class GeneratorPluginFieldFormatterCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\Console\Generator\PluginFieldFormatterGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginFieldWidgetGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();
