@@ -50,7 +50,6 @@ class GeneratorConfigFormBaseCommandTest extends GenerateCommandTest
             $stringConverter,
             $router->reveal(), 
             $elementInfoManager->reveal(), 
-            $app,
             $chainQueue->reveal());
 
         $commandTester = new CommandTester($command);
