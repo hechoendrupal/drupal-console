@@ -27,12 +27,12 @@ class PermissionDebugCommand extends Command
     protected function configure()
     {
         $this->setName('permission:debug')
-            ->setDescription($this->trans('commands.plugin.debug.description'))
-            ->setHelp($this->trans('commands.plugin.debug.help'))
+            ->setDescription($this->trans('commands.permission.debug.description'))
+            ->setHelp($this->trans('commands.permission.debug.help'))
             ->addArgument(
                 'role',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.plugin.debug.arguments.type')
+                $this->trans('commands.permission.debug.arguments.role')
             );
     }
 
@@ -47,8 +47,8 @@ class PermissionDebugCommand extends Command
         // No role specified, show a list of ALL permissions.
         if (!$role) {
             $tableHeader = [
-                $this->trans('commands.permission.debug.table-headers.permission-type-name'),
-                $this->trans('commands.permission.debug.table-headers.permission-type-class')
+                $this->trans('commands.permission.debug.table-headers.permission-name'),
+                $this->trans('commands.permission.debug.table-headers.permission-label')
             ];
             $tableRows = [];
             $permissions = \Drupal::service('user.permissions')->getPermissions();
@@ -66,12 +66,17 @@ class PermissionDebugCommand extends Command
         }
         else {
             $tableHeader = [
-                $this->trans('commands.plugin.debug.table-headers.plugin-type-name'),
-                $this->trans('commands.plugin.debug.table-headers.plugin-type-class')
+                $this->trans('commands.permission.debug.table-headers.permission-name'),
+                $this->trans('commands.permission.debug.table-headers.permission-label')
             ];
             $tableRows = [];
           $permissions = \Drupal::service('user.permissions')->getPermissions();
           $roles = user_roles();
+          if (empty($roles[$role])) {
+              $message = sprintf($this->trans('commands.permission.debug.messages.role-error'), $role);
+              $io->error($message);
+              return true;
+          }
           $user_permission = $roles[$role]->getPermissions();
           foreach ($permissions as $permission_name => $permission) {
               if (in_array($permission_name, $user_permission)) {
