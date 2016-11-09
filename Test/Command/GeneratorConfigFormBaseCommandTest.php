@@ -45,12 +45,13 @@ class GeneratorConfigFormBaseCommandTest extends GenerateCommandTest
         $app = new Application();
         $chainQueue = an::chainQueue();
         $router = an::routeProvider();
-        $command = new ConfigFormBaseCommand($manager, 
+        $command = new ConfigFormBaseCommand(
+            $manager, 
             $generator->reveal(),
+            $chainQueue->reveal(),
             $stringConverter,
-            $router->reveal(), 
-            $elementInfoManager->reveal(), 
-            $chainQueue->reveal());
+            $elementInfoManager->reveal(),
+            $router->reveal());
 
         $commandTester = new CommandTester($command);
 
