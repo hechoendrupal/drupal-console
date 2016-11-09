@@ -13,6 +13,7 @@ use Symfony\Component\Console\Application;
 use Drupal\Console\Command\Generate\ConfigFormBaseCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ConfigFormBaseDataProviderTrait;
+use Drupal\Console\Test\Command\GenerateCommandTest;
 
 class ConfigFormBaseCommandTest extends GenerateCommandTest
 {
