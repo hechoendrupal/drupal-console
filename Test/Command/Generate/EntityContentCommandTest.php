@@ -4,13 +4,13 @@
  * Contains \Drupal\Console\Test\Command\GeneratorEntityContentCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\EntityContentCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\EntityContentDataProviderTrait;
 
-class GeneratorEntityContentCommandTest extends GenerateCommandTest
+class EntityContentCommandTest extends GenerateCommandTest
 {
     use EntityContentDataProviderTrait;
 

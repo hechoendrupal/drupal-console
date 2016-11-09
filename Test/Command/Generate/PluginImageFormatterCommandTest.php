@@ -1,19 +1,19 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Test\Command\GeneratorPluginImageEffectCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorPluginImageFormatterCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
-use Drupal\Console\Command\Generate\PluginImageEffectCommand;
+use Drupal\Console\Command\Generate\PluginImageFormatterCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\Console\Test\DataProvider\PluginImageEffectDataProviderTrait;
+use Drupal\Console\Test\DataProvider\PluginImageFormatterDataProviderTrait;
 
-class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
+class PluginImageFormatterCommandTest extends GenerateCommandTest
 {
-    use PluginImageEffectDataProviderTrait;
-    
+    use PluginImageFormatterDataProviderTrait;
+
     /**
      * Plugin image effect generator test
      *
@@ -25,14 +25,13 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
      *
      * @dataProvider commandData
      */
-    public function testGeneratePluginImageEffect(
+    public function testGeneratePluginImageFormatter(
         $module,
         $class_name,
         $plugin_label,
-        $plugin_id,
-        $description
+        $plugin_id
     ) {
-        $command = new PluginImageEffectCommand($this->getHelperSet());
+        $command = new PluginImageFormatterCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -43,8 +42,7 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
               '--module'         => $module,
               '--class'     => $class_name,
               '--label'          => $plugin_label,
-              '--plugin-id'      => $plugin_id,
-              '--description'    => $description
+              '--plugin-id'      => $plugin_id
             ],
             ['interactive' => false]
         );
@@ -55,7 +53,7 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
     private function getGenerator()
     {
         return $this
-            ->getMockBuilder('Drupal\Console\Generator\PluginImageEffectGenerator')
+            ->getMockBuilder('Drupal\Console\Generator\PluginImageFormatterGenerator')
             ->disableOriginalConstructor()
             ->setMethods(['generate'])
             ->getMock();

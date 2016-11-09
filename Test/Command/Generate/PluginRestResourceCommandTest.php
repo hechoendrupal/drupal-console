@@ -4,16 +4,16 @@
  * Contains \Drupal\Console\Test\Command\GeneratorPluginRestResourceCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\PluginRestResourceCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginRestResourceDataProviderTrait;
 
-class GeneratorPluginRestResourceCommandTest extends GenerateCommandTest
+class PluginRestResourceCommandTest extends GenerateCommandTest
 {
     use PluginRestResourceDataProviderTrait;
-    
+
     /**
      * Plugin rest resource generator test
      *

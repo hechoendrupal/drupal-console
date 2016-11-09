@@ -1,36 +1,34 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Test\Command\GeneratorEntityConfigCommandTest.
+ * Contains \Drupal\Console\Test\Command\GeneratorEntityCommandTest.
  */
 
-namespace Drupal\Console\Test\Command;
+namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\EntityConfigCommand;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\Console\Test\DataProvider\EntityConfigDataProviderTrait;
+use Drupal\Console\Test\DataProvider\EntityDataProviderTrait;
 
-class GeneratorEntityConfigCommandTest extends GenerateCommandTest
+class EntityCommandTest extends GenerateCommandTest
 {
-    use EntityConfigDataProviderTrait;
+    use EntityDataProviderTrait;
 
     /**
      * EntityConfig generator test
      *
      * @param $module
-     * @param $entity_name
      * @param $entity_class
+     * @param $entity_name
      * @param $label
-     * @param $base_path
      *
      * @dataProvider commandData
      */
     public function testGenerateEntityConfig(
         $module,
-        $entity_name,
         $entity_class,
-        $label,
-        $base_path
+        $entity_name,
+        $label
     ) {
         $command = new EntityConfigCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
@@ -41,10 +39,9 @@ class GeneratorEntityConfigCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--entity-name'    => $entity_name,
               '--entity-class'   => $entity_class,
-              '--label'          => $label,
-              '--base-path'      => $base_path,
+              '--entity-name'    => $entity_name,
+              '--label'          => $label
             ],
             ['interactive' => false]
         );
