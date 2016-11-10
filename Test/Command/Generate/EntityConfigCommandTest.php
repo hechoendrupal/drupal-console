@@ -55,7 +55,10 @@ class EntityConfigCommandTest extends GenerateCommandTest
             ],
             ['interactive' => false]
         );
-      
+        $generator
+            ->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_of=false)
+            ->shouldHaveBeenCalled()
+        ;
         $this->assertEquals(0, $code);
     }
   }
