@@ -55,7 +55,7 @@ class PermissionDebugCommand extends Command
             foreach ($permissions as $permission_name => $permission) {
                 $tableRows[$permission_name] = [
                     $permission_name,
-                    $permission['title']->__toString()
+                    strip_tags($permission['title']->__toString())
                 ];
             }
 
@@ -82,7 +82,7 @@ class PermissionDebugCommand extends Command
               if (in_array($permission_name, $user_permission)) {
                   $tableRows[$permission_name] = [
                       $permission_name,
-                      $permission['title']->__toString()
+                      strip_tags($permission['title']->__toString())
                   ];
               }
           }
