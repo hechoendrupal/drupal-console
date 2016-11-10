@@ -7,9 +7,10 @@
 namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\AuthenticationProviderCommand;
+use Drupal\Console\Command\Generate\Questions\AuthenticationProviderQuestions;
+use Drupal\Console\Command\Generate\Questions\ConfirmGeneration;
 use Drupal\Console\Test\Builders\a as an;
 use Drupal\Console\Test\Command\GenerateCommandTest;
-use Drupal\Console\Utils\StringConverter;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\AuthenticationProviderDataProviderTrait;
 
@@ -32,10 +33,13 @@ class AuthenticationProviderCommandTest extends GenerateCommandTest
         $providerId
     ) {
         $generator = an::authenticationProviderGenerator();
+        $confirmation = $this->prophesize(ConfirmGeneration::class);
+        $confirmation->confirm()->willReturn(true);
+
         $command = new AuthenticationProviderCommand(
-            an::extensionManager(),
             $generator->reveal(),
-            new StringConverter()
+            $this->prophesize(AuthenticationProviderQuestions::class)->reveal(),
+            $confirmation->reveal()
         );
 
         $commandTester = new CommandTester($command);

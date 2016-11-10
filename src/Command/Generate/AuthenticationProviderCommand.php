@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Generate\Questions\AuthenticationProviderQuestions;
+use Drupal\Console\Command\Generate\Questions\ConfirmGeneration;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,10 +18,7 @@ use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Extension\Manager;
 
 class AuthenticationProviderCommand extends Command
 {
@@ -30,31 +28,29 @@ class AuthenticationProviderCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
-    protected $extensionManager;
-
-    /** @var AuthenticationProviderGenerator  */
+    /** @var AuthenticationProviderGenerator */
     protected $generator;
 
-    /**
-     * @var StringConverter
-     */
-    protected $stringConverter;
+    /** @var AuthenticationProviderQuestions */
+    private $questions;
+
+    /** @var ConfirmGeneration */
+    private $confirmation;
 
     /**
      * AuthenticationProviderCommand constructor.
-     * @param Manager                         $extensionManager
      * @param AuthenticationProviderGenerator $generator
-     * @param StringConverter                 $stringConverter
+     * @param AuthenticationProviderQuestions $questions
+     * @param ConfirmGeneration $confirmation
      */
     public function __construct(
-        Manager $extensionManager,
         AuthenticationProviderGenerator $generator,
-        StringConverter $stringConverter
+        AuthenticationProviderQuestions $questions,
+        ConfirmGeneration $confirmation
     ) {
-        $this->extensionManager = $extensionManager;
         $this->generator = $generator;
-        $this->stringConverter = $stringConverter;
+        $this->questions = $questions;
+        $this->confirmation = $confirmation;
         parent::__construct();
     }
 
@@ -84,10 +80,7 @@ class AuthenticationProviderCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        if (!$this->confirmation->confirm()) {
             return;
         }
 
@@ -100,26 +93,19 @@ class AuthenticationProviderCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $questions = new AuthenticationProviderQuestions(
-            new DrupalStyle($input, $output),
-            $this->translator,
-            $this->extensionManager,
-            $this->stringConverter
-        );
-
         $module = $input->getOption('module');
         if (!$module) {
-            $questions->askForModule($input);
+            $this->questions->askForModule($input);
         }
 
         $class = $input->getOption('class');
         if (!$class) {
-            $questions->askForClass($input);
+            $this->questions->askForClass($input);
         }
 
         $providerId = $input->getOption('provider-id');
         if (!$providerId) {
-            $questions->askForProviderId($input);
+            $this->questions->askForProviderId($input);
         }
     }
 }
