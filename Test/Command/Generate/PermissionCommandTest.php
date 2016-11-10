@@ -5,9 +5,10 @@
  */
 
 namespace Drupal\Console\Test\Command\Generate;
-
+use Drupal\Console\Test\Builders\a as an;
 use Drupal\Console\Command\Generate\PermissionCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\Console\Utils\StringConverter;
 use Drupal\Console\Test\DataProvider\PermissionDataProviderTrait;
 
 class PermissionCommandTest extends GenerateCommandTest
@@ -26,10 +27,11 @@ class PermissionCommandTest extends GenerateCommandTest
         $module,
         $permissions
     ) {
-        $command = new PermissionCommand($this->getHelperSet());
-        $command->setHelperSet($this->getHelperSet());
-        $command->setGenerator($this->getGenerator());
-
+        $generator = an::PermissionGenerator();
+        $command = new PermissionCommand(
+          an::extensionManager(),
+          new StringConverter()
+        );
         $commandTester = new CommandTester($command);
 
         $code = $commandTester->execute(
@@ -40,15 +42,8 @@ class PermissionCommandTest extends GenerateCommandTest
             ['interactive' => false]
         );
 
+
         $this->assertEquals(0, $code);
     }
 
-    private function getGenerator()
-    {
-        return $this
-            ->getMockBuilder('Drupal\Console\Generator\PermissionGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(['generate'])
-            ->getMock();
-    }
 }
