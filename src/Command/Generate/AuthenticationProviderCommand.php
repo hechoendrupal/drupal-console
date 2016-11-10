@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Generate\Questions\AuthenticationProviderQuestions;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,7 +40,6 @@ class AuthenticationProviderCommand extends Command
      * @var StringConverter
      */
     protected $stringConverter;
-
 
     /**
      * AuthenticationProviderCommand constructor.
@@ -93,58 +93,33 @@ class AuthenticationProviderCommand extends Command
 
         $module = $input->getOption('module');
         $class = $input->getOption('class');
-        $provider_id = $input->getOption('provider-id');
+        $providerId = $input->getOption('provider-id');
 
-        $this->generator->generate($module, $class, $provider_id);
+        $this->generator->generate($module, $class, $providerId);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
+        $questions = new AuthenticationProviderQuestions(
+            new DrupalStyle($input, $output),
+            $this->translator,
+            $this->extensionManager,
+            $this->stringConverter
+        );
 
-        $stringUtils = $this->stringConverter;
-
-        // --module option
         $module = $input->getOption('module');
         if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
+            $questions->askForModule($input);
         }
 
-        // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
-                $this->trans(
-                    'commands.generate.authentication.provider.options.class'
-                ),
-                'DefaultAuthenticationProvider',
-                function ($value) use ($stringUtils) {
-                    if (!strlen(trim($value))) {
-                        throw new \Exception('The Class name can not be empty');
-                    }
-
-                    return $stringUtils->humanToCamelCase($value);
-                }
-            );
-            $input->setOption('class', $class);
+            $questions->askForClass($input);
         }
-        // --provider-id option
-        $provider_id = $input->getOption('provider-id');
-        if (!$provider_id) {
-            $provider_id = $io->ask(
-                $this->trans('commands.generate.authentication.provider.options.provider-id'),
-                $stringUtils->camelCaseToUnderscore($class),
-                function ($value) use ($stringUtils) {
-                    if (!strlen(trim($value))) {
-                        throw new \Exception('The Class name can not be empty');
-                    }
 
-                    return $stringUtils->camelCaseToUnderscore($value);
-                }
-            );
-            $input->setOption('provider-id', $provider_id);
+        $providerId = $input->getOption('provider-id');
+        if (!$providerId) {
+            $questions->askForProviderId($input);
         }
     }
 }
