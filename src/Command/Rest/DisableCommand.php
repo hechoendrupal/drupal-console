@@ -30,13 +30,13 @@ class DisableCommand extends Command
     use RestTrait;
 
     /**
- * @var ConfigFactory  
-*/
+     * @var ConfigFactory  
+     */
     protected $configFactory;
 
     /**
- * @var ResourcePluginManager  
-*/
+     * @var ResourcePluginManager  
+     */
     protected $pluginManagerRest;
 
     /**
@@ -52,7 +52,6 @@ class DisableCommand extends Command
         $this->pluginManagerRest = $pluginManagerRest;
         parent::__construct();
     }
-
 
     /**
      * @DrupalCommand(
@@ -96,23 +95,38 @@ class DisableCommand extends Command
             $rest_resources_ids,
             $this->translator
         );
-        $input->setArgument('resource-id', $resource_id);
-        $rest_settings = $this->getRestDrupalConfig();
+        $resources = \Drupal::service('entity_type.manager')
+            ->getStorage('rest_resource_config')->loadMultiple();
+        if ($resources[$this->getResourceKey($resource_id)]) {
+            $routeBuilder = \Drupal::service('router.builder');
+            $resources[$this->getResourceKey($resource_id)]->delete();
+            // Rebuild routing cache.
+            $routeBuilder->rebuild();
 
-        unset($rest_settings[$resource_id]);
-
-        $config = $this->configFactory->getEditable('rest.settings');
-
-        $config->set('resources', $rest_settings);
-        $config->save();
-
-        $io->success(
-            sprintf(
-                $this->trans('commands.rest.disable.messages.success'),
-                $resource_id
-            )
-        );
-
-        return 0;
+            $io->success(
+                sprintf(
+                    $this->trans('commands.rest.disable.messages.success'),
+                    $resource_id
+                )
+            );
+            return true;
+        }
+        $message = sprintf($this->trans('commands.rest.disable.messages.already-disabled'), $resource_id);
+        $io->info($message);
+        return true;
     }
+
+    /**
+     * The key used in the form.
+     *
+     * @param string $resource_id
+     *   The resource ID.
+     *
+     * @return string
+     *   The resource key in the form.
+     */
+    protected function getResourceKey($resource_id) {
+        return str_replace(':', '.', $resource_id);
+    }
+
 }
