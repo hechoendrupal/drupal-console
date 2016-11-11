@@ -6,9 +6,14 @@
 
 namespace Drupal\Console\Test\Command\Generate;
 
+use Drupal\Console\Test\Builders\a as an;
+use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Utils\StringConverter;
+use Symfony\Component\Console\Application;
 use Drupal\Console\Command\Generate\ConfigFormBaseCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ConfigFormBaseDataProviderTrait;
+use Drupal\Console\Test\Command\GenerateCommandTest;
 
 class ConfigFormBaseCommandTest extends GenerateCommandTest
 {
@@ -34,32 +39,35 @@ class ConfigFormBaseCommandTest extends GenerateCommandTest
         $inputs,
         $routing
     ) {
-        $command = new ConfigFormBaseCommand($this->getHelperSet());
-        $command->setHelperSet($this->getHelperSet());
-        $command->setGenerator($this->getGenerator());
+        $manager = an::extensionManager();
+        $stringConverter = an::stringConverter()->reveal();
+        $generator = an::formGenerator();
+        $elementInfoManager = an::elementInfoManager();
+        $app = new Application();
+        $chainQueue = an::chainQueue();
+        $router = an::routeProvider();
+        $command = new ConfigFormBaseCommand(
+            $manager, 
+            $generator->reveal(),
+            $chainQueue->reveal(),
+            $stringConverter,
+            $elementInfoManager->reveal(),
+            $router->reveal());
 
         $commandTester = new CommandTester($command);
 
         $code = $commandTester->execute(
             [
               '--module'         =>   $module,
-              '--class'     =>   $class_name,
+              '--class'          =>   $class_name,
               '--form-id'        =>   $form_id,
               '--services'       =>   $services,
               '--inputs'         =>   $inputs
             ],
             ['interactive' => false]
         );
-
+        $generator->generate($module, $class_name, $form_id, 'ConfigFormBase', $services, 
+            $inputs, '/', false, '', null, '');
         $this->assertEquals(0, $code);
-    }
-
-    private function getGenerator()
-    {
-        return $this
-            ->getMockBuilder('Drupal\Console\Generator\FormGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(['generate'])
-            ->getMock();
     }
 }
