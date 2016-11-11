@@ -8,6 +8,10 @@ namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\EntityContentCommand;
 use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Test\Builders\a as an;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Test\DataProvider\EntityContentDataProviderTrait;
 
 class EntityContentCommandTest extends GenerateCommandTest
@@ -32,9 +36,15 @@ class EntityContentCommandTest extends GenerateCommandTest
         $label,
         $base_path
     ) {
-        $command = new EntityContentCommand($this->getHelperSet());
-        $command->setHelperSet($this->getHelperSet());
-        $command->setGenerator($this->getGenerator());
+        $generator = an::entityContentGenerator();
+        $manager = an::extensionManager();
+        $command = new EntityContentCommand(
+          new chainQueue(),
+          $generator->reveal(),
+          new StringConverter(),
+          $manager,
+          new Validator($manager)
+      );
 
         $commandTester = new CommandTester($command);
 
@@ -50,14 +60,5 @@ class EntityContentCommandTest extends GenerateCommandTest
         );
 
         $this->assertEquals(0, $code);
-    }
-
-    private function getGenerator()
-    {
-        return $this
-            ->getMockBuilder('Drupal\Console\Generator\EntityContentGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(['generate'])
-            ->getMock();
     }
 }
