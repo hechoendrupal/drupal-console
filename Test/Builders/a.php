@@ -5,6 +5,7 @@ namespace Drupal\Console\Test\Builders;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Generator\CommandGenerator;
+use Drupal\Console\Generator\EntityContentGenerator;
 use Drupal\Console\Generator\EntityBundleGenerator;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Generator\ServiceGenerator;
@@ -41,6 +42,14 @@ class a
     public static function authenticationProviderGenerator()
     {
         return self::prophet()->prophesize(AuthenticationProviderGenerator::class);
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function entityContentGenerator()
+    {
+        return self::prophet()->prophesize(EntityContentGenerator::class);
     }
 
     /**
