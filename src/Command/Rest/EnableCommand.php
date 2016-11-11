@@ -41,27 +41,37 @@ class EnableCommand extends Command
     protected $authenticationCollector;
 
     /**
- * @var ConfigFactory  
-*/
+     * @var ConfigFactory  
+     */
     protected $configFactory;
+
+    /**
+     * The available serialization formats.
+     *
+     * @var array
+     */
+    protected $formats;
 
     /**
      * EnableCommand constructor.
      * @param ResourcePluginManager   $pluginManagerRest
      * @param AuthenticationCollector $authenticationCollector
      * @param ConfigFactory           $configFactory
+     * @param array $formats
+     *   The available serialization formats.
      */
     public function __construct(
         ResourcePluginManager $pluginManagerRest,
         AuthenticationCollector $authenticationCollector,
-        ConfigFactory $configFactory
+        ConfigFactory $configFactory,
+        array $formats
     ) {
         $this->pluginManagerRest = $pluginManagerRest;
         $this->authenticationCollector = $authenticationCollector;
         $this->configFactory = $configFactory;
+        $this->formats = $formats;
         parent::__construct();
     }
-
 
     protected function configure()
     {
@@ -104,14 +114,21 @@ class EnableCommand extends Command
         // Calculate states available by resource and generate the question
         $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
-        $states = $plugin->availableMethods();
-
-        $state = $io->choice(
-            $this->trans('commands.rest.enable.arguments.states'),
-            $states
+        $methods = $plugin->availableMethods();
+        $method = $io->choice(
+            $this->trans('commands.rest.enable.arguments.method'),
+            $methods
         );
         $io->writeln(
-            $this->trans('commands.rest.enable.messages.selected-state').' '.$state
+            $this->trans('commands.rest.enable.messages.selected-method') . ' ' . $method
+        );
+
+        $format = $io->choice(
+            $this->trans('commands.rest.enable.arguments.formats'),
+            $this->formats
+        );
+        $io->writeln(
+            $this->trans('commands.rest.enable.messages.selected-format') . ' ' . $format
         );
 
         // Get Authentication Provider and generate the question
@@ -133,9 +150,8 @@ class EnableCommand extends Command
 
         $rest_settings = $this->getRestDrupalConfig();
 
-        $rest_settings[$resource_id][$state]['supported_formats'] = $formats;
+        $rest_settings[$resource_id][$state]['supported_formats'] = $format;
         $rest_settings[$resource_id][$state]['supported_auth'] = $authenticationProvidersSelected;
-
         $config = $this->configFactory->getEditable('rest.settings');
         $config->set('resources', $rest_settings);
         $config->save();
