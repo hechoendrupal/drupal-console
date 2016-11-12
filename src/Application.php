@@ -164,7 +164,10 @@ class Application extends ConsoleApplication
 
             if (array_key_exists($command->getName(), $aliases)) {
                 $commandAliases = $aliases[$command->getName()];
-                $command->setAliases([$commandAliases]);
+                if (!is_array($commandAliases)) {
+                    $commandAliases = [$commandAliases];
+                }
+                $command->setAliases($commandAliases);
             }
 
             $this->add($command);
