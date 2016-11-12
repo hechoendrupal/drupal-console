@@ -6,6 +6,7 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Generator\CommandGenerator;
 use Drupal\Console\Generator\EntityBundleGenerator;
+use Drupal\Console\Generator\EntityConfigGenerator;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Utils\ChainQueue;
@@ -34,6 +35,15 @@ class a
     {
         return self::prophet()->prophesize(EntityBundleGenerator::class);
     }
+
+        /**
+         * @return \Prophecy\Prophecy\ObjectProphecy
+         */
+        public static function entityConfigGenerator()
+        {
+            return self::prophet()->prophesize(EntityConfigGenerator::class);
+        }
+
 
     /**
      * @return \Prophecy\Prophecy\ObjectProphecy
