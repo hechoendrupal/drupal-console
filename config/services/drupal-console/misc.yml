@@ -7,6 +7,10 @@ services:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:
       - { name: drupal.command }
+  console.permission_debug:
+    class: Drupal\Console\Command\PermissionDebugCommand
+    tags:
+      - { name: drupal.command }
   console.event_debug:
     class: Drupal\Console\Command\EventDebugCommand
     arguments: ['@event_dispatcher']
