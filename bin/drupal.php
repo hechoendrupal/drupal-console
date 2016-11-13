@@ -28,7 +28,6 @@ else {
 
 $drupalFinder = new DrupalFinder();
 $drupalFinder->locateRoot(getcwd());
-
 $composerRoot = $drupalFinder->getComposerRoot();
 $drupalRoot = $drupalFinder->getDrupalRoot();
 
@@ -36,8 +35,6 @@ chdir($drupalRoot);
 
 $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
 $container = $drupal->boot();
-
-echo $composerRoot . PHP_EOL;
 
 if (!$container) {
     echo ' Something goes wrong, try checking the log file at:' . PHP_EOL .
