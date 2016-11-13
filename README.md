@@ -91,8 +91,7 @@ drupal self-update
 Using the DrupalConsole Launcher
 ```
 drupal
-```
-> NOTE: If using a DrupalComposer make sure you execute the `init` command and answer yest to ` Copy at current directory console/config.yml? (yes/no) [yes]:` question. 
+``` 
 
 We highly recommend you to install the global executable, but if is not installed, then you can run DrupalConsole by:  
 
