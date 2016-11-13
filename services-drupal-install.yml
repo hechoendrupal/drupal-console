@@ -1,7 +1,5 @@
 services:
   # Installer services
-  console.root:
-    class: SplString
   console.site:
     class: Drupal\Console\Utils\Site
     arguments: ['@app.root']
