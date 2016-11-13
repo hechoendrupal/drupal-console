@@ -31,6 +31,11 @@ $drupalFinder->locateRoot(getcwd());
 $composerRoot = $drupalFinder->getComposerRoot();
 $drupalRoot = $drupalFinder->getDrupalRoot();
 
+if (!$drupalRoot || !$composerRoot) {
+    echo ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL;
+    exit(1);
+}
+
 chdir($drupalRoot);
 
 $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
