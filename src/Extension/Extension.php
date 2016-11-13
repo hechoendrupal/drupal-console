@@ -111,6 +111,6 @@ class Extension extends BaseExtension
      */
     public function getTemplatePath($fullPath = false)
     {
-        return $this->getSourcePath($fullPath) . '/templates';
+        return $this->getPath($fullPath) . '/templates';
     }
 }

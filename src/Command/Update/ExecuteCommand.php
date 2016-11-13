@@ -183,7 +183,7 @@ class ExecuteCommand extends Command
     {
         foreach ($updates as $module_name => $module_updates) {
             $this->site
-                ->loadLegacyFile($this->extensionManager->getModule($this->module)->getPath() . '/'. $this->module . '.install', false);
+                ->loadLegacyFile($this->extensionManager->getModule($module_name)->getPath() . '/'. $module_name . '.install', false);
 
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {
