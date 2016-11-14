@@ -59,7 +59,6 @@ $configuration = $container->get('console.configuration_manager')
 
 $translator = $container->get('console.translator_manager');
 
-$argvInputReader = new ArgvInputReader();
 if ($options = $configuration->get('application.options') ?: []) {
     $argvInputReader->setOptionsFromConfiguration($options);
 }
