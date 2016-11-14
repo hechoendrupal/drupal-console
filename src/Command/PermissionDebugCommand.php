@@ -48,14 +48,16 @@ class PermissionDebugCommand extends Command
         if (!$role) {
             $tableHeader = [
                 $this->trans('commands.permission.debug.table-headers.permission-name'),
-                $this->trans('commands.permission.debug.table-headers.permission-label')
+                $this->trans('commands.permission.debug.table-headers.permission-label'),
+                $this->trans('commands.permission.debug.table-headers.permission-role')
             ];
             $tableRows = [];
             $permissions = \Drupal::service('user.permissions')->getPermissions();
             foreach ($permissions as $permission_name => $permission) {
                 $tableRows[$permission_name] = [
                     $permission_name,
-                    strip_tags($permission['title']->__toString())
+                    strip_tags($permission['title']->__toString()),
+                    implode(', ', $this->getRolesAssignedByPermission($permission_name))
                 ];
             }
 
@@ -90,5 +92,27 @@ class PermissionDebugCommand extends Command
           $io->table($tableHeader, array_values($tableRows));
           return true;
         }
+    }
+
+    /**
+     * Get user roles Assigned by Permission.
+     *
+     * @param string $permission_name
+     *   Permission Name.
+     *
+     * @return array
+     *   User roles filtered by permission else empty array.
+     */
+    public function getRolesAssignedByPermission($permission_name) {
+        $roles = user_roles();
+        $role_key = array_keys($roles);
+        $roles_found = [];
+        foreach($role_key as $role) {
+          if (in_array($permission_name, $roles[$role]->getPermissions())) {
+            $roles_found[] = $role;
+          }
+        }
+        $roles_found[] = 'administrator';
+        return $roles_found;
     }
 }
