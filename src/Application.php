@@ -22,7 +22,7 @@ class Application extends ConsoleApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-rc7';
+    const VERSION = '1.0.0-rc9';
 
     public function __construct(ContainerInterface $container)
     {
@@ -90,6 +90,7 @@ class Application extends ConsoleApplication
 
     private function registerCommands()
     {
+        $logger = $this->container->get('console.logger');
         if ($this->container->hasParameter('drupal.commands')) {
             $consoleCommands = $this->container->getParameter(
                 'drupal.commands'
@@ -102,6 +103,8 @@ class Application extends ConsoleApplication
                 'console.warning',
                 'application.site.errors.settings'
             );
+
+            $logger->writeln($this->trans('application.site.errors.settings'));
         }
 
         $serviceDefinitions = [];
@@ -116,6 +119,10 @@ class Application extends ConsoleApplication
             $annotationValidator = $this->container
                 ->get('console.annotation_validator');
         }
+
+        $aliases = $this->container->get('console.configuration_manager')
+            ->getConfiguration()
+            ->get('application.commands.aliases')?:[];
 
         foreach ($consoleCommands as $name) {
             if (!$this->container->has($name)) {
@@ -135,6 +142,7 @@ class Application extends ConsoleApplication
             try {
                 $command = $this->container->get($name);
             } catch (\Exception $e) {
+                $logger->writeln($e->getMessage());
                 continue;
             }
 
@@ -152,6 +160,14 @@ class Application extends ConsoleApplication
                 $command->setContainer(
                     $this->container->get('service_container')
                 );
+            }
+
+            if (array_key_exists($command->getName(), $aliases)) {
+                $commandAliases = $aliases[$command->getName()];
+                if (!is_array($commandAliases)) {
+                    $commandAliases = [$commandAliases];
+                }
+                $command->setAliases($commandAliases);
             }
 
             $this->add($command);
