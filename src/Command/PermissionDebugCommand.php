@@ -105,14 +105,12 @@ class PermissionDebugCommand extends Command
      */
     public function getRolesAssignedByPermission($permission_name) {
         $roles = user_roles();
-        $role_key = array_keys($roles);
         $roles_found = [];
-        foreach($role_key as $role) {
-          if (in_array($permission_name, $roles[$role]->getPermissions())) {
-            $roles_found[] = $role;
+        foreach ($roles as $role) {
+          if ($role->hasPermission($permission_name)) {
+            $roles_found[] = $role->getOriginalId();
           }
         }
-        $roles_found[] = 'administrator';
         return $roles_found;
     }
 }
