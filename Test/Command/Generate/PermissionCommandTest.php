@@ -27,7 +27,7 @@ class PermissionCommandTest extends GenerateCommandTest
         $module,
         $permissions
     ) {
-        $generator = an::PermissionGenerator();
+        $generator = an::permissionGenerator();
         $command = new PermissionCommand(
           an::extensionManager(),
           new StringConverter()
