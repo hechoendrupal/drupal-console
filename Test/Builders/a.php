@@ -13,6 +13,9 @@ use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Core\Render\ElementInfoManager;
 use Drupal\Core\Routing\RouteProvider;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Site;
+use GuzzleHttp\Client;
 use Prophecy\Prophet;
 
 class a
@@ -26,6 +29,29 @@ class a
     public static function extensionManager()
     {
         return self::prophet()->prophesize(Manager::class)->reveal();
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function guzzleHttpClient()
+    {
+        return self::prophet()->prophesize(Client::class);
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function drupalApi()
+    {
+        return self::prophet()->prophesize(DrupalApi::class);
+    }
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function siteDrupal()
+    {
+        return self::prophet()->prophesize(Site::class);
     }
 
     /**
@@ -109,6 +135,7 @@ class a
         return self::prophet()->prophesize(ServiceGenerator::class);
     }
 
+
     /**
      * @return Prophet
      */
@@ -120,4 +147,6 @@ class a
 
         return self::$prophet;
     }
+
+
 }
