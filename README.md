@@ -2,13 +2,14 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Drupal Console](#drupal-console)
+  - [Drupal Console](#drupal-console)
   - [Required PHP version](#required-php-version)
   - [Drupal Console documentation](#documentation)
   - [Download as new dependency](#download-as-new-dependency)
   - [Download using DrupalComposer](#download-using-drupalcomposer)
   - [Update DrupalConsole](#update-drupalconsole)
   - [Install Drupal Console Launcher](#install-drupal-console-launcher)
+  - [Update DrupalConsole Launcher](#update-drupalconsole-launcher)
   - [Run Drupal Console](#running-drupal-console)
   - [Supporting organizations](#supporting-organizations)
 
@@ -80,23 +81,24 @@ php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
 mv drupal.phar /usr/local/bin/drupal
 ```
 
+## Update DrupalConsole Launcher 
+```
+drupal self-update
+```
+> NOTE: `drupal` is the alias name you used when installed the DrupalConsole Launcher.
+
 ## Run Drupal Console
 Using the DrupalConsole Launcher
 ```
 drupal
-```
-> NOTE: If using a DrupalComposer make sure you execute the `init` command and answer yest to ` Copy at current directory console/config.yml? (yes/no) [yes]:` question. 
+``` 
 
 We highly recommend you to install the global executable, but if is not installed, then you can run DrupalConsole by:  
 
-Using default Drupal + DrupalConsole
 ```
 vendor/bin/drupal
-```
-
-Using DrupalComposer you can also change directory `web`, `docroot` and
-```
-../vendor/bin/drupal
+# or
+vendor/drupal/console/bin/drupal
 ```
 
 ## Drupal Console Support
