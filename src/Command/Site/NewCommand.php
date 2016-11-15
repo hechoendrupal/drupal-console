@@ -57,6 +57,12 @@ class NewCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.site.new.options.unstable')
+            )
+            ->addOption(
+                'template',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.new.options.template')
             );
     }
 
