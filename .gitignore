@@ -24,3 +24,6 @@
 # Drupal
 /core
 /nbproject/
+
+# DrupalConsole development local settings
+console-autoload.local.php
