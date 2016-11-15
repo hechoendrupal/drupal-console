@@ -7,10 +7,15 @@ use Drupal\Console\Application;
 
 set_time_limit(0);
 
-$autoloaders = [
-    __DIR__ . '/../../../autoload.php',
-    __DIR__ . '/../vendor/autoload.php'
-];
+$autoloaders = [];
+
+if(file_exists(__DIR__ . '/../console-autoload.local.php')) {
+    require_once __DIR__ . '/../console-autoload.local.php';
+}
+
+$autoloaders[] = __DIR__ . '/../../../autoload.php';
+$autoloaders[] = __DIR__ . '/../vendor/autoload.php';
+
 
 foreach ($autoloaders as $file) {
     if (file_exists($file)) {
@@ -18,6 +23,7 @@ foreach ($autoloaders as $file) {
         break;
     }
 }
+
 if (isset($autoloader)) {
     $autoload = require_once $autoloader;
 }
