@@ -41,6 +41,14 @@ class Drupal
         }
 
         try {
+
+            // Add support for Acquia Dev Desktop sites on Mac OS X
+            // @TODO: Check if this condition works in Windows
+            $devDesktopSettingsDir = getenv('HOME') . "/.acquia/DevDesktop/DrupalSettings";
+            if (file_exists($devDesktopSettingsDir)) {
+                $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devDesktopSettingsDir;
+            }
+
             $argvInputReader = new ArgvInputReader();
             if ($argvInputReader->get('uri')) {
               $uri = $argvInputReader->get('uri');
