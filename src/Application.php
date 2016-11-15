@@ -2,6 +2,7 @@
 
 namespace Drupal\Console;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -125,6 +126,11 @@ class Application extends ConsoleApplication
             ->get('application.commands.aliases')?:[];
 
         foreach ($consoleCommands as $name) {
+            // Some commands call AnnotationRegistry::reset, we need to ensure that
+            // the AnnotationRegistry is correctly defined.
+            AnnotationRegistry::reset();
+            AnnotationRegistry::registerLoader([\Drupal::service('class_loader'), "loadClass"]);
+
             if (!$this->container->has($name)) {
                 continue;
             }
