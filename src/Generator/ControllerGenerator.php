@@ -37,7 +37,7 @@ class ControllerGenerator extends Generator
 
         $this->renderFile(
             'module/src/Controller/controller.php.twig',
-            $this->extensionManager->getModule($module)->getControllerPath().'/'.$class.'Controller.php',
+            $this->extensionManager->getModule($module)->getControllerPath().'/'.$class.'.php',
             $parameters
         );
 
