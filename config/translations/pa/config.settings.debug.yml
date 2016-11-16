@@ -1,5 +1,0 @@
-description: 'ਵੇਖਾਉਦਾ ਹੈ ਮੌਜੂਦਾ key:value ਫਾਇਲ ਸੈਟਿੰਗ ਵਿਚ'
-help: '<info>config:settings:debug</info> ਸੈਟਿੰਗ ਫਾਇਲ ਤੇ key:value ਤੁਹਾਨੂੰ ਮੌਜੂਦਾ ਕੁੰਜੀ ਵੇਖਾਉਣ ਮਦਦ ਕਰਦਾ ਹੈ'
-welcome: 'ਡਰੁੱਪਲ ਸੰਰਚਨਾ ਸੈਟਿੰਗ ਡੀਬੱਗ ਹੁਕਮ ਦਾ ਸੁਆਗਤ ਹੈ'
-messages:
-    current: 'ਮੌਜੂਦਾ Key:value ਸੈਟਿੰਗ ਵਿਚ'

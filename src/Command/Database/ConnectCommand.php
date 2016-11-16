@@ -11,13 +11,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class ConnectCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ConnectTrait;
 
     /**
@@ -47,10 +47,6 @@ class ConnectCommand extends Command
         $database = $input->getArgument('database');
         $databaseConnection = $this->resolveConnection($io, $database);
 
-        if ($databaseConnection['password']) {
-            $databaseConnection['password'] = str_repeat("*", strlen($databaseConnection['password']));
-        }
-
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
             $databaseConnection['driver'],
@@ -67,5 +63,7 @@ class ConnectCommand extends Command
                 $connection
             )
         );
+
+        return 0;
     }
 }

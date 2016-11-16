@@ -7,8 +7,21 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class PluginRulesActionGenerator extends Generator
 {
+
+    /**
+     * PluginRulesActionGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     /**
      * Generator Plugin RulesAction.
      *
@@ -33,13 +46,13 @@ class PluginRulesActionGenerator extends Generator
 
         $this->renderFile(
             'module/src/Plugin/Action/rulesaction.php.twig',
-            $this->getSite()->getPluginPath($module, 'Action').'/'.$class_name.'.php',
+            $this->extensionManager->getPluginPath($module, 'Action').'/'.$class_name.'.php',
             $parameters
         );
 
         $this->renderFile(
             'module/system.action.action.yml.twig',
-            $this->getSite()->getModulePath($module).'/config/install/system.action.'.$plugin_id.'.yml',
+            $this->extensionManager->getModule($module)->getPath() .'/config/install/system.action.'.$plugin_id.'.yml',
             $parameters
         );
     }

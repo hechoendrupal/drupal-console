@@ -14,14 +14,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
 
 class PathCommand extends Command
 {
     use CommandTrait;
     use ModuleTrait;
-    use HelperTrait;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * PathCommand constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(Manager $extensionManager)
+    {
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -47,12 +61,12 @@ class PathCommand extends Command
 
         $module = $input->getArgument('module');
 
-        $absolute = $input->getOption('absolute');
+        $fullPath = $input->getOption('absolute');
 
-        $modulePath = $this->getSite()->getModulePath($module, $absolute);
+        $module = $this->extensionManager->getModule($module);
 
         $io->info(
-            $modulePath
+            $module->getPath($fullPath)
         );
     }
 
@@ -67,7 +81,7 @@ class PathCommand extends Command
         $module = $input->getArgument('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setArgument('module', $module);
         }
     }

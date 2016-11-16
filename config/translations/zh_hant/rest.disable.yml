@@ -1,9 +1,0 @@
-description: '停用網站應用中的 REST 資源'
-arguments:
-    resource-id: 'REST ID'
-    states: '要停用的 REST 資源狀態'
-questions:
-    resource-id: 'REST ID'
-messages:
-    invalid-rest-id: '找不到符合的 REST ID "%s"'
-    success: 'Rest ID "%s" disabled'

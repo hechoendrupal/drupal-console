@@ -1,6 +1,0 @@
-description: 重建網站應用途徑
-arguments:
-    route-name: 途徑名稱
-messages:
-    rebuilding: 重建途徑中，請稍候...
-    completed: 途徑重建完畢。

@@ -1,7 +1,0 @@
-description: 'Returns the relative path to the theme (or absolute path)'
-arguments:
-    module: 'The Theme name (machine name)'
-options:
-    absolute: 'Return theme absolute path'
-messages:
-

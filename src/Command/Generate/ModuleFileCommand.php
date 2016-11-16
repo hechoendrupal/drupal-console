@@ -10,16 +10,45 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Generator\ModuleFileGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Style\DrupalStyle;
 
-class ModuleFileCommand extends GeneratorCommand
+
+/**
+ * Class ModuleFileCommand
+ * @package Drupal\Console\Command\Generate
+ */
+class ModuleFileCommand extends Command
 {
+    use CommandTrait;
     use ConfirmationTrait;
     use ModuleTrait;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var ModuleFileGenerator  */
+    protected $generator;
+
+
+    /**
+     * ModuleFileCommand constructor.
+     * @param Manager             $extensionManager
+     * @param ModuleFileGenerator $generator
+     */
+    public function __construct(
+        Manager $extensionManager,
+        ModuleFileGenerator $generator
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -44,11 +73,11 @@ class ModuleFileCommand extends GeneratorCommand
         if (!$this->confirmGeneration($io, $yes)) {
             return;
         }
-        
+
         $machine_name =  $input->getOption('module');
-        $file_path =  $this->getSite()->getModulePath($machine_name);
-        
-        $generator = $this->getGenerator();
+        $file_path =  $this->extensionManager->getModule($machine_name)->getPath();
+        $generator = $this->generator;
+
         $generator->generate(
             $machine_name,
             $file_path
@@ -70,15 +99,7 @@ class ModuleFileCommand extends GeneratorCommand
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
         }
-       
-        $input->setOption('module', $module);
-    }
 
-    /**
-     * @return ModuleFileGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ModuleFileGenerator();
+        $input->setOption('module', $module);
     }
 }

@@ -15,15 +15,69 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\EventSubscriberGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\EventsTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Drupal\Console\Utils\ChainQueue;
 
-class EventSubscriberCommand extends GeneratorCommand
+class EventSubscriberCommand extends Command
 {
     use EventsTrait;
     use ServicesTrait;
     use ModuleTrait;
     use ConfirmationTrait;
+    use ContainerAwareCommandTrait;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * @var EventSubscriberGenerator
+     */
+    protected $generator;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * EventSubscriberCommand constructor.
+     * @param Manager                  $extensionManager
+     * @param EventSubscriberGenerator $generator
+     * @param StringConverter          $stringConverter
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param ChainQueue               $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        EventSubscriberGenerator $generator,
+        StringConverter $stringConverter,
+        EventDispatcherInterface $eventDispatcher,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->stringConverter = $stringConverter;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -82,11 +136,9 @@ class EventSubscriberCommand extends GeneratorCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $buildServices = $this->buildServices($services);
 
-        $this
-            ->getGenerator()
-            ->generate($module, $name, $class, $events, $buildServices);
+        $this->generator->generate($module, $name, $class, $events, $buildServices);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'all']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
     /**
@@ -100,7 +152,7 @@ class EventSubscriberCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -128,7 +180,7 @@ class EventSubscriberCommand extends GeneratorCommand
         $events = $input->getOption('events');
         if (!$events) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $events = $this->eventsQuestion($output);
+            $events = $this->eventsQuestion($io);
             $input->setOption('events', $events);
         }
 
@@ -139,10 +191,5 @@ class EventSubscriberCommand extends GeneratorCommand
             $services = $this->servicesQuestion($io);
             $input->setOption('services', $services);
         }
-    }
-
-    protected function createGenerator()
-    {
-        return new EventSubscriberGenerator();
     }
 }

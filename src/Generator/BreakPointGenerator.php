@@ -7,8 +7,29 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
+/**
+ * Class BreakPointGenerator
+ * @package Drupal\Console\Generator
+ */
 class  BreakPointGenerator extends Generator
 {
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * BreakPointGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+
     /**
      * Generator BreakPoint.
      *
@@ -23,8 +44,8 @@ class  BreakPointGenerator extends Generator
           'breakpoints' => $breakpoints,
           'machine_name' => $machine_name
         ];
-        
-        $theme_path =  $this->getSite()->getThemePath($theme);
+
+        $theme_path =  $this->extensionManager->getTheme($theme)->getPath();
 
         $this->renderFile(
             'theme/breakpoints.yml.twig',

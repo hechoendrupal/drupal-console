@@ -13,15 +13,29 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 class PathCommand extends Command
 {
     use CommandTrait;
     use ModuleTrait;
-    use HelperTrait;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * PathCommand constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(Manager $extensionManager)
+    {
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -29,7 +43,7 @@ class PathCommand extends Command
             ->setName('theme:path')
             ->setDescription($this->trans('commands.theme.path.description'))
             ->addArgument(
-                'module',
+                'theme',
                 InputArgument::REQUIRED,
                 $this->trans('commands.theme.path.arguments.module')
             )
@@ -45,14 +59,14 @@ class PathCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $module = $input->getArgument('module');
+        $theme = $input->getArgument('theme');
 
-        $absolute = $input->getOption('absolute');
+        $fullPath = $input->getOption('absolute');
 
-        $modulePath = $this->getSite()->getThemePath($module, $absolute);
+        $theme = $this->extensionManager->getTheme($theme);
 
         $io->info(
-            $modulePath
+            $theme->getPath($fullPath)
         );
     }
 
@@ -64,11 +78,11 @@ class PathCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module argument
-        $module = $input->getArgument('module');
-        if (!$module) {
+        $theme = $input->getArgument('theme');
+        if (!$theme) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
-            $input->setArgument('module', $module);
+            $module = $this->moduleQuestion($io);
+            $input->setArgument('theme', $module);
         }
     }
 }

@@ -1,0 +1,10 @@
+services:
+  console.cache_context_debug:
+    class: Drupal\Console\Command\Cache\ContextDebugCommand
+    tags:
+      - { name: drupal.command }
+  console.cache_rebuild:
+    class: Drupal\Console\Command\Cache\RebuildCommand
+    arguments: ['@console.drupal_api', '@console.site', '@class_loader', '@request_stack']
+    tags:
+      - { name: drupal.command }

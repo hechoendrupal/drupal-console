@@ -10,11 +10,15 @@ namespace Drupal\Console\Command\Develop;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
 
-class GenerateDocDataCommand extends ContainerAwareCommand
+class GenerateDocDataCommand extends Command
 {
+    use CommandTrait;
+
+
     /**
      * {@inheritdoc}
      */
@@ -45,15 +49,13 @@ class GenerateDocDataCommand extends ContainerAwareCommand
             $file = $input->getOption('file');
         }
 
-        if (!$file) {
-            $io->error(
-                $this->trans('commands.generate.doc.data.messages.missing_file')
-            );
+        $data = $this->getApplication()->getData();
+        if ($file) {
+            file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
 
-            return 1;
+            return 0;
         }
 
-        $data = $this->getApplication()->getData();
-        file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+        $io->write(json_encode($data, JSON_PRETTY_PRINT));
     }
 }

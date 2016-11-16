@@ -19,9 +19,8 @@ trait RestTrait
     {
         $config = $this->getRestDrupalConfig();
 
-        $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
-        /* @var Drupal\rest\Plugin\Type\ResourcePluginManager $resources */
-        $resources = $resourcePluginManager->getDefinitions();
+        $resources = $this->pluginManagerRest->getDefinitions();
+
 
         $enabled_resources = array_combine(array_keys($config), array_keys($config));
         $available_resources = ['enabled' => [], 'disabled' => []];
@@ -51,9 +50,8 @@ trait RestTrait
 
     public function getRestDrupalConfig()
     {
-        $configFactory = $this->getDrupalService('config.factory');
-        if ($configFactory) {
-            return $configFactory->get('rest.settings')->get('resources') ?: [];
+        if ($this->configFactory) {
+            return $this->configFactory->get('rest.settings')->get('resources') ?: [];
         }
 
         return null;

@@ -15,11 +15,81 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
+use GuzzleHttp\Client;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Utils\ShellProcess;
 
 class DownloadCommand extends Command
 {
     use CommandTrait;
     use ProjectDownloadTrait;
+
+    /** @var DrupalApi  */
+    protected $drupalApi;
+
+    /** @var Client  */
+    protected $httpClient;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var Validator  */
+    protected $validator;
+
+    /** @var ConfigurationManager  */
+    protected $configurationManager;
+
+    /** @var ShellProcess  */
+    protected $shellProcess;
+
+    /**
+     * @var string
+     */
+    protected $root;
+
+    /**
+     * DownloadCommand constructor.
+     * @param DrupalApi $drupalApi
+     * @param Client     $httpClient
+     * @param $appRoot
+     * @param Manager           $extensionManager
+     * @param Validator $validator
+     * @param Site $site
+     * @param ConfigurationManager $configurationManager
+     * @param ShellProcess $shellProcess
+     * @param $root
+     */
+    public function __construct(
+        DrupalApi $drupalApi,
+        Client $httpClient,
+        $appRoot,
+        Manager $extensionManager,
+        Validator $validator,
+        Site $site,
+        ConfigurationManager $configurationManager,
+        ShellProcess $shellProcess,
+        $root
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->httpClient = $httpClient;
+        $this->appRoot = $appRoot;
+        $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
+        $this->site = $site;
+        $this->configurationManager = $configurationManager;
+        $this->shellProcess = $shellProcess;
+        $this->root = $root;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -99,7 +169,7 @@ class DownloadCommand extends Command
         if ($composer) {
             foreach ($modules as $module) {
                 if (!$latest) {
-                    $versions = $this->getApplication()->getDrupalApi()
+                    $versions = $this->drupalApi
                         ->getPackagistModuleReleases($module, 10, $unstable);
 
                     if (!$versions) {
@@ -115,12 +185,16 @@ class DownloadCommand extends Command
                         return 1;
                     } else {
                         $version = $io->choice(
-                            $this->trans('commands.site.new.questions.composer-release'),
+                            sprintf(
+																$this->trans(
+																		'commands.site.new.questions.composer-release'),
+																		$module
+																),
                             $versions
                         );
                     }
                 } else {
-                    $versions = $this->getApplication()->getDrupalApi()
+                    $versions = $this->drupalApi
                         ->getPackagistModuleReleases($module, 10, $unstable);
 
                     if (!$versions) {
@@ -135,21 +209,23 @@ class DownloadCommand extends Command
                         return 1;
                     } else {
                         $version = current(
-                            $this->getApplication()->getDrupalApi()
+                            $this->drupalApi
                                 ->getPackagistModuleReleases($module, 1, $unstable)
                         );
                     }
                 }
 
-                $this->setComposerRepositories("default");
+                // Register composer repository
+                $command = "composer config repositories.drupal composer https://packagist.drupal-composer.org";
+                $this->shellProcess->exec($command, $this->root);
+
                 $command = sprintf(
                     'composer require drupal/%s:%s --prefer-dist --optimize-autoloader --sort-packages --update-no-dev',
                     $module,
                     $version
                 );
 
-                $shellProcess = $this->get('shell_process');
-                if ($shellProcess->exec($command, true)) {
+                if ($this->shellProcess->exec($command, $this->root)) {
                     $io->success(
                         sprintf(
                             $this->trans('commands.module.download.messages.composer'),

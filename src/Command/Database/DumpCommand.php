@@ -12,14 +12,36 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
+use Drupal\Console\Utils\ShellProcess;
 use Drupal\Console\Style\DrupalStyle;
 
 class DumpCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ConnectTrait;
+
+
+    protected $appRoot;
+    /**
+     * @var ShellProcess
+     */
+    protected $shellProcess;
+
+    /**
+     * DumpCommand constructor.
+     * @param $appRoot
+     * @param ShellProcess $shellProcess
+     */
+    public function __construct(
+        $appRoot,
+        ShellProcess $shellProcess
+    ) {
+        $this->appRoot = $appRoot;
+        $this->shellProcess = $shellProcess;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -41,6 +63,12 @@ class DumpCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.dump.option.file')
             )
+            ->addOption(
+                'gz',
+                false,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.dump.option.gz')
+            )
             ->setHelp($this->trans('commands.database.dump.help'));
     }
 
@@ -53,16 +81,16 @@ class DumpCommand extends Command
 
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
+        $learning = $input->getOption('learning');
+        $gz = $input->getOption('gz');
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
         if (!$file) {
             $date = new \DateTime();
-            $siteRoot = rtrim($this->getApplication()->getSite()->getSiteRoot(), '/');
             $file = sprintf(
                 '%s/%s-%s.sql',
-                $siteRoot,
+                $this->appRoot,
                 $databaseConnection['database'],
                 $date->format('Y-m-d-h-i-s')
             );
@@ -93,24 +121,32 @@ class DumpCommand extends Command
         }
 
         if ($learning) {
-            $io->commentBlock(
-                str_replace(
-                    $databaseConnection['password'],
-                    str_repeat("*", strlen($databaseConnection['password'])),
-                    $command
-                )
-            );
+            $io->commentBlock($command);
         }
 
-        $shellProcess = $this->get('shell_process');
-        if ($shellProcess->exec($command, true)) {
+        if ($this->shellProcess->exec($command, $this->appRoot)) {
+						$resultFile = $file;
+						if ($gz) {
+							$resultFile = $file . ".gz";
+							file_put_contents(
+									$resultFile,
+									gzencode(
+											file_get_contents(
+													$file)
+									)
+							);
+							unlink($file);
+						}
+
             $io->success(
                 sprintf(
                     '%s %s',
                     $this->trans('commands.database.dump.messages.success'),
-                    $file
+                    $resultFile
                 )
             );
         }
+
+        return 0;
     }
 }

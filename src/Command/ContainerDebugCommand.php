@@ -10,7 +10,8 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Command\Command as BaseCommand;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Yaml\Yaml;
@@ -19,9 +20,10 @@ use Symfony\Component\Yaml\Yaml;
  * Class ContainerDebugCommand
  * @package Drupal\Console\Command
  */
-class ContainerDebugCommand extends BaseCommand
+class ContainerDebugCommand extends Command
 {
     use ContainerAwareCommandTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -30,10 +32,16 @@ class ContainerDebugCommand extends BaseCommand
         $this
             ->setName('container:debug')
             ->setDescription($this->trans('commands.container.debug.description'))
+            ->addOption(
+                'parameters',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.container.debug.arguments.service')
+            )
             ->addArgument(
                 'service',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.container.debug.options.cache')
+                $this->trans('commands.container.debug.arguments.service')
             );
     }
 
@@ -44,8 +52,17 @@ class ContainerDebugCommand extends BaseCommand
     {
         $io = new DrupalStyle($input, $output);
         $service = $input->getArgument('service');
-        $tableHeader = [];
+        $parameters = $input->getOption('parameters');
 
+        if ($parameters) {
+            $parameterList = $this->getParameterList();
+            ksort($parameterList);
+            $io->write(Yaml::dump(['parameters' => $parameterList], 4, 2));
+
+            return 0;
+        }
+
+        $tableHeader = [];
         if ($service) {
             $tableRows = $this->getServiceDetail($service);
             $io->table($tableHeader, $tableRows, 'compact');
@@ -60,24 +77,25 @@ class ContainerDebugCommand extends BaseCommand
 
         $tableRows = $this->getServiceList();
         $io->table($tableHeader, $tableRows, 'compact');
+
+        return 0;
     }
 
     private function getServiceList()
     {
-        $drupalContainer = $this->getDrupalContainer();
         $services = [];
-        foreach ($drupalContainer->getServiceIds() as $serviceId) {
-            $service = $drupalContainer->get($serviceId);
-            $class = get_class($service);
-            $services[] = [$serviceId, $class];
-        }
+        $serviceDefinitions = $this->container
+            ->getParameter('console.service_definitions');
 
+        foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
+            $services[] = [$serviceId, $serviceDefinition->getClass()];
+        }
         return $services;
     }
 
     private function getServiceDetail($service)
     {
-        $serviceInstance = $this->getDrupalService($service);
+        $serviceInstance = $this->get($service);
         $serviceDetail = [];
 
         if ($serviceInstance) {
@@ -114,5 +132,25 @@ class ContainerDebugCommand extends BaseCommand
         }
 
         return $serviceDetail;
+    }
+
+    private function getParameterList()
+    {
+        $parameters = array_filter(
+            $this->container->getParameterBag()->all(), function ($name) {
+                if (preg_match('/^container\./', $name)) {
+                    return false;
+                }
+                if (preg_match('/^drupal\./', $name)) {
+                    return false;
+                }
+                if (preg_match('/^console\./', $name)) {
+                    return false;
+                }
+                return true;
+            }, ARRAY_FILTER_USE_KEY
+        );
+
+        return $parameters;
     }
 }

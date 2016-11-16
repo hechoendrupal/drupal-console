@@ -1,6 +1,0 @@
-description: '返回主题的相对路径 (或绝对路径)'
-arguments:
-    module: 主题名称(机读名称)
-options:
-    absolute: 返回主题绝对路径
-messages: null

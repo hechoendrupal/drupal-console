@@ -12,24 +12,39 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Annotation\DrupalCommand;
-use Drupal\Component\Serialization\Yaml;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
+use Drupal\rest\Plugin\Type\ResourcePluginManager;
 
+/**
+ * @DrupalCommand(
+ *     extension = "rest",
+ *     extensionType = "module"
+ * )
+ */
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use RestTrait;
 
+
     /**
-     * @DrupalCommand(
-     *     dependencies = {
-     *         “rest"
-     *     }
-     * )
+     * @var ResourcePluginManager $pluginManagerRest
      */
+    protected $pluginManagerRest;
+
+    /**
+     * DebugCommand constructor.
+     * @param ResourcePluginManager $pluginManagerRest
+     */
+    public function __construct(ResourcePluginManager $pluginManagerRest)
+    {
+        $this->pluginManagerRest = $pluginManagerRest;
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -60,14 +75,15 @@ class DebugCommand extends Command
         } else {
             $this->restList($io, $status);
         }
+
+        return 0;
     }
 
     private function restDetail(DrupalStyle $io, $resource_id)
     {
         $config = $this->getRestDrupalConfig();
 
-        $resourcePluginManager = $this->getDrupalService('plugin.manager.rest');
-        $plugin = $resourcePluginManager->getInstance(['id' => $resource_id]);
+        $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
         if (empty($plugin)) {
             $io->error(
@@ -99,7 +115,12 @@ class DebugCommand extends Command
           $this->trans('commands.rest.debug.messages.status'),
           (isset($config[$resource['id']])) ? $this->trans('commands.rest.debug.messages.enabled') : $this->trans('commands.rest.debug.messages.disabled')];
         $configuration[] = [
-          $this->trans('commands.rest.debug.messages.provider', $resource['provider'])
+          $this->trans(
+              sprintf(
+                  'commands.rest.debug.messages.provider',
+                  $resource['provider']
+              )
+          )
         ];
 
         $io->comment($resource_id);

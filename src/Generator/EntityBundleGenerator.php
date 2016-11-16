@@ -7,15 +7,32 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class EntityBundleGenerator extends Generator
 {
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /**
+     * PermissionGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
     public function generate($module, $bundleName, $bundleTitle)
     {
         $parameters = [
             'module' => $module,
             'bundle_name' => $bundleName,
             'bundle_title' => $bundleTitle,
-            'learning' => $this->isLearning(),
+            //TODO:
+            //'learning' => $this->isLearning(),
         ];
 
         /**
@@ -23,7 +40,7 @@ class EntityBundleGenerator extends Generator
          */
         $this->renderFile(
             'module/src/Entity/Bundle/core.entity_form_display.node.default.yml.twig',
-            $this->getSite()->getModulePath($module) . '/config/install/core.entity_form_display.node.' . $bundleName . '.default.yml',
+            $this->extensionManager->getModule($module)->getPath() . '/config/install/core.entity_form_display.node.' . $bundleName . '.default.yml',
             $parameters
         );
 
@@ -32,7 +49,7 @@ class EntityBundleGenerator extends Generator
          */
         $this->renderFile(
             'module/src/Entity/Bundle/core.entity_view_display.node.default.yml.twig',
-            $this->getSite()->getModulePath($module) . '/config/install/core.entity_view_display.node.' . $bundleName . '.default.yml',
+            $this->extensionManager->getModule($module)->getPath()  . '/config/install/core.entity_view_display.node.' . $bundleName . '.default.yml',
             $parameters
         );
 
@@ -41,7 +58,7 @@ class EntityBundleGenerator extends Generator
          */
         $this->renderFile(
             'module/src/Entity/Bundle/core.entity_view_display.node.teaser.yml.twig',
-            $this->getSite()->getModulePath($module) . '/config/install/core.entity_view_display.node.' . $bundleName . '.teaser.yml',
+            $this->extensionManager->getModule($module)->getPath()  . '/config/install/core.entity_view_display.node.' . $bundleName . '.teaser.yml',
             $parameters
         );
 
@@ -50,7 +67,7 @@ class EntityBundleGenerator extends Generator
          */
         $this->renderFile(
             'module/src/Entity/Bundle/field.field.node.body.yml.twig',
-            $this->getSite()->getModulePath($module) . '/config/install/field.field.node.' . $bundleName . '.body.yml',
+            $this->extensionManager->getModule($module)->getPath()  . '/config/install/field.field.node.' . $bundleName . '.body.yml',
             $parameters
         );
 
@@ -59,7 +76,7 @@ class EntityBundleGenerator extends Generator
          */
         $this->renderFile(
             'module/src/Entity/Bundle/node.type.yml.twig',
-            $this->getSite()->getModulePath($module) . '/config/install/node.type.' . $bundleName . '.yml',
+            $this->extensionManager->getModule($module)->getPath()  . '/config/install/node.type.' . $bundleName . '.yml',
             $parameters
         );
     }

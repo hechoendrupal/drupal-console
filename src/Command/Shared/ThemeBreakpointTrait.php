@@ -18,8 +18,8 @@ trait ThemeBreakpointTrait
      */
     public function breakpointQuestion(DrupalStyle $io)
     {
-        $stringUtils = $this->getStringHelper();
-        $validators = $this->getValidator();
+        $stringUtils = $this->stringConverter;
+        $validators = $this->validator;
 
         $breakpoints = [];
         while (true) {

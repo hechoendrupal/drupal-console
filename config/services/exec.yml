@@ -1,5 +1,0 @@
-services:
-  exec:
-    class: Drupal\Console\Command\Exec\ExecCommand
-    tags:
-      - { name: console.command }

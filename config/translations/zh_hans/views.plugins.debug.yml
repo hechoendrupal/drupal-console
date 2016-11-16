@@ -1,8 +1,0 @@
-description: 显示当前应用的视图插件
-arguments:
-    type: 通过类型过滤视图插件
-messages:
-    type: 类型
-    name: 名称
-    provider: '提供者'
-    views: 视图

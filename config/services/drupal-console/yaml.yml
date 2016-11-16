@@ -1,0 +1,35 @@
+services:
+  console.yaml_diff:
+    class: Drupal\Console\Command\Yaml\DiffCommand
+    arguments: ['@console.nested_array']
+    tags:
+      - { name: drupal.command }
+  console.yaml_get_value:
+      class: Drupal\Console\Command\Yaml\GetValueCommand
+      arguments: ['@console.nested_array']
+      tags:
+        - { name: drupal.command }
+  console.yaml_merge:
+    class: Drupal\Console\Command\Yaml\MergeCommand
+    tags:
+      - { name: drupal.command }
+  console.yaml_split:
+    class: Drupal\Console\Command\Yaml\SplitCommand
+    arguments: ['@console.nested_array']
+    tags:
+      - { name: drupal.command }
+  console.yaml_update_key:
+    class: Drupal\Console\Command\Yaml\UpdateKeyCommand
+    arguments: ['@console.nested_array']
+    tags:
+      - { name: drupal.command }
+  console.yaml_update_value:
+    class: Drupal\Console\Command\Yaml\UpdateValueCommand
+    arguments: ['@console.nested_array']
+    tags:
+      - { name: drupal.command }
+  console.yaml_unset_key:
+    class: Drupal\Console\Command\Yaml\UnsetKeyCommand
+    arguments: ['@console.nested_array']
+    tags:
+      - { name: drupal.command }

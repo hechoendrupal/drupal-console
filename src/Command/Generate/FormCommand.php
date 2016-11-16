@@ -14,12 +14,19 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
-use Drupal\Console\Generator\FormGenerator;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Core\Render\ElementInfoManager;
+use Drupal\Core\Routing\RouteProviderInterface;
 
-abstract class FormCommand extends GeneratorCommand
+abstract class FormCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;
@@ -27,6 +34,57 @@ abstract class FormCommand extends GeneratorCommand
 
     private $formType;
     private $commandName;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var FormGenerator  */
+    protected $generator;
+
+    /** @var ChainQueue */
+    protected $chainQueue;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var ElementInfoManager
+     */
+    protected $elementInfoManager;
+
+    /**
+     * @var RouteProviderInterface
+     */
+    protected $routeProvider;
+
+
+    /**
+     * FormCommand constructor.
+     * @param Manager                $extensionManager
+     * @param FormGenerator          $generator
+     * @param ChainQueue             $chainQueue
+     * @param StringConverter        $stringConverter
+     * @param ElementInfoManager     $elementInfoManager
+     * @param RouteProviderInterface $routeProvider
+     */
+    public function __construct(
+        Manager $extensionManager,
+        FormGenerator $generator,
+        ChainQueue $chainQueue,
+        StringConverter $stringConverter,
+        ElementInfoManager $elementInfoManager,
+        RouteProviderInterface $routeProvider
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->chainQueue = $chainQueue;
+        $this->stringConverter = $stringConverter;
+        $this->elementInfoManager = $elementInfoManager;
+        $this->routeProvider = $routeProvider;
+        parent::__construct();
+    }
 
     protected function setFormType($formType)
     {
@@ -138,10 +196,10 @@ abstract class FormCommand extends GeneratorCommand
         $build_services = $this->buildServices($services);
 
         $this
-            ->getGenerator()
+            ->generator
             ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
 
-        $this->getChain()->addCommand('router:rebuild');
+        $this->chainQueue->addCommand('router:rebuild', []);
     }
 
     /**
@@ -155,7 +213,7 @@ abstract class FormCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -174,21 +232,21 @@ abstract class FormCommand extends GeneratorCommand
         if (!$formId) {
             $formId = $io->ask(
                 $this->trans('commands.generate.form.questions.form-id'),
-                $this->getStringHelper()->camelCaseToMachineName($className)
+                $this->stringConverter->camelCaseToMachineName($className)
             );
             $input->setOption('form-id', $formId);
         }
 
         // --services option
         // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-        $services = $this->servicesQuestion($output);
+        $services = $this->servicesQuestion($io);
         $input->setOption('services', $services);
 
         // --inputs option
         $inputs = $input->getOption('inputs');
         if (!$inputs) {
             // @see \Drupal\Console\Command\Shared\FormTrait::formQuestion
-            $inputs = $this->formQuestion($output);
+            $inputs = $this->formQuestion($io);
             $input->setOption('inputs', $inputs);
         }
 
@@ -199,21 +257,20 @@ abstract class FormCommand extends GeneratorCommand
                 $form_path = sprintf(
                     '/admin/config/%s/%s',
                     $module,
-                    strtolower($this->getStringHelper()->removeSuffix($className))
+                    strtolower($this->stringConverter->removeSuffix($className))
                 );
             } else {
                 $form_path = sprintf(
                     '/%s/form/%s',
                     $module,
-                    $this->getStringHelper()->camelCaseToMachineName($this->getStringHelper()->removeSuffix($className))
+                    $this->stringConverter->camelCaseToMachineName($this->stringConverter->removeSuffix($className))
                 );
             }
             $path = $io->ask(
                 $this->trans('commands.generate.form.questions.path'),
                 $form_path,
                 function ($path) {
-                    $routeProvider = $this->getRouteProvider();
-                    if (count($routeProvider->getRoutesByPattern($path)) > 0) {
+                    if (count($this->routeProvider->getRoutesByPattern($path)) > 0) {
                         throw new \InvalidArgumentException(
                             sprintf(
                                 $this->trans(
@@ -232,7 +289,7 @@ abstract class FormCommand extends GeneratorCommand
 
         // --link option for links.menu
         if ($this->formType == 'ConfigFormBase') {
-            $menu_options = $this->menuQuestion($output, $className);
+            $menu_options = $this->menuQuestion($io, $className);
             $menu_link_gen = $input->getOption('menu_link_gen');
             $menu_link_title = $input->getOption('menu_link_title');
             $menu_parent = $input->getOption('menu_parent');
@@ -244,13 +301,5 @@ abstract class FormCommand extends GeneratorCommand
                 $input->setOption('menu_link_desc', $menu_options['menu_link_desc']);
             }
         }
-    }
-
-    /**
-     * @return \Drupal\Console\Generator\FormGenerator.
-     */
-    protected function createGenerator()
-    {
-        return new FormGenerator();
     }
 }

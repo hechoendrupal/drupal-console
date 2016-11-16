@@ -1,40 +1,33 @@
+imports:
+    - { resource: 'services-drupal-install.yml' }
 services:
-  parser:
-    class: Symfony\Component\Yaml\Parser
-  filesystem:
-    class: Symfony\Component\Filesystem\Filesystem
-  yaml:
-    class: Symfony\Component\Yaml\Yaml
-  config:
-    class: Drupal\Console\Config
-    arguments: ["@parser"]
-  requirement_checker:
-    class: Drupal\Console\Utils\RequirementChecker
-    arguments: ["@parser"]
-  redbean:
+  console.root:
+    class: SplString
+  console.redbean:
     class: RedBeanPHP\R
-  annotation_reader:
-    class: Doctrine\Common\Annotations\AnnotationReader
-  annotation_file_cache:
-    class: Doctrine\Common\Annotations\FileCacheReader
-    factory: [Drupal\Console\Annotations\CacheFactory, createFileCache]
-    arguments: ['@annotation_reader', '@config']
-  command_dependency_resolver:
-    class: Drupal\Console\Command\CommandDependencies
-    arguments: ["@annotation_file_cache"]
-  file_util:
-    class: Drupal\Console\Utils\File
-  translator:
-    class: Drupal\Console\Utils\Translator
-    arguments: ["@parser", "@filesystem"]
-  site:
-    class: Drupal\Console\Utils\Site
-    arguments: ["@parser"]
-  chain_queue:
-    class: Drupal\Console\Utils\ChainQueue
-  showfile:
-    class: Drupal\Console\Utils\ShowFile
-    arguments: ["@site", "@translator"]
-  shell_process:
-    class: Drupal\Console\Utils\ShellProcess
-    arguments: ["@site", '@config']
+  console.validator:
+    class: Drupal\Console\Utils\Validator
+    arguments: ['@console.extension_manager']
+  console.drupal_api:
+    class: Drupal\Console\Utils\DrupalApi
+    arguments: ['@app.root', '@entity_type.manager', '@http_client']
+  console.create_node_data:
+    class: Drupal\Console\Utils\Create\NodeData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getBundles()']
+  console.create_comment_data:
+    class: Drupal\Console\Utils\Create\CommentData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+  console.create_term_data:
+    class: Drupal\Console\Utils\Create\TermData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getVocabularies()']
+  console.create_user_data:
+    class: Drupal\Console\Utils\Create\UserData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getRoles()']
+  console.create_vocabulary_data:
+    class: Drupal\Console\Utils\Create\VocabularyData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+  console.annotation_command_reader:
+    class: Drupal\Console\Annotations\DrupalCommandAnnotationReader
+  console.annotation_validator:
+    class: Drupal\Console\Utils\AnnotationValidator
+    arguments: ['@console.annotation_command_reader', '@console.extension_manager']

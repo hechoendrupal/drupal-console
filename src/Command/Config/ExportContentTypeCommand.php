@@ -13,19 +13,46 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Extension\Manager;
 
 class ExportContentTypeCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
     use ModuleTrait;
     use ExportTrait;
 
+    /** @var EntityTypeManager  */
     protected $entityTypeManager;
+
+    /** @var CachedStorage  */
     protected $configStorage;
+
+    /** @var Manager  */
+    protected $extensionManager;
+
     protected $configExport;
+
+    /**
+     * ExportContentTypeCommand constructor.
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param CachedStorage     $configStorage
+     * @param Manager           $extensionManager
+     */
+    public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
+        CachedStorage $configStorage,
+        Manager $extensionManager
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
+        $this->configStorage = $configStorage;
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -68,8 +95,7 @@ class ExportContentTypeCommand extends Command
         // --content-type argument
         $contentType = $input->getArgument('content-type');
         if (!$contentType) {
-            $entityTypeManager = $this->getDrupalService('entity_type.manager');
-            $bundles_entities = $entityTypeManager->getStorage('node_type')->loadMultiple();
+            $bundles_entities = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
             $bundles = array();
             foreach ($bundles_entities as $entity) {
                 $bundles[$entity->id()] = $entity->label();
@@ -98,10 +124,6 @@ class ExportContentTypeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
-        
-        $this->entityTypeManager = $this->getDrupalService('entity_type.manager');
-        $this->configStorage = $this->getDrupalService('config.storage');
 
         $module = $input->getOption('module');
         $contentType = $input->getArgument('content-type');

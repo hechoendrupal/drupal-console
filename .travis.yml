@@ -3,7 +3,7 @@ sudo: false
 language: php
 
 php:
-  - 5.5
+  - 5.5.9
   - 5.6
   - 7
   - hhvm
@@ -24,20 +24,20 @@ before_script:
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update
   - composer install --no-dev
-  - curl -LSs https://box-project.github.io/box2/installer.php | php
-  - composer global require drupal/coder:~8.1
+#  - curl -LSs https://box-project.github.io/box2/installer.php | php
+#  - composer global require drupal/coder:~8.1
 
 script:
   - if [ -n "${TRAVIS_BUILD_DIR+1}" ]; then PROJECT_DIR=$TRAVIS_BUILD_DIR; fi
-  - phpunit
-  - php box.phar build
-  - php drupal.phar init
-  - php drupal.phar check
-  - php drupal.phar site:new drupal8.dev --latest --no-interaction
-  - cd drupal8.dev
-  - php ../drupal.phar site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
-  - php ../drupal.phar chain --file=$PROJECT_DIR/config/dist/chain/sample.yml
-  - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
+#  - phpunit
+#  - php box.phar build
+#  - php drupal.phar init
+#  - php drupal.phar check
+#  - php drupal.phar site:new drupal8.dev --latest --no-interaction
+#  - cd drupal8.dev
+#  - php ../drupal.phar site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
+#  - php ../drupal.phar chain --file=$PROJECT_DIR/config/dist/chain/sample.yml
+#  - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
 
 notifications:
   webhooks:

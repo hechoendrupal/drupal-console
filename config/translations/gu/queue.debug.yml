@@ -1,5 +1,0 @@
-description: 'Display the queues of your application'
-messages:
-  queue: 'Queue'
-  items: 'Items'
-  class: 'Class'

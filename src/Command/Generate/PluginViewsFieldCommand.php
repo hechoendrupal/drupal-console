@@ -13,13 +13,68 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PluginViewsFieldGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\GeneratorCommand;
+use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\StringConverter;
 
-class PluginViewsFieldCommand extends GeneratorCommand
+/**
+ * Class PluginViewsFieldCommand
+ * @package Drupal\Console\Command\Generate
+ */
+class PluginViewsFieldCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
+    use CommandTrait;
+
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+    /** @var PluginViewsFieldGenerator  */
+    protected $generator;
+
+    /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * PluginViewsFieldCommand constructor.
+     * @param Manager                   $extensionManager
+     * @param PluginViewsFieldGenerator $generator
+     * @param Site                      $site
+     * @param StringConverter           $stringConverter
+     * @param ChainQueue                $chainQueue
+     */
+    public function __construct(
+        Manager $extensionManager,
+        PluginViewsFieldGenerator $generator,
+        Site $site,
+        StringConverter $stringConverter,
+        ChainQueue $chainQueue
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->site = $site;
+        $this->stringConverter = $stringConverter;
+        $this->chainQueue = $chainQueue;
+        parent::__construct();
+    }
 
     protected function configure()
     {
@@ -62,15 +117,13 @@ class PluginViewsFieldCommand extends GeneratorCommand
 
         $module = $input->getOption('module');
         $class_name = $input->getOption('class');
-        $class_machine_name = $this->getStringHelper()->camelCaseToUnderscore($class_name);
+        $class_machine_name = $this->stringConverter->camelCaseToUnderscore($class_name);
         $title = $input->getOption('title');
         $description = $input->getOption('description');
 
-        $this
-            ->getGenerator()
-            ->generate($module, $class_machine_name, $class_name, $title, $description);
+        $this->generator->generate($module, $class_machine_name, $class_name, $title, $description);
 
-        $this->getChain()->addCommand('cache:rebuild', ['cache' => 'discovery']);
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -81,7 +134,7 @@ class PluginViewsFieldCommand extends GeneratorCommand
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($output);
+            $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
         }
 
@@ -100,7 +153,7 @@ class PluginViewsFieldCommand extends GeneratorCommand
         if (!$title) {
             $title = $io->ask(
                 $this->trans('commands.generate.plugin.views.field.questions.title'),
-                $this->getStringHelper()->camelCaseToHuman($class_name)
+                $this->stringConverter->camelCaseToHuman($class_name)
             );
             $input->setOption('title', $title);
         }

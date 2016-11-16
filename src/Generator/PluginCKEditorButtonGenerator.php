@@ -7,8 +7,27 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Extension\Manager;
+
 class PluginCKEditorButtonGenerator extends Generator
 {
+
+
+    /** @var Manager  */
+    protected $extensionManager;
+
+
+    /**
+     * PermissionGenerator constructor.
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+
     /**
      * Generator Plugin CKEditor Button.
      *
@@ -31,7 +50,7 @@ class PluginCKEditorButtonGenerator extends Generator
 
         $this->renderFile(
             'module/src/Plugin/CKEditorPlugin/ckeditorbutton.php.twig',
-            $this->getSite()->getPluginPath($module, 'CKEditorPlugin') . '/' . $class_name . '.php',
+            $this->extensionManager->getPluginPath($module, 'CKEditorPlugin') . '/' . $class_name . '.php',
             $parameters
         );
     }

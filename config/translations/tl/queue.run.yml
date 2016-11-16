@@ -1,9 +1,0 @@
-description: 'Process the selected queue.'
-arguments:
-  name: 'Queue name.'
-messages:
-  success: 'Processed "%s": "%s"/"%s" items in "%s" seconds.'
-  failed: '"%s" failed: "%s".'
-  missing-name: 'Provide a valid queue name.'
-  invalid-name: 'Invalid queue name "%s" provided.'
-

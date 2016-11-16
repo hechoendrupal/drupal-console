@@ -1,9 +1,0 @@
-description: 'Restaurar la estructura y los contenidos de bases de datos y tablas MySQL'
-arguments:
-    database: 'Clave de la base de datos en el settings.php'
-options:
-    file: 'El nombre de archivo para su archivo de respaldo de la base de datos'
-messages:
-    success: 'La base de datos ha sido importada desde:'
-    no-file: 'No se ha definido la opción "file"'
-help: 'Restaura la estructura y los contenidos de una bases de datos.'

@@ -1,0 +1,70 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\{{ entity_class }}StorageInterface.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\ContentEntityStorageInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\{{ module }}\Entity\{{ entity_class }}Interface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines the storage handler class for {{ label }} entities.
+ *
+ * This extends the base storage class, adding required special handling for
+ * {{ label }} entities.
+ *
+ * @ingroup {{ module }}
+ */
+interface {{ entity_class }}StorageInterface extends ContentEntityStorageInterface {% endblock %}
+
+{% block class_methods %}
+  /**
+   * Gets a list of {{ label }} revision IDs for a specific {{ label }}.
+   *
+   * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Interface $entity
+   *   The {{ label }} entity.
+   *
+   * @return int[]
+   *   {{ label }} revision IDs (in ascending order).
+   */
+  public function revisionIds({{ entity_class }}Interface $entity);
+
+  /**
+   * Gets a list of revision IDs having a given user as {{ label }} author.
+   *
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The user entity.
+   *
+   * @return int[]
+   *   {{ label }} revision IDs (in ascending order).
+   */
+  public function userRevisionIds(AccountInterface $account);
+
+  /**
+   * Counts the number of revisions in the default language.
+   *
+   * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Interface $entity
+   *   The {{ label }} entity.
+   *
+   * @return int
+   *   The number of revisions in the default language.
+   */
+  public function countDefaultLanguageRevisions({{ entity_class }}Interface $entity);
+
+  /**
+   * Unsets the language for all {{ label }} with the given language.
+   *
+   * @param \Drupal\Core\Language\LanguageInterface $language
+   *   The language object.
+   */
+  public function clearRevisionsLanguage(LanguageInterface $language);
+{% endblock %}

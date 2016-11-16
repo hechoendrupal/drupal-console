@@ -1,6 +1,0 @@
-description: '列出現有系統狀態鍵名'
-help: '列出現有系統狀態鍵名。'
-arguments:
-    key: '要查詢的系統狀態鍵名。'
-messages:
-    key: '系統狀態鍵名'

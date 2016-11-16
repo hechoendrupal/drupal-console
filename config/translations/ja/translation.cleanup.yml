@@ -1,8 +1,0 @@
-description: 翻訳ファイルをクリーンアップする
-arguments:
-    language: 英語に対してクリーンアップする言語
-messages:
-    invalid-language: '言語 "%s" は不正な値です。'
-    language: 言語
-    file-deleted: 'ファイル "%s" は不要になるため "%s" から削除されました。'
-    success: 不要なファイルを削除しました。

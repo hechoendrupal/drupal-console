@@ -10,7 +10,8 @@ namespace Drupal\Console\Command\Queue;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Core\Queue\QueueWorkerManagerInterface;
+use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -19,7 +20,21 @@ use Drupal\Console\Style\DrupalStyle;
  */
 class DebugCommand extends Command
 {
-    use ContainerAwareCommandTrait;
+    use CommandTrait;
+
+    /**
+     * @var QueueWorkerManagerInterface
+     */
+    protected $queueWorker;
+
+    /**
+     * DebugCommand constructor.
+     * @param QueueWorkerManagerInterface $queueWorker
+     */
+    public function __construct( QueueWorkerManagerInterface $queueWorker) {
+        $this->queueWorker = $queueWorker;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -47,6 +62,8 @@ class DebugCommand extends Command
         $tableBody = $this->listQueues();
 
         $io->table($tableHeader, $tableBody);
+
+        return 0;
     }
 
     /**
@@ -54,9 +71,8 @@ class DebugCommand extends Command
      */
     private function listQueues()
     {
-        $queueManager = $this->getDrupalService('plugin.manager.queue_worker');
         $queues = [];
-        foreach ($queueManager->getDefinitions() as $name => $info) {
+        foreach ($this->queueWorker->getDefinitions() as $name => $info) {
             $queues[$name] = $this->formatQueue($name);
         }
 

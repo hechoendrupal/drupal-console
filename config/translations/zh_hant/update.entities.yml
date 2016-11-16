@@ -1,5 +1,0 @@
-description: 執行實體更新
-messages:
-    start: 開始更新實體
-    end: 實體更新已完成
-    error: 實體更新有誤

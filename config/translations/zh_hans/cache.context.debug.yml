@@ -1,5 +1,0 @@
-description: 为应用显示当前缓存上下文
-messages:
-    code: '上下文 ID'
-    label: '标签'
-    class: 类路径

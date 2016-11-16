@@ -1,9 +1,0 @@
-description: 'Generate an implementation of hook_post_update_NAME()'
-help: 'The <info>"%s"</info> command helps you generate a hook post update NAME "%s"'
-options:
-    post-update-name: 'Post Update Name'
-questions:
-    post-update-name: 'Please provide the Post Update Name to be implemeted'
-messages:
-    wrong-post-update-name: 'The post update name "%s" is invalid'
-    post-update-name-already-implemented: 'The post update name "%s" was already implemented'

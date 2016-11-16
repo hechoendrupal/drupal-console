@@ -13,6 +13,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Parser;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
 use Drupal\Console\Command\Shared\InputTrait;
 use Drupal\Console\Style\DrupalStyle;
@@ -29,11 +34,49 @@ class ChainCommand extends Command
     use InputTrait;
 
     /**
-     * The yml file.
-     *
      * @var string
      */
-    protected $file = NULL;
+    protected $file = null;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * ChainCommand constructor.
+     * @param ChainQueue           $chainQueue
+     * @param ConfigurationManager $configurationManager
+     * @param string               $appRoot
+     * @param Manager              $extensionManager
+     */
+    public function __construct(
+        ChainQueue $chainQueue,
+        ConfigurationManager $configurationManager,
+        $appRoot,
+        Manager $extensionManager
+    ) {
+        $this->chainQueue = $chainQueue;
+        $this->configurationManager = $configurationManager;
+        $this->appRoot = $appRoot;
+        $this->extensionManager = $extensionManager;
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -42,8 +85,8 @@ class ChainCommand extends Command
     {
         if (is_null($this->getName())) {
             $this
-              ->setName('chain')
-              ->setDescription($this->trans('commands.chain.description'));
+                ->setName('chain')
+                ->setDescription($this->trans('commands.chain.description'));
         }
         else {
             // ChainRegister passes name and file in the constructor.
@@ -52,18 +95,19 @@ class ChainCommand extends Command
               ->setDescription(sprintf('Custom chain: %s', $this->getName()));
         }
 
-        $this->addOption(
+        $this
+        ->addOption(
             'file',
-            NULL,
+            null,
             InputOption::VALUE_OPTIONAL,
             $this->trans('commands.chain.options.file')
-          )
-          ->addOption(
+        )
+        ->addOption(
             'placeholder',
-            NULL,
+            null,
             InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
             $this->trans('commands.chain.options.placeholder')
-          );
+        );
     }
 
     /**
@@ -72,8 +116,8 @@ class ChainCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        // Check if the constructor passed a value for file.
         $file = !is_null($this->file) ? $this->file : $input->getOption('file');
-        $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
 
         if (!$file) {
             $files = $this->getChainFiles(true);
@@ -84,7 +128,7 @@ class ChainCommand extends Command
             );
         }
 
-        $file = $fileUtil->calculateRealPath($file);
+        $file = calculateRealPath($file);
         $input->setOption('file', $file);
 
         $chainContent = file_get_contents($file);
@@ -114,7 +158,6 @@ class ChainCommand extends Command
                     )
                 );
             }
-
             $input->setOption('placeholder', $placeholder);
         }
     }
@@ -130,8 +173,6 @@ class ChainCommand extends Command
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
         $file = $input->getOption('file');
-        $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
-        $fileSystem = $this->getApplication()->getContainerHelper()->get('filesystem');
 
         if (!$file) {
             $io->error($this->trans('commands.chain.messages.missing_file'));
@@ -139,7 +180,9 @@ class ChainCommand extends Command
             return 1;
         }
 
-        $file = $fileUtil->calculateRealPath($file);
+        $fileSystem = new Filesystem();
+
+        $file = calculateRealPath($file);
 
         if (!$fileSystem->exists($file)) {
             $io->error(
@@ -247,7 +290,7 @@ class ChainCommand extends Command
         $placeholderResolver = new RegexPlaceholderResolver($inlinePlaceHolderData, '%{{', '}}');
         $chainContent = $placeholderResolver->resolvePlaceholder($chainContent);
 
-        $parser = $this->getApplication()->getContainerHelper()->get('parser');
+        $parser = new Parser();
         $configData = $parser->parse($chainContent);
 
         $commands = [];
@@ -276,14 +319,15 @@ class ChainCommand extends Command
                 }
             }
 
-            $this->get('chain_queue')
-                ->addCommand(
-                    $command['command'],
-                    $moduleInputs,
-                    $interactive,
-                    $learning
-                );
+            $this->chainQueue->addCommand(
+                $command['command'],
+                $moduleInputs,
+                $interactive,
+                $learning
+            );
         }
+
+        return 0;
     }
 
     /**
@@ -294,5 +338,4 @@ class ChainCommand extends Command
     public function setFile($file) {
         $this->file = $file;
     }
-
 }

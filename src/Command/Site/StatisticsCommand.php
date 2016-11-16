@@ -12,6 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Console\Extension\Manager;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Class StatisticsCommand
@@ -20,6 +24,46 @@ use Drupal\Console\Style\DrupalStyle;
 class StatisticsCommand extends Command
 {
     use ContainerAwareCommandTrait;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+
+    /**
+     * @var QueryFactory
+     */
+    protected $entityQuery;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
+     * StatisticsCommand constructor.
+     * @param DrupalApi                 $drupalApi
+     * @param QueryFactory              $entityQuery;
+     * @param Manager                   $extensionManager
+     * @param ModuleHandlerInterface    $moduleHandler
+     */
+    public function __construct(
+        DrupalApi $drupalApi,
+        QueryFactory $entityQuery,
+        Manager $extensionManager,
+        ModuleHandlerInterface $moduleHandler
+    ) {
+        $this->drupalApi = $drupalApi;
+        $this->entityQuery = $entityQuery;
+        $this->extensionManager = $extensionManager;
+        $this->moduleHandler = $moduleHandler;
+        parent::__construct();
+    }
 
     /**
      * @{@inheritdoc}
@@ -40,7 +84,7 @@ class StatisticsCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $bundles = $this->getApplication()->getDrupalApi()->getBundles();
+        $bundles = $this->drupalApi->getBundles();
         foreach ($bundles as $bundleType => $bundleName) {
             $key = sprintf(
                 $this->trans('commands.site.statistics.messages.node-type'),
@@ -69,8 +113,7 @@ class StatisticsCommand extends Command
      */
     private function getNodeTypeCount($nodeType)
     {
-        $nodesPerType = $this->getDrupalService('entity.query')
-            ->get('node')->condition('type', $nodeType)->count();
+        $nodesPerType = $this->entityQuery->get('node')->condition('type', $nodeType)->count();
         $nodes = $nodesPerType->execute();
 
         return $nodes;
@@ -81,8 +124,11 @@ class StatisticsCommand extends Command
      */
     private function getCommentCount()
     {
-        $entityQuery = $this->getDrupalService('entity.query')
-            ->get('comment')->count();
+        if (!$this->moduleHandler->moduleExists('comment')) {
+            return 0;
+        }
+        
+        $entityQuery = $this->entityQuery->get('comment')->count();
         $comments = $entityQuery->execute();
 
         return $comments;
@@ -93,8 +139,7 @@ class StatisticsCommand extends Command
      */
     private function getTaxonomyVocabularyCount()
     {
-        $entityQuery = $this->getDrupalService('entity.query')
-            ->get('taxonomy_vocabulary')->count();
+        $entityQuery = $this->entityQuery->get('taxonomy_vocabulary')->count();
         $vocabularies = $entityQuery->execute();
 
         return $vocabularies;
@@ -105,8 +150,7 @@ class StatisticsCommand extends Command
      */
     private function getTaxonomyTermCount()
     {
-        $entityQuery = $this->getDrupalService('entity.query')
-            ->get('taxonomy_term')->count();
+        $entityQuery = $this->entityQuery->get('taxonomy_term')->count();
         $terms = $entityQuery->execute();
 
         return $terms;
@@ -117,8 +161,7 @@ class StatisticsCommand extends Command
      */
     private function getFileCount()
     {
-        $entityQuery = $this->getDrupalService('entity.query')
-            ->get('file')->count();
+        $entityQuery = $this->entityQuery->get('file')->count();
         $files = $entityQuery->execute();
 
         return $files;
@@ -129,8 +172,7 @@ class StatisticsCommand extends Command
      */
     private function getUserCount()
     {
-        $entityQuery = $this->getDrupalService('entity.query')
-            ->get('user')->count();
+        $entityQuery = $this->entityQuery->get('user')->count();
         $users = $entityQuery->execute();
 
         return $users;
@@ -143,10 +185,10 @@ class StatisticsCommand extends Command
     private function getModuleCount($status = true)
     {
         if ($status) {
-            return count($this->getApplication()->getSite()->getModules(true));
+            return count($this->extensionManager->discoverModules()->showCore()->showNoCore()->showInstalled()->getList());
         }
 
-        return count($this->getApplication()->getSite()->getModules(true, false, true));
+        return count($this->extensionManager->discoverModules()->showCore()->showNoCore()->showUninstalled()->getList());
     }
 
     /**
@@ -156,10 +198,10 @@ class StatisticsCommand extends Command
     private function getThemeCount($status = true)
     {
         if ($status) {
-            return count($this->getApplication()->getSite()->getThemes(true));
+            return count($this->extensionManager->discoverThemes()->showCore()->showNoCore()->showInstalled()->getList());
         }
 
-        return count($this->getApplication()->getSite()->getThemes(true, false, true));
+        return count($this->extensionManager->discoverThemes()->showCore()->showNoCore()->showUninstalled()->getList());
     }
 
     /**
@@ -167,8 +209,7 @@ class StatisticsCommand extends Command
      */
     private function getViewCount($status = true, $tag = 'default')
     {
-        $entityQuery = $this->getDrupalService('entity.query')
-            ->get('view')->condition('tag', 'default', '<>')->count();
+        $entityQuery = $this->entityQuery->get('view')->condition('tag', 'default', '<>')->count();
         $views = $entityQuery->execute();
 
         return $views;

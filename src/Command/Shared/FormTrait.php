@@ -31,14 +31,9 @@ trait FormTrait
                 'text_format'
             ];
 
-            $elementInfoManager = $this->getService('plugin.manager.element_info');
-            if (!$elementInfoManager) {
-                return false;
-            }
-
-            foreach ($elementInfoManager->getDefinitions() as $definition) {
+            foreach ($this->elementInfoManager->getDefinitions() as $definition) {
                 $type = $definition['id'];
-                $elementInfo = $elementInfoManager->getInfo($type);
+                $elementInfo = $this->elementInfoManager->getInfo($type);
                 if (isset($elementInfo['#input']) && $elementInfo['#input']) {
                     if (!in_array($type, $input_types)) {
                         $input_types[] = $type;
@@ -69,7 +64,7 @@ trait FormTrait
                 );
 
                 // Machine name
-                $input_machine_name = $this->getStringHelper()->createMachineName($input_label);
+                $input_machine_name = $this->stringConverter->createMachineName($input_label);
 
                 $input_name = $io->ask(
                     $this->trans('commands.common.questions.inputs.machine_name'),

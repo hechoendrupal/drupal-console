@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Style\DrupalStyle;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Class MenuTrait
@@ -38,11 +39,12 @@ trait MenuTrait
             );
             $menuLinkFile = sprintf(
                 '%s/core/modules/system/system.links.menu.yml',
-                $this->getSite()->getSiteRoot()
+                $this->appRoot
             );
 
-            $config = $this->getApplication()->getConfig();
-            $menuLinkContent = $config->getFileContents($menuLinkFile);
+            $parser = new Parser();
+            $menuLinkContent = $parser->parse(file_get_contents($menuLinkFile));
+
 
             $menu_parent = $io->choiceNoList(
                 $menu_parent = $this->trans('commands.generate.form.questions.menu_parent'),

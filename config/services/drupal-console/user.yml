@@ -1,0 +1,41 @@
+services:
+  console.user_debug:
+    class: Drupal\Console\Command\User\DebugCommand
+    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
+    tags:
+      - { name: drupal.command }
+  console.user_delete:
+    class: Drupal\Console\Command\User\DeleteCommand
+    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
+    tags:
+      - { name: drupal.command }
+  console.user_login_clear_attempts:
+    class: Drupal\Console\Command\User\LoginCleanAttemptsCommand
+    arguments: ['@database']
+    tags:
+      - { name: drupal.command }
+  console.user_login_url:
+    class: Drupal\Console\Command\User\LoginUrlCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }
+  console.user_password_hash:
+    class: Drupal\Console\Command\User\PasswordHashCommand
+    arguments: ['@password']
+    tags:
+      - { name: drupal.command }
+  console.user_password_reset:
+    class: Drupal\Console\Command\User\PasswordResetCommand
+    arguments: ['@database', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }
+  console.user_role:
+    class: Drupal\Console\Command\User\RoleCommand
+    arguments: ['@console.drupal_api']
+    tags:
+      - { name: drupal.command }
+  console.user_create:
+    class: Drupal\Console\Command\User\CreateCommand
+    arguments: ['@database', '@entity_type.manager', '@date.formatter', '@console.drupal_api']
+    tags:
+      - { name: drupal.command }

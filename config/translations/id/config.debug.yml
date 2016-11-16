@@ -1,5 +1,0 @@
-description: 'Tunjukkan konfigurasi saat ini.'
-arguments:
-    name: 'Nama konfigurasi.'
-errors:
-    not-exists: 'Konfigurasi "%s" tidak ada.'

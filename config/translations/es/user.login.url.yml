@@ -1,7 +1,0 @@
-description: 'Crea una url de login de usuario de uso único.'
-options:
-    user-id: 'Id de usuario.'
-messages:
-    url: 'Login de uso único para "%s": "%s"'
-errors:
-    invalid-user: 'No se puede cargar la entidad de usuario (ID de usuario: "%s").'

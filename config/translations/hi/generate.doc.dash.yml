@@ -1,5 +1,0 @@
-description: 'डैश के लिए  DrupalConsole.docset पैकेज उत्पन्न करें'
-options:
-    path: 'डायरेक्ट्री का पथ जहां Docset सुरक्षित किया जायेगा |'
-messages:
-    missing_path: 'पथ अनुपस्थित है'

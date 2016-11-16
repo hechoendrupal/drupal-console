@@ -1,6 +1,0 @@
-description: 'Muestra las claves de Estado actual.'
-help: 'Muestra las claves de Estado actual.'
-arguments:
-    key: 'La clave de Estado para depurar.'
-messages:
-    key: 'La clave de Estado'
