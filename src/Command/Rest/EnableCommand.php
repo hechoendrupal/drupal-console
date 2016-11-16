@@ -13,11 +13,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Annotations\DrupalCommand;
+use Drupal\rest\RestResourceConfigInterface;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 use Drupal\Core\Authentication\AuthenticationCollector;
 use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Entity\EntityManager;
 
 /**
  * @DrupalCommand(
@@ -53,23 +55,34 @@ class EnableCommand extends Command
     protected $formats;
 
     /**
+     * The entity manager.
+     *
+     * @var \Drupal\Core\Entity\EntityManagerInterface
+     */
+    protected $entityManager;
+
+    /**
      * EnableCommand constructor.
      * @param ResourcePluginManager   $pluginManagerRest
      * @param AuthenticationCollector $authenticationCollector
      * @param ConfigFactory           $configFactory
      * @param array $formats
      *   The available serialization formats.
+     * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+     *   The entity manager.
      */
     public function __construct(
         ResourcePluginManager $pluginManagerRest,
         AuthenticationCollector $authenticationCollector,
         ConfigFactory $configFactory,
-        array $formats
+        array $formats,
+        EntityManager $entity_manager
     ) {
         $this->pluginManagerRest = $pluginManagerRest;
         $this->authenticationCollector = $authenticationCollector;
         $this->configFactory = $configFactory;
         $this->formats = $formats;
+        $this->entityManager = $entity_manager;
         parent::__construct();
     }
 
@@ -91,12 +104,10 @@ class EnableCommand extends Command
 
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
-
         $rest_resources_ids = array_merge(
             array_keys($rest_resources['enabled']),
             array_keys($rest_resources['disabled'])
         );
-
         if (!$resource_id) {
             $resource_id = $io->choiceNoList(
                 $this->trans('commands.rest.enable.arguments.resource-id'),
@@ -111,12 +122,12 @@ class EnableCommand extends Command
         );
         $input->setArgument('resource-id', $resource_id);
 
-        // Calculate states available by resource and generate the question
+        // Calculate states available by resource and generate the question.
         $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
         $methods = $plugin->availableMethods();
         $method = $io->choice(
-            $this->trans('commands.rest.enable.arguments.method'),
+            $this->trans('commands.rest.enable.arguments.methods'),
             $methods
         );
         $io->writeln(
@@ -142,20 +153,30 @@ class EnableCommand extends Command
         );
 
         $io->writeln(
-            $this->trans('commands.rest.enable.messages.selected-authentication-providers').' '.implode(
+            $this->trans('commands.rest.enable.messages.selected-authentication-providers') . ' ' . implode(
                 ', ',
                 $authenticationProvidersSelected
             )
         );
 
-        $rest_settings = $this->getRestDrupalConfig();
-
-        $rest_settings[$resource_id][$state]['supported_formats'] = $format;
-        $rest_settings[$resource_id][$state]['supported_auth'] = $authenticationProvidersSelected;
-        $config = $this->configFactory->getEditable('rest.settings');
-        $config->set('resources', $rest_settings);
+        $format_resource_id = str_replace(':', '.', $resource_id);
+        $config = $this->entityManager->getStorage('rest_resource_config')->load($format_resource_id);
+        if (!$config) {
+            $config = $this->entityManager->getStorage('rest_resource_config')->create([
+               'id' => $format_resource_id,
+               'granularity' => RestResourceConfigInterface::METHOD_GRANULARITY,
+               'configuration' => []
+            ]);
+        }
+        $configuration = $config->get('configuration') ?: [];
+        $configuration[$method] = [
+          'supported_formats' => [$format],
+          'supported_auth' => $authenticationProvidersSelected,
+        ];
+        $config->set('configuration', $configuration);
         $config->save();
-
-        return 0;
+        $message = sprintf($this->trans('commands.rest.enable.messages.success'), $resource_id);
+        $io->info($message);
+        return true;
     }
 }
