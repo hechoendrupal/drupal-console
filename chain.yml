@@ -1,0 +1,6 @@
+# Chains listed here will be auto loaded by the ChainRegister.
+chain:
+  name: {}
+  disabled:
+    'chain:site:new:example':
+       file: '/path-to-folder/chain-site-new-example.yml'

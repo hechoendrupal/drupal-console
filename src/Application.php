@@ -13,6 +13,7 @@ use Symfony\Component\Debug\Debug;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Drupal\Console\Helper\HelperTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Chain\ChainRegister;
 
 /**
  * Class Application
@@ -333,6 +334,18 @@ class Application extends BaseApplication
 
         foreach ($commands as $command) {
             $command->setAliases($this->getCommandAliases($command));
+            $this->add($command);
+        }
+
+        $chainCommands = $this->getConfig()->get(
+          sprintf(
+            'chain.name'
+          )
+        );
+
+        foreach ($chainCommands as $name => $chainCommand) {
+            $file = $chainCommand['file'];
+            $command = new ChainRegister($name, $file);
             $this->add($command);
         }
 

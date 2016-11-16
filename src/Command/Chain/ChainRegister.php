@@ -9,13 +9,11 @@
  * chain commands. i.e. drupal chain --file=/some-folder/chain-magic.yml will be
  * called: drupal chain:magic.
  *
- * To register custom chains, edit the ~/.config/config.yml and add:
- * application:
- *   autowire:
- *     chain:
- *       name:
- *         'site:new:example':
- *           file: '/path-to-folder/chain-site-new.yml'
+ * To register custom chains, edit the ~/.console/chain.yml and add:
+ * chain:
+ *   name:
+ *     'site:new:example':
+ *        file: '/path-to-folder/chain-site-new.yml'
  */
 
 namespace Drupal\Console\Command\Chain;
