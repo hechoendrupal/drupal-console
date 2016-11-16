@@ -43,10 +43,8 @@ class ChainRegister extends ChainCommand {
    * @param $file File name
    */
   public function __construct($name, $file) {
-    if (file_exists($file)) {
-      $this->setName($name);
-      $this->setFile($file);
-    }
+    $this->setName($name);
+    $this->setFile($file);
 
     parent::__construct();
   }
