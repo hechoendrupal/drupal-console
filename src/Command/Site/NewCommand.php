@@ -57,13 +57,6 @@ class NewCommand extends Command
                 '',
                 InputOption::VALUE_NONE,
                 $this->trans('commands.site.new.options.unstable')
-            )
-            ->addOption(
-                'template',
-                '',
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.site.new.options.template'),
-                'drupal-composer/drupal-project'
             );
     }
 
@@ -78,7 +71,6 @@ class NewCommand extends Command
         $version = $input->getArgument('version');
         $latest = $input->getOption('latest');
         $composer = $input->getOption('composer');
-        $template = $input->getOption('template');
 
         if (!$directory) {
             $io->error(
@@ -104,7 +96,7 @@ class NewCommand extends Command
 
             $command = sprintf(
                 'composer create-project %s:%s %s --no-interaction',
-                $template,
+                'drupal-composer/drupal-project',
                 $version,
                 $directory
             );
