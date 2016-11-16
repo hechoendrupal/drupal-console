@@ -22,7 +22,7 @@ class Application extends ConsoleApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-rc8';
+    const VERSION = '1.0.0-rc9';
 
     public function __construct(ContainerInterface $container)
     {
@@ -164,7 +164,10 @@ class Application extends ConsoleApplication
 
             if (array_key_exists($command->getName(), $aliases)) {
                 $commandAliases = $aliases[$command->getName()];
-                $command->setAliases([$commandAliases]);
+                if (!is_array($commandAliases)) {
+                    $commandAliases = [$commandAliases];
+                }
+                $command->setAliases($commandAliases);
             }
 
             $this->add($command);

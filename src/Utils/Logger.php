@@ -24,7 +24,7 @@ class Logger {
     }
 
     protected function init($root) {
-        $loggerFile = $root.'console/log/' . date('Y-m-d') . '.log';
+        $loggerFile = $root.'/console/log/' . date('Y-m-d') . '.log';
         if (!is_file($loggerFile)) {
             try {
                 $directoryName = dirname($loggerFile);
