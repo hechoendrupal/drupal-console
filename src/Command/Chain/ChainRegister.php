@@ -3,6 +3,19 @@
 /**
  * @file
  * Contains Drupal\Console\Command\ChainRegister.
+ *
+ * ChainRegister is a wrapper for Chain commands.
+ * It will register the classes so you don't have to specify --file when calling
+ * chain commands. i.e. drupal chain --file=/some-folder/chain-magic.yml will be
+ * called: drupal chain:magic.
+ *
+ * To register custom chains, edit the ~/.config/config.yml and add:
+ * application:
+ *   autowire:
+ *     chain:
+ *       name:
+ *         'site:new:example':
+ *           file: '/path-to-folder/chain-site-new.yml'
  */
 
 namespace Drupal\Console\Command\Chain;

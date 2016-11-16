@@ -9,6 +9,10 @@ application:
           class: '\Drupal\Console\Command\Exclude\ElephpantCommand'
         druplicon:
           class: '\Drupal\Console\Command\Exclude\DrupliconCommand'
+    chain:
+      name:
+        'site:new:example':
+          file: '/path-to-folder/chain-site-new.yml'
   languages:
     en: 'English'
     es: 'Español'
