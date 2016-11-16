@@ -156,7 +156,7 @@ class StatusCommand extends Command
                 $title = $requirement['title'];
             }
 
-            $systemData['system'][$title] = strip_tags($requirement['value']);
+            $systemData['system'][$title] = $requirement['value'];
         }
 
         if ($this->settings) {
