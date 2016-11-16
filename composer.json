@@ -1,5 +1,5 @@
 {
-    "name": "marcelovani/console",
+    "name": "drupal/console",
     "description": "The Drupal CLI. A tool to generate boilerplate code, interact with and debug Drupal.",
     "keywords": ["Drupal", "Console", "Development", "Symfony"],
     "homepage": "http://drupalconsole.com/",
