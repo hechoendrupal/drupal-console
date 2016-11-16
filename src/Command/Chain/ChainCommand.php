@@ -29,25 +29,41 @@ class ChainCommand extends Command
     use InputTrait;
 
     /**
+     * The yml file.
+     *
+     * @var string
+     */
+    protected $file = NULL;
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('chain')
-            ->setDescription($this->trans('commands.chain.description'))
-            ->addOption(
-                'file',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.chain.options.file')
-            )
-            ->addOption(
-                'placeholder',
-                null,
-                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.chain.options.placeholder')
-            );
+        if (is_null($this->getName())) {
+            $this
+              ->setName('chain')
+              ->setDescription($this->trans('commands.chain.description'));
+        }
+        else {
+            // ChainRegister passes name and file in the constructor.
+            $this
+              ->setName(sprintf('chain:%s', $this->getName()))
+              ->setDescription(sprintf('Custom chain: %s', $this->getName()));
+        }
+
+        $this->addOption(
+            'file',
+            NULL,
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.chain.options.file')
+          )
+          ->addOption(
+            'placeholder',
+            NULL,
+            InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.chain.options.placeholder')
+          );
     }
 
     /**
@@ -56,7 +72,7 @@ class ChainCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $file = $input->getOption('file');
+        $file = !is_null($this->file) ? $this->file : $input->getOption('file');
         $fileUtil = $this->getApplication()->getContainerHelper()->get('file_util');
 
         if (!$file) {
@@ -98,6 +114,7 @@ class ChainCommand extends Command
                     )
                 );
             }
+
             $input->setOption('placeholder', $placeholder);
         }
     }
@@ -268,4 +285,14 @@ class ChainCommand extends Command
                 );
         }
     }
+
+    /**
+     * Setter for $file.
+     *
+     * @param $file
+     */
+    public function setFile($file) {
+        $this->file = $file;
+    }
+
 }
