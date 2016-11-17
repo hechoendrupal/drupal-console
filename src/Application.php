@@ -108,12 +108,6 @@ class Application extends ConsoleApplication
             $logger->writeln($this->trans('application.site.errors.settings'));
         }
 
-        $chainCommands = $this->getConfig()->get(
-          sprintf(
-            'chain.name'
-          )
-        );
-
         foreach ($chainCommands as $name => $chainCommand) {
             $file = $chainCommand['file'];
             $command = new ChainRegister($name, $file);
