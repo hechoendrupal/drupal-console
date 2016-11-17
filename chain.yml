@@ -1,6 +1,0 @@
-# Chains listed here will be auto loaded by the ChainRegister.
-chain:
-  name:
-    'chain:site:new':
-       file: '~/.console/chain/site-new.yml'
-  disabled: {}
