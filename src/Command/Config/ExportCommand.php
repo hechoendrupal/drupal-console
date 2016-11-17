@@ -17,6 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigManager;
+use Symfony\Component\Yaml\Dumper;
 
 
 class ExportCommand extends Command
@@ -63,6 +64,7 @@ class ExportCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+        $dumper = new Dumper();
 
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
@@ -91,7 +93,7 @@ class ExportCommand extends Command
             foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
                 $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
                 $configName =  sprintf('%s.yml', $name);
-                $ymlData = Yaml::encode($configData);
+                $ymlData = $dumper->dump($configData, 10);
 
                 if ($tar) {
                     $archiveTar->addString(
@@ -121,9 +123,9 @@ class ExportCommand extends Command
         }
 
         $io->info(
-          sprintf(
-            $this->trans('commands.config.export.messages.directory'),
-              $directory
+            sprintf(
+                $this->trans('commands.config.export.messages.directory'),
+                $directory
             )
         );
     }
