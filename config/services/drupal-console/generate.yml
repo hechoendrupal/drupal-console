@@ -41,7 +41,7 @@ services:
        - { name: drupal.command }
   console.generate_permissions:
     class: Drupal\Console\Command\Generate\PermissionCommand
-    arguments: ['@console.extension_manager', '@console.string_converter']
+    arguments: ['@console.extension_manager', '@console.string_converter', '@console.permission_generator']
     tags:
        - { name: drupal.command }
   console.generate_event_subscriber:
