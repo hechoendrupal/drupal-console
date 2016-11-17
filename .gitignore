@@ -11,6 +11,7 @@
 /bin/pdepend
 /bin/php-cs-fixer
 /bin/phpmd
+PATCHES.txt
 
 # Binaries
 /box.phar
