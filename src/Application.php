@@ -114,12 +114,6 @@ class Application extends ConsoleApplication
             $this->add($command);
         }
 
-        $autoWireForcedCommands = $this->getConfig()->get(
-            sprintf(
-                'application.autowire.commands.forced'
-            )
-        );
-
         $serviceDefinitions = [];
         $annotationValidator = null;
         if ($this->container->hasParameter('console.service_definitions')) {
