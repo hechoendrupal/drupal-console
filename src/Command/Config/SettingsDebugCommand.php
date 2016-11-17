@@ -9,7 +9,7 @@ namespace Drupal\Console\Command\Config;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Dumper;
+use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Style\DrupalStyle;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\CommandTrait;
@@ -53,7 +53,6 @@ class SettingsDebugCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $settingKeys = array_keys($this->settings->getAll());
-        $dumper = new Dumper();
 
         $io->newLine();
         $io->info($this->trans('commands.config.settings.debug.messages.current'));
@@ -61,7 +60,7 @@ class SettingsDebugCommand extends Command
 
         foreach ($settingKeys as $settingKey) {
             $io->comment($settingKey, false);
-            $io->simple($dumper->dump($this->settings->get($settingKey), 10));
+            $io->simple(Yaml::encode($this->settings->get($settingKey)));
         }
         $io->newLine();
     }
