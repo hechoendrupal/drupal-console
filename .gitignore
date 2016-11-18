@@ -13,6 +13,9 @@
 /bin/phpmd
 PATCHES.txt
 
+# Develop
+autoload.local.php
+
 # Binaries
 /box.phar
 /console.phar
