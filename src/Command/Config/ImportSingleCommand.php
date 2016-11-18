@@ -138,6 +138,8 @@ class ImportSingleCommand extends Command
                             $config_importer->doSyncStep($step, $context);
                         } while ($context['finished'] < 1);
                     }
+
+                    return TRUE;
                 }
             } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
