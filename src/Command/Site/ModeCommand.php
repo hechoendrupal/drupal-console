@@ -107,6 +107,7 @@ class ModeCommand extends Command
         }
 
         $servicesOverrideResult = $this->overrideServices(
+            $environment,
             $loadedConfigurations['services'],
             $io
         );
@@ -172,7 +173,7 @@ class ModeCommand extends Command
         return $result;
     }
 
-    protected function overrideServices($servicesSettings, DrupalStyle $io)
+    protected function overrideServices($environment, $servicesSettings, DrupalStyle $io)
     {
         $directory = sprintf(
             '%s/%s',
@@ -198,19 +199,32 @@ class ModeCommand extends Command
         }
 
         $yaml = new Yaml();
+
         $services = $yaml->parse(file_get_contents($settingsServicesFile));
 
         $result = [];
         foreach ($servicesSettings as $service => $parameters) {
-            foreach ($parameters as $parameter => $value) {
-                $services['parameters'][$service][$parameter] = $value;
-                // Set values for output
-                $result[$parameter]['service'] = $service;
-                $result[$parameter]['parameter'] = $parameter;
-                if (is_bool($value)) {
-                    $value = $value? 'true' : 'false';
+            if(is_array($parameters)) {
+                foreach ($parameters as $parameter => $value) {
+                    print 'parameters: ' . $parameter . "\n";
+                    $services['parameters'][$service][$parameter] = $value;
+                    // Set values for output
+                    $result[$parameter]['service'] = $service;
+                    $result[$parameter]['parameter'] = $parameter;
+                    if (is_bool($value)) {
+                        $value = $value ? 'true' : 'false';
+                    }
+                    $result[$parameter]['value'] = $value;
                 }
-                $result[$parameter]['value'] = $value;
+            } else {
+                $services['parameters'][$service] = $parameters;
+                // Set values for output
+                $result[$service]['service'] = $service;
+                $result[$service]['parameter'] = '';
+                if (is_bool($parameters)) {
+                    $value = $parameters ? 'true' : 'false';
+                }
+                $result[$service]['value'] = $value;
             }
         }
 
@@ -247,19 +261,23 @@ class ModeCommand extends Command
         if (!file_exists($configFile)) {
             $configFile = sprintf(
                 '%s/config/dist/site.mode.yml',
-                $this->appRoot
+                $this->configurationManager->getApplicationDirectory() . DRUPAL_CONSOLE_CORE
             );
         }
 
-        $siteModeConfiguration = Yaml::dump(file_get_contents($configFile));
+        $siteModeConfiguration = Yaml::parse(file_get_contents($configFile));
         $configKeys = array_keys($siteModeConfiguration);
 
         $configurationSettings = [];
         foreach ($configKeys as $configKey) {
             $siteModeConfigurationItem = $siteModeConfiguration[$configKey];
             foreach ($siteModeConfigurationItem as $setting => $parameters) {
-                foreach ($parameters as $parameter => $value) {
-                    $configurationSettings[$configKey][$setting][$parameter] = $value[$env];
+                if(array_key_exists($env, $parameters)) {
+                    $configurationSettings[$configKey][$setting] = $parameters[$env];
+                } else {
+                    foreach ($parameters as $parameter => $value) {
+                        $configurationSettings[$configKey][$setting][$parameter] = $value[$env];
+                    }
                 }
             }
         }
