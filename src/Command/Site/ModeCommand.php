@@ -130,17 +130,11 @@ class ModeCommand extends Command
           0444
         );
 
-                die(3);
-        //@TODO: clear cache
-        //@TODO: $io->commentBlock()
-
         /* END
          * [site:mode] option for disabling all caches #2350
          * https://github.com/hechoendrupal/DrupalConsole/issues/2350
          *
          */
-
-
 
         $environment = $input->getArgument('environment');
 
@@ -255,6 +249,7 @@ class ModeCommand extends Command
         foreach ($servicesSettings as $service => $parameters) {
             if(is_array($parameters)) {
                 foreach ($parameters as $parameter => $value) {
+                    //@TODO: comment this print!!
                     print 'parameters: ' . $parameter . "\n";
                     $services['parameters'][$service][$parameter] = $value;
                     // Set values for output
