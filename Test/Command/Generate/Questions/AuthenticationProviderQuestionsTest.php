@@ -60,12 +60,7 @@ class AuthenticationProviderQuestionsTest extends TestCase
             new StringConverter()
         );
 
-        $definition = new InputDefinition([new InputOption('module')]);
-        $input = new ArrayInput([], $definition);
-
-        $questions->askForModule($input, false);
-
-        $this->assertEquals($module, $input->getOption('module'));
+        $this->assertEquals($module, $questions->askForModule(false));
     }
 
     /** @test */
@@ -74,12 +69,14 @@ class AuthenticationProviderQuestionsTest extends TestCase
         $manager = $this->prophesize(Manager::class);
         $module = 'console';
         $modules = [$module];
+        $profile = 'admin';
+        $profiles = [$profile];
         $manager->showModuleNamesExceptCore()->willReturn($modules);
-        $manager->showAllProfileNames()->willReturn(['admin']);
+        $manager->showAllProfileNames()->willReturn($profiles);
 
         $io = $this->prophesize(DrupalStyle::class);
         $io
-            ->choiceNoList(Argument::any(), [$module, 'admin'])
+            ->choiceNoList(Argument::any(), [$module, $profile])
             ->willReturn($module)
         ;
 
@@ -90,12 +87,7 @@ class AuthenticationProviderQuestionsTest extends TestCase
             new StringConverter()
         );
 
-        $definition = new InputDefinition([new InputOption('module')]);
-        $input = new ArrayInput([], $definition);
-
-        $questions->askForModule($input);
-
-        $this->assertEquals($module, $input->getOption('module'));
+        $this->assertEquals($module, $questions->askForModule());
     }
 
     /** @test */
@@ -147,12 +139,7 @@ class AuthenticationProviderQuestionsTest extends TestCase
             new StringConverter()
         );
 
-        $definition = new InputDefinition([new InputOption('class')]);
-        $input = new ArrayInput(['--class' => '   '], $definition);
-
-        $questions->askForClass($input);
-
-        $this->assertEquals($class, $input->getOption('class'));
+        $this->assertEquals($class, $questions->askForClass());
     }
 
     /** @test */
@@ -204,11 +191,6 @@ class AuthenticationProviderQuestionsTest extends TestCase
             new StringConverter()
         );
 
-        $definition = new InputDefinition([new InputOption('class')]);
-        $input = new ArrayInput(['--class' => '   '], $definition);
-
-        $questions->askForClass($input);
-
-        $this->assertEquals($class, $input->getOption('class'));
+        $this->assertEquals($class, $questions->askForClass());
     }
 }

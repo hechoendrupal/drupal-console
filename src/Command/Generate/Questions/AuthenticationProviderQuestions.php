@@ -45,7 +45,12 @@ class AuthenticationProviderQuestions
         $this->manager = $manager;
     }
 
-    public function askForModule(InputInterface $input, $showProfile = true)
+    /**
+     * @param bool $showProfile
+     * @return string
+     * @throws Exception
+     */
+    public function askForModule($showProfile = true)
     {
         $modules = $this->manager->showModuleNamesExceptCore();
 
@@ -62,37 +67,42 @@ class AuthenticationProviderQuestions
             );
         }
 
-        $module = $this->io->choiceNoList(
+        return $this->io->choiceNoList(
             $this->translator->trans('commands.common.questions.module'),
             $modules
         );
-        $input->setOption('module', $module);
     }
 
-    public function askForClass(InputInterface $input)
+    /**
+     * @param InputInterface $input
+     * @return string
+     */
+    public function askForClass()
     {
         $question = $this->translator->trans(
             'commands.generate.authentication.provider.options.class'
         );
-        $class = $this->io->ask(
+        return $this->io->ask(
             $question,
             'DefaultAuthenticationProvider',
             function ($module) { return $this->validateClassName($module); }
         );
-        $input->setOption('class', $class);
     }
 
+    /**
+     * @param InputInterface $input
+     * @return string
+     */
     public function askForProviderId(InputInterface $input)
     {
         $question = $this->translator->trans(
             'commands.generate.authentication.provider.options.provider-id'
         );
-        $providerId = $this->io->ask(
+        return $this->io->ask(
             $question,
             $this->string->camelCaseToUnderscore($input->getOption('class')),
             function ($provider) { return $this->validateClassName($provider); }
         );
-        $input->setOption('provider-id', $providerId);
     }
 
     /**
