@@ -93,19 +93,19 @@ class AuthenticationProviderCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
-        if (!$module) {
-            $this->questions->askForModule($input);
+        if (!($input->getOption('module'))) {
+            $input->setOption('module', $this->questions->askForModule());
         }
 
-        $class = $input->getOption('class');
-        if (!$class) {
-            $this->questions->askForClass($input);
+        if (!($input->getOption('class'))) {
+            $input->setOption('class', $this->questions->askForClass());
         }
 
-        $providerId = $input->getOption('provider-id');
-        if (!$providerId) {
-            $this->questions->askForProviderId($input);
+        if (!($input->getOption('provider-id'))) {
+            $input->setOption(
+                'provider-id',
+                $this->questions->askForProviderId($input)
+            );
         }
     }
 }
