@@ -77,6 +77,71 @@ class ModeCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
+        /* START
+         * [site:mode] option for disabling all caches #2350
+         * https://github.com/hechoendrupal/DrupalConsole/issues/2350
+         *
+         */
+        $yaml = new Yaml();
+        $settings = $this->get('settings');
+        $services_file = $settings->getServicesFile();
+        // Copy default.services.yml in sites/default/ into sites/default/services.yml
+        //@TODO: handle it if services.yml exists
+        if (!$settings->exists($services_file)) {
+          $settings->rename(
+            $settings->getDefaultServicesFile(),
+            $settings->getServicesFile()
+          );
+        }
+        $services = $yaml->parse(file_get_contents($services_file));
+        $settings_file = $settings->getSettingsFile("local");
+        $cache_bins_strings = $settings->getCacheBinsStrings();
+
+        $settings->set_perms(
+          [$settings->getSettingsPath(), $settings_file, $settings->getServicesFile()],
+          0777
+        );
+
+        // Copy sites/example.settings.local.php to sites/default/settings.local.php
+        $settings->copy(
+          $settings->getExampleSettingsLocalFile(),
+          $settings->getSettingsLocalFile()
+        );
+
+        // Uncomment the following lines in sites/default/settings.php
+        $settings->write(
+              $settings_file,
+              file_get_contents($settings_file) . $settings->get_settings_local_str()
+          );
+
+        // activate $settings['cache']['bins'] in settings.php
+        $settings->write(
+              $settings->getSettingsLocalFile(),
+              file_get_contents($settings_file) . $cache_bins_strings
+          );
+
+        $settings->set_perms(
+          [$settings->getSettingsPath()],
+          0555
+        );
+
+        $settings->set_perms(
+          [$settings_file, $settings->getServicesFile()],
+          0444
+        );
+
+                die(3);
+        //@TODO: clear cache
+        //@TODO: $io->commentBlock()
+
+        /* END
+         * [site:mode] option for disabling all caches #2350
+         * https://github.com/hechoendrupal/DrupalConsole/issues/2350
+         *
+         */
+
+
+
         $environment = $input->getArgument('environment');
 
         $loadedConfigurations = [];
@@ -153,22 +218,6 @@ class ModeCommand extends Command
             }
             $config->save();
         }
-
-        //        $this->getDrupalService('settings');die();
-        //
-        //        $drupal = $this->getDrupalHelper();
-        //        $fs = $this->getApplication()->getContainerHelper()->get('filesystem');
-        //
-        //        $cache_render  = '$settings = ["cache"]["bins"]["render"] = "cache.backend.null";';
-        //        $cache_dynamic = '$settings =["cache"]["bins"]["dynamic_page_cache"] = "cache.backend.null";';
-        //
-        //        $settings_file = $fs->exists($drupal->getRoot() . '/sites/default/local.settings.php')?:$drupal->getRoot() . '/sites/default/settings.php';
-        //        chmod($drupal->getRoot() . '/sites/default/', 0775);
-        //        chmod($settings_file, 0775);
-        //        $settings_file = $fs->dumpFile($settings_file, file_get_contents($settings_file) . $cache_render . $cache_dynamic);
-        //        chmod($drupal->getRoot() . '/sites/default/', 0644);
-        //        chmod($settings_file, 0644);
-        //        @TODO: $io->commentBlock()
 
         return $result;
     }
