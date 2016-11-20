@@ -4,7 +4,6 @@
  * @file
  * Contains \Drupal\Console\Command\Site\ModeCommand.
  */
-
 namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Console\Input\InputArgument;
@@ -12,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\ConfigurationManager;
@@ -44,9 +44,10 @@ class ModeCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param ConfigFactory           $configFactory
+     *
+     * @param ConfigFactory        $configFactory
      * @param ConfigurationManager $configurationManager
-     * @param ChainQueue $chainQueue,
+     * @param ChainQueue           $chainQueue,
      */
     public function __construct(
         ConfigFactory $configFactory,
@@ -87,12 +88,13 @@ class ModeCommand extends Command
         }
 
         $configurationOverrideResult = $this->overrideConfigurations(
-            $loadedConfigurations['configurations']
+            $loadedConfigurations['configurations'],
+            $io
         );
 
         foreach ($configurationOverrideResult as $configName => $result) {
             $io->info(
-                $this->trans('commands.site.mode.messages.configuration') . ':',
+                $this->trans('commands.site.mode.messages.configuration').':',
                 false
             );
             $io->comment($configName);
@@ -129,7 +131,7 @@ class ModeCommand extends Command
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 
-    protected function overrideConfigurations($configurations)
+    protected function overrideConfigurations($configurations, $io)
     {
         $result = [];
         foreach ($configurations as $configName => $options) {
@@ -137,11 +139,11 @@ class ModeCommand extends Command
             foreach ($options as $key => $value) {
                 $original = $config->get($key);
                 if (is_bool($original)) {
-                    $original = $original? 'true' : 'false';
+                    $original = $original ? 'true' : 'false';
                 }
                 $updated = $value;
                 if (is_bool($updated)) {
-                    $updated = $updated? 'true' : 'false';
+                    $updated = $updated ? 'true' : 'false';
                 }
 
                 $result[$configName][] = [
@@ -153,22 +155,55 @@ class ModeCommand extends Command
             }
             $config->save();
         }
+        $fs = new Filesystem();
 
-        //        $this->getDrupalService('settings');die();
-        //
-        //        $drupal = $this->getDrupalHelper();
-        //        $fs = $this->getApplication()->getContainerHelper()->get('filesystem');
-        //
-        //        $cache_render  = '$settings = ["cache"]["bins"]["render"] = "cache.backend.null";';
-        //        $cache_dynamic = '$settings =["cache"]["bins"]["dynamic_page_cache"] = "cache.backend.null";';
-        //
-        //        $settings_file = $fs->exists($drupal->getRoot() . '/sites/default/local.settings.php')?:$drupal->getRoot() . '/sites/default/settings.php';
-        //        chmod($drupal->getRoot() . '/sites/default/', 0775);
-        //        chmod($settings_file, 0775);
-        //        $settings_file = $fs->dumpFile($settings_file, file_get_contents($settings_file) . $cache_render . $cache_dynamic);
-        //        chmod($drupal->getRoot() . '/sites/default/', 0644);
-        //        chmod($settings_file, 0644);
-        //        @TODO: $io->commentBlock()
+        $cache_render = '$settings["cache"]["bins"]["render"] = "cache.backend.null";';
+        $cache_dynamic = '$settings["cache"]["bins"]["dynamic_page_cache"] = "cache.backend.null";';
+
+        $settings_file =
+                  $fs->exists(
+                    $this->appRoot.'/sites/default/local.settings.php'
+                  ) ?:
+                    $this->appRoot.'/sites/default/settings.php';
+
+
+        if (!strstr(file_get_contents($settings_file), $cache_render) &&
+            !strstr(file_get_contents($settings_file), $cache_dynamic)) {
+
+          chmod($settings_file, (int) 0775);
+
+          //@TODO:
+          /**
+           *
+           * when we do this we must to add:
+           *
+             services:
+              cache.backend.null:
+                class: Drupal\Core\Cache\NullBackendFactory
+           *
+           * to services.yml
+           *
+           */
+
+          $settings_file =
+                    $fs->dumpFile(
+                      $settings_file,
+                      file_get_contents($settings_file).
+                        $cache_render.
+                        $cache_dynamic
+                    );
+
+          chmod($settings_file, (int) 0644);
+          chmod($this->appRoot.'/sites/default/', 0755);
+
+          $io->commentBlock(
+              sprintf(
+                  '%s',
+                  $this->trans('commands.site.mode.messages.cachebins')
+              )
+          );
+
+        }
 
         return $result;
     }
@@ -181,10 +216,10 @@ class ModeCommand extends Command
             \Drupal::service('site.path')
         );
 
-        $settingsServicesFile = $directory . '/services.yml';
+        $settingsServicesFile = $directory.'/services.yml';
         if (!file_exists($settingsServicesFile)) {
             // Copying default services
-            $defaultServicesFile = $this->appRoot . '/sites/default/default.services.yml';
+            $defaultServicesFile = $this->appRoot.'/sites/default/default.services.yml';
             if (!copy($defaultServicesFile, $settingsServicesFile)) {
                 $io->error(
                     sprintf(
@@ -204,9 +239,10 @@ class ModeCommand extends Command
 
         $result = [];
         foreach ($servicesSettings as $service => $parameters) {
-            if(is_array($parameters)) {
+            if (is_array($parameters)) {
                 foreach ($parameters as $parameter => $value) {
-                    print 'parameters: ' . $parameter . "\n";
+                    //@TODO: delete this print
+                    echo 'parameters: '.$parameter."\n";
                     $services['parameters'][$service][$parameter] = $value;
                     // Set values for output
                     $result[$parameter]['service'] = $service;
@@ -248,6 +284,7 @@ class ModeCommand extends Command
         }
 
         sort($result);
+
         return $result;
     }
 
@@ -261,7 +298,7 @@ class ModeCommand extends Command
         if (!file_exists($configFile)) {
             $configFile = sprintf(
                 '%s/config/dist/site.mode.yml',
-                $this->configurationManager->getApplicationDirectory() . DRUPAL_CONSOLE_CORE
+                $this->configurationManager->getApplicationDirectory().DRUPAL_CONSOLE_CORE
             );
         }
 
@@ -272,7 +309,7 @@ class ModeCommand extends Command
         foreach ($configKeys as $configKey) {
             $siteModeConfigurationItem = $siteModeConfiguration[$configKey];
             foreach ($siteModeConfigurationItem as $setting => $parameters) {
-                if(array_key_exists($env, $parameters)) {
+                if (array_key_exists($env, $parameters)) {
                     $configurationSettings[$configKey][$setting] = $parameters[$env];
                 } else {
                     foreach ($parameters as $parameter => $value) {
