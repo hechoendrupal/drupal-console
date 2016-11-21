@@ -160,40 +160,54 @@ class ModeCommand extends Command
         $cache_render = '$settings["cache"]["bins"]["render"] = "cache.backend.null";';
         $cache_dynamic = '$settings["cache"]["bins"]["dynamic_page_cache"] = "cache.backend.null";';
 
+        //1. file names
+        $services_file =
+          $this->appRoot.'/sites/default/services.yml';
+
         $settings_file =
-                  $fs->exists(
-                    $this->appRoot.'/sites/default/local.settings.php'
-                  ) ?:
-                    $this->appRoot.'/sites/default/settings.php';
+          $this->appRoot.'/sites/default/settings.php';
 
+        $local_settings_file =
+          $this->appRoot.'/sites/default/settings.local.php';
 
-        if (!strstr(file_get_contents($settings_file), $cache_render) &&
-            !strstr(file_get_contents($settings_file), $cache_dynamic)) {
+        $local_settings_file_original =
+          $this->appRoot.'/sites/example.settings.local.php';
 
-          chmod($settings_file, (int) 0775);
+        //2. copy sites/example.settings.local.php sites/default/settings.local.php
+        $fs->copy($local_settings_file_original, $local_settings_file, true);
 
-          //@TODO:
-          /**
-           *
-           * when we do this we must to add:
-           *
-             services:
-              cache.backend.null:
-                class: Drupal\Core\Cache\NullBackendFactory
-           *
-           * to services.yml
-           *
-           */
+        //3. uncomment cache bins in local.settings
+        $tmp_lines =  str_replace(
+          '# $settings',
+          '$settings',
+          file_get_contents($local_settings_file)
+        );
 
-          $settings_file =
-                    $fs->dumpFile(
-                      $settings_file,
-                      file_get_contents($settings_file).
-                        $cache_render.
-                        $cache_dynamic
-                    );
+        $fs->dumpFile(
+          $local_settings_file,
+          $tmp_lines
+        );
 
+        //4. include local.settings.php in settings.php
+        chmod($settings_file, (int) 0775);
+        $fs->dumpFile(
+          $settings_file,
+          '<?php include __DIR__ . "/settings.local.php"; ?>' .
+          file_get_contents($settings_file)
+        );
+
+        //@TODO: this breaks the YAML!! :(
+        $fs->dumpFile(
+          $services_file,
+          '   services:
+               cache.backend.null:
+                 class: Drupal\Core\Cache\NullBackendFactory
+          '. file_get_contents($services_file)
+        );
+
+          //@TODO: 0444 should be a better permission for settings.php
           chmod($settings_file, (int) 0644);
+          //@TODO: 0555 should be a better permission for sites/default
           chmod($this->appRoot.'/sites/default/', 0755);
 
           $io->commentBlock(
@@ -203,7 +217,7 @@ class ModeCommand extends Command
               )
           );
 
-        }
+
 
         return $result;
     }
