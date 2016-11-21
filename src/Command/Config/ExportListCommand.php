@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Config\ExportSingleCommand.
+ * Contains \Drupal\Console\Command\Config\ExportListCommand.
  */
 
 namespace Drupal\Console\Command\Config;
@@ -72,9 +72,8 @@ class ExportListCommand extends Command {
       )->addOption(
         'remove-uuid',
         '',
-        InputOption::VALUE_OPTIONAL,
-        $this->trans('commands.config.export.list.options.remove-uuid'),
-        FALSE
+        InputOption::VALUE_NONE,
+        $this->trans('commands.config.export.list.options.remove-uuid')
       );
   }
 

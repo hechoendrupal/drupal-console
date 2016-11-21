@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Config\ImportSingleCommand.
+ * Contains \Drupal\Console\Command\Config\ImportListCommand.
  */
 namespace Drupal\Console\Command\Config;
 
@@ -67,7 +67,7 @@ class ImportListCommand extends Command
             'directory',
             '',
             InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.config.export.arguments.directory')
+            $this->trans('commands.config.import.list.options.directory')
           );
     }
 
