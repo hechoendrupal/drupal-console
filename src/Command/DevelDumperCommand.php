@@ -36,7 +36,7 @@ class DevelDumperCommand extends Command
      * DevelDumperCommand constructor.
      */
     public function __construct(
-        DevelDumperPluginManager $develDumperPluginManager
+        DevelDumperPluginManager $develDumperPluginManager = null
     ) {
         $this->develDumperPluginManager = $develDumperPluginManager;
 
