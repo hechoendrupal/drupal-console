@@ -13,49 +13,25 @@ use Drupal\Console\Test\Builders\a as an;
 use Drupal\Console\Test\Command\GenerateCommandTest;
 use Prophecy\Argument;
 use Symfony\Component\Console\Tester\CommandTester;
-use Drupal\Console\Test\DataProvider\AuthenticationProviderDataProviderTrait;
 
 class AuthenticationProviderCommandTest extends GenerateCommandTest
 {
-    use AuthenticationProviderDataProviderTrait;
+    /** @test */
+    public function it_generates_an_authentication_provider_without_interaction()
+    {
+        // Given
+        $this->userConfirmsGeneration();
 
-    /**
-     * AuthenticationProvider generator test
-     *
-     * @param string $module
-     * @param string $class
-     * @param int $providerId
-     *
-     * @dataProvider commandData
-     */
-    public function testGenerateAuthenticationProvider(
-        $module,
-        $class,
-        $providerId
-    ) {
-        $generator = an::authenticationProviderGenerator();
-        $confirmation = $this->prophesize(ConfirmGeneration::class);
-        $confirmation->confirm()->willReturn(true);
-
-        $command = new AuthenticationProviderCommand(
-            $generator->reveal(),
-            $this->prophesize(AuthenticationProviderQuestions::class)->reveal(),
-            $confirmation->reveal()
+        // When
+        $code = $this->tester->execute(
+            $this->withAllOptions(),
+            $this->nonInteractive
         );
 
-        $commandTester = new CommandTester($command);
-
-        $code = $commandTester->execute(
-            [
-                '--module' => $module,
-                '--class' => $class,
-                '--provider-id' => $providerId,
-            ],
-            ['interactive' => false]
-        );
-
-        $generator
-            ->generate($module, $class, $providerId)
+        // Then
+        $this
+            ->generator
+            ->generate($this->module, $this->class, $this->providerId)
             ->shouldHaveBeenCalled()
         ;
         $this->assertEquals(0, $code);
@@ -64,35 +40,20 @@ class AuthenticationProviderCommandTest extends GenerateCommandTest
     /** @test */
     public function it_ask_for_a_module_if_none_is_provided()
     {
-        $generator = an::authenticationProviderGenerator();
-        $confirmation = $this->prophesize(ConfirmGeneration::class);
-        $confirmation->confirm()->willReturn(true);
+        // Given
+        $this->userConfirmsGeneration();
+        $this->userProvidesModule();
 
-        $module = 'module name';
-
-        $questions = $this->prophesize(AuthenticationProviderQuestions::class);
-        $questions->askForModule()->willReturn($module);
-
-        $command = new AuthenticationProviderCommand(
-            $generator->reveal(),
-            $questions->reveal(),
-            $confirmation->reveal()
+        // When
+        $code = $this->tester->execute(
+            $this->withoutModule(),
+            $this->interactive
         );
 
-        $class = 'Console\Classname';
-        $providerId = 'Console\Classname';
-
-        $commandTester = new CommandTester($command);
-        $code = $commandTester->execute(
-            [
-                '--class' => $class,
-                '--provider-id' => $providerId,
-            ],
-            ['interactive' => true]
-        );
-
-        $generator
-            ->generate($module, $class, $providerId)
+        // Then
+        $this
+            ->generator
+            ->generate($this->module, $this->class, $this->providerId)
             ->shouldHaveBeenCalled()
         ;
         $this->assertEquals(0, $code);
@@ -101,35 +62,20 @@ class AuthenticationProviderCommandTest extends GenerateCommandTest
     /** @test */
     public function it_ask_for_a_class_if_none_is_provided()
     {
-        $generator = an::authenticationProviderGenerator();
-        $confirmation = $this->prophesize(ConfirmGeneration::class);
-        $confirmation->confirm()->willReturn(true);
+        // Given
+        $this->userConfirmsGeneration();
+        $this->userProvidesClass();
 
-        $class = 'Console\Classname';
-
-        $questions = $this->prophesize(AuthenticationProviderQuestions::class);
-        $questions->askForClass()->willReturn($class);
-
-        $command = new AuthenticationProviderCommand(
-            $generator->reveal(),
-            $questions->reveal(),
-            $confirmation->reveal()
+        // When
+        $code = $this->tester->execute(
+            $this->withoutClass(),
+            $this->interactive
         );
 
-        $module = 'module name';
-        $providerId = 'Console\Classname';
-
-        $commandTester = new CommandTester($command);
-        $code = $commandTester->execute(
-            [
-                '--module' => $module,
-                '--provider-id' => $providerId,
-            ],
-            ['interactive' => true]
-        );
-
-        $generator
-            ->generate($module, $class, $providerId)
+        // Then
+        $this
+            ->generator
+            ->generate($this->module, $this->class, $this->providerId)
             ->shouldHaveBeenCalled()
         ;
         $this->assertEquals(0, $code);
@@ -138,39 +84,128 @@ class AuthenticationProviderCommandTest extends GenerateCommandTest
     /** @test */
     public function it_ask_for_a_provider_if_none_is_provided()
     {
-        $generator = an::authenticationProviderGenerator();
-        $confirmation = $this->prophesize(ConfirmGeneration::class);
-        $confirmation->confirm()->willReturn(true);
+        // Given
+        $this->userConfirmsGeneration();
+        $this->userInputsProviderId();
 
-        $providerId = 'Console\Classname';
-        $questions = $this->prophesize(AuthenticationProviderQuestions::class);
-        $questions
-            ->askForProviderId(Argument::any())
-            ->willReturn($providerId)
-        ;
-
-        $command = new AuthenticationProviderCommand(
-            $generator->reveal(),
-            $questions->reveal(),
-            $confirmation->reveal()
+        // When
+        $code = $this->tester->execute(
+            $this->withoutProviderId(),
+            $this->interactive
         );
 
-        $module = 'module name';
-        $class = 'Console\Classname';
-
-        $commandTester = new CommandTester($command);
-        $code = $commandTester->execute(
-            [
-                '--module' => $module,
-                '--class' => $class,
-            ],
-            ['interactive' => true]
-        );
-
-        $generator
-            ->generate($module, $class, $providerId)
+        // Then
+        $this
+            ->generator
+            ->generate($this->module, $this->class, $this->providerId)
             ->shouldHaveBeenCalled()
         ;
         $this->assertEquals(0, $code);
     }
+
+    /** @before */
+    public function configure()
+    {
+        $this->configureCollaborators();
+        $this->configureSUT();
+    }
+
+    private function configureCollaborators()
+    {
+        $this->generator = an::authenticationProviderGenerator();
+        $this->questions = $this->prophesize(AuthenticationProviderQuestions::class);
+        $this->confirmation = $this->prophesize(ConfirmGeneration::class);
+    }
+
+    private function configureSUT()
+    {
+        $this->command = new AuthenticationProviderCommand(
+            $this->generator->reveal(),
+            $this->questions->reveal(),
+            $this->confirmation->reveal()
+        );
+        $this->tester = new CommandTester($this->command);
+    }
+
+    /** @return array */
+    private function withAllOptions()
+    {
+        return [
+            '--module' => $this->module,
+            '--class' => $this->class,
+            '--provider-id' => $this->providerId,
+        ];
+    }
+
+    /** @return array */
+    private function withoutModule()
+    {
+        return [
+            '--class' => $this->class,
+            '--provider-id' => $this->providerId,
+        ];
+    }
+
+    /** @return array */
+    private function withoutClass()
+    {
+        return [
+            '--module' => $this->module,
+            '--provider-id' => $this->providerId,
+        ];
+    }
+
+    /** @return array */
+    private function withoutProviderId()
+    {
+        return [
+            '--module' => $this->module,
+            '--class' => $this->class,
+        ];
+    }
+
+    private function userConfirmsGeneration()
+    {
+        $this->confirmation->confirm()->willReturn(true);
+    }
+
+    private function userProvidesModule()
+    {
+        $this->questions->askForModule()->willReturn($this->module);
+    }
+
+    private function userProvidesClass()
+    {
+        $this->questions->askForClass()->willReturn($this->class);
+    }
+
+    private function userInputsProviderId()
+    {
+        $this
+            ->questions
+            ->askForProviderId(Argument::any())
+            ->willReturn($this->providerId)
+        ;
+    }
+
+    /** @var \Drupal\Console\Generator\AuthenticationProviderGenerator */
+    private $generator;
+
+    /** @var AuthenticationProviderQuestions */
+    private $questions;
+
+    /** @var ConfirmGeneration */
+    private $confirmation;
+
+    /** @var AuthenticationProviderCommand */
+    private $command;
+
+    /** @var CommandTester */
+    private $tester;
+
+    private $module = 'module name';
+    private $class = 'Console\Classname';
+    private $providerId = 'Console\Classname';
+    private $nonInteractive = ['interactive' => false];
+    private $interactive = ['interactive' => true];
 }

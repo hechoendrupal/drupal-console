@@ -12,20 +12,12 @@ use Drupal\Console\Command\Generate\Questions\ConfirmGeneration;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\CommandTrait;
 
 class AuthenticationProviderCommand extends Command
 {
-    use ServicesTrait;
-    use ModuleTrait;
-    use FormTrait;
-    use ConfirmationTrait;
     use CommandTrait;
 
     /** @var AuthenticationProviderGenerator */
@@ -84,11 +76,11 @@ class AuthenticationProviderCommand extends Command
             return;
         }
 
-        $module = $input->getOption('module');
-        $class = $input->getOption('class');
-        $providerId = $input->getOption('provider-id');
-
-        $this->generator->generate($module, $class, $providerId);
+        $this->generator->generate(
+            $input->getOption('module'),
+            $input->getOption('class'),
+            $input->getOption('provider-id')
+        );
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
