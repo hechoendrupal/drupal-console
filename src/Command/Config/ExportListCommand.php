@@ -206,22 +206,31 @@ class ExportListCommand extends Command {
    * @param $config_list File containing the list of configs to import
    * @return boolean whether the parsing did work
    */
-  private function parseYMLConfigListFile($config_list_file) {
-    if ($string = file_get_contents(DRUPAL_ROOT . DIRECTORY_SEPARATOR . $config_list_file)) {
+  private function parseYMLConfigListFile($io, $config_list_file) {
+    $full_path = $config_list_file;
+
+    // Try with relative path to DRUPAL_ROOT if not found
+    if (!file_exists($full_path)) {
+      $full_path = DRUPAL_ROOT.DIRECTORY_SEPARATOR.$config_list_file;
+    }
+
+    if (file_exists($full_path) !== FALSE && $string = file_get_contents($full_path)) {
       try {
         $parsed = Yaml::decode($string);
       } catch (InvalidDataTypeException $e) {
-        $this->io->error($this->trans('commands.config.export.list.messages.invalid-config-list-file-format'));
+        $io->error($this->trans('commands.config.export.list.messages.invalid-config-list-file-format'));
         return FALSE;
       }
 
       if (!isset($parsed['configs']) || !is_array($parsed['configs'])) {
-        $this->io->error($this->trans('commands.config.export.list.messages.invalid-config-list-file-content'));
+        $io->error($this->trans('commands.config.export.list.messages.invalid-config-list-file-content'));
         return FALSE;
       }
 
       return $parsed['configs'];
     }
+
+    return FALSE;
   }
 
   /**
@@ -236,7 +245,7 @@ class ExportListCommand extends Command {
     $optionalConfig = $input->getOption('optional-config');
     $removeUuid = $input->getOption('remove-uuid');
 
-    $configNames = $this->parseYMLConfigListFile($configListFile);
+    $configNames = $this->parseYMLConfigListFile($io, $configListFile);
 
     foreach ($configNames as $configName) {
       if (!$removeUuid) {
@@ -246,10 +255,6 @@ class ExportListCommand extends Command {
         $config = $this->getConfiguration($configName, FALSE);
       }
       if ($config) {
-        if (!$directory) {
-          $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
-        }
-
         $this->configExport[$configName] = array(
           'data' => $config,
           'optional' => $optionalConfig
@@ -269,6 +274,13 @@ class ExportListCommand extends Command {
       if (!$module) {
         if (!$directory) {
           $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+        }
+        else if (!file_exists($directory)) {
+            $directory = DRUPAL_ROOT . DIRECTORY_SEPARATOR . $directory;
+        }
+
+        if (!file_exists($directory)) {
+          $io->error($this->trans('commands.config.export.list.messages.invalid-directory'));
         }
 
         $this->exportConfig($directory, $io, $this->trans('commands.config.export.list.messages.config_exported'));
