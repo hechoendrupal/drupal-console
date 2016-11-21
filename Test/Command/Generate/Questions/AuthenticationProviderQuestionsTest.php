@@ -106,7 +106,7 @@ class AuthenticationProviderQuestionsTest extends TestCase
     public function configure()
     {
         $this->configureCollaborators();
-        $this->setupValues();
+        $this->initValues();
         $this->createSUT();
     }
 
@@ -119,7 +119,7 @@ class AuthenticationProviderQuestionsTest extends TestCase
         $this->stringConverter = new StringConverter();
     }
 
-    private function setupValues()
+    private function initValues()
     {
         $this->module = 'console';
         $this->profile = 'admin';

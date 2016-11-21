@@ -44,7 +44,7 @@ class ConfirmGenerationTest extends TestCase
     public function configure()
     {
         $this->configureCollaborators();
-        $this->configureSUT();
+        $this->createSUT();
     }
 
     private function configureCollaborators()
@@ -53,7 +53,7 @@ class ConfirmGenerationTest extends TestCase
         $this->translator = $this->prophesize(TranslatorManager::class);
     }
 
-    private function configureSUT()
+    private function createSUT()
     {
         $this->confirm = new ConfirmGeneration(
             $this->style->reveal(),

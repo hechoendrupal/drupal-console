@@ -107,7 +107,7 @@ class AuthenticationProviderCommandTest extends GenerateCommandTest
     public function configure()
     {
         $this->configureCollaborators();
-        $this->configureSUT();
+        $this->createSUT();
     }
 
     private function configureCollaborators()
@@ -117,7 +117,7 @@ class AuthenticationProviderCommandTest extends GenerateCommandTest
         $this->confirmation = $this->prophesize(ConfirmGeneration::class);
     }
 
-    private function configureSUT()
+    private function createSUT()
     {
         $this->command = new AuthenticationProviderCommand(
             $this->generator->reveal(),
