@@ -16,8 +16,8 @@ services:
     arguments: ['@event_dispatcher']
     tags:
       - { name: drupal.command }
-#  console.devel_dumper:
-#    class: Drupal\Console\Command\DumperCommand
-#    arguments: ['@app.root']
-#    tags:
-#      - { name: drupal.command }
+  console.devel_dumper:
+    class: Drupal\Console\Command\DevelDumperCommand
+    arguments: ['@?plugin.manager.devel_dumper']
+    tags:
+      - { name: drupal.command }
