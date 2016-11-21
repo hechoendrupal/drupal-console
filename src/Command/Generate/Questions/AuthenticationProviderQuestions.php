@@ -111,7 +111,7 @@ class AuthenticationProviderQuestions
      * @throws Exception
      */
     private function validateClassName($moduleName)
-    {var_dump($moduleName);
+    {
         if (!strlen(trim($moduleName))) {
             throw new Exception('The Class name can not be empty');
         }
