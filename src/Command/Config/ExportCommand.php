@@ -54,6 +54,11 @@ class ExportCommand extends Command
                 false,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.arguments.tar')
+            )->addOption(
+                'remove-uuid',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.single.options.remove-uuid')
             );
     }
 
@@ -66,6 +71,7 @@ class ExportCommand extends Command
 
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
+        $removeUuid = $input->getOption('remove-uuid');
 
         if (!$directory) {
             $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
@@ -94,6 +100,10 @@ class ExportCommand extends Command
 
                 // The _core is site-specific, so don't export it.
                 unset($configData['_core']);
+
+                if ($removeUuid) {
+                    unset($configData['uuid']);
+                }
 
                 $ymlData = Yaml::encode($configData);
 
