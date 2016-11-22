@@ -30,6 +30,9 @@ trait ExportTrait
             unset($config['uuid']);
         }
 
+        // The _core is site-specific, so don't export it.
+        unset($config['_core']);
+
         return $config;
     }
 
