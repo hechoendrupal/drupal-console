@@ -91,6 +91,10 @@ class ExportCommand extends Command
             foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
                 $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
                 $configName =  sprintf('%s.yml', $name);
+
+                // The _core is site-specific, so don't export it.
+                unset($configData['_core']);
+
                 $ymlData = Yaml::encode($configData);
 
                 if ($tar) {
