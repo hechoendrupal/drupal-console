@@ -99,6 +99,12 @@ class DebugCommand extends Command
                 $tableRows[] = $attribute;
             }
 
+            $tableRows[] = ['<comment>'.$this->trans('commands.router.debug.messages.requirements').'</comment>'];
+            $requirements = $this->addRouteAttributes($route->getRequirements());
+            foreach ($requirements as $requirement) {
+                $tableRows[] = $requirement;
+            }
+
             $tableRows[] = ['<comment>'.$this->trans('commands.router.debug.messages.options').'</comment>'];
             $options = $this->addRouteAttributes($route->getOptions());
             foreach ($options as $option) {
