@@ -7,6 +7,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Console\Utils\AnnotationValidator;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Chain\ChainRegister;
 
 /**
  * Class Application
@@ -105,6 +106,12 @@ class Application extends ConsoleApplication
             );
 
             $logger->writeln($this->trans('application.site.errors.settings'));
+        }
+
+        foreach ($chainCommands as $name => $chainCommand) {
+            $file = $chainCommand['file'];
+            $command = new ChainRegister($name, $file);
+            $this->add($command);
         }
 
         $serviceDefinitions = [];
