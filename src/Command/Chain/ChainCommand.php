@@ -115,7 +115,7 @@ class ChainCommand extends Command
         $file = calculateRealPath($file);
         $input->setOption('file', $file);
 
-        $chainContent = file_get_contents($file);
+        $chainContent = $this->getFileContents($file);
 
         $placeholder = $input->getOption('placeholder');
         $inlinePlaceHolders = $this->extractInlinePlaceHolders($chainContent);
@@ -184,7 +184,7 @@ class ChainCommand extends Command
             $placeholder = $this->inlineValueAsArray($placeholder);
         }
 
-        $chainContent = file_get_contents($file);
+        $chainContent = $this->getFileContents($file);
         $environmentPlaceHolders = $this->extractEnvironmentPlaceHolders($chainContent);
 
         $envPlaceHolderMap = [];
@@ -312,5 +312,23 @@ class ChainCommand extends Command
         }
 
         return 0;
+    }
+
+    /**
+     * Helper to load and clean up the chain file.
+     *
+     * @param string $file The file name
+     *
+     * @return string $contents The contents of the file
+     */
+    function getFileContents($file) {
+        $contents = file_get_contents($file);
+
+        // Remove lines with comments.
+        $contents = preg_replace('![ \t]*#.*[ \t]*[\r|\r\n|\n]!', PHP_EOL, $contents);
+        //  Strip blank lines
+        $contents = preg_replace("/(^[\r\n]*|[\r\n]+)[\t]*[\r\n]+/", PHP_EOL, $contents);
+
+        return $contents;
     }
 }
