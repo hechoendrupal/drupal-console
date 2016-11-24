@@ -7,8 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Symfony\Component\Yaml\Dumper;
-use \Symfony\Component\Yaml\Yaml;
+use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Style\DrupalStyle;
 
 /**
@@ -35,17 +34,15 @@ trait ExportTrait
     }
 
     /**
-     * @param string      $module
+     * @param string      $directory
      * @param DrupalStyle $io
      */
     protected function exportConfig($directory, DrupalStyle $io, $message)
     {
-        $dumper = new Dumper();
-
         $io->info($message);
 
         foreach ($this->configExport as $fileName => $config) {
-            $yamlConfig = $dumper->dump($config['data'], 10);
+            $yamlConfig = Yaml::encode($config['data']);
 
             $configFile = sprintf(
                 '%s/%s.yml',
@@ -73,14 +70,12 @@ trait ExportTrait
      */
     protected function exportConfigToModule($module, DrupalStyle $io, $message)
     {
-        $dumper = new Dumper();
-
         $io->info($message);
 
         $module = $this->extensionManager->getModule($module);
 
         foreach ($this->configExport as $fileName => $config) {
-            $yamlConfig = $dumper->dump($config['data'], 10);
+            $yamlConfig = Yaml::encode($config['data']);
 
             if ($config['optional']) {
                 $configDirectory = $module->getConfigOptionalDirectory(false);
@@ -131,8 +126,6 @@ trait ExportTrait
 
     protected function exportModuleDependencies($io, $module, $dependencies)
     {
-        $yaml = new Yaml();
-
         $module = $this->extensionManager->getModule($module);
         $info_yaml = $module->info;
 
@@ -142,7 +135,7 @@ trait ExportTrait
             $info_yaml['dependencies'] = array_unique(array_merge($info_yaml['dependencies'], $dependencies));
         }
 
-        if (file_put_contents($module->getPathname(), $yaml->dump($info_yaml))) {
+        if (file_put_contents($module->getPathname(), Yaml::encode($info_yaml))) {
             $io->info(
                 '[+] ' .
                 sprintf(

@@ -27,7 +27,9 @@ class PermissionCommand extends Command
     use PermissionTrait;
     use ConfirmationTrait;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
@@ -36,16 +38,23 @@ class PermissionCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var PermissionGenerator;
+     */
+    protected $generator;
+
+    /**
      * PermissionCommand constructor.
      * @param Manager         $extensionManager
      * @param StringConverter $stringConverter
      */
     public function __construct(
         Manager $extensionManager,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        PermissionGenerator $permissionGenerator
     ) {
         $this->extensionManager = $extensionManager;
         $this->stringConverter = $stringConverter;
+        $this->generator = $permissionGenerator;
         parent::__construct();
     }
 
@@ -79,12 +88,10 @@ class PermissionCommand extends Command
     {
         $module = $input->getOption('module');
         $permissions = $input->getOption('permissions');
+        $learning = $input->hasOption('learning');
 
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
-        //@TODO: $this->generator
-        //$generator->setLearning($learning);
-        //$generator->generate($module, $permissions);
+        $this->generator->generate($module, $permissions, $learning);
     }
 
     /**
