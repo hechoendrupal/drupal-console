@@ -11,6 +11,6 @@ services:
       - { name: drupal.command }
   rest_enable:
     class: Drupal\Console\Command\Rest\EnableCommand
-    arguments: ['@plugin.manager.rest', '@authentication_collector', '@config.factory']
+    arguments: ['@plugin.manager.rest', '@authentication_collector', '@config.factory', '%serializer.formats%', '@entity.manager']
     tags:
       - { name: drupal.command }

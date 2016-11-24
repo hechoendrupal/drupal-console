@@ -1,0 +1,3 @@
+<?php
+
+$autoloaders = [ getcwd() . '/vendor/autoload.php' ];
