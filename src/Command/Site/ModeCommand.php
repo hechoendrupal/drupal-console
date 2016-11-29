@@ -160,9 +160,14 @@ class ModeCommand extends Command
         $cache_render = '$settings["cache"]["bins"]["render"] = "cache.backend.null";';
         $cache_dynamic = '$settings["cache"]["bins"]["dynamic_page_cache"] = "cache.backend.null";';
 
+        //@TODO: if $environment == 'dev'
+        //@TODO: i would put these filepaths in constructor so they were available for other methods
         //1. file names
         $services_file =
           $this->appRoot.'/sites/default/services.yml';
+
+        $local_services_file =
+          $this->appRoot.'/sites/development.services.yml';
 
         $settings_file =
           $this->appRoot.'/sites/default/settings.php';
@@ -177,6 +182,7 @@ class ModeCommand extends Command
         $fs->copy($local_settings_file_original, $local_settings_file, true);
 
         //3. uncomment cache bins in local.settings
+        //   ATTENTION: this already enables development.services.yml (for cache bins)
         $tmp_lines =  str_replace(
           '# $settings',
           '$settings',
@@ -189,6 +195,7 @@ class ModeCommand extends Command
         );
 
         //4. include local.settings.php in settings.php
+        //   @TODO: check first line if it is already this
         chmod($settings_file, (int) 0775);
         $fs->dumpFile(
           $settings_file,
@@ -196,21 +203,31 @@ class ModeCommand extends Command
           file_get_contents($settings_file)
         );
 
-        //@TODO: this breaks the YAML!! :(
-        $fs->dumpFile(
-          $services_file,
-          '   services:
-               cache.backend.null:
-                 class: Drupal\Core\Cache\NullBackendFactory
-          '. file_get_contents($services_file)
-        );
+        //5. add cache.backend.null to local services.yml
+        /*
+         * not necessary, already loaded at development.services.yml
+         *
+        $services = Yaml::parse(file_get_contents($local_services_file));
+        $services['services'] =
+            [
+                "cache.backend.null"
+                =>
+                    [ "class" => "Drupal\Core\Cache\NullBackendFactory" ]
 
-          //@TODO: 0444 should be a better permission for settings.php
-          chmod($settings_file, (int) 0644);
-          //@TODO: 0555 should be a better permission for sites/default
-          chmod($this->appRoot.'/sites/default/', 0755);
+            ];
 
-          $io->commentBlock(
+        //@TODO: i would put a YAML instance in the constructor (so were available for all methods)
+        file_put_contents($services_file, YAML::dump($services, 2));
+         *
+         *
+         */
+
+        //@TODO: 0444 should be a better permission for settings.php
+        chmod($settings_file, (int) 0644);
+        //@TODO: 0555 should be a better permission for sites/default
+        chmod($this->appRoot.'/sites/default/', 0755);
+
+        $io->commentBlock(
               sprintf(
                   '%s',
                   $this->trans('commands.site.mode.messages.cachebins')
@@ -255,8 +272,6 @@ class ModeCommand extends Command
         foreach ($servicesSettings as $service => $parameters) {
             if (is_array($parameters)) {
                 foreach ($parameters as $parameter => $value) {
-                    //@TODO: delete this print
-                    echo 'parameters: '.$parameter."\n";
                     $services['parameters'][$service][$parameter] = $value;
                     // Set values for output
                     $result[$parameter]['service'] = $service;
