@@ -14,7 +14,7 @@ use Drupal\devel\DevelDumperPluginManager;
 use Drupal\devel\DevelDumperManager;
 
 /**
- * Class DumperCommand.
+ * Class DevelDumperCommand.
  * Command to quickly change between devel dumpers from the command line
  *
  * @package Drupal\Console\Command
@@ -23,9 +23,25 @@ use Drupal\devel\DevelDumperManager;
  * @todo Move to namespace Devel
  * @todo Load devel.module legacy file
  */
-class DumperCommand extends Command
+class DevelDumperCommand extends Command
 {
     use ContainerAwareCommandTrait;
+
+    /**
+     * @var DevelDumperPluginManager
+     */
+    protected $develDumperPluginManager;
+
+    /**
+     * DevelDumperCommand constructor.
+     */
+    public function __construct(
+        DevelDumperPluginManager $develDumperPluginManager = null
+    ) {
+        $this->develDumperPluginManager = $develDumperPluginManager;
+
+        parent::__construct();
+    }
 
     /**
      * {@inheritdoc}
@@ -101,8 +117,7 @@ class DumperCommand extends Command
     protected function getDumperKeys()
     {
         /* @var DevelDumperPluginManager $manager */
-        $manager = \Drupal::service('plugin.manager.devel_dumper');
-        $plugins = $manager->getDefinitions();
+        $plugins = $this->develDumperPluginManager->getDefinitions();
         return array_keys($plugins);
     }
 }
