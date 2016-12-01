@@ -34,6 +34,11 @@ class ChainCommand extends Command
     use InputTrait;
 
     /**
+     * @var string
+     */
+    protected $file = null;
+
+    /**
      * @var ChainQueue
      */
     protected $chainQueue;
@@ -78,21 +83,31 @@ class ChainCommand extends Command
      */
     protected function configure()
     {
+        if (is_null($this->getName())) {
+            $this
+                ->setName('chain')
+                ->setDescription($this->trans('commands.chain.description'));
+        }
+        else {
+            // ChainRegister passes name and file in the constructor.
+            $this
+              ->setName(sprintf('chain:%s', $this->getName()))
+              ->setDescription(sprintf('Custom chain: %s', $this->getName()));
+        }
+
         $this
-            ->setName('chain')
-            ->setDescription($this->trans('commands.chain.description'))
-            ->addOption(
-                'file',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.chain.options.file')
-            )
-            ->addOption(
-                'placeholder',
-                null,
-                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.chain.options.placeholder')
-            );
+        ->addOption(
+            'file',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.chain.options.file')
+        )
+        ->addOption(
+            'placeholder',
+            null,
+            InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.chain.options.placeholder')
+        );
     }
 
     /**
@@ -101,7 +116,8 @@ class ChainCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $file = $input->getOption('file');
+        // Check if the constructor passed a value for file.
+        $file = !is_null($this->file) ? $this->file : $input->getOption('file');
 
         if (!$file) {
             $files = $this->getChainFiles(true);
@@ -312,6 +328,15 @@ class ChainCommand extends Command
         }
 
         return 0;
+    }
+
+    /**
+     * Setter for $file.
+     *
+     * @param $file
+     */
+    public function setFile($file) {
+        $this->file = $file;
     }
 
     /**
