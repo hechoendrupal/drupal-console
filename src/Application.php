@@ -92,7 +92,6 @@ class Application extends ConsoleApplication
 
     private function registerCommands()
     {
-        $logger = $this->container->get('console.logger');
         if ($this->container->hasParameter('drupal.commands')) {
             $consoleCommands = $this->container->getParameter(
                 'drupal.commands'
@@ -105,15 +104,13 @@ class Application extends ConsoleApplication
                 'console.warning',
                 'application.site.errors.settings'
             );
-
-            $logger->writeln($this->trans('application.site.errors.settings'));
         }
 
-        foreach ($chainCommands as $name => $chainCommand) {
-            $file = $chainCommand['file'];
-            $command = new ChainRegister($name, $file);
-            $this->add($command);
-        }
+//        foreach ($chainCommands as $name => $chainCommand) {
+//            $file = $chainCommand['file'];
+//            $command = new ChainRegister($name, $file);
+//            $this->add($command);
+//        }
 
         $serviceDefinitions = [];
         $annotationValidator = null;
@@ -133,10 +130,13 @@ class Application extends ConsoleApplication
             ->get('application.commands.aliases')?:[];
 
         foreach ($consoleCommands as $name) {
-            // Some commands call AnnotationRegistry::reset, we need to ensure that
-            // the AnnotationRegistry is correctly defined.
+            // Some commands call AnnotationRegistry::reset,
+            // we need to ensure the AnnotationRegistry is correctly defined.
             AnnotationRegistry::reset();
-            AnnotationRegistry::registerLoader([\Drupal::service('class_loader'), "loadClass"]);
+            AnnotationRegistry::registerLoader([
+                \Drupal::service('class_loader'),
+                "loadClass"]
+            );
 
             if (!$this->container->has($name)) {
                 continue;
@@ -155,7 +155,6 @@ class Application extends ConsoleApplication
             try {
                 $command = $this->container->get($name);
             } catch (\Exception $e) {
-                $logger->writeln($e->getMessage());
                 continue;
             }
 
