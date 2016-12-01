@@ -48,8 +48,7 @@ $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
 $container = $drupal->boot();
 
 if (!$container) {
-    echo ' Something goes wrong, try checking the log file at:' . PHP_EOL .
-         ' ' . $composerRoot . '/console/log/' . date('Y-m-d') . '.log' . PHP_EOL;
+    echo ' Something goes wrong. Drupal can not be bootstrapped.';
 
     exit(1);
 }
