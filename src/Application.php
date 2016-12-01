@@ -106,6 +106,11 @@ class Application extends ConsoleApplication
             );
         }
 
+//        // @TODO add auto-discovery of chain files
+//        $chainCommands['create:bulk:data'] = [
+//            'file' => '/Users/jmolivas/.console/chain/create-data.yml'
+//        ];
+//
 //        foreach ($chainCommands as $name => $chainCommand) {
 //            $file = $chainCommand['file'];
 //            $command = new ChainRegister($name, $file);
@@ -133,9 +138,11 @@ class Application extends ConsoleApplication
             // Some commands call AnnotationRegistry::reset,
             // we need to ensure the AnnotationRegistry is correctly defined.
             AnnotationRegistry::reset();
-            AnnotationRegistry::registerLoader([
-                \Drupal::service('class_loader'),
-                "loadClass"]
+            AnnotationRegistry::registerLoader(
+                [
+                    \Drupal::service('class_loader'),
+                    "loadClass"
+                ]
             );
 
             if (!$this->container->has($name)) {
