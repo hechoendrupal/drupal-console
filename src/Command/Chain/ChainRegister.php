@@ -18,76 +18,75 @@
 
 namespace Drupal\Console\Command\Chain;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Console\Application;
-use Drupal\Console\Utils\ConfigurationManager;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ChainFilesTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Command\Shared\CommandTrait;
+
 /**
  * Class ChainRegister
  *
  * @package Drupal\Console\Command\ChainRegister
  */
-class ChainRegister extends ChainCommand {
-  use ChainFilesTrait;
+class ChainRegister extends Command
+{
+    use CommandTrait;
+    use ChainFilesTrait;
 
-  /**
+    protected $name;
+
+    protected $file;
+
+    /**
    * ChainRegister constructor.
    *
-   * @param $name Chain name
-   * @param $file File name
+   * @param $name
+   * @param $file
    */
-  public function __construct($name, $file) {
-    $this->setName($name);
-    $this->setFile($file);
+    public function __construct($name, $file)
+    {
+        $this->name = $name;
+        $this->file = $file;
 
-    parent::__construct();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function configure() {
-    parent::configure();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function execute(InputInterface $input, OutputInterface $output) {
-    parent::interact($input, $output);
-
-    $io = new DrupalStyle($input, $output);
-
-    // Populate placeholders.
-    $placeholders = '';
-    foreach ($input->getOption('placeholder') as $placeholder) {
-      $placeholders .= sprintf('--placeholder="%s" ',
-        $placeholder
-      );
+        parent::__construct();
     }
 
-    $command = sprintf('drupal chain --file %s %s',
-      $this->file,
-      $placeholders
-    );
-
-    // Run.
-    $shellProcess = $this->get('shell_process');
-
-    if (!$shellProcess->exec($command, TRUE)) {
-      $io->error(
-        sprintf(
-          $this->trans('commands.exec.messages.invalid-bin')
-        )
-      );
-
-      return 1;
+    /**
+   * {@inheritdoc}
+   */
+    protected function configure()
+    {
+        $this
+            ->setName($this->name)
+            ->setDescription(sprintf('Custom chain command (%s)', $this->name))
+            ->addOption(
+                'placeholder',
+                null,
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.chain.options.placeholder')
+            );
     }
-  }
+
+    /**
+   * {@inheritdoc}
+   */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $command = $this->getApplication()->find('chain');
+
+        $arguments = [
+            'command' => 'chain',
+            '--file'  => $this->file,
+            '--placeholder'  => $input->getOption('placeholder'),
+            '--generate-inline'  => $input->hasOption('generate-inline'),
+            '--no-interaction'  => $input->hasOption('no-interaction')
+        ];
+
+        $commandInput = new ArrayInput($arguments);
+
+        return $command->run($commandInput, $output);
+    }
 }
