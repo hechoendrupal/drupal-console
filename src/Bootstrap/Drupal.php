@@ -33,7 +33,6 @@ class Drupal
         }
 
         try {
-
             // Add support for Acquia Dev Desktop sites on Mac OS X
             // @TODO: Check if this condition works in Windows
             $devDesktopSettingsDir = getenv('HOME') . "/.acquia/DevDesktop/DrupalSettings";
@@ -100,7 +99,9 @@ class Drupal
             return $container;
         } catch (\Exception $e) {
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
-            return $drupal->boot();
+            $container = $drupal->boot();
+            $container->set('class_loader', $this->autoload);
+            return $container;
         }
     }
 }

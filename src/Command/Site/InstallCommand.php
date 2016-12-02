@@ -16,16 +16,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
+use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Shared\DatabaseTrait;
 use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\Site;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Bootstrap\Drupal;
+use Drupal\Console\Utils\Site;
+use DrupalFinder\DrupalFinder;
 
 class InstallCommand extends Command
 {
-    use CommandTrait;
+    use ContainerAwareCommandTrait;
     use DatabaseTrait;
 
     /**
@@ -419,6 +421,16 @@ class InstallCommand extends Command
 
         try {
             $this->runInstaller($io, $input, $database);
+
+            $drupalFinder = new DrupalFinder();
+            $drupalFinder->locateRoot(getcwd());
+            $composerRoot = $drupalFinder->getComposerRoot();
+            $drupalRoot = $drupalFinder->getDrupalRoot();
+            $autoload = $this->container->get('class_loader');
+            $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
+            $container = $drupal->boot();
+            $this->getApplication()->setContainer($container);
+
         } catch (Exception $e) {
             $io->error($e->getMessage());
             return;
