@@ -8,7 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Console\Utils\AnnotationValidator;
 use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Chain\ChainRegister;
 
 /**
  * Class Application
@@ -105,17 +104,6 @@ class Application extends ConsoleApplication
                 'application.site.errors.settings'
             );
         }
-
-//        // @TODO add auto-discovery of chain files
-//        $chainCommands['create:bulk:data'] = [
-//            'file' => '/Users/jmolivas/.console/chain/create-data.yml'
-//        ];
-//
-//        foreach ($chainCommands as $name => $chainCommand) {
-//            $file = $chainCommand['file'];
-//            $command = new ChainRegister($name, $file);
-//            $this->add($command);
-//        }
 
         $serviceDefinitions = [];
         $annotationValidator = null;
