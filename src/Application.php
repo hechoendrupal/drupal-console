@@ -345,4 +345,10 @@ class Application extends ConsoleApplication
 
         return $data;
     }
+
+    public function setContainer($container) {
+        $this->container = $container;
+        $this->registerGenerators();
+        $this->registerCommands();
+    }
 }
