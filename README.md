@@ -99,6 +99,8 @@ We highly recommend you to install the global executable, but if is not installe
 vendor/bin/drupal
 # or
 vendor/drupal/console/bin/drupal
+# or
+bin/drupal
 ```
 
 ## Drupal Console Support
