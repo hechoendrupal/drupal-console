@@ -89,6 +89,11 @@ class ExportSingleCommand extends Command
             '',
             InputOption::VALUE_NONE,
             $this->trans('commands.config.export.single.options.remove-uuid')
+          )->addOption(
+            'remove-config-hash',
+            '',
+            InputOption::VALUE_NONE,
+            $this->trans('commands.config.export.single.options.remove-config-hash')
           );
     }
 
@@ -205,6 +210,13 @@ class ExportSingleCommand extends Command
             );
             $input->setOption('remove-uuid', $removeUuid);
         }
+        if (!$input->getOption('remove-config-hash')) {
+            $removeHash = $io->confirm(
+              $this->trans('commands.config.export.single.questions.remove-config-hash'),
+              true
+            );
+            $input->setOption('remove-config-hash', $removeHash);
+        }
     }
 
 
@@ -220,12 +232,10 @@ class ExportSingleCommand extends Command
         $configName = $input->getArgument('config-name');
         $optionalConfig = $input->getOption('optional-config');
         $removeUuid = $input->getOption('remove-uuid');
+        $removeHash = $input->getOption('remove-config-hash');
+        
+        $config = $this->getConfiguration($configName, $removeUuid, $removeHash);
 
-        if (!$removeUuid) {
-            $config = $this->getConfiguration($configName, true);
-        } else {
-            $config = $this->getConfiguration($configName, false);
-        }
         if ($config) {
             if (!$directory) {
                 $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
