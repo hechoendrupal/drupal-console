@@ -422,11 +422,11 @@ class InstallCommand extends Command
         try {
             $this->runInstaller($io, $input, $database);
 
-            $autoload = $this->container->get('class_loader');
             $drupalFinder = new DrupalFinder();
             $drupalFinder->locateRoot(getcwd());
             $composerRoot = $drupalFinder->getComposerRoot();
             $drupalRoot = $drupalFinder->getDrupalRoot();
+            $autoload = $this->container->get('class_loader');
             $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
             $container = $drupal->boot();
             $this->getApplication()->setContainer($container);
