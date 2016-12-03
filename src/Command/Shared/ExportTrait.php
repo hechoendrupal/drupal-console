@@ -21,18 +21,20 @@ trait ExportTrait
      * @param bool|false $uuid
      * @return mixed
      */
-    protected function getConfiguration($configName, $uuid = false)
+    protected function getConfiguration($configName, $uuid = false, $hash = false)
     {
         $config = $this->configStorage->read($configName);
 
         // Exclude uuid base in parameter, useful to share configurations.
-        if (!$uuid) {
+        if ($uuid) {
             unset($config['uuid']);
         }
-
-        // The _core is site-specific, so don't export it.
-        unset($config['_core']);
-
+        
+        // Exclude default_config_hash inside _core is site-specific.
+        if ($hash) {
+          unset($config['_core']['default_config_hash']);
+        }
+        
         return $config;
     }
 
