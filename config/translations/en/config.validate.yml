@@ -1,0 +1,6 @@
+description: 'Validate a drupal config against its schema'
+options: {}
+arguments: {}
+messages:
+    success: 'Config was successfully validated'
+    noConf: 'Config with this name does not exist'

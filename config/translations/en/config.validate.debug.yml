@@ -1,0 +1,7 @@
+description: 'Helper function to validate a schema implementation before a module is installed. Specify the config and the schema file paths as arguments and validation will be run against them, making schema easier to debug without time consuming installs'
+options: {}
+arguments: {}
+messages:
+    noConfFile: 'Config file at the specified path does not exist'
+    noConfSchema: 'Config schema at the specified path does not exist'
+    noSchemaName: 'Could not find schema definition in schema file. Using definition name:'
