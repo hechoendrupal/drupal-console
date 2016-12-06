@@ -19,7 +19,6 @@ use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Console\Utils\ChainQueue;
 
-$m = new Maginot();
 
 class ModeCommand extends Command
 {
@@ -191,14 +190,13 @@ class ModeCommand extends Command
             $this->fs->copy($this->local_settings_file_original, $this->local_settings_file, true);
 
             // uncomment cache bins in local.settings
-            //@TODO: esto no funciona!!
             $this->maginot->unCommentLine(
-                ' $settings[\'cache\'][\'bins\'][\'render\'] = \'cache.backend.null\';',
+                '# $settings[\'cache\'][\'bins\'][\'render\'] = \'cache.backend.null\';',
                 $this->local_settings_file
             );
 
             $this->maginot->unCommentLine(
-                ' $settings[\'cache\'][\'bins\'][\'dynamic_page_cache\'] = \'cache.backend.null\';',
+                '# $settings[\'cache\'][\'bins\'][\'dynamic_page_cache\'] = \'cache.backend.null\';',
                 $this->local_settings_file
             );
 
@@ -214,7 +212,6 @@ class ModeCommand extends Command
                     $this->settings_file
                 );
             }
-
 
             $io->commentBlock(
                 sprintf(
@@ -234,6 +231,8 @@ class ModeCommand extends Command
                     $this->settings_file
                 );
             }
+
+            //@TODO: comment cache bins lines in settings.local.php ??
         }
 
         /**
