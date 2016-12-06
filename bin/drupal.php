@@ -16,12 +16,14 @@ else {
          __DIR__ . '/../vendor/autoload.php'
      ];
 }
+
 foreach ($autoloaders as $file) {
     if (file_exists($file)) {
         $autoloader = $file;
         break;
     }
 }
+
 if (isset($autoloader)) {
     $autoload = require_once $autoloader;
 }
