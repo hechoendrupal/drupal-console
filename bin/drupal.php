@@ -16,10 +16,6 @@ else {
          __DIR__ . '/../vendor/autoload.php'
      ];
 }
-$autoloaders = [
-  __DIR__ . '/../../../autoload.php',
-  __DIR__ . '/../vendor/autoload.php'
-];
 foreach ($autoloaders as $file) {
     if (file_exists($file)) {
         $autoloader = $file;
@@ -30,8 +26,8 @@ if (isset($autoloader)) {
     $autoload = require_once $autoloader;
 }
 else {
-    #echo ' You must set up the project dependencies using `composer install`' . PHP_EOL;
-    #exit(1);
+    echo ' You must set up the project dependencies using `composer install`' . PHP_EOL;
+    exit(1);
 }
 
 $drupalFinder = new DrupalFinder();
