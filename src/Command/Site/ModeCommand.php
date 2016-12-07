@@ -7,8 +7,10 @@
 namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
@@ -63,6 +65,7 @@ class ModeCommand extends Command
         $this->appRoot = $appRoot;
         $this->chainQueue = $chainQueue;
 
+        $this->local = null;
 
         $this->services_file =
             $this->appRoot.'/sites/default/services.yml';
@@ -97,6 +100,12 @@ class ModeCommand extends Command
                 'environment',
                 InputArgument::REQUIRED,
                 $this->trans('commands.site.mode.arguments.environment')
+            )
+            ->addOption(
+                'local',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.site.mode.options.local')
             );
     }
 
@@ -105,6 +114,7 @@ class ModeCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $this->environment = $input->getArgument('environment');
+        $this->local = $input->getOption('local');
 
         $loadedConfigurations = [];
         if (in_array($this->environment, array('dev', 'prod'))) {
@@ -189,14 +199,24 @@ class ModeCommand extends Command
             // copy sites/example.settings.local.php sites/default/settings.local.php
             $this->fs->copy($this->local_settings_file_original, $this->local_settings_file, true);
 
-            // uncomment cache bins in local.settings
+            // uncomment cache bins in settings.local.php
             $this->maginot->unCommentLine(
                 '# $settings[\'cache\'][\'bins\'][\'render\'] = \'cache.backend.null\';',
                 $this->local_settings_file
             );
 
             $this->maginot->unCommentLine(
+                '// $settings[\'cache\'][\'bins\'][\'render\'] = \'cache.backend.null\';',
+                $this->local_settings_file
+            );
+
+            $this->maginot->unCommentLine(
                 '# $settings[\'cache\'][\'bins\'][\'dynamic_page_cache\'] = \'cache.backend.null\';',
+                $this->local_settings_file
+            );
+
+            $this->maginot->unCommentLine(
+                '// $settings[\'cache\'][\'bins\'][\'dynamic_page_cache\'] = \'cache.backend.null\';',
                 $this->local_settings_file
             );
 
@@ -221,18 +241,44 @@ class ModeCommand extends Command
             );
         }
         if ($this->environment == 'prod') {
-            // comment local.settings.php in settings.php
-            if (
-                $this->maginot->getFirstLine($this->settings_file)
-                ==
-                $line_include_settings
-            ) {
-                $this->maginot->deleteFirstLine(
-                    $this->settings_file
+            if (!$this->local) {
+
+                // comment local.settings.php in settings.php
+                if (
+                    $this->maginot->getFirstLine($this->settings_file)
+                    ==
+                    $line_include_settings
+                ) {
+                    $this->maginot->deleteFirstLine(
+                        $this->settings_file
+                    );
+                }
+
+
+                try {
+                    $this->fs->remove(
+                        $this->local_settings_file
+                    );
+                    //@TODO: msg user "local.settings.php deleted"
+                } catch (IOExceptionInterface $e) {
+                    echo $e->getMessage();
+                }
+            }else{
+
+                // comment cache bins in local.settings.php,
+                // we still use local.settings.php for testing PROD
+                // settings in local
+
+                $this->maginot->CommentLine(
+                    ' $settings[\'cache\'][\'bins\'][\'render\'] = \'cache.backend.null\';',
+                    $this->local_settings_file
+                );
+
+                $this->maginot->CommentLine(
+                    ' $settings[\'cache\'][\'bins\'][\'dynamic_page_cache\'] = \'cache.backend.null\';',
+                    $this->local_settings_file
                 );
             }
-
-            //@TODO: comment cache bins lines in settings.local.php ??
         }
 
         /**
