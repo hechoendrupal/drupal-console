@@ -23,7 +23,7 @@ use Drupal\Core\Serialization\Yaml;
  *
  *@package Drupal\Console\Command\Config
  */
-class ConfigValidateDebugCommand extends Command {
+class ValidateDebugCommand extends Command {
 
   use ContainerAwareCommandTrait;
   use SchemaCheckTrait;
