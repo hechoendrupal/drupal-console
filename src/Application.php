@@ -128,7 +128,7 @@ class Application extends ConsoleApplication
             AnnotationRegistry::reset();
             AnnotationRegistry::registerLoader(
                 [
-                    \Drupal::service('class_loader'),
+                    $this->container->get('class_loader'),
                     "loadClass"
                 ]
             );
