@@ -5,7 +5,6 @@ namespace Drupal\Console\Bootstrap;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Utils\ArgvInputReader;
-use Drupal\Console\Utils\Logger;
 
 class Drupal
 {
@@ -28,20 +27,12 @@ class Drupal
 
     public function boot()
     {
-        $logger = new Logger($this->root);
         if (!class_exists('Drupal\Core\DrupalKernel')) {
-            $logger->writeln('Class Drupal\Core\DrupalKernel not found.');
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
-            $container = $drupal->boot();
-            $container->set(
-                'console.logger',
-                $logger
-            );
-            return $container;
+            return $drupal->boot();
         }
 
         try {
-
             // Add support for Acquia Dev Desktop sites on Mac OS X
             // @TODO: Check if this condition works in Windows
             $devDesktopSettingsDir = getenv('HOME') . "/.acquia/DevDesktop/DrupalSettings";
@@ -85,11 +76,6 @@ class Drupal
 
             $container->set('console.root', $this->root);
 
-            $container->set(
-                'console.logger',
-                $logger
-            );
-
             AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
             $configuration = $container->get('console.configuration_manager')
@@ -112,13 +98,9 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
-            $logger->writeln($e->getMessage());
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             $container = $drupal->boot();
-            $container->set(
-                'console.logger',
-                $logger
-            );
+            $container->set('class_loader', $this->autoload);
             return $container;
         }
     }

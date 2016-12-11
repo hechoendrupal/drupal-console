@@ -2,6 +2,7 @@
 
 namespace Drupal\Console;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -22,7 +23,7 @@ class Application extends ConsoleApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-rc9';
+    const VERSION = '1.0.0-rc10';
 
     public function __construct(ContainerInterface $container)
     {
@@ -90,7 +91,6 @@ class Application extends ConsoleApplication
 
     private function registerCommands()
     {
-        $logger = $this->container->get('console.logger');
         if ($this->container->hasParameter('drupal.commands')) {
             $consoleCommands = $this->container->getParameter(
                 'drupal.commands'
@@ -103,8 +103,6 @@ class Application extends ConsoleApplication
                 'console.warning',
                 'application.site.errors.settings'
             );
-
-            $logger->writeln($this->trans('application.site.errors.settings'));
         }
 
         $serviceDefinitions = [];
@@ -125,6 +123,16 @@ class Application extends ConsoleApplication
             ->get('application.commands.aliases')?:[];
 
         foreach ($consoleCommands as $name) {
+            // Some commands call AnnotationRegistry::reset,
+            // we need to ensure the AnnotationRegistry is correctly defined.
+            AnnotationRegistry::reset();
+            AnnotationRegistry::registerLoader(
+                [
+                    $this->container->get('class_loader'),
+                    "loadClass"
+                ]
+            );
+
             if (!$this->container->has($name)) {
                 continue;
             }
@@ -142,7 +150,6 @@ class Application extends ConsoleApplication
             try {
                 $command = $this->container->get($name);
             } catch (\Exception $e) {
-                $logger->writeln($e->getMessage());
                 continue;
             }
 
@@ -337,5 +344,11 @@ class Application extends ConsoleApplication
         ];
 
         return $data;
+    }
+
+    public function setContainer($container) {
+        $this->container = $container;
+        $this->registerGenerators();
+        $this->registerCommands();
     }
 }

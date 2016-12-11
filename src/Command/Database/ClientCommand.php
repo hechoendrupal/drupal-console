@@ -50,15 +50,15 @@ class ClientCommand extends Command
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
-        $connection = sprintf(
-            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
-            $databaseConnection['driver'],
-            $databaseConnection['database'],
-            $databaseConnection['username'],
-            $databaseConnection['password'],
-            $databaseConnection['host'],
-            $databaseConnection['port']
-        );
+				$connection = sprintf(
+						'%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+						$databaseConnection['driver'],
+						$databaseConnection['database'],
+						$databaseConnection['username'],
+						$databaseConnection['password'],
+						$databaseConnection['host'],
+						$databaseConnection['port']
+				);
 
         if ($learning) {
             $io->commentBlock(

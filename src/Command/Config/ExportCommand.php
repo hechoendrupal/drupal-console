@@ -54,6 +54,16 @@ class ExportCommand extends Command
                 false,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.arguments.tar')
+            )->addOption(
+                'remove-uuid',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.single.options.remove-uuid')
+            )->addOption(
+                'remove-config-hash',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.single.options.remove-config-hash')
             );
     }
 
@@ -66,7 +76,9 @@ class ExportCommand extends Command
 
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
-
+        $removeUuid = $input->getOption('remove-uuid');
+        $removeHash = $input->getOption('remove-config-hash');
+        
         if (!$directory) {
             $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
         }
@@ -91,6 +103,15 @@ class ExportCommand extends Command
             foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
                 $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
                 $configName =  sprintf('%s.yml', $name);
+
+                if ($removeUuid) {
+                    unset($configData['uuid']);
+                }
+                
+                if ($removeHash) {
+                    unset($configData['_core']['default_config_hash']);
+                }
+
                 $ymlData = Yaml::encode($configData);
 
                 if ($tar) {

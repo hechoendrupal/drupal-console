@@ -45,7 +45,7 @@ class MergeCommand extends Command
         $dumper = new Dumper();
 
         $final_yaml = array();
-        $yaml_destination = $input->getArgument('yaml-destination');
+        $yaml_destination = realpath($input->getArgument('yaml-destination'));
         $yaml_files = $input->getArgument('yaml-files');
 
         if (count($yaml_files) < 2) {
@@ -158,15 +158,22 @@ class MergeCommand extends Command
             $yaml_files = array();
 
             while (true) {
+                // Set the string key based on among files provided
+                if(count($yaml_files) >= 2) {
+                    $questionStringKey = 'commands.yaml.merge.questions.other-file';
+                }
+                else {
+                    $questionStringKey = 'commands.yaml.merge.questions.file';
+                }
+
                 $yaml_file = $io->ask(
-                    $this->trans('commands.yaml.merge.questions.file'),
+                    $this->trans($questionStringKey),
                     '',
                     function ($file) use ($yaml_files, $io) {
                         if (count($yaml_files) < 2 && empty($file)) {
                             $io->error($this->trans('commands.yaml.merge.questions.invalid-file'));
-
                             return false;
-                        } elseif (in_array($file, $yaml_files)) {
+                        } elseif (!empty($file) && in_array($file, $yaml_files)) {
                             $io->error(
                                 sprintf($this->trans('commands.yaml.merge.questions.file-already-added'), $file)
                             );
@@ -185,7 +192,7 @@ class MergeCommand extends Command
                 }
 
                 if ($yaml_file) {
-                    $yaml_files[] = $yaml_file;
+                    $yaml_files[] = realpath($yaml_file);
                 }
             }
 

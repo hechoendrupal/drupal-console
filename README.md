@@ -71,15 +71,15 @@ composer update drupal/console --with-dependencies
 
 ## Install Drupal Console Launcher
 ```
-# Run this in your terminal to get the latest version:
 curl https://drupalconsole.com/installer -L -o drupal.phar
-
-# Or if you don't have curl:
-php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
-
-# Accessing from anywhere on your system:
 mv drupal.phar /usr/local/bin/drupal
+chmod +x /usr/local/bin/drupal
 ```
+NOTE: If you don't have curl you can try
+```
+php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
+```
+
 
 ## Update DrupalConsole Launcher 
 ```
@@ -99,6 +99,8 @@ We highly recommend you to install the global executable, but if is not installe
 vendor/bin/drupal
 # or
 vendor/drupal/console/bin/drupal
+# or
+bin/drupal
 ```
 
 ## Drupal Console Support

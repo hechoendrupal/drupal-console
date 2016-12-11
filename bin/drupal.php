@@ -7,10 +7,15 @@ use Drupal\Console\Application;
 
 set_time_limit(0);
 
-$autoloaders = [
-    __DIR__ . '/../../../autoload.php',
-    __DIR__ . '/../vendor/autoload.php'
-];
+if(file_exists(__DIR__ . '/../autoload.local.php')) {
+    require_once __DIR__ . '/../autoload.local.php';
+}
+else {
+     $autoloaders = [
+         __DIR__ . '/../../../autoload.php',
+         __DIR__ . '/../vendor/autoload.php'
+     ];
+}
 
 foreach ($autoloaders as $file) {
     if (file_exists($file)) {
@@ -18,6 +23,7 @@ foreach ($autoloaders as $file) {
         break;
     }
 }
+
 if (isset($autoloader)) {
     $autoload = require_once $autoloader;
 }
@@ -42,8 +48,7 @@ $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
 $container = $drupal->boot();
 
 if (!$container) {
-    echo ' Something goes wrong, try checking the log file at:' . PHP_EOL .
-         ' ' . $composerRoot . '/console/log/' . date('Y-m-d') . '.log' . PHP_EOL;
+    echo ' Something goes wrong. Drupal can not be bootstrapped.';
 
     exit(1);
 }
