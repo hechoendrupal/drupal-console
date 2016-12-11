@@ -1,0 +1,6 @@
+commands:
+  - command: 'config:import:single'
+    options:
+        config-names:
+          - system.site
+          - core.extension

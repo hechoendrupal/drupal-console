@@ -61,8 +61,14 @@ class ExportSingleCommand extends Command
           ->setDescription($this->trans('commands.config.export.single.description'))
           ->addArgument(
             'config-name',
-            InputArgument::REQUIRED,
+            InputArgument::OPTIONAL,
             $this->trans('commands.config.export.single.arguments.config-name')
+          )
+          ->addOption(
+            'config-names',
+            null,
+            InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+            $this->trans('commands.config.export.single.arguments.config-names')
           )
           ->addOption(
             'directory',
@@ -229,28 +235,32 @@ class ExportSingleCommand extends Command
 
         $directory = $input->getOption('directory');
         $module = $input->getOption('module');
-        $configName = $input->getArgument('config-name');
+        $configNames = $input->getOption('config-names');
+        $configNameArg = $input->getArgument('config-name');
         $optionalConfig = $input->getOption('optional-config');
         $removeUuid = $input->getOption('remove-uuid');
         $removeHash = $input->getOption('remove-config-hash');
         
-        $config = $this->getConfiguration($configName, $removeUuid, $removeHash);
+        if (empty($configNames) && isset($configNameArg)) {
+            $configNames = array($configNameArg);
+        }
 
-        if ($config) {
-            if (!$directory) {
-                $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
-            }
+        foreach ($configNames as $configName) {
+            $config = $this->getConfiguration($configName, $removeUuid, $removeHash);
+            $config = $this->getConfiguration($configName, false);
+            
+	    if ($config) {
+                $this->configExport[$configName] = array('data' => $config, 'optional' => $optionalConfig);
 
-            $this->configExport[$configName] = array('data' => $config, 'optional' => $optionalConfig);
-
-            if ($input->getOption('include-dependencies')) {
-                // Include config dependencies in export files
-                if ($dependencies = $this->fetchDependencies($config, 'config')) {
-                    $this->resolveDependencies($dependencies, $optionalConfig);
+                if ($input->getOption('include-dependencies')) {
+                    // Include config dependencies in export files
+                    if ($dependencies = $this->fetchDependencies($config, 'config')) {
+                        $this->resolveDependencies($dependencies, $optionalConfig);
+                    }
                 }
+            } else {
+                $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
             }
-        } else {
-            $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
         }
 
         if (!$module) {

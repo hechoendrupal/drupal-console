@@ -34,11 +34,6 @@ services:
     arguments: ['@entity_type.manager', '@config.storage']
     tags:
       - { name: drupal.command }
-  console.config_export_list:
-    class: Drupal\Console\Command\Config\ExportListCommand
-    arguments: ['@entity_type.manager', '@config.storage']
-    tags:
-      - { name: drupal.command }
   console.config_export_view:
     class: Drupal\Console\Command\Config\ExportViewCommand
     arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
@@ -51,11 +46,6 @@ services:
       - { name: drupal.command }
   console.config_import_single:
     class: Drupal\Console\Command\Config\ImportSingleCommand
-    arguments: ['@config.storage', '@config.manager']
-    tags:
-      - { name: drupal.command }
-  console.config_import_list:
-    class: Drupal\Console\Command\Config\ImportListCommand
     arguments: ['@config.storage', '@config.manager']
     tags:
       - { name: drupal.command }
