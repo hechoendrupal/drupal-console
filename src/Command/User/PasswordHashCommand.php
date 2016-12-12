@@ -65,7 +65,7 @@ class PasswordHashCommand extends Command
         foreach ($passwords as $password) {
             $tableRows[] = [
                 $password,
-                $password->hash($password),
+                $this->password->hash($password),
             ];
         }
 
