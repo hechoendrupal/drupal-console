@@ -23,7 +23,7 @@ class Application extends ConsoleApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-rc10';
+    const VERSION = '1.0.0-rc11';
 
     public function __construct(ContainerInterface $container)
     {
@@ -123,8 +123,6 @@ class Application extends ConsoleApplication
             ->get('application.commands.aliases')?:[];
 
         foreach ($consoleCommands as $name) {
-            // Some commands call AnnotationRegistry::reset,
-            // we need to ensure the AnnotationRegistry is correctly defined.
             AnnotationRegistry::reset();
             AnnotationRegistry::registerLoader(
                 [
