@@ -1,9 +1,4 @@
 services:
-  console.site_debug:
-    class: Drupal\Console\Command\Site\DebugCommand
-    arguments: ['@console.site','@console.configuration_manager']
-    tags:
-      - { name: drupal.command }
   console.site_import_local:
     class: Drupal\Console\Command\Site\ImportLocalCommand
     arguments: ['@app.root','@console.configuration_manager']
