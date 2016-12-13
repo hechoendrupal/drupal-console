@@ -127,7 +127,9 @@ class DumpCommand extends Command
         if ($this->shellProcess->exec($command, $this->appRoot)) {
 						$resultFile = $file;
 						if ($gz) {
-							$resultFile = $file . ".gz";
+							if(substr($file, -3) != '.gz') {
+								$resultFile = $file . ".gz";
+							}
 							file_put_contents(
 									$resultFile,
 									gzencode(
