@@ -137,7 +137,9 @@ class DumpCommand extends Command
 													$file)
 									)
 							);
-							unlink($file);
+							if($resultFile != $file) {
+								unlink($file);
+							}
 						}
 
             $io->success(
