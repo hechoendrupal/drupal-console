@@ -59,6 +59,11 @@ class ModuleCommand extends Command
      */
     protected $site;
 
+    /**
+     * @var string
+     */
+    protected $twigtemplate;
+
 
     /**
      * ModuleCommand constructor.
@@ -69,6 +74,7 @@ class ModuleCommand extends Command
      * @param DrupalApi       $drupalApi
      * @param Client          $httpClient
      * @param Site            $site
+     * @param 		      $twigtemplate
      */
     public function __construct(
         ModuleGenerator $generator,
@@ -77,7 +83,8 @@ class ModuleCommand extends Command
         StringConverter $stringConverter,
         DrupalApi $drupalApi,
         Client $httpClient,
-        Site $site
+        Site $site,
+        $twigtemplate
     ) {
         $this->generator = $generator;
         $this->validator = $validator;
@@ -86,6 +93,7 @@ class ModuleCommand extends Command
         $this->drupalApi = $drupalApi;
         $this->httpClient = $httpClient;
         $this->site = $site;
+        $this->twigtemplate = $twigtemplate;
         parent::__construct();
     }
 
@@ -163,6 +171,12 @@ class ModuleCommand extends Command
               '',
               InputOption::VALUE_OPTIONAL,
               $this->trans('commands.generate.module.options.test')
+            )
+            ->addOption(
+              'twigtemplate',
+              '',
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.generate.module.options.twigtemplate')
             );
     }
 
@@ -192,6 +206,7 @@ class ModuleCommand extends Command
         $featuresBundle = $input->getOption('features-bundle');
         $composer = $input->getOption('composer');
         $test = $input->getOption('test');
+        $twigtemplate = $input->getOption('twigtemplate');
 
          // Modules Dependencies, re-factor and share with other commands
         $dependencies = $this->validator->validateModuleDependencies($input->getOption('dependencies'));
@@ -220,7 +235,8 @@ class ModuleCommand extends Command
             $featuresBundle,
             $composer,
             $dependencies,
-            $test
+            $test,
+            $twigtemplate
         );
     }
 
@@ -433,6 +449,15 @@ class ModuleCommand extends Command
                 true
             );
             $input->setOption('test', $test);
+        }
+
+        $twigtemplate = $input->getOption('twigtemplate');
+        if (!$twigtemplate) {
+            $twigtemplate = $io->confirm(
+                $this->trans('commands.generate.module.questions.twigtemplate'),
+                true
+            );
+            $input->setOption('twigtemplate', $twigtemplate);
         }
     }
 
