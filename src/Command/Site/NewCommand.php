@@ -140,6 +140,14 @@ class NewCommand extends Command
             $copyPath = sprintf('%s%s', $projectPath, $directory);
         }
 
+        if ($this->isAbsolutePath($directory))
+        {
+          $copyPath = $directory;
+        }
+        else{
+          $copyPath = sprintf('%s%s', $projectPath, $directory);
+        }
+
         try {
             $fileSystem = new Filesystem();
             $fileSystem->rename($downloadPath, $copyPath);
@@ -217,5 +225,10 @@ class NewCommand extends Command
     protected function isAbsolutePath($path)
     {
         return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i', $path) > 0;
+    }
+
+    protected function isAbsolutePath($path)
+    {
+      return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i',$path) > 0;
     }
 }
