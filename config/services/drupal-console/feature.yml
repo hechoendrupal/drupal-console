@@ -1,0 +1,9 @@
+services:
+  feature_debug:
+    class: Drupal\Console\Command\Features\DebugCommand
+    tags:
+      - { name: drupal.command }
+  feature_import:
+    class: Drupal\Console\Command\Features\ImportCommand
+    tags:
+      - { name: drupal.command }
