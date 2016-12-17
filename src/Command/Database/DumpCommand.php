@@ -61,13 +61,13 @@ class DumpCommand extends Command
                 'file',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.dump.option.file')
+                $this->trans('commands.database.dump.options.file')
             )
             ->addOption(
                 'gz',
                 false,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.database.dump.option.gz')
+                $this->trans('commands.database.dump.options.gz')
             )
             ->setHelp($this->trans('commands.database.dump.help'));
     }
