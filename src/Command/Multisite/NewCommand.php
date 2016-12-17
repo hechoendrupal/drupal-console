@@ -151,7 +151,7 @@ class NewCommand extends Command
                 throw new FileNotFoundException($this->trans('commands.multisite.new.errors.sites-invalid'));
             }
             $sites_file_contents = file_get_contents($this->appRoot . '/sites/sites.php');
-        } elseif ($this->fs->exists($this->root . '/sites/example.sites.php')) {
+        } elseif ($this->fs->exists($this->appRoot . '/sites/example.sites.php')) {
             $sites_file_contents = file_get_contents($this->appRoot . '/sites/example.sites.php');
             $sites_file_contents .= "\n\$sites = [];";
         } else {
