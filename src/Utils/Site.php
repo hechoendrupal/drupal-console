@@ -135,4 +135,39 @@ class Site
 
         return include $autoLoadFile;
     }
+
+    /**
+     * @return boolean
+     */
+    public function multisiteMode($uri)
+    {
+        if($uri != 'default') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function validMultisite($uri)
+    {
+        $multiSiteFile = sprintf(
+            '%s/sites/sites.php',
+            $this->appRoot
+        );
+
+        if (file_exists($multiSiteFile)) {
+            include $multiSiteFile;
+        } else {
+            return false;
+        }
+
+        if(isset($sites[$uri]) && is_dir($this->appRoot . "/sites/" . $sites[$uri])) {
+            return true;
+        }
+
+        return false;
+    }
 }
