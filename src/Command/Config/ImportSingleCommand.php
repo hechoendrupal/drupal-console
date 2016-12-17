@@ -6,19 +6,20 @@
  */
 namespace Drupal\Console\Command\Config;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Core\Config\CachedStorage;
-use Drupal\Core\Config\ConfigManager;
+use Drupal\config\StorageReplaceDataWrapper;
 use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
+use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\ConfigImporterException;
+use Drupal\Core\Config\ConfigManager;
 use Drupal\Core\Config\StorageComparer;
-use Drupal\config\StorageReplaceDataWrapper;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Parser;
 
 class ImportSingleCommand extends Command
 {
@@ -53,12 +54,22 @@ class ImportSingleCommand extends Command
             ->setName('config:import:single')
             ->setDescription($this->trans('commands.config.import.single.description'))
             ->addArgument(
-                'name', InputArgument::REQUIRED,
-                $this->trans('commands.config.import.single.arguments.name')
+            'name', InputArgument::OPTIONAL,
+            $this->trans('commands.config.import.single.arguments.name')
             )
             ->addArgument(
-                'file', InputArgument::REQUIRED,
-                $this->trans('commands.config.import.single.arguments.file')
+            'file', InputArgument::OPTIONAL,
+            $this->trans('commands.config.import.single.arguments.file')
+            )
+            ->addOption(
+                'config-names', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.config.import.single.arguments.config-names')
+            )
+            ->addOption(
+                'directory',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.import.arguments.directory')
             );
     }
 
@@ -69,39 +80,66 @@ class ImportSingleCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $configName = $input->getArgument('name');
+        $configNames = $input->getOption('config-names');
+        $directory = $input->getOption('directory');
+
+        $configNameArg = $input->getArgument('name');
         $fileName = $input->getArgument('file');
 
+        $singleMode = FALSE;
+        if (empty($configNames) && isset($configNameArg)) {
+            $singleMode = TRUE;
+            $configNames = array($configNameArg);
+        }
+
+        if (!isset($fileName) && !$directory) {
+            $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+        }
+
         $ymlFile = new Parser();
-
-        if (!empty($fileName) && file_exists($fileName)) {
-            $value = $ymlFile->parse(file_get_contents($fileName));
-        } else {
-            $value = $ymlFile->parse(stream_get_contents(fopen("php://stdin", "r")));
-        }
-
-
-        if (empty($value)) {
-            $io->error($this->trans('commands.config.import.single.messages.empty-value'));
-
-            return;
-        }
-
         try {
-            $source_storage = new StorageReplaceDataWrapper($this->configStorage);
-            $source_storage->replaceData($configName, $value);
+            $source_storage = new StorageReplaceDataWrapper(
+              $this->configStorage
+            );
+
+            foreach ($configNames as $configName) {
+                // Allow for accidental .yml extension.
+                if (substr($configName, -4) === '.yml') {
+                    $configName = substr($configName, 0, -4);
+                }
+
+                if ($singleMode === FALSE) {
+                    $fileName = $directory.DIRECTORY_SEPARATOR.$configName.'.yml';
+                }
+
+                $value = null;
+                if (!empty($fileName) && file_exists($fileName)) {
+                    $value = $ymlFile->parse(file_get_contents($fileName));
+                }
+
+                if (empty($value)) {
+                    $io->error($this->trans('commands.config.import.single.messages.empty-value'));
+
+                    return;
+                }
+
+                $source_storage->replaceData($configName, $value);
+            }
+
             $storage_comparer = new StorageComparer(
-                $source_storage,
-                $this->configStorage,
-                $this->configManager
+              $source_storage,
+              $this->configStorage,
+              $this->configManager
             );
 
             if ($this->configImport($io, $storage_comparer)) {
                 $io->success(
-                    sprintf(
-                        $this->trans('commands.config.import.single.messages.success'),
-                        $configName
-                    )
+                  sprintf(
+                    $this->trans(
+                      'commands.config.import.single.messages.success'
+                    ),
+                    implode(", ", $configNames)
+                  )
                 );
             }
         } catch (\Exception $e) {
@@ -138,6 +176,8 @@ class ImportSingleCommand extends Command
                             $config_importer->doSyncStep($step, $context);
                         } while ($context['finished'] < 1);
                     }
+
+                    return TRUE;
                 }
             } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
