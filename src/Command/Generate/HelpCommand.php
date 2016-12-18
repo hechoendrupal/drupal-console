@@ -20,14 +20,15 @@ use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\ChainQueue;
 
-
 class HelpCommand extends Command
 {
     use CommandTrait;
     use ModuleTrait;
     use ConfirmationTrait;
 
-    /** @var HelpGenerator  */
+    /**
+ * @var HelpGenerator  
+*/
     protected $generator;
 
     /**
@@ -35,7 +36,9 @@ class HelpCommand extends Command
      */
     protected $site;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

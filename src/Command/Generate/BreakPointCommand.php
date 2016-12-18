@@ -52,7 +52,9 @@ class BreakPointCommand extends Command
     protected $themeHandler;
 
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
     /**
@@ -74,7 +76,7 @@ class BreakPointCommand extends Command
         ThemeHandler $themeHandler,
         Validator $validator,
         StringConverter $stringConverter
-        ) {
+    ) {
         $this->generator = $generator;
         $this->appRoot = $appRoot;
         $this->themeHandler = $themeHandler;

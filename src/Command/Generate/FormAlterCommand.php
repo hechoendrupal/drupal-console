@@ -37,10 +37,14 @@ class FormAlterCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var FormAlterGenerator  */
+    /**
+ * @var FormAlterGenerator  
+*/
     protected $generator;
 
     /**
@@ -58,10 +62,14 @@ class FormAlterCommand extends Command
      */
     protected $elementInfoManager;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
-    /** @var RouteProviderInterface  */
+    /**
+ * @var RouteProviderInterface  
+*/
     protected $routeProvider;
 
     /**
@@ -309,5 +317,4 @@ class FormAlterCommand extends Command
         }
         return $forms;
     }
-
 }

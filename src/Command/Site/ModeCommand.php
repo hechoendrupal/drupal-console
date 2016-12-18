@@ -21,7 +21,6 @@ use Drupal\Console\Utils\ConfigurationManager;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Console\Utils\ChainQueue;
 
-
 class ModeCommand extends Command
 {
     use ContainerAwareCommandTrait;
@@ -222,9 +221,7 @@ class ModeCommand extends Command
 
             // include settings.local.php in settings.php
             // -- check first line if it is already this
-            if (
-                $this->maginot->getFirstLine($this->settings_file)
-                != $line_include_settings
+            if ($this->maginot->getFirstLine($this->settings_file)!= $line_include_settings
             ) {
                 chmod($this->settings_file, (int)0775);
                 $this->maginot->setFirstLine(
@@ -244,10 +241,7 @@ class ModeCommand extends Command
             if (!$this->local) {
 
                 // comment local.settings.php in settings.php
-                if (
-                    $this->maginot->getFirstLine($this->settings_file)
-                    ==
-                    $line_include_settings
+                if ($this->maginot->getFirstLine($this->settings_file)==$line_include_settings
                 ) {
                     $this->maginot->deleteFirstLine(
                         $this->settings_file
@@ -263,7 +257,7 @@ class ModeCommand extends Command
                 } catch (IOExceptionInterface $e) {
                     echo $e->getMessage();
                 }
-            }else{
+            } else {
 
                 // comment cache bins in local.settings.php,
                 // we still use local.settings.php for testing PROD
@@ -282,10 +276,7 @@ class ModeCommand extends Command
         }
 
         /**
-         *
          * would be better if this were replaced by $config->save?
-         *
-         *
          */
         //@TODO: 0444 should be a better permission for settings.php
         chmod($this->settings_file, (int)0644);

@@ -31,7 +31,9 @@ class UninstallCommand extends Command
      */
     protected $site;
 
-    /** @var ModuleInstaller  */
+    /**
+ * @var ModuleInstaller  
+*/
     protected $moduleInstaller;
 
     /**
@@ -39,15 +41,17 @@ class UninstallCommand extends Command
      */
     protected $chainQueue;
 
-    /** @var ConfigFactory  */
+    /**
+ * @var ConfigFactory  
+*/
     protected $configFactory;
 
 
     /**
      * InstallCommand constructor.
-     * @param Site $site
-     * @param Validator $validator
-     * @param ChainQueue $chainQueue
+     * @param Site          $site
+     * @param Validator     $validator
+     * @param ChainQueue    $chainQueue
      * @param ConfigFactory $configFactory
      */
     public function __construct(
@@ -55,7 +59,6 @@ class UninstallCommand extends Command
         ModuleInstaller $moduleInstaller,
         ChainQueue $chainQueue,
         ConfigFactory $configFactory
-
     ) {
         $this->site = $site;
         $this->moduleInstaller = $moduleInstaller;
@@ -199,7 +202,6 @@ class UninstallCommand extends Command
                     false
                 )
             );
-
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 

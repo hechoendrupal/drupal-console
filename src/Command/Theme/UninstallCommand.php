@@ -40,8 +40,8 @@ class UninstallCommand extends Command
     /**
      * DebugCommand constructor.
      * @param ConfigFactory $configFactory
-     * @param ThemeHandler $themeHandler
-     * @param ChainQueue $chainQueue
+     * @param ThemeHandler  $themeHandler
+     * @param ChainQueue    $chainQueue
      */
     public function __construct(
         ConfigFactory $configFactory,

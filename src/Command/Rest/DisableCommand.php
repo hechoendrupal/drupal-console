@@ -125,8 +125,8 @@ class DisableCommand extends Command
      * @return string
      *   The resource key in the form.
      */
-    protected function getResourceKey($resource_id) {
+    protected function getResourceKey($resource_id)
+    {
         return str_replace(':', '.', $resource_id);
     }
-
 }

@@ -28,10 +28,14 @@ class ModuleCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var ModuleGenerator  */
+    /**
+ * @var ModuleGenerator  
+*/
     protected $generator;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
     /**
@@ -74,7 +78,7 @@ class ModuleCommand extends Command
      * @param DrupalApi       $drupalApi
      * @param Client          $httpClient
      * @param Site            $site
-     * @param 		      $twigtemplate
+     * @param               $twigtemplate
      */
     public function __construct(
         ModuleGenerator $generator,
@@ -167,16 +171,16 @@ class ModuleCommand extends Command
                 $this->trans('commands.generate.module.options.dependencies')
             )
             ->addOption(
-              'test',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.module.options.test')
+                'test',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.module.options.test')
             )
             ->addOption(
-              'twigtemplate',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.module.options.twigtemplate')
+                'twigtemplate',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.module.options.twigtemplate')
             );
     }
 

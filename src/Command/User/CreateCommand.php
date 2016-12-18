@@ -48,10 +48,10 @@ class CreateCommand extends Command
 
     /**
      * CreateCommand constructor.
-     * @param Connection                    $database
-     * @param EntityTypeManagerInterface    $entityTypeManager
-     * @param DateFormatterInterface        $dateFormatter
-     * @param DrupalApi                     $drupalApi
+     * @param Connection                 $database
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param DateFormatterInterface     $dateFormatter
+     * @param DrupalApi                  $drupalApi
      */
     public function __construct(
         Connection $database,

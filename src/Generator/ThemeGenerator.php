@@ -14,8 +14,9 @@ use Drupal\Console\Extension\Manager;
  */
 class ThemeGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

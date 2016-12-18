@@ -38,7 +38,7 @@ class EnableCommand extends Command
     /**
      * EnableCommand constructor.
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param QueryFactory      $entityQuery
+     * @param QueryFactory               $entityQuery
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,

@@ -31,8 +31,8 @@ class DebugCommand extends Command
 
     /**
      * DeleteCommand constructor.
-     * @param EntityTypeRepository  $entityTypeRepository
-     * @param EntityTypeManagerInterface     $entityTypeManager
+     * @param EntityTypeRepository       $entityTypeRepository
+     * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(
         EntityTypeRepository $entityTypeRepository,
@@ -80,9 +80,9 @@ class DebugCommand extends Command
             $entityTypes = array_keys($entityTypesLabels);
         }
 
-        foreach($entityTypes as $entityTypeId){
+        foreach ($entityTypes as $entityTypeId) {
             $entities = array_keys($entityTypesLabels[$entityTypeId]);
-            foreach($entities as $entity) {
+            foreach ($entities as $entity) {
                 $tableRows[$entity] = [
                     $entity,
                     $entityTypeId

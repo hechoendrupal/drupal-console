@@ -21,7 +21,6 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\StringConverter;
 
-
 /**
  * Class PluginTypeAnnotationCommand
  * @package Drupal\Console\Command\Generate
@@ -34,10 +33,14 @@ class PluginTypeAnnotationCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginTypeAnnotationGenerator  */
+    /**
+ * @var PluginTypeAnnotationGenerator  
+*/
     protected $generator;
 
     /**

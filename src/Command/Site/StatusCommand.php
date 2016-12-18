@@ -72,8 +72,8 @@ class StatusCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param SystemManager           $systemManager
-     * @param Settings $settings
+     * @param SystemManager $systemManager
+     * @param Settings      $settings
      * @param ConfigFactory $configFactory
      * @param ThemeHandler  $themeHandler
      * @param $appRoot
@@ -213,7 +213,6 @@ class StatusCommand extends Command
 
     protected function getDirectoryData()
     {
-
         $systemTheme = $this->configFactory->get('system.theme');
 
         $themeDefaultDirectory = '';

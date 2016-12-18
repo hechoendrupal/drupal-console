@@ -26,10 +26,14 @@ class ImportCommand extends Command
 {
     use CommandTrait;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var ConfigManager  */
+    /**
+     * @var ConfigManager
+     */
     protected $configManager;
 
     /**

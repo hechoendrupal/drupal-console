@@ -11,7 +11,9 @@ use Drupal\Console\Extension\Manager;
 
 class UpdateGenerator extends Generator
 {
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

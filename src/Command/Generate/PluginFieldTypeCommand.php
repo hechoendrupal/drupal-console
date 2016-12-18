@@ -31,10 +31,14 @@ class PluginFieldTypeCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginFieldTypeGenerator  */
+    /**
+ * @var PluginFieldTypeGenerator  
+*/
     protected $generator;
 
     /**

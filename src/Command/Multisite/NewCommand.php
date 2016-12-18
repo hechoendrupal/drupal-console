@@ -31,7 +31,8 @@ class NewCommand extends Command
      * DebugCommand constructor.
      * @param $appRoot
      */
-    public function __construct($appRoot) {
+    public function __construct($appRoot)
+    {
         $this->appRoot = $appRoot;
         parent::__construct();
     }

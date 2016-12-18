@@ -28,9 +28,10 @@ class DiffCommand extends Command
 
     /**
      * RebuildCommand constructor.
-     * @param NestedArray    $nestedArray
+     * @param NestedArray $nestedArray
      */
-    public function __construct(NestedArray $nestedArray) {
+    public function __construct(NestedArray $nestedArray)
+    {
         $this->nestedArray = $nestedArray;
         parent::__construct();
     }
@@ -127,7 +128,7 @@ class DiffCommand extends Command
         }
 
         $statistics = ['total' => 0, 'equal'=> 0 , 'diff' => 0];
-/*        print_r($yamlLeftParsed);
+        /*        print_r($yamlLeftParsed);
         print_r($yamlRightParsed);*/
         $diff = $this->nestedArray->arrayDiff($yamlLeftParsed, $yamlRightParsed, $negate, $statistics);
         print_r($diff);

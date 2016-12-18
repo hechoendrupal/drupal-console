@@ -26,23 +26,29 @@ class EditCommand extends Command
 {
     use CommandTrait;
 
-    /** @var ConfigFactory  */
+    /**
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var ConfigurationManager  */
+    /**
+     * @var ConfigurationManager
+     */
     protected $configurationManager;
 
     /**
      * EditCommand constructor.
-     * @param ConfigFactory         $configFactory
-     * @param CachedStorage         $configStorage
-     * @param ConfigurationManager  $configurationManager
+     * @param ConfigFactory        $configFactory
+     * @param CachedStorage        $configStorage
+     * @param ConfigurationManager $configurationManager
      */
     public function __construct(
-        ConfigFactory $configFactory ,
+        ConfigFactory $configFactory,
         CachedStorage $configStorage,
         ConfigurationManager $configurationManager
     ) {

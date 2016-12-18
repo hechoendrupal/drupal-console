@@ -32,10 +32,14 @@ class PluginViewsFieldCommand extends Command
     use CommandTrait;
 
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginViewsFieldGenerator  */
+    /**
+ * @var PluginViewsFieldGenerator  
+*/
     protected $generator;
 
     /**

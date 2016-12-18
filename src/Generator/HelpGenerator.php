@@ -11,9 +11,9 @@ use Drupal\Console\Extension\Manager;
 
 class HelpGenerator extends Generator
 {
-
-
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

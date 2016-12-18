@@ -25,7 +25,7 @@ class TranslationCleanupCommand extends Command
     /**
      * @var string
      */
-		protected $consoleRoot;
+        protected $consoleRoot;
 
     /**
      * @var ConfigurationManager
@@ -37,7 +37,6 @@ class TranslationCleanupCommand extends Command
      *
      * @param $consoleRoot
      * @param configurationManager $configurationManager
-     *
      */
     public function __construct(
         $consoleRoot,
@@ -103,21 +102,21 @@ class TranslationCleanupCommand extends Command
         $finder = new Finder();
 
         foreach ($languages as $langCode => $languageName) {
-						if (file_exists($this->consoleRoot . sprintf( DRUPAL_CONSOLE_LANGUAGE, $langCode ))) {
-							foreach ($finder->files()->name('*.yml')->in($this->consoleRoot . sprintf( DRUPAL_CONSOLE_LANGUAGE, $langCode )) as $file) {
-									$filename = $file->getBasename('.yml');
-									if (!file_exists($this->consoleRoot . sprintf( DRUPAL_CONSOLE_LANGUAGE, 'en') . $filename . '.yml')) {
-											$io->info(
-													sprintf(
-															$this->trans('commands.translation.cleanup.messages.file-deleted'),
-															$filename,
-															$languageName
-													)
-											);
-											unlink($this->consoleRoot . sprintf( DRUPAL_CONSOLE_LANGUAGE, $langCode ). '/' . $filename . '.yml');
-									}
-							}
-						}
-				}
+            if (file_exists($this->consoleRoot . sprintf(DRUPAL_CONSOLE_LANGUAGE, $langCode))) {
+                foreach ($finder->files()->name('*.yml')->in($this->consoleRoot . sprintf(DRUPAL_CONSOLE_LANGUAGE, $langCode)) as $file) {
+                    $filename = $file->getBasename('.yml');
+                    if (!file_exists($this->consoleRoot . sprintf(DRUPAL_CONSOLE_LANGUAGE, 'en') . $filename . '.yml')) {
+                        $io->info(
+                            sprintf(
+                                $this->trans('commands.translation.cleanup.messages.file-deleted'),
+                                $filename,
+                                $languageName
+                            )
+                        );
+                        unlink($this->consoleRoot . sprintf(DRUPAL_CONSOLE_LANGUAGE, $langCode). '/' . $filename . '.yml');
+                    }
+                }
+            }
+        }
     }
 }

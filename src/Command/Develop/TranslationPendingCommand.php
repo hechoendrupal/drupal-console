@@ -29,7 +29,7 @@ class TranslationPendingCommand extends Command
     /**
      * @var string
      */
-		protected $consoleRoot;
+        protected $consoleRoot;
 
     /**
      * @var ConfigurationManager
@@ -47,8 +47,7 @@ class TranslationPendingCommand extends Command
      *
      * @param $consoleRoot
      * @param $configurationManager
-     * @param NestedArray  $nestedArray
-     *
+     * @param NestedArray          $nestedArray
      */
     public function __construct(
         $consoleRoot,
@@ -166,10 +165,10 @@ class TranslationPendingCommand extends Command
 
             foreach ($languages as $langCode => $languageName) {
                 $languageDir = $this->consoleRoot .
-										sprintf(
-												DRUPAL_CONSOLE_LANGUAGE,
-												$langCode
-										);
+                                        sprintf(
+                                            DRUPAL_CONSOLE_LANGUAGE,
+                                            $langCode
+                                        );
                 if (isset($language) && $langCode != $language) {
                     continue;
                 }

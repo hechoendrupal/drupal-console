@@ -18,19 +18,21 @@ use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigManager;
 
-
 class ExportCommand extends Command
 {
     use CommandTrait;
 
-    /** @var ConfigManager  */
+    /**
+     * @var ConfigManager
+     */
     protected $configManager;
 
     /**
      * ExportCommand constructor.
      * @param ConfigManager $configManager
      */
-    public function __construct(ConfigManager $configManager ) {
+    public function __construct(ConfigManager $configManager)
+    {
         $this->configManager = $configManager;
         parent::__construct();
     }
@@ -142,9 +144,9 @@ class ExportCommand extends Command
         }
 
         $io->info(
-          sprintf(
-            $this->trans('commands.config.export.messages.directory'),
-              $directory
+            sprintf(
+                $this->trans('commands.config.export.messages.directory'),
+                $directory
             )
         );
     }

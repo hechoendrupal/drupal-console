@@ -35,10 +35,14 @@ class PluginMailCommand extends Command
     use ConfirmationTrait;
     use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginMailGenerator  */
+    /**
+ * @var PluginMailGenerator  
+*/
     protected $generator;
 
     /**
@@ -46,7 +50,9 @@ class PluginMailCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
     /**

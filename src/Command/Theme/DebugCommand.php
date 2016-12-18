@@ -33,7 +33,7 @@ class DebugCommand extends Command
     /**
      * DebugCommand constructor.
      * @param ConfigFactory $configFactory
-     * @param ThemeHandler $themeHandler
+     * @param ThemeHandler  $themeHandler
      */
     public function __construct(
         ConfigFactory $configFactory,

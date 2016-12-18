@@ -314,14 +314,15 @@ class DrupalApi
      *
      * Rebuilds all caches even when Drupal itself does not work.
      *
-     * @param \Composer\Autoload\ClassLoader $class_loader
+     * @param \Composer\Autoload\ClassLoader            $class_loader
      *   The class loader.
      * @param \Symfony\Component\HttpFoundation\Request $request
      *   The current request.
      *
      * @see rebuild.php
      */
-    public function drupal_rebuild($class_loader, \Symfony\Component\HttpFoundation\Request $request) {
+    public function drupal_rebuild($class_loader, \Symfony\Component\HttpFoundation\Request $request)
+    {
         // Remove Drupal's error and exception handlers; they rely on a working
         // service container and other subsystems and will only cause a fatal error
         // that hides the actual error.

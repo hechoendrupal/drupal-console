@@ -30,7 +30,8 @@ class LogClearCommand extends Command
      * LogClearCommand constructor.
      * @param Connection $database
      */
-    public function __construct(Connection $database) {
+    public function __construct(Connection $database)
+    {
         $this->database = $database;
         parent::__construct();
     }
@@ -120,7 +121,7 @@ class LogClearCommand extends Command
     }
 
     /**
-     * @param DrupalStyle $io
+     * @param DrupalStyle   $io
      * @param $eventType
      * @param $eventSeverity
      * @param $userId

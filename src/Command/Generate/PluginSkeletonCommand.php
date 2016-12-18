@@ -33,10 +33,14 @@ class PluginSkeletonCommand extends Command
     use ServicesTrait;
     use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginSkeletonGenerator  */
+    /**
+ * @var PluginSkeletonGenerator  
+*/
     protected $generator;
 
     /**
@@ -44,7 +48,9 @@ class PluginSkeletonCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
     /**

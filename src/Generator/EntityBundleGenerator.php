@@ -11,8 +11,9 @@ use Drupal\Console\Extension\Manager;
 
 class EntityBundleGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

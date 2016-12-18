@@ -31,10 +31,14 @@ class PostUpdateCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PostUpdateGenerator  */
+    /**
+ * @var PostUpdateGenerator  
+*/
     protected $generator;
 
     /**
@@ -42,7 +46,9 @@ class PostUpdateCommand extends Command
      */
     protected $site;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
     /**

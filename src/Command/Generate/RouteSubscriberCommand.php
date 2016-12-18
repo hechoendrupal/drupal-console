@@ -19,7 +19,6 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Command\Shared\CommandTrait;
 
-
 /**
  * Class RouteSubscriberCommand
  * @package Drupal\Console\Command\Generate
@@ -30,10 +29,14 @@ class RouteSubscriberCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var RouteSubscriberGenerator  */
+    /**
+ * @var RouteSubscriberGenerator  
+*/
     protected $generator;
 
     /**

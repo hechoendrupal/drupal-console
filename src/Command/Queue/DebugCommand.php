@@ -31,7 +31,8 @@ class DebugCommand extends Command
      * DebugCommand constructor.
      * @param QueueWorkerManagerInterface $queueWorker
      */
-    public function __construct( QueueWorkerManagerInterface $queueWorker) {
+    public function __construct(QueueWorkerManagerInterface $queueWorker)
+    {
         $this->queueWorker = $queueWorker;
         parent::__construct();
     }

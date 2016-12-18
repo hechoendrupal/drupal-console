@@ -32,10 +32,14 @@ class ServiceCommand extends Command
     use ConfirmationTrait;
     use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var ServiceGenerator  */
+    /**
+ * @var ServiceGenerator  
+*/
     protected $generator;
 
     /**
@@ -50,10 +54,10 @@ class ServiceCommand extends Command
 
     /**
      * ServiceCommand constructor.
-     * @param Manager            $extensionManager
-     * @param ServiceGenerator   $generator
-     * @param StringConverter    $stringConverter
-     * @param ChainQueue         $chainQueue
+     * @param Manager          $extensionManager
+     * @param ServiceGenerator $generator
+     * @param StringConverter  $stringConverter
+     * @param ChainQueue       $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

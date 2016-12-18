@@ -284,11 +284,11 @@ class Manager
     }
 
     /**
-     * @param string $testType
+     * @param string   $testType
      * @param $fullPath
      * @return string
      */
-    public function getTestPath( $testType, $fullPath = false)
+    public function getTestPath($testType, $fullPath = false)
     {
         return $this->getPath($fullPath) . '/Tests/' . $testType;
     }

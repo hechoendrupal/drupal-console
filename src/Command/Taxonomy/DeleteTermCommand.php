@@ -32,7 +32,8 @@ class DeleteTermCommand extends Command
      * InfoCommand constructor.
      * @param EntityTypeManagerInterface $entityTypeManager
      */
-    public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+    public function __construct(EntityTypeManagerInterface $entityTypeManager)
+    {
         $this->entityTypeManager = $entityTypeManager;
         parent::__construct();
     }
@@ -70,8 +71,8 @@ class DeleteTermCommand extends Command
     {
         //Load the vid
         $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
-	$vocabularies = $this->entityTypeManager->getStorage('taxonomy_vocabulary')
-	    ->loadMultiple();
+        $vocabularies = $this->entityTypeManager->getStorage('taxonomy_vocabulary')
+            ->loadMultiple();
 
         if ($vid !== 'all') {
             $vid = [$vid];

@@ -21,10 +21,14 @@ class DebugCommand extends Command
 {
     use CommandTrait;
 
-    /** @var ConfigFactory  */
+    /**
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
     /**

@@ -28,10 +28,14 @@ class DownloadCommand extends Command
     use CommandTrait;
     use ProjectDownloadTrait;
 
-    /** @var DrupalApi  */
+    /**
+ * @var DrupalApi  
+*/
     protected $drupalApi;
 
-    /** @var Client  */
+    /**
+ * @var Client  
+*/
     protected $httpClient;
 
     /**
@@ -39,16 +43,24 @@ class DownloadCommand extends Command
      */
     protected $appRoot;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
-    /** @var ConfigurationManager  */
+    /**
+ * @var ConfigurationManager  
+*/
     protected $configurationManager;
 
-    /** @var ShellProcess  */
+    /**
+ * @var ShellProcess  
+*/
     protected $shellProcess;
 
     /**
@@ -58,14 +70,14 @@ class DownloadCommand extends Command
 
     /**
      * DownloadCommand constructor.
-     * @param DrupalApi $drupalApi
-     * @param Client     $httpClient
+     * @param DrupalApi            $drupalApi
+     * @param Client               $httpClient
      * @param $appRoot
-     * @param Manager           $extensionManager
-     * @param Validator $validator
-     * @param Site $site
+     * @param Manager              $extensionManager
+     * @param Validator            $validator
+     * @param Site                 $site
      * @param ConfigurationManager $configurationManager
-     * @param ShellProcess $shellProcess
+     * @param ShellProcess         $shellProcess
      * @param $root
      */
     public function __construct(
@@ -186,10 +198,11 @@ class DownloadCommand extends Command
                     } else {
                         $version = $io->choice(
                             sprintf(
-																$this->trans(
-																		'commands.site.new.questions.composer-release'),
-																		$module
-																),
+                                $this->trans(
+                                    'commands.site.new.questions.composer-release'
+                                ),
+                                $module
+                            ),
                             $versions
                         );
                     }

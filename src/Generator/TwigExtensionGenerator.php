@@ -15,7 +15,9 @@ use Drupal\Console\Extension\Manager;
  */
 class TwigExtensionGenerator extends Generator
 {
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

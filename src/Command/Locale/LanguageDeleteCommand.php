@@ -47,9 +47,9 @@ class LanguageDeleteCommand extends Command
 
     /**
      * LoginUrlCommand constructor.
-     * @param Site                   $site
-     * @param EntityTypeManagerInterface      $entityTypeManager
-     * @param ModuleHandlerInterface $moduleHandler
+     * @param Site                       $site
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param ModuleHandlerInterface     $moduleHandler
      */
     public function __construct(
         Site $site,

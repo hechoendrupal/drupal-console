@@ -23,7 +23,9 @@ class UpdateCommand extends Command
     use ProjectDownloadTrait;
 
 
-    /** @var ShellProcess  */
+    /**
+ * @var ShellProcess  
+*/
     protected $shellProcess;
 
     /**

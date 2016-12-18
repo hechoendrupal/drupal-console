@@ -40,16 +40,24 @@ class InstallCommand extends Command
      */
     protected $site;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
-    /** @var ModuleInstaller  */
+    /**
+ * @var ModuleInstaller  
+*/
     protected $moduleInstaller;
 
-    /** @var DrupalApi  */
+    /**
+ * @var DrupalApi  
+*/
     protected $drupalApi;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**
@@ -64,13 +72,13 @@ class InstallCommand extends Command
 
     /**
      * InstallCommand constructor.
-     * @param Site $site
-     * @param Validator $validator
+     * @param Site            $site
+     * @param Validator       $validator
      * @param ModuleInstaller $moduleInstaller
-     * @param DrupalApi $drupalApi
-     * @param Manager           $extensionManager
+     * @param DrupalApi       $drupalApi
+     * @param Manager         $extensionManager
      * @param $appRoot
-     * @param ChainQueue $chainQueue
+     * @param ChainQueue      $chainQueue
      */
     public function __construct(
         Site $site,
@@ -157,12 +165,12 @@ class InstallCommand extends Command
 
                 $processBuilder = new ProcessBuilder([]);
                 $processBuilder->setWorkingDirectory($this->appRoot);
-								$processBuilder->setArguments(explode(" ", $command));
-								$process = $processBuilder->getProcess();
-								$process->setTty('true');
-								$process->run();
+                $processBuilder->setArguments(explode(" ", $command));
+                $process = $processBuilder->getProcess();
+                $process->setTty('true');
+                $process->run();
 
-								if ($process->isSuccessful()) {
+                if ($process->isSuccessful()) {
                     $io->info(
                         sprintf(
                             'Module %s was downloaded with Composer.',

@@ -34,10 +34,14 @@ class EntityBundleCommand extends Command
      */
     protected $validator;
 
-    /** @var EntityBundleGenerator  */
+    /**
+ * @var EntityBundleGenerator  
+*/
     protected $generator;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

@@ -11,7 +11,6 @@ use Drupal\Console\Extension\Manager;
 
 class PluginRulesActionGenerator extends Generator
 {
-
     /**
      * PluginRulesActionGenerator constructor.
      * @param Manager $extensionManager

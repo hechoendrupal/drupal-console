@@ -27,10 +27,14 @@ class PluginImageFormatterCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginImageFormatterGenerator  */
+    /**
+ * @var PluginImageFormatterGenerator  
+*/
     protected $generator;
 
     /**
@@ -38,7 +42,9 @@ class PluginImageFormatterCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
     /**
@@ -49,11 +55,11 @@ class PluginImageFormatterCommand extends Command
 
     /**
      * PluginImageFormatterCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager                       $extensionManager
      * @param PluginImageFormatterGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param Validator $validator
-     * @param ChainQueue $chainQueue
+     * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
+     * @param ChainQueue                    $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

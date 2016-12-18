@@ -34,10 +34,14 @@ class PluginRulesActionCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginRulesActionGenerator  */
+    /**
+ * @var PluginRulesActionGenerator  
+*/
     protected $generator;
 
     /**
@@ -53,10 +57,10 @@ class PluginRulesActionCommand extends Command
 
     /**
      * PluginRulesActionCommand constructor.
-     * @param Manager                     $extensionManager
-     * @param PluginRulesActionGenerator  $generator
-     * @param StringConverter             $stringConverter
-     * @param ChainQueue                  $chainQueue
+     * @param Manager                    $extensionManager
+     * @param PluginRulesActionGenerator $generator
+     * @param StringConverter            $stringConverter
+     * @param ChainQueue                 $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
