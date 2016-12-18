@@ -148,6 +148,8 @@ class Application extends ConsoleApplication
             try {
                 $command = $this->container->get($name);
             } catch (\Exception $e) {
+                echo $name . ' - ' . $e->getMessage() . PHP_EOL;
+
                 continue;
             }
 
@@ -189,7 +191,6 @@ class Application extends ConsoleApplication
             'help',
             'init',
             'list',
-        //            'self-update',
             'server'
         ];
         $languages = $this->container->get('console.configuration_manager')
