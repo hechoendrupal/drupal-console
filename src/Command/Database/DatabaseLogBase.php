@@ -24,62 +24,61 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Drupal\Console\Style\DrupalStyle;
 
-
 /**
  * Class DatabaseLogBase
  *
  * @package Drupal\Console\Command\Database
  */
-abstract class DatabaseLogBase extends Command {
+abstract class DatabaseLogBase extends Command
+{
+    use CommandTrait;
 
-  use CommandTrait;
-
-  /**
+    /**
    * @var Connection
    */
-  protected $database;
+    protected $database;
 
-  /**
+    /**
    * @var DateFormatterInterface
    */
-  protected $dateFormatter;
+    protected $dateFormatter;
 
-  /**
+    /**
    * @var EntityTypeManagerInterface
    */
-  protected $entityTypeManager;
+    protected $entityTypeManager;
 
-  /**
+    /**
    * @var TranslationInterface
    */
-  protected $stringTranslation;
+    protected $stringTranslation;
 
-  /**
+    /**
    * @var UserStorageInterface
    */
-  protected $userStorage;
+    protected $userStorage;
 
-  /**
+    /**
    * @var TranslatableMarkup[]
    */
-  protected $severityList;
+    protected $severityList;
 
-  /**
+    /**
    * @var null|string
    */
-  protected $eventType;
+    protected $eventType;
 
-  /**
+    /**
    * @var null|string
    */
-  protected $eventSeverity;
+    protected $eventSeverity;
 
-  /**
+    /**
    * @var null|string
    */
-  protected $userId;
+    protected $userId;
 
-  /**
+    /**
    * LogDebugCommand constructor.
    *
    * @param Connection                                          $database
@@ -87,154 +86,161 @@ abstract class DatabaseLogBase extends Command {
    * @param EntityTypeManagerInterface                          $entityTypeManager
    * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
    */
-  public function __construct(
-    Connection $database,
-    DateFormatterInterface $dateFormatter,
-    EntityTypeManagerInterface $entityTypeManager,
-    TranslationInterface $stringTranslation
-  ) {
-    $this->database = $database;
-    $this->dateFormatter = $dateFormatter;
-    $this->entityTypeManager = $entityTypeManager;
-    $this->stringTranslation = $stringTranslation;
-    $this->userStorage = $this->entityTypeManager->getStorage('user');
-    $this->severityList = RfcLogLevel::getLevels();
-    parent::__construct();
-  }
+    public function __construct(
+        Connection $database,
+        DateFormatterInterface $dateFormatter,
+        EntityTypeManagerInterface $entityTypeManager,
+        TranslationInterface $stringTranslation
+    ) {
+        $this->database = $database;
+        $this->dateFormatter = $dateFormatter;
+        $this->entityTypeManager = $entityTypeManager;
+        $this->stringTranslation = $stringTranslation;
+        $this->userStorage = $this->entityTypeManager->getStorage('user');
+        $this->severityList = RfcLogLevel::getLevels();
+        parent::__construct();
+    }
 
-  /**
+    /**
    *
    */
-  protected function addDefaultLoggingOptions() {
+    protected function addDefaultLoggingOptions()
+    {
+        $this
+            ->addOption(
+                'type',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.database.log.common.options.type')
+            )
+            ->addOption(
+                'severity',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.database.log.common.options.severity')
+            )
+            ->addOption(
+                'user-id',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.database.log.common.options.user-id')
+            );
+    }
 
-    $this
-      ->addOption(
-        'type',
-        '',
-        InputOption::VALUE_OPTIONAL,
-        $this->trans('commands.database.log.common.options.type')
-      )
-      ->addOption(
-        'severity',
-        '',
-        InputOption::VALUE_OPTIONAL,
-        $this->trans('commands.database.log.common.options.severity')
-      )
-      ->addOption(
-        'user-id',
-        '',
-        InputOption::VALUE_OPTIONAL,
-        $this->trans('commands.database.log.common.options.user-id')
-      );
-
-  }
-
-  /**
+    /**
    * @param \Symfony\Component\Console\Input\InputInterface $input
    */
-  protected function getDefaultOptions(InputInterface $input) {
+    protected function getDefaultOptions(InputInterface $input)
+    {
+        $this->eventType = $input->getOption('type');
+        $this->eventSeverity = $input->getOption('severity');
+        $this->userId = $input->getOption('user-id');
+    }
 
-    $this->eventType = $input->getOption('type');
-    $this->eventSeverity = $input->getOption('severity');
-    $this->userId = $input->getOption('user-id');
-
-  }
-
-  /**
+    /**
    * @param \Drupal\Console\Style\DrupalStyle $io
    * @param null                              $offset
    * @param int                               $range
    * @return bool|\Drupal\Core\Database\Query\SelectInterface
    */
-  protected function makeQuery(DrupalStyle $io, $offset = NULL, $range = 1000) {
-
-    $query = $this->database->select('watchdog', 'w');
-    $query->fields(
-      'w',
-      [
-        'wid',
-        'uid',
-        'severity',
-        'type',
-        'timestamp',
-        'message',
-        'variables',
-      ]
-    );
-
-    if ($this->eventType) {
-      $query->condition('type', $this->eventType);
-    }
-
-    if ($this->eventSeverity) {
-      if (!in_array($this->eventSeverity, $this->severityList)) {
-        $io->error(
-          sprintf(
-            $this->trans('database.log.common.messages.invalid-severity'),
-            $this->eventSeverity
-          )
+    protected function makeQuery(DrupalStyle $io, $offset = null, $range = 1000)
+    {
+        $query = $this->database->select('watchdog', 'w');
+        $query->fields(
+            'w',
+            [
+            'wid',
+            'uid',
+            'severity',
+            'type',
+            'timestamp',
+            'message',
+            'variables',
+            ]
         );
-        return FALSE;
-      }
-      $query->condition('severity',
-                        array_search($this->eventSeverity,
-                                     $this->severityList));
+
+        if ($this->eventType) {
+            $query->condition('type', $this->eventType);
+        }
+
+        if ($this->eventSeverity) {
+            if (!in_array($this->eventSeverity, $this->severityList)) {
+                $io->error(
+                    sprintf(
+                        $this->trans('database.log.common.messages.invalid-severity'),
+                        $this->eventSeverity
+                    )
+                );
+                return false;
+            }
+            $query->condition(
+                'severity',
+                array_search(
+                    $this->eventSeverity,
+                    $this->severityList
+                )
+            );
+        }
+
+        if ($this->userId) {
+            $query->condition('uid', $this->userId);
+        }
+
+        $query->orderBy('wid', 'ASC');
+
+        if ($offset) {
+            $query->range($offset, $range);
+        }
+
+        return $query;
     }
 
-    if ($this->userId) {
-      $query->condition('uid', $this->userId);
-    }
-
-    $query->orderBy('wid', 'ASC');
-
-    if ($offset) {
-      $query->range($offset, $range);
-    }
-
-    return $query;
-
-  }
-
-  /**
+    /**
    * Generic logging table header
    *
    * @return array
    */
-  protected function createTableHeader() {
-    return [
-      $this->trans('commands.database.log.common.messages.event-id'),
-      $this->trans('commands.database.log.common.messages.type'),
-      $this->trans('commands.database.log.common.messages.date'),
-      $this->trans('commands.database.log.common.messages.message'),
-      $this->trans('commands.database.log.common.messages.user'),
-      $this->trans('commands.database.log.common.messages.severity'),
-    ];
-  }
+    protected function createTableHeader()
+    {
+        return [
+        $this->trans('commands.database.log.common.messages.event-id'),
+        $this->trans('commands.database.log.common.messages.type'),
+        $this->trans('commands.database.log.common.messages.date'),
+        $this->trans('commands.database.log.common.messages.message'),
+        $this->trans('commands.database.log.common.messages.user'),
+        $this->trans('commands.database.log.common.messages.severity'),
+        ];
+    }
 
 
-  /**
+    /**
    * @param \stdClass $dblog
    * @return array
    */
-  protected function createTableRow(\stdClass $dblog) {
+    protected function createTableRow(\stdClass $dblog)
+    {
 
-    /** @var User $user */
-    $user = $this->userStorage->load($dblog->uid);
+        /**
+ * @var User $user 
+*/
+        $user = $this->userStorage->load($dblog->uid);
 
-    return [
-      $dblog->wid,
-      $dblog->type,
-      $this->dateFormatter->format($dblog->timestamp, 'short'),
-      Unicode::truncate(Html::decodeEntities(strip_tags($this->formatMessage($dblog))),
-                        500,
-                        TRUE,
-                        TRUE),
-      $user->getUsername() . ' (' . $user->id() . ')',
-      $this->severityList[$dblog->severity]->render(),
-    ];
-  }
+        return [
+        $dblog->wid,
+        $dblog->type,
+        $this->dateFormatter->format($dblog->timestamp, 'short'),
+        Unicode::truncate(
+            Html::decodeEntities(strip_tags($this->formatMessage($dblog))),
+            500,
+            true,
+            true
+        ),
+        $user->getUsername() . ' (' . $user->id() . ')',
+        $this->severityList[$dblog->severity]->render(),
+        ];
+    }
 
-  /**
+    /**
    * Formats a database log message.
    *
    * @param $event
@@ -245,32 +251,35 @@ abstract class DatabaseLogBase extends Command {
    *   The formatted log message or FALSE if the message or variables properties
    *   are not set.
    */
-  protected function formatMessage(\stdClass $event) {
-    $message = FALSE;
+    protected function formatMessage(\stdClass $event)
+    {
+        $message = false;
 
-    // Check for required properties.
-    if (isset($event->message, $event->variables)) {
-      // Messages without variables or user specified text.
-      if ($event->variables === 'N;') {
-        return $event->message;
-      }
+        // Check for required properties.
+        if (isset($event->message, $event->variables)) {
+            // Messages without variables or user specified text.
+            if ($event->variables === 'N;') {
+                return $event->message;
+            }
 
-      return $this->stringTranslation->translate(
-        $event->message,
-        unserialize($event->variables)
-      );
+            return $this->stringTranslation->translate(
+                $event->message,
+                unserialize($event->variables)
+            );
+        }
+
+        return $message;
     }
 
-    return $message;
-  }
-
-  /**
+    /**
    * @param $dblog
    * @return array
    */
-  protected function formatSingle($dblog) {
-    return array_combine($this->createTableHeader(),
-                         $this->createTableRow($dblog));
-  }
-
+    protected function formatSingle($dblog)
+    {
+        return array_combine(
+            $this->createTableHeader(),
+            $this->createTableRow($dblog)
+        );
+    }
 }

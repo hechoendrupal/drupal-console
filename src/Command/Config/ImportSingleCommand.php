@@ -25,10 +25,14 @@ class ImportSingleCommand extends Command
 {
     use CommandTrait;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var ConfigManager  */
+    /**
+     * @var ConfigManager
+     */
     protected $configManager;
 
     /**
@@ -54,12 +58,12 @@ class ImportSingleCommand extends Command
             ->setName('config:import:single')
             ->setDescription($this->trans('commands.config.import.single.description'))
             ->addArgument(
-            'name', InputArgument::OPTIONAL,
-            $this->trans('commands.config.import.single.arguments.name')
+                'name', InputArgument::OPTIONAL,
+                $this->trans('commands.config.import.single.arguments.name')
             )
             ->addArgument(
-            'file', InputArgument::OPTIONAL,
-            $this->trans('commands.config.import.single.arguments.file')
+                'file', InputArgument::OPTIONAL,
+                $this->trans('commands.config.import.single.arguments.file')
             )
             ->addOption(
                 'config-names', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
@@ -86,9 +90,9 @@ class ImportSingleCommand extends Command
         $configNameArg = $input->getArgument('name');
         $fileName = $input->getArgument('file');
 
-        $singleMode = FALSE;
+        $singleMode = false;
         if (empty($configNames) && isset($configNameArg)) {
-            $singleMode = TRUE;
+            $singleMode = true;
             $configNames = array($configNameArg);
         }
 
@@ -99,7 +103,7 @@ class ImportSingleCommand extends Command
         $ymlFile = new Parser();
         try {
             $source_storage = new StorageReplaceDataWrapper(
-              $this->configStorage
+                $this->configStorage
             );
 
             foreach ($configNames as $configName) {
@@ -108,7 +112,7 @@ class ImportSingleCommand extends Command
                     $configName = substr($configName, 0, -4);
                 }
 
-                if ($singleMode === FALSE) {
+                if ($singleMode === false) {
                     $fileName = $directory.DIRECTORY_SEPARATOR.$configName.'.yml';
                 }
 
@@ -127,19 +131,19 @@ class ImportSingleCommand extends Command
             }
 
             $storage_comparer = new StorageComparer(
-              $source_storage,
-              $this->configStorage,
-              $this->configManager
+                $source_storage,
+                $this->configStorage,
+                $this->configManager
             );
 
             if ($this->configImport($io, $storage_comparer)) {
                 $io->success(
-                  sprintf(
-                    $this->trans(
-                      'commands.config.import.single.messages.success'
-                    ),
-                    implode(", ", $configNames)
-                  )
+                    sprintf(
+                        $this->trans(
+                            'commands.config.import.single.messages.success'
+                        ),
+                        implode(", ", $configNames)
+                    )
                 );
             }
         } catch (\Exception $e) {
@@ -177,7 +181,7 @@ class ImportSingleCommand extends Command
                         } while ($context['finished'] < 1);
                     }
 
-                    return TRUE;
+                    return true;
                 }
             } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";

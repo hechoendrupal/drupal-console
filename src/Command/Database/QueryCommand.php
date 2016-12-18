@@ -6,8 +6,8 @@
  *
  *
  * @TODO:
- * 		- mysql -H option for html
- * 		- mysql -X option for xml
+ *         - mysql -H option for html
+ *         - mysql -X option for xml
  */
 
 namespace Drupal\Console\Command\Database;
@@ -70,49 +70,51 @@ class QueryCommand extends Command
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
-				$connection = sprintf(
-						'%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
-						$databaseConnection['driver'],
-						$databaseConnection['database'],
-						$databaseConnection['username'],
-						$databaseConnection['password'],
-						$databaseConnection['host'],
-						$databaseConnection['port']
-				);
+        $connection = sprintf(
+            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+            $databaseConnection['driver'],
+            $databaseConnection['database'],
+            $databaseConnection['username'],
+            $databaseConnection['password'],
+            $databaseConnection['host'],
+            $databaseConnection['port']
+        );
 
-				$args = explode(' ', $connection);
-				$args[] = sprintf('--execute=%s', $query);
+        $args = explode(' ', $connection);
+        $args[] = sprintf('--execute=%s', $query);
 
-				$opts = ["quick", "debug", "html", "xml", "raw", "vertical", "batch"];
-				array_walk($opts, function($opt) use ($input, &$args) {
-					if ($input->getOption($opt)) {
-						switch ($opt) {
-							case "quick":
-								$args[] = "--quick";
-								break;
-							case "debug":
-								$args[] = "-T";
-								break;
-							case "html":
-								$args[] = "-H";
-								break;
-							case "xml":
-								$args[] = "-X";
-								break;
-							case "raw":
-								$args[] = "--raw";
-								break;
-							case "vertical":
-								$args[] = "-E";
-								break;
-							case "batch":
-								$args[] = "--batch";
-								break;
-						}
-					}
-				});
+        $opts = ["quick", "debug", "html", "xml", "raw", "vertical", "batch"];
+        array_walk(
+            $opts, function ($opt) use ($input, &$args) {
+                if ($input->getOption($opt)) {
+                    switch ($opt) {
+                    case "quick":
+                        $args[] = "--quick";
+                        break;
+                    case "debug":
+                        $args[] = "-T";
+                        break;
+                    case "html":
+                        $args[] = "-H";
+                        break;
+                    case "xml":
+                        $args[] = "-X";
+                        break;
+                    case "raw":
+                        $args[] = "--raw";
+                        break;
+                    case "vertical":
+                        $args[] = "-E";
+                        break;
+                    case "batch":
+                        $args[] = "--batch";
+                        break;
+                    }
+                }
+            }
+        );
 
-				if ($learning) {
+        if ($learning) {
             $io->commentBlock(
                 implode(" ", $args)
             );

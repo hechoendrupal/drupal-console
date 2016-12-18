@@ -30,7 +30,8 @@ class PasswordHashCommand extends Command
      * PasswordHashCommand constructor.
      * @param PasswordInterface $password
      */
-    public function __construct(PasswordInterface $password) {
+    public function __construct(PasswordInterface $password)
+    {
         $this->password = $password;
         parent::__construct();
     }

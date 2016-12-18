@@ -15,8 +15,9 @@ use Drupal\Console\Extension\Manager;
  */
 class  BreakPointGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

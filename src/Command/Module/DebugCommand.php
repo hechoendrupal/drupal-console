@@ -42,7 +42,7 @@ class DebugCommand extends Command
     /**
      * ChainDebugCommand constructor.
      * @param ConfigurationManager $configurationManager
-     * @param Site $site
+     * @param Site                 $site
      */
     public function __construct(
         ConfigurationManager $configurationManager,

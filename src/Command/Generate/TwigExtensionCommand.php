@@ -32,10 +32,14 @@ class TwigExtensionCommand extends Command
     use ConfirmationTrait;
     use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var TwigExtensionGenerator  */
+    /**
+ * @var TwigExtensionGenerator  
+*/
     protected $generator;
 
     /**

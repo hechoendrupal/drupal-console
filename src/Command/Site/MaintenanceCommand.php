@@ -34,8 +34,8 @@ class MaintenanceCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param StateInterface           $state
-     * @param ChainQueue $chainQueue
+     * @param StateInterface $state
+     * @param ChainQueue     $chainQueue
      */
     public function __construct(
         StateInterface $state,

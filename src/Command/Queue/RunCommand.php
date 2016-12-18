@@ -37,8 +37,8 @@ class RunCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param QueueWorkerManagerInterface   $queueWorker
-     * @param QueueFactory                  $queue
+     * @param QueueWorkerManagerInterface $queueWorker
+     * @param QueueFactory                $queue
      */
     public function __construct(
         QueueWorkerManagerInterface $queueWorker,

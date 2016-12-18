@@ -31,7 +31,8 @@ class RestoreCommand extends Command
      * RestoreCommand constructor.
      * @param string $appRoot
      */
-    public function __construct($appRoot) {
+    public function __construct($appRoot)
+    {
         $this->appRoot = $appRoot;
         parent::__construct();
     }

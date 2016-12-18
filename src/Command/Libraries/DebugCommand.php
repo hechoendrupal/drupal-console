@@ -22,16 +22,24 @@ class DebugCommand extends Command
 {
     use CommandTrait;
 
-    /** @var  ModuleHandlerInterface */
+    /**
+ * @var  ModuleHandlerInterface 
+*/
     protected $moduleHandler;
 
-    /** @var  ThemeHandlerInterface; */
+    /**
+ * @var  ThemeHandlerInterface; 
+*/
     protected $themeHandler;
 
-    /** @var  LibraryDiscoveryInterface */
+    /**
+ * @var  LibraryDiscoveryInterface 
+*/
     protected $libraryDiscovery;
 
-    /** @var string */
+    /**
+ * @var string 
+*/
     protected $appRoot;
 
     /**

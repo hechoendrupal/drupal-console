@@ -31,10 +31,14 @@ class PluginFieldFormatterCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginFieldFormatterGenerator  */
+    /**
+ * @var PluginFieldFormatterGenerator  
+*/
     protected $generator;
 
     /**
@@ -42,7 +46,9 @@ class PluginFieldFormatterCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var FieldTypePluginManager  */
+    /**
+ * @var FieldTypePluginManager  
+*/
     protected $fieldTypePluginManager;
 
     /**
@@ -53,11 +59,11 @@ class PluginFieldFormatterCommand extends Command
 
     /**
      * PluginImageFormatterCommand constructor.
-     * @param Manager $extensionManager
+     * @param Manager                       $extensionManager
      * @param PluginFieldFormatterGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param FieldTypePluginManager $fieldTypePluginManager
-     * @param ChainQueue $chainQueue
+     * @param StringConverter               $stringConverter
+     * @param FieldTypePluginManager        $fieldTypePluginManager
+     * @param ChainQueue                    $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

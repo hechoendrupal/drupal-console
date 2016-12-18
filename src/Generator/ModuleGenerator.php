@@ -123,44 +123,44 @@ class ModuleGenerator extends Generator
         }
         if ($twigtemplate) {
             $this->renderFile(
-              'module/module-twig-template-append.twig',
-              $dir .'/' . $machineName . '.module',
-              $parameters,
-              FILE_APPEND
+                'module/module-twig-template-append.twig',
+                $dir .'/' . $machineName . '.module',
+                $parameters,
+                FILE_APPEND
             );
-       	    $dir .= '/templates/';
-       	    if (file_exists($dir)) {
-       	        if (!is_dir($dir)) {
-       	            throw new \RuntimeException(
-       	                sprintf(
-       	                    'Unable to generate the templates directory as the target directory "%s" exists but is a file.',
-       	                    realpath($dir)
-       	                )
-       	            );
-       	        }
-       	        $files = scandir($dir);
-       	        if ($files != array('.', '..')) {
-       	            throw new \RuntimeException(
-       	                sprintf(
-       	                    'Unable to generate the templates directory as the target directory "%s" is not empty.',
-       	                    realpath($dir)
-       	                )
-       	            );
-       	        }
-       	        if (!is_writable($dir)) {
-       	            throw new \RuntimeException(
-       	                sprintf(
-       	                    'Unable to generate the templates directory as the target directory "%s" is not writable.',
-       	                    realpath($dir)
-       	                )
-       	            );
-       	        }
-       	    }
-       	    $this->renderFile(
-       	        'module/twig-template-file.twig',
-       	        $dir . $machineName . '.html.twig',
-       	        $parameters
-       	    );
-       	}
+            $dir .= '/templates/';
+            if (file_exists($dir)) {
+                if (!is_dir($dir)) {
+                    throw new \RuntimeException(
+                        sprintf(
+                            'Unable to generate the templates directory as the target directory "%s" exists but is a file.',
+                            realpath($dir)
+                        )
+                    );
+                }
+                $files = scandir($dir);
+                if ($files != array('.', '..')) {
+                    throw new \RuntimeException(
+                        sprintf(
+                            'Unable to generate the templates directory as the target directory "%s" is not empty.',
+                            realpath($dir)
+                        )
+                    );
+                }
+                if (!is_writable($dir)) {
+                    throw new \RuntimeException(
+                        sprintf(
+                            'Unable to generate the templates directory as the target directory "%s" is not writable.',
+                            realpath($dir)
+                        )
+                    );
+                }
+            }
+            $this->renderFile(
+                'module/twig-template-file.twig',
+                $dir . $machineName . '.html.twig',
+                $parameters
+            );
+        }
     }
 }

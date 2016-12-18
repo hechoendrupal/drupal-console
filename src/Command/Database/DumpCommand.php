@@ -125,22 +125,23 @@ class DumpCommand extends Command
         }
 
         if ($this->shellProcess->exec($command, $this->appRoot)) {
-						$resultFile = $file;
-						if ($gz) {
-							if(substr($file, -3) != '.gz') {
-								$resultFile = $file . ".gz";
-							}
-							file_put_contents(
-									$resultFile,
-									gzencode(
-											file_get_contents(
-													$file)
-									)
-							);
-							if($resultFile != $file) {
-								unlink($file);
-							}
-						}
+            $resultFile = $file;
+            if ($gz) {
+                if (substr($file, -3) != '.gz') {
+                    $resultFile = $file . ".gz";
+                }
+                file_put_contents(
+                    $resultFile,
+                    gzencode(
+                        file_get_contents(
+                            $file
+                        )
+                    )
+                );
+                if ($resultFile != $file) {
+                    unlink($file);
+                }
+            }
 
             $io->success(
                 sprintf(

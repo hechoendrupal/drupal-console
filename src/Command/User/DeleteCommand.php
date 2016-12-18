@@ -43,8 +43,8 @@ class DeleteCommand extends Command
     /**
      * DeleteCommand constructor.
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param QueryFactory      $entityQuery
-     * @param DrupalApi         $drupalApi
+     * @param QueryFactory               $entityQuery
+     * @param DrupalApi                  $drupalApi
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,

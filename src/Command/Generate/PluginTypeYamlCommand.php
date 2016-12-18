@@ -34,10 +34,14 @@ class PluginTypeYamlCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginTypeYamlGenerator  */
+    /**
+ * @var PluginTypeYamlGenerator  
+*/
     protected $generator;
 
     /**

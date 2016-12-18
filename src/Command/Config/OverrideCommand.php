@@ -20,10 +20,14 @@ class OverrideCommand extends Command
 {
     use CommandTrait;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var ConfigFactory  */
+    /**
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
     /**

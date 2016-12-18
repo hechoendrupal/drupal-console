@@ -47,10 +47,10 @@ class StatisticsCommand extends Command
 
     /**
      * StatisticsCommand constructor.
-     * @param DrupalApi                 $drupalApi
-     * @param QueryFactory              $entityQuery;
-     * @param Manager                   $extensionManager
-     * @param ModuleHandlerInterface    $moduleHandler
+     * @param DrupalApi              $drupalApi
+     * @param QueryFactory           $entityQuery;
+     * @param Manager                $extensionManager
+     * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
         DrupalApi $drupalApi,

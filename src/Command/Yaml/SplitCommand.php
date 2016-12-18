@@ -29,9 +29,10 @@ class SplitCommand extends Command
 
     /**
      * RebuildCommand constructor.
-     * @param NestedArray    $nestedArray
+     * @param NestedArray $nestedArray
      */
-    public function __construct(NestedArray $nestedArray) {
+    public function __construct(NestedArray $nestedArray)
+    {
         $this->nestedArray = $nestedArray;
         parent::__construct();
     }

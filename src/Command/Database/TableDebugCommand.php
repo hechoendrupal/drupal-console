@@ -39,7 +39,7 @@ class TableDebugCommand extends Command
 
     /**
      * TableDebugCommand constructor.
-     * @param R $redBean
+     * @param R          $redBean
      * @param Connection $database
      */
     public function __construct(

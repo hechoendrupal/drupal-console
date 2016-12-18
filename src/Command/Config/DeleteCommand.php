@@ -23,13 +23,19 @@ class DeleteCommand extends Command
 
     protected $allConfig = [];
 
-    /** @var ConfigFactory  */
+    /**
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var FileStorage  */
+    /**
+     * @var FileStorage
+     */
     protected $configStorageSync;
 
     /**
@@ -39,7 +45,7 @@ class DeleteCommand extends Command
      * @param FileStorage   $configStorageSync
      */
     public function __construct(
-        ConfigFactory $configFactory ,
+        ConfigFactory $configFactory,
         CachedStorage $configStorage,
         FileStorage $configStorageSync
     ) {

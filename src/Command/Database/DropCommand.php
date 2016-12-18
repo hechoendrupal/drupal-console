@@ -34,7 +34,8 @@ class DropCommand extends Command
      * DropCommand constructor.
      * @param Connection $database
      */
-    public function __construct(Connection $database) {
+    public function __construct(Connection $database)
+    {
         $this->database = $database;
         parent::__construct();
     }

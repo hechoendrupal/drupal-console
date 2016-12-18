@@ -32,10 +32,14 @@ class ControllerCommand extends Command
     use InputTrait;
     use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var ControllerGenerator  */
+    /**
+ * @var ControllerGenerator  
+*/
     protected $generator;
 
     /**
@@ -43,10 +47,14 @@ class ControllerCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
-    /** @var RouteProviderInterface  */
+    /**
+ * @var RouteProviderInterface  
+*/
     protected $routeProvider;
 
     /**

@@ -32,7 +32,8 @@ class AccessRebuildCommand extends Command
      * AccessRebuildCommand constructor.
      * @param StateInterface $state
      */
-    public function __construct(StateInterface $state) {
+    public function __construct(StateInterface $state)
+    {
         $this->state = $state;
         parent::__construct();
     }

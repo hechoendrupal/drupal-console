@@ -141,7 +141,7 @@ class Site
      */
     public function multisiteMode($uri)
     {
-        if($uri != 'default') {
+        if ($uri != 'default') {
             return true;
         }
 
@@ -164,7 +164,7 @@ class Site
             return false;
         }
 
-        if(isset($sites[$uri]) && is_dir($this->appRoot . "/sites/" . $sites[$uri])) {
+        if (isset($sites[$uri]) && is_dir($this->appRoot . "/sites/" . $sites[$uri])) {
             return true;
         }
 

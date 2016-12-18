@@ -31,10 +31,14 @@ class PluginFieldWidgetCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginFieldWidgetGenerator  */
+    /**
+ * @var PluginFieldWidgetGenerator  
+*/
     protected $generator;
 
     /**
@@ -42,10 +46,14 @@ class PluginFieldWidgetCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
-    /** @var FieldTypePluginManager  */
+    /**
+ * @var FieldTypePluginManager  
+*/
     protected $fieldTypePluginManager;
 
     /**

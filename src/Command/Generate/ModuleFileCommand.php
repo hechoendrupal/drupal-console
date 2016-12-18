@@ -18,7 +18,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Style\DrupalStyle;
 
-
 /**
  * Class ModuleFileCommand
  * @package Drupal\Console\Command\Generate
@@ -29,10 +28,14 @@ class ModuleFileCommand extends Command
     use ConfirmationTrait;
     use ModuleTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var ModuleFileGenerator  */
+    /**
+ * @var ModuleFileGenerator  
+*/
     protected $generator;
 
 

@@ -18,7 +18,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class CommandGenerator extends Generator
 {
-
     /**
      * @var Manager
      */
@@ -31,7 +30,7 @@ class CommandGenerator extends Generator
 
     /**
      * CommandGenerator constructor.
-     * @param Manager $extensionManager
+     * @param Manager           $extensionManager
      * @param TranslatorManager $translatorManager
      */
     public function __construct(
@@ -86,6 +85,5 @@ class CommandGenerator extends Generator
             'module/src/Command/console/translations/en/command.yml.twig',
             $this->extensionManager->getModule($module)->getPath().'/console/translations/en/'.$command_key.'.yml'
         );
-
     }
 }

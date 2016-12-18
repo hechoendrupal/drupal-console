@@ -29,9 +29,11 @@ trait MigrationTrait
     protected function getMigrations($version_tag = false, $flatList = false, $configuration = [])
     {
         //Get migration definitions by tag
-        $migrations = array_filter($this->pluginManagerMigration->getDefinitions(), function($migration) use ($version_tag) {
-            return !empty($migration['migration_tags']) && in_array($version_tag, $migration['migration_tags']);
-        });
+        $migrations = array_filter(
+            $this->pluginManagerMigration->getDefinitions(), function ($migration) use ($version_tag) {
+                return !empty($migration['migration_tags']) && in_array($version_tag, $migration['migration_tags']);
+            }
+        );
 
         // Create an array to configure all migration plugins with same configuration
         $keys = array_keys($migrations);

@@ -65,32 +65,31 @@ class PermissionDebugCommand extends Command
             $io->table($tableHeader, array_values($tableRows));
 
             return true;
-        }
-        else {
+        } else {
             $tableHeader = [
                 $this->trans('commands.permission.debug.table-headers.permission-name'),
                 $this->trans('commands.permission.debug.table-headers.permission-label')
             ];
             $tableRows = [];
-          $permissions = \Drupal::service('user.permissions')->getPermissions();
-          $roles = user_roles();
-          if (empty($roles[$role])) {
-              $message = sprintf($this->trans('commands.permission.debug.messages.role-error'), $role);
-              $io->error($message);
-              return true;
-          }
-          $user_permission = $roles[$role]->getPermissions();
-          foreach ($permissions as $permission_name => $permission) {
-              if (in_array($permission_name, $user_permission)) {
-                  $tableRows[$permission_name] = [
+            $permissions = \Drupal::service('user.permissions')->getPermissions();
+            $roles = user_roles();
+            if (empty($roles[$role])) {
+                $message = sprintf($this->trans('commands.permission.debug.messages.role-error'), $role);
+                $io->error($message);
+                return true;
+            }
+            $user_permission = $roles[$role]->getPermissions();
+            foreach ($permissions as $permission_name => $permission) {
+                if (in_array($permission_name, $user_permission)) {
+                    $tableRows[$permission_name] = [
                       $permission_name,
                       strip_tags($permission['title']->__toString())
-                  ];
-              }
-          }
-          ksort($tableRows);
-          $io->table($tableHeader, array_values($tableRows));
-          return true;
+                    ];
+                }
+            }
+            ksort($tableRows);
+            $io->table($tableHeader, array_values($tableRows));
+            return true;
         }
     }
 
@@ -103,13 +102,14 @@ class PermissionDebugCommand extends Command
      * @return array
      *   User roles filtered by permission else empty array.
      */
-    public function getRolesAssignedByPermission($permission_name) {
+    public function getRolesAssignedByPermission($permission_name)
+    {
         $roles = user_roles();
         $roles_found = [];
         foreach ($roles as $role) {
-          if ($role->hasPermission($permission_name)) {
-            $roles_found[] = $role->getOriginalId();
-          }
+            if ($role->hasPermission($permission_name)) {
+                $roles_found[] = $role->getOriginalId();
+            }
         }
         return $roles_found;
     }

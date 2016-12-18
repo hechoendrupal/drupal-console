@@ -23,15 +23,19 @@ class SettingsDebugCommand extends Command
 {
     use CommandTrait;
 
-    /** @var Settings  */
+    /**
+     * @var Settings
+     */
     protected $settings;
 
     /**
      * SettingsDebugCommand constructor.
      * @param Settings $settings
      */
-    public function __construct(Settings $settings) {
-        $this->settings = $settings;;
+    public function __construct(Settings $settings)
+    {
+        $this->settings = $settings;
+        ;
         parent::__construct();
     }
     /**

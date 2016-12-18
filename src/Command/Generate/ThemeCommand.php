@@ -34,13 +34,19 @@ class ThemeCommand extends Command
     use ThemeBreakpointTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var ThemeGenerator  */
+    /**
+ * @var ThemeGenerator  
+*/
     protected $generator;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
     /**

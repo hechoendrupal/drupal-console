@@ -34,10 +34,14 @@ class PluginRestResourceCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginRestResourceGenerator  */
+    /**
+ * @var PluginRestResourceGenerator  
+*/
     protected $generator;
 
     /**

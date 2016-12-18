@@ -30,7 +30,7 @@ class TranslationStatsCommand extends Command
     /**
      * @var string
      */
-		protected $consoleRoot;
+        protected $consoleRoot;
 
     /**
      * @var ConfigurationManager
@@ -52,8 +52,8 @@ class TranslationStatsCommand extends Command
      *
      * @param $appRoot
      * @param ConfigurationManager $configurationManager
-     * @param TwigRenderer $renderer
-     * @param NestedArray  $nestedArray
+     * @param TwigRenderer         $renderer
+     * @param NestedArray          $nestedArray
      */
     public function __construct(
         $consoleRoot,
@@ -140,10 +140,10 @@ class TranslationStatsCommand extends Command
 
             $io->writeln(
                 $this->renderFile(
-										'core/translation/stats.md.twig',
-										null,
-										$arguments
-								)
+                    'core/translation/stats.md.twig',
+                    null,
+                    $arguments
+                )
             );
         }
     }
@@ -175,12 +175,12 @@ class TranslationStatsCommand extends Command
 
             foreach ($languages as $langCode => $languageName) {
                 $languageDir = $this->consoleRoot .
-										sprintf(
-											DRUPAL_CONSOLE_LANGUAGE,
-											$langCode
-										);
-								//don't show that language if that repo isn't present
-								if (!file_exists($languageDir)) {
+                                        sprintf(
+                                            DRUPAL_CONSOLE_LANGUAGE,
+                                            $langCode
+                                        );
+                                //don't show that language if that repo isn't present
+                if (!file_exists($languageDir)) {
                     continue;
                 }
                 if (isset($language) && $langCode != $language) {

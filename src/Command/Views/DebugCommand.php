@@ -34,7 +34,8 @@ class DebugCommand extends Command
      * DebugCommand constructor.
      * @param EntityTypeManagerInterface $entityTypeManager
      */
-    public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+    public function __construct(EntityTypeManagerInterface $entityTypeManager)
+    {
         $this->entityTypeManager = $entityTypeManager;
         parent::__construct();
     }

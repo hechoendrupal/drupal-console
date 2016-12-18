@@ -45,7 +45,9 @@ class ExecuteCommand extends Command
     protected $postUpdateRegistry;
 
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**
@@ -66,10 +68,10 @@ class ExecuteCommand extends Command
     /**
      * EntitiesCommand constructor.
      * @param Site           $site
-     * @param StateInterface          $state
+     * @param StateInterface $state
      * @param ModuleHandler  $moduleHandler
      * @param UpdateRegistry $postUpdateRegistry
-     * @param Manager $extensionManager
+     * @param Manager        $extensionManager
      * @param ChainQueue     $chainQueue
      */
     public function __construct(

@@ -30,10 +30,14 @@ class PluginImageEffectCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginImageEffectGenerator  */
+    /**
+ * @var PluginImageEffectGenerator  
+*/
     protected $generator;
 
     /**

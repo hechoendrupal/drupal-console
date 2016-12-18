@@ -12,7 +12,9 @@ use Drupal\Console\Utils\StringConverter;
 
 class FormGenerator extends Generator
 {
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**
@@ -22,7 +24,7 @@ class FormGenerator extends Generator
 
     /**
      * AuthenticationProviderGenerator constructor.
-     * @param Manager $extensionManager
+     * @param Manager         $extensionManager
      * @param StringConverter $stringConverter
      */
     public function __construct(

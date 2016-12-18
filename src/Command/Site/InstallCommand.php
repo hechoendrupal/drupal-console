@@ -26,7 +26,6 @@ use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Utils\Site;
 use DrupalFinder\DrupalFinder;
 
-
 class InstallCommand extends Command
 {
     use ContainerAwareCommandTrait;
@@ -374,8 +373,8 @@ class InstallCommand extends Command
         $io = new DrupalStyle($input, $output);
         $uri =  parse_url($input->getParameterOption(['--uri', '-l']) ?: 'default', PHP_URL_HOST);
 
-        if($this->site->multisiteMode($uri)) {
-            if(!$this->site->validMultisite($uri)) {
+        if ($this->site->multisiteMode($uri)) {
+            if (!$this->site->validMultisite($uri)) {
                 $io->error(
                     sprintf($this->trans('commands.site.install.messages.invalid-multisite'), $uri, $uri)
                 );
@@ -433,7 +432,6 @@ class InstallCommand extends Command
         }
 
         try {
-
             $drupalFinder = new DrupalFinder();
             $drupalFinder->locateRoot(getcwd());
             $composerRoot = $drupalFinder->getComposerRoot();
@@ -445,7 +443,6 @@ class InstallCommand extends Command
             $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
             $container = $drupal->boot();
             $this->getApplication()->setContainer($container);
-
         } catch (Exception $e) {
             $io->error($e->getMessage());
             return;
@@ -495,8 +492,7 @@ class InstallCommand extends Command
         InputInterface $input,
         $database,
         $uri
-    )
-    {
+    ) {
         $this->site->loadLegacyFile('/core/includes/install.core.inc');
 
         $driver = (string)$database['driver'];

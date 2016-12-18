@@ -9,8 +9,8 @@ use Drupal\Console\Extension\Manager;
  * Class AnnotationValidator
  * @package Drupal\Console\Utils
  */
-class AnnotationValidator {
-
+class AnnotationValidator
+{
     /**
      * @var DrupalCommandAnnotationReader
      */
@@ -41,7 +41,8 @@ class AnnotationValidator {
      * @param $class
      * @return bool
      */
-    public function isValidCommand($class) {
+    public function isValidCommand($class)
+    {
         $annotation = $this->annotationCommandReader->readAnnotation($class);
         if (!$annotation) {
             return true;
@@ -66,25 +67,26 @@ class AnnotationValidator {
      * @param $extension
      * @return bool
      */
-    protected function isExtensionInstalled($extension){
+    protected function isExtensionInstalled($extension)
+    {
         if (!$this->extensions) {
-             $modules = $this->extensionManager->discoverModules()
+            $modules = $this->extensionManager->discoverModules()
                 ->showCore()
                 ->showNoCore()
                 ->showInstalled()
-                ->getList(TRUE);
+                ->getList(true);
 
             $themes = $this->extensionManager->discoverThemes()
                 ->showCore()
                 ->showNoCore()
                 ->showInstalled()
-                ->getList(TRUE);
+                ->getList(true);
 
             $profiles = $this->extensionManager->discoverProfiles()
                 ->showCore()
                 ->showNoCore()
                 ->showInstalled()
-                ->getList(TRUE);
+                ->getList(true);
 
             $this->extensions = array_merge(
                 $modules,
@@ -100,7 +102,8 @@ class AnnotationValidator {
      * @param $annotation
      * @return array
      */
-    protected function extractDependencies($annotation) {
+    protected function extractDependencies($annotation)
+    {
         $dependencies = [];
         if (array_key_exists('extension', $annotation)) {
             $dependencies[] = $annotation['extension'];

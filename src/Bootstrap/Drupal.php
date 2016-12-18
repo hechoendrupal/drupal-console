@@ -42,18 +42,17 @@ class Drupal
 
             $argvInputReader = new ArgvInputReader();
             if ($argvInputReader->get('uri')) {
-              $uri = $argvInputReader->get('uri');
-              if (substr($uri, -1) != '/') {
-                $uri .= '/';
-              }
-              $uri .= 'index.php';
-              $request = Request::create($uri, 'GET', array()  , array(), array(), array('SCRIPT_NAME' => $this->appRoot . '/index.php'));
-            }
-            else {
-              $request = Request::createFromGlobals();
+                $uri = $argvInputReader->get('uri');
+                if (substr($uri, -1) != '/') {
+                    $uri .= '/';
+                }
+                $uri .= 'index.php';
+                $request = Request::create($uri, 'GET', array(), array(), array(), array('SCRIPT_NAME' => $this->appRoot . '/index.php'));
+            } else {
+                $request = Request::createFromGlobals();
             }
 
-            $drupalKernel = DrupalKernel::createFromRequest  (
+            $drupalKernel = DrupalKernel::createFromRequest(
                 $request,
                 $this->autoload,
                 'prod',

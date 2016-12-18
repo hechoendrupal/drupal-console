@@ -26,13 +26,19 @@ class ExportContentTypeCommand extends Command
     use ModuleTrait;
     use ExportTrait;
 
-    /** @var EntityTypeManager  */
+    /**
+     * @var EntityTypeManagerInterface
+     */
     protected $entityTypeManager;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     protected $configExport;
@@ -40,8 +46,8 @@ class ExportContentTypeCommand extends Command
     /**
      * ExportContentTypeCommand constructor.
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param CachedStorage     $configStorage
-     * @param Manager           $extensionManager
+     * @param CachedStorage              $configStorage
+     * @param Manager                    $extensionManager
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,

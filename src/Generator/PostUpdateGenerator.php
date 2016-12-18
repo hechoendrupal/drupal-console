@@ -11,7 +11,9 @@ use Drupal\Console\Extension\Manager;
 
 class PostUpdateGenerator extends Generator
 {
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
     /**

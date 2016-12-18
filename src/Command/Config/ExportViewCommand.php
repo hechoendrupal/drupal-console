@@ -29,20 +29,26 @@ class ExportViewCommand extends Command
     protected $configExport;
 
 
-    /** @var EntityTypeManagerInterface  */
+    /**
+     * @var EntityTypeManagerInterface
+     */
     protected $entityTypeManager;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * ExportViewCommand constructor.
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param CachedStorage     $configStorage
-     * @param Manager           $extensionManager
+     * @param CachedStorage              $configStorage
+     * @param Manager                    $extensionManager
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
@@ -103,7 +109,6 @@ class ExportViewCommand extends Command
         // view-id argument
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-
             $views = $this->entityTypeManager->getStorage('view')->loadMultiple();
 
             $viewList = [];

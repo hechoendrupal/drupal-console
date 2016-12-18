@@ -159,10 +159,9 @@ class MergeCommand extends Command
 
             while (true) {
                 // Set the string key based on among files provided
-                if(count($yaml_files) >= 2) {
+                if (count($yaml_files) >= 2) {
                     $questionStringKey = 'commands.yaml.merge.questions.other-file';
-                }
-                else {
+                } else {
                     $questionStringKey = 'commands.yaml.merge.questions.file';
                 }
 

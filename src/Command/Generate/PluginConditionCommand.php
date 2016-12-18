@@ -21,7 +21,6 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\StringConverter;
 
-
 /**
  * Class PluginConditionCommand
  * @package Drupal\Console\Command\Generate
@@ -32,10 +31,14 @@ class PluginConditionCommand extends Command
     use ModuleTrait;
     use ConfirmationTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var PluginConditionGenerator  */
+    /**
+ * @var PluginConditionGenerator  
+*/
     protected $generator;
 
     /**
@@ -51,11 +54,11 @@ class PluginConditionCommand extends Command
 
     /**
      * PluginConditionCommand constructor.
-     * @param Manager              $extensionManager
-     * @param PluginConditionGenerator  $generator
-     * @param ChainQueue           $chainQueue
-     * @param EntityTypeRepository $entitytyperepository
-     * @param StringConverter      $stringConverter
+     * @param Manager                  $extensionManager
+     * @param PluginConditionGenerator $generator
+     * @param ChainQueue               $chainQueue
+     * @param EntityTypeRepository     $entitytyperepository
+     * @param StringConverter          $stringConverter
      */
     public function __construct(
         Manager $extensionManager,

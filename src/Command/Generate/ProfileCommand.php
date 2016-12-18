@@ -21,7 +21,6 @@ use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\Site;
 use GuzzleHttp\Client;
 
-
 /**
  * Class ProfileCommand
  * @package Drupal\Console\Command\Generate
@@ -32,10 +31,14 @@ class ProfileCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager  
+*/
     protected $extensionManager;
 
-    /** @var ProfileGenerator  */
+    /**
+ * @var ProfileGenerator  
+*/
     protected $generator;
 
     /**
@@ -43,7 +46,9 @@ class ProfileCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator  
+*/
     protected $validator;
 
     /**

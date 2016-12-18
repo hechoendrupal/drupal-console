@@ -56,9 +56,9 @@ class RunCommand extends Command
 
     /**
      * RunCommand constructor.
-     * @param Site    $site
-     * @param TestDiscovery    $test_discovery
-     * @param ModuleHandlerInterface    $moduleHandler
+     * @param Site                   $site
+     * @param TestDiscovery          $test_discovery
+     * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
         $appRoot,
