@@ -57,19 +57,17 @@ class ImportSingleCommand extends Command
         $this
             ->setName('config:import:single')
             ->setDescription($this->trans('commands.config.import.single.description'))
-            ->addArgument(
-                'name', InputArgument::OPTIONAL,
-                $this->trans('commands.config.import.single.arguments.name')
-            )
-            ->addArgument(
-                'file', InputArgument::OPTIONAL,
-                $this->trans('commands.config.import.single.arguments.file')
-            )
             ->addOption(
-                'config-names', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                $this->trans('commands.config.import.single.arguments.config-names')
-            )
-            ->addOption(
+                'name',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.config.import.single.options.name')
+            )->addOption(
+                'file',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.import.single.options.file')
+            )->addOption(
                 'directory',
                 '',
                 InputOption::VALUE_OPTIONAL,
@@ -84,19 +82,11 @@ class ImportSingleCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $configNames = $input->getOption('config-names');
+        $name = $input->getOption('name');
         $directory = $input->getOption('directory');
+        $file = $input->getOption('file');
 
-        $configNameArg = $input->getArgument('name');
-        $fileName = $input->getArgument('file');
-
-        $singleMode = false;
-        if (empty($configNames) && isset($configNameArg)) {
-            $singleMode = true;
-            $configNames = array($configNameArg);
-        }
-
-        if (!isset($fileName) && !$directory) {
+        if (!$file && !$directory) {
             $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
         }
 
@@ -106,43 +96,36 @@ class ImportSingleCommand extends Command
                 $this->configStorage
             );
 
-            foreach ($configNames as $configName) {
+            foreach ($name as $nameItem) {
                 // Allow for accidental .yml extension.
-                if (substr($configName, -4) === '.yml') {
-                    $configName = substr($configName, 0, -4);
+                if (substr($nameItem, -4) === '.yml') {
+                    $nameItem = substr($nameItem, 0, -4);
                 }
 
-                if ($singleMode === false) {
-                    $fileName = $directory.DIRECTORY_SEPARATOR.$configName.'.yml';
+                $configFile = $directory.DIRECTORY_SEPARATOR.$nameItem.'.yml';
+                if (file_exists($configFile)) {
+                    $value = $ymlFile->parse(file_get_contents($configFile));
+                    $source_storage->replaceData($nameItem, $value);
+                    continue;
                 }
 
-                $value = null;
-                if (!empty($fileName) && file_exists($fileName)) {
-                    $value = $ymlFile->parse(file_get_contents($fileName));
-                }
-
-                if (empty($value)) {
-                    $io->error($this->trans('commands.config.import.single.messages.empty-value'));
-
-                    return;
-                }
-
-                $source_storage->replaceData($configName, $value);
+                $io->error($this->trans('commands.config.import.single.messages.empty-value'));
+                return 1;
             }
 
-            $storage_comparer = new StorageComparer(
+            $storageComparer = new StorageComparer(
                 $source_storage,
                 $this->configStorage,
                 $this->configManager
             );
 
-            if ($this->configImport($io, $storage_comparer)) {
+            if ($this->configImport($io, $storageComparer)) {
                 $io->success(
                     sprintf(
                         $this->trans(
                             'commands.config.import.single.messages.success'
                         ),
-                        implode(", ", $configNames)
+                        implode(", ", $name)
                     )
                 );
             }
@@ -153,10 +136,10 @@ class ImportSingleCommand extends Command
         }
     }
 
-    private function configImport($io, StorageComparer $storage_comparer)
+    private function configImport($io, StorageComparer $storageComparer)
     {
-        $config_importer = new ConfigImporter(
-            $storage_comparer,
+        $configImporter = new ConfigImporter(
+            $storageComparer,
             \Drupal::service('event_dispatcher'),
             \Drupal::service('config.manager'),
             \Drupal::lock(),
@@ -167,17 +150,17 @@ class ImportSingleCommand extends Command
             \Drupal::service('string_translation')
         );
 
-        if ($config_importer->alreadyImporting()) {
+        if ($configImporter->alreadyImporting()) {
             $io->success($this->trans('commands.config.import.messages.already-imported'));
         } else {
             try {
-                if ($config_importer->validate()) {
-                    $sync_steps = $config_importer->initialize();
+                if ($configImporter->validate()) {
+                    $sync_steps = $configImporter->initialize();
 
                     foreach ($sync_steps as $step) {
                         $context = array();
                         do {
-                            $config_importer->doSyncStep($step, $context);
+                            $configImporter->doSyncStep($step, $context);
                         } while ($context['finished'] < 1);
                     }
 
@@ -185,7 +168,7 @@ class ImportSingleCommand extends Command
                 }
             } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
-                $message .= implode("\n", $config_importer->getErrors());
+                $message .= implode("\n", $configImporter->getErrors());
                 $io->error(
                     sprintf(
                         $this->trans('commands.site.import.local.messages.error-writing'),
@@ -209,20 +192,30 @@ class ImportSingleCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $name = $input->getArgument('name');
+        $name = $input->getOption('name');
+        $file = $input->getOption('file');
+        $directory = $input->getOption('directory');
+
         if (!$name) {
             $name = $io->ask(
                 $this->trans('commands.config.import.single.questions.name')
             );
-            $input->setArgument('name', $name);
+            $input->setOption('name', $name);
         }
 
-        $file = $input->getArgument('file');
-        if (!$file) {
-            $file = $io->ask(
+        if (!$directory && !$file) {
+            $file = $io->askEmpty(
                 $this->trans('commands.config.import.single.questions.file')
             );
-            $input->setArgument('file', $file);
+            $input->setOption('file', $file);
+        }
+
+
+        if (!$file && !$directory) {
+            $directory = $io->askEmpty(
+                $this->trans('commands.config.import.single.questions.directory')
+            );
+            $input->setOption('directory', $directory);
         }
     }
 }
