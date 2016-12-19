@@ -391,7 +391,7 @@ class InstallCommand extends Command
         $dbHost = $input->getOption('db-host')?:'127.0.0.1';
         $dbName = $input->getOption('db-name')?:'drupal_'.time();
         $dbUser = $input->getOption('db-user')?:'root';
-        $dbPass = $input->getOption('db-pass')?:'root';
+        $dbPass = $input->getOption('db-pass');
         $dbPrefix = $input->getOption('db-prefix');
         $dbPort = $input->getOption('db-port')?:'3306';
         $force = $input->getOption('force');
