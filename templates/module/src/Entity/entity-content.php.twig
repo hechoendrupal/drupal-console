@@ -146,8 +146,8 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
 
     // If no revision author has been set explicitly, make the {{ entity_name }} owner the
     // revision author.
-    if (!$this->getRevisionAuthor()) {
-      $this->setRevisionAuthorId($this->getOwnerId());
+    if (!$this->getRevisionUser()) {
+      $this->setRevisionUserId($this->getOwnerId());
     }
   }
 {% endif %}
@@ -255,14 +255,14 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
   /**
    * {@inheritdoc}
    */
-  public function getRevisionAuthor() {
+  public function getRevisionUser() {
     return $this->get('revision_uid')->entity;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setRevisionAuthorId($uid) {
+  public function setRevisionUserId($uid) {
     $this->set('revision_uid', $uid);
     return $this;
   }
