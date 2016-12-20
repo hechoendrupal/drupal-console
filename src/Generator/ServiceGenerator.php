@@ -12,8 +12,8 @@ use Drupal\Console\Extension\Manager;
 class ServiceGenerator extends Generator
 {
     /**
- * @var Manager  
-*/
+     * @var Manager  
+     */
     protected $extensionManager;
 
     /**

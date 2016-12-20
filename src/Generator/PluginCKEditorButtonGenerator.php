@@ -12,8 +12,8 @@ use Drupal\Console\Extension\Manager;
 class PluginCKEditorButtonGenerator extends Generator
 {
     /**
- * @var Manager  
-*/
+     * @var Manager  
+     */
     protected $extensionManager;
 
 

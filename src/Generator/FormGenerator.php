@@ -13,8 +13,8 @@ use Drupal\Console\Utils\StringConverter;
 class FormGenerator extends Generator
 {
     /**
- * @var Manager  
-*/
+     * @var Manager  
+     */
     protected $extensionManager;
 
     /**
