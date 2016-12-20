@@ -15,8 +15,8 @@ use Drupal\Console\Style\DrupalStyle;
 class EntityContentGenerator extends Generator
 {
     /**
- * @var Manager  
-*/
+     * @var Manager  
+     */
     protected $extensionManager;
 
     /**
