@@ -266,7 +266,7 @@ class ExportSingleCommand extends Command
                 $module,
                 $io,
                 $this->trans(
-                    'commands.config.export.single.messages.config_exported'
+                    'commands.config.export.single.messages.config-exported'
                 )
             );
 
@@ -280,7 +280,7 @@ class ExportSingleCommand extends Command
         $this->exportConfig(
             $directory,
             $io,
-            $this->trans('commands.config.export.single.messages.config_exported')
+            $this->trans('commands.config.export.single.messages.config-exported')
         );
 
         return 0;
