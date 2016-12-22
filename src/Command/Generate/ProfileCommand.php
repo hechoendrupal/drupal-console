@@ -231,7 +231,7 @@ class ProfileCommand extends Command
         try {
             // A profile is technically also a module, so we can use the same
             // validator to check the name.
-            $profile = $input->getOption('profile') ? $this->validateModuleName($input->getOption('profile')) : null;
+            $profile = $input->getOption('profile') ? $validators->validateModuleName($input->getOption('profile')) : null;
         } catch (\Exception $error) {
             $io->error($error->getMessage());
 
@@ -250,7 +250,7 @@ class ProfileCommand extends Command
         }
 
         try {
-            $machine_name = $input->getOption('machine-name') ? $this->validateModule($input->getOption('machine-name')) : null;
+            $machine_name = $input->getOption('machine-name') ? $validators->validateModuleName($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
             $io->error($error->getMessage());
 
