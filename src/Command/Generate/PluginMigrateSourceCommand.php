@@ -196,7 +196,7 @@ class PluginMigrateSourceCommand extends Command
         if (!$class) {
             $class = $io->ask(
                 $this->trans('commands.generate.plugin.migrate.source.questions.class'),
-                $this->stringConverter->underscoreToCamelCase($module),
+                ucfirst($this->stringConverter->underscoreToCamelCase($module)),
                 function ($class) {
                     return $this->validator->validateClassName($class);
                 }
