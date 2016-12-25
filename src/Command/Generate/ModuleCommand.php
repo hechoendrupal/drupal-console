@@ -78,7 +78,7 @@ class ModuleCommand extends Command
      * @param DrupalApi       $drupalApi
      * @param Client          $httpClient
      * @param Site            $site
-     * @param               $twigtemplate
+     * @param                 $twigtemplate
      */
     public function __construct(
         ModuleGenerator $generator,
@@ -88,7 +88,7 @@ class ModuleCommand extends Command
         DrupalApi $drupalApi,
         Client $httpClient,
         Site $site,
-        $twigtemplate
+        $twigtemplate = NULL
     ) {
         $this->generator = $generator;
         $this->validator = $validator;
