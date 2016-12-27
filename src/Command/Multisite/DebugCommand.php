@@ -84,7 +84,7 @@ class DebugCommand extends Command
         foreach ($sites as $site => $directory) {
             $tableRows[] = [
                 $site,
-                $this->appRoot  . '/' . $directory
+                $this->appRoot  . '/sites/' . $directory
             ];
         }
 
