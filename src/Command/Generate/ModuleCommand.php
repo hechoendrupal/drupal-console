@@ -64,12 +64,6 @@ class ModuleCommand extends Command
     protected $site;
 
     /**
-     * @var string
-     */
-    protected $twigtemplate;
-
-
-    /**
      * ModuleCommand constructor.
      * @param ModuleGenerator $generator
      * @param Validator       $validator
@@ -78,7 +72,6 @@ class ModuleCommand extends Command
      * @param DrupalApi       $drupalApi
      * @param Client          $httpClient
      * @param Site            $site
-     * @param               $twigtemplate
      */
     public function __construct(
         ModuleGenerator $generator,
@@ -87,8 +80,7 @@ class ModuleCommand extends Command
         StringConverter $stringConverter,
         DrupalApi $drupalApi,
         Client $httpClient,
-        Site $site,
-        $twigtemplate
+        Site $site
     ) {
         $this->generator = $generator;
         $this->validator = $validator;
@@ -97,7 +89,6 @@ class ModuleCommand extends Command
         $this->drupalApi = $drupalApi;
         $this->httpClient = $httpClient;
         $this->site = $site;
-        $this->twigtemplate = $twigtemplate;
         parent::__construct();
     }
 
