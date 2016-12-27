@@ -27,12 +27,6 @@ class ValidateCommand extends Command
     use SchemaCheckTrait;
     use PrintConfigValidationTrait;
 
-    public function __construct($name)
-    {
-        parent::__construct($name);
-    }
-
-
     /**
    * {@inheritdoc}
    */
