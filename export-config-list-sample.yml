@@ -1,6 +1,0 @@
-commands:
-  - command: 'config:export:single'
-    options:
-        config-names:
-          - core.extension
-          - system.site

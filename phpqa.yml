@@ -36,7 +36,7 @@ application:
       arguments:
         - '-n'
     phpcs:
-      enabled: true
+      enabled: false
       exception: false
       options:
         standard: PSR2
