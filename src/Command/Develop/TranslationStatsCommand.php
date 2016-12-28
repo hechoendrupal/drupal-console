@@ -20,7 +20,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Console\Core\Utils\TwigRenderer;
-use Drupal\Console\Utils\NestedArray;
+use Drupal\Console\Core\Utils\NestedArray;
 
 class TranslationStatsCommand extends Command
 {
