@@ -9,7 +9,7 @@ namespace Drupal\Console\Command\Shared;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\ArgvInput;
 
 /**
@@ -150,7 +150,7 @@ trait MigrationTrait
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $target
      * @param $key
      */

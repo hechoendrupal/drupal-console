@@ -7,10 +7,10 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Utils\TwigRenderer;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\TwigRenderer;
 
 class EntityContentGenerator extends Generator
 {

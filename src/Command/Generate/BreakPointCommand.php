@@ -15,10 +15,10 @@ use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Console\Command\Shared\ThemeRegionTrait;
 use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Generator\BreakPointGenerator;
 
 /**

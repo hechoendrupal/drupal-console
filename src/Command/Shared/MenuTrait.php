@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Yaml\Parser;
 trait MenuTrait
 {
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param string                            $className The form class name
      * @return string
      * @throws \Exception

@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class LogDebugCommand
@@ -148,7 +148,7 @@ class LogDebugCommand extends DatabaseLogBase
     }
 
     /**
-   * @param \Drupal\Console\Style\DrupalStyle $io
+   * @param \Drupal\Console\Core\Style\DrupalStyle $io
    * @return bool
    */
     private function getAllEvents(DrupalStyle $io)

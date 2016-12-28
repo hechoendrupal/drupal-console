@@ -15,10 +15,10 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\PermissionTrait;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 
 class PermissionCommand extends Command
 {

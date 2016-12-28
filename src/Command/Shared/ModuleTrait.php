@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ModuleTrait
@@ -16,7 +16,7 @@ use Drupal\Console\Style\DrupalStyle;
 trait ModuleTrait
 {
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param bool|true                         $showProfile
      * @return string
      * @throws \Exception

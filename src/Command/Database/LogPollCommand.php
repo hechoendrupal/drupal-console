@@ -2,7 +2,7 @@
 
 namespace Drupal\Console\Command\Database;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -55,7 +55,7 @@ class LogPollCommand extends DatabaseLogBase
     }
 
     /**
-   * @param \Drupal\Console\Style\DrupalStyle $io
+   * @param \Drupal\Console\Core\Style\DrupalStyle $io
    */
     protected function pollForEvents(DrupalStyle $io)
     {

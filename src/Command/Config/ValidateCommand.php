@@ -10,8 +10,8 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\TypedConfigManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Drupal\Core\Config\Schema\SchemaCheckTrait;
@@ -45,8 +45,8 @@ class ValidateCommand extends Command
     {
 
         /**
- * @var TypedConfigManagerInterface $typedConfigManager 
-*/
+         * @var TypedConfigManagerInterface $typedConfigManager
+         */
         $typedConfigManager = $this->get('config.typed');
 
         $io = new DrupalStyle($input, $output);

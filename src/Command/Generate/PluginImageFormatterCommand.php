@@ -14,12 +14,12 @@ use Drupal\Console\Generator\PluginImageFormatterGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class PluginImageFormatterCommand extends Command
 {

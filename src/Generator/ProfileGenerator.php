@@ -7,6 +7,8 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+
 class ProfileGenerator extends Generator
 {
     public function generate(

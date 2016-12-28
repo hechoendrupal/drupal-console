@@ -8,7 +8,7 @@
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ConfigExportTrait

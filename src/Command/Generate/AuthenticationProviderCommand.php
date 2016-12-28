@@ -16,9 +16,9 @@ use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 
 class AuthenticationProviderCommand extends Command

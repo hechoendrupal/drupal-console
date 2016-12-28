@@ -16,11 +16,11 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\ConfigurationManager;
-use Drupal\Console\Utils\TwigRenderer;
-use Drupal\Console\Utils\NestedArray;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\ConfigurationManager;
+use Drupal\Console\Core\Utils\TwigRenderer;
+use Drupal\Console\Core\Utils\NestedArray;
 
 class TranslationStatsCommand extends Command
 {

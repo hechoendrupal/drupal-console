@@ -14,11 +14,11 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Update\UpdateRegistry;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
@@ -147,7 +147,7 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      */
     private function checkUpdates(DrupalStyle $io)
     {
@@ -178,7 +178,7 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $updates
      */
     private function runUpdates(DrupalStyle $io, $updates)
@@ -221,7 +221,7 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      */
     private function runPostUpdates(DrupalStyle $io)
     {

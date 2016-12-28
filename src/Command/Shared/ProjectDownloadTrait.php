@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Zippy\Adapter\TarGzGNUTarForWindowsAdapter;
 use Drupal\Console\Zippy\FileStrategy\TarGzFileForWindowsStrategy;
 use Alchemy\Zippy\Zippy;
@@ -153,7 +153,7 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $project
      * @param $version
      * @param $type
@@ -253,7 +253,7 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param string                            $project
      * @param bool                              $latest
      * @param bool                              $stable

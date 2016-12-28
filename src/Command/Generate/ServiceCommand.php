@@ -15,11 +15,11 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class ServiceCommand

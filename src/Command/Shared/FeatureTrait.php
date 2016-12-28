@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\ArgvInput;
 use Drupal\features\FeaturesManagerInterface;
 use Drupal\features\ConfigurationItem;
