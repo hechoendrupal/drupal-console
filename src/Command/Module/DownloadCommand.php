@@ -21,7 +21,7 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\ConfigurationManager;
-use Drupal\Console\Utils\ShellProcess;
+use Drupal\Console\Core\Utils\ShellProcess;
 
 class DownloadCommand extends Command
 {

@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
-use Drupal\Console\Utils\ShellProcess;
+use Drupal\Console\Core\Utils\ShellProcess;
 
 class UpdateCommand extends Command
 {

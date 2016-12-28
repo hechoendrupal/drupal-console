@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Utils\ShellProcess;
+use Drupal\Console\Core\Utils\ShellProcess;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 class DumpCommand extends Command
