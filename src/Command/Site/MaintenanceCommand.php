@@ -14,7 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class MaintenanceCommand extends Command
 {

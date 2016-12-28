@@ -10,7 +10,7 @@ namespace Drupal\Console\Command\Generate;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Routing\RouteProviderInterface;
 use Drupal\Core\Render\ElementInfoManager;
 

@@ -22,7 +22,7 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\Routing\RouteProviderInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class ControllerCommand extends Command
 {

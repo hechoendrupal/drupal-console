@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\EntityContentGenerator;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Style\DrupalStyle;
 

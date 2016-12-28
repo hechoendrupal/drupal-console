@@ -18,7 +18,7 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
 
 /**

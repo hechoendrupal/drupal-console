@@ -16,7 +16,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Core\Config\UnmetDependenciesException;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class UninstallCommand extends Command
 {

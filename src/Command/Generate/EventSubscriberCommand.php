@@ -21,7 +21,7 @@ use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class EventSubscriberCommand extends Command
 {

@@ -20,7 +20,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginRulesActionCommand

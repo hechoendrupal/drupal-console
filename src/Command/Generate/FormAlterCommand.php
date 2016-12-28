@@ -25,7 +25,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Render\ElementInfoManager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\Routing\RouteProviderInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\webprofiler\Profiler\Profiler;
 
 class FormAlterCommand extends Command

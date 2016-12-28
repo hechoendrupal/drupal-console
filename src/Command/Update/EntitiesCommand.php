@@ -16,7 +16,7 @@ use Drupal\Core\Utility\Error;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Entity\EntityDefinitionUpdateManager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class EntitiesCommand.

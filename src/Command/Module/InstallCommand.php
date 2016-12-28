@@ -23,7 +23,7 @@ use Drupal\Console\Utils\Validator;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class InstallCommand

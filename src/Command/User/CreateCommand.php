@@ -15,7 +15,7 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\user\Entity\User;

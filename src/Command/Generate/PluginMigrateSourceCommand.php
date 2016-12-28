@@ -19,7 +19,7 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;

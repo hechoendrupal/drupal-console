@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;

@@ -18,7 +18,7 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class HelpCommand extends Command
 {

@@ -19,7 +19,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
 
 /**

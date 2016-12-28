@@ -19,7 +19,7 @@ use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class ModeCommand extends Command
 {

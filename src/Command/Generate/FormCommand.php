@@ -19,7 +19,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Core\Render\ElementInfoManager;
 use Drupal\Core\Routing\RouteProviderInterface;

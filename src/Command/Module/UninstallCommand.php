@@ -18,7 +18,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Config\ConfigFactory;
 
 class UninstallCommand extends Command
