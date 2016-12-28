@@ -8,9 +8,8 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\TranslatorManager;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Yaml;
+use Drupal\Console\Core\Utils\TranslatorManager;
+use Drupal\Console\Core\Generator\Generator;
 
 /**
  * Class CommandGenerator

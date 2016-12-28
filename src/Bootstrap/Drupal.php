@@ -4,7 +4,8 @@ namespace Drupal\Console\Bootstrap;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Console\Utils\ArgvInputReader;
+use Drupal\Console\Core\Utils\ArgvInputReader;
+use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
 
 class Drupal
 {
@@ -28,6 +29,7 @@ class Drupal
     public function boot()
     {
         if (!class_exists('Drupal\Core\DrupalKernel')) {
+            echo 'Class Drupal\Core\DrupalKernel do not exists.' . PHP_EOL;
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             return $drupal->boot();
         }
@@ -97,6 +99,7 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
+            echo $e->getMessage() . PHP_EOL;
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             $container = $drupal->boot();
             $container->set('class_loader', $this->autoload);

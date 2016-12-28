@@ -7,6 +7,8 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+
 /**
  * Class ModuleFileGenerator
  * @package Drupal\Console\Generator

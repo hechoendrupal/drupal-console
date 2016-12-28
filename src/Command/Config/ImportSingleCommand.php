@@ -7,8 +7,8 @@
 namespace Drupal\Console\Command\Config;
 
 use Drupal\config\StorageReplaceDataWrapper;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\ConfigImporterException;

@@ -8,7 +8,7 @@
 
 namespace Drupal\Console\Command\Database;
 
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -22,7 +22,7 @@ use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\Html;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DatabaseLogBase
@@ -138,7 +138,7 @@ abstract class DatabaseLogBase extends Command
     }
 
     /**
-   * @param \Drupal\Console\Style\DrupalStyle $io
+   * @param \Drupal\Console\Core\Style\DrupalStyle $io
    * @param null                              $offset
    * @param int                               $range
    * @return bool|\Drupal\Core\Database\Query\SelectInterface

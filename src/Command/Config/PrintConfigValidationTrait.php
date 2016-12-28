@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 trait PrintConfigValidationTrait
 {

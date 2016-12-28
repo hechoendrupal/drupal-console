@@ -21,7 +21,7 @@ class Validator
 
     /**
      * Site constructor.
-     * @param Manager extensionManager
+     * @param Manager $extensionManager
      */
     public function __construct(Manager $extensionManager)
     {

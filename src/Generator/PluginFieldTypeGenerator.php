@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class PluginFieldTypeGenerator extends Generator
@@ -20,7 +21,6 @@ class PluginFieldTypeGenerator extends Generator
     ) {
         $this->extensionManager = $extensionManager;
     }
-
 
     /**
      * Generator Plugin Field Type.

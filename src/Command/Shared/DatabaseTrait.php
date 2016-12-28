@@ -8,7 +8,7 @@
 namespace Drupal\Console\Command\Shared;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DatabaseTrait
