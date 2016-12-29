@@ -37,6 +37,15 @@ class a
         return self::prophet()->prophesize(EntityBundleGenerator::class);
     }
 
+        /**
+         * @return \Prophecy\Prophecy\ObjectProphecy
+         */
+        public static function entityConfigGenerator()
+        {
+            return self::prophet()->prophesize(EntityConfigGenerator::class);
+        }
+
+
     /**
      * @return \Prophecy\Prophecy\ObjectProphecy
      */
