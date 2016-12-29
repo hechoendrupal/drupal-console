@@ -8,11 +8,15 @@ use Drupal\Console\Generator\CommandGenerator;
 use Drupal\Console\Generator\EntityBundleGenerator;
 use Drupal\Console\Generator\EntityConfigGenerator;
 use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Generator\ModuleGenerator;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Core\Render\ElementInfoManager;
 use Drupal\Core\Routing\RouteProvider;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Site;
+use GuzzleHttp\Client;
 use Prophecy\Prophet;
 
 class a
@@ -31,6 +35,29 @@ class a
     /**
      * @return \Prophecy\Prophecy\ObjectProphecy
      */
+    public static function guzzleHttpClient()
+    {
+        return self::prophet()->prophesize(Client::class);
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function drupalApi()
+    {
+        return self::prophet()->prophesize(DrupalApi::class);
+    }
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function siteDrupal()
+    {
+        return self::prophet()->prophesize(Site::class);
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
     public static function entityBundleGenerator()
     {
         return self::prophet()->prophesize(EntityBundleGenerator::class);
@@ -43,6 +70,15 @@ class a
         {
             return self::prophet()->prophesize(EntityConfigGenerator::class);
         }
+
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function moduleGenerator()
+    {
+        return self::prophet()->prophesize(ModuleGenerator::class);
+    }
 
 
     /**
@@ -109,6 +145,7 @@ class a
         return self::prophet()->prophesize(ServiceGenerator::class);
     }
 
+
     /**
      * @return Prophet
      */
@@ -120,4 +157,6 @@ class a
 
         return self::$prophet;
     }
+
+
 }
