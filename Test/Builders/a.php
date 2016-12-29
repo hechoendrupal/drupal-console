@@ -1,5 +1,4 @@
 <?php
-
 namespace Drupal\Console\Test\Builders;
 
 use Drupal\Console\Extension\Manager;
@@ -62,6 +61,15 @@ class a
     {
         return self::prophet()->prophesize(AuthenticationProviderGenerator::class);
     }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function entityConfigGenerator()
+    {
+        return self::prophet()->prophesize(EntityConfigGenerator::class);
+    }
+
 
     /**
      * @return \Prophecy\Prophecy\ObjectProphecy
