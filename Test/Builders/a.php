@@ -2,6 +2,7 @@
 namespace Drupal\Console\Test\Builders;
 
 use Drupal\Console\Extension\Manager;
+
 use Drupal\Console\Utils\ChainQueue;
 use Drupal\Console\Utils\StringConverter;
 use Drupal\Core\Render\ElementInfoManager;
@@ -65,12 +66,10 @@ class a
     /**
      * @return \Prophecy\Prophecy\ObjectProphecy
      */
-    public static function entityConfigGenerator()
+    public static function entityContentGenerator()
     {
-        return self::prophet()->prophesize(EntityConfigGenerator::class);
+        return self::prophet()->prophesize(EntityContentGenerator::class);
     }
-
-
     /**
      * @return \Prophecy\Prophecy\ObjectProphecy
      */
