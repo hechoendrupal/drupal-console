@@ -74,4 +74,7 @@ $argvInputReader->setOptionsAsArgv();
 
 $application = new Application($container);
 $application->setDefaultCommand('about');
-$application->run();
+$application->run(
+    $container->get('console.input'),
+    $container->get('console.output')
+);

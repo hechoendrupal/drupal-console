@@ -11,9 +11,15 @@ services:
        - { name: drupal.command }
   console.generate_authentication_provider:
     class: Drupal\Console\Command\Generate\AuthenticationProviderCommand
-    arguments: ['@console.extension_manager', '@console.authentication_provider_generator', '@console.string_converter']
+    arguments: ['@console.authentication_provider_generator', 'console.generate.questions.generate_authentication_provider', '@console.generate.confirmation']
     tags:
        - { name: drupal.command }
+  console.generate.questions.generate_authentication_provider:
+    class: Drupal\Console\Command\Generate\Questions\AuthenticationProviderQuestions
+    arguments: ['@console.style', '@console.translator_manager', '@console.extension_manager', '@console.string_converter']
+  console.generate.confirmation:
+    class: Drupal\Console\Command\Generate\Questions\ConfirmGeneration
+    arguments: ['@console.style', '@console.translator_manager']
   console.generate_controller:
     class: Drupal\Console\Command\Generate\ControllerCommand
     arguments: ['@console.extension_manager', '@console.controller_generator', '@console.string_converter', '@console.validator', '@router.route_provider', '@console.chain_queue']

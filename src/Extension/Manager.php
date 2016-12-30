@@ -48,6 +48,29 @@ class Manager
         $this->initialize();
     }
 
+    public function showModuleNamesExceptCore()
+    {
+        return $this
+            ->discoverModules()
+            ->showInstalled()
+            ->showUninstalled()
+            ->showNoCore()
+            ->getList(true)
+        ;
+    }
+
+    public function showAllProfileNames()
+    {
+        return $this
+            ->discoverProfiles()
+            ->showInstalled()
+            ->showUninstalled()
+            ->showNoCore()
+            ->showCore()
+            ->getList(true)
+        ;
+    }
+
     /**
      * @return $this
      */

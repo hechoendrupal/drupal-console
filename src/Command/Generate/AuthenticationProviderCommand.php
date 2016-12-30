@@ -7,54 +7,42 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Generate\Questions\AuthenticationProviderQuestions;
+use Drupal\Console\Command\Generate\Questions\ConfirmGeneration;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Extension\Manager;
 
 class AuthenticationProviderCommand extends Command
 {
-    use ServicesTrait;
-    use ModuleTrait;
-    use FormTrait;
-    use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
-    protected $extensionManager;
-
-    /** @var AuthenticationProviderGenerator  */
+    /** @var AuthenticationProviderGenerator */
     protected $generator;
 
-    /**
-     * @var StringConverter
-     */
-    protected $stringConverter;
+    /** @var AuthenticationProviderQuestions */
+    private $questions;
 
+    /** @var ConfirmGeneration */
+    private $confirmation;
 
     /**
      * AuthenticationProviderCommand constructor.
-     * @param Manager                         $extensionManager
      * @param AuthenticationProviderGenerator $generator
-     * @param StringConverter                 $stringConverter
+     * @param AuthenticationProviderQuestions $questions
+     * @param ConfirmGeneration $confirmation
      */
     public function __construct(
-        Manager $extensionManager,
         AuthenticationProviderGenerator $generator,
-        StringConverter $stringConverter
+        AuthenticationProviderQuestions $questions,
+        ConfirmGeneration $confirmation
     ) {
-        $this->extensionManager = $extensionManager;
         $this->generator = $generator;
-        $this->stringConverter = $stringConverter;
+        $this->questions = $questions;
+        $this->confirmation = $confirmation;
         parent::__construct();
     }
 
@@ -84,67 +72,32 @@ class AuthenticationProviderCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        if (!$this->confirmation->confirm()) {
             return;
         }
 
-        $module = $input->getOption('module');
-        $class = $input->getOption('class');
-        $provider_id = $input->getOption('provider-id');
-
-        $this->generator->generate($module, $class, $provider_id);
+        $this->generator->generate(
+            $input->getOption('module'),
+            $input->getOption('class'),
+            $input->getOption('provider-id')
+        );
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $stringUtils = $this->stringConverter;
-
-        // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
+        if (!($input->getOption('module'))) {
+            $input->setOption('module', $this->questions->askForModule());
         }
 
-        // --class option
-        $class = $input->getOption('class');
-        if (!$class) {
-            $class = $io->ask(
-                $this->trans(
-                    'commands.generate.authentication.provider.options.class'
-                ),
-                'DefaultAuthenticationProvider',
-                function ($value) use ($stringUtils) {
-                    if (!strlen(trim($value))) {
-                        throw new \Exception('The Class name can not be empty');
-                    }
-
-                    return $stringUtils->humanToCamelCase($value);
-                }
-            );
-            $input->setOption('class', $class);
+        if (!($input->getOption('class'))) {
+            $input->setOption('class', $this->questions->askForClass());
         }
-        // --provider-id option
-        $provider_id = $input->getOption('provider-id');
-        if (!$provider_id) {
-            $provider_id = $io->ask(
-                $this->trans('commands.generate.authentication.provider.options.provider-id'),
-                $stringUtils->camelCaseToUnderscore($class),
-                function ($value) use ($stringUtils) {
-                    if (!strlen(trim($value))) {
-                        throw new \Exception('The Class name can not be empty');
-                    }
 
-                    return $stringUtils->camelCaseToUnderscore($value);
-                }
+        if (!($input->getOption('provider-id'))) {
+            $input->setOption(
+                'provider-id',
+                $this->questions->askForProviderId($input)
             );
-            $input->setOption('provider-id', $provider_id);
         }
     }
 }
