@@ -243,7 +243,7 @@ class PluginMigrateSourceCommand extends Command
         $fields = $input->getOption('fields');
         if (!$fields) {
             $fields = [];
-            while(true) {
+            while (true) {
                 $id = $io->ask(
                     $this->trans('commands.generate.plugin.migrate.source.questions.fields.id'),
                     false

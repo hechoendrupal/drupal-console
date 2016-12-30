@@ -139,8 +139,8 @@ abstract class DatabaseLogBase extends Command
 
     /**
    * @param \Drupal\Console\Core\Style\DrupalStyle $io
-   * @param null                              $offset
-   * @param int                               $range
+   * @param null                                   $offset
+   * @param int                                    $range
    * @return bool|\Drupal\Core\Database\Query\SelectInterface
    */
     protected function makeQuery(DrupalStyle $io, $offset = null, $range = 1000)

@@ -12,7 +12,6 @@ use Drupal\Console\Extension\Manager;
 
 class PluginTypeAnnotationGenerator extends Generator
 {
-
     /**
      * @var Manager
      */

@@ -18,7 +18,7 @@ trait MenuTrait
 {
     /**
      * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     * @param string                            $className The form class name
+     * @param string                                 $className The form class name
      * @return string
      * @throws \Exception
      */

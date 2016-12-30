@@ -17,7 +17,7 @@ trait ModuleTrait
 {
     /**
      * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     * @param bool|true                         $showProfile
+     * @param bool|true                              $showProfile
      * @return string
      * @throws \Exception
      */

@@ -12,7 +12,6 @@ use Drupal\Console\Extension\Manager;
 
 class PluginSkeletonGenerator extends Generator
 {
-
     /**
      * @var Manager
      */

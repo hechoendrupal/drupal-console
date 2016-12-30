@@ -254,9 +254,9 @@ trait ProjectDownloadTrait
 
     /**
      * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     * @param string                            $project
-     * @param bool                              $latest
-     * @param bool                              $stable
+     * @param string                                 $project
+     * @param bool                                   $latest
+     * @param bool                                   $stable
      * @return string
      */
     public function releasesQuestion(DrupalStyle $io, $project, $latest = false, $stable = false)
