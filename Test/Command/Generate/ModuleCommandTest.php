@@ -7,8 +7,12 @@
 namespace Drupal\Console\Test\Command\Generate;
 
 use Drupal\Console\Command\Generate\ModuleCommand;
+use Drupal\Console\Test\Builders\a as an;
+use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ModuleDataProviderTrait;
+use GuzzleHttp;
 
 class ModuleCommandTest extends GenerateCommandTest
 {
@@ -40,9 +44,17 @@ class ModuleCommandTest extends GenerateCommandTest
         $composer,
         $dependencies
     ) {
-        $command = new ModuleCommand($this->getHelperSet());
-        $command->setHelperSet($this->getHelperSet());
-        $command->setGenerator($this->getGenerator());
+        $generator = an::moduleGenerator();
+        $manager = an::extensionManager();
+        $command = new ModuleCommand(
+              $generator->reveal(),
+              new Validator($manager),
+              '/tmp',
+              new StringConverter(),
+              an::drupalApi()->reveal(),
+              an::guzzleHttpClient()->reveal(),
+              an::siteDrupal()->reveal()
+          );
 
         $commandTester = new CommandTester($command);
 
@@ -60,16 +72,8 @@ class ModuleCommandTest extends GenerateCommandTest
             ],
             ['interactive' => false]
         );
-
+        $generator
+            ->generate($module, $machine_name, $module_path, $description, $core, $package, $featuresBundle, $composer, $dependencies);
         $this->assertEquals(0, $code);
-    }
-
-    private function getGenerator()
-    {
-        return $this
-            ->getMockBuilder('Drupal\Console\Generator\ModuleGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(['generate'])
-            ->getMock();
     }
 }
