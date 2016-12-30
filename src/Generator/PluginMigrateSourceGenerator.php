@@ -40,7 +40,6 @@ class PluginMigrateSourceGenerator extends Generator
      */
     public function generate($module, $class_name, $plugin_id, $table, $alias, $group_by, $fields)
     {
-
         $parameters = [
           'module' => $module,
           'class_name' => $class_name,

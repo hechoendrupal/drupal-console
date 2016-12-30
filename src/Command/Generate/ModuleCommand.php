@@ -88,7 +88,7 @@ class ModuleCommand extends Command
         DrupalApi $drupalApi,
         Client $httpClient,
         Site $site,
-        $twigtemplate = NULL
+        $twigtemplate = null
     ) {
         $this->generator = $generator;
         $this->validator = $validator;

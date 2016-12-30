@@ -101,7 +101,7 @@ class AddCommand extends Command
             ->generator
             ->generate($input->getOptions());
         if (!$result) {
-          $io->error($this->trans('commands.database.add.error'));
+            $io->error($this->trans('commands.database.add.error'));
         }
     }
 
@@ -140,7 +140,7 @@ class AddCommand extends Command
         if (!$prefix) {
             $prefix = $io->ask(
                 $this->trans('commands.database.add.questions.prefix'),
-                FALSE
+                false
             );
         }
         $input->setOption('prefix', $prefix);

@@ -12,7 +12,6 @@ use Drupal\Console\Extension\Manager;
 
 class PluginTypeYamlGenerator extends Generator
 {
-
     /**
      * @var Manager
      */

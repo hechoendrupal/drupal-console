@@ -12,7 +12,6 @@ use Drupal\Core\DrupalKernelInterface;
 
 class DatabaseSettingsGenerator extends Generator
 {
-
     /**
      * @var DrupalKernelInterface
      */
@@ -38,7 +37,7 @@ class DatabaseSettingsGenerator extends Generator
     {
         $settingsFile = $this->kernel->getSitePath().'/settings.php';
         if (!is_writable($settingsFile)) {
-          return false;
+            return false;
         }
         return $this->renderFile(
             'database/add.php.twig',
