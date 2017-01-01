@@ -85,11 +85,19 @@ class ExportCommand extends Command
             $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
         }
 
-        if ($tar) {
-            if (!is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
+        $fileSystem = new Filesystem();
+        try {
+            $fileSystem->mkdir($directory);
+        } catch (IOExceptionInterface $e) {
+            $io->error(
+                sprintf(
+                    $this->trans('commands.config.export.messages.error'),
+                    $e->getPath()
+                )
+            );
+        }
 
+        if ($tar) {
             $dateTime = new \DateTime();
 
             $archiveFile = sprintf(
@@ -126,17 +134,6 @@ class ExportCommand extends Command
 
                 $configFileName =  sprintf('%s/%s', $directory, $configName);
 
-                $fileSystem = new Filesystem();
-                try {
-                    $fileSystem->mkdir($directory);
-                } catch (IOExceptionInterface $e) {
-                    $io->error(
-                        sprintf(
-                            $this->trans('commands.config.export.messages.error'),
-                            $e->getPath()
-                        )
-                    );
-                }
                 file_put_contents($configFileName, $ymlData);
             }
         } catch (\Exception $e) {
