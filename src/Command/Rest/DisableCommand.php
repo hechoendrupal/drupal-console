@@ -30,17 +30,18 @@ class DisableCommand extends Command
     use RestTrait;
 
     /**
-     * @var ConfigFactory  
+     * @var ConfigFactory
      */
     protected $configFactory;
 
     /**
-     * @var ResourcePluginManager  
+     * @var ResourcePluginManager
      */
     protected $pluginManagerRest;
 
     /**
      * DisableCommand constructor.
+     *
      * @param ConfigFactory         $configFactory
      * @param ResourcePluginManager $pluginManagerRest
      */

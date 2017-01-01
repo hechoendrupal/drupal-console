@@ -23,6 +23,7 @@ use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 
 /**
  * Class TwigExtensionCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class TwigExtensionCommand extends Command
@@ -33,12 +34,12 @@ class TwigExtensionCommand extends Command
     use ContainerAwareCommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var TwigExtensionGenerator  
+ * @var TwigExtensionGenerator
 */
     protected $generator;
 
@@ -60,6 +61,7 @@ class TwigExtensionCommand extends Command
 
     /**
      * TwigExtensionCommand constructor.
+     *
      * @param Manager                $extensionManager
      * @param TwigExtensionGenerator $generator
      * @param StringConverter        $stringConverter

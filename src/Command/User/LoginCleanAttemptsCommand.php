@@ -29,6 +29,7 @@ class LoginCleanAttemptsCommand extends Command
 
     /**
      * LoginCleanAttemptsCommand constructor.
+     *
      * @param Connection $database
      */
     public function __construct(Connection $database)

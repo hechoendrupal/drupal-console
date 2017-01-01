@@ -53,6 +53,7 @@ class InstallCommand extends Command
 
     /**
      * InstallCommand constructor.
+     *
      * @param Manager              $extensionManager
      * @param Site                 $site
      * @param ConfigurationManager $configurationManager
@@ -371,7 +372,7 @@ class InstallCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $uri =  parse_url($input->getParameterOption(['--uri', '-l']) ?: 'default', PHP_URL_HOST);
+        $uri =  parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
 
         if ($this->site->multisiteMode($uri)) {
             if (!$this->site->validMultisite($uri)) {
@@ -381,7 +382,8 @@ class InstallCommand extends Command
                 exit(1);
             }
 
-            // Modify $_SERVER environment information to enable the Drupal installer use multisite configuration.
+            // Modify $_SERVER environment information to enable
+            // the Drupal installer to use the multi-site configuration.
             $_SERVER['HTTP_HOST'] = $uri;
         }
 

@@ -19,6 +19,7 @@ class PluginBlockGenerator extends Generator
 
     /**
      * PermissionGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

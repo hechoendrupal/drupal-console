@@ -20,6 +20,7 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 /**
  * Class NewCommand
+ *
  * @package Drupal\Console\Command\Multisite
  */
 class NewCommand extends Command
@@ -30,6 +31,7 @@ class NewCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param $appRoot
      */
     public function __construct($appRoot)

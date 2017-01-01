@@ -32,7 +32,7 @@ class UninstallCommand extends Command
     protected $site;
 
     /**
- * @var ModuleInstaller  
+ * @var ModuleInstaller
 */
     protected $moduleInstaller;
 
@@ -42,13 +42,14 @@ class UninstallCommand extends Command
     protected $chainQueue;
 
     /**
- * @var ConfigFactory  
+ * @var ConfigFactory
 */
     protected $configFactory;
 
 
     /**
      * InstallCommand constructor.
+     *
      * @param Site          $site
      * @param Validator     $validator
      * @param ChainQueue    $chainQueue
@@ -155,7 +156,7 @@ class UninstallCommand extends Command
             return 1;
         }
 
-        $installedModules = $coreExtension->get('module') ?: array();
+        $installedModules = $coreExtension->get('module') ?: [];
         if (!$moduleList = array_intersect_key($moduleList, $installedModules)) {
             $io->info($this->trans('commands.module.uninstall.messages.nothing'));
 

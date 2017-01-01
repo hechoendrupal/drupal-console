@@ -16,6 +16,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class EventDebugCommand
+ *
  *  @package Drupal\Console\Command
  */
 class EventDebugCommand extends Command
@@ -26,6 +27,7 @@ class EventDebugCommand extends Command
 
     /**
      * EventDebugCommand constructor.
+     *
      * @param $eventDispatcher
      */
     public function __construct($eventDispatcher)

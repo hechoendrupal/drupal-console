@@ -25,6 +25,7 @@ use Drupal\Core\Extension\ThemeHandler;
 
 /**
  * Class ThemeCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class ThemeCommand extends Command
@@ -35,17 +36,17 @@ class ThemeCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var ThemeGenerator  
+ * @var ThemeGenerator
 */
     protected $generator;
 
     /**
- * @var Validator  
+ * @var Validator
 */
     protected $validator;
 
@@ -71,10 +72,11 @@ class ThemeCommand extends Command
 
     /**
      * ThemeCommand constructor.
+     *
      * @param Manager         $extensionManager
      * @param ThemeGenerator  $generator
      * @param Validator       $validator
-     * @param                 $appRoot
+     * @param $appRoot
      * @param ThemeHandler    $themeHandler
      * @param Site            $site
      * @param StringConverter $stringConverter

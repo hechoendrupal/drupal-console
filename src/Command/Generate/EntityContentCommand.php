@@ -46,6 +46,7 @@ class EntityContentCommand extends EntityCommand
 
     /**
      * EntityContentCommand constructor.
+     *
      * @param ChainQueue             $chainQueue
      * @param EntityContentGenerator $generator
      * @param StringConverter        $stringConverter

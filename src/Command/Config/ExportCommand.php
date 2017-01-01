@@ -29,6 +29,7 @@ class ExportCommand extends Command
 
     /**
      * ExportCommand constructor.
+     *
      * @param ConfigManager $configManager
      */
     public function __construct(ConfigManager $configManager)

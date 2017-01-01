@@ -31,6 +31,7 @@ class DumpCommand extends Command
 
     /**
      * DumpCommand constructor.
+     *
      * @param $appRoot
      * @param ShellProcess $shellProcess
      */

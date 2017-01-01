@@ -18,6 +18,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ServerCommand
+ *
  * @package Drupal\Console\Command
  */
 class ServerCommand extends Command
@@ -30,6 +31,7 @@ class ServerCommand extends Command
 
     /**
      * ServerCommand constructor.
+     *
      * @param $appRoot
      * @param $configurationManager
      */

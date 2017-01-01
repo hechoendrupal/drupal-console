@@ -23,6 +23,7 @@ use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class PluginConditionCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginConditionCommand extends Command
@@ -32,12 +33,12 @@ class PluginConditionCommand extends Command
     use ConfirmationTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginConditionGenerator  
+ * @var PluginConditionGenerator
 */
     protected $generator;
 
@@ -54,6 +55,7 @@ class PluginConditionCommand extends Command
 
     /**
      * PluginConditionCommand constructor.
+     *
      * @param Manager                  $extensionManager
      * @param PluginConditionGenerator $generator
      * @param ChainQueue               $chainQueue
@@ -195,7 +197,7 @@ class PluginConditionCommand extends Command
 
         $context_definition_id = $input->getOption('context-definition-id');
         if (!$context_definition_id) {
-            $context_type = array('language' => 'Language', "entity" => "Entity");
+            $context_type = ['language' => 'Language', "entity" => "Entity"];
             $context_type_sel = $io->choice(
                 $this->trans('commands.generate.plugin.condition.questions.context-type'),
                 array_values($context_type)

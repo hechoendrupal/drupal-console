@@ -14,6 +14,7 @@ class PluginFieldTypeGenerator extends Generator
 {
     /**
      * PluginFieldTypeGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

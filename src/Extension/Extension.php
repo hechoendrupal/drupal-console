@@ -6,6 +6,7 @@ use Drupal\Core\Extension\Extension as BaseExtension;
 
 /**
  * Class Extension
+ *
  * @package Drupal\Console\Extension
  */
 class Extension extends BaseExtension

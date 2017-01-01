@@ -17,6 +17,7 @@ use Drupal\config_update\ConfigRevertInterface;
 
 /**
  * Class FeatureTrait
+ *
  * @package Drupal\Console\Command
  */
 trait FeatureTrait
@@ -86,13 +87,13 @@ trait FeatureTrait
             }
 
             if ($feature->getStatus() != FeaturesManagerInterface::STATUS_NO_EXPORT) {
-                $features[$feature->getMachineName()] = array(
+                $features[$feature->getMachineName()] = [
                     'name' => $feature->getName(),
                     'machine_name' => $feature->getMachineName(),
                     'bundle_name' => $feature->getBundle(),
                     'status' => $manager->statusLabel($feature->getStatus()),
                     'state' => ($state != FeaturesManagerInterface::STATE_DEFAULT) ? $manager->stateLabel($state) : '',
-                );
+                ];
             }
         }
 
@@ -104,7 +105,7 @@ trait FeatureTrait
     {
         $manager =  $this->getFeatureManager();
 
-        $modules = (is_array($packages)) ? $packages : array($packages);
+        $modules = (is_array($packages)) ? $packages : [$packages];
         $overridden = [] ;
         foreach ($modules as $module_name) {
             $package = $manager->loadPackage($module_name, true);

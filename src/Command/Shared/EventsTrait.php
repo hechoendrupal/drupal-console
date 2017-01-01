@@ -11,6 +11,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class EventsTrait
+ *
  * @package Drupal\Console\Command
  */
 trait EventsTrait

@@ -21,6 +21,7 @@ class Validator
 
     /**
      * Site constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(Manager $extensionManager)
@@ -115,13 +116,13 @@ class Validator
 
     public function validateModuleDependencies($dependencies)
     {
-        $dependencies_checked = array(
-          'success' => array(),
-          'fail' => array(),
-        );
+        $dependencies_checked = [
+          'success' => [],
+          'fail' => [],
+        ];
 
         if (empty($dependencies)) {
-            return array();
+            return [];
         }
 
         $dependencies = explode(',', $this->removeSpaces($dependencies));

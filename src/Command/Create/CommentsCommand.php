@@ -17,6 +17,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class CommentsCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class CommentsCommand extends Command
@@ -31,6 +32,7 @@ class CommentsCommand extends Command
 
     /**
      * CommentsCommand constructor.
+     *
      * @param CommentData $createCommentData
      */
     public function __construct(CommentData $createCommentData)
@@ -116,7 +118,7 @@ class CommentsCommand extends Command
                 array_values($timeRanges)
             );
 
-            $input->setOption('time-range',  array_search($timeRange, $timeRanges));
+            $input->setOption('time-range', array_search($timeRange, $timeRanges));
         }
     }
 

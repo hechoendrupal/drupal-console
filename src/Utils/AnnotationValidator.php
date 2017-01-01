@@ -7,6 +7,7 @@ use Drupal\Console\Extension\Manager;
 
 /**
  * Class AnnotationValidator
+ *
  * @package Drupal\Console\Utils
  */
 class AnnotationValidator
@@ -26,6 +27,7 @@ class AnnotationValidator
 
     /**
      * AnnotationValidator constructor.
+     *
      * @param DrupalCommandAnnotationReader $annotationCommandReader
      * @param Manager                       $extensionManager
      */

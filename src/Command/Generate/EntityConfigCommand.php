@@ -18,12 +18,12 @@ use Drupal\Console\Core\Utils\StringConverter;
 class EntityConfigCommand extends EntityCommand
 {
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var EntityConfigGenerator  
+ * @var EntityConfigGenerator
 */
     protected $generator;
 
@@ -39,6 +39,7 @@ class EntityConfigCommand extends EntityCommand
 
     /**
      * EntityConfigCommand constructor.
+     *
      * @param Manager               $extensionManager
      * @param EntityConfigGenerator $generator
      * @param Validator             $validator

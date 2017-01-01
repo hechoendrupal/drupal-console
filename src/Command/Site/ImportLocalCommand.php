@@ -20,6 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class ImportLocalCommand
+ *
  * @package Drupal\Console\Command\Site
  */
 class ImportLocalCommand extends Command
@@ -38,6 +39,7 @@ class ImportLocalCommand extends Command
 
     /**
      * ImportLocalCommand constructor.
+     *
      * @param $appRoot
      * @param ConfigurationManager $configurationManager
      */

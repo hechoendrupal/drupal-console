@@ -8,6 +8,7 @@ use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 
 /**
  * Class DrupalKernel
+ *
  * @package Drupal\Console\Utils
  */
 class DrupalKernel extends DrupalKernelBase

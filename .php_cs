@@ -1,4 +1,10 @@
 <?php
 
-return Symfony\CS\Config\Config::create()
-    ->level(Symfony\CS\FixerInterface::PSR2_LEVEL);
+return PhpCsFixer\Config::create()
+        ->setRules(
+            [
+                '@PSR2' => true,
+                'array_syntax' => ['syntax' => 'short'],
+            ]
+        )
+        ->setUsingCache(false);

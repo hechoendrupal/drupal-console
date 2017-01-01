@@ -20,6 +20,7 @@ use Drupal\Console\Command\Shared\ConnectTrait;
 
 /**
  * Class TableDebugCommand
+ *
  * @package Drupal\Console\Command\Database
  */
 class TableDebugCommand extends Command
@@ -39,6 +40,7 @@ class TableDebugCommand extends Command
 
     /**
      * TableDebugCommand constructor.
+     *
      * @param R          $redBean
      * @param Connection $database
      */

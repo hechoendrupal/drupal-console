@@ -25,6 +25,7 @@ class StylesFlushCommand extends Command
 
     /**
      * StylesDebugCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(EntityTypeManagerInterface $entityTypeManager)

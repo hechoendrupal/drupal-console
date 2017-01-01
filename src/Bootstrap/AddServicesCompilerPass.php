@@ -21,6 +21,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
 
     /**
      * AddCommandsCompilerPass constructor.
+     *
      * @param string $root
      */
     public function __construct($root)

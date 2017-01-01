@@ -43,7 +43,7 @@ class EnableCommand extends Command
     protected $authenticationCollector;
 
     /**
-     * @var ConfigFactory  
+     * @var ConfigFactory
      */
     protected $configFactory;
 
@@ -63,6 +63,7 @@ class EnableCommand extends Command
 
     /**
      * EnableCommand constructor.
+     *
      * @param ResourcePluginManager                      $pluginManagerRest
      * @param AuthenticationCollector                    $authenticationCollector
      * @param ConfigFactory                              $configFactory

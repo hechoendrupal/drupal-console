@@ -15,6 +15,7 @@ class Drupal
 
     /**
      * Drupal constructor.
+     *
      * @param $autoload
      * @param $root
      * @param $appRoot
@@ -49,7 +50,7 @@ class Drupal
                     $uri .= '/';
                 }
                 $uri .= 'index.php';
-                $request = Request::create($uri, 'GET', array(), array(), array(), array('SCRIPT_NAME' => $this->appRoot . '/index.php'));
+                $request = Request::create($uri, 'GET', [], [], [], ['SCRIPT_NAME' => $this->appRoot . '/index.php']);
             } else {
                 $request = Request::createFromGlobals();
             }

@@ -34,6 +34,7 @@ class PasswordResetCommand extends Command
 
     /**
      * PasswordHashCommand constructor.
+     *
      * @param Connection $database
      * @param ChainQueue $chainQueue
      */
@@ -173,7 +174,6 @@ class PasswordResetCommand extends Command
                                 return false;
                             }
                         }
-
                     }
                 );
 

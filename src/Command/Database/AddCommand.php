@@ -30,6 +30,7 @@ class AddCommand extends Command
 
     /**
      * FormCommand constructor.
+     *
      * @param DatabaseSettingsGenerator $generator
      */
     public function __construct(

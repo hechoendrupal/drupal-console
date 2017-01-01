@@ -17,6 +17,7 @@ use Drupal\Core\Site\Settings;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\Config
  */
 class SettingsDebugCommand extends Command
@@ -30,6 +31,7 @@ class SettingsDebugCommand extends Command
 
     /**
      * SettingsDebugCommand constructor.
+     *
      * @param Settings $settings
      */
     public function __construct(Settings $settings)

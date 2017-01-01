@@ -25,6 +25,7 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginMailCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginMailCommand extends Command
@@ -36,12 +37,12 @@ class PluginMailCommand extends Command
     use ContainerAwareCommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginMailGenerator  
+ * @var PluginMailGenerator
 */
     protected $generator;
 
@@ -51,7 +52,7 @@ class PluginMailCommand extends Command
     protected $stringConverter;
 
     /**
- * @var Validator  
+ * @var Validator
 */
     protected $validator;
 
@@ -63,6 +64,7 @@ class PluginMailCommand extends Command
 
     /**
      * PluginMailCommand constructor.
+     *
      * @param Manager             $extensionManager
      * @param PluginMailGenerator $generator
      * @param StringConverter     $stringConverter

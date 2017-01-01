@@ -72,6 +72,7 @@ class StatusCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param SystemManager $systemManager
      * @param Settings      $settings
      * @param ConfigFactory $configFactory

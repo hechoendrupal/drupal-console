@@ -19,6 +19,7 @@ class PluginRestResourceGenerator extends Generator
 
     /**
      * PluginRestResourceGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

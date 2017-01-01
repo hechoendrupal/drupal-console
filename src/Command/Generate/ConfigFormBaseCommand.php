@@ -53,12 +53,13 @@ class ConfigFormBaseCommand extends FormCommand
 
     /**
      * ConfigFormBaseCommand constructor.
+     *
      * @param Manager                $extensionManager
      * @param FormGenerator          $generator
      * @param StringConverter        $stringConverter
      * @param RouteProviderInterface $routeProvider
      * @param ElementInfoManager     $elementInfoManager
-     * @param                        $appRoot
+     * @param $appRoot
      * @param ChainQueue             $chainQueue
      */
     public function __construct(

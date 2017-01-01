@@ -23,6 +23,7 @@ use Drupal\Console\Utils\Validator;
 
 /**
  * Class PostUpdateCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PostUpdateCommand extends Command
@@ -32,12 +33,12 @@ class PostUpdateCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PostUpdateGenerator  
+ * @var PostUpdateGenerator
 */
     protected $generator;
 
@@ -47,7 +48,7 @@ class PostUpdateCommand extends Command
     protected $site;
 
     /**
- * @var Validator  
+ * @var Validator
 */
     protected $validator;
 
@@ -58,6 +59,7 @@ class PostUpdateCommand extends Command
 
     /**
      * PostUpdateCommand constructor.
+     *
      * @param Manager             $extensionManager
      * @param PostUpdateGenerator $generator
      * @param Site                $site

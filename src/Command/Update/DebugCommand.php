@@ -31,6 +31,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param Site           $site
      * @param UpdateRegistry $postUpdateRegistry
      */

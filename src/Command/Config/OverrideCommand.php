@@ -32,6 +32,7 @@ class OverrideCommand extends Command
 
     /**
      * OverrideCommand constructor.
+     *
      * @param CachedStorage $configStorage
      * @param ConfigFactory $configFactory
      */

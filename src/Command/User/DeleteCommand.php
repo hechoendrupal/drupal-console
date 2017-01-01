@@ -19,6 +19,7 @@ use Drupal\Console\Utils\DrupalApi;
 
 /**
  * Class DeleteCommand
+ *
  * @package Drupal\Console\Command\User
  */
 class DeleteCommand extends Command
@@ -42,6 +43,7 @@ class DeleteCommand extends Command
 
     /**
      * DeleteCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param QueryFactory               $entityQuery
      * @param DrupalApi                  $drupalApi

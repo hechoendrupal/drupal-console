@@ -32,6 +32,7 @@ class ReleaseCommand extends Command
 
     /**
      * ReleaseCommand constructor.
+     *
      * @param LockBackendInterface $lock
      * @param ChainQueue           $chainQueue
      */

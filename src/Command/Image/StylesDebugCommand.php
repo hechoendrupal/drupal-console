@@ -16,6 +16,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class StylesDebugCommand
+ *
  * @package Drupal\Console\Command\Image
  */
 class StylesDebugCommand extends Command
@@ -29,6 +30,7 @@ class StylesDebugCommand extends Command
 
     /**
      * StylesDebugCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(EntityTypeManagerInterface $entityTypeManager)

@@ -96,7 +96,7 @@ class ValidateDebugCommand extends Command
     {
         $data_definition = $typed_config->buildDataDefinition($config_schema, $config_data);
         $this->schema = $typed_config->create($data_definition, $config_data);
-        $errors = array();
+        $errors = [];
         foreach ($config_data as $key => $value) {
             $errors = array_merge($errors, $this->checkValue($key, $value));
         }

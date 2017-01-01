@@ -24,7 +24,7 @@ class UpdateCommand extends Command
 
 
     /**
- * @var ShellProcess  
+ * @var ShellProcess
 */
     protected $shellProcess;
 
@@ -35,6 +35,7 @@ class UpdateCommand extends Command
 
     /**
      * UpdateCommand constructor.
+     *
      * @param ShellProcess $shellProcess
      * @param $root
      */

@@ -30,7 +30,7 @@ class TranslationStatsCommand extends Command
     /**
      * @var string
      */
-        protected $consoleRoot;
+    protected $consoleRoot;
 
     /**
      * @var ConfigurationManager
@@ -209,7 +209,7 @@ class TranslationStatsCommand extends Command
 
                 $yamlKeys = 0;
                 if (!empty($diff)) {
-                    $diffFlatten = array();
+                    $diffFlatten = [];
                     $keyFlatten = '';
                     $this->nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
 
@@ -240,7 +240,6 @@ class TranslationStatsCommand extends Command
         usort(
             $stats, function ($a, $b) {
                 return $a["percentage"] <  $b["percentage"];
-
             }
         );
 

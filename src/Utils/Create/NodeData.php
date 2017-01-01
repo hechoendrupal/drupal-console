@@ -14,6 +14,7 @@ use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Class Nodes
+ *
  * @package Drupal\Console\Utils
  */
 class NodeData extends Base

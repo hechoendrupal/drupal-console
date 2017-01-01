@@ -12,6 +12,7 @@ use Symfony\Component\Yaml\Parser;
 
 /**
  * Class MenuTrait
+ *
  * @package Drupal\Console\Command
  */
 trait MenuTrait

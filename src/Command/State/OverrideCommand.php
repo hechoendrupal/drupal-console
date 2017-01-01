@@ -19,6 +19,7 @@ use Drupal\Component\Serialization\Yaml;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\State
  */
 class OverrideCommand extends Command
@@ -37,6 +38,7 @@ class OverrideCommand extends Command
 
     /**
      * OverrideCommand constructor.
+     *
      * @param StateInterface           $state
      * @param KeyValueFactoryInterface $keyValue
      */

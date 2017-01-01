@@ -13,6 +13,7 @@ use Drupal\Console\Core\Generator\Generator;
 
 /**
  * Class CommandGenerator
+ *
  * @package Drupal\Console\Generator
  */
 class CommandGenerator extends Generator
@@ -29,6 +30,7 @@ class CommandGenerator extends Generator
 
     /**
      * CommandGenerator constructor.
+     *
      * @param Manager           $extensionManager
      * @param TranslatorManager $translatorManager
      */

@@ -18,6 +18,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class RunCommand
+ *
  * @package Drupal\Console\Command\Queue
  */
 class RunCommand extends Command
@@ -37,6 +38,7 @@ class RunCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param QueueWorkerManagerInterface $queueWorker
      * @param QueueFactory                $queue
      */

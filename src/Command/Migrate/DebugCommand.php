@@ -36,6 +36,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param MigrationPluginManagerInterface $pluginManagerMigration
      */
     public function __construct(MigrationPluginManagerInterface $pluginManagerMigration)

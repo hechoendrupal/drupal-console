@@ -24,6 +24,7 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginRulesActionCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginRulesActionCommand extends Command
@@ -35,12 +36,12 @@ class PluginRulesActionCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginRulesActionGenerator  
+ * @var PluginRulesActionGenerator
 */
     protected $generator;
 
@@ -57,6 +58,7 @@ class PluginRulesActionCommand extends Command
 
     /**
      * PluginRulesActionCommand constructor.
+     *
      * @param Manager                    $extensionManager
      * @param PluginRulesActionGenerator $generator
      * @param StringConverter            $stringConverter

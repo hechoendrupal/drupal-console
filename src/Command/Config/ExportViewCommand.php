@@ -46,6 +46,7 @@ class ExportViewCommand extends Command
 
     /**
      * ExportViewCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param CachedStorage              $configStorage
      * @param Manager                    $extensionManager
@@ -156,7 +157,7 @@ class ExportViewCommand extends Command
 
         $viewNameConfig = $this->getConfiguration($viewTypeName);
 
-        $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optionalConfig);
+        $this->configExport[$viewTypeName] = ['data' => $viewNameConfig, 'optional' => $optionalConfig];
 
         // Include config dependencies in export files
         if ($dependencies = $this->fetchDependencies($viewNameConfig, 'config')) {

@@ -19,6 +19,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\Views
  */
 class DebugCommand extends Command
@@ -32,6 +33,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(EntityTypeManagerInterface $entityTypeManager)
@@ -107,7 +109,7 @@ class DebugCommand extends Command
             return false;
         }
 
-        $configuration = array();
+        $configuration = [];
         $configuration [] = [$this->trans('commands.views.debug.messages.view-id'), $view->get('id')];
         $configuration [] = [$this->trans('commands.views.debug.messages.view-name'), (string) $view->get('label')];
         $configuration [] = [$this->trans('commands.views.debug.messages.tag'), $view->get('tag')];
@@ -186,7 +188,7 @@ class DebugCommand extends Command
      */
     protected function viewDisplayPaths(View $view, $display_id = null)
     {
-        $all_paths = array();
+        $all_paths = [];
         $executable = $view->getExecutable();
         $executable->initDisplay();
         foreach ($executable->displayHandlers as $display) {
@@ -216,7 +218,7 @@ class DebugCommand extends Command
     protected function viewDisplayList(View $view)
     {
         $displayManager = $this->getViewDisplayManager();
-        $displays = array();
+        $displays = [];
         foreach ($view->get('display') as $display) {
             $definition = $displayManager->getDefinition($display['display_plugin']);
             if (!empty($definition['admin'])) {

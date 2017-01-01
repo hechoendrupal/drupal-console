@@ -43,6 +43,7 @@ class ExportSingleCommand extends Command
 
     /**
      * ExportSingleCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param CachedStorage              $configStorage
      */
@@ -118,9 +119,9 @@ class ExportSingleCommand extends Command
         );
 
         uasort($entity_types, 'strnatcasecmp');
-        $config_types = array(
+        $config_types = [
             'system.simple' => $this->trans('commands.config.export.single.options.simple-configuration'),
-          ) + $entity_types;
+          ] + $entity_types;
 
         return $config_types;
     }

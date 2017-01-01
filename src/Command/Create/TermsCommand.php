@@ -19,6 +19,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class TermsCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class TermsCommand extends Command
@@ -36,6 +37,7 @@ class TermsCommand extends Command
 
     /**
      * TermsCommand constructor.
+     *
      * @param DrupalApi $drupalApi
      * @param TermData  $createTermData
      */

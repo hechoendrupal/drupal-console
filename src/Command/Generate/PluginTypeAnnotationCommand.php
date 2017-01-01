@@ -23,6 +23,7 @@ use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class PluginTypeAnnotationCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginTypeAnnotationCommand extends Command
@@ -34,12 +35,12 @@ class PluginTypeAnnotationCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginTypeAnnotationGenerator  
+ * @var PluginTypeAnnotationGenerator
 */
     protected $generator;
 
@@ -50,6 +51,7 @@ class PluginTypeAnnotationCommand extends Command
 
     /**
      * PluginTypeAnnotationCommand constructor.
+     *
      * @param Manager                       $extensionManager
      * @param PluginTypeAnnotationGenerator $generator
      * @param StringConverter               $stringConverter

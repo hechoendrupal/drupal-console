@@ -46,7 +46,7 @@ class ExecuteCommand extends Command
 
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
@@ -67,6 +67,7 @@ class ExecuteCommand extends Command
 
     /**
      * EntitiesCommand constructor.
+     *
      * @param Site           $site
      * @param StateInterface $state
      * @param ModuleHandler  $moduleHandler

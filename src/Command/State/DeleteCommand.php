@@ -31,6 +31,7 @@ class DeleteCommand extends Command
 
     /**
      * DeleteCommand constructor.
+     *
      * @param StateInterface           $state
      * @param KeyValueFactoryInterface $keyValue
      */

@@ -34,6 +34,7 @@ class DiffCommand extends Command
 
     /**
      * DiffCommand constructor.
+     *
      * @param CachedStorage $configStorage
      * @param ConfigManager $configManager
      */

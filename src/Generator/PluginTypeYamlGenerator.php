@@ -19,6 +19,7 @@ class PluginTypeYamlGenerator extends Generator
 
     /**
      * PluginTypeYamlGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

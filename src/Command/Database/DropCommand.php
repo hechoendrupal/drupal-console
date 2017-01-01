@@ -18,6 +18,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DropCommand
+ *
  * @package Drupal\Console\Command\Database
  */
 class DropCommand extends Command
@@ -32,6 +33,7 @@ class DropCommand extends Command
 
     /**
      * DropCommand constructor.
+     *
      * @param Connection $database
      */
     public function __construct(Connection $database)

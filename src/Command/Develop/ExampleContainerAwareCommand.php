@@ -15,6 +15,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ExampleContainerAwareCommand
+ *
  * @package Drupal\Console\Command\Develop
  */
 class ExampleContainerAwareCommand extends Command

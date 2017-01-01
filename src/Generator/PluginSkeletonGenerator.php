@@ -19,6 +19,7 @@ class PluginSkeletonGenerator extends Generator
 
     /**
      * PluginSkeletonGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

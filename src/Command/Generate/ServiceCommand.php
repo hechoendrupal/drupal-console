@@ -23,6 +23,7 @@ use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class ServiceCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class ServiceCommand extends Command
@@ -33,12 +34,12 @@ class ServiceCommand extends Command
     use ContainerAwareCommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var ServiceGenerator  
+ * @var ServiceGenerator
 */
     protected $generator;
 
@@ -54,6 +55,7 @@ class ServiceCommand extends Command
 
     /**
      * ServiceCommand constructor.
+     *
      * @param Manager          $extensionManager
      * @param ServiceGenerator $generator
      * @param StringConverter  $stringConverter

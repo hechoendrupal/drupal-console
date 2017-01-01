@@ -31,6 +31,7 @@ class DebugCommand extends Command
 
     /**
      * DeleteCommand constructor.
+     *
      * @param EntityTypeRepository       $entityTypeRepository
      * @param EntityTypeManagerInterface $entityTypeManager
      */

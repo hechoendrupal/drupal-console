@@ -116,7 +116,7 @@ class ModeCommand extends Command
         $this->local = $input->getOption('local');
 
         $loadedConfigurations = [];
-        if (in_array($this->environment, array('dev', 'prod'))) {
+        if (in_array($this->environment, ['dev', 'prod'])) {
             $loadedConfigurations = $this->loadConfigurations($this->environment);
         } else {
             $io->error($this->trans('commands.site.mode.messages.invalid-env'));

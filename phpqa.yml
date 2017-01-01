@@ -17,9 +17,9 @@ application:
     php-cs-fixer:
       enabled: true
       exception: false
-      file:
-        config-file: .php_cs
-        single-execution: false
+#      file:
+#        config-file: .php_cs
+#        single-execution: false
       options:
         level: psr2
       arguments:

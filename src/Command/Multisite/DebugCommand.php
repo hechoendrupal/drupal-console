@@ -15,6 +15,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class SiteDebugCommand
+ *
  * @package Drupal\Console\Command\Site
  */
 class DebugCommand extends Command
@@ -25,6 +26,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param $appRoot
      */
     public function __construct($appRoot)

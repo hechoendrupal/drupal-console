@@ -39,6 +39,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param BreakpointManagerInterface $breakpointManager
      * @param string                     $appRoot
      */
