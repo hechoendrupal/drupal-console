@@ -29,12 +29,12 @@ class DownloadCommand extends Command
     use ProjectDownloadTrait;
 
     /**
- * @var DrupalApi  
+ * @var DrupalApi
 */
     protected $drupalApi;
 
     /**
- * @var Client  
+ * @var Client
 */
     protected $httpClient;
 
@@ -44,22 +44,22 @@ class DownloadCommand extends Command
     protected $appRoot;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var Validator  
+ * @var Validator
 */
     protected $validator;
 
     /**
- * @var ConfigurationManager  
+ * @var ConfigurationManager
 */
     protected $configurationManager;
 
     /**
- * @var ShellProcess  
+ * @var ShellProcess
 */
     protected $shellProcess;
 
@@ -70,6 +70,7 @@ class DownloadCommand extends Command
 
     /**
      * DownloadCommand constructor.
+     *
      * @param DrupalApi            $drupalApi
      * @param Client               $httpClient
      * @param $appRoot

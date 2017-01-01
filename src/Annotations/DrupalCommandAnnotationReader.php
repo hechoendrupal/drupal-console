@@ -6,6 +6,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * Class DrupalCommandReader
+ *
  * @package Drupal\Console\Annotations
  */
 class DrupalCommandAnnotationReader

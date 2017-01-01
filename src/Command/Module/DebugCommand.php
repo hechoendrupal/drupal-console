@@ -34,6 +34,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param Client  $httpClient
      */
 
@@ -41,6 +42,7 @@ class DebugCommand extends Command
 
     /**
      * ChainDebugCommand constructor.
+     *
      * @param ConfigurationManager $configurationManager
      * @param Site                 $site
      */

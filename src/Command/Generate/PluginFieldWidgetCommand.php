@@ -23,6 +23,7 @@ use Drupal\Core\Field\FieldTypePluginManager;
 
 /**
  * Class PluginFieldWidgetCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginFieldWidgetCommand extends Command
@@ -32,12 +33,12 @@ class PluginFieldWidgetCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginFieldWidgetGenerator  
+ * @var PluginFieldWidgetGenerator
 */
     protected $generator;
 
@@ -47,12 +48,12 @@ class PluginFieldWidgetCommand extends Command
     protected $stringConverter;
 
     /**
- * @var Validator  
+ * @var Validator
 */
     protected $validator;
 
     /**
- * @var FieldTypePluginManager  
+ * @var FieldTypePluginManager
 */
     protected $fieldTypePluginManager;
 
@@ -64,6 +65,7 @@ class PluginFieldWidgetCommand extends Command
 
     /**
      * PluginFieldWidgetCommand constructor.
+     *
      * @param Manager                    $extensionManager
      * @param PluginFieldWidgetGenerator $generator
      * @param StringConverter            $stringConverter
@@ -187,7 +189,7 @@ class PluginFieldWidgetCommand extends Command
         $field_type = $input->getOption('field-type');
         if (!$field_type) {
             // Gather valid field types.
-            $field_type_options = array();
+            $field_type_options = [];
             foreach ($this->fieldTypePluginManager->getGroupedDefinitions($this->fieldTypePluginManager->getUiDefinitions()) as $category => $field_types) {
                 foreach ($field_types as $name => $field_type) {
                     $field_type_options[] = $name;

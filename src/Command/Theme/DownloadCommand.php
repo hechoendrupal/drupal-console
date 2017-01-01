@@ -42,6 +42,7 @@ class DownloadCommand extends Command
 
     /**
      * DownloadCommand constructor.
+     *
      * @param DrupalApi $drupalApi
      * @param Client    $httpClient
      * @param $appRoot

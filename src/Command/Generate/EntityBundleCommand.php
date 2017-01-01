@@ -35,17 +35,18 @@ class EntityBundleCommand extends Command
     protected $validator;
 
     /**
- * @var EntityBundleGenerator  
+ * @var EntityBundleGenerator
 */
     protected $generator;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
      * EntityBundleCommand constructor.
+     *
      * @param Validator             $validator
      * @param EntityBundleGenerator $generator
      * @param Manager               $extensionManager

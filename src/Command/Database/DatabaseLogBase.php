@@ -221,7 +221,7 @@ abstract class DatabaseLogBase extends Command
     {
 
         /**
- * @var User $user 
+ * @var User $user
 */
         $user = $this->userStorage->load($dblog->uid);
 

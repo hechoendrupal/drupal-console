@@ -22,6 +22,7 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginImageEffectCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginImageEffectCommand extends Command
@@ -31,12 +32,12 @@ class PluginImageEffectCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginImageEffectGenerator  
+ * @var PluginImageEffectGenerator
 */
     protected $generator;
 
@@ -53,6 +54,7 @@ class PluginImageEffectCommand extends Command
 
     /**
      * PluginImageEffectCommand constructor.
+     *
      * @param Manager                    $extensionManager
      * @param PluginImageEffectGenerator $generator
      * @param StringConverter            $stringConverter

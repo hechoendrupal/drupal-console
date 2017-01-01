@@ -14,6 +14,7 @@ class PluginImageEffectGenerator extends Generator
 {
     /**
      * PluginImageEffectGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

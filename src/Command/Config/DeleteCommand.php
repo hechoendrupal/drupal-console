@@ -40,6 +40,7 @@ class DeleteCommand extends Command
 
     /**
      * DeleteCommand constructor.
+     *
      * @param ConfigFactory $configFactory
      * @param CachedStorage $configStorage
      * @param FileStorage   $configStorageSync

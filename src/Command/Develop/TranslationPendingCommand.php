@@ -29,7 +29,7 @@ class TranslationPendingCommand extends Command
     /**
      * @var string
      */
-        protected $consoleRoot;
+    protected $consoleRoot;
 
     /**
      * @var ConfigurationManager
@@ -195,7 +195,7 @@ class TranslationPendingCommand extends Command
                 $diff = $this->nestedArray->arrayDiff($englishFileParsed, $resourceTranslatedParsed, true, $diffStatistics);
 
                 if (!empty($diff)) {
-                    $diffFlatten = array();
+                    $diffFlatten = [];
                     $keyFlatten = '';
                     $this->nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
 

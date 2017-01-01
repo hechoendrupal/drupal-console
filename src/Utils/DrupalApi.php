@@ -13,6 +13,7 @@ use GuzzleHttp\Client;
 
 /**
  * Class DrupalHelper
+ *
  * @package Drupal\Console\Utils
  */
 class DrupalApi
@@ -27,6 +28,7 @@ class DrupalApi
 
     /**
      * DebugCommand constructor.
+     *
      * @param Client  $httpClient
      */
 
@@ -34,6 +36,7 @@ class DrupalApi
 
     /**
      * ServerCommand constructor.
+     *
      * @param $appRoot
      * @param $entityTypeManager
      */
@@ -224,7 +227,7 @@ class DrupalApi
 
     public function downloadFile($url, $destination)
     {
-        $this->httpClient->get($url, array('sink' => $destination));
+        $this->httpClient->get($url, ['sink' => $destination]);
 
         return file_exists($destination);
     }

@@ -41,6 +41,7 @@ class TranslationStatusCommand extends Command
 
     /**
      * TranslationStatusCommand constructor.
+     *
      * @param Site    $site
      * @param Manager $extensionManager
      */

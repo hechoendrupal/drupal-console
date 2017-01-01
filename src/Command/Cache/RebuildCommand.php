@@ -19,6 +19,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class RebuildCommand
+ *
  * @package Drupal\Console\Command\Cache
  */
 class RebuildCommand extends Command
@@ -43,6 +44,7 @@ class RebuildCommand extends Command
 
     /**
      * RebuildCommand constructor.
+     *
      * @param DrupalApi    $drupalApi
      * @param Site         $site
      * @param $classLoader

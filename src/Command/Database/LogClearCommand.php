@@ -28,6 +28,7 @@ class LogClearCommand extends Command
 
     /**
      * LogClearCommand constructor.
+     *
      * @param Connection $database
      */
     public function __construct(Connection $database)

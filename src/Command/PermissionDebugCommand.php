@@ -16,6 +16,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command
  */
 class PermissionDebugCommand extends Command

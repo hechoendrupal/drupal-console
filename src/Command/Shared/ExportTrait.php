@@ -12,6 +12,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ConfigExportTrait
+ *
  * @package Drupal\Console\Command
  */
 trait ExportTrait
@@ -121,7 +122,7 @@ trait ExportTrait
     {
         foreach ($dependencies as $dependency) {
             if (!array_key_exists($dependency, $this->configExport)) {
-                $this->configExport[$dependency] = array('data' => $this->getConfiguration($dependency), 'optional' => $optional);
+                $this->configExport[$dependency] = ['data' => $this->getConfiguration($dependency), 'optional' => $optional];
                 if ($dependencies = $this->fetchDependencies($this->configExport[$dependency], 'config')) {
                     $this->resolveDependencies($dependencies, $optional);
                 }

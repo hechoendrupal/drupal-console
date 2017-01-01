@@ -20,6 +20,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ModuleFileCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class ModuleFileCommand extends Command
@@ -29,18 +30,19 @@ class ModuleFileCommand extends Command
     use ModuleTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var ModuleFileGenerator  
+ * @var ModuleFileGenerator
 */
     protected $generator;
 
 
     /**
      * ModuleFileCommand constructor.
+     *
      * @param Manager             $extensionManager
      * @param ModuleFileGenerator $generator
      */

@@ -19,6 +19,7 @@ use Drupal\Console\Utils\DrupalApi;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\User
  */
 class DebugCommand extends Command
@@ -42,6 +43,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param QueryFactory               $entityQuery
      * @param DrupalApi                  $drupalApi

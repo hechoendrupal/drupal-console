@@ -22,6 +22,7 @@ use Drupal\Console\Utils\Site;
 
 /**
  * Class UpdateCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class UpdateCommand extends Command
@@ -31,12 +32,12 @@ class UpdateCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var UpdateGenerator  
+ * @var UpdateGenerator
 */
     protected $generator;
 
@@ -53,6 +54,7 @@ class UpdateCommand extends Command
 
     /**
      * UpdateCommand constructor.
+     *
      * @param Manager         $extensionManager
      * @param UpdateGenerator $generator
      * @param StringConverter $stringConverter

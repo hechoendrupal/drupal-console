@@ -37,6 +37,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param ResourcePluginManager $pluginManagerRest
      */
     public function __construct(ResourcePluginManager $pluginManagerRest)

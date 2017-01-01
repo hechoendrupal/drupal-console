@@ -24,6 +24,7 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginRestResourceCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginRestResourceCommand extends Command
@@ -35,12 +36,12 @@ class PluginRestResourceCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginRestResourceGenerator  
+ * @var PluginRestResourceGenerator
 */
     protected $generator;
 
@@ -57,6 +58,7 @@ class PluginRestResourceCommand extends Command
 
     /**
      * PluginRestResourceCommand constructor.
+     *
      * @param Manager                     $extensionManager
      * @param PluginRestResourceGenerator $generator
      * @param StringConverter             $stringConverter
@@ -206,7 +208,7 @@ class PluginRestResourceCommand extends Command
         // --plugin-states option
         $plugin_states = $input->getOption('plugin-states');
         if (!$plugin_states) {
-            $states = array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS');
+            $states = ['GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
             $plugin_states = $io->choice(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
                 $states,

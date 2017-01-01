@@ -12,6 +12,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DatabaseTrait
+ *
  * @package Drupal\Console\Command\Shared
  */
 trait DatabaseTrait

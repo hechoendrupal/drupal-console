@@ -24,6 +24,7 @@ class DrupalServiceModifier implements ServiceModifierInterface
 
     /**
      * DrupalServiceModifier constructor.
+     *
      * @param string $root
      * @param string $serviceTag
      * @param string $generatorTag

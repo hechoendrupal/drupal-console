@@ -6,6 +6,7 @@ use Drupal\Console\Utils\Site;
 
 /**
  * Class ExtensionManager
+ *
  * @package Drupal\Console
  */
 class Manager
@@ -36,6 +37,7 @@ class Manager
 
     /**
      * ExtensionManager constructor.
+     *
      * @param Site   $site
      * @param string $appRoot
      */

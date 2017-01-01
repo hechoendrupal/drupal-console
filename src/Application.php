@@ -12,6 +12,7 @@ use Drupal\Console\Core\Application as BaseApplication;
 
 /**
  * Class Application
+ *
  * @package Drupal\Console
  */
 class Application extends BaseApplication
@@ -70,7 +71,13 @@ class Application extends BaseApplication
                 continue;
             }
 
-            $generator = $this->container->get($name);
+            try {
+                $generator = $this->container->get($name);
+            } catch (\Exception $e) {
+                echo $name . ' - ' . $e->getMessage() . PHP_EOL;
+
+                continue;
+            }
 
             if (!$generator) {
                 continue;

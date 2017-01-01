@@ -56,6 +56,7 @@ class RunCommand extends Command
 
     /**
      * RunCommand constructor.
+     *
      * @param Site                   $site
      * @param TestDiscovery          $test_discovery
      * @param ModuleHandlerInterface $moduleHandler
@@ -271,9 +272,9 @@ class RunCommand extends Command
 
         foreach ($test_ids as $test_id) {
             $result = \Drupal::database()->query(
-                "SELECT * FROM {simpletest} WHERE test_id = :test_id ORDER BY test_class, message_group, status", array(
+                "SELECT * FROM {simpletest} WHERE test_id = :test_id ORDER BY test_class, message_group, status", [
                 ':test_id' => $test_id,
-                )
+                ]
             )->fetchAll();
             if ($result) {
                 $results = array_merge($results, $result);

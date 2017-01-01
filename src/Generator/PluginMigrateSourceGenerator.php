@@ -19,6 +19,7 @@ class PluginMigrateSourceGenerator extends Generator
 
     /**
      * PluginMigrateSourceGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

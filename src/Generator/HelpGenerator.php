@@ -13,12 +13,13 @@ use Drupal\Console\Extension\Manager;
 class HelpGenerator extends Generator
 {
     /**
-     * @var Manager  
+     * @var Manager
      */
     protected $extensionManager;
 
     /**
      * HelpGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

@@ -16,6 +16,7 @@ class Site
 
     /**
      * Site constructor.
+     *
      * @param $appRoot
      */
     public function __construct($appRoot)
@@ -103,7 +104,7 @@ class Site
         // Register the stream wrapper manager.
         $container
             ->register('stream_wrapper_manager', 'Drupal\Core\StreamWrapper\StreamWrapperManager')
-            ->addMethodCall('setContainer', array(new Reference('service_container')));
+            ->addMethodCall('setContainer', [new Reference('service_container')]);
         $container
             ->register('file_system', 'Drupal\Core\File\FileSystem')
             ->addArgument(new Reference('stream_wrapper_manager'))

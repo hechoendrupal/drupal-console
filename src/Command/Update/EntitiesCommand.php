@@ -44,6 +44,7 @@ class EntitiesCommand extends Command
 
     /**
      * EntitiesCommand constructor.
+     *
      * @param StateInterface                $state
      * @param EntityDefinitionUpdateManager $entityDefinitionUpdateManager
      * @param ChainQueue                    $chainQueue

@@ -17,6 +17,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class AccessRebuildCommand
+ *
  * @package Drupal\Console\Command\Node
  */
 class AccessRebuildCommand extends Command
@@ -30,6 +31,7 @@ class AccessRebuildCommand extends Command
 
     /**
      * AccessRebuildCommand constructor.
+     *
      * @param StateInterface $state
      */
     public function __construct(StateInterface $state)

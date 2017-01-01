@@ -36,17 +36,17 @@ abstract class FormCommand extends Command
     private $commandName;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var FormGenerator  
+ * @var FormGenerator
 */
     protected $generator;
 
     /**
- * @var ChainQueue 
+ * @var ChainQueue
 */
     protected $chainQueue;
 
@@ -68,6 +68,7 @@ abstract class FormCommand extends Command
 
     /**
      * FormCommand constructor.
+     *
      * @param Manager                $extensionManager
      * @param FormGenerator          $generator
      * @param ChainQueue             $chainQueue

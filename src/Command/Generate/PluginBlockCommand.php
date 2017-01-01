@@ -76,6 +76,7 @@ class PluginBlockCommand extends Command
 
     /**
      * PluginBlockCommand constructor.
+     *
      * @param ConfigFactory               $configFactory
      * @param ChainQueue                  $chainQueue
      * @param PluginBlockGenerator        $generator

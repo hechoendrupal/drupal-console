@@ -175,7 +175,7 @@ class GenerateDocCheatsheetCommand extends Command
 
         // 1st page
         foreach ($this->orderCommands as $command) {
-            $str .= $this->doTable($command,  $array_content[$command]);
+            $str .= $this->doTable($command, $array_content[$command]);
         }
 
         // 2nd page
@@ -184,8 +184,8 @@ class GenerateDocCheatsheetCommand extends Command
 
         $str .= "<td style='vertical-align: bottom;'><h1>DrupalConsole Cheatsheet</h1></td></tr></table><br/><br/>";
 
-        $str .= $this->doTable("generate",  $array_content["generate"]);
-        $str .= $this->doTable("miscelaneous",  $array_content["none"]);
+        $str .= $this->doTable("generate", $array_content["generate"]);
+        $str .= $this->doTable("miscelaneous", $array_content["none"]);
 
         $this->doPdf($str, $path, $io);
     }

@@ -35,6 +35,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param TestDiscovery $test_discovery
      */
     public function __construct(

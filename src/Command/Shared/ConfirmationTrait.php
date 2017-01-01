@@ -11,6 +11,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ConfirmationTrait
+ *
  * @package Drupal\Console\Command
  */
 trait ConfirmationTrait

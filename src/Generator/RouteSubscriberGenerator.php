@@ -13,12 +13,13 @@ use Drupal\Console\Extension\Manager;
 class RouteSubscriberGenerator extends Generator
 {
     /**
-     * @var Manager  
+     * @var Manager
      */
     protected $extensionManager;
 
     /**
      * AuthenticationProviderGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(
@@ -41,7 +42,7 @@ class RouteSubscriberGenerator extends Generator
           'name' => $name,
           'class' => $class,
           'class_path' => sprintf('Drupal\%s\Routing\%s', $module, $class),
-          'tags' => array('name' => 'event_subscriber'),
+          'tags' => ['name' => 'event_subscriber'],
           'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
         ];
 

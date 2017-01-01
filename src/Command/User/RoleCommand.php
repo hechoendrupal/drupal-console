@@ -17,6 +17,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\User
  */
 class RoleCommand extends Command
@@ -30,6 +31,7 @@ class RoleCommand extends Command
 
     /**
      * RoleCommand constructor.
+     *
      * @param DrupalApi $drupalApi
      */
     public function __construct(DrupalApi $drupalApi)

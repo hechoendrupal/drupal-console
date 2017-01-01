@@ -30,6 +30,7 @@ class DeleteTermCommand extends Command
 
     /**
      * InfoCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(EntityTypeManagerInterface $entityTypeManager)
@@ -64,6 +65,7 @@ class DeleteTermCommand extends Command
 
     /**
    * Destroy all existing terms before import
+     *
    * @param $vid
    * @param $io
    */

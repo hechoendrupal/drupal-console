@@ -17,6 +17,7 @@ use Drupal\views\Views;
 
 /**
  * Class PluginsDebugCommand
+ *
  * @package Drupal\Console\Command\Views
  */
 class PluginsDebugCommand extends Command

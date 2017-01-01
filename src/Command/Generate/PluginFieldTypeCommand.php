@@ -23,6 +23,7 @@ use Drupal\Core\Field\FieldTypePluginManager;
 
 /**
  * Class PluginFieldTypeCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginFieldTypeCommand extends Command
@@ -32,12 +33,12 @@ class PluginFieldTypeCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginFieldTypeGenerator  
+ * @var PluginFieldTypeGenerator
 */
     protected $generator;
 
@@ -54,6 +55,7 @@ class PluginFieldTypeCommand extends Command
 
     /**
      * PluginFieldTypeCommand constructor.
+     *
      * @param Manager                  $extensionManager
      * @param PluginFieldTypeGenerator $generator
      * @param StringConverter          $stringConverter

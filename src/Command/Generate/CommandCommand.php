@@ -50,6 +50,7 @@ class CommandCommand extends Command
 
     /**
      * CommandCommand constructor.
+     *
      * @param CommandGenerator $generator
      * @param Manager          $extensionManager
      * @param Validator        $validator

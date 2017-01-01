@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class MigrationTrait
+ *
  * @package Drupal\Console\Command
  */
 trait MigrationTrait
@@ -42,7 +43,7 @@ trait MigrationTrait
         //Create all migration instances
         $all_migrations = $this->pluginManagerMigration->createInstances(array_keys($migrations), $migration_plugin_configuration);
 
-        $migrations = array();
+        $migrations = [];
         foreach ($all_migrations as $migration) {
             if ($flatList) {
                 $migrations[$migration->id()] = ucwords($migration->label());
