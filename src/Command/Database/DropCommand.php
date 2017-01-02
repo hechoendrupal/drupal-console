@@ -77,7 +77,8 @@ class DropCommand extends Command
                     $databaseConnection['database']
                 ),
                 true
-            )) {
+            )
+            ) {
                 return 1;
             }
         }

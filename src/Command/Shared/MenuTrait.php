@@ -28,7 +28,8 @@ trait MenuTrait
         if ($io->confirm(
             $this->trans('commands.generate.form.questions.menu_link_gen'),
             true
-        )) {
+        )
+        ) {
             // now we need to ask them where to gen the form
             // get the route
             $menu_options = [

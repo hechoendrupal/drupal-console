@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "032048728f547cac5ee908eb60dfc4b3",
+    "content-hash": "0b6e2c2ce06250646c128230ac588d40",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -570,19 +570,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "99fc36977d967041f43778b8062035bd280242eb"
+                "reference": "21fa567104b85236287a2c85c2f94b2ac7efb415"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/99fc36977d967041f43778b8062035bd280242eb",
-                "reference": "99fc36977d967041f43778b8062035bd280242eb",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/21fa567104b85236287a2c85c2f94b2ac7efb415",
+                "reference": "21fa567104b85236287a2c85c2f94b2ac7efb415",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-configuration": "dev-master",
                 "drupal/console-en": "dev-master",
                 "php": "^5.5.9 || ^7.0",
-                "psy/psysh": "0.6|0.8",
                 "stecman/symfony-console-completion": "~0.7",
                 "symfony/config": ">=2.7 <3.2",
                 "symfony/console": ">=2.7 <3.2",
@@ -644,7 +643,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2016-12-30 21:23:02"
+            "time": "2017-01-02 23:11:24"
         },
         {
             "name": "drupal/console-en",

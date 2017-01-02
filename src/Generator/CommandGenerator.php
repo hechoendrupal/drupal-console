@@ -8,7 +8,7 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\TranslatorManager;
+use Drupal\Console\Core\Utils\TranslatorManagerInterface;
 use Drupal\Console\Core\Generator\Generator;
 
 /**
@@ -24,19 +24,19 @@ class CommandGenerator extends Generator
     protected $extensionManager;
 
     /**
-     * @var TranslatorManager
+     * @var TranslatorManagerInterface
      */
     protected $translatorManager;
 
     /**
      * CommandGenerator constructor.
      *
-     * @param Manager           $extensionManager
-     * @param TranslatorManager $translatorManager
+     * @param Manager                    $extensionManager
+     * @param TranslatorManagerInterface $translatorManager
      */
     public function __construct(
         Manager $extensionManager,
-        TranslatorManager $translatorManager
+        TranslatorManagerInterface $translatorManager
     ) {
         $this->extensionManager = $extensionManager;
         $this->translatorManager = $translatorManager;

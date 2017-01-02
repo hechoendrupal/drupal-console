@@ -293,7 +293,8 @@ class ProfileCommand extends Command
             if ($io->confirm(
                 $this->trans('commands.generate.profile.questions.dependencies'),
                 true
-            )) {
+            )
+            ) {
                 $dependencies = $io->ask(
                     $this->trans('commands.generate.profile.options.dependencies'),
                     ''
@@ -307,7 +308,8 @@ class ProfileCommand extends Command
             if ($io->confirm(
                 $this->trans('commands.generate.profile.questions.distribution'),
                 false
-            )) {
+            )
+            ) {
                 $distribution = $io->ask(
                     $this->trans('commands.generate.profile.options.distribution'),
                     'My Kick-ass Distribution'

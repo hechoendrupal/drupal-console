@@ -55,7 +55,8 @@ trait PermissionTrait
             if (!$output->confirm(
                 $this->trans('commands.generate.permission.questions.add'),
                 true
-            )) {
+            )
+            ) {
                 break;
             }
         }

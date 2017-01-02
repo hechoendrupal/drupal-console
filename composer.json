@@ -47,7 +47,8 @@
         "gabordemooij/redbean": "~4.3",
         "doctrine/annotations": "1.2.*",
         "symfony/expression-language": ">=2.7 <3.2",
-        "symfony/cache": ">=2.7 <3.2"
+        "symfony/cache": ">=2.7 <3.2",
+        "psy/psysh": "0.6|0.8"
     },
     "bin": ["bin/drupal"],
     "config": {
