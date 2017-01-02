@@ -24,3 +24,15 @@
 # Drupal
 /core
 /nbproject/
+
+composer.phar
+
+.idea/DrupalConsole.iml
+
+.idea/modules.xml
+
+.idea/php.xml
+
+.idea/vcs.xml
+
+.idea/workspace.xml
