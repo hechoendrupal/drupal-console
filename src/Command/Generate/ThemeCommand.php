@@ -332,7 +332,8 @@ class ThemeCommand extends Command
             if ($io->confirm(
                 $this->trans('commands.generate.theme.questions.regions'),
                 true
-            )) {
+            )
+            ) {
                 // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::regionQuestion
                 $regions = $this->regionQuestion($io);
                 $input->setOption('regions', $regions);
@@ -345,7 +346,8 @@ class ThemeCommand extends Command
             if ($io->confirm(
                 $this->trans('commands.generate.theme.questions.breakpoints'),
                 true
-            )) {
+            )
+            ) {
                 // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::regionQuestion
                 $breakpoints = $this->breakpointQuestion($io);
                 $input->setOption('breakpoints', $breakpoints);

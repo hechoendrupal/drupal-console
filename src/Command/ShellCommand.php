@@ -11,6 +11,7 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
 
 /**
  * Class ShellCommand
+ *
  * @package Drupal\Console\Command
  */
 class ShellCommand extends Command

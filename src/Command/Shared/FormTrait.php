@@ -26,7 +26,8 @@ trait FormTrait
         if ($io->confirm(
             $this->trans('commands.common.questions.inputs.confirm'),
             true
-        )) {
+        )
+        ) {
             $input_types = [
                 'fieldset',
                 'text_format'

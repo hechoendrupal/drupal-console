@@ -13,11 +13,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 {% if container_aware %}
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 {% else %}
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 {% endif %}
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 {% endblock %}
 
 {% block class_declaration %}

@@ -69,7 +69,8 @@ trait ThemeBreakpointTrait
             if (!$io->confirm(
                 $this->trans('commands.generate.theme.questions.breakpoint-add'),
                 true
-            )) {
+            )
+            ) {
                 break;
             }
         }

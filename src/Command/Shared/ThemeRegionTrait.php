@@ -46,7 +46,8 @@ trait ThemeRegionTrait
             if (!$io->confirm(
                 $this->trans('commands.generate.theme.questions.region-add'),
                 true
-            )) {
+            )
+            ) {
                 break;
             }
         }
