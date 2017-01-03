@@ -30,8 +30,14 @@ if (isset($autoloader)) {
     exit(1);
 }
 
+$argvInputReader = new ArgvInputReader();
 $drupalFinder = new DrupalFinder();
-$drupalFinder->locateRoot(getcwd());
+if ($argvInputReader->get('root')) {
+  $drupalFinder->locateRoot($argvInputReader->get('root'));
+}
+else {
+  $drupalFinder->locateRoot(getcwd());
+}
 $composerRoot = $drupalFinder->getComposerRoot();
 $drupalRoot = $drupalFinder->getDrupalRoot();
 
@@ -41,8 +47,8 @@ if (!$drupalRoot || !$composerRoot) {
 }
 
 chdir($drupalRoot);
-
 $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
+
 $container = $drupal->boot();
 
 if (!$container) {
@@ -56,7 +62,6 @@ $configuration = $container->get('console.configuration_manager')
 
 $translator = $container->get('console.translator_manager');
 
-$argvInputReader = new ArgvInputReader();
 if ($options = $configuration->get('application.options') ?: []) {
     $argvInputReader->setOptionsFromConfiguration($options);
 }
