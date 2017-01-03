@@ -1,9 +1,8 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: jmolivas
- * Date: 1/2/17
- * Time: 2:27 PM
+ * @file
+ * Contains \Drupal\Console\Utils\TranslatorManager.
  */
 
 namespace Drupal\Console\Utils;
