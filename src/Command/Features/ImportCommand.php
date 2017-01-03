@@ -19,7 +19,7 @@ use Symfony\Component\Console\Command\Command;
 
 /**
  * @DrupalCommand(
- *     extension = "features_ui",
+ *     extension = "features",
  *     extensionType = "module"
  * )
  */
