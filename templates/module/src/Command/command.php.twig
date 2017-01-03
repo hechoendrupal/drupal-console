@@ -18,6 +18,7 @@ use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 {% endif %}
 use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Annotations\DrupalCommand;
 {% endblock %}
 
 {% block class_declaration %}
@@ -25,6 +26,11 @@ use Drupal\Console\Core\Style\DrupalStyle;
  * Class {{ class_name }}.
  *
  * @package Drupal\{{module}}
+ *
+ * @DrupalCommand (
+ *     extension="{{module}}",
+ *     extensionType="module"
+ * )
  */
 class {{ class_name }} extends Command {% endblock %}
 {% block class_construct %}

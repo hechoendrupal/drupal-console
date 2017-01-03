@@ -8,6 +8,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Finder\Finder;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\TranslatorManager;
 
 /**
  * FindCommandsCompilerPass
@@ -86,5 +87,8 @@ class AddServicesCompilerPass implements CompilerPassInterface
             'console.service_definitions',
             $container->getDefinitions()
         );
+
+        $definition = $container->getDefinition('console.translator_manager');
+        $definition->setClass(TranslatorManager::class);
     }
 }

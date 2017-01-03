@@ -148,6 +148,13 @@ class Application extends BaseApplication
                     continue;
                 }
 
+                $tags = $serviceDefinition->getTags();
+                if ($tags && array_key_exists('_provider', $tags)) {
+                    $extension = $tags['_provider'][0]['provider'];
+                    $this->container->get('console.translator_manager')
+                        ->addResourceTranslationsByModule($extension);
+                }
+
                 if (!$annotationValidator->isValidCommand($serviceDefinition->getClass())) {
                     continue;
                 }
