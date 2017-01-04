@@ -5,7 +5,9 @@ namespace Drupal\Console;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Console\Annotations\DrupalCommandAnnotationReader;
 use Drupal\Console\Utils\AnnotationValidator;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Application as BaseApplication;
@@ -37,8 +39,14 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         $this->registerGenerators();
         $this->registerCommands();
+//        for ($lines = 0; $lines < 2; $lines++) {
+//            $io->write("\r\033[K\033[1A\r");
+//        }
+//        $io->clearCurrentLine();
+
         $clear = $this->container->get('console.configuration_manager')
             ->getConfiguration()
             ->get('application.clear')?:false;
@@ -47,7 +55,6 @@ class Application extends BaseApplication
         }
         parent::doRun($input, $output);
         if ($this->getCommandName($input) == 'list' && $this->container->hasParameter('console.warning')) {
-            $io = new DrupalStyle($input, $output);
             $io->warning(
                 $this->trans($this->container->getParameter('console.warning'))
             );
@@ -115,9 +122,16 @@ class Application extends BaseApplication
 
         $serviceDefinitions = [];
         $annotationValidator = null;
+        $annotationCommandReader = null;
         if ($this->container->hasParameter('console.service_definitions')) {
             $serviceDefinitions = $this->container
                 ->getParameter('console.service_definitions');
+
+            /**
+             * @var DrupalCommandAnnotationReader $annotationCommandReader
+             */
+            $annotationCommandReader = $this->container
+                ->get('console.annotation_command_reader');
 
             /**
              * @var AnnotationValidator $annotationValidator
@@ -143,16 +157,17 @@ class Application extends BaseApplication
                 continue;
             }
 
-            if ($annotationValidator) {
+            if ($annotationValidator && $annotationCommandReader) {
                 if (!$serviceDefinition = $serviceDefinitions[$name]) {
                     continue;
                 }
 
-                $tags = $serviceDefinition->getTags();
-                if ($tags && array_key_exists('_provider', $tags)) {
-                    $extension = $tags['_provider'][0]['provider'];
+                if ($annotation = $annotationCommandReader->readAnnotation($serviceDefinition->getClass())) {
                     $this->container->get('console.translator_manager')
-                        ->addResourceTranslationsByModule($extension);
+                        ->addResourceTranslationsByExtension(
+                            $annotation['extension'],
+                            $annotation['extensionType']
+                        );
                 }
 
                 if (!$annotationValidator->isValidCommand($serviceDefinition->getClass())) {
@@ -219,8 +234,8 @@ class Application extends BaseApplication
 
         $namespaces = array_filter(
             $this->getNamespaces(), function ($item) {
-                return (strpos($item, ':')<=0);
-            }
+            return (strpos($item, ':')<=0);
+        }
         );
         sort($namespaces);
         array_unshift($namespaces, 'misc');
@@ -229,8 +244,8 @@ class Application extends BaseApplication
             $commands = $this->all($namespace);
             usort(
                 $commands, function ($cmd1, $cmd2) {
-                    return strcmp($cmd1->getName(), $cmd2->getName());
-                }
+                return strcmp($cmd1->getName(), $cmd2->getName());
+            }
             );
 
             foreach ($commands as $command) {

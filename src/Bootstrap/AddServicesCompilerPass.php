@@ -2,6 +2,7 @@
 
 namespace Drupal\Console\Bootstrap;
 
+use Drupal\Console\Extension\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\Config\FileLocator;
@@ -21,13 +22,20 @@ class AddServicesCompilerPass implements CompilerPassInterface
     protected $root;
 
     /**
+     * @var string
+     */
+    protected $appRoot;
+
+    /**
      * AddCommandsCompilerPass constructor.
      *
      * @param string $root
+     * @param string $appRoot
      */
-    public function __construct($root)
+    public function __construct($root, $appRoot)
     {
         $this->root = $root;
+        $this->appRoot = $appRoot;
     }
 
     /**
@@ -41,6 +49,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
         );
 
         $loader->load($this->root.  DRUPAL_CONSOLE_CORE . 'services.yml');
+        $loader->load($this->root.  DRUPAL_CONSOLE . 'services-drupal-install.yml');
         $loader->load($this->root.  DRUPAL_CONSOLE . 'services.yml');
 
         $finder = new Finder();
@@ -61,25 +70,28 @@ class AddServicesCompilerPass implements CompilerPassInterface
          * @var Manager $extensionManager
          */
         $extensionManager = $container->get('console.extension_manager');
+        /**
+         * @var Extension[] $modules
+         */
         $modules = $extensionManager->discoverModules()
             ->showCore()
             ->showNoCore()
             ->showInstalled()
-            ->getList(true);
+            ->getList(false);
 
-        $finder = new Finder();
-        $finder->files()
-            ->name('*.yml')
-            ->in(
-                sprintf(
-                    '%s/config/services/drupal-core',
-                    $this->root.DRUPAL_CONSOLE
-                )
-            );
+        foreach ($modules as $module) {
+            if ($module->origin == 'core') {
+                $consoleServicesFile = $this->root . DRUPAL_CONSOLE .
+                    'config/services/drupal-core/'.$module->getName().'.yml';
+                if (is_file($consoleServicesFile)) {
+                    $loader->load($consoleServicesFile);
+                }
+            }
 
-        foreach ($finder as $file) {
-            if (in_array($file->getBasename('.yml'), $modules)) {
-                $loader->load($file->getPathName());
+            $consoleServicesFile = $this->appRoot . '/' .
+                $module->getPath() . '/console.services.yml';
+            if (is_file($consoleServicesFile)) {
+                $loader->load($consoleServicesFile);
             }
         }
 
