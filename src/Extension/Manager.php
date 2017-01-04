@@ -240,6 +240,19 @@ class Manager
      * @param string $name
      * @return \Drupal\Console\Extension\Extension
      */
+    public function getProfile($name)
+    {
+        if ($extension = $this->getExtension('profile', $name)) {
+            return $this->createExtension($extension);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $name
+     * @return \Drupal\Console\Extension\Extension
+     */
     public function getTheme($name)
     {
         if ($extension = $this->getExtension('theme', $name)) {
