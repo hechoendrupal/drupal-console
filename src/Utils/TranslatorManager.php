@@ -11,12 +11,17 @@ use Drupal\Console\Core\Utils\TranslatorManager as TranslatorManagerBase;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Class TranslatorManager
+ *
+ * @package Drupal\Console\Utils
+ */
 class TranslatorManager extends TranslatorManagerBase
 {
     /**
      * @param $extensionPath
      */
-    private function addResourceTranslationsByExtension($extensionPath)
+    private function addResourceTranslationsByExtensionPath($extensionPath)
     {
         $languageDirectory = sprintf(
             '%s/console/translations/%s',
@@ -46,10 +51,13 @@ class TranslatorManager extends TranslatorManagerBase
     /**
      * @param $module
      */
-    public function addResourceTranslationsByModule($module)
+    private function addResourceTranslationsByModule($module)
     {
-        $extensionPath = \Drupal::service('module_handler')->getModule($module)->getPath();
-        $this->addResourceTranslationsByExtension(
+        if (!\Drupal::moduleHandler()->moduleExists($module)) {
+            return;
+        }
+        $extensionPath = \Drupal::moduleHandler()->getModule($module)->getPath();
+        $this->addResourceTranslationsByExtensionPath(
             $extensionPath
         );
     }
@@ -57,11 +65,27 @@ class TranslatorManager extends TranslatorManagerBase
     /**
      * @param $theme
      */
-    public function addResourceTranslationsByTheme($theme)
+    private function addResourceTranslationsByTheme($theme)
     {
         $extensionPath = \Drupal::service('theme_handler')->getTheme($theme)->getPath();
-        $this->addResourceTranslationsByExtension(
+        $this->addResourceTranslationsByExtensionPath(
             $extensionPath
         );
+    }
+
+    /**
+     * @param $extension
+     * @param $type
+     */
+    public function addResourceTranslationsByExtension($extension, $type)
+    {
+        if ($type == 'module') {
+            $this->addResourceTranslationsByModule($extension);
+            return;
+        }
+        if ($type == 'theme') {
+            $this->addResourceTranslationsByTheme($extension);
+            return;
+        }
     }
 }

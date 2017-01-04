@@ -11,9 +11,9 @@ if (file_exists(__DIR__ . '/../autoload.local.php')) {
     include_once __DIR__ . '/../autoload.local.php';
 } else {
     $autoloaders = [
-         __DIR__ . '/../../../autoload.php',
-         __DIR__ . '/../vendor/autoload.php'
-     ];
+        __DIR__ . '/../../../autoload.php',
+        __DIR__ . '/../vendor/autoload.php'
+    ];
 }
 
 foreach ($autoloaders as $file) {
@@ -31,22 +31,22 @@ if (isset($autoloader)) {
 }
 
 $drupalFinder = new DrupalFinder();
-$drupalFinder->locateRoot(getcwd());
-$composerRoot = $drupalFinder->getComposerRoot();
-$drupalRoot = $drupalFinder->getDrupalRoot();
 
-if (!$drupalRoot || !$composerRoot) {
+if (!$drupalFinder->locateRoot(getcwd())) {
     echo ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL;
+
     exit(1);
 }
 
+$composerRoot = $drupalFinder->getComposerRoot();
+$drupalRoot = $drupalFinder->getDrupalRoot();
 chdir($drupalRoot);
 
 $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
 $container = $drupal->boot();
 
 if (!$container) {
-    echo ' Something goes wrong. Drupal can not be bootstrapped.';
+    echo ' Something was wrong. Drupal can not be bootstrapped.';
 
     exit(1);
 }
