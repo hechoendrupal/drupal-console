@@ -77,7 +77,7 @@ class CommandGenerator extends Generator
 
         $this->renderFile(
             'module/services.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml',
+            $this->extensionManager->getModule($module)->getPath() .'/console.services.yml',
             $parameters,
             FILE_APPEND
         );
