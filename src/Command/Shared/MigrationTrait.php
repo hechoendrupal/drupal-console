@@ -10,7 +10,8 @@ namespace Drupal\Console\Command\Shared;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+
 
 /**
  * Class MigrationTrait
@@ -176,7 +177,7 @@ trait MigrationTrait
      * @param InputInterface $input
      * @param DrupalStyle    $io
      */
-    protected function registerMigrateDB(ArgvInput $input, DrupalStyle $io)
+    protected function registerMigrateDB(InputInterface $input, DrupalStyle $io)
     {
         $dbType = $input->getOption('db-type');
         $dbHost = $input->getOption('db-host');
@@ -203,7 +204,7 @@ trait MigrationTrait
      * @param $dbHost
      */
     protected function addDBConnection(DrupalStyle $io, $key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
-    {
+    {   
         $database_type = $this->getDatabaseDrivers();
         $reflection = new \ReflectionClass($database_type[$dbType]);
         $install_namespace = $reflection->getNamespaceName();
