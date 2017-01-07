@@ -53,12 +53,16 @@ class Application extends BaseApplication
         if ($clear === true || $clear === 'true') {
             $output->write(sprintf("\033\143"));
         }
-        parent::doRun($input, $output);
+
+        $exitCode = parent::doRun($input, $output);
+
         if ($this->getCommandName($input) == 'list' && $this->container->hasParameter('console.warning')) {
             $io->warning(
                 $this->trans($this->container->getParameter('console.warning'))
             );
         }
+
+        return $exitCode;
     }
 
     private function registerGenerators()
