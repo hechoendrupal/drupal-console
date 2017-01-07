@@ -15,9 +15,12 @@ use Prophecy\Prophet;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Generator\CommandGenerator;
 use Drupal\Console\Generator\EntityBundleGenerator;
+use Drupal\Console\Generator\EntityContentGenerator;
+use Drupal\Console\Generator\EntityConfigGenerator;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Generator\PermissionGenerator;
+use Drupal\Console\Generator\ModuleGenerator;
 
 class a
 {
