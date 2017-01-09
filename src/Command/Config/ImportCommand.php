@@ -130,8 +130,8 @@ class ImportCommand extends Command
             $io->success($this->trans('commands.config.import.messages.already-imported'));
         } else {
             try {
-                $config_importer->import();
                 $io->info($this->trans('commands.config.import.messages.importing'));
+                $config_importer->import();
                 return TRUE;
             } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
