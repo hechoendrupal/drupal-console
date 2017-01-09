@@ -39,14 +39,8 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $this->registerGenerators();
         $this->registerCommands();
-//        for ($lines = 0; $lines < 2; $lines++) {
-//            $io->write("\r\033[K\033[1A\r");
-//        }
-//        $io->clearCurrentLine();
-
         $clear = $this->container->get('console.configuration_manager')
             ->getConfiguration()
             ->get('application.clear')?:false;
@@ -55,13 +49,6 @@ class Application extends BaseApplication
         }
 
         $exitCode = parent::doRun($input, $output);
-
-        if ($this->getCommandName($input) == 'list' && $this->container->hasParameter('console.warning')) {
-            $io->warning(
-                $this->trans($this->container->getParameter('console.warning'))
-            );
-        }
-
         return $exitCode;
     }
 

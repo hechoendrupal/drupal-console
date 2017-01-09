@@ -3,10 +3,10 @@
 namespace Drupal\Console\Bootstrap;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
 
@@ -30,7 +30,7 @@ class Drupal
         $this->appRoot = $appRoot;
     }
 
-    public function boot()
+    public function boot($debug)
     {
         $output = new ConsoleOutput();
         $input = new ArrayInput([]);
@@ -51,7 +51,9 @@ class Drupal
             }
             $argvInputReader = new ArgvInputReader();
 
-//            $io->writeln('➤ Creating request');
+            if ($debug) {
+                $io->writeln('➤ Creating request');
+            }
             if ($argvInputReader->get('uri')) {
                 $uri = $argvInputReader->get('uri');
                 if (substr($uri, -1) != '/') {
@@ -62,18 +64,20 @@ class Drupal
             } else {
                 $request = Request::createFromGlobals();
             }
-//            $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
-
-//            $io->writeln('➤ Creating kernel');
+            if ($debug) {
+                $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
+                $io->writeln('➤ Creating Drupal kernel');
+            }
             $drupalKernel = DrupalKernel::createFromRequest(
                 $request,
                 $this->autoload,
                 'prod',
                 false
             );
-//            $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
-
-//            $io->writeln('➤ Registering commands');
+            if ($debug) {
+                $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
+                $io->writeln('➤ Providing dynamic services');
+            }
             $drupalKernel->addServiceModifier(
                 new DrupalServiceModifier(
                     $this->root,
@@ -82,13 +86,17 @@ class Drupal
                     'drupal.generator'
                 )
             );
-//            $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
-
-//            $io->writeln('➤ Rebuilding container');
+            if ($debug) {
+                $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
+                $io->writeln('➤ Rebuilding container');
+            }
             $drupalKernel->invalidateContainer();
             $drupalKernel->rebuildContainer();
             $drupalKernel->boot();
-//            $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
+
+            if ($debug) {
+                $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
+            }
 
             $container = $drupalKernel->getContainer();
             $container->set('console.root', $this->root);

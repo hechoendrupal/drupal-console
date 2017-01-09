@@ -1,5 +1,6 @@
 <?php
 
+use Symfony\Component\Console\Input\ArgvInput;
 use DrupalFinder\DrupalFinder;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Bootstrap\Drupal;
@@ -30,8 +31,10 @@ if (isset($autoloader)) {
     exit(1);
 }
 
-$drupalFinder = new DrupalFinder();
+$argvInput = new ArgvInput();
+$debug = $argvInput->hasParameterOption(['--debug']);
 
+$drupalFinder = new DrupalFinder();
 if (!$drupalFinder->locateRoot(getcwd())) {
     echo ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL;
 
@@ -43,10 +46,10 @@ $drupalRoot = $drupalFinder->getDrupalRoot();
 chdir($drupalRoot);
 
 $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
-$container = $drupal->boot();
+$container = $drupal->boot($debug);
 
 if (!$container) {
-    echo ' Something was wrong. Drupal can not be bootstrapped.';
+    echo ' Something was wrong. Drupal can not be bootstrap.';
 
     exit(1);
 }
@@ -61,7 +64,6 @@ if ($options = $configuration->get('application.options') ?: []) {
     $argvInputReader->setOptionsFromConfiguration($options);
 }
 $argvInputReader->setOptionsAsArgv();
-
 $application = new Application($container);
 $application->setDefaultCommand('about');
 $application->run();
