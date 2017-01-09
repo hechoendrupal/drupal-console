@@ -21,6 +21,8 @@ use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Generator\ModuleGenerator;
+use Drupal\Console\Generator\ControllerGenerator;
+
 
 class a
 {
@@ -90,6 +92,14 @@ class a
     public static function moduleGenerator()
     {
         return self::prophet()->prophesize(ModuleGenerator::class);
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function controllerGenerator()
+    {
+        return self::prophet()->prophesize(ControllerGenerator::class);
     }
 
 
