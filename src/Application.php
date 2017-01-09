@@ -47,7 +47,9 @@ class Application extends BaseApplication
         if ($clear === true || $clear === 'true') {
             $output->write(sprintf("\033\143"));
         }
-        parent::doRun($input, $output);
+
+        $exitCode = parent::doRun($input, $output);
+        return $exitCode;
     }
 
     private function registerGenerators()

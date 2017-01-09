@@ -298,7 +298,7 @@ class ExecuteCommand extends Command
         }
 
         if (!$this->migrateConnection) {
-            $this->registerMigrateDB($input, $output);
+            $this->registerMigrateDB($input, $io);
             $this->migrateConnection = $this->getDBConnection($io, 'default', 'upgrade');
         }
         
