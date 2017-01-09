@@ -40,17 +40,17 @@ class ControllerCommandTest extends GenerateCommandTest
         $services
     )
     {
+
         $generator = an::controllerGenerator();
         $manager = an::extensionManager();
 
         $command = new ControllerCommand(
             $manager,
-            new ControllerGenerator($manager),
-            new StringConverter(),
+            an::controllerGenerator()->reveal(),
+            an::stringConverter()->reveal(),
             new Validator($manager),
-            new RouteProvider(
-                ,an::stateInterface()->reveal(),an::currentPathStack()->reveal(),an::cacheBackendInterface()->reveal(),an::inboundPathProcessorInterface()->reveal(),an::cacheTagsInvalidator()->reveal(),'router'),
-            new ChainQueue()
+            an::routeProvider()->reveal(),
+            an::chainQueue()->reveal()
         );
 
         $commandTester = new CommandTester($command);
