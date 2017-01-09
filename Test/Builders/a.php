@@ -21,6 +21,13 @@ use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Generator\ModuleGenerator;
+use Drupal\Console\Generator\ControllerGenerator;
+use Drupal\Core\Database\Connection;
+use Drupal\Core\State\StateInterface;
+use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\PathProcessor\InboundPathProcessorInterface;
+use Drupal\Core\Cache\CacheTagsInvalidator;
 
 class a
 {
@@ -42,6 +49,59 @@ class a
     {
         return self::prophet()->prophesize(Client::class);
     }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function connection()
+    {
+        return self::prophet()->prophesize(Connection::class);
+    }
+
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function stateInterface()
+    {
+        return self::prophet()->prophesize(StateInterface::class);
+    }
+
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function currentPathStack()
+    {
+        return self::prophet()->prophesize(CurrentPathStack::class);
+    }
+
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function cacheBackendInterface()
+    {
+        return self::prophet()->prophesize(CacheBackendInterface::class);
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function inboundPathProcessorInterface()
+    {
+        return self::prophet()->prophesize(InboundPathProcessorInterface::class);
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function cacheTagsInvalidator()
+    {
+        return self::prophet()->prophesize(CacheTagsInvalidator::class);
+    }
+
+
 
     /**
      * @return \Prophecy\Prophecy\ObjectProphecy
@@ -90,6 +150,14 @@ class a
     public static function moduleGenerator()
     {
         return self::prophet()->prophesize(ModuleGenerator::class);
+    }
+
+    /**
+     * @return \Prophecy\Prophecy\ObjectProphecy
+     */
+    public static function controllerGenerator()
+    {
+        return self::prophet()->prophesize(ControllerGenerator::class);
     }
 
 
