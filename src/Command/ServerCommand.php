@@ -96,7 +96,7 @@ class ServerCommand extends Command
 
         $processBuilder = new ProcessBuilder(explode(' ', $cli));
         $processBuilder->setTimeout(NULL);
-        $processBuilder->setWorkingDirectory($this->getDrupalHelper()->getRoot());
+        $processBuilder->setWorkingDirectory($this->appRoot);
 
         $process = $processBuilder->getProcess();
         try {
