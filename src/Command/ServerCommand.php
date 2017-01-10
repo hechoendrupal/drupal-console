@@ -76,42 +76,24 @@ class ServerCommand extends Command
         }
 
         $router = $this->getRouterPath();
-        $cli = sprintf(
-            '%s %s %s %s',
-            $binary,
-            '-S',
-            $address,
-            $router
-        );
+        $processBuilder = new ProcessBuilder([$binary, '-S', $address, $router]);
+        $processBuilder->setTimeout(NULL);
+        $processBuilder->setWorkingDirectory($this->appRoot);
+        $process = $processBuilder->getProcess();
 
         if ($learning) {
-            $io->commentBlock($cli);
+          $io->commentBlock($process->getCommandLine());
         }
 
         $io->success(
-            sprintf(
-                $this->trans('commands.server.messages.executing'),
-                $binary
-            )
+          sprintf(
+            $this->trans('commands.server.messages.executing'),
+            $binary
+          )
         );
 
-        $processBuilder = new ProcessBuilder(explode(' ', $cli));
-        $processBuilder->setTimeout(NULL);
-        $processBuilder->setWorkingDirectory($this->appRoot);
-
-        $process = $processBuilder->getProcess();
-        try {
-          $process->setTty(TRUE);
-          $outputCallback = NULL;
-        }
-        catch(RuntimeException $e) {
-          // We can't use TTY.  Handle output manually.
-          $outputCallback = function($type, $message) use ($io) {
-            $io->write($message);
-          };
-        }
-
-        $process->run($outputCallback);
+        // Use the process helper to copy process output to console output.
+        $this->getHelper('process')->run($output, $process, null, null);
 
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());
