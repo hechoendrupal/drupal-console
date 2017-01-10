@@ -95,14 +95,22 @@ class ServerCommand extends Command
         );
 
         $processBuilder = new ProcessBuilder(explode(' ', $cli));
+        $processBuilder->setTimeout(NULL);
+        $processBuilder->setWorkingDirectory($this->getDrupalHelper()->getRoot());
+
         $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->appRoot);
-        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
-            $process->setTty('true');
-        } else {
-            $process->setTimeout(null);
+        try {
+          $process->setTty(TRUE);
+          $outputCallback = NULL;
         }
-        $process->run();
+        catch(RuntimeException $e) {
+          // We can't use TTY.  Handle output manually.
+          $outputCallback = function($type, $message) use ($io) {
+            $io->write($message);
+          };
+        }
+
+        $process->run($outputCallback);
 
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());
