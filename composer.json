@@ -41,7 +41,7 @@
         "alchemy/zippy": "0.4.3",
         "composer/installers": "~1.0",
         "symfony/css-selector": ">=2.7 <3.2",
-        "symfony/dom-crawler": ">=2.7 <3.2",
+        "symfony/dom-crawler": ">=2.7 <3.3",
         "symfony/http-foundation": ">=2.7 <3.2",
         "guzzlehttp/guzzle": "~6.1",
         "gabordemooij/redbean": "~4.3",
