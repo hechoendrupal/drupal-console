@@ -129,7 +129,8 @@ class ProfileCommand extends Command
                 'dependencies',
                 false,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.profile.options.dependencies')
+                $this->trans('commands.generate.profile.options.dependencies'),
+                ''
             )
             ->addOption(
                 'distribution',
@@ -154,23 +155,9 @@ class ProfileCommand extends Command
         $machine_name = $this->validator->validateMachineName($input->getOption('machine-name'));
         $description = $input->getOption('description');
         $core = $input->getOption('core');
+        $dependencies = $this->validator->validateExtensions($input->getOption('dependencies'), 'module', $io);
         $distribution = $input->getOption('distribution');
         $profile_path = $this->appRoot . '/profiles';
-
-        // Check if all module dependencies are available.
-        $dependencies = $this->validator->validateMachineNameList($input->getOption('dependencies'));
-        if ($dependencies) {
-            $checked_dependencies = $this->checkDependencies($dependencies['success']);
-            if (!empty($checked_dependencies['no_modules'])) {
-                $io->info(
-                    sprintf(
-                        $this->trans('commands.generate.profile.warnings.module-unavailable'),
-                        implode(', ', $checked_dependencies['no_modules'])
-                    )
-                );
-            }
-            $dependencies = $dependencies['success'];
-        }
 
         $this->generator->generate(
             $profile,
@@ -181,43 +168,6 @@ class ProfileCommand extends Command
             $dependencies,
             $distribution
         );
-    }
-
-    /**
-     * @param  array $dependencies
-     * @return array
-     */
-    private function checkDependencies(array $dependencies)
-    {
-        $this->site->loadLegacyFile('/core/modules/system/system.module');
-        $local_modules = [];
-
-        $modules = system_rebuild_module_data();
-        foreach ($modules as $module_id => $module) {
-            array_push($local_modules, basename($module->subpath));
-        }
-
-        $checked_dependencies = [
-            'local_modules' => [],
-            'drupal_modules' => [],
-            'no_modules' => [],
-        ];
-
-        foreach ($dependencies as $module) {
-            if (in_array($module, $local_modules)) {
-                $checked_dependencies['local_modules'][] = $module;
-            } else {
-                $response = $this->httpClient->head('https://www.drupal.org/project/' . $module);
-                $header_link = explode(';', $response->getHeader('link'));
-                if (empty($header_link[0])) {
-                    $checked_dependencies['no_modules'][] = $module;
-                } else {
-                    $checked_dependencies['drupal_modules'][] = $module;
-                }
-            }
-        }
-
-        return $checked_dependencies;
     }
 
     /**

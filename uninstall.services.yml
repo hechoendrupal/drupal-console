@@ -4,7 +4,7 @@ services:
     arguments: ['@app.root', '@console.configuration_manager']
   console.extension_manager:
     class: Drupal\Console\Extension\Manager
-    arguments: ['@console.site', '@app.root']
+    arguments: ['@console.site', '@http_client', '@app.root']
   console.server:
     class: Drupal\Console\Command\ServerCommand
     arguments: ['@app.root', '@console.configuration_manager']

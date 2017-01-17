@@ -169,7 +169,8 @@ class ModuleCommand extends Command
                 'dependencies',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.dependencies')
+                $this->trans('commands.generate.module.options.dependencies'),
+                ''
             )
             ->addOption(
                 'test',
@@ -210,24 +211,9 @@ class ModuleCommand extends Command
         $moduleFile = $input->getOption('module-file');
         $featuresBundle = $input->getOption('features-bundle');
         $composer = $input->getOption('composer');
+        $dependencies = $this->validator->validateExtensions($input->getOption('dependencies'), 'module', $io);
         $test = $input->getOption('test');
         $twigtemplate = $input->getOption('twigtemplate');
-
-         // Modules Dependencies, re-factor and share with other commands
-        $dependencies = $this->validator->validateMachineNameList($input->getOption('dependencies'));
-        // Check if all module dependencies are available
-        if ($dependencies) {
-            $checked_dependencies = $this->checkDependencies($dependencies['success'], $io);
-            if (!empty($checked_dependencies['no_modules'])) {
-                $io->warning(
-                    sprintf(
-                        $this->trans('commands.generate.module.warnings.module-unavailable'),
-                        implode(', ', $checked_dependencies['no_modules'])
-                    )
-                );
-            }
-            $dependencies = $dependencies['success'];
-        }
 
         $this->generator->generate(
             $module,
@@ -243,47 +229,6 @@ class ModuleCommand extends Command
             $test,
             $twigtemplate
         );
-    }
-
-    /**
-     * @param  array $dependencies
-     * @return array
-     */
-    private function checkDependencies(array $dependencies, DrupalStyle $io)
-    {
-        $this->site->loadLegacyFile('/core/modules/system/system.module');
-        $localModules = [];
-
-        $modules = system_rebuild_module_data();
-        foreach ($modules as $module_id => $module) {
-            array_push($localModules, basename($module->subpath));
-        }
-
-        $checkDependencies = [
-          'local_modules' => [],
-          'drupal_modules' => [],
-          'no_modules' => [],
-        ];
-
-        foreach ($dependencies as $module) {
-            if (in_array($module, $localModules)) {
-                $checkDependencies['local_modules'][] = $module;
-            } else {
-                try {
-                    $response = $this->httpClient->head('https://www.drupal.org/project/' . $module);
-                    $header_link = explode(';', $response->getHeader('link'));
-                    if (empty($header_link[0])) {
-                        $checkDependencies['no_modules'][] = $module;
-                    } else {
-                        $checkDependencies['drupal_modules'][] = $module;
-                    }
-                } catch (ClientException $e) {
-                    $checkDependencies['no_modules'][] = $module;
-                }
-            }
-        }
-
-        return $checkDependencies;
     }
 
     /**

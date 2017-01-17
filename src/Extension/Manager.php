@@ -3,6 +3,8 @@
 namespace Drupal\Console\Extension;
 
 use Drupal\Console\Utils\Site;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * Class ExtensionManager
@@ -15,6 +17,12 @@ class Manager
      * @var Site
      */
     protected $site;
+
+    /**
+     * @var Client
+     */
+    protected $httpClient;
+
     /**
      * @var string
      */
@@ -39,13 +47,16 @@ class Manager
      * ExtensionManager constructor.
      *
      * @param Site   $site
+     * @param Client $httpClient
      * @param string $appRoot
      */
     public function __construct(
         Site $site,
+        Client $httpClient,
         $appRoot
     ) {
         $this->site = $site;
+        $this->httpClient = $httpClient;
         $this->appRoot = $appRoot;
         $this->initialize();
     }
@@ -348,5 +359,46 @@ class Manager
     {
         $extension = $this->getExtension($type, $name);
         return $this->createExtension($extension);
+    }
+
+    /**
+     * @param array $extensions
+     * @param string $type
+     * @return array
+     */
+    public function checkExtensions(array $extensions, $type = 'module')
+    {
+        $checkextensions = [
+          'local_extensions' => [],
+          'drupal_extensions' => [],
+          'no_extensions' => [],
+        ];
+
+        $local_extensions = $this->discoverExtension($type)
+            ->showInstalled()
+            ->showUninstalled()
+            ->showCore()
+            ->showNoCore()
+            ->getList(TRUE);
+
+        foreach ($extensions as $extension) {
+            if (in_array($extension, $local_extensions)) {
+                $checkextensions['local_extensions'][] = $extension;
+            } else {
+                try {
+                    $response = $this->httpClient->head('https://www.drupal.org/project/' . $extension);
+                    $header_link = explode(';', $response->getHeader('link'));
+                    if (empty($header_link[0])) {
+                        $checkextensions['no_extensions'][] = $extension;
+                    } else {
+                        $checkextensions['drupal_extensions'][] = $extension;
+                    }
+                } catch (ClientException $e) {
+                    $checkextensions['no_extensions'][] = $extension;
+                }
+            }
+        }
+
+        return $checkextensions;
     }
 }

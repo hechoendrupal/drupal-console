@@ -8,6 +8,8 @@
 namespace Drupal\Console\Utils;
 
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Style\DrupalStyle;
+
 
 class Validator
 {
@@ -258,5 +260,32 @@ class Validator
             ->getList(true);
 
         return array_diff($moduleList, $modules);
+    }
+
+    /**
+     * @param  string $extensions_list
+     * @param  string $type
+     * @param  array $io
+     *
+     * @return array
+     */
+    public function validateExtensions(string $extensions_list, string $type, DrupalStyle $io)
+    {
+        $extensions = $this->validateMachineNameList($extensions_list);
+        // Check if all extensions are available
+        if ($extensions) {
+            $checked_extensions = $this->extensionManager->checkExtensions($extensions['success'], $type);
+            if (!empty($checked_extensions['no_extensions'])) {
+                $io->warning(
+                    sprintf(
+                        $this->trans('validator.warnings.extension-unavailable'),
+                        implode(', ', $checked_extensions['no_extensions'])
+                    )
+                );
+            }
+            $extensions = $extensions['success'];
+        }
+
+        return $extensions;
     }
 }
