@@ -158,7 +158,7 @@ class ProfileCommand extends Command
         $profile_path = $this->appRoot . '/profiles';
 
         // Check if all module dependencies are available.
-        $dependencies = $this->validator->validateModuleDependencies($input->getOption('dependencies'));
+        $dependencies = $this->validator->validateMachineNameList($input->getOption('dependencies'));
         if ($dependencies) {
             $checked_dependencies = $this->checkDependencies($dependencies['success']);
             if (!empty($checked_dependencies['no_modules'])) {

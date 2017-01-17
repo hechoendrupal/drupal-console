@@ -214,7 +214,7 @@ class ModuleCommand extends Command
         $twigtemplate = $input->getOption('twigtemplate');
 
          // Modules Dependencies, re-factor and share with other commands
-        $dependencies = $this->validator->validateModuleDependencies($input->getOption('dependencies'));
+        $dependencies = $this->validator->validateMachineNameList($input->getOption('dependencies'));
         // Check if all module dependencies are available
         if ($dependencies) {
             $checked_dependencies = $this->checkDependencies($dependencies['success'], $io);

@@ -114,29 +114,29 @@ class Validator
         return $module_path;
     }
 
-    public function validateModuleDependencies($dependencies)
+    public function validateMachineNameList($list)
     {
-        $dependencies_checked = [
+        $list_checked = [
           'success' => [],
           'fail' => [],
         ];
 
-        if (empty($dependencies)) {
+        if (empty($list)) {
             return [];
         }
 
-        $dependencies = explode(',', $this->removeSpaces($dependencies));
-        foreach ($dependencies as $key => $module) {
+        $list = explode(',', $this->removeSpaces($list));
+        foreach ($list as $key => $module) {
             if (!empty($module)) {
                 if (preg_match(self::REGEX_MACHINE_NAME, $module)) {
-                    $dependencies_checked['success'][] = $module;
+                    $list_checked['success'][] = $module;
                 } else {
-                    $dependencies_checked['fail'][] = $module;
+                    $list_checked['fail'][] = $module;
                 }
             }
         }
 
-        return $dependencies_checked;
+        return $list_checked;
     }
 
     /**
