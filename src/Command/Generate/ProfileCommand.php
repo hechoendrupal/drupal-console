@@ -115,6 +115,13 @@ class ProfileCommand extends Command
                 ''
             )
             ->addOption(
+                'themes',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.profile.options.themes'),
+                ''
+            )
+            ->addOption(
                 'distribution',
                 false,
                 InputOption::VALUE_OPTIONAL,
@@ -138,6 +145,7 @@ class ProfileCommand extends Command
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $dependencies = $this->validator->validateExtensions($input->getOption('dependencies'), 'module', $io);
+        $themes = $this->validator->validateExtensions($input->getOption('themes'), 'theme', $io);
         $distribution = $input->getOption('distribution');
         $profile_path = $this->appRoot . '/profiles';
 
@@ -148,6 +156,7 @@ class ProfileCommand extends Command
             $description,
             $core,
             $dependencies,
+            $themes,
             $distribution
         );
     }

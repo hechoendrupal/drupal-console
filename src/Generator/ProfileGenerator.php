@@ -18,6 +18,7 @@ class ProfileGenerator extends Generator
         $description,
         $core,
         $dependencies,
+        $themes,
         $distribution
     ) {
         $dir = $profile_path . '/' . $machine_name;
@@ -57,6 +58,7 @@ class ProfileGenerator extends Generator
           'core' => $core,
           'description' => $description,
           'dependencies' => $dependencies,
+          'themes' => $themes,
           'distribution' => $distribution,
         ];
 
