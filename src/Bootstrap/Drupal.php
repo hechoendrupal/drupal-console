@@ -6,6 +6,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
@@ -64,6 +65,14 @@ class Drupal
             } else {
                 $request = Request::createFromGlobals();
             }
+
+            if ($debug) {
+                $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
+                $io->writeln('➤ Deleting local PHP files');
+            }
+            $fs = new Filesystem();
+            $fs ->remove($this->appRoot.'/sites/default/files/php/');
+
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Creating Drupal kernel');
