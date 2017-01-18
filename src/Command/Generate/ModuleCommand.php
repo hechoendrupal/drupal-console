@@ -19,9 +19,6 @@ use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\DrupalApi;
-use GuzzleHttp\Client;
-use Drupal\Console\Utils\Site;
-use GuzzleHttp\Exception\ClientException;
 
 class ModuleCommand extends Command
 {
@@ -54,16 +51,6 @@ class ModuleCommand extends Command
     protected $drupalApi;
 
     /**
-     * @var Client
-     */
-    protected $httpClient;
-
-    /**
-     * @var Site
-     */
-    protected $site;
-
-    /**
      * @var string
      */
     protected $twigtemplate;
@@ -77,8 +64,6 @@ class ModuleCommand extends Command
      * @param $appRoot
      * @param StringConverter $stringConverter
      * @param DrupalApi       $drupalApi
-     * @param Client          $httpClient
-     * @param Site            $site
      * @param $twigtemplate
      */
     public function __construct(
@@ -87,8 +72,6 @@ class ModuleCommand extends Command
         $appRoot,
         StringConverter $stringConverter,
         DrupalApi $drupalApi,
-        Client $httpClient,
-        Site $site,
         $twigtemplate = null
     ) {
         $this->generator = $generator;
@@ -96,8 +79,6 @@ class ModuleCommand extends Command
         $this->appRoot = $appRoot;
         $this->stringConverter = $stringConverter;
         $this->drupalApi = $drupalApi;
-        $this->httpClient = $httpClient;
-        $this->site = $site;
         $this->twigtemplate = $twigtemplate;
         parent::__construct();
     }

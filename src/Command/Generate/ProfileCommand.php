@@ -18,8 +18,6 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\Site;
-use GuzzleHttp\Client;
 
 /**
  * Class ProfileCommand
@@ -53,16 +51,6 @@ class ProfileCommand extends Command
     protected $validator;
 
     /**
-     * @var Site
-     */
-    protected $site;
-
-    /**
-     * @var Client
-     */
-    protected $httpClient;
-
-    /**
      * ProfileCommand constructor.
      *
      * @param Manager          $extensionManager
@@ -70,25 +58,19 @@ class ProfileCommand extends Command
      * @param StringConverter  $stringConverter
      * @param Validator        $validator
      * @param $appRoot
-     * @param Site             $site
-     * @param Client           $httpClient
      */
     public function __construct(
         Manager $extensionManager,
         ProfileGenerator $generator,
         StringConverter $stringConverter,
         Validator $validator,
-        $appRoot,
-        Site $site,
-        Client $httpClient
+        $appRoot
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
         $this->validator = $validator;
         $this->appRoot = $appRoot;
-        $this->site = $site;
-        $this->httpClient = $httpClient;
         parent::__construct();
     }
 
