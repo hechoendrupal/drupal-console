@@ -10,6 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Console\Command\Command;
@@ -75,34 +76,24 @@ class ServerCommand extends Command
         }
 
         $router = $this->getRouterPath();
-        $cli = sprintf(
-            '%s %s %s %s',
-            $binary,
-            '-S',
-            $address,
-            $router
-        );
+        $processBuilder = new ProcessBuilder([$binary, '-S', $address, $router]);
+        $processBuilder->setTimeout(NULL);
+        $processBuilder->setWorkingDirectory($this->appRoot);
+        $process = $processBuilder->getProcess();
 
         if ($learning) {
-            $io->commentBlock($cli);
+          $io->commentBlock($process->getCommandLine());
         }
 
         $io->success(
-            sprintf(
-                $this->trans('commands.server.messages.executing'),
-                $binary
-            )
+          sprintf(
+            $this->trans('commands.server.messages.executing'),
+            $binary
+          )
         );
 
-        $processBuilder = new ProcessBuilder(explode(' ', $cli));
-        $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->appRoot);
-        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
-            $process->setTty('true');
-        } else {
-            $process->setTimeout(null);
-        }
-        $process->run();
+        // Use the process helper to copy process output to console output.
+        $this->getHelper('process')->run($output, $process, null, null);
 
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());
