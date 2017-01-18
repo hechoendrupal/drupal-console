@@ -194,3 +194,8 @@ services:
     arguments: ['@console.extension_manager', '@console.entityconfig_generator', '@console.validator', '@console.string_converter']
     tags:
        - { name: drupal.command }
+  console.generate_cache_context:
+        class: Drupal\Console\Command\Generate\CacheContextCommand
+        arguments: [ '@console.cache_context_generator', '@console.chain_queue']
+        tags:
+           - { name: drupal.command }
