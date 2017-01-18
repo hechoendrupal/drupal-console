@@ -31,13 +31,13 @@ class ProfileCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var ProfileGenerator
-*/
+     * @var ProfileGenerator
+     */
     protected $generator;
 
     /**
@@ -46,8 +46,8 @@ class ProfileCommand extends Command
     protected $stringConverter;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**

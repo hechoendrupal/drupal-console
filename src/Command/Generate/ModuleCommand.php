@@ -26,13 +26,13 @@ class ModuleCommand extends Command
     use CommandTrait;
 
     /**
- * @var ModuleGenerator
-*/
+     * @var ModuleGenerator
+     */
     protected $generator;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
