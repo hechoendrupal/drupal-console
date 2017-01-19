@@ -114,7 +114,7 @@ class CacheContextCommand extends Command
     if (!$cache_context) {
       $cache_context = $io->ask(
         $this->trans('ccommands.generate.cache.context.questions.name'),
-        sprintf('%s.default', $module)
+        sprintf('%s', $module)
       );
       $input->setOption('name', $cache_context);
     }
