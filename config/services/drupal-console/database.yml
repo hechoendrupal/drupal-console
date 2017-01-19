@@ -36,6 +36,11 @@ services:
     arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
     tags:
       - { name: drupal.command }
+  console.database_log_poll:
+    class: Drupal\Console\Command\Database\LogPollCommand
+    arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
+    tags:
+      - { name: drupal.command }
   console.database_restore:
     class: Drupal\Console\Command\Database\RestoreCommand
     arguments: ['@app.root']

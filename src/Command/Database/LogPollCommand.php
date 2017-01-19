@@ -15,13 +15,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 class LogPollCommand extends DatabaseLogBase
 {
     /**
-   * @var
-   */
+     * @var
+     */
     protected $duration;
 
     /**
-   *
-   */
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+
+        $io->note($this->trans('commands.database.log.poll.messages.warning'));
+
+        $this->getDefaultOptions($input);
+        $this->duration = $input->getArgument('duration');
+
+        $this->pollForEvents($io);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -39,24 +54,8 @@ class LogPollCommand extends DatabaseLogBase
     }
 
     /**
-   * @param \Symfony\Component\Console\Input\InputInterface   $input
-   * @param \Symfony\Component\Console\Output\OutputInterface $output
-   */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $io = new DrupalStyle($input, $output);
-
-        $io->note($this->trans('commands.database.log.poll.messages.warning'));
-
-        $this->getDefaultOptions($input);
-        $this->duration = $input->getArgument('duration');
-
-        $this->pollForEvents($io);
-    }
-
-    /**
-   * @param \Drupal\Console\Core\Style\DrupalStyle $io
-   */
+     * @param DrupalStyle $io
+     */
     protected function pollForEvents(DrupalStyle $io)
     {
         $query = $this->makeQuery($io)->countQuery();
