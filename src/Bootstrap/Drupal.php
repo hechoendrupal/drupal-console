@@ -44,12 +44,19 @@ class Drupal
         }
 
         try {
-            // Add support for Acquia Dev Desktop sites on Mac OS X
-            // @TODO: Check if this condition works in Windows
-            $devDesktopSettingsDir = getenv('HOME') . "/.acquia/DevDesktop/DrupalSettings";
-            if (file_exists($devDesktopSettingsDir)) {
-                $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devDesktopSettingsDir;
+            // Add support for Acquia Dev Desktop sites.
+            // Try both Mac and Windows home locations.
+            $home = getenv('HOME');
+            if (empty($home)) {
+                $home = getenv('USERPROFILE');
             }
+            if (!empty($home)) {
+                $devDesktopSettingsDir = $home . "/.acquia/DevDesktop/DrupalSettings";
+                if (file_exists($devDesktopSettingsDir)) {
+                    $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devDesktopSettingsDir;
+                }
+            }
+
             $argvInputReader = new ArgvInputReader();
 
             if ($debug) {
