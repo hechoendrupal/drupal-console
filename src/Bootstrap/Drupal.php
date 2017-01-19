@@ -6,7 +6,6 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
@@ -36,6 +35,7 @@ class Drupal
         $output = new ConsoleOutput();
         $input = new ArrayInput([]);
         $io = new DrupalStyle($input, $output);
+        $argvInputReader = new ArgvInputReader();
 
         if (!class_exists('Drupal\Core\DrupalKernel')) {
             $io->error('Class Drupal\Core\DrupalKernel do not exists.');
@@ -50,13 +50,12 @@ class Drupal
             if (file_exists($devDesktopSettingsDir)) {
                 $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devDesktopSettingsDir;
             }
-            $argvInputReader = new ArgvInputReader();
 
             if ($debug) {
                 $io->writeln('➤ Creating request');
             }
-            if ($argvInputReader->get('uri')) {
-                $uri = $argvInputReader->get('uri');
+            $uri = $argvInputReader->get('uri');
+            if ($uri && $uri != 'http://default') {
                 if (substr($uri, -1) != '/') {
                     $uri .= '/';
                 }
@@ -68,14 +67,7 @@ class Drupal
 
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
-                $io->writeln('➤ Deleting local PHP files');
-            }
-            $fs = new Filesystem();
-            $fs ->remove($this->appRoot.'/sites/default/files/php/');
-
-            if ($debug) {
-                $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
-                $io->writeln('➤ Creating Drupal kernel');
+               $io->writeln('➤ Creating Drupal kernel');
             }
             $drupalKernel = DrupalKernel::createFromRequest(
                 $request,
@@ -132,7 +124,9 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            if ($argvInputReader->get('command') == 'list') {
+                $io->error($e->getMessage());
+            }
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             $container = $drupal->boot();
             $container->set('class_loader', $this->autoload);
