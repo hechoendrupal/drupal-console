@@ -124,7 +124,9 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            if ($argvInputReader->get('command') == 'list') {
+                $io->error($e->getMessage());
+            }
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             $container = $drupal->boot();
             $container->set('class_loader', $this->autoload);
