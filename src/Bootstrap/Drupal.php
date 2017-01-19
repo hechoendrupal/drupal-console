@@ -35,6 +35,7 @@ class Drupal
         $output = new ConsoleOutput();
         $input = new ArrayInput([]);
         $io = new DrupalStyle($input, $output);
+        $argvInputReader = new ArgvInputReader();
 
         if (!class_exists('Drupal\Core\DrupalKernel')) {
             $io->error('Class Drupal\Core\DrupalKernel do not exists.');
@@ -49,13 +50,12 @@ class Drupal
             if (file_exists($devDesktopSettingsDir)) {
                 $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devDesktopSettingsDir;
             }
-            $argvInputReader = new ArgvInputReader();
 
             if ($debug) {
                 $io->writeln('➤ Creating request');
             }
-            if ($argvInputReader->get('uri')) {
-                $uri = $argvInputReader->get('uri');
+            $uri = $argvInputReader->get('uri');
+            if ($uri && $uri != 'http://default') {
                 if (substr($uri, -1) != '/') {
                     $uri .= '/';
                 }
