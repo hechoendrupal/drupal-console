@@ -191,3 +191,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.cache_context_generator:
+        class: Drupal\Console\Generator\CacheContextGenerator
+        arguments: ['@console.extension_manager']
+        tags:
+          - { name: drupal.generator }
