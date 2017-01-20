@@ -18,12 +18,14 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Command\Shared\ServicesTrait;
 
 class CacheContextCommand extends Command
 {
   use ModuleTrait;
   use ConfirmationTrait;
   use ContainerAwareCommandTrait;
+  use ServicesTrait;
 
   /**
    * @var CacheContextGenerator
@@ -79,6 +81,12 @@ class CacheContextCommand extends Command
         null,
         InputOption::VALUE_OPTIONAL,
         $this->trans('commands.generate.cache.context.questions.class')
+      )
+      ->addOption(
+        'services',
+        null,
+        InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+        $this->trans('commands.common.options.services')
       );
   }
 
@@ -97,8 +105,9 @@ class CacheContextCommand extends Command
     $module = $input->getOption('module');
     $cache_context = $input->getOption('cache_context');
     $class = $input->getOption('class');
+    $services = $input->getOption('services');
 
-    $this->generator->generate($module, $cache_context, $class);
+    $this->generator->generate($module, $cache_context, $class, $services);
 
     $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
   }
@@ -136,6 +145,14 @@ class CacheContextCommand extends Command
         'DefaultCacheContext'
       );
       $input->setOption('class', $class);
+    }
+
+    // --services option
+    $services = $input->getOption('services');
+    if (!$services) {
+      // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
+      $services = $this->servicesQuestion($io);
+      $input->setOption('services', $services);
     }
   }
 }
