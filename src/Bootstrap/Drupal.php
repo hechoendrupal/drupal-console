@@ -81,11 +81,12 @@ class Drupal
                 $request,
                 $this->autoload,
                 'prod',
-                false
+                false,
+                $this->appRoot
             );
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
-                $io->writeln('➤ Providing dynamic services');
+                $io->writeln('➤ Registering dynamic services');
             }
             $drupalKernel->addServiceModifier(
                 new DrupalServiceModifier(
