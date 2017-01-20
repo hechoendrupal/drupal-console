@@ -34,13 +34,15 @@ class CacheContextGenerator extends Generator
    * @param string $module   Module name
    * @param string $cache_context     Cache context name
    * @param string $class    Class name
+   * @param array  $services List of services
    */
-  public function generate($module, $cache_context, $class)
+  public function generate($module, $cache_context, $class, $services)
   {
     $parameters = [
       'module' => $module,
       'name' => 'cache_context.' . $cache_context,
       'class' => $class,
+      'services' => $services,
       'class_path' => sprintf('Drupal\%s\CacheContext\%s', $module, $class),
       'tags' => ['name' => 'cache_context'],
       'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
