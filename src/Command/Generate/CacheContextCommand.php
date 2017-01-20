@@ -17,6 +17,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Extension\Manager;
 
 class CacheContextCommand extends Command
 {
@@ -35,17 +36,25 @@ class CacheContextCommand extends Command
   protected $chainQueue;
 
   /**
+   * @var Manager
+   */
+  protected $extensionManager;
+
+  /**
    * CacheContextCommand constructor.
    *
    * @param CacheContextGenerator    $generator
    * @param ChainQueue               $chainQueue
+   * @param Manager                  $extensionManager
    */
   public function __construct(
     CacheContextGenerator $generator,
-    ChainQueue $chainQueue
+    ChainQueue $chainQueue,
+    Manager $extensionManager
   ) {
     $this->generator = $generator;
     $this->chainQueue = $chainQueue;
+    $this->extensionManager = $extensionManager;
     parent::__construct();
   }
 
@@ -113,10 +122,10 @@ class CacheContextCommand extends Command
     $cache_context = $input->getOption('cache_context');
     if (!$cache_context) {
       $cache_context = $io->ask(
-        $this->trans('ccommands.generate.cache.context.questions.name'),
+        $this->trans('commands.generate.cache.context.questions.name'),
         sprintf('%s', $module)
       );
-      $input->setOption('name', $cache_context);
+      $input->setOption('cache_context', $cache_context);
     }
 
     // --class option
