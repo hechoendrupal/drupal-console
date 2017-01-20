@@ -19,6 +19,7 @@ use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Core\Utils\StringConverter;
 
 class CacheContextCommand extends Command
 {
@@ -43,20 +44,28 @@ class CacheContextCommand extends Command
   protected $extensionManager;
 
   /**
+   * @var StringConverter
+   */
+  protected $stringConverter;
+
+  /**
    * CacheContextCommand constructor.
    *
    * @param CacheContextGenerator    $generator
    * @param ChainQueue               $chainQueue
    * @param Manager                  $extensionManager
+   * @param StringConverter          $stringConverter
    */
   public function __construct(
     CacheContextGenerator $generator,
     ChainQueue $chainQueue,
-    Manager $extensionManager
+    Manager $extensionManager,
+    StringConverter $stringConverter
   ) {
     $this->generator = $generator;
     $this->chainQueue = $chainQueue;
     $this->extensionManager = $extensionManager;
+    $this->stringConverter = $stringConverter;
     parent::__construct();
   }
 
@@ -107,7 +116,10 @@ class CacheContextCommand extends Command
     $class = $input->getOption('class');
     $services = $input->getOption('services');
 
-    $this->generator->generate($module, $cache_context, $class, $services);
+    // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
+    $buildServices = $this->buildServices($services);
+
+    $this->generator->generate($module, $cache_context, $class, $buildServices);
 
     $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
   }
