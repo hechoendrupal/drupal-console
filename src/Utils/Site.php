@@ -66,6 +66,7 @@ class Site
         $finder = new Finder();
         $finder->directories()
             ->in($this->appRoot . '/core/lib/Drupal/Core/Database/Driver')
+            ->in($this->appRoot . '/drivers/lib/Drupal/Driver/Database')
             ->depth('== 0');
 
         $databases = [];
