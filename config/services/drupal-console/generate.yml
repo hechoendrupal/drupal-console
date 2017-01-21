@@ -104,6 +104,11 @@ services:
     arguments: ['@config.factory', '@console.chain_queue', '@console.plugin_migrate_source_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_migrate_process:
+    class: Drupal\Console\Command\Generate\PluginMigrateProcessCommand
+    arguments: [ '@console.plugin_migrate_process_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter']
+    tags:
+       - { name: drupal.command }
   console.generate_plugin_rest_resource:
     class: Drupal\Console\Command\Generate\PluginRestResourceCommand
     arguments: ['@console.extension_manager', '@console.plugin_rest_resource_generator','@console.string_converter', '@console.chain_queue']
@@ -196,6 +201,6 @@ services:
        - { name: drupal.command }
   console.generate_cache_context:
         class: Drupal\Console\Command\Generate\CacheContextCommand
-        arguments: [ '@console.cache_context_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter'']
+        arguments: [ '@console.cache_context_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter']
         tags:
            - { name: drupal.command }
