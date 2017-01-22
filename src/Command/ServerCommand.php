@@ -10,7 +10,6 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Process\Exception\RuntimeException;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Console\Command\Command;
@@ -81,15 +80,18 @@ class ServerCommand extends Command
         $processBuilder->setWorkingDirectory($this->appRoot);
         $process = $processBuilder->getProcess();
 
-        if ($learning) {
-          $io->commentBlock($process->getCommandLine());
-        }
-
         $io->success(
           sprintf(
             $this->trans('commands.server.messages.executing'),
             $binary
           )
+        );
+
+        $io->commentBlock(
+            sprintf(
+                $this->trans('commands.server.messages.listening'),
+                $address
+            )
         );
 
         // Use the process helper to copy process output to console output.
