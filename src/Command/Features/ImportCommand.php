@@ -43,9 +43,13 @@ class ImportCommand extends Command
                 'bundle',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.features.import.options.packages')
+                $this->trans('commands.features.import.options.bundle')
             )
-            ->addArgument('packages', InputArgument::IS_ARRAY, $this->trans('commands.features.import.arguments.packages'));
+            ->addArgument(
+                'packages',
+                InputArgument::IS_ARRAY,
+                $this->trans('commands.features.import.arguments.packages')
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
