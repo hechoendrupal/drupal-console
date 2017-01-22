@@ -34,7 +34,7 @@ class ValidateCommand extends Command
     {
         $this
             ->setName('config:validate')
-            ->setDescription($this->trans('commands.config.default.description'))
+            ->setDescription($this->trans('commands.config.validate.description'))
             ->addArgument('config.name', InputArgument::REQUIRED);
     }
 
@@ -54,7 +54,7 @@ class ValidateCommand extends Command
         //Test the config name and see if a schema exists, if not it will fail
         $name = $input->getArgument('config.name');
         if (!$typedConfigManager->hasConfigSchema($name)) {
-            $io->warning($this->trans('commands.config.default.messages.noconf'));
+            $io->warning($this->trans('commands.config.validate.messages.no-conf'));
             return 1;
         }
 
