@@ -42,7 +42,7 @@ trait ModuleTrait
         }
 
         if (empty($modules)) {
-            throw new \Exception('No modules available, execute `generate:module` command to generate one.');
+            throw new \Exception('No extension available, execute the proper generator command to generate one.');
         }
 
         $module = $io->choiceNoList(

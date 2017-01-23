@@ -5,11 +5,9 @@ namespace Drupal\Console;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Console\Annotations\DrupalCommandAnnotationReader;
 use Drupal\Console\Utils\AnnotationValidator;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Application as BaseApplication;
 
 /**
@@ -153,7 +151,9 @@ class Application extends BaseApplication
                     continue;
                 }
 
-                if ($annotation = $annotationCommandReader->readAnnotation($serviceDefinition->getClass())) {
+                $annotation = $annotationCommandReader
+                    ->readAnnotation($serviceDefinition->getClass());
+                if ($annotation) {
                     $this->container->get('console.translator_manager')
                         ->addResourceTranslationsByExtension(
                             $annotation['extension'],
@@ -225,8 +225,8 @@ class Application extends BaseApplication
 
         $namespaces = array_filter(
             $this->getNamespaces(), function ($item) {
-            return (strpos($item, ':')<=0);
-        }
+                return (strpos($item, ':')<=0);
+            }
         );
         sort($namespaces);
         array_unshift($namespaces, 'misc');
@@ -235,8 +235,8 @@ class Application extends BaseApplication
             $commands = $this->all($namespace);
             usort(
                 $commands, function ($cmd1, $cmd2) {
-                return strcmp($cmd1->getName(), $cmd2->getName());
-            }
+                    return strcmp($cmd1->getName(), $cmd2->getName());
+                }
             );
 
             foreach ($commands as $command) {

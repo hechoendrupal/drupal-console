@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{module}}\Command\{{ class }}.
+\Drupal\{{extension}}\Command\{{ class }}.
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{module}}\Command;
+namespace Drupal\{{extension}}\Command;
 {% endblock %}
 
 {% block use_class %}
@@ -25,11 +25,11 @@ use Drupal\Console\Annotations\DrupalCommand;
 /**
  * Class {{ class_name }}.
  *
- * @package Drupal\{{module}}
+ * @package Drupal\{{extension}}
  *
  * @DrupalCommand (
- *     extension="{{module}}",
- *     extensionType="module"
+ *     extension="{{extension}}",
+ *     extensionType="{{ extensionType }}"
  * )
  */
 class {{ class_name }} extends Command {% endblock %}

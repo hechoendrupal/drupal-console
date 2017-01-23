@@ -213,6 +213,11 @@ class Manager
             system_rebuild_module_data();
         }
 
+        if ($type === 'theme') {
+            $themeHandler = \Drupal::service('theme_handler');
+            $themeHandler->rebuildThemeData();
+        }
+
         /*
          * @see Remove DrupalExtensionDiscovery subclass once
          * https://www.drupal.org/node/2503927 is fixed.
@@ -335,5 +340,11 @@ class Manager
         $module = $this->getModule($moduleName);
 
         return $module->getPath() . '/src/Plugin/'.$pluginType;
+    }
+
+    public function getDrupalExtension($type, $name)
+    {
+        $extension = $this->getExtension($type, $name);
+        return $this->createExtension($extension);
     }
 }

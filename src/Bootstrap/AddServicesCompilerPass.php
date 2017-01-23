@@ -95,6 +95,22 @@ class AddServicesCompilerPass implements CompilerPassInterface
             }
         }
 
+        /**
+         * @var Extension[] $themes
+         */
+        $themes = $extensionManager->discoverThemes()
+            ->showNoCore()
+            ->showInstalled()
+            ->getList(false);
+
+        foreach ($themes as $theme) {
+            $consoleServicesFile = $this->appRoot . '/' .
+                $theme->getPath() . '/console.services.yml';
+            if (is_file($consoleServicesFile)) {
+                $loader->load($consoleServicesFile);
+            }
+        }
+
         $container->setParameter(
             'console.service_definitions',
             $container->getDefinitions()
