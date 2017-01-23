@@ -63,10 +63,21 @@ class Site
         $this->loadLegacyFile('/core/includes/install.inc');
         $this->setMinimalContainerPreKernel();
 
+        $driverDirectories = [
+            $this->appRoot . '/core/lib/Drupal/Core/Database/Driver',
+            $this->appRoot . '/drivers/lib/Drupal/Driver/Database'
+        ];
+
+        $driverDirectories = array_filter(
+            $driverDirectories,
+            function ($directory) {
+                return is_dir($directory);
+            }
+        );
+
         $finder = new Finder();
         $finder->directories()
-            ->in($this->appRoot . '/core/lib/Drupal/Core/Database/Driver')
-            ->in($this->appRoot . '/drivers/lib/Drupal/Driver/Database')
+            ->in($driverDirectories)
             ->depth('== 0');
 
         $databases = [];
