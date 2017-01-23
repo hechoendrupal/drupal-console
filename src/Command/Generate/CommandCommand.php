@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ExtensionTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,6 +28,7 @@ class CommandCommand extends Command
     use ConfirmationTrait;
     use ServicesTrait;
     use ModuleTrait;
+    use ExtensionTrait;
 
     /**
      * @var CommandGenerator
@@ -79,10 +81,16 @@ class CommandCommand extends Command
             ->setDescription($this->trans('commands.generate.command.description'))
             ->setHelp($this->trans('commands.generate.command.help'))
             ->addOption(
-                'module',
+                'extension',
                 '',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.common.options.module')
+                $this->trans('commands.common.options.extension')
+            )
+            ->addOption(
+                'extension-type',
+                '',
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.extension-type')
             )
             ->addOption(
                 'class',
@@ -117,7 +125,8 @@ class CommandCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $module = $input->getOption('module');
+        $extension = $input->getOption('extension');
+        $extensionType = $input->getOption('extension-type');
         $class = $input->getOption('class');
         $name = $input->getOption('name');
         $containerAware = $input->getOption('container-aware');
@@ -133,7 +142,8 @@ class CommandCommand extends Command
         $build_services = $this->buildServices($services);
 
         $this->generator->generate(
-            $module,
+            $extension,
+            $extensionType,
             $name,
             $class,
             $containerAware,
@@ -148,24 +158,28 @@ class CommandCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
+        $extension = $input->getOption('extension');
+        if (!$extension) {
+            $extension = $this->extensionQuestion($io, true, true);
+            $input->setOption('extension', $extension->getName());
+            $input->setOption('extension-type', $extension->getType());
         }
 
-        // --name
+        $extensionType = $input->getOption('extension-type');
+        if (!$extensionType) {
+            $extensionType = $this->extensionTypeQuestion($io);
+            $input->setOption('extension-type', $extensionType);
+        }
+
         $name = $input->getOption('name');
         if (!$name) {
             $name = $io->ask(
                 $this->trans('commands.generate.command.questions.name'),
-                sprintf('%s:default', $module)
+                sprintf('%s:default', $extension->getName())
             );
             $input->setOption('name', $name);
         }
 
-        // --class option
         $class = $input->getOption('class');
         if (!$class) {
             $class = $io->ask(
@@ -178,7 +192,6 @@ class CommandCommand extends Command
             $input->setOption('class', $class);
         }
 
-        // --container-aware option
         $containerAware = $input->getOption('container-aware');
         if (!$containerAware) {
             $containerAware = $io->confirm(
@@ -189,7 +202,6 @@ class CommandCommand extends Command
         }
 
         if (!$containerAware) {
-            // --services option
             // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
             $services = $this->servicesQuestion($io);
             $input->setOption('services', $services);
