@@ -111,6 +111,17 @@ class AddServicesCompilerPass implements CompilerPassInterface
             }
         }
 
+        $configurationManager = $container->get('console.configuration_manager');
+        $directory = $configurationManager->getConsoleDirectory() . 'extend/';
+        $autoloadFile = $directory . 'vendor/autoload.php';
+        if (is_file($autoloadFile)) {
+            include_once $autoloadFile;
+            $extendService = $directory . 'extend.console.services.yml';
+            if (is_file($extendService)) {
+                $loader->load($extendService);
+            }
+        }
+
         $container->setParameter(
             'console.service_definitions',
             $container->getDefinitions()
