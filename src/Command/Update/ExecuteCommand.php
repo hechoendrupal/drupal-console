@@ -127,7 +127,7 @@ class ExecuteCommand extends Command
         drupal_load_updates();
         update_fix_compatibility();
         $updates = update_get_update_list();
-        $updates = $this->checkUpdates($io, $updates);
+        $this->checkUpdates($io, $updates);
         $maintenance_mode = $this->state->get('system.maintenance_mode', false);
 
         if (!$maintenance_mode) {
@@ -149,9 +149,9 @@ class ExecuteCommand extends Command
 
     /**
      * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     * @param $updates
+     * @param array $updates
      */
-    private function checkUpdates(DrupalStyle $io, $updates)
+    private function checkUpdates(DrupalStyle $io, array &$updates)
     {
         if ($this->module != 'all') {
             if (!isset($updates[$this->module])) {
@@ -161,7 +161,6 @@ class ExecuteCommand extends Command
                         $this->module
                     )
                 );
-                $updates = [];
             } else {
                 // filter to execute only a specific module updates
                 $updates = [$this->module => $updates[$this->module]];
@@ -177,7 +176,6 @@ class ExecuteCommand extends Command
                 }
             }
         }
-        return $updates;
     }
 
     /**
