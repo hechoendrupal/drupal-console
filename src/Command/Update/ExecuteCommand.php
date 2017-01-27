@@ -161,6 +161,7 @@ class ExecuteCommand extends Command
                         $this->module
                     )
                 );
+                $updates = [];
             } else {
                 // filter to execute only a specific module updates
                 $updates = [$this->module => $updates[$this->module]];
