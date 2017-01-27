@@ -195,35 +195,33 @@ class ExecuteCommand extends Command
                     ->loadLegacyFile($extension->getPath() . '/'. $module_name . '.install', false);
             }
 
+            if ($this->update_n > $module_updates['start']) {
+                $io->info(
+                    $this->trans('commands.update.execute.messages.executing-required-previous-updates')
+                );
+            }
+
             foreach ($module_updates['pending'] as $update_number => $update) {
-                if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {
+                if ($this->module != 'all' && $this->update_n !== null && $this->update_n < $update_number) {
                     continue;
                 }
 
-                if ($this->update_n > $module_updates['start']) {
-                    $io->info(
-                        $this->trans('commands.update.execute.messages.executing-required-previous-updates')
-                    );
+                $io->info(
+                    sprintf(
+                        $this->trans('commands.update.execute.messages.executing-update'),
+                        $update_number,
+                        $module_name
+                    )
+                );
+
+                try {
+                    $this->moduleHandler->invoke($module_name, 'update_'  . $update_number);
+                } catch (\Exception $e) {
+                    watchdog_exception('update', $e);
+                    $io->error($e->getMessage());
                 }
 
-                for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
-                    $io->info(
-                        sprintf(
-                            $this->trans('commands.update.execute.messages.executing-update'),
-                            $update_index,
-                            $module_name
-                        )
-                    );
-
-                    try {
-                        $this->moduleHandler->invoke($module_name, 'update_'  . $update_index);
-                    } catch (\Exception $e) {
-                        watchdog_exception('update', $e);
-                        $io->error($e->getMessage());
-                    }
-
-                    drupal_set_installed_schema_version($module_name, $update_index);
-                }
+                drupal_set_installed_schema_version($module_name, $update_number);
             }
         }
     }
@@ -235,7 +233,7 @@ class ExecuteCommand extends Command
     {
         $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
         foreach ($postUpdates as $module_name => $module_updates) {
-            foreach ($module_updates['pending'] as $update_number => $update) {
+            foreach ($module_updates['pending'] as $update_name => $update) {
                 if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {
                     continue;
                 }
@@ -245,27 +243,25 @@ class ExecuteCommand extends Command
                         $this->trans('commands.update.execute.messages.executing-required-previous-updates')
                     );
                 }
-                for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
-                    $io->info(
-                        sprintf(
-                            $this->trans('commands.update.execute.messages.executing-update'),
-                            $update_index,
-                            $module_name
-                        )
-                    );
+                $io->info(
+                    sprintf(
+                        $this->trans('commands.update.execute.messages.executing-update'),
+                        $update_name,
+                        $module_name
+                    )
+                );
 
-                    try {
-                        $function = sprintf(
-                            '%s_post_update_%s',
-                            $module_name,
-                            $update_index
-                        );
-                        drupal_flush_all_caches();
-                        update_invoke_post_update($function);
-                    } catch (\Exception $e) {
-                        watchdog_exception('update', $e);
-                        $io->error($e->getMessage());
-                    }
+                try {
+                    $function = sprintf(
+                        '%s_post_update_%s',
+                        $module_name,
+                        $update_name
+                    );
+                    drupal_flush_all_caches();
+                    update_invoke_post_update($function);
+                } catch (\Exception $e) {
+                    watchdog_exception('update', $e);
+                    $io->error($e->getMessage());
                 }
             }
         }
