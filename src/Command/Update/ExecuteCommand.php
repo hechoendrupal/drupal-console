@@ -102,7 +102,7 @@ class ExecuteCommand extends Command
             ->setDescription($this->trans('commands.update.execute.description'))
             ->addArgument(
                 'module',
-                InputArgument::REQUIRED,
+                InputArgument::OPTIONAL,
                 $this->trans('commands.common.options.module')
             )
             ->addArgument(
@@ -118,7 +118,7 @@ class ExecuteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $this->module = $input->getArgument('module');
+        $this->module = $input->getArgument('module') ?: 'all';
         $this->update_n = $input->getArgument('update-n');
 
         $this->site->loadLegacyFile('/core/includes/install.inc');
