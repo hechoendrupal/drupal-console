@@ -127,7 +127,10 @@ class ExecuteCommand extends Command
         drupal_load_updates();
         update_fix_compatibility();
         $updates = update_get_update_list();
-        $this->checkUpdates($io, $updates);
+        if (!$this->checkUpdates($io, $updates)) {
+            return 1;
+        }
+
         $maintenance_mode = $this->state->get('system.maintenance_mode', false);
 
         if (!$maintenance_mode) {
@@ -150,8 +153,10 @@ class ExecuteCommand extends Command
     /**
      * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param array $updates
+     *
+     * @return bool true if the selected module/update number exists.
      */
-    private function checkUpdates(DrupalStyle $io, array &$updates)
+    private function checkUpdates(DrupalStyle $io, array $updates)
     {
         if ($this->module != 'all') {
             if (!isset($updates[$this->module])) {
@@ -161,22 +166,21 @@ class ExecuteCommand extends Command
                         $this->module
                     )
                 );
-                $updates = [];
+                return false;
             } else {
-                // filter to execute only a specific module updates
-                $updates = [$this->module => $updates[$this->module]];
-
                 if ($this->update_n && !isset($updates[$this->module]['pending'][$this->update_n])) {
-                    $io->info(
+                    $io->error(
                         sprintf(
                             $this->trans('commands.update.execute.messages.module-update-function-not-found'),
                             $this->module,
                             $this->update_n
                         )
                     );
+                    return false;
                 }
             }
         }
+        return true;
     }
 
     /**
