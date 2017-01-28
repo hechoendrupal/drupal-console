@@ -138,8 +138,18 @@ class ExecuteCommand extends Command
             $this->state->set('system.maintenance_mode', true);
         }
 
-        $this->runUpdates($io, $updates);
-        $this->runPostUpdates($io);
+        try {
+            $complete = $this->runUpdates($io, $updates);
+
+            // Post Updates are only safe to run after all schemas have been updated.
+            if ($complete) {
+                $this->runPostUpdates($io);
+            }
+        } catch (\Exception $e) {
+            watchdog_exception('update', $e);
+            $io->error($e->getMessage());
+            return 1;
+        }
 
         if (!$maintenance_mode) {
             $this->state->set('system.maintenance_mode', false);
@@ -185,10 +195,20 @@ class ExecuteCommand extends Command
 
     /**
      * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     * @param $updates
+     * @param array $updates
+     *
+     * @return bool True if all available updates have been run.
      */
-    private function runUpdates(DrupalStyle $io, $updates)
+    private function runUpdates(DrupalStyle $io, array $updates)
     {
+        if ($this->module != 'all') {
+            $complete = count($updates) == 1;
+            $updates = [$this->module => $updates[$this->module]];
+        }
+        else {
+            $complete = true;
+        }
+
         foreach ($updates as $module_name => $module_updates) {
             $extension = $this->extensionManager->getModule($module_name);
             if (!$extension) {
@@ -207,7 +227,7 @@ class ExecuteCommand extends Command
 
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($this->module != 'all' && $this->update_n !== null && $this->update_n < $update_number) {
-                    continue;
+                    return false;
                 }
 
                 $io->info(
@@ -218,16 +238,12 @@ class ExecuteCommand extends Command
                     )
                 );
 
-                try {
-                    $this->moduleHandler->invoke($module_name, 'update_'  . $update_number);
-                } catch (\Exception $e) {
-                    watchdog_exception('update', $e);
-                    $io->error($e->getMessage());
-                }
-
+                $this->moduleHandler->invoke($module_name, 'update_'  . $update_number);
                 drupal_set_installed_schema_version($module_name, $update_number);
             }
         }
+
+        return $complete;
     }
 
     /**
@@ -255,18 +271,14 @@ class ExecuteCommand extends Command
                     )
                 );
 
-                try {
-                    $function = sprintf(
-                        '%s_post_update_%s',
-                        $module_name,
-                        $update_name
-                    );
-                    drupal_flush_all_caches();
-                    update_invoke_post_update($function);
-                } catch (\Exception $e) {
-                    watchdog_exception('update', $e);
-                    $io->error($e->getMessage());
-                }
+                $function = sprintf(
+                    '%s_post_update_%s',
+                    $module_name,
+                    $update_name
+                );
+                drupal_flush_all_caches();
+                $context = [];
+                update_invoke_post_update($function, $context);
             }
         }
     }
