@@ -73,7 +73,7 @@ class ExecuteCommand extends Command
             ->setDescription($this->trans('commands.cron.execute.description'))
             ->addArgument(
                 'module',
-                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
+                InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
                 $this->trans('commands.common.options.module')
             );
     }
@@ -92,7 +92,7 @@ class ExecuteCommand extends Command
             return 1;
         }
 
-        if (in_array('all', $modules)) {
+        if ( $modules === NULL || in_array('all', $modules)) {
             $modules = $this->moduleHandler->getImplementations('cron');
         }
 
