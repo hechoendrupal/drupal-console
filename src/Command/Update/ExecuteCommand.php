@@ -46,8 +46,8 @@ class ExecuteCommand extends Command
 
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
@@ -254,15 +254,6 @@ class ExecuteCommand extends Command
         $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
         foreach ($postUpdates as $module_name => $module_updates) {
             foreach ($module_updates['pending'] as $update_name => $update) {
-                if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {
-                    continue;
-                }
-
-                if ($this->update_n > $module_updates['start']) {
-                    $io->info(
-                        $this->trans('commands.update.execute.messages.executing-required-previous-updates')
-                    );
-                }
                 $io->info(
                     sprintf(
                         $this->trans('commands.update.execute.messages.executing-update'),
