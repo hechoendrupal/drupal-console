@@ -45,11 +45,11 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
     }
 
     if ($revert_route = $this->getRevisionRevertRoute($entity_type)) {
-      $collection->add("{$entity_type_id}.revision_revert_confirm", $revert_route);
+      $collection->add("entity.{$entity_type_id}.revision_revert", $revert_route);
     }
 
     if ($delete_route = $this->getRevisionDeleteRoute($entity_type)) {
-      $collection->add("{$entity_type_id}.revision_delete_confirm", $delete_route);
+      $collection->add("entity.{$entity_type_id}.revision_delete", $delete_route);
     }
 {% if is_translatable %}
 
