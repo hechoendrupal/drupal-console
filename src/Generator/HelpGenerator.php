@@ -45,7 +45,7 @@ class HelpGenerator extends Generator
         ];
 
         $this->renderFile(
-            'module/src/help.php.twig',
+            'module/help.php.twig',
             $module_path .'/'.$module.'.module',
             $parameters,
             FILE_APPEND

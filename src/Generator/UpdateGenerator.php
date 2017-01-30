@@ -46,7 +46,7 @@ class UpdateGenerator extends Generator
         ];
 
         $this->renderFile(
-            'module/src/update.php.twig',
+            'module/update.php.twig',
             $updateFile,
             $parameters,
             FILE_APPEND
