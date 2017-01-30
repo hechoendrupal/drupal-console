@@ -102,11 +102,8 @@ class ModuleGenerator extends Generator
         }
 
         if ($moduleFile) {
-            $this->renderFile(
-                'module/module.twig',
-                $dir . '/' . $machineName . '.module',
-                $parameters
-            );
+            // Generate '.module' file.
+            $this->createModuleFile($dir, $parameters);
         }
 
         if ($composer) {
@@ -125,6 +122,11 @@ class ModuleGenerator extends Generator
             );
         }
         if ($twigtemplate) {
+            // If module file is not created earlier, create now.
+            if (!$moduleFile) {
+                // Generate '.module' file.
+                $this->createModuleFile($dir, $parameters);
+            }
             $this->renderFile(
                 'module/module-twig-template-append.twig',
                 $dir .'/' . $machineName . '.module',
@@ -165,5 +167,21 @@ class ModuleGenerator extends Generator
                 $parameters
             );
         }
+    }
+
+    /**
+     * Generate the '.module' file.
+     *
+     * @param string $dir
+     *   The directory name.
+     * @param array $parameters
+     *   The parameter array.
+     */
+    protected function createModuleFile ($dir, $parameters) {
+        $this->renderFile(
+          'module/module.twig',
+          $dir . '/' . $parameters['machine_name'] . '.module',
+          $parameters
+        );
     }
 }
