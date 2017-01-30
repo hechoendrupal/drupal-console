@@ -156,7 +156,7 @@ class InstallCommand extends Command
         $this->site->loadLegacyFile('/core/includes/bootstrap.inc');
 
         // check module's requirements
-        $this->moduleRequirement($module);
+        $this->moduleRequirement($module, $io);
 
         if ($composer) {
             foreach ($module as $moduleItem) {
