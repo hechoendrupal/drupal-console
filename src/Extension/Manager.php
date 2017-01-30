@@ -135,6 +135,8 @@ class Manager
     {
         $this->extension = $extension;
         $this->extensions[$extension] = $this->discoverExtensions($extension);
+
+        return $this;
     }
 
     /**
