@@ -32,7 +32,7 @@ class HelpGenerator extends Generator
      * Generator Post Update Name function.
      *
      * @param $module
-     * @param $post_update_name
+     * @param $description
      */
     public function generate($module, $description)
     {

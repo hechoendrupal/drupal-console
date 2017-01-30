@@ -57,7 +57,7 @@ class UpdateCommand extends Command
      *
      * @param Manager         $extensionManager
      * @param UpdateGenerator $generator
-     * @param StringConverter $stringConverter
+     * @param Site $site
      * @param ChainQueue      $chainQueue
      */
     public function __construct(
