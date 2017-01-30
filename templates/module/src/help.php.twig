@@ -1,6 +1,6 @@
 {% block file_methods %}
 {% if not file_exists %}
-<?php
+{% include 'php_tag.php.twig' %}
 {% endif %}
 use Drupal\Core\Routing\RouteMatchInterface;
 /**
