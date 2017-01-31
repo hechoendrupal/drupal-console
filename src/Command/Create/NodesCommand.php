@@ -17,6 +17,7 @@ use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Utils\Create\NodeData;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Class NodesCommand
@@ -82,7 +83,13 @@ class NodesCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.create.nodes.options.time-range')
-            );
+            )
+          ->addOption(
+            'language',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.create.nodes.options.language')
+          );
     }
 
     /**
@@ -142,6 +149,35 @@ class NodesCommand extends Command
 
             $input->setOption('time-range', array_search($timeRange, $timeRanges));
         }
+
+        // Language module is enabled or not.
+        $language_module_enabled = \Drupal::moduleHandler()->moduleExists('language');
+
+        // If language module is enabled.
+        if ($language_module_enabled) {
+            // Get available languages on site.
+            $available_languages = \Drupal::languageManager()->getLanguages();
+            // Holds the available languages.
+            $language_list = [];
+
+            foreach ($available_languages as $lang) {
+                $language_list[$lang->getId()] = $lang->getName();
+            }
+
+            $language = $input->getOption('language');
+            // If no language option or invalid language code in option.
+            if (!$language || !array_key_exists($language, $language_list)) {
+                $language = $io->choice(
+                  $this->trans('commands.create.nodes.questions.language'),
+                  $language_list
+                );
+            }
+            $input->setOption('language', $language);
+        }
+        else {
+            // If 'language' module is not enabled.
+            $input->setOption('language', LanguageInterface::LANGCODE_NOT_SPECIFIED);
+        }
     }
 
     /**
@@ -156,6 +192,7 @@ class NodesCommand extends Command
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
         $available_types = array_keys($this->drupalApi->getBundles());
+        $language = $input->getOption('language');
 
         foreach ($contentTypes as $type) {
             if (!in_array($type, $available_types)) {
@@ -171,7 +208,8 @@ class NodesCommand extends Command
             $contentTypes,
             $limit,
             $titleWords,
-            $timeRange
+            $timeRange,
+            $language
         );
 
         $tableHeader = [
