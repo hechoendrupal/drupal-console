@@ -45,7 +45,7 @@ class PostUpdateGenerator extends Generator
         ];
 
         $this->renderFile(
-            'module/src/post-update.php.twig',
+            'module/post-update.php.twig',
             $module_path .'/'.$module.'.post_update.php',
             $parameters,
             FILE_APPEND

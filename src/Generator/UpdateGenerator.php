@@ -36,16 +36,18 @@ class UpdateGenerator extends Generator
      */
     public function generate($module, $update_number)
     {
+        $modulePath =  $this->extensionManager->getModule($module)->getPath();
+        $updateFile = $modulePath .'/'.$module.'.install';
+
         $parameters = [
           'module' => $module,
           'update_number' => $update_number,
+          'file_exists' => file_exists($updateFile)
         ];
 
-        $module_path =  $this->extensionManager->getModule($module)->getPath();
-
         $this->renderFile(
-            'module/src/update.php.twig',
-            $module_path .'/'.$module.'.install',
+            'module/update.php.twig',
+            $updateFile,
             $parameters,
             FILE_APPEND
         );

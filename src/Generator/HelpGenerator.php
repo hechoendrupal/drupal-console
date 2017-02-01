@@ -32,7 +32,7 @@ class HelpGenerator extends Generator
      * Generator Post Update Name function.
      *
      * @param $module
-     * @param $post_update_name
+     * @param $description
      */
     public function generate($module, $description)
     {
@@ -45,7 +45,7 @@ class HelpGenerator extends Generator
         ];
 
         $this->renderFile(
-            'module/src/help.php.twig',
+            'module/help.php.twig',
             $module_path .'/'.$module.'.module',
             $parameters,
             FILE_APPEND
