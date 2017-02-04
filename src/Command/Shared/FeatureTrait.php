@@ -8,11 +8,9 @@
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Core\Style\DrupalStyle;
-use Symfony\Component\Console\Input\ArgvInput;
 use Drupal\features\FeaturesManagerInterface;
 use Drupal\features\ConfigurationItem;
 use Drupal\features\Plugin\FeaturesGeneration\FeaturesGenerationWrite;
-use Drupal\Component\Diff\DiffFormatter;
 use Drupal\config_update\ConfigRevertInterface;
 
 /**
@@ -27,7 +25,9 @@ trait FeatureTrait
         $packages = $this->getPackagesByBundle($bundle);
 
         if (empty($packages)) {
-            throw new \Exception('No packages available');
+            throw new \Exception(
+                $this->trans('commands.features.message.no-packages')
+            );
         }
 
         $package = $io->choiceNoList(
@@ -68,7 +68,7 @@ trait FeatureTrait
      *
      * @param bundle
      *
-     * @return features
+     * @return array
      */
     protected function getFeatureList($bundle)
     {
@@ -101,7 +101,7 @@ trait FeatureTrait
     }
 
 
-    protected function importFeature($io, $packages)
+    protected function importFeature(DrupalStyle $io, $packages)
     {
         $manager =  $this->getFeatureManager();
 
@@ -180,7 +180,6 @@ trait FeatureTrait
                         )
                     );
                 } else {
-
                     // Revert existing component.
                     $item = $config[$feature];
                     $type = ConfigurationItem::fromConfigStringToConfigType($item->getType());
