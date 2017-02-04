@@ -56,8 +56,12 @@ class Drupal
                     $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devDesktopSettingsDir;
                 }
             }
-
             $argvInputReader = new ArgvInputReader();
+            $command = $argvInputReader->get('command');
+            $rebuildServicesFile = false;
+            if ($command=='cache:rebuild' || $command=='cr') {
+                $rebuildServicesFile = true;
+            }
 
             if ($debug) {
                 $io->writeln('➤ Creating request');
@@ -75,7 +79,7 @@ class Drupal
 
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
-               $io->writeln('➤ Creating Drupal kernel');
+                $io->writeln('➤ Creating Drupal kernel');
             }
             $drupalKernel = DrupalKernel::createFromRequest(
                 $request,
@@ -88,12 +92,14 @@ class Drupal
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Registering dynamic services');
             }
+
             $drupalKernel->addServiceModifier(
                 new DrupalServiceModifier(
                     $this->root,
                     $this->appRoot,
                     'drupal.command',
-                    'drupal.generator'
+                    'drupal.generator',
+                    $rebuildServicesFile
                 )
             );
             if ($debug) {

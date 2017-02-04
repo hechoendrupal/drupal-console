@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\TranslatorManager;
 
@@ -27,15 +28,22 @@ class AddServicesCompilerPass implements CompilerPassInterface
     protected $appRoot;
 
     /**
+     * @var boolean
+     */
+    protected $rebuild;
+
+    /**
      * AddCommandsCompilerPass constructor.
      *
-     * @param string $root
-     * @param string $appRoot
+     * @param string  $root
+     * @param string  $appRoot
+     * @param boolean $rebuild
      */
-    public function __construct($root, $appRoot)
+    public function __construct($root, $appRoot, $rebuild = false)
     {
         $this->root = $root;
         $this->appRoot = $appRoot;
+        $this->rebuild = $rebuild;
     }
 
     /**
@@ -52,63 +60,93 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $loader->load($this->root.  DRUPAL_CONSOLE . 'services-drupal-install.yml');
         $loader->load($this->root.  DRUPAL_CONSOLE . 'services.yml');
 
-        $finder = new Finder();
-        $finder->files()
-            ->name('*.yml')
-            ->in(
-                sprintf(
-                    '%s/config/services/drupal-console',
-                    $this->root.DRUPAL_CONSOLE
-                )
-            );
+        $consoleServicesFile = $this->root.DRUPAL_CONSOLE.'services-console.yml';
 
-        foreach ($finder as $file) {
-            $loader->load($file->getPathName());
-        }
+        if ($this->rebuild || !file_exists($consoleServicesFile)) {
+            $finder = new Finder();
+            $finder->files()
+                ->name('*.yml')
+                ->in(
+                    sprintf(
+                        '%s/config/services/drupal-console',
+                        $this->root.DRUPAL_CONSOLE
+                    )
+                );
 
-        /**
-         * @var Manager $extensionManager
-         */
-        $extensionManager = $container->get('console.extension_manager');
-        /**
-         * @var Extension[] $modules
-         */
-        $modules = $extensionManager->discoverModules()
-            ->showCore()
-            ->showNoCore()
-            ->showInstalled()
-            ->getList(false);
+            $servicesData = [];
+            foreach ($finder as $file) {
+                $loader->load($file->getPathName());
+                $servicesData = $this->extractServiceData(
+                    $file->getPathName(),
+                    $servicesData
+                );
+            }
 
-        foreach ($modules as $module) {
-            if ($module->origin == 'core') {
-                $consoleServicesFile = $this->root . DRUPAL_CONSOLE .
-                    'config/services/drupal-core/'.$module->getName().'.yml';
-                if (is_file($consoleServicesFile)) {
-                    $loader->load($consoleServicesFile);
+            /**
+             * @var Manager $extensionManager
+             */
+            $extensionManager = $container->get('console.extension_manager');
+            /**
+             * @var Extension[] $modules
+             */
+            $modules = $extensionManager->discoverModules()
+                ->showCore()
+                ->showNoCore()
+                ->showInstalled()
+                ->getList(false);
+
+            foreach ($modules as $module) {
+                if ($module->origin == 'core') {
+                    $consoleServicesExtensionFile = $this->root . DRUPAL_CONSOLE .
+                        'config/services/drupal-core/'.$module->getName().'.yml';
+                    if (is_file($consoleServicesExtensionFile)) {
+                        $loader->load($consoleServicesExtensionFile);
+                        $servicesData = $this->extractServiceData(
+                            $consoleServicesExtensionFile,
+                            $servicesData
+                        );
+                    }
+                }
+
+                $consoleServicesExtensionFile = $this->appRoot . '/' .
+                    $module->getPath() . '/console.services.yml';
+                if (is_file($consoleServicesExtensionFile)) {
+                    $loader->load($consoleServicesExtensionFile);
+                    $servicesData = $this->extractServiceData(
+                        $consoleServicesExtensionFile,
+                        $servicesData
+                    );
                 }
             }
 
-            $consoleServicesFile = $this->appRoot . '/' .
-                $module->getPath() . '/console.services.yml';
-            if (is_file($consoleServicesFile)) {
-                $loader->load($consoleServicesFile);
-            }
-        }
+            /**
+             * @var Extension[] $themes
+             */
+            $themes = $extensionManager->discoverThemes()
+                ->showNoCore()
+                ->showInstalled()
+                ->getList(false);
 
-        /**
-         * @var Extension[] $themes
-         */
-        $themes = $extensionManager->discoverThemes()
-            ->showNoCore()
-            ->showInstalled()
-            ->getList(false);
-
-        foreach ($themes as $theme) {
-            $consoleServicesFile = $this->appRoot . '/' .
-                $theme->getPath() . '/console.services.yml';
-            if (is_file($consoleServicesFile)) {
-                $loader->load($consoleServicesFile);
+            foreach ($themes as $theme) {
+                $consoleServicesExtensionFile = $this->appRoot . '/' .
+                    $theme->getPath() . '/console.services.yml';
+                if (is_file($consoleServicesExtensionFile)) {
+                    $loader->load($consoleServicesExtensionFile);
+                    $servicesData = $this->extractServiceData(
+                        $consoleServicesExtensionFile,
+                        $servicesData
+                    );
+                }
             }
+
+            if ($servicesData) {
+                file_put_contents(
+                    $consoleServicesFile,
+                    Yaml::dump($servicesData, 4, 2)
+                );
+            }
+        } else {
+            $loader->load($consoleServicesFile);
         }
 
         $configurationManager = $container->get('console.configuration_manager');
@@ -116,9 +154,9 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $autoloadFile = $directory . 'vendor/autoload.php';
         if (is_file($autoloadFile)) {
             include_once $autoloadFile;
-            $extendService = $directory . 'extend.console.services.yml';
-            if (is_file($extendService)) {
-                $loader->load($extendService);
+            $extendServicesFile = $directory . 'extend.console.services.yml';
+            if (is_file($extendServicesFile)) {
+                $loader->load($extendServicesFile);
             }
         }
 
@@ -129,5 +167,25 @@ class AddServicesCompilerPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('console.translator_manager');
         $definition->setClass(TranslatorManager::class);
+    }
+
+    /**
+     * @param $filePath
+     * @param $servicesData
+     *
+     * @return array
+     */
+    protected function extractServiceData($filePath, $servicesData)
+    {
+        $serviceFileData = Yaml::parse(
+            file_get_contents($filePath)
+        );
+
+        $servicesData = array_merge_recursive(
+            $servicesData,
+            $serviceFileData
+        );
+
+        return $servicesData;
     }
 }
