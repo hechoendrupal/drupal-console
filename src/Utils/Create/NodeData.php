@@ -56,7 +56,8 @@ class NodeData extends Base
         $contentTypes,
         $limit,
         $titleWords,
-        $timeRange
+        $timeRange,
+        $language = LanguageInterface::LANGCODE_NOT_SPECIFIED
     ) {
         $nodes = [];
         for ($i=0; $i<$limit; $i++) {
@@ -72,7 +73,7 @@ class NodeData extends Base
                     'revision' => mt_rand(0, 1),
                     'status' => true,
                     'promote' => mt_rand(0, 1),
-                    'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED
+                    'langcode' => $language
                 ]
             );
 
