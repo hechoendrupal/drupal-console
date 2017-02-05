@@ -102,8 +102,7 @@ class ImportCommand extends Command
 
         if ($this->configImport($io, $storage_comparer)) {
             $io->success($this->trans('commands.config.import.messages.imported'));
-        }
-        else {
+        } else {
             return 1;
         }
     }
@@ -129,7 +128,7 @@ class ImportCommand extends Command
             try {
                 $io->info($this->trans('commands.config.import.messages.importing'));
                 $config_importer->import();
-                return TRUE;
+                return true;
             } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
                 $message .= implode("\n", $config_importer->getErrors());

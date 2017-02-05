@@ -12,7 +12,6 @@ use Drupal\Core\Database\Database;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;
 
-
 /**
  * Class MigrationTrait
  *
@@ -204,7 +203,7 @@ trait MigrationTrait
      * @param $dbHost
      */
     protected function addDBConnection(DrupalStyle $io, $key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
-    {   
+    {
         $database_type = $this->getDatabaseDrivers();
         $reflection = new \ReflectionClass($database_type[$dbType]);
         $install_namespace = $reflection->getNamespaceName();

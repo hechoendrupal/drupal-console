@@ -41,9 +41,9 @@ class DeleteCommand extends Command
     /**
      * DeleteCommand constructor.
      *
-     * @param ConfigFactory     $configFactory
-     * @param CachedStorage     $configStorage
-     * @param StorageInterface  $configStorageSync
+     * @param ConfigFactory    $configFactory
+     * @param CachedStorage    $configStorage
+     * @param StorageInterface $configStorageSync
      */
     public function __construct(
         ConfigFactory $configFactory,

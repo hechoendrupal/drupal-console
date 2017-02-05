@@ -49,10 +49,10 @@ class PluginMigrateProcessCommand extends Command
     /**
      * PluginBlockCommand constructor.
      *
-     * @param PluginMigrateProcessGenerator        $generator
-     * @param ChainQueue                           $chainQueue
-     * @param Manager                              $extensionManager
-     * @param StringConverter                      $stringConverter
+     * @param PluginMigrateProcessGenerator $generator
+     * @param ChainQueue                    $chainQueue
+     * @param Manager                       $extensionManager
+     * @param StringConverter               $stringConverter
      */
     public function __construct(
         PluginMigrateProcessGenerator $generator,

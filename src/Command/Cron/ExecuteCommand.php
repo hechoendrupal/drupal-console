@@ -92,7 +92,7 @@ class ExecuteCommand extends Command
             return 1;
         }
 
-        if ( $modules === NULL || in_array('all', $modules)) {
+        if ($modules === null || in_array('all', $modules)) {
             $modules = $this->moduleHandler->getImplementations('cron');
         }
 
