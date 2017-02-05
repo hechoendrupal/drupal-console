@@ -3,6 +3,7 @@
 namespace Drupal\Console\Utils;
 
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Logger\LoggerChannelFactory;
@@ -182,5 +183,46 @@ class Site
         }
 
         return false;
+    }
+
+    public function getCacheDirectory()
+    {
+        $configFactory = \Drupal::configFactory();
+        $basePath = $configFactory->get('system.file')
+            ->get('path.temporary');
+        $siteId = $configFactory->get('system.site')
+            ->get('uuid');
+        $basePath = $this->validateDirectory(
+            $basePath . '/console/cache/' . $siteId . '/'
+        );
+
+        if (!$basePath) {
+            if (function_exists('posix_getuid')) {
+                $homeDir = posix_getpwuid(posix_getuid())['dir'];
+            } else {
+                $homeDir = realpath(rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\'));
+            }
+
+            $basePath = sprintf('%s/.console/cache/%s/', $homeDir, $siteId);
+
+            $basePath = $this->validateDirectory($basePath);
+        }
+
+        return $basePath;
+    }
+
+    private function validateDirectory($path)
+    {
+        $fileSystem = new Filesystem();
+        if ($fileSystem->exists($path)) {
+            return $path;
+        }
+        try {
+            $fileSystem->mkdir($path);
+
+            return $path;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }

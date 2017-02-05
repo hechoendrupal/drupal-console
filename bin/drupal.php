@@ -8,6 +8,8 @@ use Drupal\Console\Application;
 
 set_time_limit(0);
 
+$autoloaders = [];
+
 if (file_exists(__DIR__ . '/../autoload.local.php')) {
     include_once __DIR__ . '/../autoload.local.php';
 } else {
