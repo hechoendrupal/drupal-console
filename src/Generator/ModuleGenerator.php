@@ -174,14 +174,15 @@ class ModuleGenerator extends Generator
      *
      * @param string $dir
      *   The directory name.
-     * @param array $parameters
+     * @param array  $parameters
      *   The parameter array.
      */
-    protected function createModuleFile ($dir, $parameters) {
+    protected function createModuleFile($dir, $parameters)
+    {
         $this->renderFile(
-          'module/module.twig',
-          $dir . '/' . $parameters['machine_name'] . '.module',
-          $parameters
+            'module/module.twig',
+            $dir . '/' . $parameters['machine_name'] . '.module',
+            $parameters
         );
     }
 }

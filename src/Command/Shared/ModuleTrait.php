@@ -16,7 +16,7 @@ trait ModuleTrait
      *
      * @param DrupalStyle $io
      *   Console interface.
-     * @param bool $showProfile
+     * @param bool        $showProfile
      *   If profiles should be discovered.
      *
      * @throws \Exception
@@ -58,11 +58,10 @@ trait ModuleTrait
     /**
      * Verify that install requirements for a list of modules are met.
      *
-     * @param string[] $module
+     * @param string[]    $module
      *   List of modules to verify.
      * @param DrupalStyle $io
      *   Console interface.
-     *
      *
      * @throws \Exception
      *   When one or more requirements are not met.
@@ -71,14 +70,14 @@ trait ModuleTrait
     {
         // TODO: Module dependencies should also be checked
         // for unmet requirements recursively.
-        $fail = FALSE;
+        $fail = false;
         foreach ($module as $module_name) {
             module_load_install($module_name);
             if ($requirements = \Drupal::moduleHandler()->invoke($module_name, 'requirements', ['install'])) {
                 foreach ($requirements as $requirement) {
                     if (isset($requirement['severity']) && $requirement['severity'] == REQUIREMENT_ERROR) {
                         $io->info("Module '{$module_name}' cannot be installed: " . $requirement['title'] . ' | ' . $requirement['value']);
-                        $fail = TRUE;
+                        $fail = true;
                     }
                 }
             }

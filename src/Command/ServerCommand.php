@@ -76,15 +76,15 @@ class ServerCommand extends Command
 
         $router = $this->getRouterPath();
         $processBuilder = new ProcessBuilder([$binary, '-S', $address, $router]);
-        $processBuilder->setTimeout(NULL);
+        $processBuilder->setTimeout(null);
         $processBuilder->setWorkingDirectory($this->appRoot);
         $process = $processBuilder->getProcess();
 
         $io->success(
-          sprintf(
-            $this->trans('commands.server.messages.executing'),
-            $binary
-          )
+            sprintf(
+                $this->trans('commands.server.messages.executing'),
+                $binary
+            )
         );
 
         $io->commentBlock(

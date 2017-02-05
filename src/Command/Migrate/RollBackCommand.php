@@ -41,6 +41,7 @@ class RollBackCommand extends Command
 
     /**
      * RollBackCommand constructor.
+     *
      * @param MigrationPluginManagerInterface $pluginManagerMigration
      */
     public function __construct(MigrationPluginManagerInterface $pluginManagerMigration)
@@ -61,8 +62,6 @@ class RollBackCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.setup.options.source-base_path')
             );
-
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -103,34 +102,32 @@ class RollBackCommand extends Command
 
                 $migration_status = $executable->rollback();
                 switch ($migration_status) {
-                    case MigrationInterface::RESULT_COMPLETED:
-                        $io->info(
-                            sprintf(
-                                $this->trans('commands.migrate.rollback.messages.processing'),
-                                $migration
-                            )
-                        );
-                        break;
-                    case MigrationInterface::RESULT_INCOMPLETE:
-                        $io->info(
-                            sprintf(
-                                $this->trans('commands.migrate.execute.messages.importing-incomplete'),
-                                $migration
-                            )
-                        );
-                        break;
-                    case MigrationInterface::RESULT_STOPPED:
-                        $io->error(
-                            sprintf(
-                                $this->trans('commands.migrate.execute.messages.import-stopped'),
-                                $migration
-                            )
-                        );
-                        break;
+                case MigrationInterface::RESULT_COMPLETED:
+                    $io->info(
+                        sprintf(
+                            $this->trans('commands.migrate.rollback.messages.processing'),
+                            $migration
+                        )
+                    );
+                    break;
+                case MigrationInterface::RESULT_INCOMPLETE:
+                    $io->info(
+                        sprintf(
+                            $this->trans('commands.migrate.execute.messages.importing-incomplete'),
+                            $migration
+                        )
+                    );
+                    break;
+                case MigrationInterface::RESULT_STOPPED:
+                    $io->error(
+                        sprintf(
+                            $this->trans('commands.migrate.execute.messages.import-stopped'),
+                            $migration
+                        )
+                    );
+                    break;
                 }
-
             }
-
         }
     }
 
@@ -140,7 +137,7 @@ class RollBackCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        // Get migrations 
+        // Get migrations
         $migrations_list = $this->getMigrations($version_tag);
 
         // --migration-id prefix
@@ -180,6 +177,5 @@ class RollBackCommand extends Command
             );
             $input->setOption('source-base_path', $sourceBasepath);
         }
-
     }
 }

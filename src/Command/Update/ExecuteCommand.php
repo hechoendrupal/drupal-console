@@ -162,7 +162,7 @@ class ExecuteCommand extends Command
 
     /**
      * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     * @param array $updates
+     * @param array                                  $updates
      *
      * @return bool true if the selected module/update number exists.
      */
@@ -195,7 +195,7 @@ class ExecuteCommand extends Command
 
     /**
      * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     * @param array $updates
+     * @param array                                  $updates
      *
      * @return bool True if all available updates have been run.
      */
@@ -204,8 +204,7 @@ class ExecuteCommand extends Command
         if ($this->module != 'all') {
             $complete = count($updates) == 1;
             $updates = [$this->module => $updates[$this->module]];
-        }
-        else {
+        } else {
             $complete = true;
         }
 

@@ -84,12 +84,12 @@ class NodesCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.create.nodes.options.time-range')
             )
-          ->addOption(
-            'language',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.create.nodes.options.language')
-          );
+            ->addOption(
+                'language',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.create.nodes.options.language')
+            );
     }
 
     /**
@@ -168,13 +168,12 @@ class NodesCommand extends Command
             // If no language option or invalid language code in option.
             if (!$language || !array_key_exists($language, $language_list)) {
                 $language = $io->choice(
-                  $this->trans('commands.create.nodes.questions.language'),
-                  $language_list
+                    $this->trans('commands.create.nodes.questions.language'),
+                    $language_list
                 );
             }
             $input->setOption('language', $language);
-        }
-        else {
+        } else {
             // If 'language' module is not enabled.
             $input->setOption('language', LanguageInterface::LANGCODE_NOT_SPECIFIED);
         }
