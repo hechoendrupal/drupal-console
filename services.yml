@@ -29,3 +29,5 @@ services:
   console.annotation_validator:
     class: Drupal\Console\Utils\AnnotationValidator
     arguments: ['@console.annotation_command_reader', '@console.extension_manager']
+  console.extend_extension_manager:
+    class: Drupal\Console\Utils\ExtendExtensionManager

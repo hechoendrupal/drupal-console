@@ -2,15 +2,16 @@
 
 namespace Drupal\Console\Bootstrap;
 
-use Drupal\Console\Extension\Extension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\ExtendExtensionManager;
 use Drupal\Console\Utils\TranslatorManager;
+use Drupal\Console\Extension\Extension;
+use Drupal\Console\Extension\Manager;
 
 /**
  * FindCommandsCompilerPass
@@ -56,13 +57,21 @@ class AddServicesCompilerPass implements CompilerPassInterface
             new FileLocator($this->root)
         );
 
-        $loader->load($this->root.  DRUPAL_CONSOLE_CORE . 'services.yml');
-        $loader->load($this->root.  DRUPAL_CONSOLE . 'services-drupal-install.yml');
-        $loader->load($this->root.  DRUPAL_CONSOLE . 'services.yml');
+        $loader->load($this->root. DRUPAL_CONSOLE_CORE . 'services.yml');
+        $loader->load($this->root. DRUPAL_CONSOLE . 'services-drupal-install.yml');
+        $loader->load($this->root. DRUPAL_CONSOLE . 'services.yml');
 
-        $consoleServicesFile = $this->root.DRUPAL_CONSOLE.'services-console.yml';
+        $basePath = $container->get('console.site')->getCacheDirectory();
+        $consoleServicesFile = $basePath.'/console.services.yml';
+        $consoleExtendServicesFile = $basePath.'/extend.console.services.yml';
+        $consoleExtendConfigFile = $basePath.'/extend.console.config.yml';
 
-        if ($this->rebuild || !file_exists($consoleServicesFile)) {
+        if ($basePath && !$this->rebuild && file_exists($consoleServicesFile)) {
+            $loader->load($consoleServicesFile);
+            if (file_exists($consoleExtendServicesFile)) {
+                $loader->load($consoleExtendServicesFile);
+            }
+        } else {
             $finder = new Finder();
             $finder->files()
                 ->name('*.yml')
@@ -139,14 +148,37 @@ class AddServicesCompilerPass implements CompilerPassInterface
                 }
             }
 
-            if ($servicesData) {
+            if ($servicesData && is_writable($basePath)) {
                 file_put_contents(
                     $consoleServicesFile,
                     Yaml::dump($servicesData, 4, 2)
                 );
             }
-        } else {
-            $loader->load($consoleServicesFile);
+
+            /**
+             * @var ExtendExtensionManager $extendExtensionManager
+             */
+            $extendExtensionManager = $container->get('console.extend_extension_manager');
+            $extendExtensionManager->processProjectPackages($this->root);
+            $configData = $extendExtensionManager->getConfigData();
+            if ($configData && is_writable($basePath)) {
+                file_put_contents(
+                    $consoleExtendConfigFile,
+                    Yaml::dump($configData, 6, 2)
+                );
+            }
+            $servicesData = $extendExtensionManager->getServicesData();
+            if ($servicesData && is_writable($basePath)) {
+                file_put_contents(
+                    $consoleExtendServicesFile,
+                    Yaml::dump($servicesData, 4, 2)
+                );
+            }
+
+            $servicesFiles = $extendExtensionManager->getServicesFiles();
+            foreach ($servicesFiles as $servicesFile) {
+                $loader->load($servicesFile);
+            }
         }
 
         $configurationManager = $container->get('console.configuration_manager');

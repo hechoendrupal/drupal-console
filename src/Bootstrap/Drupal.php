@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
+use Drupal\Console\Utils\ExtendExtensionManager;
 
 class Drupal
 {
@@ -128,6 +129,27 @@ class Drupal
                     $configuration->get('application.language'),
                     $this->root
                 );
+
+            $basePath = $container->get('console.site')->getCacheDirectory();
+            $consoleExtendConfigFile = $basePath.'/extend.console.config.yml';
+
+            if ($basePath && file_exists($consoleExtendConfigFile)) {
+                $container->get('console.configuration_manager')
+                    ->importConfigurationFile($consoleExtendConfigFile);
+            } else {
+                /**
+                 * @var ExtendExtensionManager $extendExtensionManager
+                 */
+                $extendExtensionManager = $container->get('console.extend_extension_manager');
+                if (!$extendExtensionManager->isProcessed()) {
+                    $extendExtensionManager->processProjectPackages($this->root);
+                }
+                $configFiles = $extendExtensionManager->getConfigFiles();
+                foreach ($configFiles as $configFile) {
+                    $container->get('console.configuration_manager')
+                        ->importConfigurationFile($configFile);
+                }
+            }
 
             $container->get('console.renderer')
                 ->setSkeletonDirs(
