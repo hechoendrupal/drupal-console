@@ -351,6 +351,8 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       ->setSetting('target_type', 'user')
       ->setQueryable(FALSE)
       ->setRevisionable(TRUE);
+{% endif %}
+{% if revisionable and is_translatable %}
 
     $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Revision translation affected'))

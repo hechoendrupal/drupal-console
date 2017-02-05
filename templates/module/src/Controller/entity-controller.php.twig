@@ -139,10 +139,10 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
               'title' => $this->t('Revert'),
 {% if is_translatable %}
               'url' => $has_translations ?
-              Url::fromRoute('{{ entity_name }}.revision_revert_translation_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid, 'langcode' => $langcode]) :
-              Url::fromRoute('{{ entity_name }}.revision_revert_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              Url::fromRoute('entity.{{ entity_name }}.translation_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid, 'langcode' => $langcode]) :
+              Url::fromRoute('entity.{{ entity_name }}.revision_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
 {%  else %}
-              'url' => Url::fromRoute('{{ entity_name }}.revision_revert_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              'url' => Url::fromRoute('entity.{{ entity_name }}.revision_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
 {% endif %}
             ];
           }
@@ -150,7 +150,7 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
           if ($delete_permission) {
             $links['delete'] = [
               'title' => $this->t('Delete'),
-              'url' => Url::fromRoute('{{ entity_name }}.revision_delete_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              'url' => Url::fromRoute('entity.{{ entity_name }}.revision_delete', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
             ];
           }
 
