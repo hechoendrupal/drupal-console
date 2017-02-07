@@ -10,19 +10,38 @@ use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Site\Settings;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class Site
 {
+    /**
+     * @var string
+     */
     protected $appRoot;
+
+    /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * @var string
+     */
+    protected $cacheDirectory;
 
     /**
      * Site constructor.
      *
-     * @param $appRoot
+     * @param string               $appRoot
+     * @param ConfigurationManager $configurationManager
      */
-    public function __construct($appRoot)
+    public function __construct(
+        $appRoot,
+        ConfigurationManager $configurationManager
+    )
     {
         $this->appRoot = $appRoot;
+        $this->configurationManager = $configurationManager;
     }
 
     public function loadLegacyFile($legacyFile, $relative = true)
@@ -187,42 +206,53 @@ class Site
 
     public function getCacheDirectory()
     {
-        $configFactory = \Drupal::configFactory();
-        $basePath = $configFactory->get('system.file')
-            ->get('path.temporary');
-        $siteId = $configFactory->get('system.site')
-            ->get('uuid');
-        $basePath = $this->validateDirectory(
-            $basePath . '/console/cache/' . $siteId . '/'
-        );
-
-        if (!$basePath) {
-            if (function_exists('posix_getuid')) {
-                $homeDir = posix_getpwuid(posix_getuid())['dir'];
-            } else {
-                $homeDir = realpath(rtrim(getenv('HOME') ?: getenv('USERPROFILE'), '/\\'));
-            }
-
-            $basePath = sprintf('%s/.console/cache/%s/', $homeDir, $siteId);
-
-            $basePath = $this->validateDirectory($basePath);
+        if ($this->cacheDirectory) {
+            return $this->cacheDirectory;
         }
 
-        return $basePath;
+        $configFactory = \Drupal::configFactory();
+        $siteId = $configFactory->get('system.site')
+            ->get('uuid');
+        $pathTemporary = $configFactory->get('system.file')
+            ->get('path.temporary');
+        $configuration = $this->configurationManager->getConfiguration();
+        $cacheDirectory = $configuration->get('application.cache.directory')?:'';
+        if ($cacheDirectory) {
+            if (strpos($cacheDirectory, '/') != 0) {
+                $cacheDirectory = $this->configurationManager
+                        ->getApplicationDirectory() . '/' . $cacheDirectory;
+            }
+            $cacheDirectories[] = $cacheDirectory . '/' . $siteId . '/';
+        }
+        $cacheDirectories[] = sprintf(
+            '%s/cache/%s/',
+            $this->configurationManager->getConsoleDirectory(),
+            $siteId
+        );
+        $cacheDirectories[] = $pathTemporary . '/console/cache/' . $siteId . '/';
+
+        foreach ($cacheDirectories as $cacheDirectory) {
+            if ($this->isValidDirectory($cacheDirectory)) {
+                $this->cacheDirectory = $cacheDirectory;
+                break;
+            }
+        }
+
+        return $this->cacheDirectory;
     }
 
-    private function validateDirectory($path)
+    private function isValidDirectory($path)
     {
         $fileSystem = new Filesystem();
         if ($fileSystem->exists($path)) {
-            return $path;
+            return true;
         }
         try {
             $fileSystem->mkdir($path);
 
-            return $path;
+            return true;
         } catch (\Exception $e) {
-            return null;
+            return false;
         }
     }
 }

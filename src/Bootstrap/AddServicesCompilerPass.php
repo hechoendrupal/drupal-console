@@ -61,6 +61,10 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $loader->load($this->root. DRUPAL_CONSOLE . 'services-drupal-install.yml');
         $loader->load($this->root. DRUPAL_CONSOLE . 'services.yml');
 
+        $container->get('console.configuration_manager')
+            ->loadConfiguration($this->root)
+            ->getConfiguration();
+
         $basePath = $container->get('console.site')->getCacheDirectory();
         $consoleServicesFile = $basePath.'/console.services.yml';
         $consoleExtendServicesFile = $basePath.'/extend.console.services.yml';

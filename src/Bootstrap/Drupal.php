@@ -121,7 +121,6 @@ class Drupal
             AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
             $configuration = $container->get('console.configuration_manager')
-                ->loadConfiguration($this->root)
                 ->getConfiguration();
 
             $container->get('console.translator_manager')
@@ -145,6 +144,7 @@ class Drupal
                     $extendExtensionManager->processProjectPackages($this->root);
                 }
                 $configFiles = $extendExtensionManager->getConfigFiles();
+
                 foreach ($configFiles as $configFile) {
                     $container->get('console.configuration_manager')
                         ->importConfigurationFile($configFile);
