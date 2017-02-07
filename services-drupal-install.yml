@@ -1,7 +1,7 @@
 services:
   console.site:
     class: Drupal\Console\Utils\Site
-    arguments: ['@app.root']
+    arguments: ['@app.root', '@console.configuration_manager']
   console.extension_manager:
     class: Drupal\Console\Extension\Manager
     arguments: ['@console.site', '@app.root']
