@@ -224,7 +224,6 @@ class Site
             }
             $cacheDirectories[] = $cacheDirectory . '/' . $siteId . '/';
         }
-        $this->configurationManager->getConsoleDirectory();
         $cacheDirectories[] = sprintf(
             '%s/cache/%s/',
             $this->configurationManager->getConsoleDirectory(),
