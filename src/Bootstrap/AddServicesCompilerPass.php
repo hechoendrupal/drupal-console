@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Utils\ExtendExtensionManager;
 use Drupal\Console\Utils\TranslatorManager;
 use Drupal\Console\Extension\Extension;
 use Drupal\Console\Extension\Manager;
@@ -65,17 +64,15 @@ class AddServicesCompilerPass implements CompilerPassInterface
             ->loadConfiguration($this->root)
             ->getConfiguration();
 
-        $basePath = $container->get('console.site')->getCacheDirectory();
-        $consoleServicesFile = $basePath.'/console.services.yml';
-        $consoleExtendServicesFile = $basePath.'/extend.console.services.yml';
-        $consoleExtendConfigFile = $basePath.'/extend.console.config.yml';
+        $cacheDirectory = $container->get('console.site')->getCacheDirectory();
+        $consoleServicesFile = $cacheDirectory.'/console.services.yml';
 
-        if ($basePath && !$this->rebuild && file_exists($consoleServicesFile)) {
+        if (!$this->rebuild && file_exists($consoleServicesFile)) {
             $loader->load($consoleServicesFile);
-            if (file_exists($consoleExtendServicesFile)) {
-                $loader->load($consoleExtendServicesFile);
-            }
         } else {
+            if (file_exists($consoleServicesFile)) {
+                unlink($consoleServicesFile);
+            }
             $finder = new Finder();
             $finder->files()
                 ->name('*.yml')
@@ -152,37 +149,17 @@ class AddServicesCompilerPass implements CompilerPassInterface
                 }
             }
 
-            if ($servicesData && is_writable($basePath)) {
+            if ($servicesData && is_writable($cacheDirectory)) {
                 file_put_contents(
                     $consoleServicesFile,
                     Yaml::dump($servicesData, 4, 2)
                 );
             }
+        }
 
-            /**
-             * @var ExtendExtensionManager $extendExtensionManager
-             */
-            $extendExtensionManager = $container->get('console.extend_extension_manager');
-            $extendExtensionManager->processProjectPackages($this->root);
-            $configData = $extendExtensionManager->getConfigData();
-            if ($configData && is_writable($basePath)) {
-                file_put_contents(
-                    $consoleExtendConfigFile,
-                    Yaml::dump($configData, 6, 2)
-                );
-            }
-            $servicesData = $extendExtensionManager->getServicesData();
-            if ($servicesData && is_writable($basePath)) {
-                file_put_contents(
-                    $consoleExtendServicesFile,
-                    Yaml::dump($servicesData, 4, 2)
-                );
-            }
-
-            $servicesFiles = $extendExtensionManager->getServicesFiles();
-            foreach ($servicesFiles as $servicesFile) {
-                $loader->load($servicesFile);
-            }
+        $consoleExtendServicesFile = $this->root. DRUPAL_CONSOLE .'/extend.console.services.yml';
+        if (file_exists($consoleExtendServicesFile)) {
+            $loader->load($consoleExtendServicesFile);
         }
 
         $configurationManager = $container->get('console.configuration_manager');
