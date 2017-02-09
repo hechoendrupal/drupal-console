@@ -28,3 +28,7 @@ autoload.local.php
 # Drupal
 /core
 /nbproject/
+
+# drupal/console-extend-plugin generated files
+extend.console.config.yml
+extend.console.services.yml
