@@ -44,7 +44,7 @@ class CacheContextGenerator extends Generator
         'class' => $class,
         'services' => $services,
         'class_path' => sprintf('Drupal\%s\CacheContext\%s', $module, $class),
-        'tags' => ['name' => 'cache_context'],
+        'tags' => ['name' => 'cache.context'],
         'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
         ];
 
