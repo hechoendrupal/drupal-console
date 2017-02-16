@@ -9,6 +9,8 @@ namespace Drupal\Console\Command\Config;
 
 use Drupal\Core\Archiver\ArchiveTar;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Config\ConfigManagerInterface;
+use Drupal\Core\Config\StorageInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,14 +30,21 @@ class ExportCommand extends Command
     protected $configManager;
 
     /**
+     * @var StorageInterface
+     */
+    protected $storage;
+
+    /**
      * ExportCommand constructor.
      *
-     * @param ConfigManager $configManager
+     * @param ConfigManagerInterface $configManager
+     * @param StorageInterface $storage
      */
-    public function __construct(ConfigManager $configManager)
+    public function __construct(ConfigManagerInterface $configManager, StorageInterface $storage)
     {
-        $this->configManager = $configManager;
         parent::__construct();
+        $this->configManager = $configManager;
+        $this->storage = $storage;
     }
 
     /**
@@ -112,30 +121,45 @@ class ExportCommand extends Command
         try {
             // Get raw configuration data without overrides.
             foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
+                $configName = "$name.yml";
                 $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
-                $configName =  sprintf('%s.yml', $name);
-
                 if ($removeUuid) {
                     unset($configData['uuid']);
                 }
-                
                 if ($removeHash) {
                     unset($configData['_core']['default_config_hash']);
                 }
-
                 $ymlData = Yaml::encode($configData);
 
                 if ($tar) {
-                    $archiveTar->addString(
-                        $configName,
-                        $ymlData
-                    );
-                    continue;
+                    $archiveTar->addString($configName, $ymlData);
+                }
+                else {
+                    file_put_contents("$directory/$configName", $ymlData);
                 }
 
-                $configFileName =  sprintf('%s/%s', $directory, $configName);
+            }
+            // Get all override data from the remaining collections.
+            foreach ($this->storage->getAllCollectionNames() as $collection) {
+                $collection_storage = $this->storage->createCollection($collection);
+                foreach ($collection_storage->listAll() as $name) {
+                    $configName = str_replace('.', '/', $collection) . "/$name.yml";
+                    $configData = $collection_storage->read($name);
+                    if ($removeUuid) {
+                        unset($configData['uuid']);
+                    }
+                    if ($removeHash) {
+                        unset($configData['_core']['default_config_hash']);
+                    }
 
-                file_put_contents($configFileName, $ymlData);
+                    $ymlData = Yaml::encode($configData);
+                    if ($tar) {
+                        $archiveTar->addString($configName, $ymlData);
+                    }
+                    else {
+                        file_put_contents("$directory/$configName", $ymlData);
+                    }
+                }
             }
         } catch (\Exception $e) {
             $io->error($e->getMessage());
