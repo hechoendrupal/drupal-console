@@ -101,7 +101,7 @@ class DumpCommand extends Command
 
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
-                'mysqldump --user=%s --password=%s --host=%s --port=%s %s > %s',
+                'mysqldump --user="%s" --password="%s" --host="%s" --port="%s" "%s" > %s',
                 $databaseConnection['username'],
                 $databaseConnection['password'],
                 $databaseConnection['host'],
