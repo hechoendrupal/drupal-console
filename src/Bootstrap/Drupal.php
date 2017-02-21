@@ -39,7 +39,7 @@ class Drupal
         $argvInputReader = new ArgvInputReader();
 
         if (!class_exists('Drupal\Core\DrupalKernel')) {
-            $io->error('Class Drupal\Core\DrupalKernel do not exists.');
+            $io->error('Class Drupal\Core\DrupalKernel does not exist.');
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
             return $drupal->boot();
         }
