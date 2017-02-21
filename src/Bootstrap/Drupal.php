@@ -31,7 +31,7 @@ class Drupal
         $this->appRoot = $appRoot;
     }
 
-    public function boot($debug)
+    public function boot($debug = FALSE)
     {
         $output = new ConsoleOutput();
         $input = new ArrayInput([]);
