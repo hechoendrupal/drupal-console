@@ -101,7 +101,7 @@ class DumpCommand extends Command
 
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
-                'mysqldump --user=%s --password=%s --host=%s --port=%s %s > %s',
+                'mysqldump --user="%s" --password="%s" --host="%s" --port="%s" "%s" > "%s"',
                 $databaseConnection['username'],
                 $databaseConnection['password'],
                 $databaseConnection['host'],
@@ -111,7 +111,7 @@ class DumpCommand extends Command
             );
         } elseif ($databaseConnection['driver'] == 'pgsql') {
             $command = sprintf(
-                'PGPASSWORD="%s" pg_dumpall -w -U %s -h %s -p %s -l %s -f %s',
+                'PGPASSWORD="%s" pg_dumpall -w -U "%s" -h "%s" -p "%s" -l "%s" -f "%s"',
                 $databaseConnection['password'],
                 $databaseConnection['username'],
                 $databaseConnection['host'],
