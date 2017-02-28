@@ -37,7 +37,7 @@ trait ExtensionTrait
                 ->showInstalled()
                 ->showUninstalled()
                 ->showNoCore()
-                ->getList();
+                ->getList(false);
         }
 
         if ($theme) {
@@ -45,7 +45,7 @@ trait ExtensionTrait
                 ->showInstalled()
                 ->showUninstalled()
                 ->showNoCore()
-                ->getList();
+                ->getList(false);
         }
 
         if ($profile) {
@@ -54,7 +54,7 @@ trait ExtensionTrait
                 ->showUninstalled()
                 ->showNoCore()
                 ->showCore()
-                ->getList();
+                ->getList(false);
         }
 
         $extensions = array_merge(
