@@ -104,7 +104,7 @@ class ImportSingleCommand extends Command
                     $nameItem = substr($nameItem, 0, -4);
                 }
 
-                $configFile = !$directory ?
+                $configFile = count($name) == 1 ?
                   $file :
                   $directory.DIRECTORY_SEPARATOR.$nameItem.'.yml';
 
