@@ -116,6 +116,9 @@ class StatusCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Make sure all modules are loaded.
+        $this->container->get('module_handler')->loadAll();
+
         $io = new DrupalStyle($input, $output);
 
         $systemData = $this->getSystemData();
