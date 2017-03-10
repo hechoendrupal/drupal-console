@@ -41,6 +41,7 @@ class FormGenerator extends Generator
      * @param  $module
      * @param  $class_name
      * @param  $services
+     * @param  $config_file
      * @param  $inputs
      * @param  $form_id
      * @param  $form_type
@@ -50,7 +51,7 @@ class FormGenerator extends Generator
      * @param  $menu_parent
      * @param  $menu_link_desc
      */
-    public function generate($module, $class_name, $form_id, $form_type, $services, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc)
+    public function generate($module, $class_name, $form_id, $form_type, $services, $config_file, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc)
     {
         $class_name_short = strtolower(
             $this->stringConverter->removeSuffix($class_name)
@@ -59,6 +60,7 @@ class FormGenerator extends Generator
         $parameters = [
           'class_name' => $class_name,
           'services' => $services,
+          'config_file' => $config_file,
           'inputs' => $inputs,
           'module_name' => $module,
           'form_id' => $form_id,
@@ -90,13 +92,16 @@ class FormGenerator extends Generator
             $this->extensionManager->getModule($module)->getFormPath() .'/'.$class_name.'.php',
             $parameters
         );
+        
+       // Render defaults YML file.
+       if ($config_file == true) { 
+            $this->renderFile(
+                'module/config/install/field.default.yml.twig',
+                $this->extensionManager->getModule($module)->getPath() .'/config/install/'.$module.'.'.$class_name_short.'.yml',
+                $parameters
+            );
 
-        // Render defaults YML file.
-        $this->renderFile(
-            'module/config/install/field.default.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() .'/config/install/'.$module.'.'.$class_name_short.'.yml',
-            $parameters
-        );
+        }
 
         if ($menu_link_gen == true) {
             $this->renderFile(

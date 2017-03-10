@@ -145,6 +145,12 @@ abstract class FormCommand extends Command
                 $this->trans('commands.common.options.services')
             )
             ->addOption(
+                'config-file',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.form.options.config-file')
+            )
+            ->addOption(
                 'inputs',
                 '',
                 InputOption::VALUE_OPTIONAL,
@@ -190,6 +196,7 @@ abstract class FormCommand extends Command
         $module = $input->getOption('module');
         $services = $input->getOption('services');
         $path = $input->getOption('path');
+        $config_file = $input->getOption('config-file');
         $class_name = $input->getOption('class');
         $form_id = $input->getOption('form-id');
         $form_type = $this->formType;
@@ -204,7 +211,7 @@ abstract class FormCommand extends Command
 
         $this
             ->generator
-            ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
+            ->generate($module, $class_name, $form_id, $form_type, $build_services, $config_file, $inputs, $path,$menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
 
         $this->chainQueue->addCommand('router:rebuild', []);
     }
@@ -248,6 +255,17 @@ abstract class FormCommand extends Command
         // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $this->servicesQuestion($io);
         $input->setOption('services', $services);
+        
+        // --config_file option
+        $config_file = $input->getOption('config-file');
+
+        if (!$config_file) {
+            $config_file = $io->confirm(
+                $this->trans('commands.generate.form.questions.config-file'),
+                true
+            );
+            $input->setOption('config-file', $config_file);
+        }
 
         // --inputs option
         $inputs = $input->getOption('inputs');
