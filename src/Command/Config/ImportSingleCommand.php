@@ -84,6 +84,7 @@ class ImportSingleCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $name = $input->getOption('name');
+        $name = is_array($name) ? $name : [$name];
         $directory = $input->getOption('directory');
         $file = $input->getOption('file');
 
@@ -103,10 +104,14 @@ class ImportSingleCommand extends Command
                     $nameItem = substr($nameItem, 0, -4);
                 }
 
-                $configFile = $directory.DIRECTORY_SEPARATOR.$nameItem.'.yml';
+                $configFile = !$directory ?
+                  $file :
+                  $directory.DIRECTORY_SEPARATOR.$nameItem.'.yml';
+
                 if (file_exists($configFile)) {
                     $value = $ymlFile->parse(file_get_contents($configFile));
-                    $source_storage->replaceData($nameItem, $value);
+                    $source_storage->delete($nameItem);
+                    $source_storage->write($nameItem, $value);
                     continue;
                 }
 
@@ -119,6 +124,7 @@ class ImportSingleCommand extends Command
                 $this->configStorage,
                 $this->configManager
             );
+
 
             if ($this->configImport($io, $storageComparer)) {
                 $io->success(
