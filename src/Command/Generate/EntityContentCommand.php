@@ -12,10 +12,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\EntityContentGenerator;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
@@ -46,6 +46,7 @@ class EntityContentCommand extends EntityCommand
 
     /**
      * EntityContentCommand constructor.
+     *
      * @param ChainQueue             $chainQueue
      * @param EntityContentGenerator $generator
      * @param StringConverter        $stringConverter

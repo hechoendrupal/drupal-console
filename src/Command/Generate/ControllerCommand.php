@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\Shared\InputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,13 +15,14 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ControllerGenerator;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Utils\Validator;
 use Drupal\Core\Routing\RouteProviderInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\InputTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
 
 class ControllerCommand extends Command
 {
@@ -32,10 +32,14 @@ class ControllerCommand extends Command
     use InputTrait;
     use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var ControllerGenerator  */
+    /**
+ * @var ControllerGenerator
+*/
     protected $generator;
 
     /**
@@ -43,10 +47,14 @@ class ControllerCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
-    /** @var RouteProviderInterface  */
+    /**
+ * @var RouteProviderInterface
+*/
     protected $routeProvider;
 
     /**
@@ -56,6 +64,7 @@ class ControllerCommand extends Command
 
     /**
      * ControllerCommand constructor.
+     *
      * @param Manager                $extensionManager
      * @param ControllerGenerator    $generator
      * @param StringConverter        $stringConverter

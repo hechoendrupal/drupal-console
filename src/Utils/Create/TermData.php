@@ -14,6 +14,7 @@ use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Class Terms
+ *
  * @package Drupal\Console\Utils
  */
 class TermData extends Base
@@ -64,10 +65,10 @@ class TermData extends Base
                 [
                     'vid' => $vocabulary,
                     'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
-                    'description' => array(
+                    'description' => [
                         'value' => $this->getRandom()->sentences(),
                         'format' => 'full_html',
-                    ),
+                    ],
                     'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
                 ]
             );

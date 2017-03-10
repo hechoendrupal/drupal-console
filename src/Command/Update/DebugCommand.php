@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Update\UpdateRegistry;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class DebugCommand extends Command
 {
@@ -31,6 +31,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param Site           $site
      * @param UpdateRegistry $postUpdateRegistry
      */
@@ -83,7 +84,7 @@ class DebugCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $requirements
      */
     private function populateRequirements(DrupalStyle $io, $requirements)
@@ -117,7 +118,7 @@ class DebugCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $updates
      */
     private function populateUpdate(DrupalStyle $io, $updates)
@@ -143,7 +144,7 @@ class DebugCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      */
     private function populatePostUpdate(DrupalStyle $io)
     {

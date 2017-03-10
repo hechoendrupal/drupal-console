@@ -7,18 +7,19 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Yaml\Parser;
 
 /**
  * Class MenuTrait
+ *
  * @package Drupal\Console\Command
  */
 trait MenuTrait
 {
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
-     * @param string                            $className The form class name
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
+     * @param string                                 $className The form class name
      * @return string
      * @throws \Exception
      */
@@ -27,7 +28,8 @@ trait MenuTrait
         if ($io->confirm(
             $this->trans('commands.generate.form.questions.menu_link_gen'),
             true
-        )) {
+        )
+        ) {
             // now we need to ask them where to gen the form
             // get the route
             $menu_options = [

@@ -12,9 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Lock\LockBackendInterface;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class ReleaseCommand extends Command
 {
@@ -32,6 +32,7 @@ class ReleaseCommand extends Command
 
     /**
      * ReleaseCommand constructor.
+     *
      * @param LockBackendInterface $lock
      * @param ChainQueue           $chainQueue
      */

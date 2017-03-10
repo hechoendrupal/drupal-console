@@ -14,14 +14,14 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\RouteSubscriberGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Command\Shared\CommandTrait;
-
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 
 /**
  * Class RouteSubscriberCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class RouteSubscriberCommand extends Command
@@ -30,10 +30,14 @@ class RouteSubscriberCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var RouteSubscriberGenerator  */
+    /**
+ * @var RouteSubscriberGenerator
+*/
     protected $generator;
 
     /**
@@ -43,6 +47,7 @@ class RouteSubscriberCommand extends Command
 
     /**
      * RouteSubscriberCommand constructor.
+     *
      * @param Manager                  $extensionManager
      * @param RouteSubscriberGenerator $generator
      * @param ChainQueue               $chainQueue

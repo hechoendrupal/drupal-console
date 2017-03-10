@@ -16,8 +16,8 @@ use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
 use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\Console\Command\Shared\DatabaseTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\State\StateInterface;
 use Symfony\Component\Console\Command\Command;
@@ -38,6 +38,7 @@ class ExecuteCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param MigrationPluginManagerInterface $pluginManagerMigration
      */
     public function __construct(MigrationPluginManagerInterface $pluginManagerMigration)
@@ -112,14 +113,15 @@ class ExecuteCommand extends Command
                 '',
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.migrate.execute.options.exclude'),
-                array()
+                []
             )
             ->addOption(
                 'source-base_path',
                 '',
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.execute.options.source-base_path')
-            );;
+            );
+        ;
     }
 
     /**
@@ -208,7 +210,7 @@ class ExecuteCommand extends Command
         $database = $this->getDBInfo();
         $version_tag = 'Drupal ' . $drupal_version;
          
-        // Get migrations 
+        // Get migrations
         $migrations_list = $this->getMigrations($version_tag);
 
         // --migration-id prefix
@@ -296,7 +298,7 @@ class ExecuteCommand extends Command
         }
 
         if (!$this->migrateConnection) {
-            $this->registerMigrateDB($input, $output);
+            $this->registerMigrateDB($input, $io);
             $this->migrateConnection = $this->getDBConnection($io, 'default', 'upgrade');
         }
         

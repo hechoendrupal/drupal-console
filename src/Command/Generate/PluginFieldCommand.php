@@ -13,11 +13,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class PluginFieldCommand extends Command
 {
@@ -25,7 +25,9 @@ class PluginFieldCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
     /**
@@ -41,6 +43,7 @@ class PluginFieldCommand extends Command
 
     /**
      * PluginFieldCommand constructor.
+     *
      * @param Manager         $extensionManager
      * @param StringConverter $stringConverter
      * @param ChainQueue      $chainQueue

@@ -16,12 +16,12 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
@@ -76,6 +76,7 @@ class PluginBlockCommand extends Command
 
     /**
      * PluginBlockCommand constructor.
+     *
      * @param ConfigFactory               $configFactory
      * @param ChainQueue                  $chainQueue
      * @param PluginBlockGenerator        $generator
@@ -234,7 +235,7 @@ class PluginBlockCommand extends Command
         $class = $input->getOption('class');
         if (!$class) {
             $class = $io->ask(
-                $this->trans('commands.generate.plugin.block.options.class'),
+                $this->trans('commands.generate.plugin.block.questions.class'),
                 'DefaultBlock',
                 function ($class) {
                     return $this->validator->validateClassName($class);
@@ -247,7 +248,7 @@ class PluginBlockCommand extends Command
         $label = $input->getOption('label');
         if (!$label) {
             $label = $io->ask(
-                $this->trans('commands.generate.plugin.block.options.label'),
+                $this->trans('commands.generate.plugin.block.questions.label'),
                 $this->stringConverter->camelCaseToHuman($class)
             );
             $input->setOption('label', $label);
@@ -257,7 +258,7 @@ class PluginBlockCommand extends Command
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
             $pluginId = $io->ask(
-                $this->trans('commands.generate.plugin.block.options.plugin-id'),
+                $this->trans('commands.generate.plugin.block.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
             $input->setOption('plugin-id', $pluginId);
@@ -267,7 +268,7 @@ class PluginBlockCommand extends Command
         $themeRegion = $input->getOption('theme-region');
         if (!$themeRegion) {
             $themeRegion =  $io->choiceNoList(
-                $this->trans('commands.generate.plugin.block.options.theme-region'),
+                $this->trans('commands.generate.plugin.block.questions.theme-region'),
                 array_values($themeRegions),
                 null,
                 true

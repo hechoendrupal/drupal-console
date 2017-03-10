@@ -16,11 +16,11 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\ConfigurationManager;
-use Drupal\Console\Utils\TwigRenderer;
-use Drupal\Console\Utils\NestedArray;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\ConfigurationManager;
+use Drupal\Console\Core\Utils\TwigRenderer;
+use Drupal\Console\Core\Utils\NestedArray;
 
 class TranslationStatsCommand extends Command
 {
@@ -30,7 +30,7 @@ class TranslationStatsCommand extends Command
     /**
      * @var string
      */
-		protected $consoleRoot;
+    protected $consoleRoot;
 
     /**
      * @var ConfigurationManager
@@ -52,8 +52,8 @@ class TranslationStatsCommand extends Command
      *
      * @param $appRoot
      * @param ConfigurationManager $configurationManager
-     * @param TwigRenderer $renderer
-     * @param NestedArray  $nestedArray
+     * @param TwigRenderer         $renderer
+     * @param NestedArray          $nestedArray
      */
     public function __construct(
         $consoleRoot,
@@ -140,10 +140,10 @@ class TranslationStatsCommand extends Command
 
             $io->writeln(
                 $this->renderFile(
-										'core/translation/stats.md.twig',
-										null,
-										$arguments
-								)
+                    'core/translation/stats.md.twig',
+                    null,
+                    $arguments
+                )
             );
         }
     }
@@ -175,12 +175,12 @@ class TranslationStatsCommand extends Command
 
             foreach ($languages as $langCode => $languageName) {
                 $languageDir = $this->consoleRoot .
-										sprintf(
-											DRUPAL_CONSOLE_LANGUAGE,
-											$langCode
-										);
-								//don't show that language if that repo isn't present
-								if (!file_exists($languageDir)) {
+                                        sprintf(
+                                            DRUPAL_CONSOLE_LANGUAGE,
+                                            $langCode
+                                        );
+                                //don't show that language if that repo isn't present
+                if (!file_exists($languageDir)) {
                     continue;
                 }
                 if (isset($language) && $langCode != $language) {
@@ -209,7 +209,7 @@ class TranslationStatsCommand extends Command
 
                 $yamlKeys = 0;
                 if (!empty($diff)) {
-                    $diffFlatten = array();
+                    $diffFlatten = [];
                     $keyFlatten = '';
                     $this->nestedArray->yamlFlattenArray($diff, $diffFlatten, $keyFlatten);
 
@@ -240,7 +240,6 @@ class TranslationStatsCommand extends Command
         usort(
             $stats, function ($a, $b) {
                 return $a["percentage"] <  $b["percentage"];
-
             }
         );
 

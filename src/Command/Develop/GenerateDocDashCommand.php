@@ -13,10 +13,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\TwigRenderer;
-use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\TwigRenderer;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class GenerateDocDashCommand extends Command
 {
@@ -71,6 +71,7 @@ PLIST;
 
     /**
      * GenerateDocDashCommand constructor.
+     *
      * @param $renderer
      * @param $consoleRoot
      */

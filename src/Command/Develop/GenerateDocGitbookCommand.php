@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\TwigRenderer;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\TwigRenderer;
 
 class GenerateDocGitbookCommand extends Command
 {
@@ -25,6 +25,7 @@ class GenerateDocGitbookCommand extends Command
 
     /**
      * GenerateDocGitbookCommand constructor.
+     *
      * @param TwigRenderer $renderer
      */
     public function __construct(TwigRenderer $renderer)

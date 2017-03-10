@@ -15,9 +15,9 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class TranslationSyncCommand extends Command
 {
@@ -26,7 +26,7 @@ class TranslationSyncCommand extends Command
     /**
      * @var string
      */
-		protected $consoleRoot;
+    protected $consoleRoot;
 
     /**
      * @var ConfigurationManager
@@ -38,7 +38,6 @@ class TranslationSyncCommand extends Command
      *
      * @param $consoleRoot
      * @param configurationManager $configurationManager
-     *
      */
     public function __construct(
         $consoleRoot,
@@ -135,10 +134,10 @@ class TranslationSyncCommand extends Command
 
             foreach ($languages as $langCode => $languageName) {
                 $languageDir = $this->consoleRoot .
-										sprintf(
-												DRUPAL_CONSOLE_LANGUAGE,
-												$langCode
-										);
+                                        sprintf(
+                                            DRUPAL_CONSOLE_LANGUAGE,
+                                            $langCode
+                                        );
                 if (isset($language) && $langCode != $language) {
                     continue;
                 }

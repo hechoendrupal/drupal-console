@@ -15,16 +15,17 @@ use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
 use Drupal\Console\Generator\ThemeGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\Extension\ThemeHandler;
 
 /**
  * Class ThemeCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class ThemeCommand extends Command
@@ -34,13 +35,19 @@ class ThemeCommand extends Command
     use ThemeBreakpointTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var ThemeGenerator  */
+    /**
+ * @var ThemeGenerator
+*/
     protected $generator;
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
     /**
@@ -65,10 +72,11 @@ class ThemeCommand extends Command
 
     /**
      * ThemeCommand constructor.
+     *
      * @param Manager         $extensionManager
      * @param ThemeGenerator  $generator
      * @param Validator       $validator
-     * @param                 $appRoot
+     * @param $appRoot
      * @param ThemeHandler    $themeHandler
      * @param Site            $site
      * @param StringConverter $stringConverter
@@ -324,7 +332,8 @@ class ThemeCommand extends Command
             if ($io->confirm(
                 $this->trans('commands.generate.theme.questions.regions'),
                 true
-            )) {
+            )
+            ) {
                 // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::regionQuestion
                 $regions = $this->regionQuestion($io);
                 $input->setOption('regions', $regions);
@@ -337,7 +346,8 @@ class ThemeCommand extends Command
             if ($io->confirm(
                 $this->trans('commands.generate.theme.questions.breakpoints'),
                 true
-            )) {
+            )
+            ) {
                 // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::regionQuestion
                 $breakpoints = $this->breakpointQuestion($io);
                 $input->setOption('breakpoints', $breakpoints);

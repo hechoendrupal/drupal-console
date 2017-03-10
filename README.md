@@ -2,13 +2,14 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Drupal Console](#drupal-console)
+  - [Drupal Console](#drupal-console)
   - [Required PHP version](#required-php-version)
   - [Drupal Console documentation](#documentation)
   - [Download as new dependency](#download-as-new-dependency)
-  - [Fix download the latest version](#fix-download-the-latest-version)
   - [Download using DrupalComposer](#download-using-drupalcomposer)
+  - [Update DrupalConsole](#update-drupalconsole)
   - [Install Drupal Console Launcher](#install-drupal-console-launcher)
+  - [Update DrupalConsole Launcher](#update-drupalconsole-launcher)
   - [Run Drupal Console](#running-drupal-console)
   - [Supporting organizations](#supporting-organizations)
 
@@ -24,7 +25,7 @@ Drupal Console
 [![Software License](https://img.shields.io/badge/license-GPL%202.0+-blue.svg)](https://packagist.org/packages/drupal/console)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-The Drupal Console is a CLI tool to generate boilerplate code, interact and debug Drupal 8.
+The Drupal CLI. A tool to generate boilerplate code, interact with and debug Drupal.
 
 ## Latest Version
 Details of the latest version can be found on the Drupal Console project page under https://drupalconsole.com/.
@@ -52,15 +53,6 @@ composer require drupal/console:~1.0 \
 --sort-packages
 ```
 
-## Fix download the latest version
-
-Drupal 8 include some outdated libraries of Symfony 2.7.x, as result you get an old release of Drupal Console.
-
-To fix that, execute the following command and you will get the latest release of Drupal Console.
-```
-composer update drupal/console --with-dependencies
-```
-
 ## Download using DrupalComposer
 ```
 composer create-project \
@@ -71,40 +63,45 @@ drupal8.dev \
 --no-interaction
 ```
 
+## Update DrupalConsole
+
+```
+composer update drupal/console --with-dependencies
+```
+
 ## Install Drupal Console Launcher
 ```
-# Run this in your terminal to get the latest version:
 curl https://drupalconsole.com/installer -L -o drupal.phar
-
-# Or if you don't have curl:
-php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
-
-# Accessing from anywhere on your system:
 mv drupal.phar /usr/local/bin/drupal
-
-# Apply executable permissions on the downloaded file:
 chmod +x /usr/local/bin/drupal
-
-# Copy configuration files.
-drupal init --override
-
-# Check and validate system requirements
-drupal check
 ```
+NOTE: If you don't have curl you can try
+```
+php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
+```
+
+
+## Update DrupalConsole Launcher 
+```
+drupal self-update
+```
+> NOTE: `drupal` is the alias name you used when installed the DrupalConsole Launcher.
 
 ## Run Drupal Console
+Using the DrupalConsole Launcher
+```
+drupal
+``` 
+
 We highly recommend you to install the global executable, but if is not installed, then you can run DrupalConsole by:  
 
-Using default Drupal + DrupalConsole
 ```
 vendor/bin/drupal
+# or
+vendor/drupal/console/bin/drupal
+# or
+bin/drupal
 ```
-Using DrupalComposer
-Change directory `web`, `docroot` or any other.
-```
-../vendor/bin/drupal
-```
-
 
 ## Drupal Console Support
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).

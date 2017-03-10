@@ -16,14 +16,15 @@ use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Generator\PluginRestResourceGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginRestResourceCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginRestResourceCommand extends Command
@@ -34,10 +35,14 @@ class PluginRestResourceCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginRestResourceGenerator  */
+    /**
+ * @var PluginRestResourceGenerator
+*/
     protected $generator;
 
     /**
@@ -53,6 +58,7 @@ class PluginRestResourceCommand extends Command
 
     /**
      * PluginRestResourceCommand constructor.
+     *
      * @param Manager                     $extensionManager
      * @param PluginRestResourceGenerator $generator
      * @param StringConverter             $stringConverter
@@ -202,7 +208,7 @@ class PluginRestResourceCommand extends Command
         // --plugin-states option
         $plugin_states = $input->getOption('plugin-states');
         if (!$plugin_states) {
-            $states = array('GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS');
+            $states = ['GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
             $plugin_states = $io->choice(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
                 $states,

@@ -11,11 +11,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class StylesDebugCommand
+ *
  * @package Drupal\Console\Command\Image
  */
 class StylesDebugCommand extends Command
@@ -29,6 +30,7 @@ class StylesDebugCommand extends Command
 
     /**
      * StylesDebugCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(EntityTypeManagerInterface $entityTypeManager)
@@ -69,7 +71,7 @@ class StylesDebugCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $imageStyle
      */
     protected function imageStyleList(DrupalStyle $io, $imageStyle)

@@ -12,11 +12,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class AccessRebuildCommand
+ *
  * @package Drupal\Console\Command\Node
  */
 class AccessRebuildCommand extends Command
@@ -30,9 +31,11 @@ class AccessRebuildCommand extends Command
 
     /**
      * AccessRebuildCommand constructor.
+     *
      * @param StateInterface $state
      */
-    public function __construct(StateInterface $state) {
+    public function __construct(StateInterface $state)
+    {
         $this->state = $state;
         parent::__construct();
     }

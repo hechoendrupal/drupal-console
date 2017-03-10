@@ -12,9 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 
@@ -37,6 +37,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param ResourcePluginManager $pluginManagerRest
      */
     public function __construct(ResourcePluginManager $pluginManagerRest)

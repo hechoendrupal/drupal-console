@@ -11,13 +11,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DisableCommand
+ *
  * @package Drupal\Console\Command\Views
  */
 class DisableCommand extends Command
@@ -36,8 +37,9 @@ class DisableCommand extends Command
 
     /**
      * DisableCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param QueryFactory      $entityQuery
+     * @param QueryFactory               $entityQuery
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,

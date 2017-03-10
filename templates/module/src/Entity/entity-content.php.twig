@@ -14,7 +14,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 {% if revisionable %}
 use Drupal\Core\Entity\RevisionableContentEntityBase;
 {% else %}
-use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\ContentEntityBase;
 {% endif %}
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
@@ -56,7 +56,9 @@ use Drupal\user\UserInterface;
  *     },
  *   },
  *   base_table = "{{ entity_name }}",
+{% if is_translatable %}
  *   data_table = "{{ entity_name }}_field_data",
+{% endif %}
 {% if revisionable %}
  *   revision_table = "{{ entity_name }}_revision",
  *   revision_data_table = "{{ entity_name }}_field_revision",
@@ -144,8 +146,8 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
 
     // If no revision author has been set explicitly, make the {{ entity_name }} owner the
     // revision author.
-    if (!$this->getRevisionAuthor()) {
-      $this->setRevisionAuthorId($this->getOwnerId());
+    if (!$this->getRevisionUser()) {
+      $this->setRevisionUserId($this->getOwnerId());
     }
   }
 {% endif %}
@@ -253,14 +255,14 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
   /**
    * {@inheritdoc}
    */
-  public function getRevisionAuthor() {
+  public function getRevisionUser() {
     return $this->get('revision_uid')->entity;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setRevisionAuthorId($uid) {
+  public function setRevisionUserId($uid) {
     $this->set('revision_uid', $uid);
     return $this;
   }
@@ -349,6 +351,8 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       ->setSetting('target_type', 'user')
       ->setQueryable(FALSE)
       ->setRevisionable(TRUE);
+{% endif %}
+{% if revisionable and is_translatable %}
 
     $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Revision translation affected'))

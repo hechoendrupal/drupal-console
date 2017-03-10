@@ -12,13 +12,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class RebuildCommand
+ *
  * @package Drupal\Console\Command\Cache
  */
 class RebuildCommand extends Command
@@ -43,6 +44,7 @@ class RebuildCommand extends Command
 
     /**
      * RebuildCommand constructor.
+     *
      * @param DrupalApi    $drupalApi
      * @param Site         $site
      * @param $classLoader

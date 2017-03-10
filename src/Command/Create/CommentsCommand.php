@@ -10,13 +10,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Utils\Create\CommentData;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class CommentsCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class CommentsCommand extends Command
@@ -31,6 +32,7 @@ class CommentsCommand extends Command
 
     /**
      * CommentsCommand constructor.
+     *
      * @param CommentData $createCommentData
      */
     public function __construct(CommentData $createCommentData)
@@ -116,7 +118,7 @@ class CommentsCommand extends Command
                 array_values($timeRanges)
             );
 
-            $input->setOption('time-range',  array_search($timeRange, $timeRanges));
+            $input->setOption('time-range', array_search($timeRange, $timeRanges));
         }
     }
 

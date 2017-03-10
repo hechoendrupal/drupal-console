@@ -6,17 +6,14 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigManager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigImporterException;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\FileStorage;
@@ -26,14 +23,19 @@ class ImportCommand extends Command
 {
     use CommandTrait;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var ConfigManager  */
+    /**
+     * @var ConfigManager
+     */
     protected $configManager;
 
     /**
      * ImportCommand constructor.
+     *
      * @param CachedStorage $configStorage
      * @param ConfigManager $configManager
      */
@@ -100,6 +102,8 @@ class ImportCommand extends Command
 
         if ($this->configImport($io, $storage_comparer)) {
             $io->success($this->trans('commands.config.import.messages.imported'));
+        } else {
+            return 1;
         }
     }
 
@@ -122,8 +126,9 @@ class ImportCommand extends Command
             $io->success($this->trans('commands.config.import.messages.already-imported'));
         } else {
             try {
-                $config_importer->import();
                 $io->info($this->trans('commands.config.import.messages.importing'));
+                $config_importer->import();
+                return true;
             } catch (ConfigImporterException $e) {
                 $message = 'The import failed due for the following reasons:' . "\n";
                 $message .= implode("\n", $config_importer->getErrors());

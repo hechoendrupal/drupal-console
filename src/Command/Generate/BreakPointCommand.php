@@ -15,10 +15,10 @@ use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Console\Command\Shared\ThemeRegionTrait;
 use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Generator\BreakPointGenerator;
 
 /**
@@ -52,7 +52,9 @@ class BreakPointCommand extends Command
     protected $themeHandler;
 
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
     /**
@@ -62,8 +64,9 @@ class BreakPointCommand extends Command
 
     /**
      * BreakPointCommand constructor.
+     *
      * @param BreakPointGenerator $generator
-     * @param                     $appRoot
+     * @param $appRoot
      * @param ThemeHandler        $themeHandler
      * @param Validator           $validator
      * @param StringConverter     $stringConverter
@@ -74,7 +77,7 @@ class BreakPointCommand extends Command
         ThemeHandler $themeHandler,
         Validator $validator,
         StringConverter $stringConverter
-        ) {
+    ) {
         $this->generator = $generator;
         $this->appRoot = $appRoot;
         $this->themeHandler = $themeHandler;

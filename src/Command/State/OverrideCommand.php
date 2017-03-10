@@ -13,12 +13,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\State
  */
 class OverrideCommand extends Command
@@ -37,6 +38,7 @@ class OverrideCommand extends Command
 
     /**
      * OverrideCommand constructor.
+     *
      * @param StateInterface           $state
      * @param KeyValueFactoryInterface $keyValue
      */

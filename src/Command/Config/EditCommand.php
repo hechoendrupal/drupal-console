@@ -18,31 +18,38 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class EditCommand extends Command
 {
     use CommandTrait;
 
-    /** @var ConfigFactory  */
+    /**
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var ConfigurationManager  */
+    /**
+     * @var ConfigurationManager
+     */
     protected $configurationManager;
 
     /**
      * EditCommand constructor.
-     * @param ConfigFactory         $configFactory
-     * @param CachedStorage         $configStorage
-     * @param ConfigurationManager  $configurationManager
+     *
+     * @param ConfigFactory        $configFactory
+     * @param CachedStorage        $configStorage
+     * @param ConfigurationManager $configurationManager
      */
     public function __construct(
-        ConfigFactory $configFactory ,
+        ConfigFactory $configFactory,
         CachedStorage $configStorage,
         ConfigurationManager $configurationManager
     ) {
@@ -104,7 +111,7 @@ class EditCommand extends Command
         if (!$editor) {
             $editor = $this->getEditor();
         }
-        $processBuilder = new ProcessBuilder(array($editor, $configFile));
+        $processBuilder = new ProcessBuilder([$editor, $configFile]);
         $process = $processBuilder->getProcess();
         $process->setTty('true');
         $process->run();
@@ -163,7 +170,7 @@ class EditCommand extends Command
             return trim($editor);
         }
 
-        $processBuilder = new ProcessBuilder(array('bash'));
+        $processBuilder = new ProcessBuilder(['bash']);
         $process = $processBuilder->getProcess();
         $process->setCommandLine('echo ${EDITOR:-${VISUAL:-vi}}');
         $process->run();

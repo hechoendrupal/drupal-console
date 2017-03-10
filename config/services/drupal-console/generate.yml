@@ -1,7 +1,7 @@
 services:
   console.generate_module:
     class: Drupal\Console\Command\Generate\ModuleCommand
-    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api', '@http_client', '@console.site']
+    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api']
     tags:
        - { name: drupal.command }
   console.generate_modulefile:
@@ -29,6 +29,11 @@ services:
     arguments: ['@console.help_generator', '@console.site', '@console.extension_manager', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_form:
+    class: Drupal\Console\Command\Generate\FormBaseCommand
+    arguments: ['@console.extension_manager', '@console.form_generator', '@console.chain_queue', '@console.string_converter', '@plugin.manager.element_info', '@router.route_provider']
+    tags:
+       - { name: drupal.command }
   console.generate_form_alter:
     class: Drupal\Console\Command\Generate\FormAlterCommand
     arguments: ['@console.extension_manager', '@console.form_alter_generator', '@console.string_converter', '@module_handler', '@plugin.manager.element_info', '@?profiler', '@app.root', '@console.chain_queue']
@@ -36,7 +41,7 @@ services:
        - { name: drupal.command }
   console.generate_permissions:
     class: Drupal\Console\Command\Generate\PermissionCommand
-    arguments: ['@console.extension_manager', '@console.string_converter']
+    arguments: ['@console.extension_manager', '@console.string_converter', '@console.permission_generator']
     tags:
        - { name: drupal.command }
   console.generate_event_subscriber:
@@ -94,6 +99,16 @@ services:
     arguments: ['@console.extension_manager', '@console.plugin_mail_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_migrate_source:
+    class: Drupal\Console\Command\Generate\PluginMigrateSourceCommand
+    arguments: ['@config.factory', '@console.chain_queue', '@console.plugin_migrate_source_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
+    tags:
+       - { name: drupal.command }
+  console.generate_plugin_migrate_process:
+    class: Drupal\Console\Command\Generate\PluginMigrateProcessCommand
+    arguments: [ '@console.plugin_migrate_process_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter']
+    tags:
+       - { name: drupal.command }
   console.generate_plugin_rest_resource:
     class: Drupal\Console\Command\Generate\PluginRestResourceCommand
     arguments: ['@console.extension_manager', '@console.plugin_rest_resource_generator','@console.string_converter', '@console.chain_queue']
@@ -126,7 +141,7 @@ services:
        - { name: drupal.command }
   console.generate_profile:
     class: Drupal\Console\Command\Generate\ProfileCommand
-    arguments: ['@console.extension_manager', '@console.profile_generator', '@console.string_converter', '@console.validator', '@app.root', '@console.site', '@http_client']
+    arguments: ['@console.extension_manager', '@console.profile_generator', '@console.string_converter', '@console.validator', '@app.root']
     tags:
        - { name: drupal.command }
   console.generate_route_subscriber:
@@ -184,3 +199,8 @@ services:
     arguments: ['@console.extension_manager', '@console.entityconfig_generator', '@console.validator', '@console.string_converter']
     tags:
        - { name: drupal.command }
+  console.generate_cache_context:
+        class: Drupal\Console\Command\Generate\CacheContextCommand
+        arguments: [ '@console.cache_context_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter']
+        tags:
+           - { name: drupal.command }

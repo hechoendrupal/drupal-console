@@ -7,13 +7,21 @@ services:
     class: Drupal\Console\Command\PluginDebugCommand
     tags:
       - { name: drupal.command }
+  console.permission_debug:
+    class: Drupal\Console\Command\PermissionDebugCommand
+    tags:
+      - { name: drupal.command }
   console.event_debug:
     class: Drupal\Console\Command\EventDebugCommand
     arguments: ['@event_dispatcher']
     tags:
       - { name: drupal.command }
-#  console.devel_dumper:
-#    class: Drupal\Console\Command\DumperCommand
-#    arguments: ['@app.root']
-#    tags:
-#      - { name: drupal.command }
+  console.devel_dumper:
+    class: Drupal\Console\Command\DevelDumperCommand
+    arguments: ['@?plugin.manager.devel_dumper']
+    tags:
+      - { name: drupal.command }
+  console.shell:
+    class: Drupal\Console\Command\ShellCommand
+    tags:
+      - { name: drupal.command }

@@ -1,9 +1,4 @@
 services:
-  console.site_debug:
-    class: Drupal\Console\Command\Site\DebugCommand
-    arguments: ['@console.site','@console.configuration_manager']
-    tags:
-      - { name: drupal.command }
   console.site_import_local:
     class: Drupal\Console\Command\Site\ImportLocalCommand
     arguments: ['@app.root','@console.configuration_manager']
@@ -14,13 +9,9 @@ services:
     arguments: ['@state', '@console.chain_queue']
     tags:
       - { name: drupal.command }
-  console.site_mode:
-    class: Drupal\Console\Command\Site\ModeCommand
-    arguments: ['@config.factory', '@console.configuration_manager', '@app.root', '@console.chain_queue']
-    tags:
-      - { name: drupal.command }
-#  console.site_new:
-#    class: Drupal\Console\Command\Site\NewCommand
+#  console.site_mode:
+#    class: Drupal\Console\Command\Site\ModeCommand
+#    arguments: ['@config.factory', '@console.configuration_manager', '@app.root', '@console.chain_queue']
 #    tags:
 #      - { name: drupal.command }
   console.site_statistics:

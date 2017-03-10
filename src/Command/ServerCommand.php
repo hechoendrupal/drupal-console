@@ -13,11 +13,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ServerCommand
+ *
  * @package Drupal\Console\Command
  */
 class ServerCommand extends Command
@@ -30,6 +31,7 @@ class ServerCommand extends Command
 
     /**
      * ServerCommand constructor.
+     *
      * @param $appRoot
      * @param $configurationManager
      */
@@ -73,17 +75,10 @@ class ServerCommand extends Command
         }
 
         $router = $this->getRouterPath();
-        $cli = sprintf(
-            '%s %s %s %s',
-            $binary,
-            '-S',
-            $address,
-            $router
-        );
-
-        if ($learning) {
-            $io->commentBlock($cli);
-        }
+        $processBuilder = new ProcessBuilder([$binary, '-S', $address, $router]);
+        $processBuilder->setTimeout(null);
+        $processBuilder->setWorkingDirectory($this->appRoot);
+        $process = $processBuilder->getProcess();
 
         $io->success(
             sprintf(
@@ -92,15 +87,15 @@ class ServerCommand extends Command
             )
         );
 
-        $processBuilder = new ProcessBuilder(explode(' ', $cli));
-        $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->appRoot);
-        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
-            $process->setTty('true');
-        } else {
-            $process->setTimeout(null);
-        }
-        $process->run();
+        $io->commentBlock(
+            sprintf(
+                $this->trans('commands.server.messages.listening'),
+                $address
+            )
+        );
+
+        // Use the process helper to copy process output to console output.
+        $this->getHelper('process')->run($output, $process, null, null);
 
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());

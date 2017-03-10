@@ -14,14 +14,15 @@ use Drupal\Console\Generator\PluginImageEffectGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginImageEffectCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginImageEffectCommand extends Command
@@ -30,10 +31,14 @@ class PluginImageEffectCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginImageEffectGenerator  */
+    /**
+ * @var PluginImageEffectGenerator
+*/
     protected $generator;
 
     /**
@@ -49,6 +54,7 @@ class PluginImageEffectCommand extends Command
 
     /**
      * PluginImageEffectCommand constructor.
+     *
      * @param Manager                    $extensionManager
      * @param PluginImageEffectGenerator $generator
      * @param StringConverter            $stringConverter

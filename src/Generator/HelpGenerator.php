@@ -7,17 +7,19 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class HelpGenerator extends Generator
 {
-
-
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * HelpGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(
@@ -30,7 +32,7 @@ class HelpGenerator extends Generator
      * Generator Post Update Name function.
      *
      * @param $module
-     * @param $post_update_name
+     * @param $description
      */
     public function generate($module, $description)
     {
@@ -43,7 +45,7 @@ class HelpGenerator extends Generator
         ];
 
         $this->renderFile(
-            'module/src/help.php.twig',
+            'module/help.php.twig',
             $module_path .'/'.$module.'.module',
             $parameters,
             FILE_APPEND

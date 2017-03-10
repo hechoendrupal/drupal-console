@@ -13,9 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\simpletest\TestDiscovery;
 
 /**
@@ -35,7 +35,8 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param TestDiscovery    $test_discovery
+     *
+     * @param TestDiscovery $test_discovery
      */
     public function __construct(
         TestDiscovery $test_discovery

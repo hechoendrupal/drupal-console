@@ -7,10 +7,11 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class FormTrait
+ *
  * @package Drupal\Console\Command
  */
 trait FormTrait
@@ -25,7 +26,8 @@ trait FormTrait
         if ($io->confirm(
             $this->trans('commands.common.questions.inputs.confirm'),
             true
-        )) {
+        )
+        ) {
             $input_types = [
                 'fieldset',
                 'text_format'
@@ -89,7 +91,7 @@ trait FormTrait
 
                 $maxlength = null;
                 $size = null;
-                if (in_array($input_type, array('textfield', 'password', 'password_confirm'))) {
+                if (in_array($input_type, ['textfield', 'password', 'password_confirm'])) {
                     $maxlength = $io->ask(
                         'Maximum amount of characters',
                         '64'
@@ -109,7 +111,7 @@ trait FormTrait
                 }
 
                 $input_options = '';
-                if (in_array($input_type, array('checkboxes', 'radios', 'select'))) {
+                if (in_array($input_type, ['checkboxes', 'radios', 'select'])) {
                     $input_options = $io->ask(
                         'Input options separated by comma'
                     );

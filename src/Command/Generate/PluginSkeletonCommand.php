@@ -15,15 +15,16 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
 
 /**
  * Class PluginSkeletonCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginSkeletonCommand extends Command
@@ -33,10 +34,14 @@ class PluginSkeletonCommand extends Command
     use ServicesTrait;
     use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginSkeletonGenerator  */
+    /**
+ * @var PluginSkeletonGenerator
+*/
     protected $generator;
 
     /**
@@ -44,7 +49,9 @@ class PluginSkeletonCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
     /**
@@ -55,6 +62,7 @@ class PluginSkeletonCommand extends Command
 
     /**
      * PluginSkeletonCommand constructor.
+     *
      * @param Manager                 $extensionManager
      * @param PluginSkeletonGenerator $generator
      * @param StringConverter         $stringConverter
@@ -252,7 +260,7 @@ class PluginSkeletonCommand extends Command
         }
 
         if (empty($pluginMetaData['pluginInterface'])) {
-            $pluginMetaData['pluginInterfaceMethods'] = array();
+            $pluginMetaData['pluginInterfaceMethods'] = [];
         } else {
             $pluginMetaData['pluginInterfaceMethods'] = $this->getClassMethods($pluginMetaData['pluginInterface']);
         }

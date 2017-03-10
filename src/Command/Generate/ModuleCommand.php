@@ -14,24 +14,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\ModuleGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\DrupalApi;
-use GuzzleHttp\Client;
-use Drupal\Console\Utils\Site;
-use GuzzleHttp\Exception\ClientException;
 
 class ModuleCommand extends Command
 {
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var ModuleGenerator  */
+    /**
+     * @var ModuleGenerator
+     */
     protected $generator;
 
-    /** @var Validator  */
+    /**
+     * @var Validator
+     */
     protected $validator;
 
     /**
@@ -50,25 +51,20 @@ class ModuleCommand extends Command
     protected $drupalApi;
 
     /**
-     * @var Client
+     * @var string
      */
-    protected $httpClient;
-
-    /**
-     * @var Site
-     */
-    protected $site;
+    protected $twigtemplate;
 
 
     /**
      * ModuleCommand constructor.
+     *
      * @param ModuleGenerator $generator
      * @param Validator       $validator
-     * @param                 $appRoot
+     * @param $appRoot
      * @param StringConverter $stringConverter
      * @param DrupalApi       $drupalApi
-     * @param Client          $httpClient
-     * @param Site            $site
+     * @param $twigtemplate
      */
     public function __construct(
         ModuleGenerator $generator,
@@ -76,16 +72,14 @@ class ModuleCommand extends Command
         $appRoot,
         StringConverter $stringConverter,
         DrupalApi $drupalApi,
-        Client $httpClient,
-        Site $site
+        $twigtemplate = null
     ) {
         $this->generator = $generator;
         $this->validator = $validator;
         $this->appRoot = $appRoot;
         $this->stringConverter = $stringConverter;
         $this->drupalApi = $drupalApi;
-        $this->httpClient = $httpClient;
-        $this->site = $site;
+        $this->twigtemplate = $twigtemplate;
         parent::__construct();
     }
 
@@ -156,13 +150,20 @@ class ModuleCommand extends Command
                 'dependencies',
                 '',
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.dependencies')
+                $this->trans('commands.generate.module.options.dependencies'),
+                ''
             )
             ->addOption(
-              'test',
-              '',
-              InputOption::VALUE_OPTIONAL,
-              $this->trans('commands.generate.module.options.test')
+                'test',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.module.options.test')
+            )
+            ->addOption(
+                'twigtemplate',
+                '',
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.module.options.twigtemplate')
             );
     }
 
@@ -191,23 +192,9 @@ class ModuleCommand extends Command
         $moduleFile = $input->getOption('module-file');
         $featuresBundle = $input->getOption('features-bundle');
         $composer = $input->getOption('composer');
+        $dependencies = $this->validator->validateExtensions($input->getOption('dependencies'), 'module', $io);
         $test = $input->getOption('test');
-
-         // Modules Dependencies, re-factor and share with other commands
-        $dependencies = $this->validator->validateModuleDependencies($input->getOption('dependencies'));
-        // Check if all module dependencies are available
-        if ($dependencies) {
-            $checked_dependencies = $this->checkDependencies($dependencies['success'], $io);
-            if (!empty($checked_dependencies['no_modules'])) {
-                $io->warning(
-                    sprintf(
-                        $this->trans('commands.generate.module.warnings.module-unavailable'),
-                        implode(', ', $checked_dependencies['no_modules'])
-                    )
-                );
-            }
-            $dependencies = $dependencies['success'];
-        }
+        $twigtemplate = $input->getOption('twigtemplate');
 
         $this->generator->generate(
             $module,
@@ -220,49 +207,9 @@ class ModuleCommand extends Command
             $featuresBundle,
             $composer,
             $dependencies,
-            $test
+            $test,
+            $twigtemplate
         );
-    }
-
-    /**
-     * @param  array $dependencies
-     * @return array
-     */
-    private function checkDependencies(array $dependencies, DrupalStyle $io)
-    {
-        $this->site->loadLegacyFile('/core/modules/system/system.module');
-        $localModules = array();
-
-        $modules = system_rebuild_module_data();
-        foreach ($modules as $module_id => $module) {
-            array_push($localModules, basename($module->subpath));
-        }
-
-        $checkDependencies = [
-          'local_modules' => [],
-          'drupal_modules' => [],
-          'no_modules' => [],
-        ];
-
-        foreach ($dependencies as $module) {
-            if (in_array($module, $localModules)) {
-                $checkDependencies['local_modules'][] = $module;
-            } else {
-                try {
-                    $response = $this->httpClient->head('https://www.drupal.org/project/' . $module);
-                    $header_link = explode(';', $response->getHeader('link'));
-                    if (empty($header_link[0])) {
-                        $checkDependencies['no_modules'][] = $module;
-                    } else {
-                        $checkDependencies['drupal_modules'][] = $module;
-                    }
-                } catch (ClientException $e) {
-                    $checkDependencies['no_modules'][] = $module;
-                }
-            }
-        }
-
-        return $checkDependencies;
     }
 
     /**
@@ -298,7 +245,7 @@ class ModuleCommand extends Command
 
         try {
             $machineName = $input->getOption('machine-name') ?
-              $this->validate->validateModule(
+              $this->validator->validateModuleName(
                   $input->getOption('machine-name')
               ) : null;
         } catch (\Exception $error) {
@@ -433,6 +380,15 @@ class ModuleCommand extends Command
                 true
             );
             $input->setOption('test', $test);
+        }
+
+        $twigtemplate = $input->getOption('twigtemplate');
+        if (!$twigtemplate) {
+            $twigtemplate = $io->confirm(
+                $this->trans('commands.generate.module.questions.twigtemplate'),
+                true
+            );
+            $input->setOption('twigtemplate', $twigtemplate);
         }
     }
 

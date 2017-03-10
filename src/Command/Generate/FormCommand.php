@@ -15,19 +15,83 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Core\Render\ElementInfoManager;
+use Drupal\Core\Routing\RouteProviderInterface;
 
 abstract class FormCommand extends Command
 {
+    use ContainerAwareCommandTrait;
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;
     use MenuTrait;
-    use ContainerAwareCommandTrait;
 
     private $formType;
     private $commandName;
+
+    /**
+ * @var Manager
+*/
+    protected $extensionManager;
+
+    /**
+ * @var FormGenerator
+*/
+    protected $generator;
+
+    /**
+ * @var ChainQueue
+*/
+    protected $chainQueue;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * @var ElementInfoManager
+     */
+    protected $elementInfoManager;
+
+    /**
+     * @var RouteProviderInterface
+     */
+    protected $routeProvider;
+
+
+    /**
+     * FormCommand constructor.
+     *
+     * @param Manager                $extensionManager
+     * @param FormGenerator          $generator
+     * @param ChainQueue             $chainQueue
+     * @param StringConverter        $stringConverter
+     * @param ElementInfoManager     $elementInfoManager
+     * @param RouteProviderInterface $routeProvider
+     */
+    public function __construct(
+        Manager $extensionManager,
+        FormGenerator $generator,
+        ChainQueue $chainQueue,
+        StringConverter $stringConverter,
+        ElementInfoManager $elementInfoManager,
+        RouteProviderInterface $routeProvider
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->generator = $generator;
+        $this->chainQueue = $chainQueue;
+        $this->stringConverter = $stringConverter;
+        $this->elementInfoManager = $elementInfoManager;
+        $this->routeProvider = $routeProvider;
+        parent::__construct();
+    }
 
     protected function setFormType($formType)
     {
@@ -81,6 +145,12 @@ abstract class FormCommand extends Command
                 $this->trans('commands.common.options.services')
             )
             ->addOption(
+                'config-file',
+                '',
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.form.options.config-file')
+            )
+            ->addOption(
                 'inputs',
                 '',
                 InputOption::VALUE_OPTIONAL,
@@ -126,6 +196,7 @@ abstract class FormCommand extends Command
         $module = $input->getOption('module');
         $services = $input->getOption('services');
         $path = $input->getOption('path');
+        $config_file = $input->getOption('config-file');
         $class_name = $input->getOption('class');
         $form_id = $input->getOption('form-id');
         $form_type = $this->formType;
@@ -140,7 +211,7 @@ abstract class FormCommand extends Command
 
         $this
             ->generator
-            ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
+            ->generate($module, $class_name, $form_id, $form_type, $build_services, $config_file, $inputs, $path,$menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
 
         $this->chainQueue->addCommand('router:rebuild', []);
     }
@@ -184,6 +255,17 @@ abstract class FormCommand extends Command
         // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $this->servicesQuestion($io);
         $input->setOption('services', $services);
+        
+        // --config_file option
+        $config_file = $input->getOption('config-file');
+
+        if (!$config_file) {
+            $config_file = $io->confirm(
+                $this->trans('commands.generate.form.questions.config-file'),
+                true
+            );
+            $input->setOption('config-file', $config_file);
+        }
 
         // --inputs option
         $inputs = $input->getOption('inputs');
@@ -206,7 +288,7 @@ abstract class FormCommand extends Command
                 $form_path = sprintf(
                     '/%s/form/%s',
                     $module,
-                    $this->getStringHelper()->camelCaseToMachineName($this->stringConverter->removeSuffix($className))
+                    $this->stringConverter->camelCaseToMachineName($this->stringConverter->removeSuffix($className))
                 );
             }
             $path = $io->ask(

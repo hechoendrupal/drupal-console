@@ -12,18 +12,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Entity\EntityTypeRepository;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Generator\PluginConditionGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Utils\StringConverter;
-
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class PluginConditionCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginConditionCommand extends Command
@@ -32,10 +32,14 @@ class PluginConditionCommand extends Command
     use ModuleTrait;
     use ConfirmationTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginConditionGenerator  */
+    /**
+ * @var PluginConditionGenerator
+*/
     protected $generator;
 
     /**
@@ -51,11 +55,12 @@ class PluginConditionCommand extends Command
 
     /**
      * PluginConditionCommand constructor.
-     * @param Manager              $extensionManager
-     * @param PluginConditionGenerator  $generator
-     * @param ChainQueue           $chainQueue
-     * @param EntityTypeRepository $entitytyperepository
-     * @param StringConverter      $stringConverter
+     *
+     * @param Manager                  $extensionManager
+     * @param PluginConditionGenerator $generator
+     * @param ChainQueue               $chainQueue
+     * @param EntityTypeRepository     $entitytyperepository
+     * @param StringConverter          $stringConverter
      */
     public function __construct(
         Manager $extensionManager,
@@ -192,7 +197,7 @@ class PluginConditionCommand extends Command
 
         $context_definition_id = $input->getOption('context-definition-id');
         if (!$context_definition_id) {
-            $context_type = array('language' => 'Language', "entity" => "Entity");
+            $context_type = ['language' => 'Language', "entity" => "Entity"];
             $context_type_sel = $io->choice(
                 $this->trans('commands.generate.plugin.condition.questions.context-type'),
                 array_values($context_type)

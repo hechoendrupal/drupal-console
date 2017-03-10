@@ -35,11 +35,12 @@ A brief statement describing why the issue was filed.
 - Why are we doing this? Above all, a summary should explain why a change is needed, in a few short sentences.
 
 ### How to reproduce
-Include steps related how to reproduce. 
+Include steps related how to reproduce.
 
 **Details to include:**
-- Drupal version (you can obtain this by running `drupal site:status`).  
-- Console version (you can obtain this by running `drupal --version`).
+- Drupal version (you can obtain this by running `drupal site:status`).
+- Console version (you can obtain this by running `composer show | grep drupal/console`).
+- Console Launcher version (you can obtain this by running outside of a drupal site `drupal --version`).
 - Steps to reproduce
 - Include screen-shot or video whenever necessary.
 

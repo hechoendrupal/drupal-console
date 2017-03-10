@@ -45,16 +45,18 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
     }
 
     if ($revert_route = $this->getRevisionRevertRoute($entity_type)) {
-      $collection->add("{$entity_type_id}.revision_revert_confirm", $revert_route);
+      $collection->add("entity.{$entity_type_id}.revision_revert", $revert_route);
     }
 
     if ($delete_route = $this->getRevisionDeleteRoute($entity_type)) {
-      $collection->add("{$entity_type_id}.revision_delete_confirm", $delete_route);
+      $collection->add("entity.{$entity_type_id}.revision_delete", $delete_route);
     }
+{% if is_translatable %}
 
     if ($translation_route = $this->getRevisionTranslationRevertRoute($entity_type)) {
       $collection->add("{$entity_type_id}.revision_revert_translation_confirm", $translation_route);
     }
+{%  endif %}
 {%  endif %}
 
     if ($settings_form_route = $this->getSettingsFormRoute($entity_type)) {

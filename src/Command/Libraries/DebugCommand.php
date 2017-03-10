@@ -15,27 +15,36 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Asset\LibraryDiscoveryInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class DebugCommand extends Command
 {
     use CommandTrait;
 
-    /** @var  ModuleHandlerInterface */
+    /**
+ * @var  ModuleHandlerInterface
+*/
     protected $moduleHandler;
 
-    /** @var  ThemeHandlerInterface; */
+    /**
+ * @var  ThemeHandlerInterface;
+*/
     protected $themeHandler;
 
-    /** @var  LibraryDiscoveryInterface */
+    /**
+ * @var  LibraryDiscoveryInterface
+*/
     protected $libraryDiscovery;
 
-    /** @var string */
+    /**
+ * @var string
+*/
     protected $appRoot;
 
     /**
      * DebugCommand constructor.
+     *
      * @param ModuleHandlerInterface    $moduleHandler
      * @param ThemeHandlerInterface     $themeHandler
      * @param LibraryDiscoveryInterface $libraryDiscovery

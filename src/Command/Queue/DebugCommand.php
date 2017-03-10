@@ -11,11 +11,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\Queue
  */
 class DebugCommand extends Command
@@ -29,9 +30,11 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param QueueWorkerManagerInterface $queueWorker
      */
-    public function __construct( QueueWorkerManagerInterface $queueWorker) {
+    public function __construct(QueueWorkerManagerInterface $queueWorker)
+    {
         $this->queueWorker = $queueWorker;
         parent::__construct();
     }

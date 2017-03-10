@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 trait ThemeRegionTrait
 {
@@ -46,7 +46,8 @@ trait ThemeRegionTrait
             if (!$io->confirm(
                 $this->trans('commands.generate.theme.questions.region-add'),
                 true
-            )) {
+            )
+            ) {
                 break;
             }
         }

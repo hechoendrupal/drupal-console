@@ -11,6 +11,7 @@ use Alchemy\Zippy\FileStrategy\AbstractFileStrategy;
 
 /**
  * Class TarGzFileForWindowsStrategy
+ *
  * @package Drupal\Console\Zippy/Strategy
  */
 class TarGzFileForWindowsStrategy extends AbstractFileStrategy
@@ -20,9 +21,9 @@ class TarGzFileForWindowsStrategy extends AbstractFileStrategy
      */
     protected function getServiceNames()
     {
-        return array(
+        return [
             'Drupal\\Console\\Zippy\\Adapter\\TarGzGNUTarForWindowsAdapter'
-        );
+        ];
     }
 
     /**

@@ -14,12 +14,12 @@ use Drupal\Console\Generator\PluginImageFormatterGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class PluginImageFormatterCommand extends Command
 {
@@ -27,10 +27,14 @@ class PluginImageFormatterCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginImageFormatterGenerator  */
+    /**
+ * @var PluginImageFormatterGenerator
+*/
     protected $generator;
 
     /**
@@ -38,7 +42,9 @@ class PluginImageFormatterCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
     /**
@@ -49,11 +55,12 @@ class PluginImageFormatterCommand extends Command
 
     /**
      * PluginImageFormatterCommand constructor.
-     * @param Manager $extensionManager
+     *
+     * @param Manager                       $extensionManager
      * @param PluginImageFormatterGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param Validator $validator
-     * @param ChainQueue $chainQueue
+     * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
+     * @param ChainQueue                    $chainQueue
      */
     public function __construct(
         Manager $extensionManager,

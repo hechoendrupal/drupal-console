@@ -29,5 +29,4 @@ class DrupalCommand
      * @var array
      */
     public $dependencies;
-
 }

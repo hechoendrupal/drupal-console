@@ -10,11 +10,12 @@ namespace Drupal\Console\Command\Multisite;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class SiteDebugCommand
+ *
  * @package Drupal\Console\Command\Site
  */
 class DebugCommand extends Command
@@ -25,9 +26,11 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param $appRoot
      */
-    public function __construct($appRoot) {
+    public function __construct($appRoot)
+    {
         $this->appRoot = $appRoot;
         parent::__construct();
     }
@@ -83,7 +86,7 @@ class DebugCommand extends Command
         foreach ($sites as $site => $directory) {
             $tableRows[] = [
                 $site,
-                $this->appRoot  . '/' . $directory
+                $this->appRoot  . '/sites/' . $directory
             ];
         }
 

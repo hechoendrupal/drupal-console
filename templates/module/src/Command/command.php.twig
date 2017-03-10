@@ -1,11 +1,11 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{module}}\Command\{{ class }}.
+\Drupal\{{extension}}\Command\{{ class }}.
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{module}}\Command;
+namespace Drupal\{{extension}}\Command;
 {% endblock %}
 
 {% block use_class %}
@@ -13,18 +13,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 {% if container_aware %}
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 {% else %}
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 {% endif %}
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Annotations\DrupalCommand;
 {% endblock %}
 
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
  *
- * @package Drupal\{{module}}
+ * @package Drupal\{{extension}}
+ *
+ * @DrupalCommand (
+ *     extension="{{extension}}",
+ *     extensionType="{{ extensionType }}"
+ * )
  */
 class {{ class_name }} extends Command {% endblock %}
 {% block class_construct %}

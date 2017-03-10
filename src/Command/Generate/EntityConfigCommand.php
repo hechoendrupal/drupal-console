@@ -13,17 +13,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\EntityConfigGenerator;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 
 class EntityConfigCommand extends EntityCommand
 {
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var EntityConfigGenerator  
+ * @var EntityConfigGenerator
 */
     protected $generator;
 
@@ -39,6 +39,7 @@ class EntityConfigCommand extends EntityCommand
 
     /**
      * EntityConfigCommand constructor.
+     *
      * @param Manager               $extensionManager
      * @param EntityConfigGenerator $generator
      * @param Validator             $validator

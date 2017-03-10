@@ -21,12 +21,12 @@ services:
       - { name: drupal.command }
   console.config_export:
     class: Drupal\Console\Command\Config\ExportCommand
-    arguments: ['@config.manager']
+    arguments: ['@config.manager', '@config.storage']
     tags:
       - { name: drupal.command }
   console.config_export_content_type:
     class: Drupal\Console\Command\Config\ExportContentTypeCommand
-    arguments: ['@entity_type.manager', '@config.storage']
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
     tags:
       - { name: drupal.command }
   console.config_export_single:
@@ -59,3 +59,14 @@ services:
     arguments: ['@settings']
     tags:
       - { name: drupal.command }
+  console.config_validate:
+    class: Drupal\Console\Command\Config\ValidateCommand
+    tags:
+      - { name: drupal.command }
+  console.config_validate_debug:
+    class: Drupal\Console\Command\Config\ValidateDebugCommand
+    tags:
+      - { name: drupal.command }
+
+
+

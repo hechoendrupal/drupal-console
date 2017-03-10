@@ -14,14 +14,15 @@ use Drupal\Console\Generator\UpdateGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
 
 /**
  * Class UpdateCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class UpdateCommand extends Command
@@ -30,10 +31,14 @@ class UpdateCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var UpdateGenerator  */
+    /**
+ * @var UpdateGenerator
+*/
     protected $generator;
 
     /**
@@ -49,9 +54,10 @@ class UpdateCommand extends Command
 
     /**
      * UpdateCommand constructor.
+     *
      * @param Manager         $extensionManager
      * @param UpdateGenerator $generator
-     * @param StringConverter $stringConverter
+     * @param Site            $site
      * @param ChainQueue      $chainQueue
      */
     public function __construct(

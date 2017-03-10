@@ -15,6 +15,7 @@ use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Class Vocabularies
+ *
  * @package Drupal\Console\Utils
  */
 class VocabularyData extends Base

@@ -7,16 +7,19 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class ControllerGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * AuthenticationProviderGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(
@@ -37,7 +40,7 @@ class ControllerGenerator extends Generator
 
         $this->renderFile(
             'module/src/Controller/controller.php.twig',
-            $this->extensionManager->getModule($module)->getControllerDirectory().'/'.$class.'.php',
+            $this->extensionManager->getModule($module)->getControllerPath().'/'.$class.'.php',
             $parameters
         );
 

@@ -96,6 +96,16 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.plugin_migrate_source_generator:
+    class: Drupal\Console\Generator\PluginMigrateSourceGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_migrate_process_generator:
+    class: Drupal\Console\Generator\PluginMigrateProcessGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.plugin_rest_resource_generator:
     class: Drupal\Console\Generator\PluginRestResourceGenerator
     arguments: ['@console.extension_manager']
@@ -166,6 +176,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.database_settings_generator:
+    class: Drupal\Console\Generator\DatabaseSettingsGenerator
+    arguments: ['@kernel']
+    tags:
+      - { name: drupal.generator }
   console.entitycontent_generator:
     class: Drupal\Console\Generator\EntityContentGenerator
     arguments: ['@console.extension_manager', '@console.site', '@console.renderer']
@@ -181,3 +196,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.cache_context_generator:
+        class: Drupal\Console\Generator\CacheContextGenerator
+        arguments: ['@console.extension_manager']
+        tags:
+          - { name: drupal.generator }

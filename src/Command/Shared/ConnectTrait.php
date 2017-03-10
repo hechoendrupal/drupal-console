@@ -7,12 +7,12 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Database\Database;
 
 trait ConnectTrait
 {
-    protected $supportedDrivers = array('mysql','pgsql');
+    protected $supportedDrivers = ['mysql','pgsql'];
 
     public function resolveConnection(DrupalStyle $io, $database = 'default')
     {

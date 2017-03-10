@@ -6,10 +6,11 @@ use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
  * Class DrupalCommandReader
+ *
  * @package Drupal\Console\Annotations
  */
-class DrupalCommandAnnotationReader {
-
+class DrupalCommandAnnotationReader
+{
     /**
      * @param $class
      * @return array
@@ -22,7 +23,7 @@ class DrupalCommandAnnotationReader {
             new \ReflectionClass($class),
             'Drupal\\Console\\Annotations\\DrupalCommand'
         );
-        if($drupalCommandAnnotation) {
+        if ($drupalCommandAnnotation) {
             $annotation['extension'] = $drupalCommandAnnotation->extension?:'';
             $annotation['extensionType'] = $drupalCommandAnnotation->extensionType?:'';
             $annotation['dependencies'] = $drupalCommandAnnotation->dependencies?:[];

@@ -13,9 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Knp\Snappy\Pdf;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 
 class GenerateDocCheatsheetCommand extends Command
 {
@@ -175,7 +175,7 @@ class GenerateDocCheatsheetCommand extends Command
 
         // 1st page
         foreach ($this->orderCommands as $command) {
-            $str .= $this->doTable($command,  $array_content[$command]);
+            $str .= $this->doTable($command, $array_content[$command]);
         }
 
         // 2nd page
@@ -184,8 +184,8 @@ class GenerateDocCheatsheetCommand extends Command
 
         $str .= "<td style='vertical-align: bottom;'><h1>DrupalConsole Cheatsheet</h1></td></tr></table><br/><br/>";
 
-        $str .= $this->doTable("generate",  $array_content["generate"]);
-        $str .= $this->doTable("miscelaneous",  $array_content["none"]);
+        $str .= $this->doTable("generate", $array_content["generate"]);
+        $str .= $this->doTable("miscelaneous", $array_content["none"]);
 
         $this->doPdf($str, $path, $io);
     }
