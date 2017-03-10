@@ -1,7 +1,7 @@
 services:
   console.generate_module:
     class: Drupal\Console\Command\Generate\ModuleCommand
-    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api', '@http_client', '@console.site']
+    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api']
     tags:
        - { name: drupal.command }
   console.generate_modulefile:
@@ -141,7 +141,7 @@ services:
        - { name: drupal.command }
   console.generate_profile:
     class: Drupal\Console\Command\Generate\ProfileCommand
-    arguments: ['@console.extension_manager', '@console.profile_generator', '@console.string_converter', '@console.validator', '@app.root', '@console.site', '@http_client']
+    arguments: ['@console.extension_manager', '@console.profile_generator', '@console.string_converter', '@console.validator', '@app.root']
     tags:
        - { name: drupal.command }
   console.generate_route_subscriber:
