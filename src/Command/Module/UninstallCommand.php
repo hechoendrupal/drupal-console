@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Module;
 
 use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Extension\Manager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,6 +47,11 @@ class UninstallCommand extends Command
 */
     protected $configFactory;
 
+  /**
+   * @var Manager
+   */
+  protected $extensionManager;
+
 
     /**
      * InstallCommand constructor.
@@ -54,17 +60,20 @@ class UninstallCommand extends Command
      * @param Validator     $validator
      * @param ChainQueue    $chainQueue
      * @param ConfigFactory $configFactory
+     * @param Manager       $extensionManager
      */
     public function __construct(
         Site $site,
         ModuleInstaller $moduleInstaller,
         ChainQueue $chainQueue,
-        ConfigFactory $configFactory
+        ConfigFactory $configFactory,
+        Manager $extensionManager
     ) {
         $this->site = $site;
         $this->moduleInstaller = $moduleInstaller;
         $this->chainQueue = $chainQueue;
         $this->configFactory = $configFactory;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
