@@ -53,7 +53,7 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
    */
   public function revisionPageTitle(${{ entity_name }}_revision) {
     ${{ entity_name }} = $this->entityManager()->getStorage('{{ entity_name }}')->loadRevision(${{ entity_name }}_revision);
-    return $this->t('Revision of %title from %date', array('%title' => ${{ entity_name }}->label(), '%date' => format_date(${{ entity_name }}->getRevisionCreationTime())));
+    return $this->t('Revision of %title from %date', ['%title' => ${{ entity_name }}->label(), '%date' => format_date(${{ entity_name }}->getRevisionCreationTime())]);
   }
 
   /**
@@ -74,12 +74,12 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
     ${{ entity_name }}_storage = $this->entityManager()->getStorage('{{ entity_name }}');
 
     $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => ${{ entity_name }}->label()]) : $this->t('Revisions for %title', ['%title' => ${{ entity_name }}->label()]);
-    $header = array($this->t('Revision'), $this->t('Operations'));
+    $header = [$this->t('Revision'), $this->t('Operations')];
 
     $revert_permission = (($account->hasPermission("revert all {{ label|lower }} revisions") || $account->hasPermission('administer {{ label|lower }} entities')));
     $delete_permission = (($account->hasPermission("delete all {{ label|lower }} revisions") || $account->hasPermission('administer {{ label|lower }} entities')));
 
-    $rows = array();
+    $rows = [];
 
     $vids = ${{ entity_name }}_storage->revisionIds(${{ entity_name }});
 
@@ -166,11 +166,11 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
       }
     }
 
-    $build['{{ entity_name }}_revisions_table'] = array(
+    $build['{{ entity_name }}_revisions_table'] = [
       '#theme' => 'table',
       '#rows' => $rows,
       '#header' => $header,
-    );
+    ];
 
     return $build;
   }
