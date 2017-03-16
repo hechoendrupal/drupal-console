@@ -4,7 +4,7 @@
 * Implements hook_theme_suggestions_HOOK().
 */
 function {{ module }}_theme_suggestions_{{ entity_name }}(array $variables) {
-  $suggestions = array();
+  $suggestions = [];
   $entity = $variables['elements']['#{{ entity_name }}'];
   $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
 
