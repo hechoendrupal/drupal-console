@@ -25,3 +25,5 @@ services:
     arguments: ['@app.root']
     tags:
       - { name: drupal.command }
+  http_client:
+    class: GuzzleHttp\Client
