@@ -31,16 +31,6 @@ interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableI
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 
-{% if bundle_entity_type %}
-  /**
-   * Gets the {{ label }} type.
-   *
-   * @return string
-   *   The {{ label }} type.
-   */
-  public function getType();
-
-{% endif %}
   /**
    * Gets the {{ label }} name.
    *

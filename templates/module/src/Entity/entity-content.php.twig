@@ -152,15 +152,6 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
   }
 {% endif %}
 
-{% if bundle_entity_type %}
-  /**
-   * {@inheritdoc}
-   */
-  public function getType() {
-    return $this->bundle();
-  }
-
-{% endif %}
   /**
    * {@inheritdoc}
    */
