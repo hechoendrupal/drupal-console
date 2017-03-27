@@ -138,14 +138,13 @@ trait FeatureTrait
             }
         }
 
-        // Process only missing or overriden features
+        // Process only missing or overridden features
         $components = $overridden;
 
         if (empty($components)) {
             $io->warning(
                 sprintf(
-                    $this->trans('commands.features.import.messages.nothing'),
-                    $components
+                    $this->trans('commands.features.import.messages.nothing')
                 )
             );
 
@@ -168,7 +167,6 @@ trait FeatureTrait
         foreach ($components as $component) {
             foreach ($component as $feature) {
                 if (!isset($config[$feature])) {
-
                     //Import missing component.
                     $item = $manager->getConfigType($feature);
                     $type = ConfigurationItem::fromConfigStringToConfigType($item['type']);
