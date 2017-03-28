@@ -163,7 +163,7 @@ class ModuleGenerator extends Generator
             }
             $this->renderFile(
                 'module/twig-template-file.twig',
-                $dir . $machineName . '.html.twig',
+                $dir . str_replace("_","-", $machineName) . '.html.twig',
                 $parameters
             );
         }
