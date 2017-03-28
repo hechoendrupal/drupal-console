@@ -35,6 +35,7 @@ if (isset($autoloader)) {
 
 $argvInput = new ArgvInput();
 $debug = $argvInput->hasParameterOption(['--debug']);
+$argvInputReader = new ArgvInputReader();
 
 $drupalFinder = new DrupalFinder();
 if (!$drupalFinder->locateRoot(getcwd())) {
@@ -59,7 +60,6 @@ if (!$container) {
 $configuration = $container->get('console.configuration_manager')
     ->getConfiguration();
 
-$argvInputReader = new ArgvInputReader();
 if ($options = $configuration->get('application.options') ?: []) {
     $argvInputReader->setOptionsFromConfiguration($options);
 }
