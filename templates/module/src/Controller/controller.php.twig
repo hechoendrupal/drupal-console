@@ -25,7 +25,7 @@ class {{ class_name }} extends ControllerBase {% endblock %}
 {% if services is not empty %}
 
   /**
-   * {@inheritdoc}
+   * Constructs a new {{ class_name }} object.
    */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}

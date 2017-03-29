@@ -16,7 +16,7 @@ namespace Drupal\{{module}};{% endblock %}
 class {{ class }}{% if(interface is defined and interface) %} implements {{ interface }}{% endif %} {% endblock %}
 {% block class_construct %}
   /**
-   * Constructor.
+   * Constructs a new {{ class }} object.
    */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}

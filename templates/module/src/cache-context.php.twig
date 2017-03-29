@@ -24,8 +24,8 @@ class {{ class }} implements CacheContextInterface {% endblock %}
 {% block class_construct %}
 
   /**
-  * Constructor.
-  */
+   * Constructs a new {{ class }} object.
+   */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
   {{ serviceClassInitialization(services) }}
   }
