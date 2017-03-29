@@ -37,3 +37,7 @@ services:
     arguments: ['@console.root', '@console.configuration_manager']
     tags:
       - { name: drupal.command }
+  console.devel_service:
+    class: Drupal\Console\Command\Develop\ServiceCommand
+    tags:
+      - { name: drupal.command }
