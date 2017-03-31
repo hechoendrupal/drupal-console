@@ -130,7 +130,7 @@ class ImportCommand extends Command
                 $config_importer->import();
                 return true;
             } catch (ConfigImporterException $e) {
-                $message = 'The import failed due for the following reasons:' . "\n";
+                $message = 'The import failed due to the following reasons:' . "\n";
                 $message .= implode("\n", $config_importer->getErrors());
                 $io->error(
                     sprintf(
