@@ -174,7 +174,7 @@ class ImportSingleCommand extends Command
                     return true;
                 }
             } catch (ConfigImporterException $e) {
-                $message = 'The import failed due for the following reasons:' . "\n";
+                $message = 'The import failed due to the following reasons:' . "\n";
                 $message .= implode("\n", $configImporter->getErrors());
                 $io->error(
                     sprintf(
