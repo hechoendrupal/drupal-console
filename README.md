@@ -5,12 +5,9 @@
   - [Drupal Console](#drupal-console)
   - [Required PHP version](#required-php-version)
   - [Drupal Console documentation](#documentation)
-  - [Download as new dependency](#download-as-new-dependency)
-  - [Download using DrupalComposer](#download-using-drupalcomposer)
-  - [Update DrupalConsole](#update-drupalconsole)
-  - [Install Drupal Console Launcher](#install-drupal-console-launcher)
-  - [Update DrupalConsole Launcher](#update-drupalconsole-launcher)
-  - [Run Drupal Console](#running-drupal-console)
+  - [Download Drupal Console](#download)
+  - [Run Drupal Console](#run)
+  - [Contributors](#contributors)
   - [Supporting organizations](#supporting-organizations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -41,53 +38,15 @@ More information about using this project at the [official documentation](http:/
 ## Required PHP Version
 PHP 5.5.9 or higher is required to use the Drupal Console application.
 
-## Download as new dependency
-```
-# Change directory to Drupal site
-cd /path/to/drupal8.dev
+## Download 
 
-# Download DrupalConsole
-composer require drupal/console:~1.0 \
---prefer-dist \
---optimize-autoloader \
---sort-packages
-```
+[Install Drupal Console Using Composer](https://docs.drupalconsole.com/en/getting/composer.html)
 
-## Download using DrupalComposer
-```
-composer create-project \
-drupal-composer/drupal-project:8.x-dev \
-drupal8.dev \
---prefer-dist \
---no-progress \
---no-interaction
-```
+[Install Drupal Console Launcher](https://docs.drupalconsole.com/en/getting/launcher.html)
 
-## Update DrupalConsole
+[Installing Drupal Console on Windows](https://docs.drupalconsole.com/en/getting/windows.html)
 
-```
-composer update drupal/console --with-dependencies
-```
-
-## Install Drupal Console Launcher
-```
-curl https://drupalconsole.com/installer -L -o drupal.phar
-mv drupal.phar /usr/local/bin/drupal
-chmod +x /usr/local/bin/drupal
-```
-NOTE: If you don't have curl you can try
-```
-php -r "readfile('https://drupalconsole.com/installer');" > drupal.phar
-```
-
-
-## Update DrupalConsole Launcher 
-```
-drupal self-update
-```
-> NOTE: `drupal` is the alias name you used when installed the DrupalConsole Launcher.
-
-## Run Drupal Console
+## Run
 Using the DrupalConsole Launcher
 ```
 drupal
@@ -127,14 +86,16 @@ source "$HOME/.console/console.rc" 2>/dev/null
 ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
+## Contributors
+
+[Full list of contributors](https://drupalconsole.com/contributors)
+
 ## Supporting Organizations
 
 [![weKnow](https://www.drupal.org/files/weKnow-logo_5.png)](http://weknowinc.com)
 
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
 
-[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)
-
-[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)
+[All supporting organizations](https://drupalconsole.com/supporting-organizations)
 
 > Drupal is a registered trademark of Dries Buytaert.
