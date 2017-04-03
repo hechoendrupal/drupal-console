@@ -126,7 +126,7 @@ trait FormTrait
                         $input_options_output[$key] = "'$value' => \$this->t('".$value."')";
                     }
 
-                    $input_options = 'array('.implode(', ', $input_options_output).')';
+                    $input_options = '['.implode(', ', $input_options_output).']';
                 }
 
                 // Description for input
