@@ -39,6 +39,9 @@ class ServiceCommand extends Command
             );
     }
 
+    protected function _sortFunc($a, $b) {
+        return (strcmp($a[2], $b[2]));
+    }
     /**
      * {@inheritdoc}
      */
@@ -79,6 +82,7 @@ class ServiceCommand extends Command
                     $mset[] = array('<fg=yellow>'.$service.'</>', '<fg=blue>'.get_class($sv).'</>', '<fg=yellow>'.$m.'</>', implode(",", $p));
                 }
             }
+            usort($mset, array($this, '_sortFunc'));
             $io->table(array('Service', 'Class', 'Public Method', 'Parameters'), $mset);
 
         } else {
