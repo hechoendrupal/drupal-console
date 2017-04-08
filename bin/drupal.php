@@ -1,10 +1,10 @@
 <?php
 
-use Symfony\Component\Console\Input\ArgvInput;
 use DrupalFinder\DrupalFinder;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Application;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 set_time_limit(0);
 
@@ -33,10 +33,6 @@ if (isset($autoloader)) {
     exit(1);
 }
 
-$argvInput = new ArgvInput();
-$debug = $argvInput->hasParameterOption(['--debug']);
-$argvInputReader = new ArgvInputReader();
-
 $drupalFinder = new DrupalFinder();
 if (!$drupalFinder->locateRoot(getcwd())) {
     echo ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL;
@@ -48,8 +44,18 @@ $composerRoot = $drupalFinder->getComposerRoot();
 $drupalRoot = $drupalFinder->getDrupalRoot();
 chdir($drupalRoot);
 
+$configurationManager = new ConfigurationManager();
+$configuration = $configurationManager
+    ->loadConfigurationFromDirectory($composerRoot);
+
+$argvInputReader = new ArgvInputReader();
+if ($configuration && $options = $configuration->get('application.options') ?: []) {
+    $argvInputReader->setOptionsFromConfiguration($options);
+}
+$argvInputReader->setOptionsAsArgv();
+
 $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
-$container = $drupal->boot($debug);
+$container = $drupal->boot();
 
 if (!$container) {
     echo ' Something was wrong. Drupal can not be bootstrap.';
@@ -57,13 +63,6 @@ if (!$container) {
     exit(1);
 }
 
-$configuration = $container->get('console.configuration_manager')
-    ->getConfiguration();
-
-if ($options = $configuration->get('application.options') ?: []) {
-    $argvInputReader->setOptionsFromConfiguration($options);
-}
-$argvInputReader->setOptionsAsArgv();
 $application = new Application($container);
 $application->setDefaultCommand('about');
 $application->run();
