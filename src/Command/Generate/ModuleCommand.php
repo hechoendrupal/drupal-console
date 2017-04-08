@@ -192,9 +192,13 @@ class ModuleCommand extends Command
         $moduleFile = $input->getOption('module-file');
         $featuresBundle = $input->getOption('features-bundle');
         $composer = $input->getOption('composer');
-        $dependencies = $this->validator->validateExtensions($input->getOption('dependencies'), 'module', $io);
+        $dependencies = $this->validator->validateExtensions(
+            $input->getOption('dependencies'),
+            'module',
+            $io
+        );
         $test = $input->getOption('test');
-        $twigtemplate = $input->getOption('twigtemplate');
+        $twigTemplate = $input->getOption('twigtemplate');
 
         $this->generator->generate(
             $module,
@@ -208,7 +212,7 @@ class ModuleCommand extends Command
             $composer,
             $dependencies,
             $test,
-            $twigtemplate
+            $twigTemplate
         );
     }
 

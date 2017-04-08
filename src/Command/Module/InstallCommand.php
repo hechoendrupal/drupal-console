@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
@@ -42,23 +41,23 @@ class InstallCommand extends Command
     protected $site;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
- * @var ModuleInstaller
-*/
+     * @var ModuleInstaller
+     */
     protected $moduleInstaller;
 
     /**
- * @var DrupalApi
-*/
+     * @var DrupalApi
+     */
     protected $drupalApi;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
@@ -187,8 +186,6 @@ class InstallCommand extends Command
                         )
                     );
                     throw new \RuntimeException($process->getErrorOutput());
-
-                    return 0;
                 }
             }
 

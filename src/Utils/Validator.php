@@ -265,11 +265,11 @@ class Validator
     /**
      * @param  string $extensions_list
      * @param  string $type
-     * @param  array $io
+     * @param  DrupalStyle $io
      *
      * @return array
      */
-    public function validateExtensions(string $extensions_list, string $type, DrupalStyle $io)
+    public function validateExtensions($extensions_list, $type, DrupalStyle $io)
     {
         $extensions = $this->validateMachineNameList($extensions_list);
         // Check if all extensions are available
