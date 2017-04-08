@@ -68,15 +68,11 @@ class Drupal
                 $io->writeln('➤ Creating request');
             }
             $uri = $argvInputReader->get('uri');
-            if ($uri && $uri != 'http://default') {
-                if (substr($uri, -1) != '/') {
-                    $uri .= '/';
-                }
-                $uri .= 'index.php';
-                $request = Request::create($uri, 'GET', [], [], [], ['SCRIPT_NAME' => $this->appRoot . '/index.php']);
-            } else {
-                $request = Request::createFromGlobals();
+            if (substr($uri, -1) != '/') {
+                $uri .= '/';
             }
+            $uri .= 'index.php';
+            $request = Request::create($uri, 'GET', [], [], [], ['SCRIPT_NAME' => '/index.php']);
 
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
