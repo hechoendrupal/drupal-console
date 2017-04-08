@@ -47,10 +47,10 @@ class UninstallCommand extends Command
 */
     protected $configFactory;
 
-  /**
+    /**
    * @var Manager
    */
-  protected $extensionManager;
+    protected $extensionManager;
 
 
     /**

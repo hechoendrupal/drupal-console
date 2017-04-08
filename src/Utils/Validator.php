@@ -10,7 +10,6 @@ namespace Drupal\Console\Utils;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Style\DrupalStyle;
 
-
 class Validator
 {
     const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
@@ -263,8 +262,8 @@ class Validator
     }
 
     /**
-     * @param  string $extensions_list
-     * @param  string $type
+     * @param  string      $extensions_list
+     * @param  string      $type
      * @param  DrupalStyle $io
      *
      * @return array
