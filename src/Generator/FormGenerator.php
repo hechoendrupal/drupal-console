@@ -93,14 +93,13 @@ class FormGenerator extends Generator
             $parameters
         );
         
-       // Render defaults YML file.
-       if ($config_file == true) { 
+        // Render defaults YML file.
+        if ($config_file == true) {
             $this->renderFile(
                 'module/config/install/field.default.yml.twig',
                 $this->extensionManager->getModule($module)->getPath() .'/config/install/'.$module.'.'.$class_name_short.'.yml',
                 $parameters
             );
-
         }
 
         if ($menu_link_gen == true) {

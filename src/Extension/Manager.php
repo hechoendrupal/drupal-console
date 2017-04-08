@@ -362,7 +362,7 @@ class Manager
     }
 
     /**
-     * @param array $extensions
+     * @param array  $extensions
      * @param string $type
      * @return array
      */
@@ -379,7 +379,7 @@ class Manager
             ->showUninstalled()
             ->showCore()
             ->showNoCore()
-            ->getList(TRUE);
+            ->getList(true);
 
         foreach ($extensions as $extension) {
             if (in_array($extension, $local_extensions)) {

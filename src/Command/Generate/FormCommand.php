@@ -211,7 +211,7 @@ abstract class FormCommand extends Command
 
         $this
             ->generator
-            ->generate($module, $class_name, $form_id, $form_type, $build_services, $config_file, $inputs, $path,$menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
+            ->generate($module, $class_name, $form_id, $form_type, $build_services, $config_file, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
 
         $this->chainQueue->addCommand('router:rebuild', []);
     }

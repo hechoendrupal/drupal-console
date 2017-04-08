@@ -38,7 +38,7 @@ class ExportCommand extends Command
      * ExportCommand constructor.
      *
      * @param ConfigManagerInterface $configManager
-     * @param StorageInterface $storage
+     * @param StorageInterface       $storage
      */
     public function __construct(ConfigManagerInterface $configManager, StorageInterface $storage)
     {
@@ -133,11 +133,9 @@ class ExportCommand extends Command
 
                 if ($tar) {
                     $archiveTar->addString($configName, $ymlData);
-                }
-                else {
+                } else {
                     file_put_contents("$directory/$configName", $ymlData);
                 }
-
             }
             // Get all override data from the remaining collections.
             foreach ($this->storage->getAllCollectionNames() as $collection) {
@@ -155,8 +153,7 @@ class ExportCommand extends Command
                     $ymlData = Yaml::encode($configData);
                     if ($tar) {
                         $archiveTar->addString($configName, $ymlData);
-                    }
-                    else {
+                    } else {
                         file_put_contents("$directory/$configName", $ymlData);
                     }
                 }
