@@ -5,6 +5,7 @@ use DrupalFinder\DrupalFinder;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Application;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 set_time_limit(0);
 
@@ -35,6 +36,7 @@ if (isset($autoloader)) {
 
 $argvInput = new ArgvInput();
 $debug = $argvInput->hasParameterOption(['--debug']);
+$uri = $argvInput->hasParameterOption(['--uri']);
 $argvInputReader = new ArgvInputReader();
 
 $drupalFinder = new DrupalFinder();
@@ -48,6 +50,13 @@ $composerRoot = $drupalFinder->getComposerRoot();
 $drupalRoot = $drupalFinder->getDrupalRoot();
 chdir($drupalRoot);
 
+$configurationManager = new ConfigurationManager();
+$configuration = $configurationManager
+    ->loadConfigurationFromDirectory($composerRoot);
+if ($configuration && $options = $configuration->get('application.options') ?: []) {
+    $argvInputReader->setOptionsFromConfiguration($options);
+}
+
 $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
 $container = $drupal->boot($debug);
 
@@ -57,12 +66,12 @@ if (!$container) {
     exit(1);
 }
 
-$configuration = $container->get('console.configuration_manager')
-    ->getConfiguration();
-
-if ($options = $configuration->get('application.options') ?: []) {
-    $argvInputReader->setOptionsFromConfiguration($options);
-}
+//$configuration = $container->get('console.configuration_manager')
+//    ->getConfiguration();
+//
+//if ($options = $configuration->get('application.options') ?: []) {
+//    $argvInputReader->setOptionsFromConfiguration($options);
+//}
 $argvInputReader->setOptionsAsArgv();
 $application = new Application($container);
 $application->setDefaultCommand('about');
