@@ -151,16 +151,17 @@ class NodesCommand extends Command
         }
 
         // Language module is enabled or not.
-        $language_module_enabled = \Drupal::moduleHandler()->moduleExists('language');
+        $languageModuleEnabled = \Drupal::moduleHandler()
+            ->moduleExists('language');
 
         // If language module is enabled.
-        if ($language_module_enabled) {
+        if ($languageModuleEnabled) {
             // Get available languages on site.
-            $available_languages = \Drupal::languageManager()->getLanguages();
+            $languages = \Drupal::languageManager()->getLanguages();
             // Holds the available languages.
             $language_list = [];
 
-            foreach ($available_languages as $lang) {
+            foreach ($languages as $lang) {
                 $language_list[$lang->getId()] = $lang->getName();
             }
 
@@ -191,7 +192,7 @@ class NodesCommand extends Command
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
         $available_types = array_keys($this->drupalApi->getBundles());
-        $language = $input->getOption('language');
+        $language = $input->getOption('language')?:'und';
 
         foreach ($contentTypes as $type) {
             if (!in_array($type, $available_types)) {
