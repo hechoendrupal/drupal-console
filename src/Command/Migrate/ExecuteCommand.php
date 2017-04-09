@@ -47,13 +47,6 @@ class ExecuteCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @DrupalCommand(
-     *     dependencies = {
-     *         "migrate"
-     *     }
-     * )
-     */
     protected function configure()
     {
         $this

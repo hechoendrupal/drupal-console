@@ -54,13 +54,6 @@ class DisableCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @DrupalCommand(
-     *     dependencies = {
-     *         “rest"
-     *     }
-     * )
-     */
     protected function configure()
     {
         $this

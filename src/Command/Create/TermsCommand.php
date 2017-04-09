@@ -24,9 +24,8 @@ use Drupal\Console\Core\Style\DrupalStyle;
  * @package Drupal\Console\Command\Generate
  *
  * @DrupalCommand(
- *     extension = "features",
- *     extensionType = "module",
- *     dependencies={"taxonomy"}
+ *     extension = "taxonomy",
+ *     extensionType = "module"
  * )
  */
 class TermsCommand extends Command

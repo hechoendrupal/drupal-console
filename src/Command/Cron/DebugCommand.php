@@ -56,9 +56,7 @@ class DebugCommand extends Command
         );
 
         $io->table(
-            [
-                $this->trans('commands.cron.debug.messages.module')
-            ],
+            [ $this->trans('commands.cron.debug.messages.module') ],
             $this->moduleHandler->getImplementations('cron'),
             'compact'
         );
