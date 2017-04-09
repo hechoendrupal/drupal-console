@@ -65,7 +65,6 @@ class ServerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
         $address = $this->validatePort($input->getArgument('address'));
 
         $finder = new PhpExecutableFinder();
@@ -90,7 +89,7 @@ class ServerCommand extends Command
         $io->commentBlock(
             sprintf(
                 $this->trans('commands.server.messages.listening'),
-                $address
+                'http://'.$address
             )
         );
 
@@ -99,7 +98,10 @@ class ServerCommand extends Command
 
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());
+            return 1;
         }
+
+        return 0;
     }
 
     /**
