@@ -102,13 +102,19 @@ class ContainerDebugCommand extends Command
     }
 
     private function getCallbackReturnList($service, $method, $args) {
-        $parsedArgs = json_decode($args, TRUE);
+
+        if ($args != NULL) {
+            $parsedArgs = json_decode($args, TRUE);
+            if (!is_array($parsedArgs)) $parsedArgs = explode(",", $args);
+        } else {
+            $parsedArgs = NULL;
+        }
         $serviceInstance = \Drupal::service($service);
 
-        if (!is_array($parsedArgs)) $parsedArgs = explode(",", $args);
         if (!method_exists($serviceInstance, $method)) {
-            $io->error( $this->trans('commands.container.debug.error.method_exists') );
-            exit;
+            throw new \Symfony\Component\DependencyInjection\Exception\BadMethodCallException($this->trans('commands.container.debug.errors.method_not_exists'));
+
+            return $serviceDetail;
         }
         $serviceDetail[] = [
             '<fg=green>'.$this->trans('commands.container.debug.messages.service').'</>',
@@ -124,10 +130,12 @@ class ContainerDebugCommand extends Command
             '<fg=green>'.$this->trans('commands.container.debug.messages.method').'</>',
             '<fg=yellow>'.$methods[0].'</>'
         ];
-        $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.container.debug.messages.arguments').'</>',
-            json_encode($parsedArgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE )
-        ];
+        if ($parsedArgs) {
+            $serviceDetail[] = [
+                '<fg=green>'.$this->trans('commands.container.debug.messages.arguments').'</>',
+                json_encode($parsedArgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE )
+            ];
+        }
         $return = call_user_func_array(array($serviceInstance,$method), $parsedArgs);
         $serviceDetail[] = [
             '<fg=green>'.$this->trans('commands.container.debug.messages.return').'</>',
@@ -192,6 +200,10 @@ class ContainerDebugCommand extends Command
                     '<fg=yellow>'.implode("\n", $methods).'</>'
                 ];
             }
+        } else {
+            throw new \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException($service);
+
+            return $serviceDetail;
         }
 
         return $serviceDetail;
