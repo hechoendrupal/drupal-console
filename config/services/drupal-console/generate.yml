@@ -176,7 +176,7 @@ services:
        - { name: drupal.command }
   console.generate_command:
     class: Drupal\Console\Command\Generate\CommandCommand
-    arguments: ['@console.command_generator', '@console.extension_manager', '@console.validator', '@console.string_converter' ]
+    arguments: ['@console.command_generator', '@console.extension_manager', '@console.validator', '@console.string_converter', '@console.site']
     tags:
        - { name: drupal.command }
   console.generate_ckeditorbutton:
