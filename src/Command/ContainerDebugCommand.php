@@ -211,7 +211,6 @@ class ContainerDebugCommand extends Command
     private function extendArgumentList($serviceInstance, &$methods) {
         foreach ($methods as $k => $m) {
             $reflection = new \ReflectionMethod($serviceInstance, $m);
-            $numreq = $reflection->getNumberOfRequiredParameters();
             $params = $reflection->getParameters();
             $p = array();
 
@@ -229,9 +228,7 @@ class ContainerDebugCommand extends Command
                 }
                 if ($params[$i]->isPassedByReference()) $parameterReference = '<fg=yellow>&</>';
                 else $parameterReference = '';
-                //if ($numreq > $i) $p[] = $reqsymbol.
                 $p[] = $defaultType.$parameterReference.'<fg=red>'.'$</><fg=red>'.$params[$i]->getName().'</>'.$defaultVar;
-                //else $p[] = $defaultType.$parameterReference.'<fg=red>$'.$params[$i]->getName().'</>'.$def;
             }
             if ($reflection->isPublic()) {
                 $methods[$k] = '<fg=cyan>'.$methods[$k]."</><fg=blue>(</>".implode(', ', $p)."<fg=blue>) </> ";
