@@ -21,6 +21,7 @@ use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
+use Drupal\Console\Utils\Site;
 
 class CommandCommand extends Command
 {
@@ -51,23 +52,31 @@ class CommandCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var Site
+     */
+    protected $site;
+
+    /**
      * CommandCommand constructor.
      *
      * @param CommandGenerator $generator
      * @param Manager          $extensionManager
      * @param Validator        $validator
      * @param StringConverter  $stringConverter
+     * @param Site             $site
      */
     public function __construct(
         CommandGenerator $generator,
         Manager $extensionManager,
         Validator $validator,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        Site  $site
     ) {
         $this->generator = $generator;
         $this->extensionManager = $extensionManager;
         $this->validator = $validator;
         $this->stringConverter = $stringConverter;
+        $this->site = $site;
         parent::__construct();
     }
 
@@ -149,6 +158,10 @@ class CommandCommand extends Command
             $containerAware,
             $build_services
         );
+
+        $this->site->removeCachedServicesFile();
+
+        return 0;
     }
 
     /**

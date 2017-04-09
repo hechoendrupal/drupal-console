@@ -2,6 +2,7 @@
 
 namespace Drupal\Console\Bootstrap;
 
+use Drupal\Console\Utils\Site;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -64,15 +65,15 @@ class AddServicesCompilerPass implements CompilerPassInterface
             ->loadConfiguration($this->root)
             ->getConfiguration();
 
-        $cacheDirectory = $container->get('console.site')->getCacheDirectory();
-        $consoleServicesFile = $cacheDirectory.'/console.services.yml';
+        /**
+         * @var Site $site
+         */
+        $site = $container->get('console.site');
 
-        if (!$this->rebuild && file_exists($consoleServicesFile)) {
-            $loader->load($consoleServicesFile);
+        if (!$this->rebuild && $site->cachedServicesFileExists()) {
+            $loader->load($site->cachedServicesFile());
         } else {
-            if (file_exists($consoleServicesFile)) {
-                unlink($consoleServicesFile);
-            }
+            $site->removeCachedServicesFile();
             $finder = new Finder();
             $finder->files()
                 ->name('*.yml')
@@ -149,15 +150,16 @@ class AddServicesCompilerPass implements CompilerPassInterface
                 }
             }
 
-            if ($servicesData && is_writable($cacheDirectory)) {
+            if ($servicesData && is_writable($site->getCacheDirectory())) {
                 file_put_contents(
-                    $consoleServicesFile,
+                    $site->cachedServicesFile(),
                     Yaml::dump($servicesData, 4, 2)
                 );
             }
         }
 
-        $consoleExtendServicesFile = $this->root. DRUPAL_CONSOLE .'/extend.console.services.yml';
+        $consoleExtendServicesFile = $this->root . DRUPAL_CONSOLE . '/extend.console.services.yml';
+
         if (file_exists($consoleExtendServicesFile)) {
             $loader->load($consoleExtendServicesFile);
         }

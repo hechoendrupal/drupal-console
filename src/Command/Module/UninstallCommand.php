@@ -17,7 +17,6 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Utils\Validator;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Config\ConfigFactory;
@@ -33,8 +32,8 @@ class UninstallCommand extends Command
     protected $site;
 
     /**
- * @var ModuleInstaller
-*/
+     * @var ModuleInstaller
+     */
     protected $moduleInstaller;
 
     /**
@@ -43,24 +42,23 @@ class UninstallCommand extends Command
     protected $chainQueue;
 
     /**
- * @var ConfigFactory
-*/
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
     /**
-   * @var Manager
-   */
+     * @var Manager
+     */
     protected $extensionManager;
-
 
     /**
      * InstallCommand constructor.
      *
-     * @param Site          $site
-     * @param Validator     $validator
-     * @param ChainQueue    $chainQueue
-     * @param ConfigFactory $configFactory
-     * @param Manager       $extensionManager
+     * @param Site            $site
+     * @param ModuleInstaller $moduleInstaller
+     * @param ChainQueue      $chainQueue
+     * @param ConfigFactory   $configFactory
+     * @param Manager         $extensionManager
      */
     public function __construct(
         Site $site,
@@ -218,6 +216,7 @@ class UninstallCommand extends Command
             return 1;
         }
 
+        $this->site->removeCachedServicesFile();
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

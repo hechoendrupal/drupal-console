@@ -254,4 +254,21 @@ class Site
             return false;
         }
     }
+
+    public function cachedServicesFile()
+    {
+        return $this->getCacheDirectory().'/console.services.yml';
+    }
+
+    public function cachedServicesFileExists()
+    {
+        return file_exists($this->cachedServicesFile());
+    }
+
+    public function removeCachedServicesFile()
+    {
+        if ($this->cachedServicesFileExists()) {
+            unlink($this->cachedServicesFile());
+        }
+    }
 }
