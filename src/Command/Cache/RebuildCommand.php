@@ -84,7 +84,7 @@ class RebuildCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $cache = $input->getArgument('cache');
+        $cache = $input->getArgument('cache')?:'all';
         $this->site->loadLegacyFile('/core/includes/utility.inc');
 
         if ($cache && !$this->drupalApi->isValidCache($cache)) {

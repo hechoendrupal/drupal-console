@@ -58,7 +58,7 @@ class DrupalApi
     /**
      * Auxiliary function to get all available drupal caches.
      *
-     * @return array The all available drupal caches
+     * @return \Drupal\Core\Cache\CacheBackendInterface[] The all available drupal caches
      */
     public function getCaches()
     {

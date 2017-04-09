@@ -106,12 +106,7 @@ class DebugCommand extends Command
             array_values($this->breakpointManager->getGroupProviders($group))
         );
 
-        if ($typeExtension == 'theme') {
-            $projectPath = drupal_get_path('theme', $group);
-        }
-        if ($typeExtension == 'module') {
-            $projectPath = drupal_get_path('module', $group);
-        }
+        $projectPath = drupal_get_path($typeExtension, $group);
 
         $extensionFile = sprintf(
             '%s/%s/%s.breakpoints.yml',
