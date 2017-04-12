@@ -82,8 +82,6 @@ class Drupal
             $_SERVER['SCRIPT_FILENAME'] = $this->appRoot . '/index.php';
             $request = Request::createFromGlobals();
 
-            var_export($_SERVER);
-
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Creating Drupal kernel');
