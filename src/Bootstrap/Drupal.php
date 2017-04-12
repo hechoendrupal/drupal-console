@@ -31,12 +31,15 @@ class Drupal
         $this->appRoot = $appRoot;
     }
 
-    public function boot($debug = false)
+    public function boot()
     {
         $output = new ConsoleOutput();
         $input = new ArrayInput([]);
         $io = new DrupalStyle($input, $output);
         $argvInputReader = new ArgvInputReader();
+        $command = $argvInputReader->get('command');
+        $uri = $argvInputReader->get('uri');
+        $debug = $argvInputReader->get('debug', false);
 
         if (!class_exists('Drupal\Core\DrupalKernel')) {
             $io->error('Class Drupal\Core\DrupalKernel does not exist.');
@@ -57,8 +60,7 @@ class Drupal
                     $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devDesktopSettingsDir;
                 }
             }
-            $argvInputReader = new ArgvInputReader();
-            $command = $argvInputReader->get('command');
+
             $rebuildServicesFile = false;
             if ($command=='cache:rebuild' || $command=='cr') {
                 $rebuildServicesFile = true;
@@ -67,12 +69,18 @@ class Drupal
             if ($debug) {
                 $io->writeln('➤ Creating request');
             }
-            $uri = $argvInputReader->get('uri');
-            if (substr($uri, -1) != '/') {
-                $uri .= '/';
-            }
-            $uri .= 'index.php';
-            $request = Request::create($uri, 'GET', [], [], [], ['SCRIPT_NAME' => '/index.php']);
+
+            $_SERVER['HTTP_HOST'] = parse_url($uri, PHP_URL_HOST);
+            $_SERVER['SERVER_PORT'] = null;
+            $_SERVER['REQUEST_URI'] = '/';
+            $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+            $_SERVER['REQUEST_METHOD'] = 'GET';
+            $_SERVER['SERVER_SOFTWARE'] = null;
+            $_SERVER['HTTP_USER_AGENT'] = null;
+            $_SERVER['PHP_SELF'] = $_SERVER['REQUEST_URI'] . 'index.php';
+            $_SERVER['SCRIPT_NAME'] = $_SERVER['PHP_SELF'];
+            $_SERVER['SCRIPT_FILENAME'] = $this->appRoot . '/index.php';
+            $request = Request::createFromGlobals();
 
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
@@ -141,7 +149,7 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
-            if ($argvInputReader->get('command') == 'list') {
+            if ($command == 'list') {
                 $io->error($e->getMessage());
             }
             $drupal = new DrupalConsoleCore($this->root, $this->appRoot);
