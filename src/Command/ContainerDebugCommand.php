@@ -221,8 +221,12 @@ class ContainerDebugCommand extends Command
                 } else {
                     $defaultVar = '';
                 }
-                if ($params[$i]->hasType()) {
-                    $defaultType = '<fg=white>'.strval($params[$i]->getType()).'</> ';
+                if (method_exists($params[$i], 'hasType') && method_exists($params[$i], 'getType')) {
+                    if ($params[$i]->hasType()) {
+                        $defaultType = '<fg=white>'.strval($params[$i]->getType()).'</> ';
+                    } else {
+                        $defaultType = '';
+                    }
                 } else {
                     $defaultType = '';
                 }
