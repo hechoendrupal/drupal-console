@@ -1,0 +1,85 @@
+<?php
+/**
+ * @file
+ * Contains \Drupal\Console\Test\Command\{{ class }}Test.
+ */
+
+namespace Drupal\Console\Test\Command;
+
+use Drupal\Console\Command\{{ class }};
+use Symfony\Component\Console\Tester\CommandTester;
+use Drupal\Console\Test\DataProvider\{{ command_name }}DataProviderTrait;
+
+class {{ class }}Test extends CommandTest
+{
+    use {{ command_name }}DataProviderTrait;
+
+    /**
+     * {{ class }} Test
+     *
+{% if options|length>0 %}
+{% for option in options %}
+     * @param ${{ option.name|replace({'-': '_'})  }}
+{% endfor %}
+{% endif %}
+{% if arguments|length>0 %}
+{% for argument in arguments %}
+     * @param ${{ argument.name|replace({'-': '_'}) }}
+{% endfor %}
+{% endif %}
+     *
+     * @dataProvider commandData
+     */
+    public function test{{ class }}(
+{% if options|length>0 %}
+{% for option in options %}
+     {% if loop.last %}
+       ${{ option.name|replace({'-': '_'}) }}
+     {% else %}
+       ${{ option.name|replace({'-': '_'}) }},
+     {% endif %}
+{% endfor %}
+{% endif %}
+{% if arguments|length>0 %}
+{% for argument in arguments %}
+     {% if loop.last %}
+       ${{ argument.name|replace({'-': '_'}) }}
+     {% else %}
+       ${{ argument.name|replace({'-': '_'}) }},
+     {% endif %}
+{% endfor %}
+{% endif %}
+    ) {
+        $command = new {{ class }}($this->getTranslatorHelper());
+        $command->setContainer($this->getContainer());
+        $command->setHelperSet($this->getHelperSet());
+
+        $commandTester = new CommandTester($command);
+
+        $code = $commandTester->execute(
+            [
+{% if options|length>0 %}
+{% for option in options %}
+    {% if loop.last %}
+          '--{{ option.name }}' => ${{ option.name|replace({'-': '_'}) }}
+    {% else %}
+          '--{{ option.name }}' => ${{ option.name|replace({'-': '_'}) }},
+    {% endif %}
+{% endfor %}
+{% endif %}
+{% if arguments|length>0 %}
+{% for argument in arguments %}
+    {% if loop.last %}
+          '{{ argument.name }}' => ${{ argument.name|replace({'-': '_'}) }}
+    {% else %}
+          '{{ argument.name }}' => ${{ argument.name|replace({'-': '_'}) }},
+    {% endif %}
+{% endfor %}
+{% endif %}
+        ],
+            ['interactive' => false]
+        );
+
+        $this->assertEquals(0, $code);
+    }
+}

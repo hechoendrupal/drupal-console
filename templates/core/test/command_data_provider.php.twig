@@ -1,0 +1,22 @@
+<?php
+
+namespace Drupal\Console\Test\DataProvider;
+
+/**
+ * Class {{ command_name }}DataProviderTrait
+ * @package Drupal\Console\Test\DataProvider
+ */
+trait {{ command_name }}DataProviderTrait
+{
+    /**
+     * @return array
+     */
+    public function commandData()
+    {
+        $this->setUpTemporalDirectory();
+
+        return [
+           ['']
+        ];
+    }
+}
