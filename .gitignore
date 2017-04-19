@@ -11,6 +11,8 @@
 /bin/pdepend
 /bin/php-cs-fixer
 /bin/phpmd
+/bin/php-parse
+/bin/psysh
 PATCHES.txt
 
 # Develop
