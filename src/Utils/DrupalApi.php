@@ -114,6 +114,10 @@ class DrupalApi
     public function getVocabularies()
     {
         if (!$this->vocabularies) {
+            // If 'taxonomy' module is not enabled.
+            if (!$this->entityTypeManager->getDefinition('taxonomy_vocabulary')) {
+                throw new \Exception('Taxonomy module is not enabled. Please enable it first.');
+            }
             $vocabularies = $this->entityTypeManager->getStorage('taxonomy_vocabulary')->loadMultiple();
 
             foreach ($vocabularies as $vocabulary) {
