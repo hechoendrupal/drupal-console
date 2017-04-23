@@ -86,6 +86,7 @@ class Drupal
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Creating Drupal kernel');
             }
+
             $drupalKernel = DrupalKernel::createFromRequest(
                 $request,
                 $this->autoload,
@@ -107,6 +108,7 @@ class Drupal
                     $rebuildServicesFile
                 )
             );
+
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Rebuilding container');

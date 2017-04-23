@@ -37,7 +37,7 @@
     },
     "require": {
         "php": "^5.5.9 || ^7.0",
-        "drupal/console-core" : "1.0.0-rc16",
+        "drupal/console-core" : "1.0.0-rc17",
         "drupal/console-extend-plugin": "~0",
         "alchemy/zippy": "0.4.3",
         "doctrine/collections":"~1.3",
