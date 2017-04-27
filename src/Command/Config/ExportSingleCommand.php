@@ -66,37 +66,37 @@ class ExportSingleCommand extends Command
             ->setDescription($this->trans('commands.config.export.single.description'))
             ->addOption(
                 'name',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.config.export.single.options.name')
             )->addOption(
                 'directory',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.arguments.directory')
             )->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.common.options.module')
             )->addOption(
                 'include-dependencies',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.single.options.include-dependencies')
             )->addOption(
                 'optional',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.single.options.optional')
             )->addOption(
                 'remove-uuid',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.single.options.remove-uuid')
             )->addOption(
                 'remove-config-hash',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.single.options.remove-config-hash')
             );

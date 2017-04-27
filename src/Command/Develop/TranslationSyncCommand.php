@@ -64,7 +64,7 @@ class TranslationSyncCommand extends Command
             )
             ->addOption(
                 'file',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.translation.stats.options.file'),
                 null

@@ -69,16 +69,16 @@ class EntityBundleCommand extends Command
             ->setName('generate:entity:bundle')
             ->setDescription($this->trans('commands.generate.entity.bundle.description'))
             ->setHelp($this->trans('commands.generate.entity.bundle.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'bundle-name',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.entity.bundle.options.bundle-name')
             )
             ->addOption(
                 'bundle-title',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.entity.bundle.options.bundle-title')
             );

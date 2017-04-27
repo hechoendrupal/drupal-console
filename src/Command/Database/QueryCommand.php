@@ -46,13 +46,13 @@ class QueryCommand extends Command
                 $this->trans('commands.database.query.arguments.database'),
                 'default'
             )
-            ->addOption('quick', '', InputOption::VALUE_NONE, $this->trans('commands.database.query.options.quick'))
-            ->addOption('debug', '', InputOption::VALUE_NONE, $this->trans('commands.database.query.options.debug'))
-            ->addOption('html', '', InputOption::VALUE_NONE, $this->trans('commands.database.query.options.html'))
-            ->addOption('xml', '', InputOption::VALUE_NONE, $this->trans('commands.database.query.options.xml'))
-            ->addOption('raw', '', InputOption::VALUE_NONE, $this->trans('commands.database.query.options.raw'))
-            ->addOption('vertical', '', InputOption::VALUE_NONE, $this->trans('commands.database.query.options.vertical'))
-            ->addOption('batch', '', InputOption::VALUE_NONE, $this->trans('commands.database.query.options.batch'))
+            ->addOption('quick', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.quick'))
+            ->addOption('debug', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.debug'))
+            ->addOption('html', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.html'))
+            ->addOption('xml', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.xml'))
+            ->addOption('raw', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.raw'))
+            ->addOption('vertical', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.vertical'))
+            ->addOption('batch', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.batch'))
 
             ->setHelp($this->trans('commands.database.query.help'));
     }

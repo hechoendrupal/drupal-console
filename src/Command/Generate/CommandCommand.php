@@ -91,37 +91,37 @@ class CommandCommand extends Command
             ->setHelp($this->trans('commands.generate.command.help'))
             ->addOption(
                 'extension',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.extension')
             )
             ->addOption(
                 'extension-type',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.extension-type')
             )
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.command.options.class')
             )
             ->addOption(
                 'name',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.command.options.name')
             )
             ->addOption(
                 'container-aware',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.command.options.container-aware')
             )
             ->addOption(
                 'services',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             );

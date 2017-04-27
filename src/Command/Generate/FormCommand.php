@@ -122,67 +122,67 @@ abstract class FormCommand extends Command
             )
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.class')
             )
             ->addOption(
                 'form-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.form-id')
             )
             ->addOption(
                 'services',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             )
             ->addOption(
                 'config-file',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.form.options.config-file')
             )
             ->addOption(
                 'inputs',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.common.options.inputs')
             )
             ->addOption(
                 'path',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.path')
             )
             ->addOption(
                 'menu_link_gen',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.menu_link_gen')
             )
             ->addOption(
                 'menu_link_title',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.menu_link_title')
             )
             ->addOption(
                 'menu_parent',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.menu_parent')
             )
             ->addOption(
                 'menu_link_desc',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.menu_link_desc')
             );

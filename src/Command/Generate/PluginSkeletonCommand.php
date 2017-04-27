@@ -103,25 +103,25 @@ class PluginSkeletonCommand extends Command
             ->setHelp($this->trans('commands.generate.plugin.skeleton.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.options.plugin-id')
             )
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.block.options.class')
             )
             ->addOption(
                 'services',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL| InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             );

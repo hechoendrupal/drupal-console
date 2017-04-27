@@ -104,13 +104,13 @@ class ServiceCommand extends Command
             )
             ->addOption(
                 'interface',
-                false,
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.common.service.options.interface')
             )
             ->addOption(
                 'interface_name',
-                false,
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.common.service.options.interface_name')
             )

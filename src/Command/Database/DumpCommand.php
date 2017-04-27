@@ -66,7 +66,7 @@ class DumpCommand extends Command
             )
             ->addOption(
                 'gz',
-                false,
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.database.dump.options.gz')
             )

@@ -65,82 +65,82 @@ class PluginFieldCommand extends Command
             ->setName('generate:plugin:field')
             ->setDescription($this->trans('commands.generate.plugin.field.description'))
             ->setHelp($this->trans('commands.generate.plugin.field.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'type-class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.field.options.type-class')
             )
             ->addOption(
                 'type-label',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.type-label')
             )
             ->addOption(
                 'type-plugin-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.type-plugin-id')
             )
             ->addOption(
                 'type-description',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.type-type-description')
             )
             ->addOption(
                 'formatter-class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.field.options.class')
             )
             ->addOption(
                 'formatter-label',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.formatter-label')
             )
             ->addOption(
                 'formatter-plugin-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.formatter-plugin-id')
             )
             ->addOption(
                 'widget-class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.field.options.formatter-class')
             )
             ->addOption(
                 'widget-label',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.widget-label')
             )
             ->addOption(
                 'widget-plugin-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.widget-plugin-id')
             )
             ->addOption(
                 'field-type',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.field-type')
             )
             ->addOption(
                 'default-widget',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.default-widget')
             )
             ->addOption(
                 'default-formatter',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.field.options.default-formatter')
             );

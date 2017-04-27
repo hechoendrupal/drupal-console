@@ -58,7 +58,7 @@ class DebugCommand extends Command
             )
             ->addOption(
                 'authorization',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.rest.debug.options.status')
             );

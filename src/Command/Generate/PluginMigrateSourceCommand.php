@@ -109,40 +109,40 @@ class PluginMigrateSourceCommand extends Command
             ->setName('generate:plugin:migrate:source')
             ->setDescription($this->trans('commands.generate.plugin.migrate.source.description'))
             ->setHelp($this->trans('commands.generate.plugin.migrate.source.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.migrate.source.options.class')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.migrate.source.options.plugin-id')
             )
             ->addOption(
                 'table',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.migrate.source.options.table')
             )
             ->addOption(
                 'alias',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.migrate.source.options.alias')
             )
             ->addOption(
                 'group-by',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.migrate.source.options.group-by')
             )
             ->addOption(
                 'fields',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.plugin.migrate.source.options.fields')
             );

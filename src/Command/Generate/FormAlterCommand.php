@@ -138,19 +138,19 @@ class FormAlterCommand extends Command
             ->setHelp($this->trans('commands.generate.form.alter.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'form-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.alter.options.form-id')
             )
             ->addOption(
                 'inputs',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.inputs')
             );

@@ -81,13 +81,13 @@ class UpdateCommand extends Command
             ->setHelp($this->trans('commands.generate.update.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'update-n',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.update.options.update-n')
             );
