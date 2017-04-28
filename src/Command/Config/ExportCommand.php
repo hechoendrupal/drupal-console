@@ -107,6 +107,9 @@ class ExportCommand extends Command
             );
         }
 
+        // Remove previous yaml files before creating new ones
+        array_map('unlink', glob($directory . '/*'));
+
         if ($tar) {
             $dateTime = new \DateTime();
 
