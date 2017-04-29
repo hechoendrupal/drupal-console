@@ -114,24 +114,27 @@ class ServerCommand extends Command
     /**
      * @return null|string
      */
-    private function getRouterPath()
-    {
-        $router = sprintf(
-            '%s/.console/router.php',
-            $this->configurationManager->getHomeDirectory()
-        );
+    private function getRouterPath() {
+        $routerPath = [
+            sprintf(
+                '%s/.console/router.php',
+                $this->configurationManager->getHomeDirectory()
+            ),
+            sprintf(
+                '%s/console/router.php',
+                $this->configurationManager->getApplicationDirectory()
+            ),
+            sprintf(
+                '%s/%s/config/dist/router.php',
+                $this->configurationManager->getApplicationDirectory(),
+                DRUPAL_CONSOLE_CORE
+            )
+        ];
 
-        if (file_exists($router)) {
-            return $router;
-        }
-
-        $router = sprintf(
-            '%s/config/dist/router.php',
-            $this->configurationManager->getApplicationDirectory()
-        );
-
-        if (file_exists($router)) {
-            return $router;
+        foreach ($routerPath as $router) {
+            if (file_exists($router)) {
+                return $router;
+            }
         }
 
         return null;
