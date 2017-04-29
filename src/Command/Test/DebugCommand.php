@@ -59,7 +59,7 @@ class DebugCommand extends Command
             )
             ->addOption(
                 'test-class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.test.debug.arguments.test-class')
             );

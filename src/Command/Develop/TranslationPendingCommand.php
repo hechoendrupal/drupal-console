@@ -77,7 +77,7 @@ class TranslationPendingCommand extends Command
             )
             ->addOption(
                 'file',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.translation.pending.options.file'),
                 null

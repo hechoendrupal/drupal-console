@@ -70,7 +70,7 @@ class NewCommand extends Command
             )
             ->addOption(
                 'copy-default',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.multisite.new.options.copy-default')
             );

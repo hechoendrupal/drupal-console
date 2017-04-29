@@ -94,74 +94,74 @@ class ModuleCommand extends Command
             ->setHelp($this->trans('commands.generate.module.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.module.options.module')
             )
             ->addOption(
                 'machine-name',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.module.options.machine-name')
             )
             ->addOption(
                 'module-path',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.module.options.module-path')
             )
             ->addOption(
                 'description',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.description')
             )
             ->addOption(
                 'core',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.core')
             )
             ->addOption(
                 'package',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.package')
             )
             ->addOption(
                 'module-file',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.module.options.module-file')
             )
             ->addOption(
                 'features-bundle',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.module.options.features-bundle')
             )
             ->addOption(
                 'composer',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.module.options.composer')
             )
             ->addOption(
                 'dependencies',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.dependencies'),
                 ''
             )
             ->addOption(
                 'test',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.test')
             )
             ->addOption(
                 'twigtemplate',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.twigtemplate')
             );

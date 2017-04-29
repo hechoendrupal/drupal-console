@@ -70,13 +70,13 @@ class PermissionCommand extends Command
             ->setHelp($this->trans('commands.generate.permission.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'permissions',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.common.options.permissions')
             );

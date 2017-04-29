@@ -64,7 +64,7 @@ class InstallCommand extends Command
             ->addArgument('theme', InputArgument::IS_ARRAY, $this->trans('commands.theme.install.options.module'))
             ->addOption(
                 'set-default',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.theme.install.options.set-default')
             );

@@ -63,7 +63,7 @@ class TableDebugCommand extends Command
             ->setDescription($this->trans('commands.database.table.debug.description'))
             ->addOption(
                 'database',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.table.debug.options.database'),
                 'default'

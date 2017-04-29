@@ -112,56 +112,56 @@ class ThemeCommand extends Command
             ->setHelp($this->trans('commands.generate.theme.help'))
             ->addOption(
                 'theme',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.theme.options.module')
             )
             ->addOption(
                 'machine-name',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.theme.options.machine-name')
             )
             ->addOption(
                 'theme-path',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.theme.options.module-path')
             )
             ->addOption(
                 'description',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.description')
             )
-            ->addOption('core', '', InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.theme.options.core'))
+            ->addOption('core', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.generate.theme.options.core'))
             ->addOption(
                 'package',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.package')
             )
             ->addOption(
                 'global-library',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.global-library')
             )
             ->addOption(
                 'base-theme',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.base-theme')
             )
             ->addOption(
                 'regions',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.regions')
             )
             ->addOption(
                 'breakpoints',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.breakpoints')
             );

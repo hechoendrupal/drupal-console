@@ -58,7 +58,7 @@ class RollBackCommand extends Command
             ->addArgument('migration-ids', InputArgument::IS_ARRAY, $this->trans('commands.migrate.rollback.arguments.id'))
             ->addOption(
                 'source-base_path',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.setup.options.source-base_path')
             );

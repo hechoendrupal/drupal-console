@@ -70,7 +70,7 @@ class ImportCommand extends Command
             )
             ->addOption(
                 'remove-files',
-                false,
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.import.options.remove-files')
             );

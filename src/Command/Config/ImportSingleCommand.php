@@ -70,7 +70,7 @@ class ImportSingleCommand extends Command
                 $this->trans('commands.config.import.single.options.file')
             )->addOption(
                 'directory',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.import.arguments.directory')
             );

@@ -89,13 +89,13 @@ class PostUpdateCommand extends Command
             ->setHelp($this->trans('commands.generate.post.update.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'post-update-name',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.post.update.options.post-update-name')
             );

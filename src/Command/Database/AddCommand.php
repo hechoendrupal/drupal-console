@@ -50,43 +50,43 @@ class AddCommand extends Command
             ->setDescription($this->trans('commands.database.add.description'))
             ->addOption(
                 'database',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.database.add.options.database')
             )
             ->addOption(
                 'username',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.database.add.options.username')
             )
             ->addOption(
                 'password',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.database.add.options.password')
             )
             ->addOption(
                 'prefix',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.add.options.prefix')
             )
             ->addOption(
                 'host',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.add.options.host')
             )
             ->addOption(
                 'port',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.add.options.port')
             )
             ->addOption(
                 'driver',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.add.options.driver')
             )

@@ -65,7 +65,7 @@ class LogDebugCommand extends DatabaseLogBase
             )
             ->addOption(
                 'asc',
-                false,
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.database.log.debug.options.asc')
             )

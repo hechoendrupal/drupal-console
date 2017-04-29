@@ -57,12 +57,12 @@ class DebugCommand extends Command
             )
             ->addOption(
                 'tag',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.views.debug.arguments.view-tag')
             )->addOption(
                 'status',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.views.debug.arguments.view-status')
             );

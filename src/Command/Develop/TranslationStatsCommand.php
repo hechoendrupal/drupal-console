@@ -85,7 +85,7 @@ class TranslationStatsCommand extends Command
             )
             ->addOption(
                 'format',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.translation.stats.options.format'),
                 'table'

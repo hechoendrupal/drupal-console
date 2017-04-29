@@ -41,7 +41,7 @@ class ImportCommand extends Command
             ->setDescription($this->trans('commands.features.import.description'))
             ->addOption(
                 'bundle',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.features.import.options.bundle')
             )
