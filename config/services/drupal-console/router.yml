@@ -1,5 +1,5 @@
 services:
-  router_debug:
+  console.router_debug:
     class: Drupal\Console\Command\Router\DebugCommand
     arguments: ['@router.route_provider']
     tags:
