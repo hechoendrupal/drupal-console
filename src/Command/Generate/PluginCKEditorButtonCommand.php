@@ -123,7 +123,7 @@ class PluginCKEditorButtonCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -138,6 +138,8 @@ class PluginCKEditorButtonCommand extends Command
             ->generate($module, $class_name, $label, $plugin_id, $button_name, $button_icon_path);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

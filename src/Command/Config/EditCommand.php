@@ -97,7 +97,7 @@ class EditCommand extends Command
         if (!$configName) {
             $io->error($this->trans('commands.config.edit.messages.no-config'));
 
-            return;
+            return 1;
         }
 
         try {
@@ -106,7 +106,7 @@ class EditCommand extends Command
         } catch (IOExceptionInterface $e) {
             $io->error($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
 
-            return;
+            return 1;
         }
         if (!$editor) {
             $editor = $this->getEditor();
@@ -122,9 +122,13 @@ class EditCommand extends Command
             $config->save();
             $fileSystem->remove($configFile);
         }
+
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());
+            return 1;
         }
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

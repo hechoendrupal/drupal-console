@@ -197,7 +197,7 @@ class ExecuteCommand extends Command
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
             $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
-            return;
+            return 1;
         }
         
         $database = $this->getDBInfo();
@@ -287,7 +287,7 @@ class ExecuteCommand extends Command
 
         // If migrations weren't provided finish execution
         if (empty($migration_ids)) {
-            return;
+            return 1;
         }
 
         if (!$this->migrateConnection) {
@@ -297,7 +297,7 @@ class ExecuteCommand extends Command
         
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
             $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
-            return;
+            return 1;
         }
         
         $version_tag = 'Drupal ' . $drupal_version;
@@ -315,7 +315,7 @@ class ExecuteCommand extends Command
         
         if (count($migrations) == 0) {
             $io->error($this->trans('commands.migrate.execute.messages.no-migrations'));
-            return;
+            return 1;
         }
 
         foreach ($migrations as $migration_id) {
@@ -379,7 +379,11 @@ class ExecuteCommand extends Command
                 }
             } else {
                 $io->error($this->trans('commands.migrate.execute.messages.fail-load'));
+
+                return 1;
             }
         }
+
+        return 0;
     }
 }

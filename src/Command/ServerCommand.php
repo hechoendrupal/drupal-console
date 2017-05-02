@@ -77,7 +77,7 @@ class ServerCommand extends Command
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
             $io->error($this->trans('commands.server.errors.binary'));
-            return;
+            return 1;
         }
 
         $router = $this->getRouterPath();
@@ -114,7 +114,8 @@ class ServerCommand extends Command
     /**
      * @return null|string
      */
-    private function getRouterPath() {
+    private function getRouterPath()
+    {
         $routerPath = [
             sprintf(
                 '%s/.console/router.php',

@@ -144,7 +144,7 @@ class CommandCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
-            return;
+            return 1;
         }
 
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices

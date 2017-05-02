@@ -146,7 +146,7 @@ class UninstallCommand extends Command
                             )
                         );
 
-                        return;
+                        return 1;
                     }
 
                     if ($themeKey === $config->get('admin')) {
@@ -156,7 +156,7 @@ class UninstallCommand extends Command
                                 implode(',', $themesAvailable)
                             )
                         );
-                        return;
+                        return 1;
                     }
                 }
 
@@ -185,6 +185,8 @@ class UninstallCommand extends Command
                     )
                 );
                 drupal_set_message($e->getTranslatedMessage($this->getStringTranslation(), $theme), 'error');
+
+                return 1;
             }
         } elseif (empty($themesAvailable) && count($themesUninstalled) > 0) {
             if (count($themesUninstalled) > 1) {
@@ -222,5 +224,7 @@ class UninstallCommand extends Command
 
         // Run cache rebuild to see changes in Web UI
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+
+        return 0;
     }
 }

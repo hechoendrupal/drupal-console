@@ -126,7 +126,7 @@ class PluginRulesActionCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -140,6 +140,8 @@ class PluginRulesActionCommand extends Command
         $this->generator->generate($module, $class_name, $label, $plugin_id, $category, $context, $type);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

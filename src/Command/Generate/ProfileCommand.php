@@ -137,7 +137,7 @@ class ProfileCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $profile = $this->validator->validateModuleName($input->getOption('profile'));
@@ -178,7 +178,7 @@ class ProfileCommand extends Command
         } catch (\Exception $error) {
             $io->error($error->getMessage());
 
-            return;
+            return 1;
         }
 
         if (!$profile) {
@@ -197,7 +197,7 @@ class ProfileCommand extends Command
         } catch (\Exception $error) {
             $io->error($error->getMessage());
 
-            return;
+            return 1;
         }
 
         if (!$machine_name) {

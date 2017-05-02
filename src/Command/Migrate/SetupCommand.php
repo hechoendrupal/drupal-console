@@ -183,7 +183,7 @@ class SetupCommand extends Command
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
             $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
-            return;
+            return 1;
         }
         
         $database = $this->getDBInfo();
@@ -202,5 +202,7 @@ class SetupCommand extends Command
                 )
             );
         }
+
+        return 0;
     }
 }

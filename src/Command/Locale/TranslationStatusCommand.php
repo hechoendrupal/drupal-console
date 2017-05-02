@@ -86,11 +86,14 @@ class TranslationStatusCommand extends Command
 
         if (!$languages) {
             $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
-            return;
-        } elseif (empty($status)) {
-            $io->info($this->trans('commands.locale.translation.status.messages.no-translations'));
-            return;
+            return 1;
         }
+
+        if (empty($status)) {
+            $io->info($this->trans('commands.locale.translation.status.messages.no-translations'));
+            return 1;
+        }
+
         if ($languages) {
             $projectsStatus = $this->projectsStatus();
 
@@ -109,5 +112,7 @@ class TranslationStatusCommand extends Command
                 $io->table($tableHeader, $tableRows, 'compact');
             }
         }
+
+        return 0;
     }
 }

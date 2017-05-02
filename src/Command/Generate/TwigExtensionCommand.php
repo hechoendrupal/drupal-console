@@ -126,7 +126,7 @@ class TwigExtensionCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -136,13 +136,14 @@ class TwigExtensionCommand extends Command
         // Add renderer service as first parameter.
         array_unshift($services, 'renderer');
 
-
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
         $this->generator->generate($module, $name, $class, $build_services);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+
+        return 0;
     }
 
     /**
