@@ -183,7 +183,7 @@ class NewCommand extends Command
                     'sites/default/settings.php'
                 )
             );
-            return;
+            return 1;
         }
 
         if ($this->fs->exists($this->appRoot . '/sites/default/files')) {
@@ -200,7 +200,7 @@ class NewCommand extends Command
                         'sites/' . $this->directory . '/files'
                     )
                 );
-                return;
+                return 1;
             }
         } else {
             $io->warning($this->trans('commands.multisite.new.warnings.missing-files'));
@@ -221,7 +221,7 @@ class NewCommand extends Command
                     'sites/' . $this->directory . '/settings.php'
                 )
             );
-            return;
+            return 1;
         }
 
         $this->chmodSettings($io);
@@ -255,7 +255,7 @@ class NewCommand extends Command
                         $this->appRoot . '/sites/' . $this->directory . '/settings.php'
                     )
                 );
-                return;
+                return 1;
             }
         } else {
             $io->error(
@@ -264,7 +264,7 @@ class NewCommand extends Command
                     'sites/default/default.settings.php'
                 )
             );
-            return;
+            return 1;
         }
 
         $this->chmodSettings($io);
@@ -275,6 +275,8 @@ class NewCommand extends Command
                 $this->directory
             )
         );
+
+        return 0;
     }
 
     /**
@@ -297,6 +299,8 @@ class NewCommand extends Command
                     $this->appRoot . '/sites/' . $this->directory . '/settings.php'
                 )
             );
+
+            return 1;
         }
     }
 }

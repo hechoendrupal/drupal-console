@@ -131,7 +131,7 @@ class PluginRestResourceCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -144,6 +144,8 @@ class PluginRestResourceCommand extends Command
         $this->generator->generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $plugin_states);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

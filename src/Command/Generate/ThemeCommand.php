@@ -176,7 +176,7 @@ class ThemeCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $theme = $this->validator->validateModuleName($input->getOption('theme'));
@@ -204,6 +204,8 @@ class ThemeCommand extends Command
             $regions,
             $breakpoints
         );
+
+        return 0;
     }
 
     /**
@@ -218,7 +220,7 @@ class ThemeCommand extends Command
         } catch (\Exception $error) {
             $io->error($error->getMessage());
 
-            return;
+            return 1;
         }
 
         if (!$theme) {
@@ -238,7 +240,7 @@ class ThemeCommand extends Command
         } catch (\Exception $error) {
             $io->error($error->getMessage());
 
-            return;
+            return 1;
         }
 
         if (!$machine_name) {

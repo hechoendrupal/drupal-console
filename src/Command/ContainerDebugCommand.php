@@ -80,7 +80,6 @@ class ContainerDebugCommand extends Command
 
             return 0;
         } else {
-
             $tableHeader = [];
             if ($service) {
                 $tableRows = $this->getServiceDetail($service);
@@ -101,13 +100,15 @@ class ContainerDebugCommand extends Command
         return 0;
     }
 
-    private function getCallbackReturnList($service, $method, $args) {
-
-        if ($args != NULL) {
-            $parsedArgs = json_decode($args, TRUE);
-            if (!is_array($parsedArgs)) $parsedArgs = explode(",", $args);
+    private function getCallbackReturnList($service, $method, $args)
+    {
+        if ($args != null) {
+            $parsedArgs = json_decode($args, true);
+            if (!is_array($parsedArgs)) {
+                $parsedArgs = explode(",", $args);
+            }
         } else {
-            $parsedArgs = NULL;
+            $parsedArgs = null;
         }
         $serviceInstance = \Drupal::service($service);
 
@@ -124,7 +125,7 @@ class ContainerDebugCommand extends Command
             '<fg=green>'.$this->trans('commands.container.debug.messages.class').'</>',
             '<fg=yellow>'.get_class($serviceInstance).'</>'
         ];
-        $methods = array($method);
+        $methods = [$method];
         $this->extendArgumentList($serviceInstance, $methods);
         $serviceDetail[] = [
             '<fg=green>'.$this->trans('commands.container.debug.messages.method').'</>',
@@ -133,10 +134,10 @@ class ContainerDebugCommand extends Command
         if ($parsedArgs) {
             $serviceDetail[] = [
                 '<fg=green>'.$this->trans('commands.container.debug.messages.arguments').'</>',
-                json_encode($parsedArgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE )
+                json_encode($parsedArgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
             ];
         }
-        $return = call_user_func_array(array($serviceInstance,$method), $parsedArgs);
+        $return = call_user_func_array([$serviceInstance,$method], $parsedArgs);
         $serviceDetail[] = [
             '<fg=green>'.$this->trans('commands.container.debug.messages.return').'</>',
             json_encode($return, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
@@ -152,10 +153,11 @@ class ContainerDebugCommand extends Command
         foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
             $services[] = [$serviceId, $serviceDefinition->getClass()];
         }
-        usort($services, array($this, 'compareService'));
+        usort($services, [$this, 'compareService']);
         return $services;
     }
-    private function compareService($a, $b) {
+    private function compareService($a, $b)
+    {
         return strcmp($a[0], $b[0]);
     }
 
@@ -208,16 +210,17 @@ class ContainerDebugCommand extends Command
 
         return $serviceDetail;
     }
-    private function extendArgumentList($serviceInstance, &$methods) {
+    private function extendArgumentList($serviceInstance, &$methods)
+    {
         foreach ($methods as $k => $m) {
             $reflection = new \ReflectionMethod($serviceInstance, $m);
             $params = $reflection->getParameters();
-            $p = array();
+            $p = [];
 
-            for ($i = 0; $i < count($params) ; $i++) {
+            for ($i = 0; $i < count($params); $i++) {
                 if ($params[$i]->isDefaultValueAvailable()) {
                     $defaultVar = $params[$i]->getDefaultValue();
-                    $defaultVar = " = <fg=magenta>".str_replace(array("\n","array ("), array("", "array("), var_export($def,true)).'</>';
+                    $defaultVar = " = <fg=magenta>".str_replace(["\n","array ("], ["", "array("], var_export($def, true)).'</>';
                 } else {
                     $defaultVar = '';
                 }
@@ -230,8 +233,11 @@ class ContainerDebugCommand extends Command
                 } else {
                     $defaultType = '';
                 }
-                if ($params[$i]->isPassedByReference()) $parameterReference = '<fg=yellow>&</>';
-                else $parameterReference = '';
+                if ($params[$i]->isPassedByReference()) {
+                    $parameterReference = '<fg=yellow>&</>';
+                } else {
+                    $parameterReference = '';
+                }
                 $p[] = $defaultType.$parameterReference.'<fg=red>'.'$</><fg=red>'.$params[$i]->getName().'</>'.$defaultVar;
             }
             if ($reflection->isPublic()) {

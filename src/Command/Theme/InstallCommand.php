@@ -132,7 +132,7 @@ class InstallCommand extends Command
         if ($default && count($theme) > 1) {
             $io->error($this->trans('commands.theme.install.messages.invalid-theme-default'));
 
-            return;
+            return 1;
         }
 
         $themes  = $this->themeHandler->rebuildThemeData();
@@ -188,6 +188,8 @@ class InstallCommand extends Command
                     )
                 );
                 drupal_set_message($e->getTranslatedMessage($this->getStringTranslation(), $theme), 'error');
+
+                return 1;
             }
         } elseif (empty($themesAvailable) && count($themesInstalled) > 0) {
             if (count($themesInstalled) > 1) {
@@ -225,5 +227,7 @@ class InstallCommand extends Command
 
         // Run cache rebuild to see changes in Web UI
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+
+        return 0;
     }
 }

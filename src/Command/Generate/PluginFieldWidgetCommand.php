@@ -129,7 +129,7 @@ class PluginFieldWidgetCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -141,6 +141,8 @@ class PluginFieldWidgetCommand extends Command
         $this->generator->generate($module, $class_name, $label, $plugin_id, $field_type);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

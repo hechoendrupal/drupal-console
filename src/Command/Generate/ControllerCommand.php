@@ -137,10 +137,9 @@ class ControllerCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
-            return;
+            return 1;
         }
 
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
         $module = $input->getOption('module');
         $class = $input->getOption('class');
         $routes = $input->getOption('routes');
@@ -164,6 +163,8 @@ class ControllerCommand extends Command
 
         // Run cache rebuild to see changes in Web UI
         $this->chainQueue->addCommand('router:rebuild', []);
+
+        return 0;
     }
 
     /**

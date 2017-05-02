@@ -103,7 +103,7 @@ class EnableCommand extends Command
                     $viewId
                 )
             );
-            return;
+            return 1;
         }
 
         try {
@@ -116,6 +116,10 @@ class EnableCommand extends Command
             );
         } catch (Exception $e) {
             $io->error($e->getMessage());
+
+            return 1;
         }
+
+        return 0;
     }
 }

@@ -177,7 +177,7 @@ class ModuleCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
-            return;
+            return 1;
         }
 
         $module = $this->validator->validateModuleName($input->getOption('module'));
@@ -214,6 +214,8 @@ class ModuleCommand extends Command
             $test,
             $twigTemplate
         );
+
+        return 0;
     }
 
     /**
@@ -233,7 +235,7 @@ class ModuleCommand extends Command
         } catch (\Exception $error) {
             $io->error($error->getMessage());
 
-            return;
+            return 1;
         }
 
         if (!$module) {

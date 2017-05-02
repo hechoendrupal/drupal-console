@@ -75,7 +75,7 @@ class RollBackCommand extends Command
         $migrations_list = array_keys($this->getMigrations($version_tag));
         // If migrations weren't provided finish execution
         if (empty($migration_id)) {
-            return;
+            return 1;
         }
 
 
@@ -129,6 +129,8 @@ class RollBackCommand extends Command
                 }
             }
         }
+
+        return 0;
     }
 
     /**

@@ -118,7 +118,7 @@ class BreakPointCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $validators = $this->validator;
@@ -132,6 +132,8 @@ class BreakPointCommand extends Command
             $breakpoints,
             $machine_name
         );
+
+        return 0;
     }
 
     /**

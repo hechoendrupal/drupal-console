@@ -76,7 +76,7 @@ class ModuleFileCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
-            return;
+            return 1;
         }
 
         $machine_name =  $input->getOption('module');

@@ -155,7 +155,7 @@ class PluginFieldCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $this->chainQueue
@@ -196,6 +196,8 @@ class PluginFieldCommand extends Command
             );
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
