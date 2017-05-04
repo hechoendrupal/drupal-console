@@ -63,6 +63,9 @@ if (!$container) {
     exit(1);
 }
 
-$application = new Application($container);
+if (!isset($launcherVersion))
+  $launcherVersion = FALSE;
+
+$application = new Application($container, $launcherVersion);
 $application->setDefaultCommand('about');
 $application->run();
