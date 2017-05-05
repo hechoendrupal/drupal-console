@@ -27,9 +27,52 @@ class Application extends BaseApplication
      */
     const VERSION = '1.0.0-rc18';
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var string
+     */
+    private $launcherVersion;
+
+    public function __construct(ContainerInterface $container, $launcherVersion = FALSE)
     {
+        $this->setLauncherVersion($launcherVersion);
         parent::__construct($container, $this::NAME, $this::VERSION);
+    }
+
+    /**
+     * Returns the long version of the application.
+     *
+     * @return string The long application version
+     */
+    public function getLongVersion()
+    {
+        $output = '';
+
+        if ($this->launcherVersion) {
+          $output .= sprintf('<info>%s</info> version <comment>%s</comment>', $this->getName() . ' Launcher', $this->getLauncherVersion());
+          $output .= PHP_EOL;
+        }
+
+        if ('UNKNOWN' !== $this->getName()) {
+            if ('UNKNOWN' !== $this->getVersion()) {
+                $output .= sprintf('<info>%s</info> version <comment>%s</comment>', $this->getName(), $this->getVersion());
+            }
+            else {
+              $output .= sprintf('<info>%s</info>', $this->getName());
+            }
+        }
+        else {
+          $output .= '<info>Console Tool</info>';
+        }
+
+        return $output;
+    }
+
+    public function setLauncherVersion ($launcherVersion) {
+      $this->launcherVersion = $launcherVersion;
+    }
+
+    public function getLauncherVersion ($launcherVersion) {
+      return $this->launcherVersion;
     }
 
     /**
