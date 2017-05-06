@@ -27,14 +27,8 @@ class Application extends BaseApplication
      */
     const VERSION = '1.0.0-rc18';
 
-    /**
-     * @var string
-     */
-    private $launcherVersion;
-
-    public function __construct(ContainerInterface $container, $launcherVersion = FALSE)
+    public function __construct(ContainerInterface $container)
     {
-        $this->setLauncherVersion($launcherVersion);
         parent::__construct($container, $this::NAME, $this::VERSION);
     }
 
@@ -46,11 +40,6 @@ class Application extends BaseApplication
     public function getLongVersion()
     {
         $output = '';
-
-        if ($this->launcherVersion) {
-          $output .= sprintf('<info>%s</info> version <comment>%s</comment>', $this->getName() . ' Launcher', $this->getLauncherVersion());
-          $output .= PHP_EOL;
-        }
 
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
@@ -65,14 +54,6 @@ class Application extends BaseApplication
         }
 
         return $output;
-    }
-
-    public function setLauncherVersion ($launcherVersion) {
-      $this->launcherVersion = $launcherVersion;
-    }
-
-    public function getLauncherVersion ($launcherVersion) {
-      return $this->launcherVersion;
     }
 
     /**
