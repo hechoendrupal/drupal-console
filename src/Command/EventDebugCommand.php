@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
@@ -78,20 +79,55 @@ class EventDebugCommand extends Command
             
             foreach ($dispatcher as $key => $value) {
                 $reflection = new \ReflectionClass(get_class($value[0]));
-                $listeners[] = [$reflection->getName(), $value[1]];
+                $className = $reflection->getName();
+
+                if (!$reflection->hasMethod('getSubscribedEvents')) {
+                    $reflection = new \ReflectionClass($reflection->getParentClass());
+                }
+
+                $eventObject = $reflection->newInstanceWithoutConstructor();
+                $reflectionMethod = new \ReflectionMethod(
+                    $reflection->getName(),
+                    'getSubscribedEvents'
+                );
+
+                $subscribedEvents = $reflectionMethod->invoke(
+                    $eventObject
+                );
+
+                if (!is_array($subscribedEvents[$event])) {
+                    $subscribedEvents[$event] = [$subscribedEvents[$event]];
+                }
+
+                $subscribedEventData = [];
+                foreach ($subscribedEvents[$event] as $subscribedEvent) {
+                    if (!is_array($subscribedEvent)) {
+                        $subscribedEvent = [$subscribedEvent, 0];
+                    }
+                    if ($subscribedEvent[0] == $value[1]) {
+                        $subscribedEventData = [
+                            $subscribedEvent[0] => isset($subscribedEvent[1])?$subscribedEvent[1]:0
+                        ];
+                    }
+                }
+
+                $listeners[] = [
+                    'class' => $className,
+                    'method' => $value[1],
+                    'events' => Yaml::dump($subscribedEventData, 4, 2)
+                ];
             }
  
             $tableHeader = [
                $this->trans('commands.event.debug.messages.class'),
                $this->trans('commands.event.debug.messages.method'),
-
             ];
 
             $tableRows = [];
             foreach ($listeners as $key => $element) {
                 $tableRows[] = [
-                    'class' => $element['0'],
-                    'method' => $element['1']
+                    'class' => $element['class'],
+                    'events' => $element['events']
                  ];
             }
 
