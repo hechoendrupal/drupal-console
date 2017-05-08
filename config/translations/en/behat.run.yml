@@ -1,0 +1,5 @@
+description: 'Run the behat tests of your application'
+error: 'Add into services.yml the parameter behat.dir with the path of your behat'
+arguments:
+  filter: 'Run selected behat tests'
+

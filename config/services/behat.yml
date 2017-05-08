@@ -1,0 +1,5 @@
+services:
+  behat_run:
+    class: Drupal\Console\Command\Behat\RunCommand
+    tags:
+      - { name: console.command }
