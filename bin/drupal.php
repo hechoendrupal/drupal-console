@@ -1,6 +1,6 @@
 <?php
 
-use DrupalFinder\DrupalFinder;
+use Drupal\Console\Core\Utils\DrupalFinder;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Application;
