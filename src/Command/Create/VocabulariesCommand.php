@@ -17,6 +17,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class VocabulariesCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class VocabulariesCommand extends Command
@@ -30,6 +31,7 @@ class VocabulariesCommand extends Command
 
     /**
      * UsersCommand constructor.
+     *
      * @param $vocabularyData
      */
     public function __construct(VocabularyData $vocabularyData)

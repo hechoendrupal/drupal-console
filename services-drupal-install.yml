@@ -1,5 +1,4 @@
 services:
-  # Installer services
   console.site:
     class: Drupal\Console\Utils\Site
     arguments: ['@app.root']

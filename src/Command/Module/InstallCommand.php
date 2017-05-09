@@ -27,6 +27,7 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class InstallCommand
+ *
  * @package Drupal\Console\Command\Module
  */
 class InstallCommand extends Command
@@ -41,22 +42,22 @@ class InstallCommand extends Command
     protected $site;
 
     /**
- * @var Validator  
+ * @var Validator
 */
     protected $validator;
 
     /**
- * @var ModuleInstaller  
+ * @var ModuleInstaller
 */
     protected $moduleInstaller;
 
     /**
- * @var DrupalApi  
+ * @var DrupalApi
 */
     protected $drupalApi;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
@@ -72,6 +73,7 @@ class InstallCommand extends Command
 
     /**
      * InstallCommand constructor.
+     *
      * @param Site            $site
      * @param Validator       $validator
      * @param ModuleInstaller $moduleInstaller

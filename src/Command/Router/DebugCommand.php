@@ -27,6 +27,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param RouteProviderInterface $routeProvider
      */
     public function __construct(RouteProviderInterface $routeProvider)

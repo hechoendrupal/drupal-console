@@ -40,6 +40,7 @@ class InstallCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param ConfigFactory $configFactory
      * @param ThemeHandler  $themeHandler
      * @param ChainQueue    $chainQueue

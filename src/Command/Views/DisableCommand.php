@@ -18,6 +18,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DisableCommand
+ *
  * @package Drupal\Console\Command\Views
  */
 class DisableCommand extends Command
@@ -36,6 +37,7 @@ class DisableCommand extends Command
 
     /**
      * DisableCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param QueryFactory               $entityQuery
      */

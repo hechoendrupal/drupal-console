@@ -21,3 +21,7 @@ services:
     arguments: ['@?plugin.manager.devel_dumper']
     tags:
       - { name: drupal.command }
+  console.shell:
+    class: Drupal\Console\Command\ShellCommand
+    tags:
+      - { name: drupal.command }

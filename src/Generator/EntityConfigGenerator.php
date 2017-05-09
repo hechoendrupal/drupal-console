@@ -13,12 +13,13 @@ use Drupal\Console\Extension\Manager;
 class EntityConfigGenerator extends Generator
 {
     /**
-     * @var Manager  
+     * @var Manager
      */
     protected $extensionManager;
 
     /**
      * EntityConfigGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

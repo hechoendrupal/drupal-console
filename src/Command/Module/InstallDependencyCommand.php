@@ -23,6 +23,7 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class InstallDependencyCommand
+ *
  * @package Drupal\Console\Command\Module
  */
 class InstallDependencyCommand extends Command
@@ -37,12 +38,12 @@ class InstallDependencyCommand extends Command
     protected $site;
 
     /**
- * @var Validator  
+ * @var Validator
 */
     protected $validator;
 
     /**
- * @var ModuleInstaller  
+ * @var ModuleInstaller
 */
     protected $moduleInstaller;
 
@@ -53,6 +54,7 @@ class InstallDependencyCommand extends Command
 
     /**
      * InstallCommand constructor.
+     *
      * @param Site       $site
      * @param Validator  $validator
      * @param ChainQueue $chainQueue

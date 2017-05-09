@@ -25,6 +25,7 @@ class RebuildCommand extends Command
 
     /**
      * RebuildCommand constructor.
+     *
      * @param RouteBuilderInterface $routerBuilder
      */
     public function __construct(RouteBuilderInterface $routerBuilder)

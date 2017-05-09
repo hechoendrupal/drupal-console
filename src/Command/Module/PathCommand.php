@@ -29,6 +29,7 @@ class PathCommand extends Command
 
     /**
      * PathCommand constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(Manager $extensionManager)

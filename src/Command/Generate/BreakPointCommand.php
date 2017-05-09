@@ -53,7 +53,7 @@ class BreakPointCommand extends Command
 
 
     /**
- * @var Validator  
+ * @var Validator
 */
     protected $validator;
 
@@ -64,8 +64,9 @@ class BreakPointCommand extends Command
 
     /**
      * BreakPointCommand constructor.
+     *
      * @param BreakPointGenerator $generator
-     * @param                     $appRoot
+     * @param $appRoot
      * @param ThemeHandler        $themeHandler
      * @param Validator           $validator
      * @param StringConverter     $stringConverter

@@ -32,7 +32,7 @@ class ProfileGenerator extends Generator
                 );
             }
             $files = scandir($dir);
-            if ($files != array('.', '..')) {
+            if ($files != ['.', '..']) {
                 throw new \RuntimeException(
                     sprintf(
                         'Unable to generate the profile as the target directory "%s" is not empty.',
@@ -50,7 +50,7 @@ class ProfileGenerator extends Generator
             }
         }
 
-        $parameters = array(
+        $parameters = [
           'profile' => $profile,
           'machine_name' => $machine_name,
           'type' => 'profile',
@@ -58,7 +58,7 @@ class ProfileGenerator extends Generator
           'description' => $description,
           'dependencies' => $dependencies,
           'distribution' => $distribution,
-        );
+        ];
 
         $this->renderFile(
             'profile/info.yml.twig',

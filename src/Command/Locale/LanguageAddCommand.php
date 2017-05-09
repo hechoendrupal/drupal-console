@@ -42,6 +42,7 @@ class LanguageAddCommand extends Command
 
     /**
      * LanguageAddCommand constructor.
+     *
      * @param Site                   $site
      * @param ModuleHandlerInterface $moduleHandler
      */

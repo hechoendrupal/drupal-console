@@ -20,6 +20,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class NodesCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class NodesCommand extends Command
@@ -38,6 +39,7 @@ class NodesCommand extends Command
 
     /**
      * NodesCommand constructor.
+     *
      * @param DrupalApi $drupalApi
      * @param NodeData  $createNodeData
      */
@@ -138,7 +140,7 @@ class NodesCommand extends Command
                 array_values($timeRanges)
             );
 
-            $input->setOption('time-range',  array_search($timeRange, $timeRanges));
+            $input->setOption('time-range', array_search($timeRange, $timeRanges));
         }
     }
 

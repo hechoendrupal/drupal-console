@@ -13,6 +13,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
  * Class Nodes
+ *
  * @package Drupal\Console\Utils\Create
  */
 class CommentData extends Base

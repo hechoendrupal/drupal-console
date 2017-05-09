@@ -33,6 +33,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param ConfigFactory $configFactory
      * @param CachedStorage $configStorage
      */

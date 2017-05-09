@@ -16,6 +16,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
  * Class ContentNode
+ *
  * @package Drupal\Console\Utils
  */
 abstract class Base
@@ -37,6 +38,7 @@ abstract class Base
 
     /**
      * ContentNode constructor.
+     *
      * @param EntityTypeManagerInterface  $entityTypeManager
      * @param EntityFieldManagerInterface $entityFieldManager
      * @param DateFormatterInterface      $dateFormatter

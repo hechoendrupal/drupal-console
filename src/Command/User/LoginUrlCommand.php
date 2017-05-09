@@ -31,6 +31,7 @@ class LoginUrlCommand extends Command
 
     /**
      * LoginUrlCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(EntityTypeManagerInterface $entityTypeManager)

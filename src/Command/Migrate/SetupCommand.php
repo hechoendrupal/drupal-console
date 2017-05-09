@@ -39,6 +39,7 @@ class SetupCommand extends Command
 
     /**
      * SetupCommand constructor.
+     *
      * @param StateInterface $pluginManagerMigration
      */
     public function __construct(StateInterface $state, MigrationPluginManagerInterface $pluginManagerMigration)

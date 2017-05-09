@@ -46,7 +46,7 @@ class ExecuteCommand extends Command
 
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
@@ -67,6 +67,7 @@ class ExecuteCommand extends Command
 
     /**
      * EntitiesCommand constructor.
+     *
      * @param Site           $site
      * @param StateInterface $state
      * @param ModuleHandler  $moduleHandler
@@ -184,8 +185,14 @@ class ExecuteCommand extends Command
     private function runUpdates(DrupalStyle $io, $updates)
     {
         foreach ($updates as $module_name => $module_updates) {
-            $this->site
-                ->loadLegacyFile($this->extensionManager->getModule($module_name)->getPath() . '/'. $module_name . '.install', false);
+            $extension = $this->extensionManager->getModule($module_name);
+            if (!$extension) {
+                $extension = $this->extensionManager->getProfile($module_name);
+            }
+            if ($extension) {
+                $this->site
+                    ->loadLegacyFile($extension->getPath() . '/'. $module_name . '.install', false);
+            }
 
             foreach ($module_updates['pending'] as $update_number => $update) {
                 if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {

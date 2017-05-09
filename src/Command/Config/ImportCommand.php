@@ -38,6 +38,7 @@ class ImportCommand extends Command
 
     /**
      * ImportCommand constructor.
+     *
      * @param CachedStorage $configStorage
      * @param ConfigManager $configManager
      */

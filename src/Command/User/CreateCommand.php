@@ -48,6 +48,7 @@ class CreateCommand extends Command
 
     /**
      * CreateCommand constructor.
+     *
      * @param Connection                 $database
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param DateFormatterInterface     $dateFormatter

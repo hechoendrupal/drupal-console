@@ -10,10 +10,12 @@ namespace Drupal\Console\Command\Shared;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+
 
 /**
  * Class MigrationTrait
+ *
  * @package Drupal\Console\Command
  */
 trait MigrationTrait
@@ -42,7 +44,7 @@ trait MigrationTrait
         //Create all migration instances
         $all_migrations = $this->pluginManagerMigration->createInstances(array_keys($migrations), $migration_plugin_configuration);
 
-        $migrations = array();
+        $migrations = [];
         foreach ($all_migrations as $migration) {
             if ($flatList) {
                 $migrations[$migration->id()] = ucwords($migration->label());
@@ -175,7 +177,7 @@ trait MigrationTrait
      * @param InputInterface $input
      * @param DrupalStyle    $io
      */
-    protected function registerMigrateDB(ArgvInput $input, DrupalStyle $io)
+    protected function registerMigrateDB(InputInterface $input, DrupalStyle $io)
     {
         $dbType = $input->getOption('db-type');
         $dbHost = $input->getOption('db-host');
@@ -202,7 +204,7 @@ trait MigrationTrait
      * @param $dbHost
      */
     protected function addDBConnection(DrupalStyle $io, $key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
-    {
+    {   
         $database_type = $this->getDatabaseDrivers();
         $reflection = new \ReflectionClass($database_type[$dbType]);
         $install_namespace = $reflection->getNamespaceName();

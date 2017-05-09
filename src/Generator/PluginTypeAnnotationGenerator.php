@@ -19,6 +19,7 @@ class PluginTypeAnnotationGenerator extends Generator
 
     /**
      * PluginTypeAnnotationGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

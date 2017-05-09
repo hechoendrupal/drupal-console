@@ -23,6 +23,7 @@ use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class PluginViewsFieldCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginViewsFieldCommand extends Command
@@ -33,12 +34,12 @@ class PluginViewsFieldCommand extends Command
 
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var PluginViewsFieldGenerator  
+ * @var PluginViewsFieldGenerator
 */
     protected $generator;
 
@@ -59,6 +60,7 @@ class PluginViewsFieldCommand extends Command
 
     /**
      * PluginViewsFieldCommand constructor.
+     *
      * @param Manager                   $extensionManager
      * @param PluginViewsFieldGenerator $generator
      * @param Site                      $site

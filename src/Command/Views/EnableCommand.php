@@ -19,6 +19,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class EnableCommand
+ *
  * @package Drupal\Console\Command\Views
  */
 class EnableCommand extends Command
@@ -37,6 +38,7 @@ class EnableCommand extends Command
 
     /**
      * EnableCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param QueryFactory               $entityQuery
      */

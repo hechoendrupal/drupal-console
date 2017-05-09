@@ -6,6 +6,7 @@ use Drupal\Console\Utils\Site;
 
 /**
  * Class ExtensionManager
+ *
  * @package Drupal\Console
  */
 class Manager
@@ -36,6 +37,7 @@ class Manager
 
     /**
      * ExtensionManager constructor.
+     *
      * @param Site   $site
      * @param string $appRoot
      */
@@ -228,6 +230,19 @@ class Manager
     public function getModule($name)
     {
         if ($extension = $this->getExtension('module', $name)) {
+            return $this->createExtension($extension);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $name
+     * @return \Drupal\Console\Extension\Extension
+     */
+    public function getProfile($name)
+    {
+        if ($extension = $this->getExtension('profile', $name)) {
             return $this->createExtension($extension);
         }
 

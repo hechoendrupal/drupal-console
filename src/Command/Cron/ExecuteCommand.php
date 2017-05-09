@@ -44,6 +44,7 @@ class ExecuteCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param ModuleHandlerInterface $moduleHandler
      * @param LockBackendInterface   $lock
      * @param StateInterface         $state

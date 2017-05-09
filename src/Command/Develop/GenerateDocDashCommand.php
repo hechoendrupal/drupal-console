@@ -71,6 +71,7 @@ PLIST;
 
     /**
      * GenerateDocDashCommand constructor.
+     *
      * @param $renderer
      * @param $consoleRoot
      */

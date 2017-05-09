@@ -37,6 +37,7 @@ class ImportSingleCommand extends Command
 
     /**
      * ImportSingleCommand constructor.
+     *
      * @param CachedStorage $configStorage
      * @param ConfigManager $configManager
      */
@@ -158,7 +159,7 @@ class ImportSingleCommand extends Command
                     $sync_steps = $configImporter->initialize();
 
                     foreach ($sync_steps as $step) {
-                        $context = array();
+                        $context = [];
                         do {
                             $configImporter->doSyncStep($step, $context);
                         } while ($context['finished'] < 1);

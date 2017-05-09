@@ -25,6 +25,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(ModuleHandlerInterface $moduleHandler)

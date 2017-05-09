@@ -29,6 +29,7 @@ class RestoreCommand extends Command
 
     /**
      * RestoreCommand constructor.
+     *
      * @param string $appRoot
      */
     public function __construct($appRoot)

@@ -27,7 +27,7 @@ class HelpCommand extends Command
     use ConfirmationTrait;
 
     /**
- * @var HelpGenerator  
+ * @var HelpGenerator
 */
     protected $generator;
 
@@ -37,7 +37,7 @@ class HelpCommand extends Command
     protected $site;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
@@ -49,6 +49,7 @@ class HelpCommand extends Command
 
     /**
      * HelpCommand constructor.
+     *
      * @param HelpGenerator $generator
      * @param Site          $site
      * @param Manager       $extensionManager

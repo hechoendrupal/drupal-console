@@ -18,6 +18,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ContainerDebugCommand
+ *
  * @package Drupal\Console\Command
  */
 class ContainerDebugCommand extends Command

@@ -16,6 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class ProjectDownloadTrait
+ *
  * @package Drupal\Console\Command
  */
 trait ProjectDownloadTrait
@@ -266,7 +267,7 @@ trait ProjectDownloadTrait
         $io->comment(
             sprintf(
                 $this->trans('commands.'.$commandKey.'.messages.getting-releases'),
-                implode(',', array($project))
+                implode(',', [$project])
             )
         );
 
@@ -276,7 +277,7 @@ trait ProjectDownloadTrait
             $io->error(
                 sprintf(
                     $this->trans('commands.'.$commandKey.'.messages.no-releases'),
-                    implode(',', array($project))
+                    implode(',', [$project])
                 )
             );
 

@@ -58,6 +58,7 @@ class EventSubscriberCommand extends Command
 
     /**
      * EventSubscriberCommand constructor.
+     *
      * @param Manager                  $extensionManager
      * @param EventSubscriberGenerator $generator
      * @param StringConverter          $stringConverter

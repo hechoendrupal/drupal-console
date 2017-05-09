@@ -14,6 +14,7 @@ class PluginFieldWidgetGenerator extends Generator
 {
     /**
      * PluginFieldWidgetGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

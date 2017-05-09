@@ -8,11 +8,12 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\TranslatorManager;
+use Drupal\Console\Core\Utils\TranslatorManagerInterface;
 use Drupal\Console\Core\Generator\Generator;
 
 /**
  * Class CommandGenerator
+ *
  * @package Drupal\Console\Generator
  */
 class CommandGenerator extends Generator
@@ -23,18 +24,19 @@ class CommandGenerator extends Generator
     protected $extensionManager;
 
     /**
-     * @var TranslatorManager
+     * @var TranslatorManagerInterface
      */
     protected $translatorManager;
 
     /**
      * CommandGenerator constructor.
-     * @param Manager           $extensionManager
-     * @param TranslatorManager $translatorManager
+     *
+     * @param Manager                    $extensionManager
+     * @param TranslatorManagerInterface $translatorManager
      */
     public function __construct(
         Manager $extensionManager,
-        TranslatorManager $translatorManager
+        TranslatorManagerInterface $translatorManager
     ) {
         $this->extensionManager = $extensionManager;
         $this->translatorManager = $translatorManager;
@@ -75,7 +77,7 @@ class CommandGenerator extends Generator
 
         $this->renderFile(
             'module/services.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml',
+            $this->extensionManager->getModule($module)->getPath() .'/console.services.yml',
             $parameters,
             FILE_APPEND
         );

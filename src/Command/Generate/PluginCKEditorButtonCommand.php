@@ -34,12 +34,12 @@ class PluginCKEditorButtonCommand extends Command
 
 
     /**
- * @var PluginCKEditorButtonGenerator  
+ * @var PluginCKEditorButtonGenerator
 */
     protected $generator;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
@@ -51,6 +51,7 @@ class PluginCKEditorButtonCommand extends Command
 
     /**
      * PluginCKEditorButtonCommand constructor.
+     *
      * @param ChainQueue                    $chainQueue
      * @param PluginCKEditorButtonGenerator $generator
      * @param Manager                       $extensionManager

@@ -20,6 +20,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class UsersCommand
+ *
  * @package Drupal\Console\Command\Create
  */
 class UsersCommand extends Command
@@ -38,6 +39,7 @@ class UsersCommand extends Command
 
     /**
      * UsersCommand constructor.
+     *
      * @param DrupalApi $drupalApi
      * @param UserData  $createUserData
      */
@@ -138,7 +140,7 @@ class UsersCommand extends Command
                 array_values($timeRanges)
             );
 
-            $input->setOption('time-range',  array_search($timeRange, $timeRanges));
+            $input->setOption('time-range', array_search($timeRange, $timeRanges));
         }
     }
 

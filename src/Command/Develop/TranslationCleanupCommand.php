@@ -25,7 +25,7 @@ class TranslationCleanupCommand extends Command
     /**
      * @var string
      */
-        protected $consoleRoot;
+    protected $consoleRoot;
 
     /**
      * @var ConfigurationManager

@@ -13,12 +13,13 @@ use Drupal\Console\Extension\Manager;
 class ServiceGenerator extends Generator
 {
     /**
-     * @var Manager  
+     * @var Manager
      */
     protected $extensionManager;
 
     /**
      * AuthenticationProviderGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

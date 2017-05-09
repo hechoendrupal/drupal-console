@@ -1,9 +1,8 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: twhiston
- * Date: 09/12/16
- * Time: 15:07
+ * @file
+ * Contains \Drupal\Console\Command\Database\DatabaseLogBase.
  */
 
 namespace Drupal\Console\Command\Database;
@@ -34,58 +33,58 @@ abstract class DatabaseLogBase extends Command
     use CommandTrait;
 
     /**
-   * @var Connection
-   */
+     * @var Connection
+     */
     protected $database;
 
     /**
-   * @var DateFormatterInterface
-   */
+     * @var DateFormatterInterface
+     */
     protected $dateFormatter;
 
     /**
-   * @var EntityTypeManagerInterface
-   */
+     * @var EntityTypeManagerInterface
+     */
     protected $entityTypeManager;
 
     /**
-   * @var TranslationInterface
-   */
+     * @var TranslationInterface
+     */
     protected $stringTranslation;
 
     /**
-   * @var UserStorageInterface
-   */
+     * @var UserStorageInterface
+     */
     protected $userStorage;
 
     /**
-   * @var TranslatableMarkup[]
-   */
+     * @var TranslatableMarkup[]
+     */
     protected $severityList;
 
     /**
-   * @var null|string
-   */
+     * @var null|string
+     */
     protected $eventType;
 
     /**
-   * @var null|string
-   */
+     * @var null|string
+     */
     protected $eventSeverity;
 
     /**
-   * @var null|string
-   */
+     * @var null|string
+     */
     protected $userId;
 
     /**
-   * LogDebugCommand constructor.
-   *
-   * @param Connection                                          $database
-   * @param DateFormatterInterface                              $dateFormatter
-   * @param EntityTypeManagerInterface                          $entityTypeManager
-   * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
-   */
+     * LogDebugCommand constructor.
+     *
+     * @param Connection                 $database
+     * @param DateFormatterInterface     $dateFormatter
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param TranslationInterface       $stringTranslation
+     */
     public function __construct(
         Connection $database,
         DateFormatterInterface $dateFormatter,
@@ -102,8 +101,8 @@ abstract class DatabaseLogBase extends Command
     }
 
     /**
-   *
-   */
+     * addDefaultLoggingOptions.
+     */
     protected function addDefaultLoggingOptions()
     {
         $this
@@ -128,8 +127,8 @@ abstract class DatabaseLogBase extends Command
     }
 
     /**
-   * @param \Symfony\Component\Console\Input\InputInterface $input
-   */
+     * @param InputInterface $input
+     */
     protected function getDefaultOptions(InputInterface $input)
     {
         $this->eventType = $input->getOption('type');
@@ -138,24 +137,24 @@ abstract class DatabaseLogBase extends Command
     }
 
     /**
-   * @param \Drupal\Console\Core\Style\DrupalStyle $io
-   * @param null                                   $offset
-   * @param int                                    $range
-   * @return bool|\Drupal\Core\Database\Query\SelectInterface
-   */
+     * @param DrupalStyle $io
+     * @param null        $offset
+     * @param int         $range
+     * @return bool|\Drupal\Core\Database\Query\SelectInterface
+     */
     protected function makeQuery(DrupalStyle $io, $offset = null, $range = 1000)
     {
         $query = $this->database->select('watchdog', 'w');
         $query->fields(
             'w',
             [
-            'wid',
-            'uid',
-            'severity',
-            'type',
-            'timestamp',
-            'message',
-            'variables',
+                'wid',
+                'uid',
+                'severity',
+                'type',
+                'timestamp',
+                'message',
+                'variables',
             ]
         );
 
@@ -196,10 +195,10 @@ abstract class DatabaseLogBase extends Command
     }
 
     /**
-   * Generic logging table header
-   *
-   * @return array
-   */
+     * Generic logging table header
+     *
+     * @return array
+     */
     protected function createTableHeader()
     {
         return [
@@ -212,45 +211,44 @@ abstract class DatabaseLogBase extends Command
         ];
     }
 
-
     /**
-   * @param \stdClass $dblog
-   * @return array
-   */
+     * @param \stdClass $dblog
+     * @return array
+     */
     protected function createTableRow(\stdClass $dblog)
     {
 
         /**
- * @var User $user 
-*/
+         * @var User $user
+         */
         $user = $this->userStorage->load($dblog->uid);
 
         return [
-        $dblog->wid,
-        $dblog->type,
-        $this->dateFormatter->format($dblog->timestamp, 'short'),
-        Unicode::truncate(
-            Html::decodeEntities(strip_tags($this->formatMessage($dblog))),
-            500,
-            true,
-            true
-        ),
-        $user->getUsername() . ' (' . $user->id() . ')',
-        $this->severityList[$dblog->severity]->render(),
+            $dblog->wid,
+            $dblog->type,
+            $this->dateFormatter->format($dblog->timestamp, 'short'),
+            Unicode::truncate(
+                Html::decodeEntities(strip_tags($this->formatMessage($dblog))),
+                500,
+                true,
+                true
+            ),
+            $user->getUsername() . ' (' . $user->id() . ')',
+            $this->severityList[$dblog->severity]->render(),
         ];
     }
 
     /**
-   * Formats a database log message.
-   *
-   * @param $event
-   *   The record from the watchdog table. The object properties are: wid, uid,
-   *   severity, type, timestamp, message, variables, link, name.
-   *
-   * @return string|false
-   *   The formatted log message or FALSE if the message or variables properties
-   *   are not set.
-   */
+     * Formats a database log message.
+     *
+     * @param $event
+     *   The record from the watchdog table. The object properties are: wid, uid,
+     *   severity, type, timestamp, message, variables, link, name.
+     *
+     * @return string|false
+     *   The formatted log message or FALSE if the message or variables properties
+     *   are not set.
+     */
     protected function formatMessage(\stdClass $event)
     {
         $message = false;
@@ -272,9 +270,9 @@ abstract class DatabaseLogBase extends Command
     }
 
     /**
-   * @param $dblog
-   * @return array
-   */
+     * @param $dblog
+     * @return array
+     */
     protected function formatSingle($dblog)
     {
         return array_combine(

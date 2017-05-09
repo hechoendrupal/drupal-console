@@ -36,6 +36,7 @@ class InfoCommand extends Command
 
     /**
      * InfoCommand constructor.
+     *
      * @param EntityTypeManagerInterface  $entityTypeManager
      * @param EntityFieldManagerInterface $entityFieldManager
      */

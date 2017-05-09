@@ -16,6 +16,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\Queue
  */
 class DebugCommand extends Command
@@ -29,6 +30,7 @@ class DebugCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param QueueWorkerManagerInterface $queueWorker
      */
     public function __construct(QueueWorkerManagerInterface $queueWorker)

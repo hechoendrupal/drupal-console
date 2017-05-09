@@ -11,6 +11,7 @@ use Drupal\Console\Core\Generator\Generator;
 
 /**
  * Class ModuleGenerator
+ *
  * @package Drupal\Console\Generator
  */
 class ModuleGenerator extends Generator
@@ -54,7 +55,7 @@ class ModuleGenerator extends Generator
                 );
             }
             $files = scandir($dir);
-            if ($files != array('.', '..')) {
+            if ($files != ['.', '..']) {
                 throw new \RuntimeException(
                     sprintf(
                         'Unable to generate the module as the target directory "%s" is not empty.',
@@ -72,7 +73,7 @@ class ModuleGenerator extends Generator
             }
         }
 
-        $parameters = array(
+        $parameters = [
           'module' => $module,
           'machine_name' => $machineName,
           'type' => 'module',
@@ -82,7 +83,7 @@ class ModuleGenerator extends Generator
           'dependencies' => $dependencies,
           'test' => $test,
           'twigtemplate' => $twigtemplate,
-        );
+        ];
 
         $this->renderFile(
             'module/info.yml.twig',
@@ -94,9 +95,9 @@ class ModuleGenerator extends Generator
             $this->renderFile(
                 'module/features.yml.twig',
                 $dir.'/'.$machineName.'.features.yml',
-                array(
+                [
                 'bundle' => $featuresBundle,
-                )
+                ]
             );
         }
 
@@ -141,7 +142,7 @@ class ModuleGenerator extends Generator
                     );
                 }
                 $files = scandir($dir);
-                if ($files != array('.', '..')) {
+                if ($files != ['.', '..']) {
                     throw new \RuntimeException(
                         sprintf(
                             'Unable to generate the templates directory as the target directory "%s" is not empty.',

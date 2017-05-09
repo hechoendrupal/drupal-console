@@ -25,6 +25,7 @@ class GenerateDocGitbookCommand extends Command
 
     /**
      * GenerateDocGitbookCommand constructor.
+     *
      * @param TwigRenderer $renderer
      */
     public function __construct(TwigRenderer $renderer)

@@ -26,7 +26,7 @@ class PluginFieldCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
@@ -43,6 +43,7 @@ class PluginFieldCommand extends Command
 
     /**
      * PluginFieldCommand constructor.
+     *
      * @param Manager         $extensionManager
      * @param StringConverter $stringConverter
      * @param ChainQueue      $chainQueue

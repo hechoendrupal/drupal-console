@@ -19,6 +19,7 @@ class DatabaseSettingsGenerator extends Generator
 
     /**
      * DatabaseSettingsGenerator constructor.
+     *
      * @param DrupalKernelInterface $kernel
      */
     public function __construct(

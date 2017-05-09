@@ -30,12 +30,12 @@ class AuthenticationProviderCommand extends Command
     use CommandTrait;
 
     /**
- * @var Manager  
+ * @var Manager
 */
     protected $extensionManager;
 
     /**
- * @var AuthenticationProviderGenerator  
+ * @var AuthenticationProviderGenerator
 */
     protected $generator;
 
@@ -47,6 +47,7 @@ class AuthenticationProviderCommand extends Command
 
     /**
      * AuthenticationProviderCommand constructor.
+     *
      * @param Manager                         $extensionManager
      * @param AuthenticationProviderGenerator $generator
      * @param StringConverter                 $stringConverter

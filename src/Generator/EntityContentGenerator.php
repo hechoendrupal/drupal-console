@@ -15,7 +15,7 @@ use Drupal\Console\Core\Utils\TwigRenderer;
 class EntityContentGenerator extends Generator
 {
     /**
-     * @var Manager  
+     * @var Manager
      */
     protected $extensionManager;
 
@@ -33,6 +33,7 @@ class EntityContentGenerator extends Generator
 
     /**
      * EntityContentGenerator constructor.
+     *
      * @param Manager      $extensionManager
      * @param Site         $site
      * @param TwigRenderer $twigrenderer

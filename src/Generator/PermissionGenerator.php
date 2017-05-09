@@ -19,6 +19,7 @@ class PermissionGenerator extends Generator
 
     /**
      * PermissionGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(
@@ -34,10 +35,10 @@ class PermissionGenerator extends Generator
      */
     public function generate($module, $permissions, $learning)
     {
-        $parameters = array(
+        $parameters = [
           'module_name' => $module,
           'permissions' => $permissions,
-        );
+        ];
 
         $this->renderFile(
             'module/permission.yml.twig',

@@ -14,6 +14,7 @@ class PluginMailGenerator extends Generator
 {
     /**
      * PluginMailGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

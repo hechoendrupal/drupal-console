@@ -19,6 +19,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Class StatisticsCommand
+ *
  * @package Drupal\Console\Command\Site
  */
 class StatisticsCommand extends Command
@@ -47,6 +48,7 @@ class StatisticsCommand extends Command
 
     /**
      * StatisticsCommand constructor.
+     *
      * @param DrupalApi              $drupalApi
      * @param QueryFactory           $entityQuery;
      * @param Manager                $extensionManager
