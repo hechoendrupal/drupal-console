@@ -40,6 +40,7 @@ class ThemeGenerator extends Generator
         $package,
         $base_theme,
         $global_library,
+        $libraries,
         $regions,
         $breakpoints
     ) {
@@ -81,6 +82,7 @@ class ThemeGenerator extends Generator
         'package' => $package,
         'base_theme' => $base_theme,
         'global_library' => $global_library,
+        'libraries' => $libraries,
         'regions' => $regions,
         'breakpoints' => $breakpoints,
         ];
@@ -96,6 +98,14 @@ class ThemeGenerator extends Generator
             $dir . '/' . $machine_name . '.theme',
             $parameters
         );
+
+        if ($libraries) {
+            $this->renderFile(
+                'theme/libraries.yml.twig',
+                $dir . '/' . $machine_name . '.libraries.yml',
+                $parameters
+            );
+        }
 
         if ($breakpoints) {
             $this->renderFile(
