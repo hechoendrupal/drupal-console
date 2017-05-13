@@ -31,7 +31,7 @@ services:
       - { name: drupal.command }
   console.config_export_single:
     class: Drupal\Console\Command\Config\ExportSingleCommand
-    arguments: ['@entity_type.manager', '@config.storage']
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
     tags:
       - { name: drupal.command }
   console.config_export_view:

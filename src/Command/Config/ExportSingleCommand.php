@@ -18,6 +18,7 @@ use Drupal\Core\Config\CachedStorage;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Extension\Manager;
 
 class ExportSingleCommand extends Command
 {
@@ -46,13 +47,16 @@ class ExportSingleCommand extends Command
      *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param CachedStorage              $configStorage
+     * @param Manager                    $extensionManager
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
-        CachedStorage $configStorage
+        CachedStorage $configStorage,
+        Manager $extensionManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
