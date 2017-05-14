@@ -24,6 +24,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   id = "{{ entity_name }}",
  *   label = @Translation("{{ label }}"),
  *   handlers = {
+ *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\{{ module }}\{{ entity_class }}ListBuilder",
  *     "form" = {
  *       "add" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
