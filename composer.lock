@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "84fad6a02d63cf1ce4d8a128b65c610a",
+    "content-hash": "1718b3e16b129d9d4ef34551230d2d1e",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -571,21 +571,21 @@
         },
         {
             "name": "drupal/console-core",
-            "version": "1.0.0-rc19",
+            "version": "1.0.0-rc20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "c5be69f660727b38ce6c904dcb0e061e03de7aeb"
+                "reference": "4b93841301a88db2ae210186e74e0e2529369c17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/c5be69f660727b38ce6c904dcb0e061e03de7aeb",
-                "reference": "c5be69f660727b38ce6c904dcb0e061e03de7aeb",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/4b93841301a88db2ae210186e74e0e2529369c17",
+                "reference": "4b93841301a88db2ae210186e74e0e2529369c17",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-configuration": "1.0.1",
-                "drupal/console-en": "1.0.0-rc19",
+                "drupal/console-en": "1.0.0-rc20",
                 "php": "^5.5.9 || ^7.0",
                 "stecman/symfony-console-completion": "~0.7",
                 "symfony/config": ">=2.7 <3.0",
@@ -599,7 +599,7 @@
                 "symfony/translation": ">=2.7 <3.0",
                 "symfony/yaml": ">=2.7 <3.0",
                 "twig/twig": "^1.23.1",
-                "webflo/drupal-finder": "0.*"
+                "webflo/drupal-finder": "^0.3.0"
             },
             "type": "project",
             "autoload": {
@@ -647,20 +647,20 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2017-05-08T16:08:29+00:00"
+            "time": "2017-05-26T08:40:17+00:00"
         },
         {
             "name": "drupal/console-en",
-            "version": "1.0.0-rc19",
+            "version": "1.0.0-rc20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-en.git",
-                "reference": "df4da4011500496fc9c1d611cd36343006079915"
+                "reference": "b6f563b8760c3b19aad22dd213a9cfba2f2c75d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/df4da4011500496fc9c1d611cd36343006079915",
-                "reference": "df4da4011500496fc9c1d611cd36343006079915",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/b6f563b8760c3b19aad22dd213a9cfba2f2c75d0",
+                "reference": "b6f563b8760c3b19aad22dd213a9cfba2f2c75d0",
                 "shasum": ""
             },
             "type": "drupal-console-language",
@@ -701,7 +701,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2017-05-05T21:51:49+00:00"
+            "time": "2017-05-20T23:29:05+00:00"
         },
         {
             "name": "drupal/console-extend-plugin",

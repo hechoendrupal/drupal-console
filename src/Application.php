@@ -25,7 +25,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-rc19';
+    const VERSION = '1.0.0-rc20';
 
     public function __construct(ContainerInterface $container)
     {
@@ -44,13 +44,11 @@ class Application extends BaseApplication
         if ('UNKNOWN' !== $this->getName()) {
             if ('UNKNOWN' !== $this->getVersion()) {
                 $output .= sprintf('<info>%s</info> version <comment>%s</comment>', $this->getName(), $this->getVersion());
+            } else {
+                $output .= sprintf('<info>%s</info>', $this->getName());
             }
-            else {
-              $output .= sprintf('<info>%s</info>', $this->getName());
-            }
-        }
-        else {
-          $output .= '<info>Console Tool</info>';
+        } else {
+            $output .= '<info>Console Tool</info>';
         }
 
         return $output;
