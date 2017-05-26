@@ -147,6 +147,12 @@ class ThemeCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.global-library')
             )
+             ->addOption(
+                'libraries',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.theme.options.libraries')
+            )
             ->addOption(
                 'base-theme',
                 null,
@@ -189,6 +195,7 @@ class ThemeCommand extends Command
         $package = $input->getOption('package');
         $base_theme = $input->getOption('base-theme');
         $global_library = $input->getOption('global-library');
+        $libraries = $input->getOption('libraries'); 
         $regions = $input->getOption('regions');
         $breakpoints = $input->getOption('breakpoints');
 
@@ -201,6 +208,7 @@ class ThemeCommand extends Command
             $package,
             $base_theme,
             $global_library,
+            $libraries,
             $regions,
             $breakpoints
         );
@@ -326,6 +334,21 @@ class ThemeCommand extends Command
                 'global-styling'
             );
             $input->setOption('global-library', $global_library);
+        }
+
+
+        // --libraries option.
+        $libraries = $input->getOption('libraries');
+        if (!$libraries) {
+            if ($io->confirm(
+                $this->trans('commands.generate.theme.questions.library-add'),
+                true
+            )
+            ) {
+                // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::libraryQuestion
+                $libraries = $this->libraryQuestion($io);
+                $input->setOption('libraries', $libraries);
+            }
         }
 
         // --regions option.
