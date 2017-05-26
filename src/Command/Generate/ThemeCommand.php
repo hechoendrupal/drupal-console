@@ -147,7 +147,7 @@ class ThemeCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.global-library')
             )
-             ->addOption(
+            ->addOption(
                 'libraries',
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -195,7 +195,7 @@ class ThemeCommand extends Command
         $package = $input->getOption('package');
         $base_theme = $input->getOption('base-theme');
         $global_library = $input->getOption('global-library');
-        $libraries = $input->getOption('libraries'); 
+        $libraries = $input->getOption('libraries');
         $regions = $input->getOption('regions');
         $breakpoints = $input->getOption('breakpoints');
 
