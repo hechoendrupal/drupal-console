@@ -211,6 +211,8 @@ class NodesCommand extends Command
             $timeRange,
             $language
         );
+        
+        $nodes = is_array($nodes) ? $nodes : [$nodes];
 
         $tableHeader = [
           $this->trans('commands.create.nodes.messages.node-id'),
