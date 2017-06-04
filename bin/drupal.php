@@ -40,13 +40,11 @@ if (!$drupalFinder->locateRoot(getcwd())) {
     exit(1);
 }
 
-$composerRoot = $drupalFinder->getComposerRoot();
-$drupalRoot = $drupalFinder->getDrupalRoot();
-chdir($drupalRoot);
+chdir($drupalFinder->getDrupalRoot());
 
 $configurationManager = new ConfigurationManager();
 $configuration = $configurationManager
-    ->loadConfigurationFromDirectory($composerRoot);
+    ->loadConfigurationFromDirectory($drupalFinder->getComposerRoot());
 
 $argvInputReader = new ArgvInputReader();
 if ($configuration && $options = $configuration->get('application.options') ?: []) {
@@ -54,7 +52,7 @@ if ($configuration && $options = $configuration->get('application.options') ?: [
 }
 $argvInputReader->setOptionsAsArgv();
 
-$drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
+$drupal = new Drupal($autoload, $drupalFinder);
 $container = $drupal->boot();
 
 if (!$container) {
@@ -63,9 +61,6 @@ if (!$container) {
     exit(1);
 }
 
-if (!isset($launcherVersion))
-  $launcherVersion = FALSE;
-
-$application = new Application($container, $launcherVersion);
+$application = new Application($container);
 $application->setDefaultCommand('about');
 $application->run();
