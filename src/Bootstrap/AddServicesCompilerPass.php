@@ -57,9 +57,18 @@ class AddServicesCompilerPass implements CompilerPassInterface
             new FileLocator($this->root)
         );
 
-        $loader->load($this->root. DRUPAL_CONSOLE_CORE . 'services.yml');
-        $loader->load($this->root. DRUPAL_CONSOLE . 'uninstall.services.yml');
-        $loader->load($this->root. DRUPAL_CONSOLE . 'services.yml');
+        $servicesFiles = [
+            $this->root. DRUPAL_CONSOLE_CORE . 'services.yml',
+            $this->root. DRUPAL_CONSOLE . 'uninstall.services.yml',
+            $this->root. DRUPAL_CONSOLE . 'services.yml',
+//            $this->root. DRUPAL_CONSOLE . 'extend.console.uninstall.services.yml',
+        ];
+
+        foreach ($servicesFiles as $servicesFile) {
+            if (file_exists($servicesFile)) {
+                $loader->load($servicesFile);
+            }
+        }
 
         $container->get('console.configuration_manager')
             ->loadConfiguration($this->root)
