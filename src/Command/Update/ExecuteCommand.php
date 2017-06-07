@@ -237,7 +237,10 @@ class ExecuteCommand extends Command
                     )
                 );
 
-                $io->comment($update);
+                $updateExploded = explode(" - ", $update);
+                $updateExploded = count($updateExploded)>0?$updateExploded[1]:$updateExploded[0];
+
+                $io->comment(trim($updateExploded));
                 $io->newLine();
 
                 $this->moduleHandler->invoke($module_name, 'update_'  . $update_number);
