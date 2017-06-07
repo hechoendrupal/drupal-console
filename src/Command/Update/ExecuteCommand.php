@@ -229,13 +229,16 @@ class ExecuteCommand extends Command
                     return false;
                 }
 
-                $io->info(
+                $io->comment(
                     sprintf(
                         $this->trans('commands.update.execute.messages.executing-update'),
                         $update_number,
                         $module_name
                     )
                 );
+
+                $io->comment($update);
+                $io->newLine();
 
                 $this->moduleHandler->invoke($module_name, 'update_'  . $update_number);
                 drupal_set_installed_schema_version($module_name, $update_number);
