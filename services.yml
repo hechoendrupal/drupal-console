@@ -5,7 +5,7 @@ services:
     class: RedBeanPHP\R
   console.validator:
     class: Drupal\Console\Utils\Validator
-    arguments: ['@console.extension_manager']
+    arguments: ['@console.extension_manager', '@console.translator_manager']
   console.drupal_api:
     class: Drupal\Console\Utils\DrupalApi
     arguments: ['@app.root', '@entity_type.manager', '@http_client']

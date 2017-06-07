@@ -20,14 +20,23 @@ class Validator
 
     protected $appRoot;
 
+    /*
+     * TranslatorManager
+     */
+    protected $translatorManager;
+
     /**
      * Site constructor.
      *
-     * @param Manager $extensionManager
+     * @param Manager           $extensionManager
+     * @param TranslatorManager $translatorManager
      */
-    public function __construct(Manager $extensionManager)
-    {
+    public function __construct(
+        Manager $extensionManager,
+        TranslatorManager $translatorManager
+    ) {
         $this->extensionManager = $extensionManager;
+        $this->translatorManager = $translatorManager;
     }
 
     public function validateModuleName($module)
@@ -277,7 +286,7 @@ class Validator
             if (!empty($checked_extensions['no_extensions'])) {
                 $io->warning(
                     sprintf(
-                        $this->trans('validator.warnings.extension-unavailable'),
+                        $this->translatorManager->trans('validator.warnings.extension-unavailable'),
                         implode(', ', $checked_extensions['no_extensions'])
                     )
                 );
