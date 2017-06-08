@@ -253,7 +253,7 @@ class ThemeCommand extends Command
 
         if (!$machine_name) {
             $machine_name = $io->ask(
-                $this->trans('commands.generate.module.questions.machine-name'),
+                $this->trans('commands.generate.theme.questions.machine-name'),
                 $this->stringConverter->createMachineName($theme),
                 function ($machine_name) use ($validators) {
                     return $validators->validateMachineName($machine_name);
