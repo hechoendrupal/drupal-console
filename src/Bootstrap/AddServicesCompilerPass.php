@@ -60,8 +60,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $servicesFiles = [
             $this->root. DRUPAL_CONSOLE_CORE . 'services.yml',
             $this->root. DRUPAL_CONSOLE . 'uninstall.services.yml',
-            $this->root. DRUPAL_CONSOLE . 'services.yml',
-//            $this->root. DRUPAL_CONSOLE . 'extend.console.uninstall.services.yml',
+            $this->root. DRUPAL_CONSOLE . 'services.yml'
         ];
 
         foreach ($servicesFiles as $servicesFile) {
@@ -167,10 +166,15 @@ class AddServicesCompilerPass implements CompilerPassInterface
             }
         }
 
-        $consoleExtendServicesFile = $this->root . DRUPAL_CONSOLE . '/extend.console.services.yml';
+        $extendServicesFiles = [
+            $this->root . DRUPAL_CONSOLE . 'extend.console.services.yml',
+            $this->root . DRUPAL_CONSOLE . 'extend.console.uninstall.services.yml',
+        ];
 
-        if (file_exists($consoleExtendServicesFile)) {
-            $loader->load($consoleExtendServicesFile);
+        foreach ($extendServicesFiles as $extendServicesFile) {
+            if (file_exists($extendServicesFile)) {
+                $loader->load($extendServicesFile);
+            }
         }
 
         $configurationManager = $container->get('console.configuration_manager');
@@ -178,9 +182,16 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $autoloadFile = $directory . 'vendor/autoload.php';
         if (is_file($autoloadFile)) {
             include_once $autoloadFile;
-            $extendServicesFile = $directory . 'extend.console.services.yml';
-            if (is_file($extendServicesFile)) {
-                $loader->load($extendServicesFile);
+
+            $extendServicesFiles = [
+                $directory . 'extend.console.services.yml',
+                $directory . 'extend.console.uninstall.services.yml',
+            ];
+
+            foreach ($extendServicesFiles as $extendServicesFile) {
+                if (file_exists($extendServicesFile)) {
+                    $loader->load($extendServicesFile);
+                }
             }
         }
 
