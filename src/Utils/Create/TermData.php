@@ -66,7 +66,7 @@ class TermData extends Base
                     'vid' => $vocabulary,
                     'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
                     'description' => [
-                        'value' => $this->getRandom()->sentences(),
+                        'value' => $this->getRandom()->sentences(mt_rand(1, $nameWords)),
                         'format' => 'full_html',
                     ],
                     'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
