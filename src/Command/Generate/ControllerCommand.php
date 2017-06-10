@@ -33,13 +33,13 @@ class ControllerCommand extends Command
     use ContainerAwareCommandTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var ControllerGenerator
-*/
+     * @var ControllerGenerator
+     */
     protected $generator;
 
     /**
@@ -48,13 +48,13 @@ class ControllerCommand extends Command
     protected $stringConverter;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
- * @var RouteProviderInterface
-*/
+     * @var RouteProviderInterface
+     */
     protected $routeProvider;
 
     /**
@@ -253,7 +253,10 @@ class ControllerCommand extends Command
 
                 $path = $io->ask(
                     $this->trans('commands.generate.controller.questions.path'),
-                    sprintf('/%s/hello/{name}', $module),
+                    sprintf(
+                        '/%s/'.($method!='hello'?$method:'hello/{name}'),
+                        $module
+                    ),
                     function ($path) use ($routes) {
                         if (count($this->routeProvider->getRoutesByPattern($path)) > 0
                             || in_array($path, array_column($routes, 'path'))
