@@ -58,7 +58,7 @@ class VocabularyData extends Base
             $vocabulary = $this->entityTypeManager->getStorage('taxonomy_vocabulary')->create(
                 [
                     'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
-                    'description' => $this->getRandom()->sentences(),
+                    'description' => $this->getRandom()->sentences(mt_rand(1, $nameWords)),
                     'vid' => Unicode::strtolower($this->getRandom()->name()),
                     'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
                     'weight' => mt_rand(0, 10),
