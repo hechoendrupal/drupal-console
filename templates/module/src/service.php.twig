@@ -10,8 +10,6 @@ namespace Drupal\{{module}};{% endblock %}
 {% block class_declaration %}
 /**
  * Class {{ class }}.
- *
- * @package Drupal\{{module}}
  */
 class {{ class }}{% if(interface is defined and interface) %} implements {{ interface }}{% endif %} {% endblock %}
 {% block class_construct %}
