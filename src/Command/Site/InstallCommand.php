@@ -371,6 +371,7 @@ class InstallCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
+
         $uri =  parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
 
         if ($this->site->multisiteMode($uri)) {
@@ -423,7 +424,7 @@ class InstallCommand extends Command
               'driver' => $dbType,
             ];
 
-            if ($force && Database::getConnectionInfo()) {
+            if ($force && Database::isActiveConnection()) {
                 $schema = Database::getConnection()->schema();
                 $tables = $schema->findTables('%');
                 foreach ($tables as $table) {
