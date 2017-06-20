@@ -9,7 +9,6 @@ namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +23,7 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Utils\Site;
-use DrupalFinder\DrupalFinder;
+use Drupal\Console\Core\Utils\DrupalFinder;
 
 class InstallCommand extends Command
 {
@@ -436,13 +435,10 @@ class InstallCommand extends Command
         try {
             $drupalFinder = new DrupalFinder();
             $drupalFinder->locateRoot(getcwd());
-            $composerRoot = $drupalFinder->getComposerRoot();
-            $drupalRoot = $drupalFinder->getDrupalRoot();
-
             $this->runInstaller($io, $input, $database, $uri);
 
             $autoload = $this->container->get('class_loader');
-            $drupal = new Drupal($autoload, $composerRoot, $drupalRoot);
+            $drupal = new Drupal($autoload, $drupalFinder);
             $container = $drupal->boot();
             $this->getApplication()->setContainer($container);
         } catch (Exception $e) {
