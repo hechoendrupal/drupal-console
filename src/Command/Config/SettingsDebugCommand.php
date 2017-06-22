@@ -68,6 +68,9 @@ class SettingsDebugCommand extends Command
             $settingValue = $this->settings->get($settingKey);
             $io->comment($settingKey . ': ', is_array($settingValue));
             $io->write(Yaml::encode($settingValue));
+            if (!is_array($settingValue)) {
+                $io->newLine();
+            }
         }
         $io->newLine();
     }
