@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
-use Drupal\Console\Utils\ExtendExtensionManager;
 use Drupal\Console\Core\Utils\DrupalFinder;
 
 class Drupal
