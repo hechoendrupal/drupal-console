@@ -1,10 +1,13 @@
 <?php
 
-use Drupal\Console\Core\Utils\DrupalFinder;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Input\ArrayInput;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Console\Core\Utils\ArgvInputReader;
+use Drupal\Console\Core\Utils\DrupalFinder;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Application;
-use Drupal\Console\Core\Utils\ConfigurationManager;
 
 set_time_limit(0);
 
@@ -33,9 +36,13 @@ if (isset($autoloader)) {
     exit(1);
 }
 
+$output = new ConsoleOutput();
+$input = new ArrayInput([]);
+$io = new DrupalStyle($input, $output);
+
 $drupalFinder = new DrupalFinder();
 if (!$drupalFinder->locateRoot(getcwd())) {
-    echo ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL;
+    $io->error('DrupalConsole must be executed within a Drupal Site.');
 
     exit(1);
 }
@@ -47,16 +54,27 @@ $configuration = $configurationManager
     ->loadConfigurationFromDirectory($drupalFinder->getComposerRoot());
 
 $argvInputReader = new ArgvInputReader();
+$debug = $argvInputReader->get('debug', false);
 if ($configuration && $options = $configuration->get('application.options') ?: []) {
     $argvInputReader->setOptionsFromConfiguration($options);
 }
 $argvInputReader->setOptionsAsArgv();
 
+if ($debug){
+    $io->writeln(
+        sprintf(
+            '<info>%s</info> version <comment>%s</comment>',
+            Application::NAME,
+            Application::VERSION
+        )
+    );
+}
+
 $drupal = new Drupal($autoload, $drupalFinder);
 $container = $drupal->boot();
 
 if (!$container) {
-    echo ' Something was wrong. Drupal can not be bootstrap.';
+    $io->error('Something was wrong. Drupal can not be bootstrap.');
 
     exit(1);
 }

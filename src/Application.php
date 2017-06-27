@@ -48,7 +48,7 @@ class Application extends BaseApplication
                 $output .= sprintf('<info>%s</info>', $this->getName());
             }
         } else {
-            $output .= '<info>Console Tool</info>';
+            $output .= '<info>Drupal Console</info>';
         }
 
         return $output;
