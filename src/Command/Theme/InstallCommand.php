@@ -101,7 +101,9 @@ class InstallCommand extends Command
             while (true) {
                 $theme_name = $io->choiceNoList(
                     $this->trans('commands.theme.install.questions.theme'),
-                    array_keys($theme_list)
+                    array_keys($theme_list),
+                    null,
+                    true
                 );
 
                 if (empty($theme_name)) {
