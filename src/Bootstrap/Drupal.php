@@ -5,11 +5,17 @@ namespace Drupal\Console\Bootstrap;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
 use Drupal\Console\Core\Utils\DrupalFinder;
+
+use Drupal\Console\Extension\Extension;
+use Drupal\Console\Extension\Manager;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
 
 class Drupal
 {
@@ -168,12 +174,65 @@ class Drupal
             if ($command == 'list') {
                 $io->error($e->getMessage());
             }
+
             $drupal = new DrupalConsoleCore(
                 $this->drupalFinder->getComposerRoot(),
                 $this->drupalFinder->getDrupalRoot()
             );
+
             $container = $drupal->boot();
             $container->set('class_loader', $this->autoload);
+
+            // Workaround to load commands from profiles.
+            // Drupal and the profile are not yet installed at this point.
+            $loader = new YamlFileLoader(
+                $container,
+                new FileLocator($this->drupalFinder->getDrupalRoot())
+            );
+            /**
+             * @var Manager $extensionManager
+             */
+            $extensionManager = $container->get('console.extension_manager');
+            $profiles = $extensionManager->discoverProfiles()
+                ->showNoCore()
+                ->showUninstalled()
+                ->getList(false);
+
+            /**
+             * @var Extension[] $profiles
+             */
+            foreach ($profiles as $profile) {
+                $profilePath = sprintf(
+                    '%s/%s',
+                    $this->drupalFinder->getDrupalRoot(),
+                    $profile->getPath()
+                );
+                $profileDirectories = [
+                    sprintf(
+                        '%s/src/Command',
+                        $profilePath
+                    ),
+                    sprintf(
+                        '%s/src/Generator',
+                        $profilePath
+                    )
+                ];
+
+                // Load Command & Generator Classes
+                $finder = new Finder();
+                $finder->files()
+                    ->name('*.php')
+                    ->in($profileDirectories);
+                foreach ($finder as $file) {
+                    echo $file->getRealPath() . PHP_EOL;
+                    require_once($file->getRealPath());
+                }
+                $consoleServicesExtensionFile = $profilePath .
+                    '/console.services.yml';
+                if (is_file($consoleServicesExtensionFile)) {
+                    $loader->load($consoleServicesExtensionFile);
+                }
+            }
 
             return $container;
         }
