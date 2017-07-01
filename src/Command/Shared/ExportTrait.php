@@ -30,12 +30,12 @@ trait ExportTrait
         if ($uuid) {
             unset($config['uuid']);
         }
-        
+
         // Exclude default_config_hash inside _core is site-specific.
         if ($hash) {
             unset($config['_core']['default_config_hash']);
         }
-        
+
         return $config;
     }
 
@@ -45,6 +45,7 @@ trait ExportTrait
      */
     protected function exportConfig($directory, DrupalStyle $io, $message)
     {
+        $directory = realpath($directory);
         $io->info($message);
 
         foreach ($this->configExport as $fileName => $config) {
@@ -56,7 +57,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $io->info('- ' . $configFile);
+            $io->writeln('- ' . $configFile);
 
             // Create directory if doesn't exist
             if (!file_exists($directory)) {

@@ -19,6 +19,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Extension\Manager;
+use Webmozart\PathUtil\Path;
 
 class ExportSingleCommand extends Command
 {
@@ -39,6 +40,11 @@ class ExportSingleCommand extends Command
      * @var CachedStorage
      */
     protected $configStorage;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
 
     protected $configExport;
 
@@ -124,8 +130,8 @@ class ExportSingleCommand extends Command
 
         uasort($entity_types, 'strnatcasecmp');
         $config_types = [
-            'system.simple' => $this->trans('commands.config.export.single.options.simple-configuration'),
-          ] + $entity_types;
+                'system.simple' => $this->trans('commands.config.export.single.options.simple-configuration'),
+            ] + $entity_types;
 
         return $config_types;
     }
@@ -196,7 +202,8 @@ class ExportSingleCommand extends Command
                 $definition = $this->entityTypeManager->getDefinition($type);
                 $name = $definition->getConfigPrefix() . '.' . $name;
             }
-            $input->setOption('name', $name);
+
+            $input->setOption('name', [$name]);
         }
 
         $module = $input->getOption('module');
@@ -227,7 +234,6 @@ class ExportSingleCommand extends Command
         }
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -237,25 +243,26 @@ class ExportSingleCommand extends Command
 
         $directory = $input->getOption('directory');
         $module = $input->getOption('module');
-        $ame = $input->getOption('name');
+        $name = $input->getOption('name');
         $optional = $input->getOption('optional');
         $removeUuid = $input->getOption('remove-uuid');
         $removeHash = $input->getOption('remove-config-hash');
+        $includeDependencies = $input->getOption('include-dependencies');
 
-        foreach ($ame as $nameItem) {
+        foreach ($name as $nameItem) {
             $config = $this->getConfiguration(
                 $nameItem,
                 $removeUuid,
                 $removeHash
             );
-            
+
             if ($config) {
                 $this->configExport[$nameItem] = [
                     'data' => $config,
                     'optional' => $optional
                 ];
 
-                if ($input->getOption('include-dependencies')) {
+                if ($includeDependencies) {
                     // Include config dependencies in export files
                     if ($dependencies = $this->fetchDependencies($config, 'config')) {
                         $this->resolveDependencies($dependencies, $optional);
@@ -278,8 +285,13 @@ class ExportSingleCommand extends Command
             return 0;
         }
 
-        if (!$directory) {
+        if (!is_dir($directory)) {
             $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+        } else {
+            $directory = Path::canonicalize($directory);
+            if (!file_exists($directory)) {
+                mkdir($directory, 0755, true);
+            }
         }
 
         $this->exportConfig(
