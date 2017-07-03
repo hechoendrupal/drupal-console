@@ -78,7 +78,8 @@ class CacheContextCommand extends Command
             ->setName('generate:cache:context')
             ->setDescription($this->trans('commands.generate.cache.context.description'))
             ->setHelp($this->trans('commands.generate.cache.context.description'))
-            ->addOption('module', 
+            ->addOption(
+            	'module', 
             	null, 
             	InputOption::VALUE_REQUIRED, 
             	$this->trans('commands.common.options.module'))
