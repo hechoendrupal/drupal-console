@@ -35,7 +35,10 @@ class ValidateCommand extends Command
         $this
             ->setName('config:validate')
             ->setDescription($this->trans('commands.config.validate.description'))
-            ->addArgument('config.name', InputArgument::REQUIRED);
+            ->addArgument(
+            		'name', 
+            		InputArgument::REQUIRED
+            );
     }
 
     /**
@@ -52,7 +55,7 @@ class ValidateCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         //Test the config name and see if a schema exists, if not it will fail
-        $name = $input->getArgument('config.name');
+        $name = $input->getArgument('name');
         if (!$typedConfigManager->hasConfigSchema($name)) {
             $io->warning($this->trans('commands.config.validate.messages.no-conf'));
             return 1;
