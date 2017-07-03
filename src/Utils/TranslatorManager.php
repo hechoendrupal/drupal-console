@@ -18,6 +18,8 @@ use Symfony\Component\Finder\Finder;
  */
 class TranslatorManager extends TranslatorManagerBase
 {
+    protected $extensions = [];
+
     /**
      * @param $extensionPath
      */
@@ -74,17 +76,36 @@ class TranslatorManager extends TranslatorManagerBase
     }
 
     /**
+     * @param $library
+     */
+    private function addResourceTranslationsByLibrary($library)
+    {
+        $path = \Drupal::service('console.root') . '/vendor/drupal/' . $library;
+        $this->addResourceTranslationsByExtensionPath(
+            $path
+        );
+    }
+
+    /**
      * @param $extension
      * @param $type
      */
     public function addResourceTranslationsByExtension($extension, $type)
     {
+        if (array_search($extension, $this->extensions) !== false) {
+            return;
+        }
+        $this->extensions[] = $extension;
         if ($type == 'module') {
             $this->addResourceTranslationsByModule($extension);
             return;
         }
         if ($type == 'theme') {
             $this->addResourceTranslationsByTheme($extension);
+            return;
+        }
+        if ($type == 'library') {
+            $this->addResourceTranslationsByLibrary($extension);
             return;
         }
     }
