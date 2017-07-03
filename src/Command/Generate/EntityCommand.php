@@ -150,12 +150,12 @@ abstract class EntityCommand extends Command
         // --base-path option
         $base_path = $input->getOption('base-path');
         if (!$base_path) {
-            $base_path = $this->getDefaultBasePath();
+            $base_path = $io->ask(
+                $this->trans('commands.'.$commandKey.'.questions.base-path'),
+                $this->getDefaultBasePath()
+            );
         }
-        $base_path = $io->ask(
-            $this->trans('commands.'.$commandKey.'.questions.base-path'),
-            $base_path
-        );
+
         if (substr($base_path, 0, 1) !== '/') {
             // Base path must start with a leading '/'.
             $base_path = '/' . $base_path;
