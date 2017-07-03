@@ -37,9 +37,19 @@ class ValidateDebugCommand extends Command
         $this
             ->setName('config:validate:debug')
             ->setDescription($this->trans('commands.config.validate.debug.description'))
-            ->addArgument('config.filepath', InputArgument::REQUIRED)
-            ->addArgument('config.schema.filepath', InputArgument::REQUIRED)
-            ->addOption('schema-name', 'sch', InputOption::VALUE_REQUIRED);
+            ->addArgument(
+            		'filepath', 
+            		InputArgument::REQUIRED
+            )
+            ->addArgument(
+            		'schema-filepath', 
+            		InputArgument::REQUIRED
+            )
+            ->addOption(
+            		'schema-name', 
+            		'sch', 
+            		InputOption::VALUE_REQUIRED
+            );
     }
 
     /**
@@ -56,14 +66,14 @@ class ValidateDebugCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         //Validate config file path
-        $configFilePath = $input->getArgument('config.filepath');
+        $configFilePath = $input->getArgument('filepath');
         if (!file_exists($configFilePath)) {
             $io->info($this->trans('commands.config.validate.debug.messages.noConfFile'));
             return 1;
         }
 
         //Validate schema path
-        $configSchemaFilePath = $input->getArgument('config.schema.filepath');
+        $configSchemaFilePath = $input->getArgument('schema-filepath');
         if (!file_exists($configSchemaFilePath)) {
             $io->info($this->trans('commands.config.validate.debug.messages.noConfSchema'));
             return 1;
