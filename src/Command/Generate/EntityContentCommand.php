@@ -81,21 +81,21 @@ class EntityContentCommand extends EntityCommand
         $this->addOption(
             'has-bundles',
             null,
-            InputOption::VALUE_NONE,
+            InputOption::VALUE_OPTIONAL,
             $this->trans('commands.generate.entity.content.options.has-bundles')
         );
 
         $this->addOption(
             'is-translatable',
             null,
-            InputOption::VALUE_NONE,
+            InputOption::VALUE_OPTIONAL,
             $this->trans('commands.generate.entity.content.options.is-translatable')
         );
 
         $this->addOption(
             'revisionable',
             null,
-            InputOption::VALUE_NONE,
+            InputOption::VALUE_OPTIONAL,
             $this->trans('commands.generate.entity.content.options.revisionable')
         );
     }
@@ -108,29 +108,45 @@ class EntityContentCommand extends EntityCommand
         parent::interact($input, $output);
         $io = new DrupalStyle($input, $output);
 
-        // --bundle-of option
-        $bundle_of = $input->getOption('has-bundles');
-        if (!$bundle_of) {
-            $bundle_of = $io->confirm(
-                $this->trans('commands.generate.entity.content.questions.has-bundles'),
-                false
-            );
-            $input->setOption('has-bundles', $bundle_of);
-        }
+        // --has-bundles option.
+        $this->interactBooleanQuestion($input, $io, 'has-bundles', false);
 
         // --is-translatable option
-        $is_translatable = $io->confirm(
-            $this->trans('commands.generate.entity.content.questions.is-translatable'),
-            true
-        );
-        $input->setOption('is-translatable', $is_translatable);
+        $this->interactBooleanQuestion($input, $io, 'is-translatable', true);
 
         // --revisionable option
-        $revisionable = $io->confirm(
-            $this->trans('commands.generate.entity.content.questions.revisionable'),
-            true
+        $this->interactBooleanQuestion($input, $io, 'revisionable', true);
+    }
+
+    /**
+     * Helper to ask for boolean option.
+     *
+     * @param InputInterface  $input
+     * @param DrupalStyle     $io
+     * @param string          $option
+     * @param bool            $default
+     */
+    protected function interactBooleanQuestion(InputInterface $input, DrupalStyle $io, $option, $default = true) {
+      // If no option flag has been set, we ask for manual input.
+      if (!$input->hasOption($option)) {
+        $set_value = $io->confirm(
+          $this->trans('commands.generate.entity.content.questions.' . $option),
+          (bool) $default
         );
-        $input->setOption('revisionable', $revisionable);
+      }
+      else {
+        $value = $input->getOption($option);
+        // When the value of the option is "0" or "false" the option is disabled.
+        if (isset($value) && $value === "0" || strtolower($value) === "false") {
+          $set_value = FALSE;
+        }
+        // ... otherwise the option is enabled.
+        else {
+          $set_value = TRUE;
+        }
+      }
+
+      $input->setOption($option, $set_value);
     }
 
     /**
