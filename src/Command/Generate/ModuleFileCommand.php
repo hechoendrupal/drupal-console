@@ -64,7 +64,12 @@ class ModuleFileCommand extends Command
             ->setName('generate:module:file')
             ->setDescription($this->trans('commands.generate.module.file.description'))
             ->setHelp($this->trans('commands.generate.module.file.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'));
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            );
     }
 
     /**
