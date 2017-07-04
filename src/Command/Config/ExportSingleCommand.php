@@ -109,7 +109,8 @@ class ExportSingleCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.single.options.remove-config-hash')
-            );
+            )
+            ->setAliases(['ces']);
     }
 
     /*

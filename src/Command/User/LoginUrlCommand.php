@@ -53,7 +53,8 @@ class LoginUrlCommand extends Command
                 InputArgument::REQUIRED,
                 $this->trans('commands.user.login.url.options.user-id'),
                 null
-            );
+            )
+            ->setAliases(['uslu']);
     }
 
     /**

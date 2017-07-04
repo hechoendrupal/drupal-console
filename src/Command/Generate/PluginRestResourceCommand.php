@@ -119,7 +119,8 @@ class PluginRestResourceCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.plugin.rest.resource.options.plugin-states')
-            );
+            )
+            ->setAliases(['gprr']);
     }
 
     /**

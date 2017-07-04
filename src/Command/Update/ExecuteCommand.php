@@ -109,7 +109,8 @@ class ExecuteCommand extends Command
                 'update-n',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.update.execute.options.update-n')
-            );
+            )
+            ->setAliases(['upe']);
     }
 
     /**

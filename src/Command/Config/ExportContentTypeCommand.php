@@ -79,7 +79,8 @@ class ExportContentTypeCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.content.type.options.optional-config')
-            );
+            )
+            ->setAliases(['cect']);
 
         $this->configExport = [];
     }

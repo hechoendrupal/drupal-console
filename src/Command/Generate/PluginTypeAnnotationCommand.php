@@ -91,7 +91,8 @@ class PluginTypeAnnotationCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.type.annotation.options.label')
-            );
+            )
+            ->setAliases(['gpta']);
     }
 
     /**

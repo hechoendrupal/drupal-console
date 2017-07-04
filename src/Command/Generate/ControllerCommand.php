@@ -124,7 +124,8 @@ class ControllerCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.controller.options.test')
-            );
+            )
+            ->setAliases(['gcn']);
     }
 
     /**

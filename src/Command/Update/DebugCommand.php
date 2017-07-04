@@ -51,7 +51,8 @@ class DebugCommand extends Command
     {
         $this
             ->setName('update:debug')
-            ->setDescription($this->trans('commands.update.debug.description'));
+            ->setDescription($this->trans('commands.update.debug.description'))
+            ->setAliases(['upd']);
     }
 
     /**

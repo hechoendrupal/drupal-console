@@ -80,7 +80,7 @@ class TranslatorManager extends TranslatorManagerBase
      */
     private function addResourceTranslationsByLibrary($library)
     {
-        $path = \Drupal::service('console.root') . '/vendor/drupal/' . $library;
+        $path = \Drupal::service('console.root') . '/vendor/' . $library;
         $this->addResourceTranslationsByExtensionPath(
             $path
         );

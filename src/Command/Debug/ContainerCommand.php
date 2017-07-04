@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Debug\ContainerCommand.
+ * Contains \Drupal\Console\Command\ContainerDebugCommand.
  */
 
 namespace Drupal\Console\Command\Debug;
@@ -51,7 +51,8 @@ class ContainerCommand extends Command
                 'arguments',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.container.arguments.arguments')
-            );
+            )
+            ->setAliases(['cod']);
     }
 
     /**

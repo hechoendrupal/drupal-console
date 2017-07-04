@@ -106,7 +106,8 @@ class PluginViewsFieldCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.views.field.options.description')
-            );
+            )
+            ->setAliases(['gpvf']);
     }
 
     /**

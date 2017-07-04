@@ -75,7 +75,8 @@ class EditCommand extends Command
                 'editor',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.config.edit.arguments.editor')
-            );
+            )
+            ->setAliases(['cdit']);
     }
 
     /**

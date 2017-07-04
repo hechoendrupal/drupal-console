@@ -48,7 +48,8 @@ class GenerateDocGitbookCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.doc.gitbook.options.path')
-            );
+            )
+            ->setAliases(['gdg']);
         ;
     }
 
