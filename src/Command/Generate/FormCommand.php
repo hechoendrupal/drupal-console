@@ -166,25 +166,25 @@ abstract class FormCommand extends Command
                 'menu-link-gen',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.menu_link_gen')
+                $this->trans('commands.generate.form.options.menu-link-gen')
             )
             ->addOption(
                 'menu-link-title',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.menu_link_title')
+                $this->trans('commands.generate.form.options.menu-link-title')
             )
             ->addOption(
                 'menu-parent',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.menu_parent')
+                $this->trans('commands.generate.form.options.menu-parent')
             )
             ->addOption(
                 'menu-link-desc',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.menu_link_desc')
+                $this->trans('commands.generate.form.options.menu-link-desc')
             );
     }
 
