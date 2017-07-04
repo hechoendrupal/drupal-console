@@ -106,16 +106,16 @@ class AnnotationValidator
      */
     protected function extractDependencies($annotation)
     {
-      $dependencies = [];
-      $extension = array_key_exists('extension', $annotation) ? $annotation['extension'] : null;
-      $extensionType = array_key_exists('extensionType', $annotation) ? $annotation['extensionType'] : null;
-      if ($extension && $extensionType != 'library') {
-        $dependencies[] = $annotation['extension'];
-      }
-      if (array_key_exists('dependencies', $annotation)) {
-        $dependencies = array_merge($dependencies, $annotation['dependencies']);
-      }
+        $dependencies = [];
+        $extension = array_key_exists('extension', $annotation) ? $annotation['extension'] : null;
+        $extensionType = array_key_exists('extensionType', $annotation) ? $annotation['extensionType'] : null;
+        if ($extension && $extensionType != 'library') {
+            $dependencies[] = $annotation['extension'];
+        }
+        if (array_key_exists('dependencies', $annotation)) {
+            $dependencies = array_merge($dependencies, $annotation['dependencies']);
+        }
 
-      return $dependencies;
+        return $dependencies;
     }
 }
