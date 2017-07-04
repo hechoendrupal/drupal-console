@@ -5,7 +5,7 @@
  * Contains \Drupal\Console\Command\PermissionDebugCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,9 +17,9 @@ use Drupal\Console\Core\Style\DrupalStyle;
 /**
  * Class DebugCommand
  *
- * @package Drupal\Console\Command
+ * @package Drupal\Console\Command\Debug
  */
-class PermissionDebugCommand extends Command
+class PermissionCommand extends Command
 {
     use ContainerAwareCommandTrait;
     /**
@@ -27,13 +27,13 @@ class PermissionDebugCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('permission:debug')
-            ->setDescription($this->trans('commands.permission.debug.description'))
-            ->setHelp($this->trans('commands.permission.debug.help'))
+        $this->setName('debug:permission')
+            ->setDescription($this->trans('commands.debug.permission.description'))
+            ->setHelp($this->trans('commands.debug.permission.help'))
             ->addArgument(
                 'role',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.permission.debug.arguments.role')
+                $this->trans('commands.debug.permission.arguments.role')
             );
     }
 
@@ -48,9 +48,9 @@ class PermissionDebugCommand extends Command
         // No role specified, show a list of ALL permissions.
         if (!$role) {
             $tableHeader = [
-                $this->trans('commands.permission.debug.table-headers.permission-name'),
-                $this->trans('commands.permission.debug.table-headers.permission-label'),
-                $this->trans('commands.permission.debug.table-headers.permission-role')
+                $this->trans('commands.debug.permission.table-headers.permission-name'),
+                $this->trans('commands.debug.permission.table-headers.permission-label'),
+                $this->trans('commands.debug.permission.table-headers.permission-role')
             ];
             $tableRows = [];
             $permissions = \Drupal::service('user.permissions')->getPermissions();
@@ -68,14 +68,14 @@ class PermissionDebugCommand extends Command
             return true;
         } else {
             $tableHeader = [
-                $this->trans('commands.permission.debug.table-headers.permission-name'),
-                $this->trans('commands.permission.debug.table-headers.permission-label')
+                $this->trans('commands.debug.permission.table-headers.permission-name'),
+                $this->trans('commands.debug.permission.table-headers.permission-label')
             ];
             $tableRows = [];
             $permissions = \Drupal::service('user.permissions')->getPermissions();
             $roles = user_roles();
             if (empty($roles[$role])) {
-                $message = sprintf($this->trans('commands.permission.debug.messages.role-error'), $role);
+                $message = sprintf($this->trans('commands.debug.permission.messages.role-error'), $role);
                 $io->error($message);
                 return true;
             }

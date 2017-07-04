@@ -109,10 +109,10 @@ class ServiceCommand extends Command
                 $this->trans('commands.common.service.options.interface')
             )
             ->addOption(
-                'interface_name',
+                'interface-name',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.common.service.options.interface_name')
+                $this->trans('commands.common.service.options.interface-name')
             )
             ->addOption(
                 'services',
@@ -121,11 +121,12 @@ class ServiceCommand extends Command
                 $this->trans('commands.common.options.services')
             )
             ->addOption(
-                'path_service',
+                'path-service',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.service.options.path')
-            );
+            )
+            ->setAliases(['gs']);
     }
 
     /**
@@ -144,9 +145,9 @@ class ServiceCommand extends Command
         $name = $input->getOption('name');
         $class = $input->getOption('class');
         $interface = $input->getOption('interface');
-        $interface_name = $input->getOption('interface_name');
+        $interface_name = $input->getOption('interface-name');
         $services = $input->getOption('services');
-        $path_service = $input->getOption('path_service');
+        $path_service = $input->getOption('path-service');
 
         $available_services = $this->container->getServiceIds();
 
@@ -214,12 +215,12 @@ class ServiceCommand extends Command
         }
 
         // --interface_name option
-        $interface_name = $input->getOption('interface_name');
+        $interface_name = $input->getOption('interface-name');
         if ($interface && !$interface_name) {
             $interface_name = $io->askEmpty(
-                $this->trans('commands.generate.service.questions.interface_name')
+                $this->trans('commands.generate.service.questions.interface-name')
             );
-            $input->setOption('interface_name', $interface_name);
+            $input->setOption('interface-name', $interface_name);
         }
 
         // --services option
@@ -231,13 +232,13 @@ class ServiceCommand extends Command
         }
 
         // --path_service option
-        $path_service = $input->getOption('path_service');
+        $path_service = $input->getOption('path-service');
         if (!$path_service) {
             $path_service = $io->ask(
                 $this->trans('commands.generate.service.questions.path'),
                 '/modules/custom/' . $module . '/src/'
             );
-            $input->setOption('path_service', $path_service);
+            $input->setOption('path-service', $path_service);
         }
     }
 }

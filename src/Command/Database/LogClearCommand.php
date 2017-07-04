@@ -67,7 +67,8 @@ class LogClearCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.log.clear.options.user-id')
-            );
+            )
+            ->setAliases(['dbc']);
     }
 
     /**

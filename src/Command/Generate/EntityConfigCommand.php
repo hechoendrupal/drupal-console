@@ -70,7 +70,8 @@ class EntityConfigCommand extends EntityCommand
             null,
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.config.options.bundle-of')
-        );
+        )
+        ->setAliases(['gecg']);
     }
 
     /**

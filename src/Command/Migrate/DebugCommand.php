@@ -54,7 +54,8 @@ class DebugCommand extends Command
                 'tag',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.migrate.debug.arguments.tag')
-            );
+            )
+            ->setAliases(['mid']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

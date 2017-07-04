@@ -51,7 +51,8 @@ class LoginCleanAttemptsCommand extends Command
                 'uid',
                 InputArgument::REQUIRED,
                 $this->trans('commands.user.login.clear.attempts.options.user-id')
-            );
+            )
+            ->setAliases(['uslca']);
     }
 
     /**

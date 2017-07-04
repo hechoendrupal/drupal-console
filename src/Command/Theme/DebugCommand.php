@@ -54,7 +54,8 @@ class DebugCommand extends Command
                 'theme',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.theme.debug.arguments.theme')
-            );
+            )
+            ->setAliases(['tde']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -97,7 +97,8 @@ PLIST;
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.doc.dash.options.path')
-            );
+            )
+            ->setAliases(['gdd']);
         ;
     }
 

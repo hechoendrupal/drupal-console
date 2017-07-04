@@ -43,7 +43,8 @@ class DebugCommand extends Command
         $this
             ->setName('multisite:debug')
             ->setDescription($this->trans('commands.multisite.debug.description'))
-            ->setHelp($this->trans('commands.multisite.debug.help'));
+            ->setHelp($this->trans('commands.multisite.debug.help'))
+            ->setAliases(['sd']);
         ;
     }
 

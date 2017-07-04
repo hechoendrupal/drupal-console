@@ -170,7 +170,8 @@ class ThemeCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.options.breakpoints')
-            );
+            )
+            ->setAliases(['gt']);
     }
 
     /**

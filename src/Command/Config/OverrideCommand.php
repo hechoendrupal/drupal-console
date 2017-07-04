@@ -63,7 +63,8 @@ class OverrideCommand extends Command
             	'value', 
             	InputArgument::REQUIRED, 
             	$this->trans('commands.config.override.arguments.value')
-            );
+            )
+            ->setAliases(['co']);
     }
 
     /**

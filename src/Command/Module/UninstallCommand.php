@@ -99,7 +99,8 @@ class UninstallCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.uninstall.options.composer')
-            );
+            )
+            ->setAliases(['mou']);
     }
     /**
      * {@inheritdoc}

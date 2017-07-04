@@ -81,7 +81,8 @@ class AuthenticationProviderCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.authentication.provider.options.provider-id')
-            );
+            )
+            ->setAliases(['gap']);
     }
 
     /**

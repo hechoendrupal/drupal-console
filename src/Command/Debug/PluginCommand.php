@@ -5,7 +5,7 @@
  * Contains \Drupal\Console\Command\PluginDebugCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,9 +18,9 @@ use Drupal\Console\Core\Style\DrupalStyle;
 /**
  * Class DebugCommand
  *
- * @package Drupal\Console\Command
+ * @package Drupal\Console\Command\Debug
  */
-class PluginDebugCommand extends Command
+class PluginCommand extends Command
 {
     use ContainerAwareCommandTrait;
     /**
@@ -28,18 +28,18 @@ class PluginDebugCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('plugin:debug')
-            ->setDescription($this->trans('commands.plugin.debug.description'))
-            ->setHelp($this->trans('commands.plugin.debug.help'))
+        $this->setName('debug:plugin')
+            ->setDescription($this->trans('commands.debug.plugin.description'))
+            ->setHelp($this->trans('commands.debug.plugin.help'))
             ->addArgument(
                 'type',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.plugin.debug.arguments.type')
+                $this->trans('commands.debug.plugin.arguments.type')
             )
             ->addArgument(
                 'id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.plugin.debug.arguments.id')
+                $this->trans('commands.debug.plugin.arguments.id')
             );
     }
 
@@ -56,8 +56,8 @@ class PluginDebugCommand extends Command
         // No plugin type specified, show a list of plugin types.
         if (!$pluginType) {
             $tableHeader = [
-                $this->trans('commands.plugin.debug.table-headers.plugin-type-name'),
-                $this->trans('commands.plugin.debug.table-headers.plugin-type-class')
+                $this->trans('commands.debug.plugin.table-headers.plugin-type-name'),
+                $this->trans('commands.debug.plugin.table-headers.plugin-type-class')
             ];
             $tableRows = [];
             $serviceDefinitions = $this->container
@@ -83,7 +83,7 @@ class PluginDebugCommand extends Command
         if (!$service) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.plugin.debug.errors.plugin-type-not-found'),
+                    $this->trans('commands.debug.plugin.errors.plugin-type-not-found'),
                     $pluginType
                 )
             );
@@ -93,8 +93,8 @@ class PluginDebugCommand extends Command
         // Valid plugin type specified, no ID specified, show list of instances.
         if (!$pluginId) {
             $tableHeader = [
-                $this->trans('commands.plugin.debug.table-headers.plugin-id'),
-                $this->trans('commands.plugin.debug.table-headers.plugin-class')
+                $this->trans('commands.debug.plugin.table-headers.plugin-id'),
+                $this->trans('commands.debug.plugin.table-headers.plugin-class')
             ];
             $tableRows = [];
             foreach ($service->getDefinitions() as $definition) {
@@ -110,8 +110,8 @@ class PluginDebugCommand extends Command
         // Valid plugin type specified, ID specified, show the definition.
         $definition = $service->getDefinition($pluginId);
         $tableHeader = [
-            $this->trans('commands.plugin.debug.table-headers.definition-key'),
-            $this->trans('commands.plugin.debug.table-headers.definition-value')
+            $this->trans('commands.debug.plugin.table-headers.definition-key'),
+            $this->trans('commands.debug.plugin.table-headers.definition-value')
         ];
         $tableRows = [];
         foreach ($definition as $key => $value) {

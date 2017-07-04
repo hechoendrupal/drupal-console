@@ -73,7 +73,8 @@ class NewCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.multisite.new.options.copy-default')
-            );
+            )
+            ->setAliases(['sn']);
     }
 
     /**

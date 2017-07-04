@@ -153,7 +153,8 @@ class FormAlterCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.inputs')
-            );
+            )
+            ->setAliases(['gfa']);
     }
 
     /**

@@ -108,7 +108,8 @@ class StatusCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.site.status.options.format'),
                 'table'
-            );
+            )
+            ->setAliases(['ss']);
     }
 
     /**

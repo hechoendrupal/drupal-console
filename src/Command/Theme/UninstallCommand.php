@@ -64,7 +64,8 @@ class UninstallCommand extends Command
                 'theme',
                 InputArgument::IS_ARRAY,
                 $this->trans('commands.theme.uninstall.options.module')
-            );
+            )
+            ->setAliases(['tu']);
     }
 
     /**

@@ -78,7 +78,8 @@ class DebugCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.module.debug.options.type')
-            );
+            )
+            ->setAliases(['mod']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

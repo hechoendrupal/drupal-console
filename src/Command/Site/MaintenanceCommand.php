@@ -56,7 +56,8 @@ class MaintenanceCommand extends Command
                 'mode',
                 InputArgument::REQUIRED,
                 $this->trans('commands.site.maintenance.arguments.mode').'[on/off]'
-            );
+            )
+            ->setAliases(['sma']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

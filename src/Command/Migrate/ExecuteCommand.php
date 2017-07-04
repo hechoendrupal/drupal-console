@@ -113,7 +113,8 @@ class ExecuteCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.execute.options.source-base_path')
-            );
+            )
+            ->setAliases(['mie']);
         ;
     }
 
