@@ -56,8 +56,16 @@ class PasswordResetCommand extends Command
             ->setName('user:password:reset')
             ->setDescription($this->trans('commands.user.password.reset.description'))
             ->setHelp($this->trans('commands.user.password.reset.help'))
-            ->addArgument('user', InputArgument::REQUIRED, $this->trans('commands.user.password.reset.options.user-id'))
-            ->addArgument('password', InputArgument::REQUIRED, $this->trans('commands.user.password.reset.options.password'));
+            ->addArgument(
+                'user',
+                InputArgument::REQUIRED,
+                $this->trans('commands.user.password.reset.options.user-id')
+            )
+            ->addArgument(
+                'password',
+                InputArgument::REQUIRED,
+                $this->trans('commands.user.password.reset.options.password')
+            );
     }
 
     /**
