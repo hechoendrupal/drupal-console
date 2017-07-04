@@ -16,3 +16,8 @@ services:
     class: Drupal\Console\Command\Debug\PluginCommand
     tags:
       - { name: drupal.command }
+  console.user_debug:
+    class: Drupal\Console\Command\Debug\UserCommand
+    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
+    tags:
+      - { name: drupal.command }
