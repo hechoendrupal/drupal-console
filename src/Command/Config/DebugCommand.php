@@ -58,7 +58,8 @@ class DebugCommand extends Command
                 'name',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.config.debug.arguments.name')
-            );
+            )
+            ->setAliases(['cde']);
     }
 
     /**

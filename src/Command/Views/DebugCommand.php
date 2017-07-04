@@ -65,7 +65,8 @@ class DebugCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.views.debug.arguments.view-status')
-            );
+            )
+            ->setAliases(['vde']);
     }
 
     /**

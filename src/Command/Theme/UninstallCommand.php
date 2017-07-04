@@ -60,7 +60,8 @@ class UninstallCommand extends Command
         $this
             ->setName('theme:uninstall')
             ->setDescription($this->trans('commands.theme.uninstall.description'))
-            ->addArgument('theme', InputArgument::IS_ARRAY, $this->trans('commands.theme.uninstall.options.module'));
+            ->addArgument('theme', InputArgument::IS_ARRAY, $this->trans('commands.theme.uninstall.options.module'))
+            ->setAliases(['tu']);
     }
 
     /**

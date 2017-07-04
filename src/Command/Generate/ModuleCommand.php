@@ -164,7 +164,8 @@ class ModuleCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.twigtemplate')
-            );
+            )
+            ->setAliases(['gm']);
     }
 
     /**

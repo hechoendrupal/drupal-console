@@ -86,7 +86,8 @@ class GenerateDocCheatsheetCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.doc.cheatsheet.options.wkhtmltopdf')
-            );
+            )
+            ->setAliases(['gdc']);
         ;
     }
 

@@ -73,7 +73,8 @@ class ImportCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.import.options.remove-files')
-            );
+            )
+            ->setAliases(['ci']);
     }
 
     /**

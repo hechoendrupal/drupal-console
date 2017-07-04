@@ -88,7 +88,8 @@ class LogDebugCommand extends DatabaseLogBase
                 InputOption::VALUE_NONE,
                 $this->trans('commands.database.log.debug.options.yml'),
                 null
-            );
+            )
+            ->setAliases(['dbb']);
     }
 
     /**

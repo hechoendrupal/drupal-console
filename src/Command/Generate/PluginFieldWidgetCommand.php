@@ -117,7 +117,8 @@ class PluginFieldWidgetCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.fieldwidget.options.field-type')
-            );
+            )
+            ->setAliases(['gpfw']);
     }
 
     /**

@@ -85,6 +85,7 @@ class ConfigFormBaseCommand extends FormCommand
     {
         $this->setFormType('ConfigFormBase');
         $this->setCommandName('generate:form:config');
+        $this->setAliases(['gfc']);
         parent::configure();
     }
 }

@@ -79,7 +79,8 @@ class PermissionCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.common.options.permissions')
-            );
+            )
+            ->setAliases(['gp']);
     }
 
     /**

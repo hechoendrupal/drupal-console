@@ -92,7 +92,8 @@ class PluginTypeYamlCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.type.yaml.options.plugin-file-name')
-            );
+            )
+            ->setAliases(['gpty']);
     }
 
     /**

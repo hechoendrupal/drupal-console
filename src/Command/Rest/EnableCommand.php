@@ -96,7 +96,8 @@ class EnableCommand extends Command
                 'resource-id',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.rest.debug.arguments.resource-id')
-            );
+            )
+            ->setAliases(['ree']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

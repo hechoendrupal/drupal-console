@@ -116,7 +116,8 @@ class PluginFieldTypeCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.fieldtype.options.default-formatter')
-            );
+            )
+            ->setAliases(['gpft']);
     }
 
     /**

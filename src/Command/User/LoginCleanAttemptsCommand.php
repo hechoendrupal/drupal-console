@@ -47,7 +47,8 @@ class LoginCleanAttemptsCommand extends Command
         setName('user:login:clear:attempts')
             ->setDescription($this->trans('commands.user.login.clear.attempts.description'))
             ->setHelp($this->trans('commands.user.login.clear.attempts.help'))
-            ->addArgument('uid', InputArgument::REQUIRED, $this->trans('commands.user.login.clear.attempts.options.user-id'));
+            ->addArgument('uid', InputArgument::REQUIRED, $this->trans('commands.user.login.clear.attempts.options.user-id'))
+            ->setAliases(['uslca']);
     }
 
     /**

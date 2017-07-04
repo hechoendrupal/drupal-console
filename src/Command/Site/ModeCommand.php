@@ -72,7 +72,8 @@ class ModeCommand extends Command
                 'environment',
                 InputArgument::REQUIRED,
                 $this->trans('commands.site.mode.arguments.environment')
-            );
+            )
+            ->setAliases(['smo']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
