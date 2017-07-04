@@ -16,3 +16,7 @@ services:
     class: Drupal\Console\Command\Debug\PluginCommand
     tags:
       - { name: drupal.command }
+  console.views_plugins_debug:
+    class: Drupal\Console\Command\Debug\ViewsPluginsCommand
+    tags:
+      - { name: drupal.command }
