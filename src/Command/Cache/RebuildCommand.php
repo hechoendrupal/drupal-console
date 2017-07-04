@@ -75,7 +75,7 @@ class RebuildCommand extends Command
                 'cache',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.cache.rebuild.options.cache')
-            );
+            )->setAliases(['cr']);
     }
 
     /**
