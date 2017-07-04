@@ -1,0 +1,5 @@
+services:
+  console.container_debug:
+    class: Drupal\Console\Command\Debug\ContainerCommand
+    tags:
+      - { name: drupal.command }
