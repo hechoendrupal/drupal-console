@@ -62,7 +62,8 @@ class DebugCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.test.debug.arguments.test-class')
-            );
+            )
+            ->setAliases(['td']);
     }
 
     /**

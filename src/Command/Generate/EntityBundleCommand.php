@@ -79,7 +79,8 @@ class EntityBundleCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.entity.bundle.options.bundle-title')
-            );
+            )
+            ->setAliases(['geb']);
     }
 
     /**

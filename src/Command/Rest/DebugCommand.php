@@ -61,7 +61,8 @@ class DebugCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.rest.debug.options.status')
-            );
+            )
+            ->setAliases(['rede']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

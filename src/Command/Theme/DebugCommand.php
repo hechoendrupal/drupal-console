@@ -50,7 +50,8 @@ class DebugCommand extends Command
         $this
             ->setName('theme:debug')
             ->setDescription($this->trans('commands.theme.debug.description'))
-            ->addArgument('theme', InputArgument::OPTIONAL, $this->trans('commands.theme.debug.arguments.theme'));
+            ->addArgument('theme', InputArgument::OPTIONAL, $this->trans('commands.theme.debug.arguments.theme'))
+            ->setAliases(['tde']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

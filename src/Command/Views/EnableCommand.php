@@ -63,7 +63,8 @@ class EnableCommand extends Command
                 'view-id',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.views.debug.arguments.view-id')
-            );
+            )
+            ->setAliases(['ve']);
     }
 
     /**

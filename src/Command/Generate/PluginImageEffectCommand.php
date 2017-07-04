@@ -103,7 +103,8 @@ class PluginImageEffectCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.imageeffect.options.description')
-            );
+            )
+            ->setAliases(['gpie']);
     }
 
     /**

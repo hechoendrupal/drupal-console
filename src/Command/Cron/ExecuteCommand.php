@@ -75,7 +75,8 @@ class ExecuteCommand extends Command
                 'module',
                 InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
                 $this->trans('commands.common.options.module')
-            );
+            )
+            ->setAliases(['cre']);
     }
 
     /**

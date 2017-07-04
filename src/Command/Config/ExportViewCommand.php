@@ -89,7 +89,8 @@ class ExportViewCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.view.options.include-module-dependencies')
-            );
+            )
+            ->setAliases(['cev']);
     }
 
     /**

@@ -45,7 +45,8 @@ class DebugCommand extends Command
                 'route-name',
                 InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
                 $this->trans('commands.router.debug.arguments.route-name')
-            );
+            )
+            ->setAliases(['rod']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

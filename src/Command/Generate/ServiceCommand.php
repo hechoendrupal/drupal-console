@@ -125,7 +125,8 @@ class ServiceCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.service.options.path')
-            );
+            )
+            ->setAliases(['gs']);
     }
 
     /**

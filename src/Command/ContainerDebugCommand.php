@@ -51,7 +51,8 @@ class ContainerDebugCommand extends Command
                 'arguments',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.container.debug.arguments.arguments')
-            );
+            )
+            ->setAliases(['cod']);
     }
 
     /**

@@ -101,7 +101,8 @@ class PluginImageFormatterCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.imageformatter.options.plugin-id')
-            );
+            )
+            ->setAliases(['gpif']);
     }
 
     /**
