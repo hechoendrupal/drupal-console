@@ -32,25 +32,25 @@ class ContainerCommand extends Command
     {
         $this
             ->setName('debug:container')
-            ->setDescription($this->trans('commands.container.debug.description'))
+            ->setDescription($this->trans('commands.debug.container.description'))
             ->addOption(
                 'parameters',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.container.debug.arguments.service')
+                $this->trans('commands.debug.container.arguments.service')
             )
             ->addArgument(
                 'service',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.container.debug.arguments.service')
+                $this->trans('commands.debug.container.arguments.service')
             )->addArgument(
                 'method',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.container.debug.arguments.method')
+                $this->trans('commands.debug.container.arguments.method')
             )->addArgument(
                 'arguments',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.container.debug.arguments.arguments')
+                $this->trans('commands.debug.container.arguments.arguments')
             );
     }
 
@@ -89,8 +89,8 @@ class ContainerCommand extends Command
             }
 
             $tableHeader = [
-                $this->trans('commands.container.debug.messages.service_id'),
-                $this->trans('commands.container.debug.messages.class_name')
+                $this->trans('commands.debug.container.messages.service_id'),
+                $this->trans('commands.debug.container.messages.class_name')
             ];
 
             $tableRows = $this->getServiceList();
@@ -113,33 +113,33 @@ class ContainerCommand extends Command
         $serviceInstance = \Drupal::service($service);
 
         if (!method_exists($serviceInstance, $method)) {
-            throw new \Symfony\Component\DependencyInjection\Exception\BadMethodCallException($this->trans('commands.container.debug.errors.method_not_exists'));
+            throw new \Symfony\Component\DependencyInjection\Exception\BadMethodCallException($this->trans('commands.debug.container.errors.method_not_exists'));
 
             return $serviceDetail;
         }
         $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.container.debug.messages.service').'</>',
+            '<fg=green>'.$this->trans('commands.debug.container.messages.service').'</>',
             '<fg=yellow>'.$service.'</>'
         ];
         $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.container.debug.messages.class').'</>',
+            '<fg=green>'.$this->trans('commands.debug.container.messages.class').'</>',
             '<fg=yellow>'.get_class($serviceInstance).'</>'
         ];
         $methods = [$method];
         $this->extendArgumentList($serviceInstance, $methods);
         $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.container.debug.messages.method').'</>',
+            '<fg=green>'.$this->trans('commands.debug.container.messages.method').'</>',
             '<fg=yellow>'.$methods[0].'</>'
         ];
         if ($parsedArgs) {
             $serviceDetail[] = [
-                '<fg=green>'.$this->trans('commands.container.debug.messages.arguments').'</>',
+                '<fg=green>'.$this->trans('commands.debug.container.messages.arguments').'</>',
                 json_encode($parsedArgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
             ];
         }
         $return = call_user_func_array([$serviceInstance,$method], $parsedArgs);
         $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.container.debug.messages.return').'</>',
+            '<fg=green>'.$this->trans('commands.debug.container.messages.return').'</>',
             json_encode($return, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
         ];
         return $serviceDetail;
@@ -168,29 +168,29 @@ class ContainerCommand extends Command
 
         if ($serviceInstance) {
             $serviceDetail[] = [
-                '<fg=green>'.$this->trans('commands.container.debug.messages.service').'</>',
+                '<fg=green>'.$this->trans('commands.debug.container.messages.service').'</>',
                 '<fg=yellow>'.$service.'</>'
             ];
             $serviceDetail[] = [
-                '<fg=green>'.$this->trans('commands.container.debug.messages.class').'</>',
+                '<fg=green>'.$this->trans('commands.debug.container.messages.class').'</>',
                 '<fg=yellow>'.get_class($serviceInstance).'</>'
             ];
             $interface = str_replace("{  }", "", Yaml::dump(class_implements($serviceInstance)));
             if (!empty($interface)) {
                 $serviceDetail[] = [
-                    '<fg=green>'.$this->trans('commands.container.debug.messages.interface').'</>',
+                    '<fg=green>'.$this->trans('commands.debug.container.messages.interface').'</>',
                     '<fg=yellow>'.$interface.'</>'
                 ];
             }
             if ($parent = get_parent_class($serviceInstance)) {
                 $serviceDetail[] = [
-                    '<fg=green>'.$this->trans('commands.container.debug.messages.parent').'</>',
+                    '<fg=green>'.$this->trans('commands.debug.container.messages.parent').'</>',
                     '<fg=yellow>'.$parent.'</>'
                 ];
             }
             if ($vars = get_class_vars($serviceInstance)) {
                 $serviceDetail[] = [
-                    '<fg=green>'.$this->trans('commands.container.debug.messages.variables').'</>',
+                    '<fg=green>'.$this->trans('commands.debug.container.messages.variables').'</>',
                     '<fg=yellow>'.Yaml::dump($vars).'</>'
                 ];
             }
@@ -198,7 +198,7 @@ class ContainerCommand extends Command
                 sort($methods);
                 $this->extendArgumentList($serviceInstance, $methods);
                 $serviceDetail[] = [
-                    '<fg=green>'.$this->trans('commands.container.debug.messages.methods').'</>',
+                    '<fg=green>'.$this->trans('commands.debug.container.messages.methods').'</>',
                     '<fg=yellow>'.implode("\n", $methods).'</>'
                 ];
             }

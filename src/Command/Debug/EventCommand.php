@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\EventDebugCommand.
+ * Contains \Drupal\Console\Command\EventCommand.
  */
 
-namespace Drupal\Console\Command;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,11 +16,11 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
- * Class EventDebugCommand
+ * Class EventCommand
  *
- *  @package Drupal\Console\Command
+ *  @package Drupal\Console\Command\Debug
  */
-class EventDebugCommand extends Command
+class EventCommand extends Command
 {
     use CommandTrait;
 
@@ -43,15 +43,15 @@ class EventDebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('event:debug')
-            ->setDescription($this->trans('commands.event.debug.description'))
+            ->setName('debug:event')
+            ->setDescription($this->trans('commands.debug.event.description'))
             ->addArgument(
                 'event',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.event.debug.arguments.event'),
+                $this->trans('commands.debug.event.arguments.event'),
                 null
             )
-            ->setHelp($this->trans('commands.event.debug.help'));
+            ->setHelp($this->trans('commands.debug.event.blerp'));
     }
 
     /**
@@ -63,20 +63,20 @@ class EventDebugCommand extends Command
 
         $events = array_keys($this->eventDispatcher->getListeners());
         $event = $input->getArgument('event');
-        
+
         if ($event) {
             if (!in_array($event, $events)) {
                 throw new \Exception(
                     sprintf(
-                        $this->trans('commands.event.debug.messages.no-events'),
+                        $this->trans('commands.debug.event.messages.no-events'),
                         $event
                     )
                 );
             }
-            
+
             $dispatcher = $this->eventDispatcher->getListeners($event);
             $listeners = [];
-            
+
             foreach ($dispatcher as $key => $value) {
                 $reflection = new \ReflectionClass(get_class($value[0]));
                 $className = $reflection->getName();
@@ -117,10 +117,10 @@ class EventDebugCommand extends Command
                     'events' => Yaml::dump($subscribedEventData, 4, 2)
                 ];
             }
- 
+
             $tableHeader = [
-               $this->trans('commands.event.debug.messages.class'),
-               $this->trans('commands.event.debug.messages.method'),
+               $this->trans('commands.debug.event.messages.class'),
+               $this->trans('commands.debug.event.messages.method'),
             ];
 
             $tableRows = [];
@@ -135,9 +135,9 @@ class EventDebugCommand extends Command
 
             return 0;
         }
-       
+
         $io->table(
-            [$this->trans('commands.event.debug.messages.event')],
+            [$this->trans('commands.debug.event.messages.event')],
             $events
         );
     }
