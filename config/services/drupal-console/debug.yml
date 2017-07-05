@@ -90,3 +90,8 @@ services:
     arguments: ['@module_handler']
     tags:
       - { name: drupal.command }
+  console.breakpoints_debug:
+    class: Drupal\Console\Command\Debug\BreakpointsCommand
+    arguments: ['@breakpoint.manager', '@app.root']
+    tags:
+      - { name: drupal.command }
