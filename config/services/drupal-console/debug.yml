@@ -35,3 +35,8 @@ services:
     class: Drupal\Console\Command\Debug\ViewsPluginsCommand
     tags:
       - { name: drupal.command }
+  console.theme_debug:
+    class: Drupal\Console\Command\Debug\ThemeCommand
+    arguments: ['@config.factory', '@theme_handler']
+    tags:
+      - { name: drupal.command }
