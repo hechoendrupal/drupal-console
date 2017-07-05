@@ -55,3 +55,8 @@ services:
     arguments: ['@plugin.manager.queue_worker']
     tags:
       - { name: drupal.command }
+  console.libraries_debug:
+    class: Drupal\Console\Command\Debug\LibrariesCommand
+    arguments: ['@module_handler', '@theme_handler', '@library.discovery', '@app.root']
+    tags:
+      - { name: drupal.command }

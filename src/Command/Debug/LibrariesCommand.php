@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Libraries\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\LibrariesCommand.
  */
 
-namespace Drupal\Console\Command\Libraries;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +18,7 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
-class DebugCommand extends Command
+class LibrariesCommand extends Command
 {
     use CommandTrait;
 
@@ -69,12 +69,12 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('libraries:debug')
-            ->setDescription($this->trans('commands.libraries.debug.description'))
+            ->setName('debug:libraries')
+            ->setDescription($this->trans('commands.debug.libraries.description'))
             ->addArgument(
                 'group',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.libraries.debug.options.name')
+                $this->trans('commands.debug.libraries.options.name')
             );
     }
 
@@ -90,7 +90,7 @@ class DebugCommand extends Command
             $groups = $this->getAllLibraries();
 
             $tableHeader = [
-                $this->trans('commands.libraries.debug.messages.name'),
+                $this->trans('commands.debug.libraries.messages.name'),
             ];
 
             $io->table($tableHeader, $groups, 'compact');
