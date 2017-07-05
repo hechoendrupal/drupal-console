@@ -70,3 +70,8 @@ services:
     arguments: ['@entity_type.manager']
     tags:
       - { name: drupal.command }
+  console.entity_debug:
+    class: Drupal\Console\Command\Debug\EntityCommand
+    arguments: ['@entity_type.repository', '@entity_type.manager']
+    tags:
+      - { name: drupal.command }
