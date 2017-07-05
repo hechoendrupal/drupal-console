@@ -95,3 +95,7 @@ services:
     arguments: ['@breakpoint.manager', '@app.root']
     tags:
       - { name: drupal.command }
+  console.cache_context_debug:
+    class: Drupal\Console\Command\Debug\CacheContextCommand
+    tags:
+      - { name: drupal.command }

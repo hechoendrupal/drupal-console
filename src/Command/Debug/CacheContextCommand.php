@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Cache\ContextDebugCommand.
+ * Contains \Drupal\Console\Command\Debug\CacheContextCommand.
  */
 
-namespace Drupal\Console\Command\Cache;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,11 +14,11 @@ use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
- * Class ContextDebugCommand.
+ * Class CacheContextCommand.
  *
- * @package Drupal\Console\Command\Cache
+ * @package Drupal\Console\Command\Debug
  */
-class ContextDebugCommand extends Command
+class CacheContextCommand extends Command
 {
     use ContainerAwareCommandTrait;
 
@@ -28,8 +28,8 @@ class ContextDebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('cache:context:debug')
-            ->setDescription($this->trans('commands.cache.context.debug.description'));
+            ->setName('debug:cache:context')
+            ->setDescription($this->trans('commands.debug.cache.context.description'));
     }
 
     /**
@@ -41,9 +41,9 @@ class ContextDebugCommand extends Command
         $contextManager = $this->get('cache_contexts_manager');
 
         $tableHeader = [
-            $this->trans('commands.cache.context.debug.messages.code'),
-            $this->trans('commands.cache.context.debug.messages.label'),
-            $this->trans('commands.cache.context.debug.messages.class'),
+            $this->trans('commands.debug.cache.context.messages.code'),
+            $this->trans('commands.debug.cache.context.messages.label'),
+            $this->trans('commands.debug.cache.context.messages.class'),
         ];
 
         $tableRows = [];
