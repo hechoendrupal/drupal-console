@@ -16,6 +16,11 @@ services:
     class: Drupal\Console\Command\Debug\PluginCommand
     tags:
       - { name: drupal.command }
+  console.update_debug:
+     class: Drupal\Console\Command\Debug\UpdateCommand
+     arguments: ['@console.site', '@update.post_update_registry']
+     tags:
+        - { name: drupal.command }
   console.user_debug:
     class: Drupal\Console\Command\Debug\UserCommand
     arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
