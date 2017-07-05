@@ -45,3 +45,8 @@ services:
     arguments: ['@config.factory', '@theme_handler']
     tags:
       - { name: drupal.command }
+  console.router_debug:
+    class: Drupal\Console\Command\Debug\RouterCommand
+    arguments: ['@router.route_provider']
+    tags:
+      - { name: drupal.command }
