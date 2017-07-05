@@ -5,7 +5,7 @@
  * Contains \Drupal\Console\Command\User\DebugCommand.
  */
 
-namespace Drupal\Console\Command\User;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,11 +18,11 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 
 /**
- * Class DebugCommand
+ * Class UserCommand
  *
- * @package Drupal\Console\Command\User
+ * @package Drupal\Console\Command\Debug
  */
-class DebugCommand extends Command
+class UserCommand extends Command
 {
     use CommandTrait;
 
@@ -65,37 +65,37 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('user:debug')
-            ->setDescription($this->trans('commands.user.debug.description'))
+            ->setName('debug:user')
+            ->setDescription($this->trans('commands.debug.user.description'))
             ->addOption(
                 'uid',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                $this->trans('commands.user.debug.options.uid')
+                $this->trans('commands.debug.user.options.uid')
             )
             ->addOption(
                 'username',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                $this->trans('commands.user.debug.options.username')
+                $this->trans('commands.debug.user.options.username')
             )
             ->addOption(
                 'mail',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                $this->trans('commands.user.debug.options.mail')
+                $this->trans('commands.debug.user.options.mail')
             )
             ->addOption(
                 'roles',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.user.debug.options.roles')
+                $this->trans('commands.debug.user.options.roles')
             )
             ->addOption(
                 'limit',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.user.debug.options.limit')
+                $this->trans('commands.debug.user.options.limit')
             );
     }
 
@@ -153,10 +153,10 @@ class DebugCommand extends Command
         $users = $userStorage->loadMultiple($results);
 
         $tableHeader = [
-            $this->trans('commands.user.debug.messages.user-id'),
-            $this->trans('commands.user.debug.messages.username'),
-            $this->trans('commands.user.debug.messages.roles'),
-            $this->trans('commands.user.debug.messages.status'),
+            $this->trans('commands.debug.user.messages.user-id'),
+            $this->trans('commands.debug.user.messages.username'),
+            $this->trans('commands.debug.user.messages.roles'),
+            $this->trans('commands.debug.user.messages.status'),
         ];
 
         $tableRows = [];
