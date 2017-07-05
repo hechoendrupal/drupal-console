@@ -9,4 +9,3 @@ services:
     arguments: ['@entity_type.manager', '@entity.query']
     tags:
       - { name: drupal.command }
-
