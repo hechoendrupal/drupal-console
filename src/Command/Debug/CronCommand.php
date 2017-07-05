@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Cron\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\CronCommand.
  */
 
-namespace Drupal\Console\Command\Cron;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +14,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
-class DebugCommand extends Command
+class CronCommand extends Command
 {
     use CommandTrait;
 
@@ -24,7 +24,7 @@ class DebugCommand extends Command
     protected $moduleHandler;
 
     /**
-     * DebugCommand constructor.
+     * CronCommand constructor.
      *
      * @param ModuleHandlerInterface $moduleHandler
      */
@@ -40,8 +40,8 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('cron:debug')
-            ->setDescription($this->trans('commands.cron.debug.description'));
+            ->setName('debug:cron')
+            ->setDescription($this->trans('commands.debug.cron.description'));
     }
 
     /**
@@ -52,11 +52,11 @@ class DebugCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $io->section(
-            $this->trans('commands.cron.debug.messages.module-list')
+            $this->trans('commands.debug.cron.messages.module-list')
         );
 
         $io->table(
-            [ $this->trans('commands.cron.debug.messages.module') ],
+            [ $this->trans('commands.debug.cron.messages.module') ],
             $this->moduleHandler->getImplementations('cron'),
             'compact'
         );

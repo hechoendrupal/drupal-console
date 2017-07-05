@@ -85,3 +85,8 @@ services:
     arguments: ['@console.redbean', '@database']
     tags:
       - { name: drupal.command }
+  console.cron_debug:
+    class: Drupal\Console\Command\Debug\CronCommand
+    arguments: ['@module_handler']
+    tags:
+      - { name: drupal.command }
