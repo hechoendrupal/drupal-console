@@ -65,3 +65,8 @@ services:
     arguments: ['@console.configuration_manager', '@console.site', '@http_client']
     tags:
       - { name: drupal.command }
+  console.image_styles_debug:
+    class: Drupal\Console\Command\Debug\ImageStylesCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }

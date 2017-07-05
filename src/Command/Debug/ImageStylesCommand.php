@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Image\StylesDebugCommand.
+ * Contains \Drupal\Console\Command\Debug\ImageStylesCommand.
  */
 
-namespace Drupal\Console\Command\Image;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,9 +17,9 @@ use Drupal\Console\Core\Style\DrupalStyle;
 /**
  * Class StylesDebugCommand
  *
- * @package Drupal\Console\Command\Image
+ * @package Drupal\Console\Command\Debug
  */
-class StylesDebugCommand extends Command
+class ImageStylesCommand extends Command
 {
     use CommandTrait;
 
@@ -29,7 +29,7 @@ class StylesDebugCommand extends Command
     protected $entityTypeManager;
 
     /**
-     * StylesDebugCommand constructor.
+     * ImageStylesCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
@@ -45,8 +45,8 @@ class StylesDebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('image:styles:debug')
-            ->setDescription($this->trans('commands.image.styles.debug.description'));
+            ->setName('debug:image:styles')
+            ->setDescription($this->trans('commands.debug.image.styles.description'));
     }
 
     /**
@@ -60,7 +60,7 @@ class StylesDebugCommand extends Command
 
         $io->newLine();
         $io->comment(
-            $this->trans('commands.image.styles.debug.messages.styles-list')
+            $this->trans('commands.debug.image.styles.messages.styles-list')
         );
 
         if ($imageStyle) {
@@ -77,8 +77,8 @@ class StylesDebugCommand extends Command
     protected function imageStyleList(DrupalStyle $io, $imageStyle)
     {
         $tableHeader = [
-          $this->trans('commands.image.styles.debug.messages.styles-name'),
-          $this->trans('commands.image.styles.debug.messages.styles-label')
+          $this->trans('commands.debug.image.styles.messages.styles-name'),
+          $this->trans('commands.debug.image.styles.messages.styles-label')
         ];
 
         $tableRows = [];
