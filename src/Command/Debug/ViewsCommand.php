@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Views\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\ViewsCommand.
  */
 
-namespace Drupal\Console\Command\Views;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,11 +18,11 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
- * Class DebugCommand
+ * Class ViewsCommand
  *
- * @package Drupal\Console\Command\Views
+ * @package Drupal\Console\Command\Debug
  */
-class DebugCommand extends Command
+class ViewsCommand extends Command
 {
     use CommandTrait;
 
@@ -48,23 +48,23 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('views:debug')
-            ->setDescription($this->trans('commands.views.debug.description'))
+            ->setName('debug:views')
+            ->setDescription($this->trans('commands.debug.views.description'))
             ->addArgument(
                 'view-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.views.debug.arguments.view-id')
+                $this->trans('commands.debug.views.arguments.view-id')
             )
             ->addOption(
                 'tag',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.views.debug.arguments.view-tag')
+                $this->trans('commands.debug.views.arguments.view-tag')
             )->addOption(
                 'status',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.views.debug.arguments.view-status')
+                $this->trans('commands.debug.views.arguments.view-status')
             )
             ->setAliases(['vde']);
     }
@@ -105,31 +105,31 @@ class DebugCommand extends Command
         $view = $this->entityTypeManager->getStorage('view')->load($view_id);
 
         if (empty($view)) {
-            $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $view_id));
+            $io->error(sprintf($this->trans('commands.debug.views.messages.not-found'), $view_id));
 
             return false;
         }
 
         $configuration = [];
-        $configuration [] = [$this->trans('commands.views.debug.messages.view-id'), $view->get('id')];
-        $configuration [] = [$this->trans('commands.views.debug.messages.view-name'), (string) $view->get('label')];
-        $configuration [] = [$this->trans('commands.views.debug.messages.tag'), $view->get('tag')];
-        $configuration [] = [$this->trans('commands.views.debug.messages.status'), $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled')];
-        $configuration [] = [$this->trans('commands.views.debug.messages.description'), $view->get('description')];
+        $configuration [] = [$this->trans('commands.debug.views.messages.view-id'), $view->get('id')];
+        $configuration [] = [$this->trans('commands.debug.views.messages.view-name'), (string) $view->get('label')];
+        $configuration [] = [$this->trans('commands.debug.views.messages.tag'), $view->get('tag')];
+        $configuration [] = [$this->trans('commands.debug.views.messages.status'), $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled')];
+        $configuration [] = [$this->trans('commands.debug.views.messages.description'), $view->get('description')];
 
         $io->comment($view_id);
 
         $io->table([], $configuration);
 
         $tableHeader = [
-          $this->trans('commands.views.debug.messages.display-id'),
-          $this->trans('commands.views.debug.messages.display-name'),
-          $this->trans('commands.views.debug.messages.display-description'),
-          $this->trans('commands.views.debug.messages.display-paths'),
+          $this->trans('commands.debug.views.messages.display-id'),
+          $this->trans('commands.debug.views.messages.display-name'),
+          $this->trans('commands.debug.views.messages.display-description'),
+          $this->trans('commands.debug.views.messages.display-paths'),
         ];
         $displays = $this->viewDisplayList($view);
 
-        $io->info(sprintf($this->trans('commands.views.debug.messages.display-list'), $view_id));
+        $io->info(sprintf($this->trans('commands.debug.views.messages.display-list'), $view_id));
 
         $tableRows = [];
         foreach ($displays as $display_id => $display) {
@@ -154,11 +154,11 @@ class DebugCommand extends Command
         $views = $this->entityTypeManager->getStorage('view')->loadMultiple();
 
         $tableHeader = [
-          $this->trans('commands.views.debug.messages.view-id'),
-          $this->trans('commands.views.debug.messages.view-name'),
-          $this->trans('commands.views.debug.messages.tag'),
-          $this->trans('commands.views.debug.messages.status'),
-          $this->trans('commands.views.debug.messages.path')
+          $this->trans('commands.debug.views.messages.view-id'),
+          $this->trans('commands.debug.views.messages.view-name'),
+          $this->trans('commands.debug.views.messages.tag'),
+          $this->trans('commands.debug.views.messages.status'),
+          $this->trans('commands.debug.views.messages.path')
         ];
 
         $tableRows = [];
