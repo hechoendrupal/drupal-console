@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Theme\Debugommand.
+ * Contains \Drupal\Console\Command\Debug\Debugommand.
  */
 
-namespace Drupal\Console\Command\Theme;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Console\Core\Style\DrupalStyle;
 
-class DebugCommand extends Command
+class ThemeCommand extends Command
 {
     use CommandTrait;
 
@@ -48,9 +48,9 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('theme:debug')
-            ->setDescription($this->trans('commands.theme.debug.description'))
-            ->addArgument('theme', InputArgument::OPTIONAL, $this->trans('commands.theme.debug.arguments.theme'))
+            ->setName('debug:theme')
+            ->setDescription($this->trans('commands.debug.theme.description'))
+            ->addArgument('theme', InputArgument::OPTIONAL, $this->trans('commands.debug.theme.arguments.theme'))
             ->setAliases(['tde']);
     }
 
@@ -69,10 +69,10 @@ class DebugCommand extends Command
     protected function themeList(DrupalStyle $io)
     {
         $tableHeader = [
-            $this->trans('commands.theme.debug.messages.theme-id'),
-            $this->trans('commands.theme.debug.messages.theme-name'),
-            $this->trans('commands.theme.debug.messages.status'),
-            $this->trans('commands.theme.debug.messages.version'),
+            $this->trans('commands.debug.theme.messages.theme-id'),
+            $this->trans('commands.debug.theme.messages.theme-name'),
+            $this->trans('commands.debug.theme.messages.status'),
+            $this->trans('commands.debug.theme.messages.version'),
         ];
 
         $themes = $this->themeHandler->rebuildThemeData();
@@ -114,7 +114,7 @@ class DebugCommand extends Command
             $io->comment(
                 sprintf(
                     '%s : ',
-                    $this->trans('commands.theme.debug.messages.status')
+                    $this->trans('commands.debug.theme.messages.status')
                 ),
                 false
             );
@@ -122,18 +122,18 @@ class DebugCommand extends Command
             $io->comment(
                 sprintf(
                     '%s : ',
-                    $this->trans('commands.theme.debug.messages.version')
+                    $this->trans('commands.debug.theme.messages.version')
                 ),
                 false
             );
             $io->writeln($theme->info['version']);
-            $io->comment($this->trans('commands.theme.debug.messages.regions'));
+            $io->comment($this->trans('commands.debug.theme.messages.regions'));
             $tableRows = $this->addThemeAttributes($theme->info['regions'], $tableRows);
             $io->table([], $tableRows);
         } else {
             $io->error(
                 sprintf(
-                    $this->trans('commands.theme.debug.messages.invalid-theme'),
+                    $this->trans('commands.debug.theme.messages.invalid-theme'),
                     $themeId
                 )
             );
@@ -144,9 +144,9 @@ class DebugCommand extends Command
     {
         $defaultTheme = $this->configFactory->get('system.theme')->get('default');
 
-        $status = ($theme->status)?$this->trans('commands.theme.debug.messages.installed'):$this->trans('commands.theme.debug.messages.uninstalled');
+        $status = ($theme->status)?$this->trans('commands.debug.theme.messages.installed'):$this->trans('commands.debug.theme.messages.uninstalled');
         if ($defaultTheme == $theme) {
-            $status = $this->trans('commands.theme.debug.messages.default-theme');
+            $status = $this->trans('commands.debug.theme.messages.default-theme');
         }
 
         return $status;
