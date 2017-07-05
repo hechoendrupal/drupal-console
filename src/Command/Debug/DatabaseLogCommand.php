@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Database\LogDebugCommand.
+ * Contains \Drupal\Console\Command\Debug\DatabaseLogCommand.
  */
 
-namespace Drupal\Console\Command\Database;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,13 +13,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Command\Database\DatabaseLogBase;
 
 /**
- * Class LogDebugCommand
+ * Class DatabaseLogCommand
  *
- * @package Drupal\Console\Command\Database
+ * @package Drupal\Console\Command\Debug
  */
-class LogDebugCommand extends DatabaseLogBase
+class DatabaseLogCommand extends DatabaseLogBase
 {
     /**
    * @var
@@ -52,8 +53,8 @@ class LogDebugCommand extends DatabaseLogBase
     protected function configure()
     {
         $this
-            ->setName('database:log:debug')
-            ->setDescription($this->trans('commands.database.log.debug.description'));
+            ->setName('debug:database:log')
+            ->setDescription($this->trans('commands.debug.database.log.description'));
 
         $this->addDefaultLoggingOptions();
 
@@ -61,32 +62,32 @@ class LogDebugCommand extends DatabaseLogBase
             ->addArgument(
                 'event-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.log.debug.arguments.event-id')
+                $this->trans('commands.debug.database.log.arguments.event-id')
             )
             ->addOption(
                 'asc',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.database.log.debug.options.asc')
+                $this->trans('commands.debug.database.log.options.asc')
             )
             ->addOption(
                 'limit',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.debug.options.limit')
+                $this->trans('commands.debug.database.log.options.limit')
             )
             ->addOption(
                 'offset',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.log.debug.options.offset'),
+                $this->trans('commands.debug.database.log.options.offset'),
                 0
             )
             ->addOption(
                 'yml',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.database.log.debug.options.yml'),
+                $this->trans('commands.debug.database.log.options.yml'),
                 null
             )
             ->setAliases(['dbb']);
@@ -131,7 +132,7 @@ class LogDebugCommand extends DatabaseLogBase
         if (!$dblog) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.database.log.debug.messages.not-found'),
+                    $this->trans('commands.debug.database.log.messages.not-found'),
                     $this->eventId
                 )
             );
