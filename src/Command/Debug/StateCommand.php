@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\State\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\DebugCommand.
  */
 
-namespace Drupal\Console\Command\State;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,9 +20,9 @@ use Drupal\Component\Serialization\Yaml;
 /**
  * Class DebugCommand
  *
- * @package Drupal\Console\Command\State
+ * @package Drupal\Console\Command\Debug
  */
-class DebugCommand extends Command
+class StateCommand extends Command
 {
     use CommandTrait;
 
@@ -57,13 +57,13 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('state:debug')
-            ->setDescription($this->trans('commands.state.debug.description'))
-            ->setHelp($this->trans('commands.state.debug.help'))
+            ->setName('debug:state')
+            ->setDescription($this->trans('commands.debug.state.description'))
+            ->setHelp($this->trans('commands.debug.state.help'))
             ->addArgument(
                 'key',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.state.debug.arguments.key')
+                $this->trans('commands.debug.state.arguments.key')
             );
     }
 
@@ -82,7 +82,7 @@ class DebugCommand extends Command
             return 0;
         }
 
-        $tableHeader = [$this->trans('commands.state.debug.messages.key')];
+        $tableHeader = [$this->trans('commands.debug.state.messages.key')];
         $keyStoreStates = array_keys($this->keyValue->get('state')->getAll());
         $io->table($tableHeader, $keyStoreStates);
 
