@@ -76,11 +76,34 @@ class CreateCommand extends Command
             ->setName('user:create')
             ->setDescription($this->trans('commands.user.create.description'))
             ->setHelp($this->trans('commands.user.create.help'))
-            ->addArgument('username', InputArgument::OPTIONAL, $this->trans('commands.user.create.options.username'))
-            ->addArgument('password', InputArgument::OPTIONAL, $this->trans('commands.user.create.options.password'))
-            ->addOption('roles', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.user.create.options.roles'))
-            ->addOption('email', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.user.create.options.email'))
-            ->addOption('status', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.user.create.options.status'));
+            ->addArgument(
+                'username',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.user.create.options.username')
+            )
+            ->addArgument(
+                'password',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.user.create.options.password')
+            )
+            ->addOption(
+                'roles',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.user.create.options.roles')
+            )
+            ->addOption(
+                'email',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.user.create.options.email')
+            )
+            ->addOption(
+                'status',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.user.create.options.status')
+            );
     }
 
     /**

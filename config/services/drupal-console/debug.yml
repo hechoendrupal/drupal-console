@@ -21,3 +21,7 @@ services:
     arguments: ['@entity_type.manager']
     tags:
       - { name: drupal.command }
+  console.views_plugins_debug:
+    class: Drupal\Console\Command\Debug\ViewsPluginsCommand
+    tags:
+      - { name: drupal.command }
