@@ -35,6 +35,11 @@ services:
     class: Drupal\Console\Command\Debug\ViewsPluginsCommand
     tags:
       - { name: drupal.command }
+  console.state_debug:
+    class: Drupal\Console\Command\Debug\StateCommand
+    arguments: ['@state', '@keyvalue']
+    tags:
+      - { name: drupal.command }
   console.theme_debug:
     class: Drupal\Console\Command\Debug\ThemeCommand
     arguments: ['@config.factory', '@theme_handler']
