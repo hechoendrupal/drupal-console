@@ -26,7 +26,7 @@ trait MenuTrait
     public function menuQuestion(DrupalStyle $io, $className)
     {
         if ($io->confirm(
-            $this->trans('commands.generate.form.questions.menu_link_gen'),
+            $this->trans('commands.generate.form.options.menu-link-gen'),
             true
         )
         ) {
@@ -36,7 +36,7 @@ trait MenuTrait
                 'menu_link_gen' => true,
             ];
             $menu_link_title = $io->ask(
-                $menu_link_title = $this->trans('commands.generate.form.questions.menu_link_title'),
+                $menu_link_title = $this->trans('commands.generate.form.options.menu-link-title'),
                 $className
             );
             $menuLinkFile = sprintf(
@@ -49,13 +49,13 @@ trait MenuTrait
 
 
             $menu_parent = $io->choiceNoList(
-                $menu_parent = $this->trans('commands.generate.form.questions.menu_parent'),
+                $menu_parent = $this->trans('commands.generate.form.options.menu-parent'),
                 array_keys($menuLinkContent),
                 'system.admin_config_system'
             );
 
             $menu_link_desc = $io->ask(
-                $menu_link_desc = $this->trans('commands.generate.form.questions.menu_link_desc'),
+                $menu_link_desc = $this->trans('commands.generate.form.options.menu-link-desc'),
                 'A description for the menu entry'
             );
             $menu_options['menu_link_title'] = $menu_link_title;
