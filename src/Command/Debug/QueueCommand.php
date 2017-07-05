@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Queue\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\QueueCommand.
  */
 
-namespace Drupal\Console\Command\Queue;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,9 +17,9 @@ use Drupal\Console\Core\Style\DrupalStyle;
 /**
  * Class DebugCommand
  *
- * @package Drupal\Console\Command\Queue
+ * @package Drupal\Console\Command\Debug
  */
-class DebugCommand extends Command
+class QueueCommand extends Command
 {
     use CommandTrait;
 
@@ -45,8 +45,8 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('queue:debug')
-            ->setDescription($this->trans('commands.queue.debug.description'));
+            ->setName('debug:queue')
+            ->setDescription($this->trans('commands.debug.queue.description'));
     }
 
     /**
@@ -57,9 +57,9 @@ class DebugCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $tableHeader = [
-            $this->trans('commands.queue.debug.messages.queue'),
-            $this->trans('commands.queue.debug.messages.items'),
-            $this->trans('commands.queue.debug.messages.class')
+            $this->trans('commands.debug.queue.messages.queue'),
+            $this->trans('commands.debug.queue.messages.items'),
+            $this->trans('commands.debug.queue.messages.class')
         ];
 
         $tableBody = $this->listQueues();
