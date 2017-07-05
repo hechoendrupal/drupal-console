@@ -80,3 +80,8 @@ services:
     arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
     tags:
       - { name: drupal.command }
+  console.database_table_debug:
+    class: Drupal\Console\Command\Debug\DatabaseTableCommand
+    arguments: ['@console.redbean', '@database']
+    tags:
+      - { name: drupal.command }

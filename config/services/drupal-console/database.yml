@@ -41,8 +41,3 @@ services:
     arguments: ['@app.root']
     tags:
       - { name: drupal.command }
-  console.database_table_debug:
-    class: Drupal\Console\Command\Database\TableDebugCommand
-    arguments: ['@console.redbean', '@database']
-    tags:
-      - { name: drupal.command }
