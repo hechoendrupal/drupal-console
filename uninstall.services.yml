@@ -15,11 +15,6 @@ services:
     arguments: ['@console.extension_manager', '@console.site', '@console.configuration_manager', '@app.root']
     tags:
       - { name: drupal.command }
-  console.multisite_debug:
-    class: Drupal\Console\Command\Multisite\DebugCommand
-    arguments: ['@app.root']
-    tags:
-      - { name: drupal.command }
   console.multisite_new:
     class: Drupal\Console\Command\Multisite\NewCommand
     arguments: ['@app.root']

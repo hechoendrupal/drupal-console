@@ -95,3 +95,26 @@ services:
     arguments: ['@breakpoint.manager', '@app.root']
     tags:
       - { name: drupal.command }
+  console.cache_context_debug:
+    class: Drupal\Console\Command\Debug\CacheContextCommand
+    tags:
+      - { name: drupal.command }
+  console.config_debug:
+    class: Drupal\Console\Command\Debug\ConfigCommand
+    arguments: ['@config.factory', '@config.storage']
+    tags:
+      - { name: drupal.command }
+  console.config_settings_debug:
+    class: Drupal\Console\Command\Debug\ConfigSettingsCommand
+    arguments: ['@settings']
+    tags:
+      - { name: drupal.command }
+  console.config_validate_debug:
+    class: Drupal\Console\Command\Debug\ConfigValidateCommand
+    tags:
+      - { name: drupal.command }
+  console.multisite_debug:
+    class: Drupal\Console\Command\Debug\MultisiteCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }
