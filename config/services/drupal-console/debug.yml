@@ -16,8 +16,22 @@ services:
     class: Drupal\Console\Command\Debug\PluginCommand
     tags:
       - { name: drupal.command }
-  console.theme_debug:
-    class: Drupal\Console\Command\Debug\ThemeCommand
-    arguments: ['@config.factory', '@theme_handler']
+  console.update_debug:
+     class: Drupal\Console\Command\Debug\UpdateCommand
+     arguments: ['@console.site', '@update.post_update_registry']
+     tags:
+        - { name: drupal.command }
+  console.user_debug:
+    class: Drupal\Console\Command\Debug\UserCommand
+    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
+    tags:
+      - { name: drupal.command }
+  console.views_debug:
+    class: Drupal\Console\Command\Debug\ViewsCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }
+  console.views_plugins_debug:
+    class: Drupal\Console\Command\Debug\ViewsPluginsCommand
     tags:
       - { name: drupal.command }

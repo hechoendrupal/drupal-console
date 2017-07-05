@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Update\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\UpdateCommand.
  */
 
-namespace Drupal\Console\Command\Update;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +15,7 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Style\DrupalStyle;
 
-class DebugCommand extends Command
+class UpdateCommand extends Command
 {
     use CommandTrait;
 
@@ -50,8 +50,8 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('update:debug')
-            ->setDescription($this->trans('commands.update.debug.description'))
+            ->setName('debug:update')
+            ->setDescription($this->trans('commands.debug.update.description'))
             ->setAliases(['upd']);
     }
 
@@ -77,7 +77,7 @@ class DebugCommand extends Command
         if ($severity == REQUIREMENT_ERROR || ($severity == REQUIREMENT_WARNING)) {
             $this->populateRequirements($io, $requirements);
         } elseif (empty($updates)) {
-            $io->info($this->trans('commands.update.debug.messages.no-updates'));
+            $io->info($this->trans('commands.debug.update.messages.no-updates'));
         } else {
             $this->populateUpdate($io, $updates);
             $this->populatePostUpdate($io);
@@ -90,13 +90,13 @@ class DebugCommand extends Command
      */
     private function populateRequirements(DrupalStyle $io, $requirements)
     {
-        $io->info($this->trans('commands.update.debug.messages.requirements-error'));
+        $io->info($this->trans('commands.debug.update.messages.requirements-error'));
 
         $tableHeader = [
-          $this->trans('commands.update.debug.messages.severity'),
-          $this->trans('commands.update.debug.messages.title'),
-          $this->trans('commands.update.debug.messages.value'),
-          $this->trans('commands.update.debug.messages.description'),
+          $this->trans('commands.debug.update.messages.severity'),
+          $this->trans('commands.debug.update.messages.title'),
+          $this->trans('commands.debug.update.messages.value'),
+          $this->trans('commands.debug.update.messages.description'),
         ];
 
         $tableRows = [];
@@ -124,11 +124,11 @@ class DebugCommand extends Command
      */
     private function populateUpdate(DrupalStyle $io, $updates)
     {
-        $io->info($this->trans('commands.update.debug.messages.module-list'));
+        $io->info($this->trans('commands.debug.update.messages.module-list'));
         $tableHeader = [
-          $this->trans('commands.update.debug.messages.module'),
-          $this->trans('commands.update.debug.messages.update-n'),
-          $this->trans('commands.update.debug.messages.description')
+          $this->trans('commands.debug.update.messages.module'),
+          $this->trans('commands.debug.update.messages.update-n'),
+          $this->trans('commands.debug.update.messages.description')
         ];
         $tableRows = [];
         foreach ($updates as $module => $module_updates) {
@@ -150,12 +150,12 @@ class DebugCommand extends Command
     private function populatePostUpdate(DrupalStyle $io)
     {
         $io->info(
-            $this->trans('commands.update.debug.messages.module-list-post-update')
+            $this->trans('commands.debug.update.messages.module-list-post-update')
         );
         $tableHeader = [
-          $this->trans('commands.update.debug.messages.module'),
-          $this->trans('commands.update.debug.messages.post-update'),
-          $this->trans('commands.update.debug.messages.description')
+          $this->trans('commands.debug.update.messages.module'),
+          $this->trans('commands.debug.update.messages.post-update'),
+          $this->trans('commands.debug.update.messages.description')
         ];
 
         $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();

@@ -94,11 +94,11 @@ use Drupal\user\UserInterface;
 {% if revisionable %}
  *     "version-history" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/revisions",
  *     "revision" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/revisions/{{ '{'~entity_name~'_revision}' }}/view",
-{% if is_translatable %}
  *     "revision_revert" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/revisions/{{ '{'~entity_name~'_revision}' }}/revert",
+ *     "revision_delete" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/revisions/{{ '{'~entity_name~'_revision}' }}/delete",
+{% if is_translatable %}
  *     "translation_revert" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/revisions/{{ '{'~entity_name~'_revision}' }}/revert/{langcode}",
 {% endif %}
- *     "revision_delete" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/revisions/{{ '{'~entity_name~'_revision}' }}/delete",
 {% endif %}
  *     "collection" = "{{ base_path }}/{{ entity_name }}",
  *   },

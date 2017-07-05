@@ -1,9 +1,4 @@
 services:
-  console.user_debug:
-    class: Drupal\Console\Command\User\DebugCommand
-    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
-    tags:
-      - { name: drupal.command }
   console.user_delete:
     class: Drupal\Console\Command\User\DeleteCommand
     arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']

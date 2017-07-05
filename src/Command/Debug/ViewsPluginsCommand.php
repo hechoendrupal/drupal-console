@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Views\PluginsDebugCommand.
+ * Contains \Drupal\Console\Command\Debug\ViewsPluginsCommand.
  */
 
-namespace Drupal\Console\Command\Views;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,11 +16,11 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\views\Views;
 
 /**
- * Class PluginsDebugCommand
+ * Class ViewsPluginsCommand
  *
- * @package Drupal\Console\Command\Views
+ * @package Drupal\Console\Command\Debug
  */
-class PluginsDebugCommand extends Command
+class ViewsPluginsCommand extends Command
 {
     use ContainerAwareCommandTrait;
     /**
@@ -29,12 +29,12 @@ class PluginsDebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('views:plugins:debug')
-            ->setDescription($this->trans('commands.views.plugins.debug.description'))
+            ->setName('debug:views:plugins')
+            ->setDescription($this->trans('commands.debug.views.plugins.description'))
             ->addArgument(
                 'type',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.views.plugins.debug.arguments.type')
+                $this->trans('commands.debug.views.plugins.arguments.type')
             );
     }
 
@@ -76,10 +76,10 @@ class PluginsDebugCommand extends Command
 
 
         $tableHeader = [
-          $this->trans('commands.views.plugins.debug.messages.type'),
-          $this->trans('commands.views.plugins.debug.messages.name'),
-          $this->trans('commands.views.plugins.debug.messages.provider'),
-          $this->trans('commands.views.plugins.debug.messages.views'),
+          $this->trans('commands.debug.views.plugins.messages.type'),
+          $this->trans('commands.debug.views.plugins.messages.name'),
+          $this->trans('commands.debug.views.plugins.messages.provider'),
+          $this->trans('commands.debug.views.plugins.messages.views'),
         ];
 
         $io->table($tableHeader, $rows, 'compact');
