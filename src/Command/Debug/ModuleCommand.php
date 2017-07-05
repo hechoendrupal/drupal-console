@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Module\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\ModuleCommand.
  */
 
-namespace Drupal\Console\Command\Module;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,7 +18,7 @@ use Drupal\Console\Utils\Site;
 use GuzzleHttp\Client;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 
-class DebugCommand extends Command
+class ModuleCommand extends Command
 {
     use CommandTrait;
 
@@ -60,24 +60,24 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('module:debug')
-            ->setDescription($this->trans('commands.module.debug.description'))
+            ->setName('debug:module')
+            ->setDescription($this->trans('commands.debug.module.description'))
             ->addArgument(
                 'module',
                 InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-                $this->trans('commands.module.debug.module')
+                $this->trans('commands.debug.module.module')
             )
             ->addOption(
                 'status',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.module.debug.options.status')
+                $this->trans('commands.debug.module.options.status')
             )
             ->addOption(
                 'type',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.module.debug.options.type')
+                $this->trans('commands.debug.module.options.type')
             )
             ->setAliases(['mod']);
     }
@@ -108,7 +108,7 @@ class DebugCommand extends Command
                 } catch (\Exception $e) {
                     $io->error(
                         sprintf(
-                            $this->trans('commands.module.debug.messages.no-results'),
+                            $this->trans('commands.debug.module.messages.no-results'),
                             $module
                         )
                     );
@@ -127,17 +127,17 @@ class DebugCommand extends Command
                 ];
 
                 $tableRows[] = [
-                  '<comment>'.$this->trans('commands.module.debug.messages.total-downloads').'</comment>',
+                  '<comment>'.$this->trans('commands.debug.module.messages.total-downloads').'</comment>',
                   $data->package->downloads->total
                 ];
 
                 $tableRows[] = [
-                  '<comment>'.$this->trans('commands.module.debug.messages.total-monthly').'</comment>',
+                  '<comment>'.$this->trans('commands.debug.module.messages.total-monthly').'</comment>',
                   $data->package->downloads->monthly
                 ];
 
                 $tableRows[] = [
-                  '<comment>'.$this->trans('commands.module.debug.messages.total-daily').'</comment>',
+                  '<comment>'.$this->trans('commands.debug.module.messages.total-daily').'</comment>',
                   $data->package->downloads->daily
                 ];
 
@@ -163,13 +163,13 @@ class DebugCommand extends Command
         }
 
         $tableHeader = [
-          $this->trans('commands.module.debug.messages.id'),
-          $this->trans('commands.module.debug.messages.name'),
-          $this->trans('commands.module.debug.messages.package'),
-          $this->trans('commands.module.debug.messages.version'),
-          $this->trans('commands.module.debug.messages.schema-version'),
-          $this->trans('commands.module.debug.messages.status'),
-          $this->trans('commands.module.debug.messages.origin'),
+          $this->trans('commands.debug.module.messages.id'),
+          $this->trans('commands.debug.module.messages.name'),
+          $this->trans('commands.debug.module.messages.package'),
+          $this->trans('commands.debug.module.messages.version'),
+          $this->trans('commands.debug.module.messages.schema-version'),
+          $this->trans('commands.debug.module.messages.status'),
+          $this->trans('commands.debug.module.messages.origin'),
         ];
 
         $tableRows = [];
@@ -183,7 +183,7 @@ class DebugCommand extends Command
                 continue;
             }
 
-            $module_status = ($module->status) ? $this->trans('commands.module.debug.messages.installed') : $this->trans('commands.module.debug.messages.uninstalled');
+            $module_status = ($module->status) ? $this->trans('commands.debug.module.messages.installed') : $this->trans('commands.debug.module.messages.uninstalled');
             $module_origin = ($module->origin) ? $module->origin : 'no core';
             $schema_version = (drupal_get_installed_schema_version($module_id)!= -1?drupal_get_installed_schema_version($module_id): '');
 
