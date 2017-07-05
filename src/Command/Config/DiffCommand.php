@@ -94,7 +94,7 @@ class DiffCommand extends Command
         if (!$directory) {
             $directory = $io->choice(
                 $this->trans('commands.config.diff.questions.directories'),
-                array_keys($config_directories),
+                $config_directories,
                 CONFIG_SYNC_DIRECTORY
             );
 
@@ -107,8 +107,12 @@ class DiffCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        global $config_directories;
         $io = new DrupalStyle($input, $output);
-        $directory = $input->getArgument('directory');
+        $directory = $input->getArgument('directory') ?: CONFIG_SYNC_DIRECTORY;
+        if (array_key_exists($directory, $config_directories)) {
+            $directory = $config_directories[$directory];
+        }
         $source_storage = new FileStorage($directory);
 
         if ($input->getOption('reverse')) {
