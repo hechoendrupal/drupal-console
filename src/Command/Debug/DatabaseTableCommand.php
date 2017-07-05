@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Database\TableDebugCommand.
+ * Contains \Drupal\Console\Command\Debug\DatabaseTableCommand.
  */
 
-namespace Drupal\Console\Command\Database;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,11 +19,11 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ConnectTrait;
 
 /**
- * Class TableDebugCommand
+ * Class DatabaseTableCommand
  *
  * @package Drupal\Console\Command\Database
  */
-class TableDebugCommand extends Command
+class DatabaseTableCommand extends Command
 {
     use CommandTrait;
     use ConnectTrait;
@@ -39,7 +39,7 @@ class TableDebugCommand extends Command
     protected $redBean;
 
     /**
-     * TableDebugCommand constructor.
+     * DatabaseTableCommand constructor.
      *
      * @param R          $redBean
      * @param Connection $database
@@ -59,22 +59,22 @@ class TableDebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('database:table:debug')
-            ->setDescription($this->trans('commands.database.table.debug.description'))
+            ->setName('debug:database:table')
+            ->setDescription($this->trans('commands.debug.database.table.description'))
             ->addOption(
                 'database',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.table.debug.options.database'),
+                $this->trans('commands.debug.database.table.options.database'),
                 'default'
             )
             ->addArgument(
                 'table',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.table.debug.arguments.table'),
+                $this->trans('commands.debug.database.table.arguments.table'),
                 null
             )
-            ->setHelp($this->trans('commands.database.table.debug.help'));
+            ->setHelp($this->trans('commands.debug.database.table.help'));
     }
 
     /**
@@ -93,8 +93,8 @@ class TableDebugCommand extends Command
             $tableInfo = $this->redBean->inspect($table);
 
             $tableHeader = [
-                $this->trans('commands.database.table.debug.messages.column'),
-                $this->trans('commands.database.table.debug.messages.type')
+                $this->trans('commands.debug.database.table.messages.column'),
+                $this->trans('commands.debug.database.table.messages.type')
             ];
             $tableRows = [];
             foreach ($tableInfo as $column => $type) {
@@ -114,13 +114,13 @@ class TableDebugCommand extends Command
 
         $io->comment(
             sprintf(
-                $this->trans('commands.database.table.debug.messages.table-show'),
+                $this->trans('commands.debug.database.table.messages.table-show'),
                 $databaseConnection['database']
             )
         );
 
         $io->table(
-            [$this->trans('commands.database.table.debug.messages.table')],
+            [$this->trans('commands.debug.database.table.messages.table')],
             $tables
         );
 

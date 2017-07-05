@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains \Drupal\Console\Command\Entity\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\EntityCommand.
  */
 
-namespace Drupal\Console\Command\Entity;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +15,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
-class DebugCommand extends Command
+class EntityCommand extends Command
 {
     use CommandTrait;
 
@@ -30,7 +30,7 @@ class DebugCommand extends Command
     protected $entityTypeManager;
 
     /**
-     * DeleteCommand constructor.
+     * EntityCommand constructor.
      *
      * @param EntityTypeRepository       $entityTypeRepository
      * @param EntityTypeManagerInterface $entityTypeManager
@@ -49,12 +49,12 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('entity:debug')
-            ->setDescription($this->trans('commands.entity.debug.description'))
+            ->setName('debug:entity')
+            ->setDescription($this->trans('commands.debug.entity.description'))
             ->addArgument(
                 'entity-type',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.entity.debug.arguments.entity-type')
+                $this->trans('commands.debug.entity.arguments.entity-type')
             );
     }
 
@@ -68,8 +68,8 @@ class DebugCommand extends Command
         $entityType = $input->getArgument('entity-type');
 
         $tableHeader = [
-            $this->trans('commands.entity.debug.table-headers.entity-name'),
-            $this->trans('commands.entity.debug.table-headers.entity-type')
+            $this->trans('commands.debug.entity.table-headers.entity-name'),
+            $this->trans('commands.debug.entity.table-headers.entity-type')
         ];
         $tableRows = [];
 

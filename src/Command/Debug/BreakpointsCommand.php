@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Breakpoints\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\BreakpointsCommand.
  */
 
-namespace Drupal\Console\Command\Breakpoints;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
  *     extensionType = "module"
  * )
  */
-class DebugCommand extends Command
+class BreakpointsCommand extends Command
 {
     use CommandTrait;
 
@@ -38,7 +38,7 @@ class DebugCommand extends Command
     protected $appRoot;
 
     /**
-     * DebugCommand constructor.
+     * BreakpointsCommand constructor.
      *
      * @param BreakpointManagerInterface $breakpointManager
      * @param string                     $appRoot
@@ -58,12 +58,12 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('breakpoints:debug')
-            ->setDescription($this->trans('commands.breakpoints.debug.description'))
+            ->setName('debug:breakpoints')
+            ->setDescription($this->trans('commands.debug.breakpoints.description'))
             ->addArgument(
                 'group',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.breakpoints.debug.options.group-name')
+                $this->trans('commands.debug.breakpoints.options.group-name')
             );
     }
 
@@ -87,7 +87,7 @@ class DebugCommand extends Command
         $groups = array_keys($this->breakpointManager->getGroups());
 
         $tableHeader = [
-            $this->trans('commands.breakpoints.debug.messages.name'),
+            $this->trans('commands.debug.breakpoints.messages.name'),
         ];
 
         $io->table($tableHeader, $groups, 'compact');

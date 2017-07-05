@@ -70,3 +70,28 @@ services:
     arguments: ['@entity_type.manager']
     tags:
       - { name: drupal.command }
+  console.entity_debug:
+    class: Drupal\Console\Command\Debug\EntityCommand
+    arguments: ['@entity_type.repository', '@entity_type.manager']
+    tags:
+      - { name: drupal.command }
+  console.database_log_debug:
+    class: Drupal\Console\Command\Debug\DatabaseLogCommand
+    arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
+    tags:
+      - { name: drupal.command }
+  console.database_table_debug:
+    class: Drupal\Console\Command\Debug\DatabaseTableCommand
+    arguments: ['@console.redbean', '@database']
+    tags:
+      - { name: drupal.command }
+  console.cron_debug:
+    class: Drupal\Console\Command\Debug\CronCommand
+    arguments: ['@module_handler']
+    tags:
+      - { name: drupal.command }
+  console.breakpoints_debug:
+    class: Drupal\Console\Command\Debug\BreakpointsCommand
+    arguments: ['@breakpoint.manager', '@app.root']
+    tags:
+      - { name: drupal.command }
