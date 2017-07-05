@@ -21,3 +21,12 @@ services:
     arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
     tags:
       - { name: drupal.command }
+  console.views_debug:
+    class: Drupal\Console\Command\Debug\ViewsCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }
+  console.views_plugins_debug:
+    class: Drupal\Console\Command\Debug\ViewsPluginsCommand
+    tags:
+      - { name: drupal.command }

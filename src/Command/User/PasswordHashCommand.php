@@ -46,7 +46,11 @@ class PasswordHashCommand extends Command
             ->setName('user:password:hash')
             ->setDescription($this->trans('commands.user.password.hash.description'))
             ->setHelp($this->trans('commands.user.password.hash.help'))
-            ->addArgument('password', InputArgument::IS_ARRAY, $this->trans('commands.user.password.hash.options.password'))
+            ->addArgument(
+                'password',
+                InputArgument::IS_ARRAY,
+                $this->trans('commands.user.password.hash.options.password')
+            )
             ->setAliases(['usph']);
     }
 
