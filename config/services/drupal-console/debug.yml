@@ -113,3 +113,8 @@ services:
     class: Drupal\Console\Command\Debug\ConfigValidateCommand
     tags:
       - { name: drupal.command }
+  console.multisite_debug:
+    class: Drupal\Console\Command\Debug\MultisiteCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }

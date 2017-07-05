@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Site\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\MultisiteCommand.
  */
 
-namespace Drupal\Console\Command\Multisite;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,18 +14,18 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
- * Class SiteDebugCommand
+ * Class MultisiteCommand
  *
- * @package Drupal\Console\Command\Site
+ * @package Drupal\Console\Command\Debug
  */
-class DebugCommand extends Command
+class MultisiteCommand extends Command
 {
     use CommandTrait;
 
     protected $appRoot;
 
     /**
-     * DebugCommand constructor.
+     * MultisiteCommand constructor.
      *
      * @param $appRoot
      */
@@ -41,10 +41,10 @@ class DebugCommand extends Command
     public function configure()
     {
         $this
-            ->setName('multisite:debug')
-            ->setDescription($this->trans('commands.multisite.debug.description'))
-            ->setHelp($this->trans('commands.multisite.debug.help'))
-            ->setAliases(['sd']);
+            ->setName('debug:multisite')
+            ->setDescription($this->trans('commands.debug.multisite.description'))
+            ->setHelp($this->trans('commands.debug.multisite.help'))
+            ->setAliases(['msd']);
         ;
     }
 
@@ -68,19 +68,19 @@ class DebugCommand extends Command
 
         if (!$sites) {
             $io->error(
-                $this->trans('commands.multisite.debug.messages.no-multisites')
+                $this->trans('commands.debug.multisite.messages.no-multisites')
             );
 
             return 1;
         }
 
         $io->info(
-            $this->trans('commands.multisite.debug.messages.site-format')
+            $this->trans('commands.debug.multisite.messages.site-format')
         );
 
         $tableHeader = [
-            $this->trans('commands.multisite.debug.messages.site'),
-            $this->trans('commands.multisite.debug.messages.directory'),
+            $this->trans('commands.debug.multisite.messages.site'),
+            $this->trans('commands.debug.multisite.messages.directory'),
         ];
 
         $tableRows = [];
