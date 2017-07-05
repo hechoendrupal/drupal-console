@@ -1,9 +1,4 @@
 services:
-  console.theme_debug:
-    class: Drupal\Console\Command\Theme\DebugCommand
-    arguments: ['@config.factory', '@theme_handler']
-    tags:
-      - { name: drupal.command }
   console.theme_download:
     class: Drupal\Console\Command\Theme\DownloadCommand
     arguments: ['@console.drupal_api', '@http_client', '@app.root']

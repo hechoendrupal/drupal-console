@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\RouterDebugCommand.
+ * Contains \Drupal\Console\Command\Debug\RouterCommand.
  */
 
-namespace Drupal\Console\Command\Router;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
-class DebugCommand extends Command
+class RouterCommand extends Command
 {
     use CommandTrait;
 
@@ -39,12 +39,12 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('router:debug')
-            ->setDescription($this->trans('commands.router.debug.description'))
+            ->setName('debug:router')
+            ->setDescription($this->trans('commands.debug.router.description'))
             ->addArgument(
                 'route-name',
                 InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-                $this->trans('commands.router.debug.arguments.route-name')
+                $this->trans('commands.debug.router.arguments.route-name')
             )
             ->setAliases(['rod']);
     }
@@ -67,8 +67,8 @@ class DebugCommand extends Command
         $routes = $this->routeProvider->getAllRoutes();
 
         $tableHeader = [
-            $this->trans('commands.router.debug.messages.name'),
-            $this->trans('commands.router.debug.messages.path'),
+            $this->trans('commands.debug.router.messages.name'),
+            $this->trans('commands.debug.router.messages.path'),
         ];
 
         $tableRows = [];
@@ -85,29 +85,29 @@ class DebugCommand extends Command
 
         foreach ($routes as $name => $route) {
             $tableHeader = [
-                $this->trans('commands.router.debug.messages.route'),
+                $this->trans('commands.debug.router.messages.route'),
                 '<info>'.$name.'</info>'
             ];
             $tableRows = [];
 
             $tableRows[] = [
-                '<comment>'.$this->trans('commands.router.debug.messages.path').'</comment>',
+                '<comment>'.$this->trans('commands.debug.router.messages.path').'</comment>',
                 $route->getPath(),
             ];
 
-            $tableRows[] = ['<comment>'.$this->trans('commands.router.debug.messages.defaults').'</comment>'];
+            $tableRows[] = ['<comment>'.$this->trans('commands.debug.router.messages.defaults').'</comment>'];
             $attributes = $this->addRouteAttributes($route->getDefaults());
             foreach ($attributes as $attribute) {
                 $tableRows[] = $attribute;
             }
 
-            $tableRows[] = ['<comment>'.$this->trans('commands.router.debug.messages.requirements').'</comment>'];
+            $tableRows[] = ['<comment>'.$this->trans('commands.debug.router.messages.requirements').'</comment>'];
             $requirements = $this->addRouteAttributes($route->getRequirements());
             foreach ($requirements as $requirement) {
                 $tableRows[] = $requirement;
             }
 
-            $tableRows[] = ['<comment>'.$this->trans('commands.router.debug.messages.options').'</comment>'];
+            $tableRows[] = ['<comment>'.$this->trans('commands.debug.router.messages.options').'</comment>'];
             $options = $this->addRouteAttributes($route->getOptions());
             foreach ($options as $option) {
                 $tableRows[] = $option;

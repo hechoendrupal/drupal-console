@@ -40,3 +40,33 @@ services:
     arguments: ['@state', '@keyvalue']
     tags:
       - { name: drupal.command }
+  console.theme_debug:
+    class: Drupal\Console\Command\Debug\ThemeCommand
+    arguments: ['@config.factory', '@theme_handler']
+    tags:
+      - { name: drupal.command }
+  console.router_debug:
+    class: Drupal\Console\Command\Debug\RouterCommand
+    arguments: ['@router.route_provider']
+    tags:
+      - { name: drupal.command }
+  console.queue_debug:
+    class: Drupal\Console\Command\Debug\QueueCommand
+    arguments: ['@plugin.manager.queue_worker']
+    tags:
+      - { name: drupal.command }
+  console.libraries_debug:
+    class: Drupal\Console\Command\Debug\LibrariesCommand
+    arguments: ['@module_handler', '@theme_handler', '@library.discovery', '@app.root']
+    tags:
+      - { name: drupal.command }
+  console.module_debug:
+    class: Drupal\Console\Command\Debug\ModuleCommand
+    arguments: ['@console.configuration_manager', '@console.site', '@http_client']
+    tags:
+      - { name: drupal.command }
+  console.image_styles_debug:
+    class: Drupal\Console\Command\Debug\ImageStylesCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }

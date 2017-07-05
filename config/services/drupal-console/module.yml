@@ -1,9 +1,4 @@
 services:
-  console.module_debug:
-    class: Drupal\Console\Command\Module\DebugCommand
-    arguments: ['@console.configuration_manager', '@console.site', '@http_client']
-    tags:
-      - { name: drupal.command }
   console.module_dependency_install:
     class: Drupal\Console\Command\Module\InstallDependencyCommand
     arguments: ['@console.site', '@console.validator', '@module_installer', '@console.chain_queue']
