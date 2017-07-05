@@ -49,11 +49,6 @@ services:
     arguments: ['@config.storage', '@config.factory']
     tags:
       - { name: drupal.command }
-  console.config_settings_debug:
-    class: Drupal\Console\Command\Config\SettingsDebugCommand
-    arguments: ['@settings']
-    tags:
-      - { name: drupal.command }
   console.config_validate:
     class: Drupal\Console\Command\Config\ValidateCommand
     tags:

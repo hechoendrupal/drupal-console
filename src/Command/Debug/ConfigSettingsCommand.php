@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Config\SettingsDebugCommand.
+ * Contains \Drupal\Console\Command\Debug\ConfigSettingsCommand.
  */
 
-namespace Drupal\Console\Command\Config;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,9 +18,9 @@ use Drupal\Core\Site\Settings;
 /**
  * Class DebugCommand
  *
- * @package Drupal\Console\Command\Config
+ * @package Drupal\Console\Command\Debug
  */
-class SettingsDebugCommand extends Command
+class ConfigSettingsCommand extends Command
 {
     use CommandTrait;
 
@@ -30,7 +30,7 @@ class SettingsDebugCommand extends Command
     protected $settings;
 
     /**
-     * SettingsDebugCommand constructor.
+     * ConfigSettingsCommand constructor.
      *
      * @param Settings $settings
      */
@@ -46,9 +46,9 @@ class SettingsDebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('config:settings:debug')
-            ->setDescription($this->trans('commands.config.settings.debug.description'))
-            ->setHelp($this->trans('commands.config.settings.debug.help'));
+            ->setName('debug:config:settings')
+            ->setDescription($this->trans('commands.debug.config.settings.description'))
+            ->setHelp($this->trans('commands.debug.config.settings.help'));
     }
 
     /**
@@ -61,7 +61,7 @@ class SettingsDebugCommand extends Command
         $settingKeys = array_keys($this->settings->getAll());
 
         $io->newLine();
-        $io->info($this->trans('commands.config.settings.debug.messages.current'));
+        $io->info($this->trans('commands.debug.config.settings.messages.current'));
         $io->newLine();
 
         foreach ($settingKeys as $settingKey) {

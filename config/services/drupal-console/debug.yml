@@ -104,3 +104,8 @@ services:
     arguments: ['@config.factory', '@config.storage']
     tags:
       - { name: drupal.command }
+  console.config_settings_debug:
+    class: Drupal\Console\Command\Debug\ConfigSettingsCommand
+    arguments: ['@settings']
+    tags:
+      - { name: drupal.command }
