@@ -75,3 +75,8 @@ services:
     arguments: ['@entity_type.repository', '@entity_type.manager']
     tags:
       - { name: drupal.command }
+  console.database_log_debug:
+    class: Drupal\Console\Command\Debug\DatabaseLogCommand
+    arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
+    tags:
+      - { name: drupal.command }
