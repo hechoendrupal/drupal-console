@@ -1,9 +1,4 @@
 services:
-  console.config_debug:
-    class: Drupal\Console\Command\Config\DebugCommand
-    arguments: ['@config.factory', '@config.storage']
-    tags:
-      - { name: drupal.command }
   console.config_delete:
     class: Drupal\Console\Command\Config\DeleteCommand
     arguments: ['@config.factory', '@config.storage', '@config.storage.sync']

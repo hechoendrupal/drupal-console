@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Config\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\ConfigCommand.
  */
 
-namespace Drupal\Console\Command\Config;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
-class DebugCommand extends Command
+class ConfigCommand extends Command
 {
     use CommandTrait;
 
@@ -32,7 +32,7 @@ class DebugCommand extends Command
     protected $configStorage;
 
     /**
-     * DebugCommand constructor.
+     * ConfigCommand constructor.
      *
      * @param ConfigFactory $configFactory
      * @param CachedStorage $configStorage
@@ -52,12 +52,12 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('config:debug')
-            ->setDescription($this->trans('commands.config.debug.description'))
+            ->setName('debug:config')
+            ->setDescription($this->trans('commands.debug.config.description'))
             ->addArgument(
                 'name',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.config.debug.arguments.name')
+                $this->trans('commands.debug.config.arguments.name')
             )
             ->setAliases(['cde']);
     }
@@ -84,7 +84,7 @@ class DebugCommand extends Command
     {
         $names = $this->configFactory->listAll();
         $tableHeader = [
-            $this->trans('commands.config.debug.arguments.name'),
+            $this->trans('commands.debug.config.arguments.name'),
         ];
         $tableRows = [];
         foreach ($names as $name) {
@@ -117,7 +117,7 @@ class DebugCommand extends Command
             $io->table($tableHeader, $tableRows, 'compact');
         } else {
             $io->error(
-                sprintf($this->trans('commands.config.debug.errors.not-exists'), $config_name)
+                sprintf($this->trans('commands.debug.config.errors.not-exists'), $config_name)
             );
         }
     }

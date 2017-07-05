@@ -99,3 +99,8 @@ services:
     class: Drupal\Console\Command\Debug\CacheContextCommand
     tags:
       - { name: drupal.command }
+  console.config_debug:
+    class: Drupal\Console\Command\Debug\ConfigCommand
+    arguments: ['@config.factory', '@config.storage']
+    tags:
+      - { name: drupal.command }
