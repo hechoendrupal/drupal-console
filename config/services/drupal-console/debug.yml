@@ -109,3 +109,7 @@ services:
     arguments: ['@settings']
     tags:
       - { name: drupal.command }
+  console.config_validate_debug:
+    class: Drupal\Console\Command\Debug\ConfigValidateCommand
+    tags:
+      - { name: drupal.command }

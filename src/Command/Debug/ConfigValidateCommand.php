@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Config\ValidateDebugCommand.
+ * Contains \Drupal\Console\Command\Debug\ConfigValidateCommand.
  */
 
-namespace Drupal\Console\Command\Config;
+namespace Drupal\Console\Command\Debug;
 
 use Drupal\Core\Config\Schema\SchemaCheckTrait;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,13 +17,14 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Drupal\Core\Config\TypedConfigManagerInterface;
 use Drupal\Core\Serialization\Yaml;
+use Drupal\Console\Command\Config\PrintConfigValidationTrait;
 
 /**
- * Class ValidateDebugCommand.
+ * Class ConfigValidateCommand.
  *
- *@package Drupal\Console\Command\Config
+ *@package Drupal\Console\Command\Debug
  */
-class ValidateDebugCommand extends Command
+class ConfigValidateCommand extends Command
 {
     use ContainerAwareCommandTrait;
     use SchemaCheckTrait;
@@ -35,19 +36,19 @@ class ValidateDebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('config:validate:debug')
-            ->setDescription($this->trans('commands.config.validate.debug.description'))
+            ->setName('debug:config:validate')
+            ->setDescription($this->trans('commands.debug.config.validate.description'))
             ->addArgument(
-            		'filepath', 
+            		'filepath',
             		InputArgument::REQUIRED
             )
             ->addArgument(
-            		'schema-filepath', 
+            		'schema-filepath',
             		InputArgument::REQUIRED
             )
             ->addOption(
-            		'schema-name', 
-            		'sch', 
+            		'schema-name',
+            		'sch',
             		InputOption::VALUE_REQUIRED
             );
     }
@@ -68,14 +69,14 @@ class ValidateDebugCommand extends Command
         //Validate config file path
         $configFilePath = $input->getArgument('filepath');
         if (!file_exists($configFilePath)) {
-            $io->info($this->trans('commands.config.validate.debug.messages.noConfFile'));
+            $io->info($this->trans('commands.debug.config.validate.messages.noConfFile'));
             return 1;
         }
 
         //Validate schema path
         $configSchemaFilePath = $input->getArgument('schema-filepath');
         if (!file_exists($configSchemaFilePath)) {
-            $io->info($this->trans('commands.config.validate.debug.messages.noConfSchema'));
+            $io->info($this->trans('commands.debug.config.validate.messages.noConfSchema'));
             return 1;
         }
 
@@ -85,7 +86,7 @@ class ValidateDebugCommand extends Command
         //Get the schema name and check it exists in the schema array
         $schemaName = $this->getSchemaName($input, $configFilePath);
         if (!array_key_exists($schemaName, $schema)) {
-            $io->warning($this->trans('commands.config.validate.debug.messages.noSchemaName') . $schemaName);
+            $io->warning($this->trans('commands.debug.config.validate.messages.noSchemaName') . $schemaName);
             return 1;
         }
 
