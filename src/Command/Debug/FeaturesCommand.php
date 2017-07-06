@@ -2,10 +2,10 @@
 
 /**
 * @file
-* Contains \Drupal\Console\Command\Features\DebugCommand.
+* Contains \Drupal\Console\Command\Debug\FeaturesCommand.
 */
 
-namespace Drupal\Console\Command\Features;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Command\Command;
  * )
  */
 
-class DebugCommand extends Command
+class FeaturesCommand extends Command
 {
     use CommandTrait;
     use FeatureTrait;
@@ -31,12 +31,12 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('features:debug')
-            ->setDescription($this->trans('commands.features.debug.description'))
+            ->setName('debug:features')
+            ->setDescription($this->trans('commands.debug.features.description'))
             ->addArgument(
                 'bundle',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.features.debug.arguments.bundle')
+                $this->trans('commands.debug.features.arguments.bundle')
             );
     }
 
@@ -46,17 +46,17 @@ class DebugCommand extends Command
         $bundle= $input->getArgument('bundle');
 
         $tableHeader = [
-            $this->trans('commands.features.debug.messages.bundle'),
-            $this->trans('commands.features.debug.messages.name'),
-            $this->trans('commands.features.debug.messages.machine_name'),
-            $this->trans('commands.features.debug.messages.status'),
-            $this->trans('commands.features.debug.messages.state'),
+            $this->trans('commands.debug.features.messages.bundle'),
+            $this->trans('commands.debug.features.messages.name'),
+            $this->trans('commands.debug.features.messages.machine_name'),
+            $this->trans('commands.debug.features.messages.status'),
+            $this->trans('commands.debug.features.messages.state'),
         ];
 
         $tableRows = [];
-       
+
         $features = $this->getFeatureList($io, $bundle);
-   
+
         foreach ($features as $feature) {
             $tableRows[] = [$feature['bundle_name'],$feature['name'], $feature['machine_name'], $feature['status'],$feature['state']];
         }

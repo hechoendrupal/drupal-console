@@ -161,3 +161,8 @@ services:
     tags:
       - { name: drupal.command }
     lazy: true
+  console.feature_debug:
+    class: Drupal\Console\Command\Debug\FeaturesCommand
+    tags:
+      - { name: drupal.command }
+    lazy: true
