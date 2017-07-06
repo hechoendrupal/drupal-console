@@ -143,3 +143,26 @@ services:
     tags:
       - { name: drupal.command }
     lazy: true
+  console.migrate_debug:
+    class: Drupal\Console\Command\Debug\MigrateCommand
+    arguments: ['@?plugin.manager.migration']
+    tags:
+      - { name: drupal.command }
+    lazy: true
+  console.rest_debug:
+    class: Drupal\Console\Command\Debug\RestCommand
+    arguments: ['@?plugin.manager.rest']
+    tags:
+      - { name: drupal.command }
+    lazy: true
+  console.test_debug:
+    class: Drupal\Console\Command\Debug\TestCommand
+    arguments: ['@?test_discovery']
+    tags:
+      - { name: drupal.command }
+    lazy: true
+  console.feature_debug:
+    class: Drupal\Console\Command\Debug\FeaturesCommand
+    tags:
+      - { name: drupal.command }
+    lazy: true

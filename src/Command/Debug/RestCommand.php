@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Rest\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\RestCommand.
  */
 
-namespace Drupal\Console\Command\Rest;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,7 +24,7 @@ use Drupal\rest\Plugin\Type\ResourcePluginManager;
  *     extensionType = "module"
  * )
  */
-class DebugCommand extends Command
+class RestCommand extends Command
 {
     use CommandTrait;
     use RestTrait;
@@ -35,7 +35,7 @@ class DebugCommand extends Command
     protected $pluginManagerRest;
 
     /**
-     * DebugCommand constructor.
+     * RestCommand constructor.
      *
      * @param ResourcePluginManager $pluginManagerRest
      */
@@ -48,18 +48,18 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('rest:debug')
-            ->setDescription($this->trans('commands.rest.debug.description'))
+            ->setName('debug:rest')
+            ->setDescription($this->trans('commands.debug.rest.description'))
             ->addArgument(
                 'resource-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.rest.debug.arguments.resource-id')
+                $this->trans('commands.debug.rest.arguments.resource-id')
             )
             ->addOption(
                 'authorization',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.rest.debug.options.status')
+                $this->trans('commands.debug.rest.options.status')
             )
             ->setAliases(['rede']);
     }
@@ -89,7 +89,7 @@ class DebugCommand extends Command
         if (empty($plugin)) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.rest.debug.messages.not-found'),
+                    $this->trans('commands.debug.rest.messages.not-found'),
                     $resource_id
                 )
             );
@@ -101,24 +101,24 @@ class DebugCommand extends Command
 
         $configuration = [];
         $configuration[] = [
-          $this->trans('commands.rest.debug.messages.id'),
+          $this->trans('commands.debug.rest.messages.id'),
           $resource['id']
         ];
         $configuration[] = [
-          $this->trans('commands.rest.debug.messages.label'),
+          $this->trans('commands.debug.rest.messages.label'),
           (string) $resource['label']
         ];
         $configuration[] = [
-          $this->trans('commands.rest.debug.messages.canonical_url'),
+          $this->trans('commands.debug.rest.messages.canonical_url'),
           $resource['uri_paths']['canonical']
         ];
         $configuration[] = [
-          $this->trans('commands.rest.debug.messages.status'),
-          (isset($config[$resource['id']])) ? $this->trans('commands.rest.debug.messages.enabled') : $this->trans('commands.rest.debug.messages.disabled')];
+          $this->trans('commands.debug.rest.messages.status'),
+          (isset($config[$resource['id']])) ? $this->trans('commands.debug.rest.messages.enabled') : $this->trans('commands.debug.rest.messages.disabled')];
         $configuration[] = [
           $this->trans(
               sprintf(
-                  'commands.rest.debug.messages.provider',
+                  'commands.debug.rest.messages.provider',
                   $resource['provider']
               )
           )
@@ -130,9 +130,9 @@ class DebugCommand extends Command
         $io->table([], $configuration, 'compact');
 
         $tableHeader = [
-          $this->trans('commands.rest.debug.messages.rest-state'),
-          $this->trans('commands.rest.debug.messages.supported-formats'),
-          $this->trans('commands.rest.debug.messages.supported_auth'),
+          $this->trans('commands.debug.rest.messages.rest-state'),
+          $this->trans('commands.debug.rest.messages.supported-formats'),
+          $this->trans('commands.debug.rest.messages.supported_auth'),
         ];
 
         $tableRows = [];
@@ -152,11 +152,11 @@ class DebugCommand extends Command
         $rest_resources = $this->getRestResources($status);
 
         $tableHeader = [
-          $this->trans('commands.rest.debug.messages.id'),
-          $this->trans('commands.rest.debug.messages.label'),
-          $this->trans('commands.rest.debug.messages.canonical_url'),
-          $this->trans('commands.rest.debug.messages.status'),
-          $this->trans('commands.rest.debug.messages.provider'),
+          $this->trans('commands.debug.rest.messages.id'),
+          $this->trans('commands.debug.rest.messages.label'),
+          $this->trans('commands.debug.rest.messages.canonical_url'),
+          $this->trans('commands.debug.rest.messages.status'),
+          $this->trans('commands.debug.rest.messages.provider'),
         ];
 
         $tableRows = [];

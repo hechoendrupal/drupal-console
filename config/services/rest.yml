@@ -1,10 +1,4 @@
 services:
-  console.rest_debug:
-    class: Drupal\Console\Command\Rest\DebugCommand
-    arguments: ['@?plugin.manager.rest']
-    tags:
-      - { name: drupal.command }
-    lazy: true
   console.rest_disable:
     class: Drupal\Console\Command\Rest\DisableCommand
     arguments: ['@config.factory', '@?plugin.manager.rest']

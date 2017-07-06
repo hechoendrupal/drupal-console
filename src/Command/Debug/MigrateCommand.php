@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Migrate\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\MigrateCommand.
  */
 
-namespace Drupal\Console\Command\Migrate;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
  *     extensionType = "module"
  * )
  */
-class DebugCommand extends Command
+class MigrateCommand extends Command
 {
     use MigrationTrait;
     use CommandTrait;
@@ -34,7 +34,7 @@ class DebugCommand extends Command
     protected $pluginManagerMigration;
 
     /**
-     * DebugCommand constructor.
+     * MigrateCommand constructor.
      *
      * @param MigrationPluginManagerInterface $pluginManagerMigration
      */
@@ -48,12 +48,12 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('migrate:debug')
-            ->setDescription($this->trans('commands.migrate.debug.description'))
+            ->setName('debug:migrate')
+            ->setDescription($this->trans('commands.debug.migrate.description'))
             ->addArgument(
                 'tag',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.migrate.debug.arguments.tag')
+                $this->trans('commands.debug.migrate.arguments.tag')
             )
             ->setAliases(['mid']);
     }
@@ -62,21 +62,21 @@ class DebugCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $drupal_version = 'Drupal ' . $input->getArgument('tag');
-        
+
         $migrations = $this->getMigrations($drupal_version);
-        
+
 
         $tableHeader = [
-          $this->trans('commands.migrate.debug.messages.id'),
-          $this->trans('commands.migrate.debug.messages.description'),
-          $this->trans('commands.migrate.debug.messages.tags'),
+          $this->trans('commands.debug.migrate.messages.id'),
+          $this->trans('commands.debug.migrate.messages.description'),
+          $this->trans('commands.debug.migrate.messages.tags'),
         ];
 
         $tableRows = [];
         if (empty($migrations)) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.migrate.debug.messages.no-migrations'),
+                    $this->trans('commands.debug.migrate.messages.no-migrations'),
                     count($migrations)
                 )
             );
