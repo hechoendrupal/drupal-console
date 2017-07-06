@@ -87,22 +87,18 @@ class AddServicesCompilerPass implements CompilerPassInterface
                 ->name('*.yml')
                 ->in(
                     sprintf(
-                        '%s/config/services/drupal-console',
+                        '%s/config/services',
                         $this->root.DRUPAL_CONSOLE
                     )
                 );
 
             $servicesData = [];
             foreach ($finder as $file) {
-                try {
-                    $loader->load($file->getPathName());
-                    $servicesData = $this->extractServiceData(
-                        $file->getPathName(),
-                        $servicesData
-                    );
-                } catch (\Exception $e) {
-                    echo $e->getMessage() . PHP_EOL;
-                }
+                $loader->load($file->getPathName());
+                $servicesData = $this->extractServiceData(
+                    $file->getPathName(),
+                    $servicesData
+                );
             }
 
             /**
