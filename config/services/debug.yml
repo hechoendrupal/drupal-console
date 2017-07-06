@@ -143,3 +143,9 @@ services:
     tags:
       - { name: drupal.command }
     lazy: true
+  console.migrate_debug:
+    class: Drupal\Console\Command\Debug\MigrateCommand
+    arguments: ['@?plugin.manager.migration']
+    tags:
+      - { name: drupal.command }
+    lazy: true
