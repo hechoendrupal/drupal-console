@@ -2,8 +2,4 @@ application:
   autowire:
     commands:
       forced: {}
-      name:
-        'develop:example':
-          class: '\Drupal\Console\Command\Develop\ExampleCommand'
-        'develop:example:container:aware':
-          class: '\Drupal\Console\Command\Develop\ExampleContainerAwareCommand'
+      name: {}
