@@ -77,9 +77,13 @@ class AddServicesCompilerPass implements CompilerPassInterface
          * @var Site $site
          */
         $site = $container->get('console.site');
+        \Drupal::getContainer()->set(
+            'console.root',
+            $this->root
+        );
 
         if (!$this->rebuild && $site->cachedServicesFileExists()) {
-            $loader->load($site->cachedServicesFile());
+            $loader->load($site->getCachedServicesFile());
         } else {
             $site->removeCachedServicesFile();
             $finder = new Finder();
@@ -146,9 +150,9 @@ class AddServicesCompilerPass implements CompilerPassInterface
                 }
             }
 
-            if ($servicesData && is_writable($site->getCacheDirectory())) {
+            if ($servicesData) {
                 file_put_contents(
-                    $site->cachedServicesFile(),
+                    $site->getCachedServicesFile(),
                     Yaml::dump($servicesData, 4, 2)
                 );
             }
