@@ -95,6 +95,7 @@ class TranslatorManager extends TranslatorManagerBase
         if (array_search($extension, $this->extensions) !== false) {
             return;
         }
+
         $this->extensions[] = $extension;
         if ($type == 'module') {
             $this->addResourceTranslationsByModule($extension);

@@ -151,9 +151,9 @@ class Application extends BaseApplication
                 ->get('console.annotation_validator');
         }
 
-        $aliases = $this->container->get('console.configuration_manager')
-            ->getConfiguration()
-            ->get('application.commands.aliases')?:[];
+//        $aliases = $this->container->get('console.configuration_manager')
+//            ->getConfiguration()
+//            ->get('application.commands.aliases')?:[];
 
         foreach ($consoleCommands as $name) {
             AnnotationRegistry::reset();
@@ -173,6 +173,10 @@ class Application extends BaseApplication
                     continue;
                 }
 
+                if (!$annotationValidator->isValidCommand($serviceDefinition->getClass())) {
+                    continue;
+                }
+
                 $annotation = $annotationCommandReader
                     ->readAnnotation($serviceDefinition->getClass());
                 if ($annotation) {
@@ -181,10 +185,6 @@ class Application extends BaseApplication
                             $annotation['extension'],
                             $annotation['extensionType']
                         );
-                }
-
-                if (!$annotationValidator->isValidCommand($serviceDefinition->getClass())) {
-                    continue;
                 }
             }
 
@@ -212,13 +212,13 @@ class Application extends BaseApplication
                 );
             }
 
-            if (array_key_exists($command->getName(), $aliases)) {
-                $commandAliases = $aliases[$command->getName()];
-                if (!is_array($commandAliases)) {
-                    $commandAliases = [$commandAliases];
-                }
-                $command->setAliases($commandAliases);
-            }
+//            if (array_key_exists($command->getName(), $aliases)) {
+//                $commandAliases = $aliases[$command->getName()];
+//                if (!is_array($commandAliases)) {
+//                    $commandAliases = [$commandAliases];
+//                }
+//                $command->setAliases($commandAliases);
+//            }
 
             $this->add($command);
         }
