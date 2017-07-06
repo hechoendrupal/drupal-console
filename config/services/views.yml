@@ -4,8 +4,10 @@ services:
     arguments: ['@entity_type.manager', '@entity.query']
     tags:
       - { name: drupal.command }
+    lazy: true
   console.views_enable:
     class: Drupal\Console\Command\Views\EnableCommand
     arguments: ['@entity_type.manager', '@entity.query']
     tags:
       - { name: drupal.command }
+    lazy: true

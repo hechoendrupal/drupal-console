@@ -4,3 +4,4 @@ services:
     arguments: ['@console.drupal_api', '@console.site', '@class_loader', '@request_stack']
     tags:
       - { name: drupal.command }
+    lazy: true
