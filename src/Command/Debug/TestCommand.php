@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Test\DebugCommand.
+ * Contains \Drupal\Console\Command\Debug\TestCommand.
  */
 
-namespace Drupal\Console\Command\Test;
+namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,7 +24,7 @@ use Drupal\simpletest\TestDiscovery;
  *     extensionType = "module",
  * )
  */
-class DebugCommand extends Command
+class TestCommand extends Command
 {
     use CommandTrait;
 
@@ -34,7 +34,7 @@ class DebugCommand extends Command
     protected $test_discovery;
 
     /**
-     * DebugCommand constructor.
+     * TestCommand constructor.
      *
      * @param TestDiscovery $test_discovery
      */
@@ -49,19 +49,19 @@ class DebugCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('test:debug')
-            ->setDescription($this->trans('commands.test.debug.description'))
+            ->setName('debug:test')
+            ->setDescription($this->trans('commands.debug.test.description'))
             ->addArgument(
                 'group',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.test.debug.options.group'),
+                $this->trans('commands.debug.test.options.group'),
                 null
             )
             ->addOption(
                 'test-class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.test.debug.arguments.test-class')
+                $this->trans('commands.debug.test.arguments.test-class')
             )
             ->setAliases(['td']);
     }
@@ -124,7 +124,7 @@ class DebugCommand extends Command
 
             if ($class) {
                 $methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
-                $io->info($this->trans('commands.test.debug.messages.methods'));
+                $io->info($this->trans('commands.debug.test.messages.methods'));
                 foreach ($methods as $method) {
                     if ($method->class == $testDetails['name'] && strpos($method->name, 'test') === 0) {
                         $io->simple($method->name);
@@ -132,7 +132,7 @@ class DebugCommand extends Command
                 }
             }
         } else {
-            $io->error($this->trans('commands.test.debug.messages.not-found'));
+            $io->error($this->trans('commands.debug.test.messages.not-found'));
         }
     }
 
@@ -142,17 +142,17 @@ class DebugCommand extends Command
             ->getTestClasses(null);
 
         if (empty($group)) {
-            $tableHeader = [$this->trans('commands.test.debug.messages.group')];
+            $tableHeader = [$this->trans('commands.debug.test.messages.group')];
         } else {
             $tableHeader = [
-              $this->trans('commands.test.debug.messages.class'),
-              $this->trans('commands.test.debug.messages.type')
+              $this->trans('commands.debug.test.messages.class'),
+              $this->trans('commands.debug.test.messages.type')
             ];
 
             $io->writeln(
                 sprintf(
                     '%s: %s',
-                    $this->trans('commands.test.debug.messages.group'),
+                    $this->trans('commands.debug.test.messages.group'),
                     $group
                 )
             );
@@ -186,13 +186,13 @@ class DebugCommand extends Command
         if ($group) {
             $io->success(
                 sprintf(
-                    $this->trans('commands.test.debug.messages.success-group'),
+                    $this->trans('commands.debug.test.messages.success-group'),
                     $group
                 )
             );
         } else {
             $io->success(
-                $this->trans('commands.test.debug.messages.success-groups')
+                $this->trans('commands.debug.test.messages.success-groups')
             );
         }
     }

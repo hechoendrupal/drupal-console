@@ -155,3 +155,9 @@ services:
     tags:
       - { name: drupal.command }
     lazy: true
+  console.test_debug:
+    class: Drupal\Console\Command\Debug\TestCommand
+    arguments: ['@?test_discovery']
+    tags:
+      - { name: drupal.command }
+    lazy: true
