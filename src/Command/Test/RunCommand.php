@@ -52,8 +52,6 @@ class RunCommand extends Command
      */
     protected $dateFormatter;
 
-
-
     /**
      * RunCommand constructor.
      *

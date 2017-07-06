@@ -94,11 +94,15 @@ class AddServicesCompilerPass implements CompilerPassInterface
 
             $servicesData = [];
             foreach ($finder as $file) {
-                $loader->load($file->getPathName());
-                $servicesData = $this->extractServiceData(
-                    $file->getPathName(),
-                    $servicesData
-                );
+                try {
+                    $loader->load($file->getPathName());
+                    $servicesData = $this->extractServiceData(
+                        $file->getPathName(),
+                        $servicesData
+                    );
+                } catch (\Exception $e) {
+                    echo $e->getMessage() . PHP_EOL;
+                }
             }
 
             /**
@@ -115,18 +119,6 @@ class AddServicesCompilerPass implements CompilerPassInterface
                 ->getList(false);
 
             foreach ($modules as $module) {
-                if ($module->origin == 'core') {
-                    $consoleServicesExtensionFile = $this->root . DRUPAL_CONSOLE .
-                        'config/services/drupal-core/'.$module->getName().'.yml';
-                    if (is_file($consoleServicesExtensionFile)) {
-                        $loader->load($consoleServicesExtensionFile);
-                        $servicesData = $this->extractServiceData(
-                            $consoleServicesExtensionFile,
-                            $servicesData
-                        );
-                    }
-                }
-
                 $consoleServicesExtensionFile = $this->appRoot . '/' .
                     $module->getPath() . '/console.services.yml';
                 if (is_file($consoleServicesExtensionFile)) {
