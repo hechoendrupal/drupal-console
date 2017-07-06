@@ -22,7 +22,14 @@ use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\State\StateInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
+use Drupal\Console\Annotations\DrupalCommand;
 
+/**
+ * @DrupalCommand(
+ *     extension = "migrate",
+ *     extensionType = "module"
+ * )
+ */
 class ExecuteCommand extends Command
 {
     use DatabaseTrait;
@@ -41,8 +48,9 @@ class ExecuteCommand extends Command
      *
      * @param MigrationPluginManagerInterface $pluginManagerMigration
      */
-    public function __construct(MigrationPluginManagerInterface $pluginManagerMigration)
-    {
+    public function __construct(
+        MigrationPluginManagerInterface $pluginManagerMigration
+    ) {
         $this->pluginManagerMigration = $pluginManagerMigration;
         parent::__construct();
     }

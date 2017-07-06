@@ -28,7 +28,6 @@ use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
  *     extensionType = "module"
  * )
  */
-
 class RollBackCommand extends Command
 {
     use MigrationTrait;
@@ -44,8 +43,9 @@ class RollBackCommand extends Command
      *
      * @param MigrationPluginManagerInterface $pluginManagerMigration
      */
-    public function __construct(MigrationPluginManagerInterface $pluginManagerMigration)
-    {
+    public function __construct(
+        MigrationPluginManagerInterface $pluginManagerMigration
+    ) {
         $this->pluginManagerMigration = $pluginManagerMigration;
         parent::__construct();
     }
@@ -61,7 +61,8 @@ class RollBackCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.setup.options.source-base_path')
-            );
+            )->setAliases(['mir']);
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

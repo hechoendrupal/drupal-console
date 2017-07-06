@@ -20,7 +20,14 @@ use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 use Drupal\migrate\Plugin\RequirementsInterface;
 use Drupal\migrate\Exception\RequirementsException;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Console\Annotations\DrupalCommand;
 
+/**
+ * @DrupalCommand(
+ *     extension = "migrate",
+ *     extensionType = "module"
+ * )
+ */
 class SetupCommand extends Command
 {
     use ContainerAwareCommandTrait;
@@ -42,8 +49,10 @@ class SetupCommand extends Command
      *
      * @param StateInterface $pluginManagerMigration
      */
-    public function __construct(StateInterface $state, MigrationPluginManagerInterface $pluginManagerMigration)
-    {
+    public function __construct(
+        StateInterface $state,
+        MigrationPluginManagerInterface $pluginManagerMigration
+    ) {
         $this->state = $state;
         $this->pluginManagerMigration = $pluginManagerMigration;
         parent::__construct();
@@ -101,7 +110,8 @@ class SetupCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.migrate.setup.options.source-base_path')
-            );
+            )->setAliases(['mis']);
+        ;
     }
 
     /**

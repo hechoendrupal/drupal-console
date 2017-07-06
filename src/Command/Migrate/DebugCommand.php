@@ -23,7 +23,6 @@ use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
  *     extensionType = "module"
  * )
  */
-
 class DebugCommand extends Command
 {
     use MigrationTrait;
@@ -39,8 +38,9 @@ class DebugCommand extends Command
      *
      * @param MigrationPluginManagerInterface $pluginManagerMigration
      */
-    public function __construct(MigrationPluginManagerInterface $pluginManagerMigration)
-    {
+    public function __construct(
+        MigrationPluginManagerInterface $pluginManagerMigration
+    ) {
         $this->pluginManagerMigration = $pluginManagerMigration;
         parent::__construct();
     }

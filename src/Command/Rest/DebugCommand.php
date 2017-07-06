@@ -29,7 +29,6 @@ class DebugCommand extends Command
     use CommandTrait;
     use RestTrait;
 
-
     /**
      * @var ResourcePluginManager $pluginManagerRest
      */
