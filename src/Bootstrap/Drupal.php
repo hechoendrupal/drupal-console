@@ -149,7 +149,9 @@ class Drupal
                     $this->drupalFinder->getComposerRoot()
                 );
 
-            $consoleExtendConfigFile = $this->drupalFinder->getComposerRoot() . DRUPAL_CONSOLE .'/extend.console.config.yml';
+            $consoleExtendConfigFile = $this->drupalFinder
+                ->getComposerRoot() . DRUPAL_CONSOLE
+                    .'/extend.console.config.yml';
             if (file_exists($consoleExtendConfigFile)) {
                 $container->get('console.configuration_manager')
                     ->importConfigurationFile($consoleExtendConfigFile);

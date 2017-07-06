@@ -3,7 +3,6 @@
 namespace Drupal\Console\Utils;
 
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Logger\LoggerChannelFactory;
@@ -27,7 +26,7 @@ class Site
     /**
      * @var string
      */
-    protected $cacheDirectory;
+    protected $cacheServicesFile;
 
     /**
      * Site constructor.
@@ -203,72 +202,36 @@ class Site
         return false;
     }
 
-    public function getCacheDirectory()
+    public function getCachedServicesFile()
     {
-        if ($this->cacheDirectory) {
-            return $this->cacheDirectory;
+        if (!$this->cacheServicesFile) {
+            $configFactory = \Drupal::configFactory();
+            $siteId = $configFactory->get('system.site')->get('uuid');
+
+            $this->cacheServicesFile = \Drupal::service('console.root') .
+                DRUPAL_CONSOLE . $siteId . '.console.services.yml';
         }
 
-        $configFactory = \Drupal::configFactory();
-        $siteId = $configFactory->get('system.site')
-            ->get('uuid');
-        $pathTemporary = $configFactory->get('system.file')
-            ->get('path.temporary');
-        $configuration = $this->configurationManager->getConfiguration();
-        $cacheDirectory = $configuration->get('application.cache.directory')?:'';
-        if ($cacheDirectory) {
-            if (strpos($cacheDirectory, '/') != 0) {
-                $cacheDirectory = $this->configurationManager
-                    ->getApplicationDirectory() . '/' . $cacheDirectory;
-            }
-            $cacheDirectories[] = $cacheDirectory . '/' . $siteId . '/';
-        }
-        $cacheDirectories[] = sprintf(
-            '%s/cache/%s/',
-            $this->configurationManager->getConsoleDirectory(),
-            $siteId
-        );
-        $cacheDirectories[] = $pathTemporary . '/console/cache/' . $siteId . '/';
-
-        foreach ($cacheDirectories as $cacheDirectory) {
-            if ($this->isValidDirectory($cacheDirectory)) {
-                $this->cacheDirectory = $cacheDirectory;
-                break;
-            }
-        }
-
-        return $this->cacheDirectory;
-    }
-
-    private function isValidDirectory($path)
-    {
-        $fileSystem = new Filesystem();
-        if ($fileSystem->exists($path)) {
-            return true;
-        }
-        try {
-            $fileSystem->mkdir($path);
-
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    public function cachedServicesFile()
-    {
-        return $this->getCacheDirectory().'/console.services.yml';
+        return $this->cacheServicesFile;
     }
 
     public function cachedServicesFileExists()
     {
-        return file_exists($this->cachedServicesFile());
+        return file_exists($this->getCachedServicesFile());
     }
 
     public function removeCachedServicesFile()
     {
         if ($this->cachedServicesFileExists()) {
-            unlink($this->cachedServicesFile());
+            unlink($this->getCachedServicesFile());
         }
+    }
+
+    /**
+     * @param string $root
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
     }
 }

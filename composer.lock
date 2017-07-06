@@ -659,16 +659,16 @@
         },
         {
             "name": "drupal/console-dotenv",
-            "version": "0.1.0",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/weknowinc/drupal-console-dotenv.git",
-                "reference": "48bb017993ab3e10217a63fd5b099f5be432706e"
+                "reference": "94e88646801c2f80ec2e5e66d3d8f21b0b467405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/weknowinc/drupal-console-dotenv/zipball/48bb017993ab3e10217a63fd5b099f5be432706e",
-                "reference": "48bb017993ab3e10217a63fd5b099f5be432706e",
+                "url": "https://api.github.com/repos/weknowinc/drupal-console-dotenv/zipball/94e88646801c2f80ec2e5e66d3d8f21b0b467405",
+                "reference": "94e88646801c2f80ec2e5e66d3d8f21b0b467405",
                 "shasum": ""
             },
             "require": {
@@ -693,8 +693,8 @@
                     "email": "jesus.olivas@gmail.com"
                 }
             ],
-            "description": "Drupal Console dotenv",
-            "time": "2017-06-20T19:02:39+00:00"
+            "description": "Drupal Console Dotenv",
+            "time": "2017-07-04T01:14:02+00:00"
         },
         {
             "name": "drupal/console-en",
