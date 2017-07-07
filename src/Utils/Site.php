@@ -209,7 +209,7 @@ class Site
             $siteId = $configFactory->get('system.site')->get('uuid');
 
             $this->cacheServicesFile = \Drupal::service('console.root') .
-                DRUPAL_CONSOLE . $siteId . '.console.services.yml';
+                DRUPAL_CONSOLE . $siteId . '-console.services.yml';
         }
 
         return $this->cacheServicesFile;
