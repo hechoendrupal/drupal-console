@@ -151,18 +151,11 @@ class Application extends BaseApplication
                 ->get('console.annotation_validator');
         }
 
-//        $aliases = $this->container->get('console.configuration_manager')
-//            ->getConfiguration()
-//            ->get('application.commands.aliases')?:[];
+        $aliases = $this->container->get('console.configuration_manager')
+            ->getConfiguration()
+            ->get('application.commands.aliases')?:[];
 
         foreach ($consoleCommands as $name) {
-            AnnotationRegistry::reset();
-            AnnotationRegistry::registerLoader(
-                [
-                    $this->container->get('class_loader'),
-                    "loadClass"
-                ]
-            );
 
             if (!$this->container->has($name)) {
                 continue;
@@ -212,13 +205,16 @@ class Application extends BaseApplication
                 );
             }
 
-//            if (array_key_exists($command->getName(), $aliases)) {
-//                $commandAliases = $aliases[$command->getName()];
-//                if (!is_array($commandAliases)) {
-//                    $commandAliases = [$commandAliases];
-//                }
-//                $command->setAliases($commandAliases);
-//            }
+            if (array_key_exists($command->getName(), $aliases)) {
+                $commandAliases = array_merge(
+                    $command->getAliases(),
+                    $aliases[$command->getName()]
+                );
+                if (!is_array($commandAliases)) {
+                    $commandAliases = [$commandAliases];
+                }
+                $command->setAliases($commandAliases);
+            }
 
             $this->add($command);
         }
