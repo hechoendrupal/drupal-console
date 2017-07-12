@@ -75,7 +75,7 @@ class LibrariesCommand extends Command
                 'group',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.libraries.options.name')
-            );
+            )->setAliases(['dl']);
     }
 
     /**

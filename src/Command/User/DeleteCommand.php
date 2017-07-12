@@ -78,7 +78,7 @@ class DeleteCommand extends Command
                 null,
                 InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.user.delete.options.roles')
-            );
+            )->setAliases(['ud']);
     }
 
     /**

@@ -35,7 +35,8 @@ class ClientCommand extends Command
                 $this->trans('commands.database.client.arguments.database'),
                 'default'
             )
-            ->setHelp($this->trans('commands.database.client.help'));
+            ->setHelp($this->trans('commands.database.client.help'))
+            ->setAliases(['dbc']);
     }
 
     /**

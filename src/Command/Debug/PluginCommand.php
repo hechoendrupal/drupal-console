@@ -40,7 +40,7 @@ class PluginCommand extends Command
                 'id',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.plugin.arguments.id')
-            );
+            )->setAliases(['dpl']);
     }
 
     /**

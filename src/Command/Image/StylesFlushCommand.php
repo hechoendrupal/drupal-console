@@ -43,7 +43,7 @@ class StylesFlushCommand extends Command
                 'styles',
                 InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 $this->trans('commands.image.styles.flush.options.image-style')
-            );
+            )->setAliases(['isf']);
     }
 
     /**

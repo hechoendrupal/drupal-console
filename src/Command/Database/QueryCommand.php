@@ -54,7 +54,8 @@ class QueryCommand extends Command
             ->addOption('vertical', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.vertical'))
             ->addOption('batch', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.batch'))
 
-            ->setHelp($this->trans('commands.database.query.help'));
+            ->setHelp($this->trans('commands.database.query.help'))
+            ->setAliases(['dbq']);
     }
 
     /**

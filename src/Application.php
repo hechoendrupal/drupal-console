@@ -206,10 +206,10 @@ class Application extends BaseApplication
             }
 
             if (array_key_exists($command->getName(), $aliases)) {
-                $commandAliases = array_merge(
+                $commandAliases = array_unique(array_merge(
                     $command->getAliases(),
                     $aliases[$command->getName()]
-                );
+                ));
                 if (!is_array($commandAliases)) {
                     $commandAliases = [$commandAliases];
                 }

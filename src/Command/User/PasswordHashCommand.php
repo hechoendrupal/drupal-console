@@ -51,7 +51,7 @@ class PasswordHashCommand extends Command
                 InputArgument::IS_ARRAY,
                 $this->trans('commands.user.password.hash.options.password')
             )
-            ->setAliases(['usph']);
+            ->setAliases(['uph']);
     }
 
     /**

@@ -63,7 +63,7 @@ class DisableCommand extends Command
                 InputArgument::OPTIONAL,
                 $this->trans('commands.views.debug.arguments.view-id')
             )
-            ->setAliases(['vdi']);
+            ->setAliases(['vd']);
     }
 
     /**

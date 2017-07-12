@@ -50,7 +50,7 @@ class DeleteTermCommand extends Command
             ->addArgument(
                 'vid',
                 InputArgument::REQUIRED
-            );
+            )->setAliases('ttd');
     }
 
     /**

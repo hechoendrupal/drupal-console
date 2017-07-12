@@ -58,7 +58,8 @@ class RestoreCommand extends Command
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.database.restore.options.file')
             )
-            ->setHelp($this->trans('commands.database.restore.help'));
+            ->setHelp($this->trans('commands.database.restore.help'))
+            ->setAliases(['dbr']);
     }
 
     /**

@@ -90,7 +90,8 @@ class AddCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.add.options.driver')
             )
-            ->setHelp($this->trans('commands.database.add.help'));
+            ->setHelp($this->trans('commands.database.add.help'))
+            ->setAliases(['dba']);
     }
     /**
      * {@inheritdoc}

@@ -44,7 +44,7 @@ class MultisiteCommand extends Command
             ->setName('debug:multisite')
             ->setDescription($this->trans('commands.debug.multisite.description'))
             ->setHelp($this->trans('commands.debug.multisite.help'))
-            ->setAliases(['msd']);
+            ->setAliases(['dmu']);
         ;
     }
 
