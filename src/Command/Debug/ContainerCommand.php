@@ -90,8 +90,8 @@ class ContainerCommand extends Command
             }
 
             $tableHeader = [
-                $this->trans('commands.debug.container.messages.service_id'),
-                $this->trans('commands.debug.container.messages.class_name')
+                $this->trans('commands.debug.container.messages.service-id'),
+                $this->trans('commands.debug.container.messages.class-name')
             ];
 
             $tableRows = $this->getServiceList();
@@ -114,7 +114,7 @@ class ContainerCommand extends Command
         $serviceInstance = \Drupal::service($service);
 
         if (!method_exists($serviceInstance, $method)) {
-            throw new \Symfony\Component\DependencyInjection\Exception\BadMethodCallException($this->trans('commands.debug.container.errors.method_not_exists'));
+            throw new \Symfony\Component\DependencyInjection\Exception\BadMethodCallException($this->trans('commands.debug.container.errors.method-not-exists'));
 
             return $serviceDetail;
         }
