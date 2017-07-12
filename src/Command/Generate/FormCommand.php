@@ -185,7 +185,7 @@ abstract class FormCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.menu-link-desc')
-            );
+            )->setAliases(['gf']);
     }
 
     /**

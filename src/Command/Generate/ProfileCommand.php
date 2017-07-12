@@ -126,7 +126,7 @@ class ProfileCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.profile.options.distribution')
-            );
+            )->setAliases(['gpr']);
     }
 
     /**

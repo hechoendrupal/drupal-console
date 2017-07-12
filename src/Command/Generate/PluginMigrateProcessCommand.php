@@ -85,7 +85,7 @@ class PluginMigrateProcessCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.migrate.process.options.plugin-id')
-            );
+            )->setAliases(['gpmp']);
     }
 
     /**

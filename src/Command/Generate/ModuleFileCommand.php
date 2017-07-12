@@ -69,7 +69,7 @@ class ModuleFileCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
-            );
+            )->setAliases(['gmf']);
     }
 
     /**
