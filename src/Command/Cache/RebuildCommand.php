@@ -90,7 +90,7 @@ class RebuildCommand extends Command
         if ($cache && !$this->drupalApi->isValidCache($cache)) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.cache.rebuild.messages.invalid_cache'),
+                    $this->trans('commands.cache.rebuild.messages.invalid-cache'),
                     $cache
                 )
             );

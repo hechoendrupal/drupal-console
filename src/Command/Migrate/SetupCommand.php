@@ -109,7 +109,7 @@ class SetupCommand extends Command
                 'source-base_path',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.migrate.setup.options.source-base_path')
+                $this->trans('commands.migrate.setup.options.source-base-path')
             )->setAliases(['mis']);
         ;
     }
@@ -174,7 +174,7 @@ class SetupCommand extends Command
         $sourceBasepath = $input->getOption('source-base_path');
         if (!$sourceBasepath) {
             $sourceBasepath = $io->ask(
-                $this->trans('commands.migrate.setup.questions.source-base_path'),
+                $this->trans('commands.migrate.setup.questions.source-base-path'),
                 ''
             );
             $input->setOption('source-base_path', $sourceBasepath);
