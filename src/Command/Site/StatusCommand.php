@@ -170,7 +170,7 @@ class StatusCommand extends Command
             } catch (\Exception $e) {
                 $hashSalt = '';
             }
-            $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = $hashSalt;
+            $systemData['system'][$this->trans('commands.site.status.messages.hash-salt')] = $hashSalt;
             $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
         }
 
@@ -239,10 +239,10 @@ class StatusCommand extends Command
 
         return [
           'directory' => [
-            $this->trans('commands.site.status.messages.directory_root') => $this->appRoot,
-            $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
-            $this->trans('commands.site.status.messages.directory_theme_default') => $themeDefaultDirectory,
-            $this->trans('commands.site.status.messages.directory_theme_admin') => $themeAdminDirectory,
+            $this->trans('commands.site.status.messages.directory-root') => $this->appRoot,
+            $this->trans('commands.site.status.messages.directory-temporary') => $systemFile->get('path.temporary'),
+            $this->trans('commands.site.status.messages.directory-theme-default') => $themeDefaultDirectory,
+            $this->trans('commands.site.status.messages.directory-theme-admin') => $themeAdminDirectory,
           ],
         ];
     }
