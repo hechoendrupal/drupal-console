@@ -53,7 +53,7 @@ class PathCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.theme.path.options.absolute')
-            );
+            )->setAliases(['tp']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

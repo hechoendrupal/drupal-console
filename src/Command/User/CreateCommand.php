@@ -103,7 +103,7 @@ class CreateCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.user.create.options.status')
-            );
+            )->setAliases(['uc']);
     }
 
     /**

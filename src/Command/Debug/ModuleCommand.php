@@ -79,7 +79,7 @@ class ModuleCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.debug.module.options.type')
             )
-            ->setAliases(['mod']);
+            ->setAliases(['dm']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

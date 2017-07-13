@@ -48,7 +48,8 @@ class ConfigSettingsCommand extends Command
         $this
             ->setName('debug:config:settings')
             ->setDescription($this->trans('commands.debug.config.settings.description'))
-            ->setHelp($this->trans('commands.debug.config.settings.help'));
+            ->setHelp($this->trans('commands.debug.config.settings.help'))
+            ->setAliases(['dcs']);
     }
 
     /**

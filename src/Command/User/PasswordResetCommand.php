@@ -66,7 +66,7 @@ class PasswordResetCommand extends Command
                 InputArgument::REQUIRED,
                 $this->trans('commands.user.password.reset.options.password')
             )
-            ->setAliases(['uspr']);
+            ->setAliases(['upr']);
     }
 
     /**

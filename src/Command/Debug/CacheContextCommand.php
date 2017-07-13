@@ -29,7 +29,8 @@ class CacheContextCommand extends Command
     {
         $this
             ->setName('debug:cache:context')
-            ->setDescription($this->trans('commands.debug.cache.context.description'));
+            ->setDescription($this->trans('commands.debug.cache.context.description'))
+            ->setAliases(['dcc']);
     }
 
     /**

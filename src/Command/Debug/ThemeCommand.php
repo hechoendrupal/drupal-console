@@ -55,7 +55,7 @@ class ThemeCommand extends Command
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.theme.arguments.theme')
             )
-            ->setAliases(['tde']);
+            ->setAliases(['dt']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

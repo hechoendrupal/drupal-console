@@ -35,7 +35,7 @@ class ViewsPluginsCommand extends Command
                 'type',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.views.plugins.arguments.type')
-            );
+            )->setAliases(['dvp']);
     }
 
     /**

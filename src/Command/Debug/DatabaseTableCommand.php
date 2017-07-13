@@ -74,7 +74,8 @@ class DatabaseTableCommand extends Command
                 $this->trans('commands.debug.database.table.arguments.table'),
                 null
             )
-            ->setHelp($this->trans('commands.debug.database.table.help'));
+            ->setHelp($this->trans('commands.debug.database.table.help'))
+            ->setAliases(['ddt']);
     }
 
     /**

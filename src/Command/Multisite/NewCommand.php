@@ -74,7 +74,7 @@ class NewCommand extends Command
                 InputOption::VALUE_NONE,
                 $this->trans('commands.multisite.new.options.copy-default')
             )
-            ->setAliases(['sn']);
+            ->setAliases(['mn']);
     }
 
     /**

@@ -47,7 +47,10 @@ class DeleteTermCommand extends Command
         $this
             ->setName('taxonomy:term:delete')
             ->setDescription($this->trans('commands.taxonomy.term.delete.description'))
-            ->addArgument('vid', InputArgument::REQUIRED);
+            ->addArgument(
+                'vid',
+                InputArgument::REQUIRED
+            )->setAliases('ttd');
     }
 
     /**

@@ -46,7 +46,7 @@ class RouterCommand extends Command
                 InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
                 $this->trans('commands.debug.router.arguments.route-name')
             )
-            ->setAliases(['rod']);
+            ->setAliases(['dr']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

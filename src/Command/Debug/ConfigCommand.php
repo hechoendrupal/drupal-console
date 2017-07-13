@@ -59,7 +59,7 @@ class ConfigCommand extends Command
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.config.arguments.name')
             )
-            ->setAliases(['cde']);
+            ->setAliases(['dc']);
     }
 
     /**

@@ -50,7 +50,7 @@ class ConfigValidateCommand extends Command
             		'schema-name',
             		'sch',
             		InputOption::VALUE_REQUIRED
-            );
+            )->setAliases(['dcv']);
     }
 
     /**

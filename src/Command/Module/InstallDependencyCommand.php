@@ -84,7 +84,7 @@ class InstallDependencyCommand extends Command
                 'module',
                 InputArgument::IS_ARRAY,
                 $this->trans('commands.module.install.dependencies.arguments.module')
-            );
+            )->setAliases(['mdi']);
     }
 
     /**

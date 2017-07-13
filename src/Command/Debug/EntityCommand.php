@@ -55,7 +55,7 @@ class EntityCommand extends Command
                 'entity-type',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.entity.arguments.entity-type')
-            );
+            )->setAliases(['de']);
     }
 
     /**

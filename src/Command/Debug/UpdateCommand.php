@@ -52,7 +52,7 @@ class UpdateCommand extends Command
         $this
             ->setName('debug:update')
             ->setDescription($this->trans('commands.debug.update.description'))
-            ->setAliases(['upd']);
+            ->setAliases(['du']);
     }
 
     /**
