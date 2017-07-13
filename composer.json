@@ -61,5 +61,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {"Drupal\\Console\\": "src"}
+    },
+    "require-dev": {
+        "drupal/console-generate": "dev-master"
     }
 }

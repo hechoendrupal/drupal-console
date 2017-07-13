@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5375a537301f3ae536a38eb17ace817",
+    "content-hash": "de6d7204e86489445ed0bf7a70d70059",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2668,10 +2668,53 @@
             "time": "2015-12-17T08:42:14+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "drupal/console-generate",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hechoendrupal/drupal-console-generate.git",
+                "reference": "a93f7fdcbb774efe56311600ace993b938859bf2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-generate/zipball/a93f7fdcbb774efe56311600ace993b938859bf2",
+                "reference": "a93f7fdcbb774efe56311600ace993b938859bf2",
+                "shasum": ""
+            },
+            "require-dev": {
+                "drupal/console-core": "~1.0"
+            },
+            "type": "drupal-console-library",
+            "autoload": {
+                "psr-4": {
+                    "Drupal\\Console\\Generate\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Jesus Manuel Olivas",
+                    "email": "jesus.olivas@gmail.com"
+                },
+                {
+                    "name": "enzo - Eduardo Garcia",
+                    "email": "enzos@weknowinc.com"
+                }
+            ],
+            "description": "Drupal Console generate commands",
+            "time": "2017-07-12 19:39:29"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "drupal/console-generate": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
