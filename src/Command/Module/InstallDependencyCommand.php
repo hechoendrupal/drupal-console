@@ -55,10 +55,10 @@ class InstallDependencyCommand extends Command
     /**
      * InstallCommand constructor.
      *
-     * @param Site       $site
-     * @param Validator  $validator
+     * @param Site                     $site
+     * @param Validator                $validator
      * @param ModuleInstallerInterface $moduleInstaller
-     * @param ChainQueue $chainQueue
+     * @param ChainQueue               $chainQueue
      */
     public function __construct(
         Site $site,
@@ -85,7 +85,7 @@ class InstallDependencyCommand extends Command
                 'module',
                 InputArgument::IS_ARRAY,
                 $this->trans('commands.module.install.dependencies.arguments.module')
-            )->setAliases(['mdi']);
+            )->setAliases(['modi']);
     }
 
     /**
