@@ -120,7 +120,7 @@ class PluginConditionCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.condition.options.context-definition-required')
             )
-            ->setAliases(['gpc']);
+            ->setAliases(['gpco']);
     }
 
     /**

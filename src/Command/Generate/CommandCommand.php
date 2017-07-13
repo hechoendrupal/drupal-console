@@ -125,7 +125,7 @@ class CommandCommand extends Command
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             )
-            ->setAliases(['gcm']);
+            ->setAliases(['gco']);
     }
 
     /**

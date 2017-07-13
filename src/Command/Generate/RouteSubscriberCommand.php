@@ -89,7 +89,7 @@ class RouteSubscriberCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.routesubscriber.options.class')
-            );
+            )->setAliases(['gr']);
     }
 
     /**

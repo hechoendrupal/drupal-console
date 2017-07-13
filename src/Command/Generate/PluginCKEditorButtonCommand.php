@@ -111,7 +111,7 @@ class PluginCKEditorButtonCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.ckeditorbutton.options.button-icon-path')
-            );
+            )->setAliases(['gpc']);
     }
 
     /**

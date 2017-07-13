@@ -98,7 +98,7 @@ class PostUpdateCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.post.update.options.post-update-name')
-            );
+            )->setAliases(['gpu']);
     }
 
     /**
