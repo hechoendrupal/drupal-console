@@ -1,10 +1,4 @@
 services:
-  console.database_settings_generator:
-    class: Drupal\Console\Generator\DatabaseSettingsGenerator
-    arguments: ['@kernel']
-    tags:
-      - { name: drupal.generator }
-    lazy: true
   console.database_add:
     class: Drupal\Console\Command\Database\AddCommand
     arguments: ['@console.database_settings_generator']
