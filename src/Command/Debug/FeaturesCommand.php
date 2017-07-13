@@ -48,7 +48,7 @@ class FeaturesCommand extends Command
         $tableHeader = [
             $this->trans('commands.debug.features.messages.bundle'),
             $this->trans('commands.debug.features.messages.name'),
-            $this->trans('commands.debug.features.messages.machine_name'),
+            $this->trans('commands.debug.features.messages.machine-name'),
             $this->trans('commands.debug.features.messages.status'),
             $this->trans('commands.debug.features.messages.state'),
         ];

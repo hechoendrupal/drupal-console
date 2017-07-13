@@ -109,7 +109,7 @@ class RestCommand extends Command
           (string) $resource['label']
         ];
         $configuration[] = [
-          $this->trans('commands.debug.rest.messages.canonical_url'),
+          $this->trans('commands.debug.rest.messages.canonical-url'),
           $resource['uri_paths']['canonical']
         ];
         $configuration[] = [
@@ -132,7 +132,7 @@ class RestCommand extends Command
         $tableHeader = [
           $this->trans('commands.debug.rest.messages.rest-state'),
           $this->trans('commands.debug.rest.messages.supported-formats'),
-          $this->trans('commands.debug.rest.messages.supported_auth'),
+          $this->trans('commands.debug.rest.messages.supported-auth'),
         ];
 
         $tableRows = [];
@@ -140,7 +140,7 @@ class RestCommand extends Command
             $tableRows[] = [
               $method,
               implode(', ', $settings['supported_formats']),
-              implode(', ', $settings['supported_auth']),
+              implode(', ', $settings['supported-auth']),
             ];
         }
 
@@ -154,7 +154,7 @@ class RestCommand extends Command
         $tableHeader = [
           $this->trans('commands.debug.rest.messages.id'),
           $this->trans('commands.debug.rest.messages.label'),
-          $this->trans('commands.debug.rest.messages.canonical_url'),
+          $this->trans('commands.debug.rest.messages.canonical-url'),
           $this->trans('commands.debug.rest.messages.status'),
           $this->trans('commands.debug.rest.messages.provider'),
         ];
