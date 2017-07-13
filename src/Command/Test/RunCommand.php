@@ -93,7 +93,7 @@ class RunCommand extends Command
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.test.run.arguments.url')
             )
-            ->setAliases(['tr']);
+            ->setAliases(['ter']);
     }
 
     /*

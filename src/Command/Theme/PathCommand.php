@@ -35,8 +35,8 @@ class PathCommand extends Command
     /**
      * PathCommand constructor.
      *
-     * @param Manager $extensionManager
-     * @param ThemeHandler  $themeHandler
+     * @param Manager      $extensionManager
+     * @param ThemeHandler $themeHandler
      */
     public function __construct(Manager $extensionManager, ThemeHandler $themeHandler)
     {
@@ -60,7 +60,7 @@ class PathCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.theme.path.options.absolute')
-            )->setAliases(['tp']);
+            )->setAliases(['thp']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -104,7 +104,8 @@ class PathCommand extends Command
         }
     }
 
-    protected  function getThemeList(){
+    protected function getThemeList()
+    {
         return array_keys($this->themeHandler->rebuildThemeData());
     }
 }

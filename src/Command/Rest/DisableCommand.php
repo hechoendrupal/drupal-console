@@ -64,7 +64,7 @@ class DisableCommand extends Command
                 InputArgument::OPTIONAL,
                 $this->trans('commands.rest.debug.arguments.resource-id')
             )
-            ->setAliases(['redi']);
+            ->setAliases(['red']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
