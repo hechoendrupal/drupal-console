@@ -106,7 +106,7 @@ class BreakPointCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.breakpoint.options.breakpoints')
-            );
+            )->setAliases(['gb']);
     }
 
     /**

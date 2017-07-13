@@ -85,7 +85,7 @@ class HelpCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.description')
-            );
+            )->setAliases(['gh']);
     }
 
     /**

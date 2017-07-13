@@ -98,7 +98,7 @@ class EntityContentCommand extends EntityCommand
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.revisionable')
         )
-        ->setAliases(['gect']);
+        ->setAliases(['geco']);
     }
 
     /**

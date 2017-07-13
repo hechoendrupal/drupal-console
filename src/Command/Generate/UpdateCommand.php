@@ -90,7 +90,7 @@ class UpdateCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.update.options.update-n')
-            );
+            )->setAliases(['gu']);
     }
 
     /**
