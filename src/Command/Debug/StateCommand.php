@@ -59,12 +59,13 @@ class StateCommand extends Command
         $this
             ->setName('debug:state')
             ->setDescription($this->trans('commands.debug.state.description'))
-            ->setHelp($this->trans('commands.debug.state.help'))
             ->addArgument(
                 'key',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.state.arguments.key')
-            );
+            )
+            ->setHelp($this->trans('commands.debug.state.help'))
+            ->setAliases(['dst']);
     }
 
     /**
