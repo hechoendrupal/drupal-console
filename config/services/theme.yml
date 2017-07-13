@@ -13,7 +13,7 @@ services:
     lazy: true
   console.theme_path:
     class: Drupal\Console\Command\Theme\PathCommand
-    arguments: ['@console.extension_manager']
+    arguments: ['@console.extension_manager','@theme_handler']
     tags:
       - { name: drupal.command }
     lazy: true

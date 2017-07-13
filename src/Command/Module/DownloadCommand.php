@@ -138,7 +138,7 @@ class DownloadCommand extends Command
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.install.options.unstable')
             )
-            ->setAliases(['md']);
+            ->setAliases(['mod']);
     }
 
     /**

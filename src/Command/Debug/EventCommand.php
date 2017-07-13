@@ -51,7 +51,8 @@ class EventCommand extends Command
                 $this->trans('commands.debug.event.arguments.event'),
                 null
             )
-            ->setHelp($this->trans('commands.debug.event.blerp'));
+            ->setHelp($this->trans('commands.debug.event.blerp'))
+            ->setAliases(['dev']);
     }
 
     /**

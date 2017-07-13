@@ -55,7 +55,7 @@ class DevelDumperCommand extends Command
                 'dumper',
                 InputArgument::OPTIONAL,
                 $this->trans('Name of the devel dumper plugin')
-            );
+            )->setAliases(['dd']);
     }
 
     /**

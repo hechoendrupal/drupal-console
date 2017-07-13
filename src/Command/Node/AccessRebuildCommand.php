@@ -53,7 +53,7 @@ class AccessRebuildCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.node.access.rebuild.options.batch')
-            );
+            )->setAliases(['nar']);
     }
 
     /**

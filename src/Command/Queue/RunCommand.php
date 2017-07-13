@@ -63,7 +63,7 @@ class RunCommand extends Command
                 'name',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.queue.run.arguments.name')
-            );
+            )->setAliases(['qr']);
     }
 
     /**

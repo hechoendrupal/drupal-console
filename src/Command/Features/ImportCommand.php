@@ -49,7 +49,8 @@ class ImportCommand extends Command
                 'packages',
                 InputArgument::IS_ARRAY,
                 $this->trans('commands.features.import.arguments.packages')
-            );
+            )->setAliases(['fei']);
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

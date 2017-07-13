@@ -82,7 +82,7 @@ class DownloadCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.theme.download.options.composer')
-            )->setAliases(['td']);
+            )->setAliases(['thd']);
     }
 
     /**

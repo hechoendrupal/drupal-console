@@ -75,7 +75,8 @@ class StatisticsCommand extends Command
         $this
             ->setName('site:statistics')
             ->setDescription($this->trans('commands.site.statistics.description'))
-            ->setHelp($this->trans('commands.site.statistics.help'));
+            ->setHelp($this->trans('commands.site.statistics.help'))
+            ->setAliases(['sst']);
         ;
     }
 

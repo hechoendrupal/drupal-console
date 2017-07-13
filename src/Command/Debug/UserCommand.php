@@ -96,7 +96,7 @@ class UserCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.debug.user.options.limit')
-            );
+            )->setAliases(['dus']);
     }
 
     /**

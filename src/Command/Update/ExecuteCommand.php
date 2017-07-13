@@ -110,7 +110,7 @@ class ExecuteCommand extends Command
                 InputArgument::OPTIONAL,
                 $this->trans('commands.update.execute.options.update-n')
             )
-            ->setAliases(['upe']);
+            ->setAliases(['upex']);
     }
 
     /**

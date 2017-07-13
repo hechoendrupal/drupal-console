@@ -46,7 +46,8 @@ class ImageStylesCommand extends Command
     {
         $this
             ->setName('debug:image:styles')
-            ->setDescription($this->trans('commands.debug.image.styles.description'));
+            ->setDescription($this->trans('commands.debug.image.styles.description'))
+            ->setAliases(['dis']);
     }
 
     /**

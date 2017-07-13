@@ -60,7 +60,7 @@ class DeleteCommand extends Command
                 'entity-id',
                 InputArgument::REQUIRED,
                 $this->trans('commands.entity.delete.arguments.entity-id')
-            );
+            )->setAliases(['ed']);
     }
 
     /**

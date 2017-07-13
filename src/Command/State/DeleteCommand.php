@@ -56,7 +56,7 @@ class DeleteCommand extends Command
                 'name',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.state.delete.arguments.name')
-            );
+            )->setAliases(['std']);
     }
 
     /**

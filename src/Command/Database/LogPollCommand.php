@@ -50,7 +50,7 @@ class LogPollCommand extends DatabaseLogBase
             InputArgument::OPTIONAL,
             $this->trans('commands.database.log.poll.arguments.duration'),
             '10'
-        );
+        )->setAliases(['dblp']);
     }
 
     /**

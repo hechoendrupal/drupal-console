@@ -59,7 +59,7 @@ class VocabulariesCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.create.vocabularies.options.name-words')
-            );
+            )->setAliases(['crv']);
     }
 
     /**

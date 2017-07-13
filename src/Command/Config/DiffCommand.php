@@ -79,7 +79,7 @@ class DiffCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.diff.options.reverse')
-            );
+            )->setAliases(['cdi']);
     }
 
     /**

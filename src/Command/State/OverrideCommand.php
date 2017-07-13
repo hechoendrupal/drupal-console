@@ -69,7 +69,7 @@ class OverrideCommand extends Command
                 'value',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.state.override.arguments.value')
-            );
+            )->setAliases(['sto']);
     }
     /**
      * {@inheritdoc}

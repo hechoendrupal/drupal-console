@@ -38,7 +38,7 @@ class ValidateCommand extends Command
             ->addArgument(
             		'name', 
             		InputArgument::REQUIRED
-            );
+            )->setAliases(['cv']);
     }
 
     /**

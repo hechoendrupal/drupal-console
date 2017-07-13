@@ -46,7 +46,8 @@ class QueueCommand extends Command
     {
         $this
             ->setName('debug:queue')
-            ->setDescription($this->trans('commands.debug.queue.description'));
+            ->setDescription($this->trans('commands.debug.queue.description'))
+            ->setAliases(['dq']);
     }
 
     /**

@@ -95,7 +95,7 @@ class NodesCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.create.nodes.options.language')
-            );
+            )->setAliases(['crn']);
     }
 
     /**

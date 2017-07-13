@@ -70,7 +70,8 @@ class DumpCommand extends Command
                 InputOption::VALUE_NONE,
                 $this->trans('commands.database.dump.options.gz')
             )
-            ->setHelp($this->trans('commands.database.dump.help'));
+            ->setHelp($this->trans('commands.database.dump.help'))
+            ->setAliases(['dbdu']);
     }
 
     /**
