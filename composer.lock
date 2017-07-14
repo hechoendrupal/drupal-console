@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5375a537301f3ae536a38eb17ace817",
+    "content-hash": "3910e9a712bccd196d2cf68eec646412",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -186,16 +186,16 @@
         },
         {
             "name": "dflydev/dot-access-configuration",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-dot-access-configuration.git",
-                "reference": "9b65c83159c9003e00284ea1144ad96b69d9c8b9"
+                "reference": "ae6e7138b1d9063d343322cca63994ee1ac5161d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-configuration/zipball/9b65c83159c9003e00284ea1144ad96b69d9c8b9",
-                "reference": "9b65c83159c9003e00284ea1144ad96b69d9c8b9",
+                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-configuration/zipball/ae6e7138b1d9063d343322cca63994ee1ac5161d",
+                "reference": "ae6e7138b1d9063d343322cca63994ee1ac5161d",
                 "shasum": ""
             },
             "require": {
@@ -242,7 +242,7 @@
                 "config",
                 "configuration"
             ],
-            "time": "2014-11-14T03:26:12+00:00"
+            "time": "2016-12-12T17:43:40+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -578,21 +578,21 @@
         },
         {
             "name": "drupal/console-core",
-            "version": "1.0.0-rc23",
+            "version": "1.0.0-rc24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-core.git",
-                "reference": "b1f3680ae19a4d00f8b701b060521bab2cccd6b1"
+                "reference": "dcf0f04a97a72b23596398a4ed9daa22a8dd5bd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/b1f3680ae19a4d00f8b701b060521bab2cccd6b1",
-                "reference": "b1f3680ae19a4d00f8b701b060521bab2cccd6b1",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-core/zipball/dcf0f04a97a72b23596398a4ed9daa22a8dd5bd0",
+                "reference": "dcf0f04a97a72b23596398a4ed9daa22a8dd5bd0",
                 "shasum": ""
             },
             "require": {
-                "dflydev/dot-access-configuration": "1.0.1",
-                "drupal/console-en": "1.0.0-rc23",
+                "dflydev/dot-access-configuration": "^1.0",
+                "drupal/console-en": "1.0.0-rc24",
                 "php": "^5.5.9 || ^7.0",
                 "stecman/symfony-console-completion": "~0.7",
                 "symfony/config": "~2.8",
@@ -655,7 +655,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2017-06-27T09:16:56+00:00"
+            "time": "2017-07-14T08:51:18+00:00"
         },
         {
             "name": "drupal/console-dotenv",
@@ -698,16 +698,16 @@
         },
         {
             "name": "drupal/console-en",
-            "version": "1.0.0-rc23",
+            "version": "1.0.0-rc24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hechoendrupal/drupal-console-en.git",
-                "reference": "e2461a8cf8bb29aacae0cf0f8a0a2c8d36ed4220"
+                "reference": "3235d0e3fd30e73b55585d746e7ba8dc39ca9281"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/e2461a8cf8bb29aacae0cf0f8a0a2c8d36ed4220",
-                "reference": "e2461a8cf8bb29aacae0cf0f8a0a2c8d36ed4220",
+                "url": "https://api.github.com/repos/hechoendrupal/drupal-console-en/zipball/3235d0e3fd30e73b55585d746e7ba8dc39ca9281",
+                "reference": "3235d0e3fd30e73b55585d746e7ba8dc39ca9281",
                 "shasum": ""
             },
             "type": "drupal-console-language",
@@ -748,7 +748,7 @@
                 "drupal",
                 "symfony"
             ],
-            "time": "2017-06-22T19:05:23+00:00"
+            "time": "2017-07-14T02:44:41+00:00"
         },
         {
             "name": "drupal/console-extend-plugin",
