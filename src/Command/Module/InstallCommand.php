@@ -175,14 +175,14 @@ class InstallCommand extends Command
                 if ($process->isSuccessful()) {
                     $io->info(
                         sprintf(
-                            'Module %s was downloaded with Composer.',
+                            $this->trans('commands.module.install.messages.download-with-composer'),
                             $moduleItem
                         )
                     );
                 } else {
                     $io->error(
                         sprintf(
-                            'Module %s seems not to be installed with Composer. Halting.',
+                            $this->trans('commands.module.install.messages.not-installed-with-composer'),
                             $moduleItem
                         )
                     );
@@ -202,7 +202,7 @@ class InstallCommand extends Command
                     unset($module[array_search($invalidModule, $module)]);
                     $io->error(
                         sprintf(
-                            'Invalid module name: %s',
+                            $this->trans('commands.module.install.messages.invalid-name'),
                             $invalidModule
                         )
                     );
