@@ -87,7 +87,7 @@ class DeleteTermCommand extends Command
 
         foreach ($vid as $item) {
             if (!isset($vocabularies[$item])) {
-                $io->error("Invalid vid: {$item}.");
+                $io->error(sprintf($this->trans('commands.taxonomy.term.delete.messages.invalid-vid'), $item));
             }
             $vocabulary = $vocabularies[$item];
             $terms = $termStorage->loadTree($vocabulary->id());
@@ -95,7 +95,7 @@ class DeleteTermCommand extends Command
             foreach ($terms as $term) {
                 $treal = $termStorage->load($term->tid);
                 if ($treal !== null) {
-                    $io->info("Deleting '{$term->name}' and all translations.");
+                    $io->info(sprintf($this->trans('commands.taxonomy.term.delete.messages.deleting-all-translation'), $term->name));
                     $treal->delete();
                 }
             }

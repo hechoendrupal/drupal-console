@@ -83,7 +83,7 @@ class ImportSingleCommand extends Command
         $directory = $input->getOption('directory');
 
         if (!$file) {
-            $io->error('File option is missing.');
+            $io->error($this->trans('commands.config.import.single..message.missing-file'));
 
             return 1;
         }
@@ -172,7 +172,7 @@ class ImportSingleCommand extends Command
                     return true;
                 }
             } catch (ConfigImporterException $e) {
-                $message = 'The import failed due to the following reasons:' . "\n";
+                $message = $this->trans('commands.config.import.messages.import-fail') . "\n";
                 $message .= implode("\n", $configImporter->getErrors());
                 $io->error(
                     sprintf(
