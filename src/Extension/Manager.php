@@ -98,10 +98,10 @@ class Manager
     }
 
     /**
-     * @param string $nameOnly
+     * @param boolean $nameOnly
      * @return array
      */
-    public function getList($nameOnly)
+    public function getList($nameOnly = false)
     {
         return $this->getExtensions($this->extension, $nameOnly);
     }
