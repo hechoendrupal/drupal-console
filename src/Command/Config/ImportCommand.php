@@ -131,7 +131,7 @@ class ImportCommand extends Command
                 $config_importer->import();
                 return true;
             } catch (ConfigImporterException $e) {
-                $message = 'The import failed due to the following reasons:' . "\n";
+                $message = $this->trans('commands.config.import.messages.import-fail') . "\n";
                 $message .= implode("\n", $config_importer->getErrors());
                 $io->error(
                     sprintf(
