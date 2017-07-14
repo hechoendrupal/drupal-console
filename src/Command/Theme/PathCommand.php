@@ -14,13 +14,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Core\Extension\ThemeHandler;
 
 class PathCommand extends Command
 {
     use CommandTrait;
-    use ModuleTrait;
+
 
     /**
      * @var Manager
@@ -28,13 +28,20 @@ class PathCommand extends Command
     protected $extensionManager;
 
     /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+    /**
      * PathCommand constructor.
      *
-     * @param Manager $extensionManager
+     * @param Manager      $extensionManager
+     * @param ThemeHandler $themeHandler
      */
-    public function __construct(Manager $extensionManager)
+    public function __construct(Manager $extensionManager, ThemeHandler $themeHandler)
     {
         $this->extensionManager = $extensionManager;
+        $this->themeHandler = $themeHandler;
         parent::__construct();
     }
 
@@ -46,24 +53,32 @@ class PathCommand extends Command
             ->addArgument(
                 'theme',
                 InputArgument::REQUIRED,
-                $this->trans('commands.theme.path.arguments.module')
+                $this->trans('commands.theme.path.arguments.theme')
             )
             ->addOption(
                 'absolute',
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.theme.path.options.absolute')
-            );
+            )->setAliases(['thp']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-
         $theme = $input->getArgument('theme');
 
         $fullPath = $input->getOption('absolute');
 
+        if (!in_array($theme, $this->getThemeList())) {
+            $io->error(
+                sprintf(
+                    'Invalid theme name: %s',
+                    $theme
+                )
+            );
+            return;
+        }
         $theme = $this->extensionManager->getTheme($theme);
 
         $io->info(
@@ -78,12 +93,19 @@ class PathCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        // --module argument
+        // --theme argument
         $theme = $input->getArgument('theme');
         if (!$theme) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setArgument('theme', $module);
+            $theme = $io->choiceNoList(
+                $this->trans('commands.theme.path.arguments.theme'),
+                $this->getThemeList()
+            );
+            $input->setArgument('theme', $theme);
         }
+    }
+
+    protected function getThemeList()
+    {
+        return array_keys($this->themeHandler->rebuildThemeData());
     }
 }

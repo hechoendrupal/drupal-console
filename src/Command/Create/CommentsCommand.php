@@ -72,7 +72,7 @@ class CommentsCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.create.comments.options.time-range')
-            );
+            )->setAliases(['crc']);
     }
 
     /**

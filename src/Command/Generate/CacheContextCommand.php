@@ -100,7 +100,7 @@ class CacheContextCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
-            );
+            )->setAliases(['gcc']);
     }
 
     /**

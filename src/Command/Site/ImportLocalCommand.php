@@ -76,7 +76,8 @@ class ImportLocalCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.site.import.local.options.environment')
             )
-            ->setHelp($this->trans('commands.site.import.local.help'));
+            ->setHelp($this->trans('commands.site.import.local.help'))
+            ->setAliases(['sil']);
         ;
     }
 

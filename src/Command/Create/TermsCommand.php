@@ -80,7 +80,7 @@ class TermsCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.create.terms.options.name-words')
-            );
+            )->setAliases(['crt']);
     }
 
     /**

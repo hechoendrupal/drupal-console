@@ -41,7 +41,8 @@ class CronCommand extends Command
     {
         $this
             ->setName('debug:cron')
-            ->setDescription($this->trans('commands.debug.cron.description'));
+            ->setDescription($this->trans('commands.debug.cron.description'))
+            ->setAliases(['dcr']);
     }
 
     /**

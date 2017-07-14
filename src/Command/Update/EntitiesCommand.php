@@ -67,7 +67,9 @@ class EntitiesCommand extends Command
     {
         $this
             ->setName('update:entities')
-            ->setDescription($this->trans('commands.update.entities.description'));
+            ->setDescription($this->trans('commands.update.entities.description'))
+            ->setAliases(['upe']);
+        ;
     }
 
     /**

@@ -62,7 +62,7 @@ class RoleCommand extends Command
                 'role',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.user.role.role')
-            );
+            )->setAliases(['ur']);
     }
 
     /**

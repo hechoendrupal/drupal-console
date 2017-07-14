@@ -53,7 +53,7 @@ class ReleaseCommand extends Command
         $this
             ->setName('cron:release')
             ->setDescription($this->trans('commands.cron.release.description'))
-            ->setAliases(['crr']);
+            ->setAliases(['cror']);
     }
 
     /**

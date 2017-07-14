@@ -18,7 +18,7 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\Validator;
-use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
@@ -38,13 +38,13 @@ class InstallDependencyCommand extends Command
     protected $site;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
- * @var ModuleInstaller
-*/
+     * @var ModuleInstallerInterface
+     */
     protected $moduleInstaller;
 
     /**
@@ -55,14 +55,15 @@ class InstallDependencyCommand extends Command
     /**
      * InstallCommand constructor.
      *
-     * @param Site       $site
-     * @param Validator  $validator
-     * @param ChainQueue $chainQueue
+     * @param Site                     $site
+     * @param Validator                $validator
+     * @param ModuleInstallerInterface $moduleInstaller
+     * @param ChainQueue               $chainQueue
      */
     public function __construct(
         Site $site,
         Validator $validator,
-        ModuleInstaller $moduleInstaller,
+        ModuleInstallerInterface $moduleInstaller,
         ChainQueue $chainQueue
     ) {
         $this->site = $site;
@@ -84,7 +85,7 @@ class InstallDependencyCommand extends Command
                 'module',
                 InputArgument::IS_ARRAY,
                 $this->trans('commands.module.install.dependencies.arguments.module')
-            );
+            )->setAliases(['modi']);
     }
 
     /**

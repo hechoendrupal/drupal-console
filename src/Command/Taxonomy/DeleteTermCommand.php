@@ -40,8 +40,8 @@ class DeleteTermCommand extends Command
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -50,55 +50,103 @@ class DeleteTermCommand extends Command
             ->addArgument(
                 'vid',
                 InputArgument::REQUIRED
-            );
+            )->setAliases(['ttd']);
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $vid = $input->getArgument('vid');
         $io = new DrupalStyle($input, $output);
 
-        $this->deleteExistingTerms($vid, $io);
+        if ($vid === 'all') {
+            $vid = $vid;
+        } elseif (!in_array($vid, array_keys($this->getVocabularies()))) {
 
-        return 0;
+            $io->error(
+                sprintf(
+                    $this->trans('commands.taxonomy.term.delete.messages.invalid-vocabulary'),
+                    $vid
+                )
+            );
+            return;
+
+        }
+        $this->deleteExistingTerms($vid, $io);
     }
 
     /**
-   * Destroy all existing terms before import
-     *
-   * @param $vid
-   * @param $io
-   */
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new DrupalStyle($input, $output);
+
+        // --vid argument
+        $vid = $input->getArgument('vid');
+        if (!$vid) {
+            $vid = $io->choiceNoList(
+                $this->trans('commands.taxonomy.term.delete.vid'),
+                array_keys($this->getVocabularies())
+            );
+            $input->setArgument('vid', $vid);
+        }
+    }
+
+    /**
+     * Destroy all existing terms
+     * @param $vid
+     * @param $io
+     */
     private function deleteExistingTerms($vid = null, DrupalStyle $io)
     {
-        //Load the vid
-        $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
-        $vocabularies = $this->entityTypeManager->getStorage('taxonomy_vocabulary')
-            ->loadMultiple();
 
-        if ($vid !== 'all') {
-            $vid = [$vid];
-        } else {
+        $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
+        //Load all vocabularies
+        $vocabularies = $this->getVocabularies();
+
+        if ($vid === 'all') {
             $vid = array_keys($vocabularies);
+        } else {
+            $vid = [$vid];
         }
 
         foreach ($vid as $item) {
-            if (!isset($vocabularies[$item])) {
-                $io->error(sprintf($this->trans('commands.taxonomy.term.delete.messages.invalid-vid'), $item));
-            }
             $vocabulary = $vocabularies[$item];
             $terms = $termStorage->loadTree($vocabulary->id());
 
-            foreach ($terms as $term) {
-                $treal = $termStorage->load($term->tid);
-                if ($treal !== null) {
-                    $io->info(sprintf($this->trans('commands.taxonomy.term.delete.messages.deleting-all-translation'), $term->name));
-                    $treal->delete();
+            if (empty($terms)) {
+                $io->error(
+                    sprintf(
+                        $this->trans('commands.taxonomy.term.delete.messages.nothing'),
+                        $item
+                    )
+                );
+
+            } else {
+                foreach ($terms as $term) {
+                    $treal = $termStorage->load($term->tid);
+
+                    if ($treal !== null) {
+                        $io->info(
+                            sprintf(
+                                $this->trans('commands.taxonomy.term.delete.messages.processing'),
+                                $term->name
+                            )
+                        );
+                        $treal->delete();
+                    }
                 }
+
             }
         }
+    }
+
+    private function getVocabularies()
+    {
+        return $this->entityTypeManager->getStorage('taxonomy_vocabulary')
+            ->loadMultiple();
     }
 }

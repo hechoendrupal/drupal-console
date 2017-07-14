@@ -54,7 +54,7 @@ class LoginUrlCommand extends Command
                 $this->trans('commands.user.login.url.options.user-id'),
                 null
             )
-            ->setAliases(['uslu']);
+            ->setAliases(['ulu']);
     }
 
     /**

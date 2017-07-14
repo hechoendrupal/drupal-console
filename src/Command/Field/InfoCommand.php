@@ -75,7 +75,7 @@ class InfoCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.field.info.options.bundle')
-            );
+            )->setAliases(['fii']);
     }
 
     /**

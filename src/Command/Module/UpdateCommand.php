@@ -68,7 +68,7 @@ class UpdateCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.update.options.simulate')
-            );
+            )->setAliases(['moup']);
     }
 
     /**

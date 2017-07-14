@@ -56,7 +56,8 @@ class DropCommand extends Command
                 $this->trans('commands.database.drop.arguments.database'),
                 'default'
             )
-            ->setHelp($this->trans('commands.database.drop.help'));
+            ->setHelp($this->trans('commands.database.drop.help'))
+            ->setAliases(['dbd']);
     }
 
     /**

@@ -34,7 +34,7 @@ class PermissionCommand extends Command
                 'role',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.permission.arguments.role')
-            );
+            )->setAliases(['dp']);
     }
 
     /**

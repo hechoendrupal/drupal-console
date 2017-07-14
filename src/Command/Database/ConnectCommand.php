@@ -34,7 +34,8 @@ class ConnectCommand extends Command
                 $this->trans('commands.database.connect.arguments.database'),
                 'default'
             )
-            ->setHelp($this->trans('commands.database.connect.help'));
+            ->setHelp($this->trans('commands.database.connect.help'))
+            ->setAliases(['dbco']);
     }
 
     /**

@@ -25,7 +25,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-rc23';
+    const VERSION = '1.0.0-rc24';
 
     public function __construct(ContainerInterface $container)
     {
@@ -206,10 +206,10 @@ class Application extends BaseApplication
             }
 
             if (array_key_exists($command->getName(), $aliases)) {
-                $commandAliases = array_merge(
+                $commandAliases = array_unique(array_merge(
                     $command->getAliases(),
                     $aliases[$command->getName()]
-                );
+                ));
                 if (!is_array($commandAliases)) {
                     $commandAliases = [$commandAliases];
                 }
@@ -296,16 +296,16 @@ class Application extends BaseApplication
             'arguments' => $arguments,
             'languages' => $languages,
             'messages' => [
-                'title' =>  $this->trans('commands.generate.doc.gitbook.messages.title'),
-                'note' =>  $this->trans('commands.generate.doc.gitbook.messages.note'),
-                'note_description' =>  $this->trans('commands.generate.doc.gitbook.messages.note-description'),
-                'command' =>  $this->trans('commands.generate.doc.gitbook.messages.command'),
-                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
-                'option' => $this->trans('commands.generate.doc.gitbook.messages.option'),
-                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
-                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
-                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
-                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
+                'title' => $this->trans('application.gitbook.messages.title'),
+                'note' =>  $this->trans('application.gitbook.messages.note'),
+                'note_description' =>  $this->trans('application.gitbook.messages.note-description'),
+                'command' =>  $this->trans('application.gitbook.messages.command'),
+                'options' => $this->trans('application.gitbook.messages.options'),
+                'option' => $this->trans('application.gitbook.messages.option'),
+                'details' => $this->trans('application.gitbook.messages.details'),
+                'arguments' => $this->trans('application.gitbook.messages.arguments'),
+                'argument' => $this->trans('application.gitbook.messages.argument'),
+                'examples' => $this->trans('application.gitbook.messages.examples')
             ],
             'examples' => []
         ];
@@ -373,13 +373,13 @@ class Application extends BaseApplication
             'key' => $commandKey,
             'dashed' => str_replace(':', '-', $command->getName()),
             'messages' => [
-                'usage' =>  $this->trans('commands.generate.doc.gitbook.messages.usage'),
-                'options' => $this->trans('commands.generate.doc.gitbook.messages.options'),
-                'option' => $this->trans('commands.generate.doc.gitbook.messages.option'),
-                'details' => $this->trans('commands.generate.doc.gitbook.messages.details'),
-                'arguments' => $this->trans('commands.generate.doc.gitbook.messages.arguments'),
-                'argument' => $this->trans('commands.generate.doc.gitbook.messages.argument'),
-                'examples' => $this->trans('commands.generate.doc.gitbook.messages.examples')
+                'usage' =>  $this->trans('application.gitbook.messages.usage'),
+                'options' => $this->trans('application.gitbook.messages.options'),
+                'option' => $this->trans('application.gitbook.messages.option'),
+                'details' => $this->trans('application.gitbook.messages.details'),
+                'arguments' => $this->trans('application.gitbook.messages.arguments'),
+                'argument' => $this->trans('application.gitbook.messages.argument'),
+                'examples' => $this->trans('application.gitbook.messages.examples')
             ],
         ];
 

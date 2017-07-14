@@ -64,7 +64,7 @@ class BreakpointsCommand extends Command
                 'group',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.breakpoints.options.group-name')
-            );
+            )->setAliases(['dbre']);
     }
 
     /**

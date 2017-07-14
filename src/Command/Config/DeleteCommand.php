@@ -73,7 +73,7 @@ class DeleteCommand extends Command
                 'name',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.config.delete.arguments.name')
-            );
+            )->setAliases(['cd']);
     }
 
     /**
