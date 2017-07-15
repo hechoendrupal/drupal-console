@@ -54,7 +54,7 @@ class {{class_name}} implements {% if plugin_interface is not empty %} {{ plugin
         $plugin_definition,
         {{ servicesAsParameters(services)|join(', \n\t') }}
   ) {
-    parent::__cons truct($configuration, $plugin_id, $plugin_definition);
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
 {{ serviceClassInitialization(services) }}
   }
 {% endif %}
