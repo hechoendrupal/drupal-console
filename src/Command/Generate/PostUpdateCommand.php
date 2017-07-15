@@ -14,15 +14,16 @@ use Drupal\Console\Generator\PostUpdateGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\Validator;
 
 /**
  * Class PostUpdateCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PostUpdateCommand extends Command
@@ -31,10 +32,14 @@ class PostUpdateCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PostUpdateGenerator  */
+    /**
+ * @var PostUpdateGenerator
+*/
     protected $generator;
 
     /**
@@ -42,7 +47,9 @@ class PostUpdateCommand extends Command
      */
     protected $site;
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
     /**
@@ -52,6 +59,7 @@ class PostUpdateCommand extends Command
 
     /**
      * PostUpdateCommand constructor.
+     *
      * @param Manager             $extensionManager
      * @param PostUpdateGenerator $generator
      * @param Site                $site
@@ -81,16 +89,16 @@ class PostUpdateCommand extends Command
             ->setHelp($this->trans('commands.generate.post.update.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'post-update-name',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.post.update.options.post-update-name')
-            );
+            )->setAliases(['gpu']);
     }
 
     /**
@@ -102,7 +110,7 @@ class PostUpdateCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -113,6 +121,8 @@ class PostUpdateCommand extends Command
         $this->generator->generate($module, $postUpdateName);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

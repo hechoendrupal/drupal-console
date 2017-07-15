@@ -13,6 +13,7 @@ use Alchemy\Zippy\Exception\NotSupportedException;
 
 /**
  * Class TarGzGNUTarForWindowsAdapter
+ *
  * @package Drupal\Console\Zippy\Adapter
  */
 class TarGzGNUTarForWindowsAdapter extends TarGzGNUTarAdapter
@@ -30,6 +31,6 @@ class TarGzGNUTarForWindowsAdapter extends TarGzGNUTarAdapter
      */
     protected function getLocalOptions()
     {
-        return array_merge(parent::getLocalOptions(), array('--force-local'));
+        return array_merge(parent::getLocalOptions(), ['--force-local']);
     }
 }

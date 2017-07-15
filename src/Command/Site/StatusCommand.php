@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\system\SystemManager;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Config\ConfigFactory;
@@ -72,8 +72,9 @@ class StatusCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param SystemManager           $systemManager
-     * @param Settings $settings
+     *
+     * @param SystemManager $systemManager
+     * @param Settings      $settings
      * @param ConfigFactory $configFactory
      * @param ThemeHandler  $themeHandler
      * @param $appRoot
@@ -107,7 +108,8 @@ class StatusCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.site.status.options.format'),
                 'table'
-            );
+            )
+            ->setAliases(['ss']);
     }
 
     /**
@@ -115,6 +117,9 @@ class StatusCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Make sure all modules are loaded.
+        $this->container->get('module_handler')->loadAll();
+
         $io = new DrupalStyle($input, $output);
 
         $systemData = $this->getSystemData();
@@ -156,7 +161,7 @@ class StatusCommand extends Command
                 $title = $requirement['title'];
             }
 
-            $systemData['system'][$title] = $requirement['value'];
+            $systemData['system'][$title] = strip_tags($requirement['value']);
         }
 
         if ($this->settings) {
@@ -165,7 +170,7 @@ class StatusCommand extends Command
             } catch (\Exception $e) {
                 $hashSalt = '';
             }
-            $systemData['system'][$this->trans('commands.site.status.messages.hash_salt')] = $hashSalt;
+            $systemData['system'][$this->trans('commands.site.status.messages.hash-salt')] = $hashSalt;
             $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
         }
 
@@ -213,7 +218,6 @@ class StatusCommand extends Command
 
     protected function getDirectoryData()
     {
-
         $systemTheme = $this->configFactory->get('system.theme');
 
         $themeDefaultDirectory = '';
@@ -235,10 +239,10 @@ class StatusCommand extends Command
 
         return [
           'directory' => [
-            $this->trans('commands.site.status.messages.directory_root') => $this->appRoot,
-            $this->trans('commands.site.status.messages.directory_temporary') => $systemFile->get('path.temporary'),
-            $this->trans('commands.site.status.messages.directory_theme_default') => $themeDefaultDirectory,
-            $this->trans('commands.site.status.messages.directory_theme_admin') => $themeAdminDirectory,
+            $this->trans('commands.site.status.messages.directory-root') => $this->appRoot,
+            $this->trans('commands.site.status.messages.directory-temporary') => $systemFile->get('path.temporary'),
+            $this->trans('commands.site.status.messages.directory-theme-default') => $themeDefaultDirectory,
+            $this->trans('commands.site.status.messages.directory-theme-admin') => $themeAdminDirectory,
           ],
         ];
     }

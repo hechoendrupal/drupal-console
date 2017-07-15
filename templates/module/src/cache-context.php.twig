@@ -1,0 +1,54 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\{{ class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\CacheContext;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Cache\Context\CacheContextInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+* Class {{ class }}.
+*/
+class {{ class }} implements CacheContextInterface {% endblock %}
+
+{% block class_construct %}
+
+  /**
+   * Constructs a new {{ class }} object.
+   */
+  public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
+  {{ serviceClassInitialization(services) }}
+  }
+
+{% endblock %}
+
+{% block class_methods %}
+  /**
+  * {@inheritdoc}
+  */
+  public static function getLabel() {
+    drupal_set_message('Lable of cache context');
+  }
+
+  /**
+  * {@inheritdoc}
+  */
+  public function getContext() {
+    // Actual logic of context variation will lie here.
+  }
+
+  /**
+  * {@inheritdoc}
+  */
+  public function getCacheableMetadata() {
+    return new CacheableMetadata();
+  }
+{% endblock %}

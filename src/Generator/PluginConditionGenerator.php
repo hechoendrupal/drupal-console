@@ -7,21 +7,24 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 /**
  * Class PluginConditionGenerator
+ *
  * @package Drupal\Console\Generator
  */
 class PluginConditionGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
-
 
     /**
      * PluginConditionGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

@@ -1,31 +1,42 @@
-imports:
-    - { resource: 'services-drupal-install.yml' }
 services:
+  console.root:
+    class: SplString
+    lazy: true
   console.redbean:
     class: RedBeanPHP\R
+    lazy: true
   console.validator:
     class: Drupal\Console\Utils\Validator
-    arguments: ['@console.extension_manager']
+    arguments: ['@console.extension_manager', '@console.translator_manager']
+    lazy: true
   console.drupal_api:
     class: Drupal\Console\Utils\DrupalApi
     arguments: ['@app.root', '@entity_type.manager', '@http_client']
+    lazy: true
   console.create_node_data:
     class: Drupal\Console\Utils\Create\NodeData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getBundles()']
+    lazy: true
   console.create_comment_data:
     class: Drupal\Console\Utils\Create\CommentData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+    lazy: true
   console.create_term_data:
     class: Drupal\Console\Utils\Create\TermData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getVocabularies()']
+    lazy: true
   console.create_user_data:
     class: Drupal\Console\Utils\Create\UserData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@=service("console.drupal_api").getRoles()']
+    lazy: true
   console.create_vocabulary_data:
     class: Drupal\Console\Utils\Create\VocabularyData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter']
+    lazy: true
   console.annotation_command_reader:
     class: Drupal\Console\Annotations\DrupalCommandAnnotationReader
+    lazy: true
   console.annotation_validator:
     class: Drupal\Console\Utils\AnnotationValidator
     arguments: ['@console.annotation_command_reader', '@console.extension_manager']
+    lazy: true

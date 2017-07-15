@@ -10,9 +10,8 @@ namespace Drupal\{{module}}\Entity;
 
 {% block use_class %}
 {% if revisionable %}
+use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Entity\RevisionableInterface;
-use Drupal\Component\Utility\Xss;
-use Drupal\Core\Url;
 {% else %}
 use Drupal\Core\Entity\ContentEntityInterface;
 {% endif %}
@@ -26,20 +25,10 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup {{module}}
  */
-interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableInterface{% else %} ContentEntityInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
+interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableInterface, RevisionLogInterface{% else %} ContentEntityInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 
-{% if bundle_entity_type %}
-  /**
-   * Gets the {{ label }} type.
-   *
-   * @return string
-   *   The {{ label }} type.
-   */
-  public function getType();
-
-{% endif %}
   /**
    * Gets the {{ label }} name.
    *
@@ -125,7 +114,7 @@ interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableI
    * @return \Drupal\user\UserInterface
    *   The user entity for the revision author.
    */
-  public function getRevisionAuthor();
+  public function getRevisionUser();
 
   /**
    * Sets the {{ label }} revision author.
@@ -136,6 +125,6 @@ interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableI
    * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
    *   The called {{ label }} entity.
    */
-  public function setRevisionAuthorId($uid);
+  public function setRevisionUserId($uid);
 {% endif %}
 {% endblock %}

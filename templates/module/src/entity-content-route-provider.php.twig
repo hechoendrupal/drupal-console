@@ -18,8 +18,8 @@ use Symfony\Component\Routing\Route;
 /**
  * Provides routes for {{ label }} entities.
  *
- * @see Drupal\Core\Entity\Routing\AdminHtmlRouteProvider
- * @see Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider
+ * @see \Drupal\Core\Entity\Routing\AdminHtmlRouteProvider
+ * @see \Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider
  */
 class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endblock %}
 {% block class_methods %}
@@ -30,10 +30,6 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
     $collection = parent::getRoutes($entity_type);
 
     $entity_type_id = $entity_type->id();
-
-    if ($collection_route = $this->getCollectionRoute($entity_type)) {
-      $collection->add("entity.{$entity_type_id}.collection", $collection_route);
-    }
 {% if revisionable %}
 
     if ($history_route = $this->getHistoryRoute($entity_type)) {
@@ -45,16 +41,18 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
     }
 
     if ($revert_route = $this->getRevisionRevertRoute($entity_type)) {
-      $collection->add("{$entity_type_id}.revision_revert_confirm", $revert_route);
+      $collection->add("entity.{$entity_type_id}.revision_revert", $revert_route);
     }
 
     if ($delete_route = $this->getRevisionDeleteRoute($entity_type)) {
-      $collection->add("{$entity_type_id}.revision_delete_confirm", $delete_route);
+      $collection->add("entity.{$entity_type_id}.revision_delete", $delete_route);
     }
+{% if is_translatable %}
 
     if ($translation_route = $this->getRevisionTranslationRevertRoute($entity_type)) {
       $collection->add("{$entity_type_id}.revision_revert_translation_confirm", $translation_route);
     }
+{%  endif %}
 {%  endif %}
 
     if ($settings_form_route = $this->getSettingsFormRoute($entity_type)) {
@@ -62,31 +60,6 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
     }
 
     return $collection;
-  }
-
-  /**
-   * Gets the collection route.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
-   *   The entity type.
-   *
-   * @return \Symfony\Component\Routing\Route|null
-   *   The generated route, if available.
-   */
-  protected function getCollectionRoute(EntityTypeInterface $entity_type) {
-    if ($entity_type->hasLinkTemplate('collection') && $entity_type->hasListBuilderClass()) {
-      $entity_type_id = $entity_type->id();
-      $route = new Route($entity_type->getLinkTemplate('collection'));
-      $route
-        ->setDefaults([
-          '_entity_list' => $entity_type_id,
-          '_title' => "{$entity_type->getLabel()} list",
-        ])
-        ->setRequirement('_permission', 'access {{ label|lower }} overview')
-        ->setOption('_admin_route', TRUE);
-
-      return $route;
-    }
   }
 {% if revisionable %}
 

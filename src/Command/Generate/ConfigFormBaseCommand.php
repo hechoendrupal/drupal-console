@@ -8,9 +8,9 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Generator\FormGenerator;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Routing\RouteProviderInterface;
 use Drupal\Core\Render\ElementInfoManager;
 
@@ -53,12 +53,13 @@ class ConfigFormBaseCommand extends FormCommand
 
     /**
      * ConfigFormBaseCommand constructor.
+     *
      * @param Manager                $extensionManager
      * @param FormGenerator          $generator
      * @param StringConverter        $stringConverter
      * @param RouteProviderInterface $routeProvider
      * @param ElementInfoManager     $elementInfoManager
-     * @param                        $appRoot
+     * @param $appRoot
      * @param ChainQueue             $chainQueue
      */
     public function __construct(
@@ -77,13 +78,14 @@ class ConfigFormBaseCommand extends FormCommand
         $this->elementInfoManager = $elementInfoManager;
         $this->appRoot = $appRoot;
         $this->chainQueue = $chainQueue;
-        parent::__construct();
+        parent::__construct($extensionManager, $generator, $chainQueue, $stringConverter, $elementInfoManager, $routeProvider);
     }
 
     protected function configure()
     {
         $this->setFormType('ConfigFormBase');
         $this->setCommandName('generate:form:config');
+        $this->setAliases(['gfc']);
         parent::configure();
     }
 }

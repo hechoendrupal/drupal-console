@@ -14,11 +14,11 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\PluginCKEditorButtonGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 
 class PluginCKEditorButtonCommand extends Command
 {
@@ -33,10 +33,14 @@ class PluginCKEditorButtonCommand extends Command
     protected $chainQueue;
 
 
-    /** @var PluginCKEditorButtonGenerator  */
+    /**
+ * @var PluginCKEditorButtonGenerator
+*/
     protected $generator;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
     /**
@@ -47,6 +51,7 @@ class PluginCKEditorButtonCommand extends Command
 
     /**
      * PluginCKEditorButtonCommand constructor.
+     *
      * @param ChainQueue                    $chainQueue
      * @param PluginCKEditorButtonGenerator $generator
      * @param Manager                       $extensionManager
@@ -73,40 +78,40 @@ class PluginCKEditorButtonCommand extends Command
             ->setHelp($this->trans('commands.generate.plugin.ckeditorbutton.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.ckeditorbutton.options.class')
             )
             ->addOption(
                 'label',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.ckeditorbutton.options.label')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.ckeditorbutton.options.plugin-id')
             )
             ->addOption(
                 'button-name',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.ckeditorbutton.options.button-name')
             )
             ->addOption(
                 'button-icon-path',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.ckeditorbutton.options.button-icon-path')
-            );
+            )->setAliases(['gpc']);
     }
 
     /**
@@ -118,7 +123,7 @@ class PluginCKEditorButtonCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -133,6 +138,8 @@ class PluginCKEditorButtonCommand extends Command
             ->generate($module, $class_name, $label, $plugin_id, $button_name, $button_icon_path);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

@@ -7,13 +7,19 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class PluginRulesActionGenerator extends Generator
 {
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
 
     /**
      * PluginRulesActionGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

@@ -7,20 +7,24 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 /**
  * Class BreakPointGenerator
+ *
  * @package Drupal\Console\Generator
  */
-class  BreakPointGenerator extends Generator
+class BreakPointGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * BreakPointGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

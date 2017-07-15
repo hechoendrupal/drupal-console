@@ -15,10 +15,10 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\PermissionTrait;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 
 class PermissionCommand extends Command
 {
@@ -27,7 +27,9 @@ class PermissionCommand extends Command
     use PermissionTrait;
     use ConfirmationTrait;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
@@ -36,16 +38,24 @@ class PermissionCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var PermissionGenerator;
+     */
+    protected $generator;
+
+    /**
      * PermissionCommand constructor.
+     *
      * @param Manager         $extensionManager
      * @param StringConverter $stringConverter
      */
     public function __construct(
         Manager $extensionManager,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        PermissionGenerator $permissionGenerator
     ) {
         $this->extensionManager = $extensionManager;
         $this->stringConverter = $stringConverter;
+        $this->generator = $permissionGenerator;
         parent::__construct();
     }
 
@@ -60,16 +70,17 @@ class PermissionCommand extends Command
             ->setHelp($this->trans('commands.generate.permission.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'permissions',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.common.options.permissions')
-            );
+            )
+            ->setAliases(['gp']);
     }
 
     /**
@@ -79,12 +90,10 @@ class PermissionCommand extends Command
     {
         $module = $input->getOption('module');
         $permissions = $input->getOption('permissions');
+        $learning = $input->hasOption('learning');
 
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
 
-        //@TODO: $this->generator
-        //$generator->setLearning($learning);
-        //$generator->generate($module, $permissions);
+        $this->generator->generate($module, $permissions, $learning);
     }
 
     /**

@@ -11,9 +11,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Annotations\DrupalCommand;
@@ -41,6 +41,7 @@ class TranslationStatusCommand extends Command
 
     /**
      * TranslationStatusCommand constructor.
+     *
      * @param Site    $site
      * @param Manager $extensionManager
      */
@@ -85,11 +86,14 @@ class TranslationStatusCommand extends Command
 
         if (!$languages) {
             $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
-            return;
-        } elseif (empty($status)) {
-            $io->info($this->trans('commands.locale.translation.status.messages.no-translations'));
-            return;
+            return 1;
         }
+
+        if (empty($status)) {
+            $io->info($this->trans('commands.locale.translation.status.messages.no-translations'));
+            return 1;
+        }
+
         if ($languages) {
             $projectsStatus = $this->projectsStatus();
 
@@ -108,5 +112,7 @@ class TranslationStatusCommand extends Command
                 $io->table($tableHeader, $tableRows, 'compact');
             }
         }
+
+        return 0;
     }
 }

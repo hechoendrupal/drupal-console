@@ -1,6 +1,0 @@
-services:
-  console.field_info:
-    class: Drupal\Console\Command\Field\InfoCommand
-    arguments: ['@entity_type.manager', '@entity_field.manager']
-    tags:
-      - { name: drupal.command }

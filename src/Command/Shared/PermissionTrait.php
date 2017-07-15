@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 trait PermissionTrait
 {
@@ -55,7 +55,8 @@ trait PermissionTrait
             if (!$output->confirm(
                 $this->trans('commands.generate.permission.questions.add'),
                 true
-            )) {
+            )
+            ) {
                 break;
             }
         }

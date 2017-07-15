@@ -15,9 +15,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Extension\Manager;
 
 class ExportContentTypeCommand extends Command
 {
@@ -25,24 +26,38 @@ class ExportContentTypeCommand extends Command
     use ModuleTrait;
     use ExportTrait;
 
-    /** @var EntityTypeManager  */
+    /**
+     * @var EntityTypeManagerInterface
+     */
     protected $entityTypeManager;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
     protected $configExport;
 
     /**
      * ExportContentTypeCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param CachedStorage     $configStorage
+     * @param CachedStorage              $configStorage
+     * @param Manager                    $extensionManager
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
-        CachedStorage $configStorage
+        CachedStorage $configStorage,
+        Manager $extensionManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
@@ -54,19 +69,20 @@ class ExportContentTypeCommand extends Command
         $this
             ->setName('config:export:content:type')
             ->setDescription($this->trans('commands.config.export.content.type.description'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addArgument(
                 'content-type',
                 InputArgument::REQUIRED,
                 $this->trans('commands.config.export.content.type.arguments.content-type')
             )->addOption(
                 'optional-config',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.content.type.options.optional-config')
-            );
+            )
+            ->setAliases(['cect']);
 
-        $this->configExport = array();
+        $this->configExport = [];
     }
 
     /**
@@ -87,9 +103,8 @@ class ExportContentTypeCommand extends Command
         // --content-type argument
         $contentType = $input->getArgument('content-type');
         if (!$contentType) {
-            $entityTypeManager = $this->getDrupalService('entity_type.manager');
-            $bundles_entities = $entityTypeManager->getStorage('node_type')->loadMultiple();
-            $bundles = array();
+            $bundles_entities = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
+            $bundles = [];
             foreach ($bundles_entities as $entity) {
                 $bundles[$entity->id()] = $entity->label();
             }
@@ -127,7 +142,7 @@ class ExportContentTypeCommand extends Command
 
         $contentTypeNameConfig = $this->getConfiguration($contentTypeName);
 
-        $this->configExport[$contentTypeName] = array('data' => $contentTypeNameConfig, 'optional' => $optionalConfig);
+        $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];
 
         $this->getFields($contentType, $optionalConfig);
 
@@ -135,7 +150,7 @@ class ExportContentTypeCommand extends Command
 
         $this->getViewDisplays($contentType, $optionalConfig);
 
-        $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.content.type.messages.content_type_exported'));
+        $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
     }
 
     protected function getFields($contentType, $optional = false)
@@ -148,7 +163,7 @@ class ExportContentTypeCommand extends Command
             $field_name_config = $this->getConfiguration($field_name);
             // Only select fields related with content type
             if ($field_name_config['bundle'] == $contentType) {
-                $this->configExport[$field_name] = array('data' => $field_name_config, 'optional' => $optional);
+                $this->configExport[$field_name] = ['data' => $field_name_config, 'optional' => $optional];
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($field_name_config, 'config')) {
                     $this->resolveDependencies($dependencies, $optional);
@@ -166,7 +181,7 @@ class ExportContentTypeCommand extends Command
             $form_display_name_config = $this->getConfiguration($form_display_name);
             // Only select fields related with content type
             if ($form_display_name_config['bundle'] == $contentType) {
-                $this->configExport[$form_display_name] = array('data' => $form_display_name_config, 'optional' => $optional);
+                $this->configExport[$form_display_name] = ['data' => $form_display_name_config, 'optional' => $optional];
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($form_display_name_config, 'config')) {
                     $this->resolveDependencies($dependencies, $optional);
@@ -184,7 +199,7 @@ class ExportContentTypeCommand extends Command
             $view_display_name_config = $this->getConfiguration($view_display_name);
             // Only select fields related with content type
             if ($view_display_name_config['bundle'] == $contentType) {
-                $this->configExport[$view_display_name] = array('data' => $view_display_name_config, 'optional' => $optional);
+                $this->configExport[$view_display_name] = ['data' => $view_display_name_config, 'optional' => $optional];
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($view_display_name_config, 'config')) {
                     $this->resolveDependencies($dependencies, $optional);

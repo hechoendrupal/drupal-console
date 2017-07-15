@@ -7,8 +7,11 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+
 /**
  * Class ModuleFileGenerator
+ *
  * @package Drupal\Console\Generator
  */
 class ModuleFileGenerator extends Generator
@@ -34,10 +37,10 @@ class ModuleFileGenerator extends Generator
             }
         }
 
-        $parameters = array(
+        $parameters = [
           'machine_name' => $machine_name,
           'file_path' => $file_path ,
-        );
+        ];
 
         if ($machine_name) {
             $this->renderFile(

@@ -14,12 +14,11 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\HelpGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Utils\ChainQueue;
-
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class HelpCommand extends Command
 {
@@ -27,7 +26,9 @@ class HelpCommand extends Command
     use ModuleTrait;
     use ConfirmationTrait;
 
-    /** @var HelpGenerator  */
+    /**
+ * @var HelpGenerator
+*/
     protected $generator;
 
     /**
@@ -35,7 +36,9 @@ class HelpCommand extends Command
      */
     protected $site;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
     /**
@@ -46,6 +49,7 @@ class HelpCommand extends Command
 
     /**
      * HelpCommand constructor.
+     *
      * @param HelpGenerator $generator
      * @param Site          $site
      * @param Manager       $extensionManager
@@ -72,16 +76,16 @@ class HelpCommand extends Command
             ->setHelp($this->trans('commands.generate.help.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'description',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.module.options.description')
-            );
+            )->setAliases(['gh']);
     }
 
     /**
@@ -93,7 +97,7 @@ class HelpCommand extends Command
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -114,6 +118,8 @@ class HelpCommand extends Command
             ->generate($module, $description);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

@@ -12,8 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class DeleteCommand extends Command
 {
@@ -31,8 +31,9 @@ class DeleteCommand extends Command
 
     /**
      * DeleteCommand constructor.
-     * @param EntityTypeRepository  $entityTypeRepository
-     * @param EntityTypeManagerInterface     $entityTypeManager
+     *
+     * @param EntityTypeRepository       $entityTypeRepository
+     * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(
         EntityTypeRepository $entityTypeRepository,
@@ -59,7 +60,7 @@ class DeleteCommand extends Command
                 'entity-id',
                 InputArgument::REQUIRED,
                 $this->trans('commands.entity.delete.arguments.entity-id')
-            );
+            )->setAliases(['ed']);
     }
 
     /**

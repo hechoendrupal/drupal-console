@@ -16,9 +16,9 @@ use Drupal\Console\Command\Shared\FormTrait;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 
 class AuthenticationProviderCommand extends Command
@@ -29,10 +29,14 @@ class AuthenticationProviderCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var AuthenticationProviderGenerator  */
+    /**
+ * @var AuthenticationProviderGenerator
+*/
     protected $generator;
 
     /**
@@ -43,6 +47,7 @@ class AuthenticationProviderCommand extends Command
 
     /**
      * AuthenticationProviderCommand constructor.
+     *
      * @param Manager                         $extensionManager
      * @param AuthenticationProviderGenerator $generator
      * @param StringConverter                 $stringConverter
@@ -64,19 +69,20 @@ class AuthenticationProviderCommand extends Command
             ->setName('generate:authentication:provider')
             ->setDescription($this->trans('commands.generate.authentication.provider.description'))
             ->setHelp($this->trans('commands.generate.authentication.provider.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.authentication.provider.options.class')
             )
             ->addOption(
                 'provider-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.authentication.provider.options.provider-id')
-            );
+            )
+            ->setAliases(['gap']);
     }
 
     /**
@@ -88,7 +94,7 @@ class AuthenticationProviderCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -96,6 +102,8 @@ class AuthenticationProviderCommand extends Command
         $provider_id = $input->getOption('provider-id');
 
         $this->generator->generate($module, $class, $provider_id);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

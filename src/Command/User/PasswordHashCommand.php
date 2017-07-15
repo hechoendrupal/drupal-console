@@ -11,10 +11,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Core\Password\PhpassHashedPassword;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Core\Password\PasswordInterface;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class PasswordHashCommand extends Command
 {
@@ -22,15 +22,17 @@ class PasswordHashCommand extends Command
     use ConfirmationTrait;
 
     /**
-     * @var PhpassHashedPassword
+     * @var PasswordInterface
      */
     protected $password;
 
     /**
      * PasswordHashCommand constructor.
-     * @param PhpassHashedPassword $password
+     *
+     * @param PasswordInterface $password
      */
-    public function __construct(PhpassHashedPassword $password) {
+    public function __construct(PasswordInterface $password)
+    {
         $this->password = $password;
         parent::__construct();
     }
@@ -44,7 +46,12 @@ class PasswordHashCommand extends Command
             ->setName('user:password:hash')
             ->setDescription($this->trans('commands.user.password.hash.description'))
             ->setHelp($this->trans('commands.user.password.hash.help'))
-            ->addArgument('password', InputArgument::IS_ARRAY, $this->trans('commands.user.password.hash.options.password'));
+            ->addArgument(
+                'password',
+                InputArgument::IS_ARRAY,
+                $this->trans('commands.user.password.hash.options.password')
+            )
+            ->setAliases(['uph']);
     }
 
     /**
@@ -65,7 +72,7 @@ class PasswordHashCommand extends Command
         foreach ($passwords as $password) {
             $tableRows[] = [
                 $password,
-                $password->hash($password),
+                $this->password->hash($password),
             ];
         }
 

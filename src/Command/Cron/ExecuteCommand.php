@@ -14,9 +14,9 @@ use Symfony\Component\Console\Command\Command;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
@@ -44,9 +44,10 @@ class ExecuteCommand extends Command
 
     /**
      * DebugCommand constructor.
+     *
      * @param ModuleHandlerInterface $moduleHandler
      * @param LockBackendInterface   $lock
-     * @param StateInterface                  $state
+     * @param StateInterface         $state
      * @param ChainQueue             $chainQueue
      */
     public function __construct(
@@ -72,9 +73,10 @@ class ExecuteCommand extends Command
             ->setDescription($this->trans('commands.cron.execute.description'))
             ->addArgument(
                 'module',
-                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
+                InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
                 $this->trans('commands.common.options.module')
-            );
+            )
+            ->setAliases(['croe']);
     }
 
     /**
@@ -91,7 +93,7 @@ class ExecuteCommand extends Command
             return 1;
         }
 
-        if (in_array('all', $modules)) {
+        if ($modules === null || in_array('all', $modules)) {
             $modules = $this->moduleHandler->getImplementations('cron');
         }
 

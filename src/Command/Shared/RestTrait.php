@@ -42,7 +42,7 @@ trait RestTrait
         }
 
         if (isset($available_resources[$rest_status])) {
-            return array($rest_status => $available_resources[$rest_status]);
+            return [$rest_status => $available_resources[$rest_status]];
         }
 
         return $available_resources;

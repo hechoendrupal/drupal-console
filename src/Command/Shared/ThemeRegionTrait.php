@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 trait ThemeRegionTrait
 {
@@ -46,11 +46,51 @@ trait ThemeRegionTrait
             if (!$io->confirm(
                 $this->trans('commands.generate.theme.questions.region-add'),
                 true
-            )) {
+            )
+            ) {
                 break;
             }
         }
 
         return $regions;
+    }
+
+      /**
+   * @param DrupalStyle $io
+   *
+   * @return mixed
+   */
+    public function libraryQuestion(DrupalStyle $io)
+    {
+        $validators = $this->validator;
+        $libraries = [];
+        while (true) {
+            $libraryName = $io->ask(
+                $this->trans('commands.generate.theme.questions.library-name')
+            );
+            
+            $libraryVersion = $io->ask(
+                $this->trans('commands.generate.theme.questions.library-version'),
+                '1.0'
+            );
+            
+            array_push(
+                $libraries,
+                [
+                    'library_name' => $libraryName,
+                    'library_version'=> $libraryVersion,
+                ]
+            );
+
+            if (!$io->confirm(
+                $this->trans('commands.generate.theme.questions.library-add'),
+                true
+            )
+            ) {
+                break;
+            }
+        }
+
+        return $libraries;
     }
 }

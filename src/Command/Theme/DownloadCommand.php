@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Utils\DrupalApi;
 use GuzzleHttp\Client;
@@ -42,8 +42,9 @@ class DownloadCommand extends Command
 
     /**
      * DownloadCommand constructor.
-     * @param DrupalApi  $drupalApi
-     * @param Client  $httpClient
+     *
+     * @param DrupalApi $drupalApi
+     * @param Client    $httpClient
      * @param $appRoot
      */
     public function __construct(
@@ -66,14 +67,22 @@ class DownloadCommand extends Command
         $this
             ->setName('theme:download')
             ->setDescription($this->trans('commands.theme.download.description'))
-            ->addArgument('theme', InputArgument::REQUIRED, $this->trans('commands.theme.download.arguments.theme'))
-            ->addArgument('version', InputArgument::OPTIONAL, $this->trans('commands.theme.download.arguments.version'))
+            ->addArgument(
+                'theme',
+                InputArgument::REQUIRED,
+                $this->trans('commands.theme.download.arguments.theme')
+            )
+            ->addArgument(
+                'version',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.theme.download.arguments.version')
+            )
             ->addOption(
                 'composer',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.theme.download.options.composer')
-            );
+            )->setAliases(['thd']);
     }
 
     /**

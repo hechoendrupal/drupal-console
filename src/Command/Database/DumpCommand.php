@@ -12,10 +12,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Utils\ShellProcess;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\ShellProcess;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class DumpCommand extends Command
 {
@@ -31,6 +31,7 @@ class DumpCommand extends Command
 
     /**
      * DumpCommand constructor.
+     *
      * @param $appRoot
      * @param ShellProcess $shellProcess
      */
@@ -61,9 +62,16 @@ class DumpCommand extends Command
                 'file',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.database.dump.option.file')
+                $this->trans('commands.database.dump.options.file')
             )
-            ->setHelp($this->trans('commands.database.dump.help'));
+            ->addOption(
+                'gz',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.dump.options.gz')
+            )
+            ->setHelp($this->trans('commands.database.dump.help'))
+            ->setAliases(['dbdu']);
     }
 
     /**
@@ -76,6 +84,7 @@ class DumpCommand extends Command
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
         $learning = $input->getOption('learning');
+        $gz = $input->getOption('gz');
 
         $databaseConnection = $this->resolveConnection($io, $database);
 
@@ -93,7 +102,7 @@ class DumpCommand extends Command
 
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
-                'mysqldump --user=%s --password=%s --host=%s --port=%s %s > %s',
+                'mysqldump --user="%s" --password="%s" --host="%s" --port="%s" "%s" > "%s"',
                 $databaseConnection['username'],
                 $databaseConnection['password'],
                 $databaseConnection['host'],
@@ -103,7 +112,7 @@ class DumpCommand extends Command
             );
         } elseif ($databaseConnection['driver'] == 'pgsql') {
             $command = sprintf(
-                'PGPASSWORD="%s" pg_dumpall -w -U %s -h %s -p %s -l %s -f %s',
+                'PGPASSWORD="%s" pg_dumpall -w -U "%s" -h "%s" -p "%s" -l "%s" -f "%s"',
                 $databaseConnection['password'],
                 $databaseConnection['username'],
                 $databaseConnection['host'],
@@ -118,11 +127,29 @@ class DumpCommand extends Command
         }
 
         if ($this->shellProcess->exec($command, $this->appRoot)) {
+            $resultFile = $file;
+            if ($gz) {
+                if (substr($file, -3) != '.gz') {
+                    $resultFile = $file . ".gz";
+                }
+                file_put_contents(
+                    $resultFile,
+                    gzencode(
+                        file_get_contents(
+                            $file
+                        )
+                    )
+                );
+                if ($resultFile != $file) {
+                    unlink($file);
+                }
+            }
+
             $io->success(
                 sprintf(
                     '%s %s',
                     $this->trans('commands.database.dump.messages.success'),
-                    $file
+                    $resultFile
                 )
             );
         }

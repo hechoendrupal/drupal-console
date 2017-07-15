@@ -14,15 +14,16 @@ use Drupal\Console\Generator\PluginFieldTypeGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Field\FieldTypePluginManager;
 
 /**
  * Class PluginFieldTypeCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginFieldTypeCommand extends Command
@@ -31,10 +32,14 @@ class PluginFieldTypeCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginFieldTypeGenerator  */
+    /**
+ * @var PluginFieldTypeGenerator
+*/
     protected $generator;
 
     /**
@@ -50,6 +55,7 @@ class PluginFieldTypeCommand extends Command
 
     /**
      * PluginFieldTypeCommand constructor.
+     *
      * @param Manager                  $extensionManager
      * @param PluginFieldTypeGenerator $generator
      * @param StringConverter          $stringConverter
@@ -74,43 +80,44 @@ class PluginFieldTypeCommand extends Command
             ->setName('generate:plugin:fieldtype')
             ->setDescription($this->trans('commands.generate.plugin.fieldtype.description'))
             ->setHelp($this->trans('commands.generate.plugin.fieldtype.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.fieldtype.options.class')
             )
             ->addOption(
                 'label',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.fieldtype.options.label')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.fieldtype.options.plugin-id')
             )
             ->addOption(
                 'description',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.fieldtype.options.description')
             )
             ->addOption(
                 'default-widget',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.fieldtype.options.default-widget')
             )
             ->addOption(
                 'default-formatter',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.fieldtype.options.default-formatter')
-            );
+            )
+            ->setAliases(['gpft']);
     }
 
     /**
@@ -122,7 +129,7 @@ class PluginFieldTypeCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -137,6 +144,8 @@ class PluginFieldTypeCommand extends Command
             ->generate($module, $class_name, $label, $plugin_id, $description, $default_widget, $default_formatter);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

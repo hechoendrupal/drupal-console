@@ -10,13 +10,13 @@ namespace Drupal\Console\Command\Update;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Utility\Error;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Entity\EntityDefinitionUpdateManager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class EntitiesCommand.
@@ -44,7 +44,8 @@ class EntitiesCommand extends Command
 
     /**
      * EntitiesCommand constructor.
-     * @param StateInterface                         $state
+     *
+     * @param StateInterface                $state
      * @param EntityDefinitionUpdateManager $entityDefinitionUpdateManager
      * @param ChainQueue                    $chainQueue
      */
@@ -66,7 +67,9 @@ class EntitiesCommand extends Command
     {
         $this
             ->setName('update:entities')
-            ->setDescription($this->trans('commands.update.entities.description'));
+            ->setDescription($this->trans('commands.update.entities.description'))
+            ->setAliases(['upe']);
+        ;
     }
 
     /**

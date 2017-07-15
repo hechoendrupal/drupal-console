@@ -7,24 +7,26 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Console\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class InstallCommand
+ *
  * @package Drupal\Console\Command\Module
  */
 class InstallCommand extends Command
@@ -38,16 +40,24 @@ class InstallCommand extends Command
      */
     protected $site;
 
-    /** @var Validator  */
+    /**
+     * @var Validator
+     */
     protected $validator;
 
-    /** @var ModuleInstaller  */
+    /**
+     * @var ModuleInstaller
+     */
     protected $moduleInstaller;
 
-    /** @var DrupalApi  */
+    /**
+     * @var DrupalApi
+     */
     protected $drupalApi;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
@@ -62,13 +72,14 @@ class InstallCommand extends Command
 
     /**
      * InstallCommand constructor.
-     * @param Site $site
-     * @param Validator $validator
+     *
+     * @param Site            $site
+     * @param Validator       $validator
      * @param ModuleInstaller $moduleInstaller
-     * @param DrupalApi $drupalApi
-     * @param Manager           $extensionManager
+     * @param DrupalApi       $drupalApi
+     * @param Manager         $extensionManager
      * @param $appRoot
-     * @param ChainQueue $chainQueue
+     * @param ChainQueue      $chainQueue
      */
     public function __construct(
         Site $site,
@@ -104,16 +115,17 @@ class InstallCommand extends Command
             )
             ->addOption(
                 'latest',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.install.options.latest')
             )
             ->addOption(
                 'composer',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.uninstall.options.composer')
-            );
+            )
+            ->setAliases(['moi']);
     }
 
     /**
@@ -142,9 +154,9 @@ class InstallCommand extends Command
         $composer = $input->getOption('composer');
 
         $this->site->loadLegacyFile('/core/includes/bootstrap.inc');
-        
+
         // check module's requirements
-        $this->moduleRequirement($module);
+        $this->moduleRequirement($module, $io);
 
         if ($composer) {
             foreach ($module as $moduleItem) {
@@ -153,23 +165,28 @@ class InstallCommand extends Command
                     $moduleItem
                 );
 
-                $shellProcess = $this->get('shell_process');
-                if ($shellProcess->exec($command)) {
+                $processBuilder = new ProcessBuilder([]);
+                $processBuilder->setWorkingDirectory($this->appRoot);
+                $processBuilder->setArguments(explode(" ", $command));
+                $process = $processBuilder->getProcess();
+                $process->setTty('true');
+                $process->run();
+
+                if ($process->isSuccessful()) {
                     $io->info(
                         sprintf(
-                            'Module %s was downloaded with Composer.',
+                            $this->trans('commands.module.install.messages.download-with-composer'),
                             $moduleItem
                         )
                     );
                 } else {
                     $io->error(
                         sprintf(
-                            'Module %s seems not to be installed with Composer. Halting.',
+                            $this->trans('commands.module.install.messages.not-installed-with-composer'),
                             $moduleItem
                         )
                     );
-
-                    return 0;
+                    throw new \RuntimeException($process->getErrorOutput());
                 }
             }
 
@@ -185,7 +202,7 @@ class InstallCommand extends Command
                     unset($module[array_search($invalidModule, $module)]);
                     $io->error(
                         sprintf(
-                            'Invalid module name: %s',
+                            $this->trans('commands.module.install.messages.invalid-name'),
                             $invalidModule
                         )
                     );
@@ -222,6 +239,7 @@ class InstallCommand extends Command
             return 1;
         }
 
+        $this->site->removeCachedServicesFile();
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

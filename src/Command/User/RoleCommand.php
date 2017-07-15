@@ -11,12 +11,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\User
  */
 class RoleCommand extends Command
@@ -30,9 +31,11 @@ class RoleCommand extends Command
 
     /**
      * RoleCommand constructor.
+     *
      * @param DrupalApi $drupalApi
      */
-    public function __construct(DrupalApi $drupalApi) {
+    public function __construct(DrupalApi $drupalApi)
+    {
         $this->drupalApi = $drupalApi;
         parent::__construct();
     }
@@ -59,7 +62,7 @@ class RoleCommand extends Command
                 'role',
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.user.role.role')
-            );
+            )->setAliases(['ur']);
     }
 
     /**

@@ -20,6 +20,6 @@ class Discovery extends ExtensionDiscovery
      */
     public static function reset()
     {
-        static::$files = array();
+        static::$files = [];
     }
 }

@@ -82,14 +82,14 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return t('Are you sure you want to delete the revision from %revision-date?', array('%revision-date' => format_date($this->revision->getRevisionCreationTime())));
+    return t('Are you sure you want to delete the revision from %revision-date?', ['%revision-date' => format_date($this->revision->getRevisionCreationTime())]);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return new Url('entity.{{ entity_name }}.version_history', array('{{ entity_name }}' => $this->revision->id()));
+    return new Url('entity.{{ entity_name }}.version_history', ['{{ entity_name }}' => $this->revision->id()]);
   }
 
   /**
@@ -115,16 +115,16 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->{{ entity_class }}Storage->deleteRevision($this->revision->getRevisionId());
 
-    $this->logger('content')->notice('{{ label }}: deleted %title revision %revision.', array('%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()));
-    drupal_set_message(t('Revision from %revision-date of {{ label }} %title has been deleted.', array('%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label())));
+    $this->logger('content')->notice('{{ label }}: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
+    drupal_set_message(t('Revision from %revision-date of {{ label }} %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
     $form_state->setRedirect(
       'entity.{{ entity_name }}.canonical',
-       array('{{ entity_name }}' => $this->revision->id())
+       ['{{ entity_name }}' => $this->revision->id()]
     );
-    if ($this->connection->query('SELECT COUNT(DISTINCT vid) FROM {{ '{'~entity_name~'_field_revision}' }} WHERE id = :id', array(':id' => $this->revision->id()))->fetchField() > 1) {
+    if ($this->connection->query('SELECT COUNT(DISTINCT vid) FROM {{ '{'~entity_name~'_field_revision}' }} WHERE id = :id', [':id' => $this->revision->id()])->fetchField() > 1) {
       $form_state->setRedirect(
         'entity.{{ entity_name }}.version_history',
-         array('{{ entity_name }}' => $this->revision->id())
+         ['{{ entity_name }}' => $this->revision->id()]
       );
     }
   }

@@ -14,14 +14,15 @@ use Drupal\Console\Generator\UpdateGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
 
 /**
  * Class UpdateCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class UpdateCommand extends Command
@@ -30,10 +31,14 @@ class UpdateCommand extends Command
     use ConfirmationTrait;
     use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var UpdateGenerator  */
+    /**
+ * @var UpdateGenerator
+*/
     protected $generator;
 
     /**
@@ -49,9 +54,10 @@ class UpdateCommand extends Command
 
     /**
      * UpdateCommand constructor.
+     *
      * @param Manager         $extensionManager
      * @param UpdateGenerator $generator
-     * @param StringConverter $stringConverter
+     * @param Site            $site
      * @param ChainQueue      $chainQueue
      */
     public function __construct(
@@ -75,16 +81,16 @@ class UpdateCommand extends Command
             ->setHelp($this->trans('commands.generate.update.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'update-n',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.update.options.update-n')
-            );
+            )->setAliases(['gu']);
     }
 
     /**
@@ -96,7 +102,7 @@ class UpdateCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -116,6 +122,8 @@ class UpdateCommand extends Command
         $this->generator->generate($module, $updateNumber);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

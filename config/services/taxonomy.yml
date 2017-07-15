@@ -1,0 +1,7 @@
+services:
+  console.taxonomy_delete:
+    class: Drupal\Console\Command\Taxonomy\DeleteTermCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }
+    lazy: true
