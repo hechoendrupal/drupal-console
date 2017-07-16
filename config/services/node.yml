@@ -4,4 +4,3 @@ services:
     arguments: ['@state']
     tags:
       - { name: drupal.command }
-    lazy: true

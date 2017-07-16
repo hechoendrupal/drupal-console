@@ -3,4 +3,3 @@ services:
     class: Drupal\Console\Command\Features\ImportCommand
     tags:
       - { name: drupal.command }
-    lazy: true
