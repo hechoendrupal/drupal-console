@@ -52,7 +52,7 @@ Using the DrupalConsole Launcher
 drupal
 ``` 
 
-We highly recommend you to install the global executable, but if is not installed, then you can run DrupalConsole by:  
+We highly recommend you to install the global executable, but if is not installed, you can run Drupal Console depending on your installation by executing:
 
 ```
 vendor/bin/drupal
@@ -65,9 +65,9 @@ bin/drupal
 ## Drupal Console Support
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
-## Getting The Project To Contribute
-
-For information about how to run this project for development follow instructions at [setup instructions](https://gist.github.com/jmolivas/97bbd07f328217be3564a434c5bd2618).
+## Contribute to Drupal Console
+* [Getting the project](https://docs.drupalconsole.com/en/contributing/getting-the-project.html)
+* [Running the project](https://docs.drupalconsole.com/en/contributing/running-the-project.html)
 
 ## Enabling Autocomplete
 ```
