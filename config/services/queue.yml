@@ -4,4 +4,3 @@ services:
     arguments: ['@plugin.manager.queue_worker', '@queue']
     tags:
       - { name: drupal.command }
-    lazy: true

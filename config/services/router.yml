@@ -4,4 +4,3 @@ services:
     arguments: ['@router.builder']
     tags:
       - { name: drupal.command }
-    lazy: true

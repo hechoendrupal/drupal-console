@@ -4,7 +4,6 @@ services:
     arguments: ['@config.factory', '@?plugin.manager.rest']
     tags:
       - { name: drupal.command }
-    lazy: true
   console.rest_enable:
     class: Drupal\Console\Command\Rest\EnableCommand
     arguments:
@@ -15,4 +14,3 @@ services:
       - '@entity.manager'
     tags:
       - { name: drupal.command }
-    lazy: true

@@ -4,4 +4,3 @@ services:
     arguments: ['@app.root', '@?test_discovery', '@module_handler', '@date.formatter']
     tags:
       - { name: drupal.command }
-    lazy: true

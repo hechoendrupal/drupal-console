@@ -10,6 +10,7 @@ use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Application;
 
 set_time_limit(0);
+error_reporting(-1);
 
 $autoloaders = [];
 

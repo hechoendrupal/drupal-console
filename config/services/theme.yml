@@ -4,22 +4,18 @@ services:
     arguments: ['@console.drupal_api', '@http_client', '@app.root']
     tags:
       - { name: drupal.command }
-    lazy: true
   console.theme_install:
     class: Drupal\Console\Command\Theme\InstallCommand
     arguments: ['@config.factory', '@theme_handler', '@console.chain_queue']
     tags:
       - { name: drupal.command }
-    lazy: true
   console.theme_path:
     class: Drupal\Console\Command\Theme\PathCommand
     arguments: ['@console.extension_manager','@theme_handler']
     tags:
       - { name: drupal.command }
-    lazy: true
   console.theme_uninstall:
     class: Drupal\Console\Command\Theme\UninstallCommand
     arguments: ['@config.factory', '@theme_handler', '@console.chain_queue']
     tags:
       - { name: drupal.command }
-    lazy: true
