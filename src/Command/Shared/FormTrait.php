@@ -93,19 +93,19 @@ trait FormTrait
                 $size = null;
                 if (in_array($input_type, ['textfield', 'password', 'password_confirm'])) {
                     $maxlength = $io->ask(
-                        'Maximum amount of characters',
+                        $this->trans('commands.generate.form.questions.max-amount-characters'),
                         '64'
                     );
 
                     $size = $io->ask(
-                        'Width of the textfield (in characters)',
+                        $this->trans('commands.generate.form.questions.textfield-width-in-chars'),
                         '64'
                     );
                 }
 
                 if ($input_type == 'select') {
                     $size = $io->ask(
-                        'Size of multiselect box (in lines)',
+                        $this->trans('commands.generate.form.questions.multiselect-size-in-lines'),
                         '5'
                     );
                 }
@@ -113,7 +113,7 @@ trait FormTrait
                 $input_options = '';
                 if (in_array($input_type, ['checkboxes', 'radios', 'select'])) {
                     $input_options = $io->ask(
-                        'Input options separated by comma'
+                        $this->trans('commands.generate.form.questions.input-options')
                     );
                 }
 

@@ -140,7 +140,7 @@ class EditCommand extends Command
         if (!$configName) {
             $configNames = $this->configFactory->listAll();
             $configName = $io->choice(
-                'Choose a configuration',
+                $this->trans('commands.config.edit.messages.choose-configuration'),
                 $configNames
             );
 

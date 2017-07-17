@@ -56,7 +56,7 @@ trait MenuTrait
 
             $menu_link_desc = $io->ask(
                 $menu_link_desc = $this->trans('commands.generate.form.options.menu-link-desc'),
-                'A description for the menu entry'
+                $menu_link_desc = $this->trans('commands.generate.form.suggestions.description-for-menu')
             );
             $menu_options['menu_link_title'] = $menu_link_title;
             $menu_options['menu_parent'] = $menu_parent;

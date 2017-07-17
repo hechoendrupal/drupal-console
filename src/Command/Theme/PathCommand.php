@@ -73,7 +73,7 @@ class PathCommand extends Command
         if (!in_array($theme, $this->getThemeList())) {
             $io->error(
                 sprintf(
-                    'Invalid theme name: %s',
+                    $this->trans('commands.theme.path.messages.invalid-theme-name'),
                     $theme
                 )
             );

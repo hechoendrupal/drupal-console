@@ -248,7 +248,7 @@ class PluginFieldCommand extends Command
         if (!$description) {
             $description = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.type-description'),
-                'My Field Type'
+                $this->trans('commands.generate.plugin.field.suggestions.my-field-type')
             );
             $input->setOption('type-description', $description);
         }

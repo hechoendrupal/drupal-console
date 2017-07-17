@@ -298,7 +298,7 @@ class ModuleCommand extends Command
         if (!$description) {
             $description = $io->ask(
                 $this->trans('commands.generate.module.questions.description'),
-                'My Awesome Module'
+                $this->trans('commands.generate.module.suggestions.my-awesome-module')
             );
         }
         $input->setOption('description', $description);
