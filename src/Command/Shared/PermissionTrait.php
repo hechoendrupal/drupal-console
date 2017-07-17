@@ -31,7 +31,7 @@ trait PermissionTrait
             );
             $description = $output->ask(
                 $this->trans('commands.generate.permission.questions.description'),
-                'Allow access to my content'
+                $this->trans('commands.generate.permission.suggestions.allow-access-content')
             );
             $restrictAccess = $output->choiceNoList(
                 $this->trans('commands.generate.permission.questions.restrict-access'),
