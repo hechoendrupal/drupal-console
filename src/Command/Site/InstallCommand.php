@@ -321,7 +321,7 @@ class InstallCommand extends Command
         if (!$siteName) {
             $siteName = $io->ask(
                 $this->trans('commands.site.install.questions.site-name'),
-                'Drupal 8'
+                $this->trans('commands.site.install.suggestions.site-name')
             );
             $input->setOption('site-name', $siteName);
         }
