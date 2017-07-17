@@ -25,7 +25,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-rc24';
+    const VERSION = '1.0.0-rc25';
 
     public function __construct(ContainerInterface $container)
     {
@@ -207,8 +207,8 @@ class Application extends BaseApplication
 
             if (array_key_exists($command->getName(), $aliases)) {
                 $commandAliases = array_unique(array_merge(
-                    $command->getAliases(),
-                    $aliases[$command->getName()]
+                    $command->getAliases()?$command->getAliases():[],
+                    array_key_exists($command->getName(), $aliases)?$aliases[$command->getName()]:[]
                 ));
                 if (!is_array($commandAliases)) {
                     $commandAliases = [$commandAliases];

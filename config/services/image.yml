@@ -4,4 +4,3 @@ services:
     arguments: ['@entity_type.manager']
     tags:
       - { name: drupal.command }
-    lazy: true
