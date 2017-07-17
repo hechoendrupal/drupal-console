@@ -23,11 +23,11 @@ trait PermissionTrait
         while (true) {
             $permission = $output->ask(
                 $this->trans('commands.generate.permission.questions.permission'),
-                'access content'
+                $this->trans('commands.generate.permission.suggestions.access-content')
             );
             $title = $output->ask(
                 $this->trans('commands.generate.permission.questions.title'),
-                'Access content'
+                $this->trans('commands.generate.permission.suggestions.access-content')
             );
             $description = $output->ask(
                 $this->trans('commands.generate.permission.questions.description'),

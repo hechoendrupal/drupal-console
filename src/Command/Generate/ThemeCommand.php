@@ -291,7 +291,7 @@ class ThemeCommand extends Command
         if (!$description) {
             $description = $io->ask(
                 $this->trans('commands.generate.theme.questions.description'),
-                'My Awesome theme'
+                $this->trans('commands.generate.theme.suggestions.my-awesome-theme')
             );
             $input->setOption('description', $description);
         }
@@ -300,7 +300,7 @@ class ThemeCommand extends Command
         if (!$package) {
             $package = $io->ask(
                 $this->trans('commands.generate.theme.questions.package'),
-                'Other'
+                $this->trans('commands.generate.theme.suggestions.other')
             );
             $input->setOption('package', $package);
         }
