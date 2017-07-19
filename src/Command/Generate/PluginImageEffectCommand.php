@@ -177,7 +177,7 @@ class PluginImageEffectCommand extends Command
         if (!$description) {
             $description = $io->ask(
                 $this->trans('commands.generate.plugin.imageeffect.questions.description'),
-                'My Image Effect'
+                $this->trans('commands.generate.plugin.imageeffect.suggestions.my-image-effect')
             );
             $input->setOption('description', $description);
         }

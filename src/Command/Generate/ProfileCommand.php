@@ -215,7 +215,7 @@ class ProfileCommand extends Command
         if (!$description) {
             $description = $io->ask(
                 $this->trans('commands.generate.profile.questions.description'),
-                'My Useful Profile'
+                $this->trans('commands.generate.profile.suggestions.my-useful-profile')
             );
             $input->setOption('description', $description);
         }
@@ -253,7 +253,7 @@ class ProfileCommand extends Command
             ) {
                 $distribution = $io->ask(
                     $this->trans('commands.generate.profile.options.distribution'),
-                    'My Kick-ass Distribution'
+                    $this->trans('commands.generate.profile.suggestions.my-kick-ass-distribution')
                 );
                 $input->setOption('distribution', $distribution);
             }

@@ -50,11 +50,11 @@ class DevelDumperCommand extends Command
     {
         $this
             ->setName('devel:dumper')
-            ->setDescription($this->trans('Change the devel dumper plugin'))
+            ->setDescription($this->trans('commands.devel.dumper.messages.change-devel-dumper-plugin'))
             ->addArgument(
                 'dumper',
                 InputArgument::OPTIONAL,
-                $this->trans('Name of the devel dumper plugin')
+                $this->trans('commands.devel.dumper.messages.name-devel-dumper-plugin')
             )->setAliases(['dd']);
     }
 
@@ -65,7 +65,7 @@ class DevelDumperCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         if (!\Drupal::moduleHandler()->moduleExists('devel')) {
-            $io->error($this->trans('Devel must be installed'));
+            $io->error($this->trans('commands.devel.dumper.messages.devel-must-be-installed'));
 
             return 1;
         }
@@ -76,7 +76,7 @@ class DevelDumperCommand extends Command
             $dumpKeys = $this->getDumperKeys();
 
             $dumper = $io->choice(
-                $this->trans('Select a Debug Dumper'),
+                $this->trans('commands.devel.dumper.messages.select-debug-dumper'),
                 $dumpKeys,
                 'kint', //Make kint the default for quick 'switchback'
                 false
@@ -97,7 +97,7 @@ class DevelDumperCommand extends Command
         $dumper = $input->getArgument('dumper');
         $dumpKeys = $this->getDumperKeys();
         if (!in_array($dumper, $dumpKeys)) {
-            $io->error($this->trans('Dumper does not exist'));
+            $io->error($this->trans('commands.devel.dumper.messages.dumper-not-exist'));
 
             return 1;
         }
@@ -108,7 +108,7 @@ class DevelDumperCommand extends Command
         $develSettings->set('devel_dumper', $dumper)->save();
         $io->info(
             sprintf(
-                $this->trans('Devel Dumper set to: %s'),
+                $this->trans('commands.devel.dumper.messages.devel-dumper-set'),
                 $configFactory->get('devel.settings')->get('devel_dumper')
             )
         );
