@@ -3,7 +3,7 @@
     "description": "The Drupal CLI. A tool to generate boilerplate code, interact with and debug Drupal.",
     "keywords": ["Drupal", "Console", "Development", "Symfony"],
     "homepage": "http://drupalconsole.com/",
-    "type": "project",
+    "type": "library",
     "license": "GPL-2.0+",
     "authors": [
         {
