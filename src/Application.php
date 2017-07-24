@@ -157,6 +157,14 @@ class Application extends BaseApplication
 
         foreach ($consoleCommands as $name) {
 
+            AnnotationRegistry::reset();
+            AnnotationRegistry::registerLoader(
+                [
+                    $this->container->get('class_loader'),
+                    "loadClass"
+                ]
+            );
+
             if (!$this->container->has($name)) {
                 continue;
             }
