@@ -20,8 +20,12 @@ if (file_exists(__DIR__ . '/../autoload.local.php')) {
     include_once __DIR__ . '/../autoload.local.php';
 } else {
     $autoloaders = [
+        // When a dependency of another project (vendor/drupal/console/bin/drupal.php)
         __DIR__ . '/../../../autoload.php',
-        __DIR__ . '/../vendor/autoload.php'
+        // When console is the root project (bin/drupal.php)
+        __DIR__ . '/../vendor/autoload.php',
+        // When symlinked in vendors/, __DIR__ is not within the root project.
+        dirname($_SERVER['PWD'] . '/' . $_SERVER['SCRIPT_NAME']) . '/../autoload.php',
     ];
 }
 
