@@ -10,17 +10,13 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\State\StateInterface;
 use Drupal\Console\Core\Utils\ChainQueue;
 
-class MaintenanceCommand extends Command
+class MaintenanceCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
-
-
     /**
      * @var StateInterface
      */

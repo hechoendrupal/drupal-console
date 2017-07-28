@@ -7,18 +7,15 @@
 
 namespace Drupal\Console\Command\Cache;
 
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TagInvalidateCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var CacheTagsInvalidatorInterface
      */

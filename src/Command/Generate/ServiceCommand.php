@@ -14,9 +14,8 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
@@ -26,12 +25,11 @@ use Drupal\Console\Core\Utils\StringConverter;
  *
  * @package Drupal\Console\Command\Generate
  */
-class ServiceCommand extends Command
+class ServiceCommand extends ContainerAwareCommand
 {
     use ServicesTrait;
     use ModuleTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
  * @var Manager

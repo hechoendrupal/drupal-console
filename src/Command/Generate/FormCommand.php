@@ -14,9 +14,8 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -24,9 +23,8 @@ use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Core\Render\ElementInfoManager;
 use Drupal\Core\Routing\RouteProviderInterface;
 
-abstract class FormCommand extends Command
+abstract class FormCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;

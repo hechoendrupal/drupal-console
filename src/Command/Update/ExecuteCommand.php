@@ -10,11 +10,10 @@ namespace Drupal\Console\Command\Update;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Update\UpdateRegistry;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
@@ -22,8 +21,6 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var Site
      */

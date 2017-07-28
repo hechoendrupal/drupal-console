@@ -11,9 +11,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Utils\Create\NodeData;
 use Drupal\Console\Utils\DrupalApi;
@@ -33,7 +32,6 @@ use Drupal\Core\Language\LanguageInterface;
 class NodesCommand extends Command
 {
     use CreateTrait;
-    use CommandTrait;
 
     /**
      * @var DrupalApi

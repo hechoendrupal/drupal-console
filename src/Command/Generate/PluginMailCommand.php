@@ -15,10 +15,9 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Generator\PluginMailGenerator;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -28,13 +27,12 @@ use Drupal\Console\Core\Utils\ChainQueue;
  *
  * @package Drupal\Console\Command\Generate
  */
-class PluginMailCommand extends Command
+class PluginMailCommand extends ContainerAwareCommand
 {
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
  * @var Manager

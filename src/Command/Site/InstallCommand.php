@@ -13,10 +13,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Command\Shared\DatabaseTrait;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Console\Extension\Manager;
@@ -25,9 +24,8 @@ use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\DrupalFinder;
 
-class InstallCommand extends Command
+class InstallCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
     use DatabaseTrait;
 
     /**

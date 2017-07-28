@@ -11,8 +11,7 @@ use Drupal\Core\Config\Schema\SchemaCheckTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Drupal\Core\Config\TypedConfigManagerInterface;
@@ -24,9 +23,8 @@ use Drupal\Console\Command\Config\PrintConfigValidationTrait;
  *
  *@package Drupal\Console\Command\Debug
  */
-class ConfigValidateCommand extends Command
+class ConfigValidateCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
     use SchemaCheckTrait;
     use PrintConfigValidationTrait;
 

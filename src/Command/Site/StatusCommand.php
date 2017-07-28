@@ -10,9 +10,8 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\system\SystemManager;
 use Drupal\Core\Site\Settings;
@@ -24,10 +23,8 @@ use Drupal\Core\Extension\ThemeHandler;
  *
  *  @category site
  */
-class StatusCommand extends Command
+class StatusCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
-
     /* @var $connectionInfoKeys array */
     protected $connectionInfoKeys = [
       'driver',

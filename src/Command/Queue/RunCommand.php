@@ -7,13 +7,12 @@
 
 namespace Drupal\Console\Command\Queue;
 
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
@@ -23,8 +22,6 @@ use Drupal\Console\Core\Style\DrupalStyle;
  */
 class RunCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var QueueWorkerManagerInterface
      */
