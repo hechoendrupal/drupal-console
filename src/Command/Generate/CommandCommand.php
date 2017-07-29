@@ -12,8 +12,7 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\CommandGenerator;
@@ -23,9 +22,9 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\Site;
 
-class CommandCommand extends Command
+class CommandCommand extends ContainerAwareCommand
+
 {
-    use ContainerAwareCommandTrait;
     use ConfirmationTrait;
     use ServicesTrait;
     use ModuleTrait;

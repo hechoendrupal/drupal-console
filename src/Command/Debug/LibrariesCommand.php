@@ -10,18 +10,15 @@ namespace Drupal\Console\Command\Debug;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Asset\LibraryDiscoveryInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 class LibrariesCommand extends Command
 {
-    use CommandTrait;
-
     /**
  * @var  ModuleHandlerInterface
 */

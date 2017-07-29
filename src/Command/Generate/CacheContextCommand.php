@@ -13,19 +13,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\CacheContextGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 
-class CacheContextCommand extends Command
+class CacheContextCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
     use ServicesTrait;
 
     /**

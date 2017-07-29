@@ -10,10 +10,9 @@ namespace Drupal\Console\Command\Debug;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\breakpoint\BreakpointManagerInterface;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 
@@ -25,8 +24,6 @@ use Drupal\Console\Core\Style\DrupalStyle;
  */
 class BreakpointsCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var BreakpointManagerInterface
      */

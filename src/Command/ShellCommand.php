@@ -6,8 +6,7 @@ use Psy\Shell;
 use Psy\Configuration;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 
 /**
  * Class ShellCommand
@@ -16,8 +15,6 @@ use Drupal\Console\Core\Command\Shared\CommandTrait;
  */
 class ShellCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * {@inheritdoc}
      */
