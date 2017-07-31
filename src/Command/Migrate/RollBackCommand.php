@@ -14,8 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Annotations\DrupalCommand;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\migrate_plus\Entity\MigrationGroup;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\MigrateExecutable;
@@ -31,7 +30,6 @@ use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 class RollBackCommand extends Command
 {
     use MigrationTrait;
-    use CommandTrait;
 
     /**
      * @var MigrationPluginManagerInterface $pluginManagerMigration

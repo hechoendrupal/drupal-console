@@ -9,8 +9,7 @@ namespace Drupal\Console\Command\Create;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Utils\Create\CommentData;
 use Drupal\Console\Core\Style\DrupalStyle;
@@ -23,7 +22,6 @@ use Drupal\Console\Core\Style\DrupalStyle;
 class CommentsCommand extends Command
 {
     use CreateTrait;
-    use CommandTrait;
 
     /**
      * @var CommentData

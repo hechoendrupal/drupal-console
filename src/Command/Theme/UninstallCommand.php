@@ -10,8 +10,7 @@ namespace Drupal\Console\Command\Theme;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Core\Config\UnmetDependenciesException;
@@ -20,8 +19,6 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 class UninstallCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var ConfigFactory
      */

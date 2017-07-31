@@ -10,8 +10,7 @@ namespace Drupal\Console\Command\Debug;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\views\Views;
 
@@ -20,9 +19,8 @@ use Drupal\views\Views;
  *
  * @package Drupal\Console\Command\Debug
  */
-class ViewsPluginsCommand extends Command
+class ViewsPluginsCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
     /**
      * {@inheritdoc}
      */

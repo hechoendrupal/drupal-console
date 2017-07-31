@@ -7,11 +7,10 @@
 
 namespace Drupal\Console\Command\Debug;
 
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
@@ -21,8 +20,6 @@ use Drupal\Console\Core\Style\DrupalStyle;
  */
 class QueueCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var QueueWorkerManagerInterface
      */

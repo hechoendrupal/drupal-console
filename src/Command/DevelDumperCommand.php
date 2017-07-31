@@ -7,8 +7,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\devel\DevelDumperPluginManager;
 use Drupal\devel\DevelDumperManager;
@@ -23,10 +22,8 @@ use Drupal\devel\DevelDumperManager;
  * @todo Move to namespace Devel
  * @todo Load devel.module legacy file
  */
-class DevelDumperCommand extends Command
+class DevelDumperCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
-
     /**
      * @var DevelDumperPluginManager
      */

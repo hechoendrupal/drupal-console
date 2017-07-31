@@ -11,9 +11,8 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Utils\Site;
@@ -27,7 +26,6 @@ use Drupal\Console\Annotations\DrupalCommand;
  */
 class LanguageDeleteCommand extends Command
 {
-    use CommandTrait;
     use LocaleTrait;
 
     /**

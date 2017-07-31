@@ -10,8 +10,7 @@ namespace Drupal\Console\Command\User;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Core\Style\DrupalStyle;
 
@@ -22,8 +21,6 @@ use Drupal\Console\Core\Style\DrupalStyle;
  */
 class RoleCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var DrupalApi
      */
