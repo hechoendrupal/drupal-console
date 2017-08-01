@@ -86,13 +86,13 @@ class PluginFieldCommand extends Command
                 'type-description',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.field.options.type-type-description')
+                $this->trans('commands.generate.plugin.field.options.type-description')
             )
             ->addOption(
                 'formatter-class',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.field.options.class')
+                $this->trans('commands.generate.plugin.field.options.formatter-class')
             )
             ->addOption(
                 'formatter-label',

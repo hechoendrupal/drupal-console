@@ -48,17 +48,17 @@ class RoleCommand extends Command
             ->addArgument(
                 'operation',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.user.role.operation')
+                $this->trans('commands.user.role.arguments.operation')
             )
             ->addArgument(
                 'user',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.user.role.user')
+                $this->trans('commands.user.role.arguments.user')
             )
             ->addArgument(
                 'role',
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.user.role.role')
+                $this->trans('commands.user.role.arguments.roles')
             )->setAliases(['ur']);
     }
 

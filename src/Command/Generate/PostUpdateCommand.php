@@ -83,7 +83,7 @@ class PostUpdateCommand extends Command
     {
         $this
             ->setName('generate:post:update')
-            ->setDescription($this->trans('commands.generate.post:update.description'))
+            ->setDescription($this->trans('commands.generate.post.update.description'))
             ->setHelp($this->trans('commands.generate.post.update.help'))
             ->addOption(
                 'module',

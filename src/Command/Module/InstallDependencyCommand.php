@@ -78,11 +78,11 @@ class InstallDependencyCommand extends Command
     {
         $this
             ->setName('module:dependency:install')
-            ->setDescription($this->trans('commands.module.install.dependencies.description'))
+            ->setDescription($this->trans('commands.module.dependency.install.description'))
             ->addArgument(
                 'module',
                 InputArgument::IS_ARRAY,
-                $this->trans('commands.module.install.dependencies.arguments.module')
+                $this->trans('commands.module.dependency.install.arguments.module')
             )->setAliases(['modi']);
     }
 
@@ -112,14 +112,14 @@ class InstallDependencyCommand extends Command
         $unInstalledDependencies = $this->calculateDependencies((array)$module);
 
         if (!$unInstalledDependencies) {
-            $io->warning($this->trans('commands.module.install.dependencies.messages.no-depencies'));
+            $io->warning($this->trans('commands.module.dependency.install.messages.no-depencies'));
             return 0;
         }
 
         try {
             $io->comment(
                 sprintf(
-                    $this->trans('commands.module.install.dependencies.messages.installing'),
+                    $this->trans('commands.module.dependency.install.messages.installing'),
                     implode(', ', $unInstalledDependencies)
                 )
             );
@@ -129,7 +129,7 @@ class InstallDependencyCommand extends Command
             $this->moduleInstaller->install($unInstalledDependencies, true);
             $io->success(
                 sprintf(
-                    $this->trans('commands.module.install.dependencies.messages.success'),
+                    $this->trans('commands.module.dependency.install.messages.success'),
                     implode(', ', $unInstalledDependencies)
                 )
             );

@@ -58,7 +58,7 @@ class DisableCommand extends Command
             ->addArgument(
                 'view-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.views.debug.arguments.view-id')
+                $this->trans('commands.debug.views.arguments.view-id')
             )
             ->setAliases(['vd']);
     }
@@ -76,7 +76,7 @@ class DisableCommand extends Command
                 ->condition('status', 1)
                 ->execute();
             $viewId = $io->choiceNoList(
-                $this->trans('commands.views.debug.arguments.view-id'),
+                $this->trans('commands.debug.views.arguments.view-id'),
                 $views
             );
             $input->setArgument('view-id', $viewId);
@@ -95,7 +95,7 @@ class DisableCommand extends Command
         $view = $this->entityTypeManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
-            $io->error(sprintf($this->trans('commands.views.debug.messages.not-found'), $viewId));
+            $io->error(sprintf($this->trans('commands.debug.views.messages.not-found'), $viewId));
 
             return 1;
         }

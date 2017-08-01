@@ -92,7 +92,7 @@ class ServiceCommand extends ContainerAwareCommand
                 'name',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.service.options.name')
+                $this->trans('commands.generate.service.options.service-name')
             )
             ->addOption(
                 'class',
@@ -104,13 +104,13 @@ class ServiceCommand extends ContainerAwareCommand
                 'interface',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.common.service.options.interface')
+                $this->trans('commands.generate.service.options.interface')
             )
             ->addOption(
                 'interface-name',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.common.service.options.interface-name')
+                $this->trans('commands.generate.service.options.interface-name')
             )
             ->addOption(
                 'services',

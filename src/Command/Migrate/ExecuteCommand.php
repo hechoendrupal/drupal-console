@@ -69,7 +69,7 @@ class ExecuteCommand extends Command
                 'db-type',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.migrate.setup.migrations.options.db-type')
+                $this->trans('commands.migrate.execute.migrations.options.db-type')
             )
             ->addOption(
                 'db-host',
