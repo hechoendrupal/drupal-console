@@ -1,0 +1,56 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\Tests\{{ module }}\FunctionalJavascript\{{ class }}
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\Tests\{{ module }}\FunctionalJavascript;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * JavaScript tests.
+ *
+ * @ingroup {{ module }}
+ *
+ * @group {{ module }}
+ */
+class {{ class }} extends JavaScriptTestBase {% endblock %}
+{% block class_methods %}
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
+  public static $modules = ['{{ module }}'];
+
+  /**
+   * A user with permission to administer site configuration.
+   *
+   * @var \Drupal\user\UserInterface
+   */
+  protected $user;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+    $this->user = $this->drupalCreateUser(['administer site configuration']);
+    $this->drupalLogin($this->user);
+  }
+
+  /**
+   * Tests that the home page loads with a 200 response.
+   */
+  public function testFrontpage() {
+    $this->drupalGet(Url::fromRoute('<front>'));
+    $page = $this->getSession()->getPage();
+    $this->assertResponse(200);
+  }
+{% endblock %}
