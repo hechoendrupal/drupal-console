@@ -112,7 +112,7 @@ class ThemeCommand extends Command
                 'theme',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.theme.options.module')
+                $this->trans('commands.generate.theme.options.theme')
             )
             ->addOption(
                 'machine-name',
@@ -124,7 +124,7 @@ class ThemeCommand extends Command
                 'theme-path',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.theme.options.module-path')
+                $this->trans('commands.generate.theme.options.theme-path')
             )
             ->addOption(
                 'description',

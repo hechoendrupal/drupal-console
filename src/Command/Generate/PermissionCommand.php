@@ -64,8 +64,8 @@ class PermissionCommand extends Command
     {
         $this
             ->setName('generate:permissions')
-            ->setDescription($this->trans('commands.generate.permission.description'))
-            ->setHelp($this->trans('commands.generate.permission.help'))
+            ->setDescription($this->trans('commands.generate.permissions.description'))
+            ->setHelp($this->trans('commands.generate.permissions.help'))
             ->addOption(
                 'module',
                 null,

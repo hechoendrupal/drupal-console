@@ -92,7 +92,7 @@ class PluginRestResourceCommand extends Command
                 'name',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.name')
+                $this->trans('commands.generate.service.options.service-name')
             )
             ->addOption(
                 'plugin-id',

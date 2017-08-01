@@ -109,13 +109,13 @@ class PluginSkeletonCommand extends ContainerAwareCommand
                 'plugin-id',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.options.plugin-id')
+                $this->trans('commands.generate.plugin.skeleton.options.plugin')
             )
             ->addOption(
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.block.options.class')
+                $this->trans('commands.generate.plugin.skeleton.options.class')
             )
             ->addOption(
                 'services',
@@ -124,7 +124,6 @@ class PluginSkeletonCommand extends ContainerAwareCommand
                 $this->trans('commands.common.options.services')
             )->setAliases(['gps']);
     }
-
     /**
      * {@inheritdoc}
      */

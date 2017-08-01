@@ -59,7 +59,7 @@ class EnableCommand extends Command
             ->addArgument(
                 'view-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.views.debug.arguments.view-id')
+                $this->trans('commands.debug.views.arguments.view-id')
             )
             ->setAliases(['ve']);
     }
@@ -77,7 +77,7 @@ class EnableCommand extends Command
                 ->condition('status', 0)
                 ->execute();
             $viewId = $io->choiceNoList(
-                $this->trans('commands.views.debug.arguments.view-id'),
+                $this->trans('commands.debug.views.arguments.view-id'),
                 $views
             );
             $input->setArgument('view-id', $viewId);
@@ -97,7 +97,7 @@ class EnableCommand extends Command
         if (empty($view)) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.views.debug.messages.not-found'),
+                    $this->trans('commands.debug.views.messages.not-found'),
                     $viewId
                 )
             );
