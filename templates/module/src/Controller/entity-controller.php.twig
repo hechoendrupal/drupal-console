@@ -20,8 +20,6 @@ use Drupal\{{ module }}\Entity\{{ entity_class }}Interface;
  * Class {{ entity_class }}Controller.
  *
  *  Returns responses for {{ label }} routes.
- *
- * @package Drupal\{{ module }}\Controller
  */
 class {{ entity_class }}Controller extends ControllerBase implements ContainerInjectionInterface {% endblock %}
 
@@ -53,7 +51,7 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
    */
   public function revisionPageTitle(${{ entity_name }}_revision) {
     ${{ entity_name }} = $this->entityManager()->getStorage('{{ entity_name }}')->loadRevision(${{ entity_name }}_revision);
-    return $this->t('Revision of %title from %date', array('%title' => ${{ entity_name }}->label(), '%date' => format_date(${{ entity_name }}->getRevisionCreationTime())));
+    return $this->t('Revision of %title from %date', ['%title' => ${{ entity_name }}->label(), '%date' => format_date(${{ entity_name }}->getRevisionCreationTime())]);
   }
 
   /**
@@ -74,12 +72,12 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
     ${{ entity_name }}_storage = $this->entityManager()->getStorage('{{ entity_name }}');
 
     $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => ${{ entity_name }}->label()]) : $this->t('Revisions for %title', ['%title' => ${{ entity_name }}->label()]);
-    $header = array($this->t('Revision'), $this->t('Operations'));
+    $header = [$this->t('Revision'), $this->t('Operations')];
 
     $revert_permission = (($account->hasPermission("revert all {{ label|lower }} revisions") || $account->hasPermission('administer {{ label|lower }} entities')));
     $delete_permission = (($account->hasPermission("delete all {{ label|lower }} revisions") || $account->hasPermission('administer {{ label|lower }} entities')));
 
-    $rows = array();
+    $rows = [];
 
     $vids = ${{ entity_name }}_storage->revisionIds(${{ entity_name }});
 
@@ -93,11 +91,11 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
       if ($revision->hasTranslation($langcode) && $revision->getTranslation($langcode)->isRevisionTranslationAffected()) {
         $username = [
           '#theme' => 'username',
-          '#account' => $revision->getRevisionAuthor(),
+          '#account' => $revision->getRevisionUser(),
         ];
 
         // Use revision link to link to revisions that are not active.
-        $date = \Drupal::service('date.formatter')->format($revision->revision_timestamp->value, 'short');
+        $date = \Drupal::service('date.formatter')->format($revision->getRevisionCreationTime(), 'short');
         if ($vid != ${{ entity_name }}->getRevisionId()) {
           $link = $this->l($date, new Url('entity.{{ entity_name }}.revision', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]));
         }
@@ -113,7 +111,7 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
             '#context' => [
               'date' => $link,
               'username' => \Drupal::service('renderer')->renderPlain($username),
-              'message' => ['#markup' => $revision->revision_log_message->value, '#allowed_tags' => Xss::getHtmlTagList()],
+              'message' => ['#markup' => $revision->getRevisionLogMessage(), '#allowed_tags' => Xss::getHtmlTagList()],
             ],
           ],
         ];
@@ -139,10 +137,10 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
               'title' => $this->t('Revert'),
 {% if is_translatable %}
               'url' => $has_translations ?
-              Url::fromRoute('{{ entity_name }}.revision_revert_translation_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid, 'langcode' => $langcode]) :
-              Url::fromRoute('{{ entity_name }}.revision_revert_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              Url::fromRoute('entity.{{ entity_name }}.translation_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid, 'langcode' => $langcode]) :
+              Url::fromRoute('entity.{{ entity_name }}.revision_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
 {%  else %}
-              'url' => Url::fromRoute('{{ entity_name }}.revision_revert_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              'url' => Url::fromRoute('entity.{{ entity_name }}.revision_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
 {% endif %}
             ];
           }
@@ -150,7 +148,7 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
           if ($delete_permission) {
             $links['delete'] = [
               'title' => $this->t('Delete'),
-              'url' => Url::fromRoute('{{ entity_name }}.revision_delete_confirm', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              'url' => Url::fromRoute('entity.{{ entity_name }}.revision_delete', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
             ];
           }
 
@@ -166,11 +164,11 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
       }
     }
 
-    $build['{{ entity_name }}_revisions_table'] = array(
+    $build['{{ entity_name }}_revisions_table'] = [
       '#theme' => 'table',
       '#rows' => $rows,
       '#header' => $header,
-    );
+    ];
 
     return $build;
   }

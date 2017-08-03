@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Zippy\Adapter\TarGzGNUTarForWindowsAdapter;
 use Drupal\Console\Zippy\FileStrategy\TarGzFileForWindowsStrategy;
 use Alchemy\Zippy\Zippy;
@@ -16,6 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class ProjectDownloadTrait
+ *
  * @package Drupal\Console\Command
  */
 trait ProjectDownloadTrait
@@ -153,7 +154,7 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $project
      * @param $version
      * @param $type
@@ -253,10 +254,10 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
-     * @param string                            $project
-     * @param bool                              $latest
-     * @param bool                              $stable
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
+     * @param string                                 $project
+     * @param bool                                   $latest
+     * @param bool                                   $stable
      * @return string
      */
     public function releasesQuestion(DrupalStyle $io, $project, $latest = false, $stable = false)
@@ -266,7 +267,7 @@ trait ProjectDownloadTrait
         $io->comment(
             sprintf(
                 $this->trans('commands.'.$commandKey.'.messages.getting-releases'),
-                implode(',', array($project))
+                implode(',', [$project])
             )
         );
 
@@ -276,7 +277,7 @@ trait ProjectDownloadTrait
             $io->error(
                 sprintf(
                     $this->trans('commands.'.$commandKey.'.messages.no-releases'),
-                    implode(',', array($project))
+                    implode(',', [$project])
                 )
             );
 

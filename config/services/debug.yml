@@ -1,0 +1,139 @@
+services:
+  console.container_debug:
+    class: Drupal\Console\Command\Debug\ContainerCommand
+    tags:
+      - { name: drupal.command }
+  console.event_debug:
+    class: Drupal\Console\Command\Debug\EventCommand
+    arguments: ['@event_dispatcher']
+    tags:
+      - { name: drupal.command }
+  console.permission_debug:
+    class: Drupal\Console\Command\Debug\PermissionCommand
+    tags:
+      - { name: drupal.command }
+  console.plugin_debug:
+    class: Drupal\Console\Command\Debug\PluginCommand
+    tags:
+      - { name: drupal.command }
+  console.update_debug:
+    class: Drupal\Console\Command\Debug\UpdateCommand
+    arguments: ['@console.site', '@update.post_update_registry']
+    tags:
+      - { name: drupal.command }
+  console.user_debug:
+    class: Drupal\Console\Command\Debug\UserCommand
+    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
+    tags:
+      - { name: drupal.command }
+  console.views_debug:
+    class: Drupal\Console\Command\Debug\ViewsCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }
+  console.views_plugins_debug:
+    class: Drupal\Console\Command\Debug\ViewsPluginsCommand
+    tags:
+      - { name: drupal.command }
+  console.state_debug:
+    class: Drupal\Console\Command\Debug\StateCommand
+    arguments: ['@state', '@keyvalue']
+    tags:
+      - { name: drupal.command }
+  console.theme_debug:
+    class: Drupal\Console\Command\Debug\ThemeCommand
+    arguments: ['@config.factory', '@theme_handler']
+    tags:
+      - { name: drupal.command }
+  console.router_debug:
+    class: Drupal\Console\Command\Debug\RouterCommand
+    arguments: ['@router.route_provider']
+    tags:
+      - { name: drupal.command }
+  console.queue_debug:
+    class: Drupal\Console\Command\Debug\QueueCommand
+    arguments: ['@plugin.manager.queue_worker']
+    tags:
+      - { name: drupal.command }
+  console.libraries_debug:
+    class: Drupal\Console\Command\Debug\LibrariesCommand
+    arguments: ['@module_handler', '@theme_handler', '@library.discovery', '@app.root']
+    tags:
+      - { name: drupal.command }
+  console.module_debug:
+    class: Drupal\Console\Command\Debug\ModuleCommand
+    arguments: ['@console.configuration_manager', '@console.site', '@http_client']
+    tags:
+      - { name: drupal.command }
+  console.image_styles_debug:
+    class: Drupal\Console\Command\Debug\ImageStylesCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }
+  console.entity_debug:
+    class: Drupal\Console\Command\Debug\EntityCommand
+    arguments: ['@entity_type.repository', '@entity_type.manager']
+    tags:
+      - { name: drupal.command }
+  console.database_log_debug:
+    class: Drupal\Console\Command\Debug\DatabaseLogCommand
+    arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
+    tags:
+      - { name: drupal.command }
+  console.database_table_debug:
+    class: Drupal\Console\Command\Debug\DatabaseTableCommand
+    arguments: ['@console.redbean', '@database']
+    tags:
+      - { name: drupal.command }
+  console.cron_debug:
+    class: Drupal\Console\Command\Debug\CronCommand
+    arguments: ['@module_handler']
+    tags:
+      - { name: drupal.command }
+  console.breakpoints_debug:
+    class: Drupal\Console\Command\Debug\BreakpointsCommand
+    arguments: ['@?breakpoint.manager', '@app.root']
+    tags:
+      - { name: drupal.command }
+  console.cache_context_debug:
+    class: Drupal\Console\Command\Debug\CacheContextCommand
+    tags:
+      - { name: drupal.command }
+  console.config_debug:
+    class: Drupal\Console\Command\Debug\ConfigCommand
+    arguments: ['@config.factory', '@config.storage']
+    tags:
+      - { name: drupal.command }
+  console.config_settings_debug:
+    class: Drupal\Console\Command\Debug\ConfigSettingsCommand
+    arguments: ['@settings']
+    tags:
+      - { name: drupal.command }
+  console.config_validate_debug:
+    class: Drupal\Console\Command\Debug\ConfigValidateCommand
+    tags:
+      - { name: drupal.command }
+  console.multisite_debug:
+    class: Drupal\Console\Command\Debug\MultisiteCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }
+  console.migrate_debug:
+    class: Drupal\Console\Command\Debug\MigrateCommand
+    arguments: ['@?plugin.manager.migration']
+    tags:
+      - { name: drupal.command }
+  console.rest_debug:
+    class: Drupal\Console\Command\Debug\RestCommand
+    arguments: ['@?plugin.manager.rest']
+    tags:
+      - { name: drupal.command }
+  console.test_debug:
+    class: Drupal\Console\Command\Debug\TestCommand
+    arguments: ['@?test_discovery']
+    tags:
+      - { name: drupal.command }
+  console.feature_debug:
+    class: Drupal\Console\Command\Debug\FeaturesCommand
+    tags:
+      - { name: drupal.command }

@@ -10,17 +10,13 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
-class MaintenanceCommand extends Command
+class MaintenanceCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
-
-
     /**
      * @var StateInterface
      */
@@ -34,8 +30,9 @@ class MaintenanceCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param StateInterface           $state
-     * @param ChainQueue $chainQueue
+     *
+     * @param StateInterface $state
+     * @param ChainQueue     $chainQueue
      */
     public function __construct(
         StateInterface $state,
@@ -54,8 +51,9 @@ class MaintenanceCommand extends Command
             ->addArgument(
                 'mode',
                 InputArgument::REQUIRED,
-                $this->trans('commands.site.maintenance.arguments.mode').'[on/off]'
-            );
+                $this->trans('commands.site.maintenance.arguments.mode')
+            )
+            ->setAliases(['sma']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

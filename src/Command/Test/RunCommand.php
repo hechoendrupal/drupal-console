@@ -12,10 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\simpletest\TestDiscovery;
 use Drupal\Core\Datetime\DateFormatter;
@@ -28,8 +27,6 @@ use Drupal\Core\Datetime\DateFormatter;
  */
 class RunCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var string
      */
@@ -52,13 +49,12 @@ class RunCommand extends Command
      */
     protected $dateFormatter;
 
-
-
     /**
      * RunCommand constructor.
-     * @param Site    $site
-     * @param TestDiscovery    $test_discovery
-     * @param ModuleHandlerInterface    $moduleHandler
+     *
+     * @param Site                   $site
+     * @param TestDiscovery          $test_discovery
+     * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
         $appRoot,
@@ -90,10 +86,11 @@ class RunCommand extends Command
             )
             ->addOption(
                 'url',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.test.run.arguments.url')
-            );
+            )
+            ->setAliases(['ter']);
     }
 
     /*
@@ -271,9 +268,9 @@ class RunCommand extends Command
 
         foreach ($test_ids as $test_id) {
             $result = \Drupal::database()->query(
-                "SELECT * FROM {simpletest} WHERE test_id = :test_id ORDER BY test_class, message_group, status", array(
+                "SELECT * FROM {simpletest} WHERE test_id = :test_id ORDER BY test_class, message_group, status", [
                 ':test_id' => $test_id,
-                )
+                ]
             )->fetchAll();
             if ($result) {
                 $results = array_merge($results, $result);

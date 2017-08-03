@@ -1,0 +1,33 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\migrate\process\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\migrate\process;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\migrate\ProcessPluginBase;
+use Drupal\migrate\MigrateExecutableInterface;
+use Drupal\migrate\Row;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' migrate process plugin.
+ *
+ * @MigrateProcessPlugin(
+ *  id = "{{plugin_id}}"
+ * )
+ */
+class {{class_name}} extends ProcessPluginBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
+    // Plugin logic goes here.
+  }
+{% endblock %}

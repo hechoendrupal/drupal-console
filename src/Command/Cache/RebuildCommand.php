@@ -11,20 +11,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class RebuildCommand
+ *
  * @package Drupal\Console\Command\Cache
  */
 class RebuildCommand extends Command
 {
-    use CommandTrait;
-
     /**
       * @var DrupalApi
       */
@@ -43,6 +41,7 @@ class RebuildCommand extends Command
 
     /**
      * RebuildCommand constructor.
+     *
      * @param DrupalApi    $drupalApi
      * @param Site         $site
      * @param $classLoader
@@ -73,7 +72,7 @@ class RebuildCommand extends Command
                 'cache',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.cache.rebuild.options.cache')
-            );
+            )->setAliases(['cr']);
     }
 
     /**
@@ -82,13 +81,13 @@ class RebuildCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $cache = $input->getArgument('cache');
+        $cache = $input->getArgument('cache')?:'all';
         $this->site->loadLegacyFile('/core/includes/utility.inc');
 
         if ($cache && !$this->drupalApi->isValidCache($cache)) {
             $io->error(
                 sprintf(
-                    $this->trans('commands.cache.rebuild.messages.invalid_cache'),
+                    $this->trans('commands.cache.rebuild.messages.invalid-cache'),
                     $cache
                 )
             );

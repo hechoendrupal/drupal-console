@@ -1,18 +1,11 @@
-imports:
-    - { resource: 'services-drupal-install.yml' }
 services:
-  console.input:
-    class: 'Symfony\Component\Console\Input\ArgvInput'
-  console.ouput:
-    class: 'Symfony\Component\Console\Output\ConsoleOutput'
-  console.style:
-    class: 'Drupal\Console\Style\DrupalStyle'
-    arguments: ['@console.input', '@console.ouput']
+  console.root:
+    class: SplString
   console.redbean:
     class: RedBeanPHP\R
   console.validator:
     class: Drupal\Console\Utils\Validator
-    arguments: ['@console.extension_manager']
+    arguments: ['@console.extension_manager', '@console.translator_manager']
   console.drupal_api:
     class: Drupal\Console\Utils\DrupalApi
     arguments: ['@app.root', '@entity_type.manager', '@http_client']

@@ -7,23 +7,21 @@
 
 namespace Drupal\Console\Command\Queue;
 
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class RunCommand
+ *
  * @package Drupal\Console\Command\Queue
  */
 class RunCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var QueueWorkerManagerInterface
      */
@@ -37,8 +35,9 @@ class RunCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param QueueWorkerManagerInterface   $queueWorker
-     * @param QueueFactory                  $queue
+     *
+     * @param QueueWorkerManagerInterface $queueWorker
+     * @param QueueFactory                $queue
      */
     public function __construct(
         QueueWorkerManagerInterface $queueWorker,
@@ -61,7 +60,7 @@ class RunCommand extends Command
                 'name',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.queue.run.arguments.name')
-            );
+            )->setAliases(['qr']);
     }
 
     /**

@@ -6,6 +6,7 @@ use Drupal\Core\Extension\Extension as BaseExtension;
 
 /**
  * Class Extension
+ *
  * @package Drupal\Console\Extension
  */
 class Extension extends BaseExtension
@@ -27,9 +28,9 @@ class Extension extends BaseExtension
      * @param bool $fullPath
      * @return string
      */
-    public function getControllerDirectory($fullPath = false)
+    public function getControllerPath($fullPath = false)
     {
-        return $this->getSourcePath($fullPath) . '/Controller/';
+        return $this->getSourcePath($fullPath) . '/Controller';
     }
 
     /**
@@ -111,6 +112,6 @@ class Extension extends BaseExtension
      */
     public function getTemplatePath($fullPath = false)
     {
-        return $this->getSourcePath($fullPath) . '/templates';
+        return $this->getPath($fullPath) . '/templates';
     }
 }

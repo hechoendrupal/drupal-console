@@ -13,29 +13,31 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PluginViewsFieldGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class PluginViewsFieldCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginViewsFieldCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use CommandTrait;
 
-
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginViewsFieldGenerator  */
+    /**
+ * @var PluginViewsFieldGenerator
+*/
     protected $generator;
 
     /**
@@ -55,6 +57,7 @@ class PluginViewsFieldCommand extends Command
 
     /**
      * PluginViewsFieldCommand constructor.
+     *
      * @param Manager                   $extensionManager
      * @param PluginViewsFieldGenerator $generator
      * @param Site                      $site
@@ -82,25 +85,26 @@ class PluginViewsFieldCommand extends Command
             ->setName('generate:plugin:views:field')
             ->setDescription($this->trans('commands.generate.plugin.views.field.description'))
             ->setHelp($this->trans('commands.generate.plugin.views.field.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.views.field.options.class')
             )
             ->addOption(
                 'title',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.views.field.options.title')
             )
             ->addOption(
                 'description',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.views.field.options.description')
-            );
+            )
+            ->setAliases(['gpvf']);
     }
 
     /**
@@ -112,7 +116,7 @@ class PluginViewsFieldCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -124,6 +128,8 @@ class PluginViewsFieldCommand extends Command
         $this->generator->generate($module, $class_machine_name, $class_name, $title, $description);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

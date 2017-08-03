@@ -7,15 +7,16 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Utils\TwigRenderer;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\TwigRenderer;
 
 class EntityContentGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
@@ -23,15 +24,18 @@ class EntityContentGenerator extends Generator
      */
     protected $site;
 
-    /** @var TwigRenderer*/
+    /**
+ * @var TwigRenderer
+*/
     protected $twigrenderer;
 
     protected $io;
 
     /**
      * EntityContentGenerator constructor.
-     * @param Manager $extensionManager
-     * @param Site $site
+     *
+     * @param Manager      $extensionManager
+     * @param Site         $site
      * @param TwigRenderer $twigrenderer
      */
     public function __construct(
@@ -60,7 +64,7 @@ class EntityContentGenerator extends Generator
      * @param string $base_path          Base path
      * @param string $is_translatable    Translation configuration
      * @param string $bundle_entity_type (Config) entity type acting as bundle
-     * @param bool $revisionable      Revision configuration
+     * @param bool   $revisionable       Revision configuration
      */
     public function generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_type = null, $revisionable = false)
     {
@@ -178,36 +182,36 @@ class EntityContentGenerator extends Generator
         );
 
         if ($revisionable) {
-          $this->renderFile(
-            'module/src/Entity/Form/entity-content-revision-delete.php.twig',
-              $this->extensionManager->getModule($module)->getFormPath() .'/'.$entity_class.'RevisionDeleteForm.php',
-            $parameters
-          );
-          $this->renderFile(
-            'module/src/Entity/Form/entity-content-revision-revert-translation.php.twig',
-              $this->extensionManager->getModule($module)->getFormPath() .'/'.$entity_class.'RevisionRevertTranslationForm.php',
-            $parameters
-          );
-          $this->renderFile(
-            'module/src/Entity/Form/entity-content-revision-revert.php.twig',
-              $this->extensionManager->getModule($module)->getFormPath().'/'.$entity_class.'RevisionRevertForm.php',
-            $parameters
-          );
-          $this->renderFile(
-            'module/src/entity-storage.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath() .'/'.$entity_class.'Storage.php',
-            $parameters
-          );
-          $this->renderFile(
-            'module/src/interface-entity-storage.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath() .'/'.$entity_class.'StorageInterface.php',
-            $parameters
-          );
-          $this->renderFile(
-            'module/src/Controller/entity-controller.php.twig',
-            $this->extensionManager->getModule($module)->getControllerPath() .'/'.$entity_class.'Controller.php',
-            $parameters
-          );
+            $this->renderFile(
+                'module/src/Entity/Form/entity-content-revision-delete.php.twig',
+                $this->extensionManager->getModule($module)->getFormPath() .'/'.$entity_class.'RevisionDeleteForm.php',
+                $parameters
+            );
+            $this->renderFile(
+                'module/src/Entity/Form/entity-content-revision-revert-translation.php.twig',
+                $this->extensionManager->getModule($module)->getFormPath() .'/'.$entity_class.'RevisionRevertTranslationForm.php',
+                $parameters
+            );
+            $this->renderFile(
+                'module/src/Entity/Form/entity-content-revision-revert.php.twig',
+                $this->extensionManager->getModule($module)->getFormPath().'/'.$entity_class.'RevisionRevertForm.php',
+                $parameters
+            );
+            $this->renderFile(
+                'module/src/entity-storage.php.twig',
+                $this->extensionManager->getModule($module)->getSourcePath() .'/'.$entity_class.'Storage.php',
+                $parameters
+            );
+            $this->renderFile(
+                'module/src/interface-entity-storage.php.twig',
+                $this->extensionManager->getModule($module)->getSourcePath() .'/'.$entity_class.'StorageInterface.php',
+                $parameters
+            );
+            $this->renderFile(
+                'module/src/Controller/entity-controller.php.twig',
+                $this->extensionManager->getModule($module)->getControllerPath() .'/'.$entity_class.'Controller.php',
+                $parameters
+            );
         }
 
         if ($bundle_entity_type) {

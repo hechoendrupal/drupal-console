@@ -10,10 +10,9 @@ namespace Drupal\Console\Command\Rest;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
@@ -26,21 +25,21 @@ use Drupal\rest\Plugin\Type\ResourcePluginManager;
  */
 class DisableCommand extends Command
 {
-    use CommandTrait;
     use RestTrait;
 
     /**
- * @var ConfigFactory  
-*/
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
     /**
- * @var ResourcePluginManager  
-*/
+     * @var ResourcePluginManager
+     */
     protected $pluginManagerRest;
 
     /**
      * DisableCommand constructor.
+     *
      * @param ConfigFactory         $configFactory
      * @param ResourcePluginManager $pluginManagerRest
      */
@@ -53,14 +52,6 @@ class DisableCommand extends Command
         parent::__construct();
     }
 
-
-    /**
-     * @DrupalCommand(
-     *     dependencies = {
-     *         “rest"
-     *     }
-     * )
-     */
     protected function configure()
     {
         $this
@@ -70,7 +61,8 @@ class DisableCommand extends Command
                 'resource-id',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.rest.debug.arguments.resource-id')
-            );
+            )
+            ->setAliases(['red']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -96,23 +88,38 @@ class DisableCommand extends Command
             $rest_resources_ids,
             $this->translator
         );
-        $input->setArgument('resource-id', $resource_id);
-        $rest_settings = $this->getRestDrupalConfig();
+        $resources = \Drupal::service('entity_type.manager')
+            ->getStorage('rest_resource_config')->loadMultiple();
+        if ($resources[$this->getResourceKey($resource_id)]) {
+            $routeBuilder = \Drupal::service('router.builder');
+            $resources[$this->getResourceKey($resource_id)]->delete();
+            // Rebuild routing cache.
+            $routeBuilder->rebuild();
 
-        unset($rest_settings[$resource_id]);
+            $io->success(
+                sprintf(
+                    $this->trans('commands.rest.disable.messages.success'),
+                    $resource_id
+                )
+            );
+            return true;
+        }
+        $message = sprintf($this->trans('commands.rest.disable.messages.already-disabled'), $resource_id);
+        $io->info($message);
+        return true;
+    }
 
-        $config = $this->configFactory->getEditable('rest.settings');
-
-        $config->set('resources', $rest_settings);
-        $config->save();
-
-        $io->success(
-            sprintf(
-                $this->trans('commands.rest.disable.messages.success'),
-                $resource_id
-            )
-        );
-
-        return 0;
+    /**
+     * The key used in the form.
+     *
+     * @param string $resource_id
+     *   The resource ID.
+     *
+     * @return string
+     *   The resource key in the form.
+     */
+    protected function getResourceKey($resource_id)
+    {
+        return str_replace(':', '.', $resource_id);
     }
 }

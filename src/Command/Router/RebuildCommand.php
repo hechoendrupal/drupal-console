@@ -9,15 +9,12 @@ namespace Drupal\Console\Command\Router;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Routing\RouteBuilderInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class RebuildCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var RouteBuilderInterface
      */
@@ -25,6 +22,7 @@ class RebuildCommand extends Command
 
     /**
      * RebuildCommand constructor.
+     *
      * @param RouteBuilderInterface $routerBuilder
      */
     public function __construct(RouteBuilderInterface $routerBuilder)
@@ -37,7 +35,8 @@ class RebuildCommand extends Command
     {
         $this
             ->setName('router:rebuild')
-            ->setDescription($this->trans('commands.router.rebuild.description'));
+            ->setDescription($this->trans('commands.router.rebuild.description'))
+            ->setAliases(['rr']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

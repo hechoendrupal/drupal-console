@@ -9,11 +9,12 @@ namespace Drupal\Console\Command\Shared;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Style\DrupalStyle;
-use Symfony\Component\Console\Input\ArgvInput;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Class MigrationTrait
+ *
  * @package Drupal\Console\Command
  */
 trait MigrationTrait
@@ -29,9 +30,11 @@ trait MigrationTrait
     protected function getMigrations($version_tag = false, $flatList = false, $configuration = [])
     {
         //Get migration definitions by tag
-        $migrations = array_filter($this->pluginManagerMigration->getDefinitions(), function($migration) use ($version_tag) {
-            return !empty($migration['migration_tags']) && in_array($version_tag, $migration['migration_tags']);
-        });
+        $migrations = array_filter(
+            $this->pluginManagerMigration->getDefinitions(), function ($migration) use ($version_tag) {
+                return !empty($migration['migration_tags']) && in_array($version_tag, $migration['migration_tags']);
+            }
+        );
 
         // Create an array to configure all migration plugins with same configuration
         $keys = array_keys($migrations);
@@ -40,7 +43,7 @@ trait MigrationTrait
         //Create all migration instances
         $all_migrations = $this->pluginManagerMigration->createInstances(array_keys($migrations), $migration_plugin_configuration);
 
-        $migrations = array();
+        $migrations = [];
         foreach ($all_migrations as $migration) {
             if ($flatList) {
                 $migrations[$migration->id()] = ucwords($migration->label());
@@ -148,7 +151,7 @@ trait MigrationTrait
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $target
      * @param $key
      */
@@ -173,7 +176,7 @@ trait MigrationTrait
      * @param InputInterface $input
      * @param DrupalStyle    $io
      */
-    protected function registerMigrateDB(ArgvInput $input, DrupalStyle $io)
+    protected function registerMigrateDB(InputInterface $input, DrupalStyle $io)
     {
         $dbType = $input->getOption('db-type');
         $dbHost = $input->getOption('db-host');

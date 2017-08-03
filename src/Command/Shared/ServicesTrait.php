@@ -7,7 +7,7 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 trait ServicesTrait
 {
@@ -21,7 +21,8 @@ trait ServicesTrait
         if ($io->confirm(
             $this->trans('commands.common.questions.services.confirm'),
             false
-        )) {
+        )
+        ) {
             $service_collection = [];
             $io->writeln($this->trans('commands.common.questions.services.message'));
             $services = $this->container->getServiceIds();

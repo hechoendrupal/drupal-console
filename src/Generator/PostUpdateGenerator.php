@@ -7,15 +7,19 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class PostUpdateGenerator extends Generator
 {
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * PostUpdateGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(
@@ -41,7 +45,7 @@ class PostUpdateGenerator extends Generator
         ];
 
         $this->renderFile(
-            'module/src/post-update.php.twig',
+            'module/post-update.php.twig',
             $module_path .'/'.$module.'.post_update.php',
             $parameters,
             FILE_APPEND

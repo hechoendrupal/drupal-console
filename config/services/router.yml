@@ -1,0 +1,6 @@
+services:
+  console.router_rebuild:
+    class: Drupal\Console\Command\Router\RebuildCommand
+    arguments: ['@router.builder']
+    tags:
+      - { name: drupal.command }

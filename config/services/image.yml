@@ -1,0 +1,6 @@
+services:
+  console.image_styles_flush:
+    class: Drupal\Console\Command\Image\StylesFlushCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }

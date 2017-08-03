@@ -7,12 +7,14 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class PluginImageFormatterGenerator extends Generator
 {
     /**
      * PluginImageFormatterGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

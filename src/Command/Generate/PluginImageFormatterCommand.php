@@ -13,24 +13,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PluginImageFormatterGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class PluginImageFormatterCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginImageFormatterGenerator  */
+    /**
+ * @var PluginImageFormatterGenerator
+*/
     protected $generator;
 
     /**
@@ -38,7 +40,9 @@ class PluginImageFormatterCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
     /**
@@ -49,11 +53,12 @@ class PluginImageFormatterCommand extends Command
 
     /**
      * PluginImageFormatterCommand constructor.
-     * @param Manager $extensionManager
+     *
+     * @param Manager                       $extensionManager
      * @param PluginImageFormatterGenerator $generator
-     * @param StringConverter $stringConverter
-     * @param Validator $validator
-     * @param ChainQueue $chainQueue
+     * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
+     * @param ChainQueue                    $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
@@ -76,25 +81,26 @@ class PluginImageFormatterCommand extends Command
             ->setName('generate:plugin:imageformatter')
             ->setDescription($this->trans('commands.generate.plugin.imageformatter.description'))
             ->setHelp($this->trans('commands.generate.plugin.imageformatter.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.imageformatter.options.class')
             )
             ->addOption(
                 'label',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.imageformatter.options.label')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.imageformatter.options.plugin-id')
-            );
+            )
+            ->setAliases(['gpif']);
     }
 
     /**
@@ -106,7 +112,7 @@ class PluginImageFormatterCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');

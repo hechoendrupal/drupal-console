@@ -13,6 +13,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
  * Class Users
+ *
  * @package Drupal\Console\Utils\Create
  */
 class UserData extends Base

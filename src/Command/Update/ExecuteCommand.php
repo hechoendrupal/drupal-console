@@ -10,20 +10,17 @@ namespace Drupal\Console\Command\Update;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Update\UpdateRegistry;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var Site
      */
@@ -45,7 +42,9 @@ class ExecuteCommand extends Command
     protected $postUpdateRegistry;
 
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
@@ -65,11 +64,12 @@ class ExecuteCommand extends Command
 
     /**
      * EntitiesCommand constructor.
+     *
      * @param Site           $site
-     * @param StateInterface          $state
+     * @param StateInterface $state
      * @param ModuleHandler  $moduleHandler
      * @param UpdateRegistry $postUpdateRegistry
-     * @param Manager $extensionManager
+     * @param Manager        $extensionManager
      * @param ChainQueue     $chainQueue
      */
     public function __construct(
@@ -99,14 +99,15 @@ class ExecuteCommand extends Command
             ->setDescription($this->trans('commands.update.execute.description'))
             ->addArgument(
                 'module',
-                InputArgument::REQUIRED,
+                InputArgument::OPTIONAL,
                 $this->trans('commands.common.options.module')
             )
             ->addArgument(
                 'update-n',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.update.execute.options.update-n')
-            );
+            )
+            ->setAliases(['upex']);
     }
 
     /**
@@ -115,7 +116,7 @@ class ExecuteCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $this->module = $input->getArgument('module');
+        $this->module = $input->getArgument('module') ?: 'all';
         $this->update_n = $input->getArgument('update-n');
 
         $this->site->loadLegacyFile('/core/includes/install.inc');
@@ -124,7 +125,10 @@ class ExecuteCommand extends Command
         drupal_load_updates();
         update_fix_compatibility();
         $updates = update_get_update_list();
-        $this->checkUpdates($io);
+        if (!$this->checkUpdates($io, $updates)) {
+            return 1;
+        }
+
         $maintenance_mode = $this->state->get('system.maintenance_mode', false);
 
         if (!$maintenance_mode) {
@@ -132,8 +136,18 @@ class ExecuteCommand extends Command
             $this->state->set('system.maintenance_mode', true);
         }
 
-        $this->runUpdates($io, $updates);
-        $this->runPostUpdates($io);
+        try {
+            $complete = $this->runUpdates($io, $updates);
+
+            // Post Updates are only safe to run after all schemas have been updated.
+            if ($complete) {
+                $this->runPostUpdates($io);
+            }
+        } catch (\Exception $e) {
+            watchdog_exception('update', $e);
+            $io->error($e->getMessage());
+            return 1;
+        }
 
         if (!$maintenance_mode) {
             $this->state->set('system.maintenance_mode', false);
@@ -145,9 +159,12 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
+     * @param array                                  $updates
+     *
+     * @return bool true if the selected module/update number exists.
      */
-    private function checkUpdates(DrupalStyle $io)
+    private function checkUpdates(DrupalStyle $io, array $updates)
     {
         if ($this->module != 'all') {
             if (!isset($updates[$this->module])) {
@@ -157,106 +174,105 @@ class ExecuteCommand extends Command
                         $this->module
                     )
                 );
-                return;
+                return false;
             } else {
-                // filter to execute only a specific module updates
-                $updates = [$this->module => $updates[$this->module]];
-
                 if ($this->update_n && !isset($updates[$this->module]['pending'][$this->update_n])) {
-                    $io->info(
+                    $io->error(
                         sprintf(
                             $this->trans('commands.update.execute.messages.module-update-function-not-found'),
                             $this->module,
                             $this->update_n
                         )
                     );
+                    return false;
                 }
             }
         }
+        return true;
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
-     * @param $updates
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
+     * @param array                                  $updates
+     *
+     * @return bool True if all available updates have been run.
      */
-    private function runUpdates(DrupalStyle $io, $updates)
+    private function runUpdates(DrupalStyle $io, array $updates)
     {
+        if ($this->module != 'all') {
+            $complete = count($updates) == 1;
+            $updates = [$this->module => $updates[$this->module]];
+        } else {
+            $complete = true;
+        }
+
         foreach ($updates as $module_name => $module_updates) {
-            $this->site
-                ->loadLegacyFile($this->extensionManager->getModule($this->module)->getPath() . '/'. $this->module . '.install', false);
+            $extension = $this->extensionManager->getModule($module_name);
+            if (!$extension) {
+                $extension = $this->extensionManager->getProfile($module_name);
+            }
+            if ($extension) {
+                $this->site
+                    ->loadLegacyFile($extension->getPath() . '/'. $module_name . '.install', false);
+            }
+
+            if ($this->update_n > $module_updates['start']) {
+                $io->info(
+                    $this->trans('commands.update.execute.messages.executing-required-previous-updates')
+                );
+            }
 
             foreach ($module_updates['pending'] as $update_number => $update) {
-                if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {
-                    continue;
+                if ($this->module != 'all' && $this->update_n !== null && $this->update_n < $update_number) {
+                    return false;
                 }
 
-                if ($this->update_n > $module_updates['start']) {
-                    $io->info(
-                        $this->trans('commands.update.execute.messages.executing-required-previous-updates')
-                    );
-                }
+                $io->comment(
+                    sprintf(
+                        $this->trans('commands.update.execute.messages.executing-update'),
+                        $update_number,
+                        $module_name
+                    )
+                );
 
-                for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
-                    $io->info(
-                        sprintf(
-                            $this->trans('commands.update.execute.messages.executing-update'),
-                            $update_index,
-                            $module_name
-                        )
-                    );
+                $updateExploded = explode(" - ", $update);
+                $updateExploded = count($updateExploded)>0?$updateExploded[1]:$updateExploded[0];
 
-                    try {
-                        $this->moduleHandler->invoke($module_name, 'update_'  . $update_index);
-                    } catch (\Exception $e) {
-                        watchdog_exception('update', $e);
-                        $io->error($e->getMessage());
-                    }
+                $io->comment(trim($updateExploded));
+                $io->newLine();
 
-                    drupal_set_installed_schema_version($module_name, $update_index);
-                }
+                $this->moduleHandler->invoke($module_name, 'update_'  . $update_number);
+                drupal_set_installed_schema_version($module_name, $update_number);
             }
         }
+
+        return $complete;
     }
 
     /**
-     * @param \Drupal\Console\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      */
     private function runPostUpdates(DrupalStyle $io)
     {
         $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
         foreach ($postUpdates as $module_name => $module_updates) {
-            foreach ($module_updates['pending'] as $update_number => $update) {
-                if ($this->module != 'all' && $this->update_n !== null && $this->update_n != $update_number) {
-                    continue;
-                }
+            foreach ($module_updates['pending'] as $update_name => $update) {
+                $io->info(
+                    sprintf(
+                        $this->trans('commands.update.execute.messages.executing-update'),
+                        $update_name,
+                        $module_name
+                    )
+                );
 
-                if ($this->update_n > $module_updates['start']) {
-                    $io->info(
-                        $this->trans('commands.update.execute.messages.executing-required-previous-updates')
-                    );
-                }
-                for ($update_index=$module_updates['start']; $update_index<=$update_number; $update_index++) {
-                    $io->info(
-                        sprintf(
-                            $this->trans('commands.update.execute.messages.executing-update'),
-                            $update_index,
-                            $module_name
-                        )
-                    );
-
-                    try {
-                        $function = sprintf(
-                            '%s_post_update_%s',
-                            $module_name,
-                            $update_index
-                        );
-                        drupal_flush_all_caches();
-                        update_invoke_post_update($function);
-                    } catch (\Exception $e) {
-                        watchdog_exception('update', $e);
-                        $io->error($e->getMessage());
-                    }
-                }
+                $function = sprintf(
+                    '%s_post_update_%s',
+                    $module_name,
+                    $update_name
+                );
+                drupal_flush_all_caches();
+                $context = [];
+                update_invoke_post_update($function, $context);
             }
         }
     }

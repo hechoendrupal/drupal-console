@@ -10,24 +10,26 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class OverrideCommand extends Command
 {
-    use CommandTrait;
-
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var ConfigFactory  */
+    /**
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
     /**
      * OverrideCommand constructor.
+     *
      * @param CachedStorage $configStorage
      * @param ConfigFactory $configFactory
      */
@@ -50,8 +52,16 @@ class OverrideCommand extends Command
                 InputArgument::REQUIRED,
                 $this->trans('commands.config.override.arguments.name')
             )
-            ->addArgument('key', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.key'))
-            ->addArgument('value', InputArgument::REQUIRED, $this->trans('commands.config.override.arguments.value'));
+            ->addArgument(
+            	'key', 
+            	InputArgument::REQUIRED, 
+            	$this->trans('commands.config.override.arguments.key'))
+            ->addArgument(
+            	'value', 
+            	InputArgument::REQUIRED, 
+            	$this->trans('commands.config.override.arguments.value')
+            )
+            ->setAliases(['co']);
     }
 
     /**

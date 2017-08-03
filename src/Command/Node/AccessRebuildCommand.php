@@ -10,19 +10,17 @@ namespace Drupal\Console\Command\Node;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class AccessRebuildCommand
+ *
  * @package Drupal\Console\Command\Node
  */
 class AccessRebuildCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var StateInterface
      */
@@ -30,9 +28,11 @@ class AccessRebuildCommand extends Command
 
     /**
      * AccessRebuildCommand constructor.
+     *
      * @param StateInterface $state
      */
-    public function __construct(StateInterface $state) {
+    public function __construct(StateInterface $state)
+    {
         $this->state = $state;
         parent::__construct();
     }
@@ -50,7 +50,7 @@ class AccessRebuildCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.node.access.rebuild.options.batch')
-            );
+            )->setAliases(['nar']);
     }
 
     /**

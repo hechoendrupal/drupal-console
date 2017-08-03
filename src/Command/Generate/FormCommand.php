@@ -14,19 +14,17 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Core\Render\ElementInfoManager;
 use Drupal\Core\Routing\RouteProviderInterface;
 
-abstract class FormCommand extends Command
+abstract class FormCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
     use ModuleTrait;
     use ServicesTrait;
     use FormTrait;
@@ -35,13 +33,19 @@ abstract class FormCommand extends Command
     private $formType;
     private $commandName;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var FormGenerator  */
+    /**
+ * @var FormGenerator
+*/
     protected $generator;
 
-    /** @var ChainQueue */
+    /**
+ * @var ChainQueue
+*/
     protected $chainQueue;
 
     /**
@@ -62,6 +66,7 @@ abstract class FormCommand extends Command
 
     /**
      * FormCommand constructor.
+     *
      * @param Manager                $extensionManager
      * @param FormGenerator          $generator
      * @param ChainQueue             $chainQueue
@@ -115,64 +120,70 @@ abstract class FormCommand extends Command
             )
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.class')
             )
             ->addOption(
                 'form-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.form-id')
             )
             ->addOption(
                 'services',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             )
             ->addOption(
+                'config-file',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.form.options.config-file')
+            )
+            ->addOption(
                 'inputs',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.common.options.inputs')
             )
             ->addOption(
                 'path',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.path')
             )
             ->addOption(
-                'menu_link_gen',
-                '',
+                'menu-link-gen',
+                null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.menu_link_gen')
+                $this->trans('commands.generate.form.options.menu-link-gen')
             )
             ->addOption(
-                'menu_link_title',
-                '',
+                'menu-link-title',
+                null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.menu_link_title')
+                $this->trans('commands.generate.form.options.menu-link-title')
             )
             ->addOption(
-                'menu_parent',
-                '',
+                'menu-parent',
+                null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.menu_parent')
+                $this->trans('commands.generate.form.options.menu-parent')
             )
             ->addOption(
-                'menu_link_desc',
-                '',
+                'menu-link-desc',
+                null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.form.options.menu_link_desc')
-            );
+                $this->trans('commands.generate.form.options.menu-link-desc')
+            )->setAliases(['gf']);
     }
 
     /**
@@ -183,13 +194,14 @@ abstract class FormCommand extends Command
         $module = $input->getOption('module');
         $services = $input->getOption('services');
         $path = $input->getOption('path');
+        $config_file = $input->getOption('config-file');
         $class_name = $input->getOption('class');
         $form_id = $input->getOption('form-id');
         $form_type = $this->formType;
-        $menu_link_gen = $input->getOption('menu_link_gen');
-        $menu_parent = $input->getOption('menu_parent');
-        $menu_link_title = $input->getOption('menu_link_title');
-        $menu_link_desc = $input->getOption('menu_link_desc');
+        $menu_link_gen = $input->getOption('menu-link-gen');
+        $menu_parent = $input->getOption('menu-parent');
+        $menu_link_title = $input->getOption('menu-link-title');
+        $menu_link_desc = $input->getOption('menu-link-desc');
 
         // if exist form generate config file
         $inputs = $input->getOption('inputs');
@@ -197,7 +209,7 @@ abstract class FormCommand extends Command
 
         $this
             ->generator
-            ->generate($module, $class_name, $form_id, $form_type, $build_services, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
+            ->generate($module, $class_name, $form_id, $form_type, $build_services, $config_file, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
 
         $this->chainQueue->addCommand('router:rebuild', []);
     }
@@ -241,6 +253,17 @@ abstract class FormCommand extends Command
         // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $this->servicesQuestion($io);
         $input->setOption('services', $services);
+        
+        // --config_file option
+        $config_file = $input->getOption('config-file');
+
+        if (!$config_file) {
+            $config_file = $io->confirm(
+                $this->trans('commands.generate.form.questions.config-file'),
+                true
+            );
+            $input->setOption('config-file', $config_file);
+        }
 
         // --inputs option
         $inputs = $input->getOption('inputs');
@@ -290,15 +313,15 @@ abstract class FormCommand extends Command
         // --link option for links.menu
         if ($this->formType == 'ConfigFormBase') {
             $menu_options = $this->menuQuestion($io, $className);
-            $menu_link_gen = $input->getOption('menu_link_gen');
-            $menu_link_title = $input->getOption('menu_link_title');
-            $menu_parent = $input->getOption('menu_parent');
-            $menu_link_desc = $input->getOption('menu_link_desc');
+            $menu_link_gen = $input->getOption('menu-link-gen');
+            $menu_link_title = $input->getOption('menu-link-title');
+            $menu_parent = $input->getOption('menu-parent');
+            $menu_link_desc = $input->getOption('menu-link-desc');
             if (!$menu_link_gen || !$menu_link_title || !$menu_parent || !$menu_link_desc) {
-                $input->setOption('menu_link_gen', $menu_options['menu_link_gen']);
-                $input->setOption('menu_link_title', $menu_options['menu_link_title']);
-                $input->setOption('menu_parent', $menu_options['menu_parent']);
-                $input->setOption('menu_link_desc', $menu_options['menu_link_desc']);
+                $input->setOption('menu-link-gen', $menu_options['menu_link_gen']);
+                $input->setOption('menu-link-title', $menu_options['menu_link_title']);
+                $input->setOption('menu-parent', $menu_options['menu_parent']);
+                $input->setOption('menu-link-desc', $menu_options['menu_link_desc']);
             }
         }
     }

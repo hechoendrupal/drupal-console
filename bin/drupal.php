@@ -1,76 +1,87 @@
 <?php
 
-use Drupal\Console\Utils\ArgvInputReader;
-use Drupal\Console\Application;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Input\ArrayInput;
+use Drupal\Console\Core\Utils\ConfigurationManager;
+use Drupal\Console\Core\Utils\ArgvInputReader;
+use Drupal\Console\Core\Utils\DrupalFinder;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Bootstrap\Drupal;
+use Drupal\Console\Application;
 
 set_time_limit(0);
-$appRoot = getcwd() . '/';
-$root = $appRoot;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-$globalAutoLoadFile = $appRoot.'/autoload.php';
-$projectAutoLoadFile = $appRoot.'/vendor/autoload.php';
+$autoloaders = [];
 
-if (file_exists($globalAutoLoadFile)) {
-    $autoload = include_once $globalAutoLoadFile;
-} elseif (file_exists($projectAutoLoadFile)) {
-    $autoload = include_once $projectAutoLoadFile;
+if (file_exists(__DIR__ . '/../autoload.local.php')) {
+    include_once __DIR__ . '/../autoload.local.php';
 } else {
-    echo PHP_EOL .
-        ' DrupalConsole must be executed within a Drupal Site.'.PHP_EOL.
-        ' Try changing to a Drupal site directory and download it by executing:'. PHP_EOL .
-        ' composer require drupal/console:~1.0 --prefer-dist --optimize-autoloader'. PHP_EOL .
-        ' composer update drupal/console --with-dependencies'. PHP_EOL .
-        PHP_EOL;
+    $autoloaders = [
+        __DIR__ . '/../../../autoload.php',
+        __DIR__ . '/../vendor/autoload.php'
+    ];
+}
 
+foreach ($autoloaders as $file) {
+    if (file_exists($file)) {
+        $autoloader = $file;
+        break;
+    }
+}
+
+if (isset($autoloader)) {
+    $autoload = include_once $autoloader;
+} else {
+    echo ' You must set up the project dependencies using `composer install`' . PHP_EOL;
     exit(1);
 }
 
-if (!file_exists($appRoot.'composer.json')) {
-    $root = realpath($appRoot . '../') . '/';
-}
-
-if (!file_exists($root.'composer.json')) {
-    echo ' No composer.json file found at:' . PHP_EOL .
-         ' '. $root . PHP_EOL .
-         ' you should try run this command,' . PHP_EOL .
-         ' from the Drupal root directory.' . PHP_EOL;
-
-    exit(1);
-}
+$output = new ConsoleOutput();
+$input = new ArrayInput([]);
+$io = new DrupalStyle($input, $output);
 
 $argvInputReader = new ArgvInputReader();
-if ($root === $appRoot && $argvInputReader->get('root')) {
-    $appRoot = $argvInputReader->get('root');
-    if (is_dir($appRoot)) {
-        chdir($appRoot);
-    }
-    else {
-        $appRoot = $root;
-    }
-}
-$argvInputReader->setOptionsAsArgv();
+$root = $argvInputReader->get('root', getcwd());
 
-$drupal = new Drupal($autoload, $root, $appRoot);
-$container = $drupal->boot();
-
-if (!$container) {
-    echo ' In order to list all of the available commands you should try: ' . PHP_EOL .
-         ' Copy config files: drupal init ' . PHP_EOL .
-         ' Install Drupal site: drupal site:install ' . PHP_EOL;
+$drupalFinder = new DrupalFinder();
+if (!$drupalFinder->locateRoot($root)) {
+    $io->error('DrupalConsole must be executed within a Drupal Site.');
 
     exit(1);
 }
 
-$configuration = $container->get('console.configuration_manager')
-    ->getConfiguration();
+chdir($drupalFinder->getDrupalRoot());
+$configurationManager = new ConfigurationManager();
+$configuration = $configurationManager
+    ->loadConfigurationFromDirectory($drupalFinder->getComposerRoot());
 
-$translator = $container->get('console.translator_manager');
-
-if ($options = $configuration->get('application.options') ?: []) {
+$debug = $argvInputReader->get('debug', false);
+if ($configuration && $options = $configuration->get('application.options') ?: []) {
     $argvInputReader->setOptionsFromConfiguration($options);
 }
 $argvInputReader->setOptionsAsArgv();
+
+if ($debug){
+    $io->writeln(
+        sprintf(
+            '<info>%s</info> version <comment>%s</comment>',
+            Application::NAME,
+            Application::VERSION
+        )
+    );
+}
+
+$drupal = new Drupal($autoload, $drupalFinder);
+$container = $drupal->boot();
+
+if (!$container) {
+    $io->error('Something was wrong. Drupal can not be bootstrap.');
+
+    exit(1);
+}
 
 $application = new Application($container);
 $application->setDefaultCommand('about');

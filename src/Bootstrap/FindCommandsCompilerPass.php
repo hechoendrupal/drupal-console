@@ -17,6 +17,7 @@ class FindCommandsCompilerPass implements CompilerPassInterface
 
     /**
      * FindCommandsCompilerPass constructor.
+     *
      * @param $serviceTag
      */
     public function __construct($serviceTag)

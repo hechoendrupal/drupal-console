@@ -10,20 +10,17 @@ namespace Drupal\Console\Command\Field;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\field\FieldConfigInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class InfoCommand.
  */
 class InfoCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var EntityTypeManagerInterface
      */
@@ -36,6 +33,7 @@ class InfoCommand extends Command
 
     /**
      * InfoCommand constructor.
+     *
      * @param EntityTypeManagerInterface  $entityTypeManager
      * @param EntityFieldManagerInterface $entityFieldManager
      */
@@ -74,7 +72,7 @@ class InfoCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.field.info.options.bundle')
-            );
+            )->setAliases(['fii']);
     }
 
     /**

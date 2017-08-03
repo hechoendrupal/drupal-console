@@ -7,22 +7,21 @@
 
 namespace Drupal\Console\Command\Create;
 
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Utils\Create\VocabularyData;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class VocabulariesCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class VocabulariesCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var VocabularyData
      */
@@ -30,6 +29,7 @@ class VocabulariesCommand extends Command
 
     /**
      * UsersCommand constructor.
+     *
      * @param $vocabularyData
      */
     public function __construct(VocabularyData $vocabularyData)
@@ -57,7 +57,7 @@ class VocabulariesCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.create.vocabularies.options.name-words')
-            );
+            )->setAliases(['crv']);
     }
 
     /**

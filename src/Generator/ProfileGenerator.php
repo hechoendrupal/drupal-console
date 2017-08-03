@@ -7,6 +7,8 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+
 class ProfileGenerator extends Generator
 {
     public function generate(
@@ -16,6 +18,7 @@ class ProfileGenerator extends Generator
         $description,
         $core,
         $dependencies,
+        $themes,
         $distribution
     ) {
         $dir = $profile_path . '/' . $machine_name;
@@ -30,7 +33,7 @@ class ProfileGenerator extends Generator
                 );
             }
             $files = scandir($dir);
-            if ($files != array('.', '..')) {
+            if ($files != ['.', '..']) {
                 throw new \RuntimeException(
                     sprintf(
                         'Unable to generate the profile as the target directory "%s" is not empty.',
@@ -48,15 +51,16 @@ class ProfileGenerator extends Generator
             }
         }
 
-        $parameters = array(
+        $parameters = [
           'profile' => $profile,
           'machine_name' => $machine_name,
           'type' => 'profile',
           'core' => $core,
           'description' => $description,
           'dependencies' => $dependencies,
+          'themes' => $themes,
           'distribution' => $distribution,
-        );
+        ];
 
         $this->renderFile(
             'profile/info.yml.twig',

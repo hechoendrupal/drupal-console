@@ -13,27 +13,29 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\RouteSubscriberGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Command\Shared\CommandTrait;
-
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class RouteSubscriberCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class RouteSubscriberCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var RouteSubscriberGenerator  */
+    /**
+ * @var RouteSubscriberGenerator
+*/
     protected $generator;
 
     /**
@@ -43,6 +45,7 @@ class RouteSubscriberCommand extends Command
 
     /**
      * RouteSubscriberCommand constructor.
+     *
      * @param Manager                  $extensionManager
      * @param RouteSubscriberGenerator $generator
      * @param ChainQueue               $chainQueue
@@ -84,7 +87,7 @@ class RouteSubscriberCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.routesubscriber.options.class')
-            );
+            )->setAliases(['gr']);
     }
 
     /**
@@ -96,7 +99,7 @@ class RouteSubscriberCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($output)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -106,6 +109,8 @@ class RouteSubscriberCommand extends Command
         $this->generator->generate($module, $name, $class);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+
+        return 0;
     }
 
     /**

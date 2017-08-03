@@ -11,8 +11,7 @@ namespace Drupal\{{module}};
 {% block use_class %}
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
-use Drupal\Core\Routing\LinkGeneratorTrait;
-use Drupal\Core\Url;
+use Drupal\Core\Link;
 {% endblock %}
 
 {% block class_declaration %}
@@ -22,9 +21,6 @@ use Drupal\Core\Url;
  * @ingroup {{ module }}
  */
 class {{ entity_class }}ListBuilder extends EntityListBuilder {% endblock %}
-{% block use_trait %}
-  use LinkGeneratorTrait;
-{% endblock %}
 {% block class_methods %}
 
   /**
@@ -42,13 +38,10 @@ class {{ entity_class }}ListBuilder extends EntityListBuilder {% endblock %}
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
     $row['id'] = $entity->id();
-    $row['name'] = $this->l(
+    $row['name'] = Link::createFromRoute(
       $entity->label(),
-      new Url(
-        'entity.{{ entity_name }}.edit_form', array(
-          '{{ entity_name }}' => $entity->id(),
-        )
-      )
+      'entity.{{ entity_name }}.edit_form',
+      ['{{ entity_name }}' => $entity->id()]
     );
     return $row + parent::buildRow($entity);
   }

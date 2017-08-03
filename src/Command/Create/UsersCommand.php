@@ -11,21 +11,20 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Utils\Create\UserData;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class UsersCommand
+ *
  * @package Drupal\Console\Command\Create
  */
 class UsersCommand extends Command
 {
     use CreateTrait;
-    use CommandTrait;
 
     /**
      * @var DrupalApi
@@ -38,6 +37,7 @@ class UsersCommand extends Command
 
     /**
      * UsersCommand constructor.
+     *
      * @param DrupalApi $drupalApi
      * @param UserData  $createUserData
      */
@@ -80,7 +80,7 @@ class UsersCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.create.users.options.time-range')
-            );
+            )->setAliases(['cru']);
     }
 
     /**
@@ -138,7 +138,7 @@ class UsersCommand extends Command
                 array_values($timeRanges)
             );
 
-            $input->setOption('time-range',  array_search($timeRange, $timeRanges));
+            $input->setOption('time-range', array_search($timeRange, $timeRanges));
         }
     }
 
