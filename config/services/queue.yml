@@ -1,0 +1,6 @@
+services:
+  console.queue_run:
+    class: Drupal\Console\Command\Queue\RunCommand
+    arguments: ['@plugin.manager.queue_worker', '@queue']
+    tags:
+      - { name: drupal.command }

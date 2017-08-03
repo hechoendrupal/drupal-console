@@ -10,19 +10,18 @@ namespace Drupal\Console\Command\Database;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DropCommand
+ *
  * @package Drupal\Console\Command\Database
  */
 class DropCommand extends Command
 {
-    use CommandTrait;
     use ConnectTrait;
 
     /**
@@ -32,9 +31,11 @@ class DropCommand extends Command
 
     /**
      * DropCommand constructor.
+     *
      * @param Connection $database
      */
-    public function __construct(Connection $database) {
+    public function __construct(Connection $database)
+    {
         $this->database = $database;
         parent::__construct();
     }
@@ -53,7 +54,8 @@ class DropCommand extends Command
                 $this->trans('commands.database.drop.arguments.database'),
                 'default'
             )
-            ->setHelp($this->trans('commands.database.drop.help'));
+            ->setHelp($this->trans('commands.database.drop.help'))
+            ->setAliases(['dbd']);
     }
 
     /**
@@ -74,7 +76,8 @@ class DropCommand extends Command
                     $databaseConnection['database']
                 ),
                 true
-            )) {
+            )
+            ) {
                 return 1;
             }
         }

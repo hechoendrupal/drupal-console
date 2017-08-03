@@ -15,15 +15,15 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginTypeYamlCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginTypeYamlCommand extends Command
@@ -32,12 +32,15 @@ class PluginTypeYamlCommand extends Command
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
-    use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginTypeYamlGenerator  */
+    /**
+ * @var PluginTypeYamlGenerator
+*/
     protected $generator;
 
     /**
@@ -47,6 +50,7 @@ class PluginTypeYamlCommand extends Command
 
     /**
      * PluginTypeYamlCommand constructor.
+     *
      * @param Manager                 $extensionManager
      * @param PluginTypeYamlGenerator $generator
      * @param StringConverter         $stringConverter
@@ -68,25 +72,26 @@ class PluginTypeYamlCommand extends Command
             ->setName('generate:plugin:type:yaml')
             ->setDescription($this->trans('commands.generate.plugin.type.yaml.description'))
             ->setHelp($this->trans('commands.generate.plugin.type.yaml.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.type.yaml.options.class')
             )
             ->addOption(
                 'plugin-name',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.type.yaml.options.plugin-name')
             )
             ->addOption(
                 'plugin-file-name',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.type.yaml.options.plugin-file-name')
-            );
+            )
+            ->setAliases(['gpty']);
     }
 
     /**

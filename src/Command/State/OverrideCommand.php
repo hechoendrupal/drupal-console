@@ -10,21 +10,19 @@ namespace Drupal\Console\Command\State;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
 /**
  * Class DebugCommand
+ *
  * @package Drupal\Console\Command\State
  */
 class OverrideCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var StateInterface
      */
@@ -37,6 +35,7 @@ class OverrideCommand extends Command
 
     /**
      * OverrideCommand constructor.
+     *
      * @param StateInterface           $state
      * @param KeyValueFactoryInterface $keyValue
      */
@@ -67,7 +66,7 @@ class OverrideCommand extends Command
                 'value',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.state.override.arguments.value')
-            );
+            )->setAliases(['sto']);
     }
     /**
      * {@inheritdoc}

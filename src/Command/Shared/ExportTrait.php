@@ -7,12 +7,12 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Symfony\Component\Yaml\Dumper;
-use \Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Component\Serialization\Yaml;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ConfigExportTrait
+ *
  * @package Drupal\Console\Command
  */
 trait ExportTrait
@@ -22,30 +22,34 @@ trait ExportTrait
      * @param bool|false $uuid
      * @return mixed
      */
-    protected function getConfiguration($configName, $uuid = false)
+    protected function getConfiguration($configName, $uuid = false, $hash = false)
     {
         $config = $this->configStorage->read($configName);
 
         // Exclude uuid base in parameter, useful to share configurations.
-        if (!$uuid) {
+        if ($uuid) {
             unset($config['uuid']);
+        }
+
+        // Exclude default_config_hash inside _core is site-specific.
+        if ($hash) {
+            unset($config['_core']['default_config_hash']);
         }
 
         return $config;
     }
 
     /**
-     * @param string      $module
+     * @param string      $directory
      * @param DrupalStyle $io
      */
     protected function exportConfig($directory, DrupalStyle $io, $message)
     {
-        $dumper = new Dumper();
-
+        $directory = realpath($directory);
         $io->info($message);
 
         foreach ($this->configExport as $fileName => $config) {
-            $yamlConfig = $dumper->dump($config['data'], 10);
+            $yamlConfig = Yaml::encode($config['data']);
 
             $configFile = sprintf(
                 '%s/%s.yml',
@@ -53,7 +57,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $io->info('- ' . $configFile);
+            $io->writeln('- ' . $configFile);
 
             // Create directory if doesn't exist
             if (!file_exists($directory)) {
@@ -73,14 +77,12 @@ trait ExportTrait
      */
     protected function exportConfigToModule($module, DrupalStyle $io, $message)
     {
-        $dumper = new Dumper();
-
         $io->info($message);
 
         $module = $this->extensionManager->getModule($module);
 
         foreach ($this->configExport as $fileName => $config) {
-            $yamlConfig = $dumper->dump($config['data'], 10);
+            $yamlConfig = Yaml::encode($config['data']);
 
             if ($config['optional']) {
                 $configDirectory = $module->getConfigOptionalDirectory(false);
@@ -121,7 +123,7 @@ trait ExportTrait
     {
         foreach ($dependencies as $dependency) {
             if (!array_key_exists($dependency, $this->configExport)) {
-                $this->configExport[$dependency] = array('data' => $this->getConfiguration($dependency), 'optional' => $optional);
+                $this->configExport[$dependency] = ['data' => $this->getConfiguration($dependency), 'optional' => $optional];
                 if ($dependencies = $this->fetchDependencies($this->configExport[$dependency], 'config')) {
                     $this->resolveDependencies($dependencies, $optional);
                 }
@@ -131,8 +133,6 @@ trait ExportTrait
 
     protected function exportModuleDependencies($io, $module, $dependencies)
     {
-        $yaml = new Yaml();
-
         $module = $this->extensionManager->getModule($module);
         $info_yaml = $module->info;
 
@@ -142,7 +142,7 @@ trait ExportTrait
             $info_yaml['dependencies'] = array_unique(array_merge($info_yaml['dependencies'], $dependencies));
         }
 
-        if (file_put_contents($module->getPathname(), $yaml->dump($info_yaml))) {
+        if (file_put_contents($module->getPathname(), Yaml::encode($info_yaml))) {
             $io->info(
                 '[+] ' .
                 sprintf(

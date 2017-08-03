@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Command\Shared\InputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,27 +14,30 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ControllerGenerator;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Utils\Validator;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Core\Routing\RouteProviderInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Command\Shared\InputTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
 
-class ControllerCommand extends Command
+class ControllerCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ServicesTrait;
     use ConfirmationTrait;
     use InputTrait;
-    use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
-    /** @var ControllerGenerator  */
+    /**
+     * @var ControllerGenerator
+     */
     protected $generator;
 
     /**
@@ -43,10 +45,14 @@ class ControllerCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+     * @var Validator
+     */
     protected $validator;
 
-    /** @var RouteProviderInterface  */
+    /**
+     * @var RouteProviderInterface
+     */
     protected $routeProvider;
 
     /**
@@ -56,6 +62,7 @@ class ControllerCommand extends Command
 
     /**
      * ControllerCommand constructor.
+     *
      * @param Manager                $extensionManager
      * @param ControllerGenerator    $generator
      * @param StringConverter        $stringConverter
@@ -88,34 +95,35 @@ class ControllerCommand extends Command
             ->setHelp($this->trans('commands.generate.controller.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.controller.options.class')
             )
             ->addOption(
                 'routes',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.controller.options.routes')
             )
             ->addOption(
                 'services',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             )
             ->addOption(
                 'test',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.generate.controller.options.test')
-            );
+            )
+            ->setAliases(['gcon']);
     }
 
     /**
@@ -128,10 +136,9 @@ class ControllerCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io, $yes)) {
-            return;
+            return 1;
         }
 
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
         $module = $input->getOption('module');
         $class = $input->getOption('class');
         $routes = $input->getOption('routes');
@@ -155,6 +162,8 @@ class ControllerCommand extends Command
 
         // Run cache rebuild to see changes in Web UI
         $this->chainQueue->addCommand('router:rebuild', []);
+
+        return 0;
     }
 
     /**
@@ -243,7 +252,10 @@ class ControllerCommand extends Command
 
                 $path = $io->ask(
                     $this->trans('commands.generate.controller.questions.path'),
-                    sprintf('/%s/hello/{name}', $module),
+                    sprintf(
+                        '/%s/'.($method!='hello'?$method:'hello/{name}'),
+                        $module
+                    ),
                     function ($path) use ($routes) {
                         if (count($this->routeProvider->getRoutesByPattern($path)) > 0
                             || in_array($path, array_column($routes, 'path'))

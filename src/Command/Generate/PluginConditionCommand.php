@@ -10,32 +10,34 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeRepository;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Console\Generator\PluginConditionGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\ChainQueue;
-use Drupal\Console\Utils\StringConverter;
-
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class PluginConditionCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginConditionCommand extends Command
 {
-    use CommandTrait;
     use ModuleTrait;
     use ConfirmationTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginConditionGenerator  */
+    /**
+ * @var PluginConditionGenerator
+*/
     protected $generator;
 
     /**
@@ -51,11 +53,12 @@ class PluginConditionCommand extends Command
 
     /**
      * PluginConditionCommand constructor.
-     * @param Manager              $extensionManager
-     * @param PluginConditionGenerator  $generator
-     * @param ChainQueue           $chainQueue
-     * @param EntityTypeRepository $entitytyperepository
-     * @param StringConverter      $stringConverter
+     *
+     * @param Manager                  $extensionManager
+     * @param PluginConditionGenerator $generator
+     * @param ChainQueue               $chainQueue
+     * @param EntityTypeRepository     $entitytyperepository
+     * @param StringConverter          $stringConverter
      */
     public function __construct(
         Manager $extensionManager,
@@ -78,43 +81,44 @@ class PluginConditionCommand extends Command
             ->setName('generate:plugin:condition')
             ->setDescription($this->trans('commands.generate.plugin.condition.description'))
             ->setHelp($this->trans('commands.generate.plugin.condition.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.condition.options.class')
             )
             ->addOption(
                 'label',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.condition.options.label')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.condition.options.plugin-id')
             )
             ->addOption(
                 'context-definition-id',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.condition.options.context-definition-id')
             )
             ->addOption(
                 'context-definition-label',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.generate.plugin.condition.options.context-definition-label')
             )
             ->addOption(
                 'context-definition-required',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.condition.options.context-definition-required')
-            );
+            )
+            ->setAliases(['gpco']);
     }
 
     /**
@@ -126,7 +130,7 @@ class PluginConditionCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -142,6 +146,8 @@ class PluginConditionCommand extends Command
             ->generate($module, $class_name, $label, $plugin_id, $context_definition_id, $context_definition_label, $context_definition_required);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -192,7 +198,7 @@ class PluginConditionCommand extends Command
 
         $context_definition_id = $input->getOption('context-definition-id');
         if (!$context_definition_id) {
-            $context_type = array('language' => 'Language', "entity" => "Entity");
+            $context_type = ['language' => 'Language', "entity" => "Entity"];
             $context_type_sel = $io->choice(
                 $this->trans('commands.generate.plugin.condition.questions.context-type'),
                 array_values($context_type)

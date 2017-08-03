@@ -11,32 +11,35 @@ use Drupal\Console\Generator\PluginSkeletonGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
 
 /**
  * Class PluginSkeletonCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
-class PluginSkeletonCommand extends Command
+class PluginSkeletonCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
     use ServicesTrait;
-    use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginSkeletonGenerator  */
+    /**
+ * @var PluginSkeletonGenerator
+*/
     protected $generator;
 
     /**
@@ -44,7 +47,9 @@ class PluginSkeletonCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
     /**
@@ -55,6 +60,7 @@ class PluginSkeletonCommand extends Command
 
     /**
      * PluginSkeletonCommand constructor.
+     *
      * @param Manager                 $extensionManager
      * @param PluginSkeletonGenerator $generator
      * @param StringConverter         $stringConverter
@@ -95,30 +101,29 @@ class PluginSkeletonCommand extends Command
             ->setHelp($this->trans('commands.generate.plugin.skeleton.help'))
             ->addOption(
                 'module',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.options.plugin-id')
+                $this->trans('commands.generate.plugin.skeleton.options.plugin')
             )
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.block.options.class')
+                $this->trans('commands.generate.plugin.skeleton.options.class')
             )
             ->addOption(
                 'services',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL| InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
-            );
+            )->setAliases(['gps']);
     }
-
     /**
      * {@inheritdoc}
      */
@@ -129,7 +134,7 @@ class PluginSkeletonCommand extends Command
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -167,6 +172,8 @@ class PluginSkeletonCommand extends Command
         $this->generator->generate($module, $pluginId, $plugin, $className, $pluginMetaData, $buildServices);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -252,7 +259,7 @@ class PluginSkeletonCommand extends Command
         }
 
         if (empty($pluginMetaData['pluginInterface'])) {
-            $pluginMetaData['pluginInterfaceMethods'] = array();
+            $pluginMetaData['pluginInterfaceMethods'] = [];
         } else {
             $pluginMetaData['pluginInterfaceMethods'] = $this->getClassMethods($pluginMetaData['pluginInterface']);
         }

@@ -11,17 +11,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
-class ModeCommand extends Command
+class ModeCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
-
     /**
      * @var ConfigFactory
      */
@@ -44,9 +41,11 @@ class ModeCommand extends Command
 
     /**
      * DebugCommand constructor.
-     * @param ConfigFactory           $configFactory
+     *
+     * @param ConfigFactory        $configFactory
      * @param ConfigurationManager $configurationManager
-     * @param ChainQueue $chainQueue,
+     * @param $appRoot,
+     * @param ChainQueue           $chainQueue,
      */
     public function __construct(
         ConfigFactory $configFactory,
@@ -70,7 +69,8 @@ class ModeCommand extends Command
                 'environment',
                 InputArgument::REQUIRED,
                 $this->trans('commands.site.mode.arguments.environment')
-            );
+            )
+            ->setAliases(['smo']);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -79,12 +79,12 @@ class ModeCommand extends Command
 
         $environment = $input->getArgument('environment');
 
-        $loadedConfigurations = [];
-        if (in_array($environment, array('dev', 'prod'))) {
-            $loadedConfigurations = $this->loadConfigurations($environment);
-        } else {
+        if (!in_array($environment, ['dev', 'prod'])) {
             $io->error($this->trans('commands.site.mode.messages.invalid-env'));
+            return 1;
         }
+
+        $loadedConfigurations = $this->loadConfigurations($environment);
 
         $configurationOverrideResult = $this->overrideConfigurations(
             $loadedConfigurations['configurations']
@@ -106,7 +106,8 @@ class ModeCommand extends Command
             $io->table($tableHeader, $result);
         }
 
-        $servicesOverrideResult = $this->overrideServices(
+        $servicesOverrideResult = $this->processServicesFile(
+            $environment,
             $loadedConfigurations['services'],
             $io
         );
@@ -153,26 +154,10 @@ class ModeCommand extends Command
             $config->save();
         }
 
-        //        $this->getDrupalService('settings');die();
-        //
-        //        $drupal = $this->getDrupalHelper();
-        //        $fs = $this->getApplication()->getContainerHelper()->get('filesystem');
-        //
-        //        $cache_render  = '$settings = ["cache"]["bins"]["render"] = "cache.backend.null";';
-        //        $cache_dynamic = '$settings =["cache"]["bins"]["dynamic_page_cache"] = "cache.backend.null";';
-        //
-        //        $settings_file = $fs->exists($drupal->getRoot() . '/sites/default/local.settings.php')?:$drupal->getRoot() . '/sites/default/settings.php';
-        //        chmod($drupal->getRoot() . '/sites/default/', 0775);
-        //        chmod($settings_file, 0775);
-        //        $settings_file = $fs->dumpFile($settings_file, file_get_contents($settings_file) . $cache_render . $cache_dynamic);
-        //        chmod($drupal->getRoot() . '/sites/default/', 0644);
-        //        chmod($settings_file, 0644);
-        //        @TODO: $io->commentBlock()
-
         return $result;
     }
 
-    protected function overrideServices($servicesSettings, DrupalStyle $io)
+    protected function processServicesFile($environment, $servicesSettings, DrupalStyle $io)
     {
         $directory = sprintf(
             '%s/%s',
@@ -181,6 +166,7 @@ class ModeCommand extends Command
         );
 
         $settingsServicesFile = $directory . '/services.yml';
+
         if (!file_exists($settingsServicesFile)) {
             // Copying default services
             $defaultServicesFile = $this->appRoot . '/sites/default/default.services.yml';
@@ -198,19 +184,31 @@ class ModeCommand extends Command
         }
 
         $yaml = new Yaml();
+
         $services = $yaml->parse(file_get_contents($settingsServicesFile));
 
         $result = [];
         foreach ($servicesSettings as $service => $parameters) {
-            foreach ($parameters as $parameter => $value) {
-                $services['parameters'][$service][$parameter] = $value;
-                // Set values for output
-                $result[$parameter]['service'] = $service;
-                $result[$parameter]['parameter'] = $parameter;
-                if (is_bool($value)) {
-                    $value = $value? 'true' : 'false';
+            if (is_array($parameters)) {
+                foreach ($parameters as $parameter => $value) {
+                    $services['parameters'][$service][$parameter] = $value;
+                    // Set values for output
+                    $result[$parameter]['service'] = $service;
+                    $result[$parameter]['parameter'] = $parameter;
+                    if (is_bool($value)) {
+                        $value = $value ? 'true' : 'false';
+                    }
+                    $result[$parameter]['value'] = $value;
                 }
-                $result[$parameter]['value'] = $value;
+            } else {
+                $services['parameters'][$service] = $parameters;
+                // Set values for output
+                $result[$service]['service'] = $service;
+                $result[$service]['parameter'] = '';
+                if (is_bool($parameters)) {
+                    $value = $parameters ? 'true' : 'false';
+                }
+                $result[$service]['value'] = $value;
             }
         }
 
@@ -247,19 +245,23 @@ class ModeCommand extends Command
         if (!file_exists($configFile)) {
             $configFile = sprintf(
                 '%s/config/dist/site.mode.yml',
-                $this->appRoot
+                $this->configurationManager->getApplicationDirectory() . DRUPAL_CONSOLE_CORE
             );
         }
 
-        $siteModeConfiguration = Yaml::dump(file_get_contents($configFile));
+        $siteModeConfiguration = Yaml::parse(file_get_contents($configFile));
         $configKeys = array_keys($siteModeConfiguration);
 
         $configurationSettings = [];
         foreach ($configKeys as $configKey) {
             $siteModeConfigurationItem = $siteModeConfiguration[$configKey];
             foreach ($siteModeConfigurationItem as $setting => $parameters) {
-                foreach ($parameters as $parameter => $value) {
-                    $configurationSettings[$configKey][$setting][$parameter] = $value[$env];
+                if (array_key_exists($env, $parameters)) {
+                    $configurationSettings[$configKey][$setting] = $parameters[$env];
+                } else {
+                    foreach ($parameters as $parameter => $value) {
+                        $configurationSettings[$configKey][$setting][$parameter] = $value[$env];
+                    }
                 }
             }
         }

@@ -30,12 +30,12 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
 {% if revisionable %}
 
     if (!$this->entity->isNew()) {
-      $form['new_revision'] = array(
+      $form['new_revision'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Create new revision'),
         '#default_value' => FALSE,
         '#weight' => 10,
-      );
+      ];
     }
 {% endif %}
 
@@ -57,7 +57,7 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
 
       // If a new revision is created, save the current user as revision author.
       $entity->setRevisionCreationTime(REQUEST_TIME);
-      $entity->setRevisionAuthorId(\Drupal::currentUser()->id());
+      $entity->setRevisionUserId(\Drupal::currentUser()->id());
     }
     else {
       $entity->setNewRevision(FALSE);

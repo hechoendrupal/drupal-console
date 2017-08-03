@@ -11,15 +11,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\user\Entity\User;
 
 class LoginCleanAttemptsCommand extends Command
 {
-    use CommandTrait;
     use ConfirmationTrait;
 
     /**
@@ -29,9 +27,11 @@ class LoginCleanAttemptsCommand extends Command
 
     /**
      * LoginCleanAttemptsCommand constructor.
+     *
      * @param Connection $database
      */
-    public function __construct(Connection $database) {
+    public function __construct(Connection $database)
+    {
         $this->database = $database;
         parent::__construct();
     }
@@ -45,7 +45,12 @@ class LoginCleanAttemptsCommand extends Command
         setName('user:login:clear:attempts')
             ->setDescription($this->trans('commands.user.login.clear.attempts.description'))
             ->setHelp($this->trans('commands.user.login.clear.attempts.help'))
-            ->addArgument('uid', InputArgument::REQUIRED, $this->trans('commands.user.login.clear.attempts.options.user-id'));
+            ->addArgument(
+                'uid',
+                InputArgument::REQUIRED,
+                $this->trans('commands.user.login.clear.attempts.options.user-id')
+            )
+            ->setAliases(['ulca']);
     }
 
     /**

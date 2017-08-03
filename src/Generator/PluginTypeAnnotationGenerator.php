@@ -7,12 +7,19 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class PluginTypeAnnotationGenerator extends Generator
 {
     /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
      * PluginTypeAnnotationGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

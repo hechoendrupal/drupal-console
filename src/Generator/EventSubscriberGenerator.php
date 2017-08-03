@@ -7,15 +7,19 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class EventSubscriberGenerator extends Generator
 {
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * AuthenticationProviderGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(
@@ -42,7 +46,7 @@ class EventSubscriberGenerator extends Generator
           'class_path' => sprintf('Drupal\%s\EventSubscriber\%s', $module, $class),
           'events' => $events,
           'services' => $services,
-          'tags' => array('name' => 'event_subscriber'),
+          'tags' => ['name' => 'event_subscriber'],
           'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
         ];
 

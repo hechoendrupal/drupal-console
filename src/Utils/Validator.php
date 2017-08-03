@@ -8,6 +8,7 @@
 namespace Drupal\Console\Utils;
 
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class Validator
 {
@@ -19,13 +20,23 @@ class Validator
 
     protected $appRoot;
 
+    /*
+     * TranslatorManager
+     */
+    protected $translatorManager;
+
     /**
      * Site constructor.
-     * @param Manager extensionManager
+     *
+     * @param Manager           $extensionManager
+     * @param TranslatorManager $translatorManager
      */
-    public function __construct(Manager $extensionManager)
-    {
+    public function __construct(
+        Manager $extensionManager,
+        TranslatorManager $translatorManager
+    ) {
         $this->extensionManager = $extensionManager;
+        $this->translatorManager = $translatorManager;
     }
 
     public function validateModuleName($module)
@@ -113,29 +124,29 @@ class Validator
         return $module_path;
     }
 
-    public function validateModuleDependencies($dependencies)
+    public function validateMachineNameList($list)
     {
-        $dependencies_checked = array(
-          'success' => array(),
-          'fail' => array(),
-        );
+        $list_checked = [
+          'success' => [],
+          'fail' => [],
+        ];
 
-        if (empty($dependencies)) {
-            return array();
+        if (empty($list)) {
+            return [];
         }
 
-        $dependencies = explode(',', $this->removeSpaces($dependencies));
-        foreach ($dependencies as $key => $module) {
+        $list = explode(',', $this->removeSpaces($list));
+        foreach ($list as $key => $module) {
             if (!empty($module)) {
                 if (preg_match(self::REGEX_MACHINE_NAME, $module)) {
-                    $dependencies_checked['success'][] = $module;
+                    $list_checked['success'][] = $module;
                 } else {
-                    $dependencies_checked['fail'][] = $module;
+                    $list_checked['fail'][] = $module;
                 }
             }
         }
 
-        return $dependencies_checked;
+        return $list_checked;
     }
 
     /**
@@ -257,5 +268,32 @@ class Validator
             ->getList(true);
 
         return array_diff($moduleList, $modules);
+    }
+
+    /**
+     * @param  string      $extensions_list
+     * @param  string      $type
+     * @param  DrupalStyle $io
+     *
+     * @return array
+     */
+    public function validateExtensions($extensions_list, $type, DrupalStyle $io)
+    {
+        $extensions = $this->validateMachineNameList($extensions_list);
+        // Check if all extensions are available
+        if ($extensions) {
+            $checked_extensions = $this->extensionManager->checkExtensions($extensions['success'], $type);
+            if (!empty($checked_extensions['no_extensions'])) {
+                $io->warning(
+                    sprintf(
+                        $this->translatorManager->trans('validator.warnings.extension-unavailable'),
+                        implode(', ', $checked_extensions['no_extensions'])
+                    )
+                );
+            }
+            $extensions = $extensions['success'];
+        }
+
+        return $extensions;
     }
 }

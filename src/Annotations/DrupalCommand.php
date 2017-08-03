@@ -12,7 +12,6 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Target("CLASS")
  */
-
 class DrupalCommand
 {
     /**
@@ -29,5 +28,4 @@ class DrupalCommand
      * @var array
      */
     public $dependencies;
-
 }

@@ -19,12 +19,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
- *
- * @package Drupal\{{module_name}}\Form
  */
 class {{ class_name }} extends FormBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
+  /**
+   * Constructs a new {{ class_name }} object.
+   */
   public function __construct(
     {{ servicesAsParameters(services)|join(',\n    ') }}
   ) {
@@ -80,18 +81,17 @@ class {{ class_name }} extends FormBase {% endblock %}
 {% endif %}
     ];
 {% endfor %}
-
     $form['submit'] = [
-        '#type' => 'submit',
-        '#value' => t('Submit'),
+      '#type' => 'submit',
+      '#value' => $this->t('Submit'),
     ];
 
     return $form;
   }
 
   /**
-    * {@inheritdoc}
-    */
+   * {@inheritdoc}
+   */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
   }
@@ -102,7 +102,7 @@ class {{ class_name }} extends FormBase {% endblock %}
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Display result.
     foreach ($form_state->getValues() as $key => $value) {
-        drupal_set_message($key . ': ' . $value);
+      drupal_set_message($key . ': ' . $value);
     }
 
   }

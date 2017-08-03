@@ -15,15 +15,15 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Utils\StringConverter;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginRulesActionCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
 class PluginRulesActionCommand extends Command
@@ -32,12 +32,15 @@ class PluginRulesActionCommand extends Command
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
-    use CommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginRulesActionGenerator  */
+    /**
+ * @var PluginRulesActionGenerator
+*/
     protected $generator;
 
     /**
@@ -53,10 +56,11 @@ class PluginRulesActionCommand extends Command
 
     /**
      * PluginRulesActionCommand constructor.
-     * @param Manager                     $extensionManager
-     * @param PluginRulesActionGenerator  $generator
-     * @param StringConverter             $stringConverter
-     * @param ChainQueue                  $chainQueue
+     *
+     * @param Manager                    $extensionManager
+     * @param PluginRulesActionGenerator $generator
+     * @param StringConverter            $stringConverter
+     * @param ChainQueue                 $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
@@ -77,38 +81,39 @@ class PluginRulesActionCommand extends Command
             ->setName('generate:plugin:rulesaction')
             ->setDescription($this->trans('commands.generate.plugin.rulesaction.description'))
             ->setHelp($this->trans('commands.generate.plugin.rulesaction.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.rulesaction.options.class')
             )
             ->addOption(
                 'label',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.rulesaction.options.label')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.rulesaction.options.plugin-id')
             )
-            ->addOption('type', '', InputOption::VALUE_REQUIRED, $this->trans('commands.generate.plugin.rulesaction.options.type'))
+            ->addOption('type', null, InputOption::VALUE_REQUIRED, $this->trans('commands.generate.plugin.rulesaction.options.type'))
             ->addOption(
                 'category',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.plugin.rulesaction.options.category')
             )
             ->addOption(
                 'context',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.rulesaction.options.context')
-            );
+            )
+            ->setAliases(['gpra']);
     }
 
     /**
@@ -120,7 +125,7 @@ class PluginRulesActionCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');
@@ -134,6 +139,8 @@ class PluginRulesActionCommand extends Command
         $this->generator->generate($module, $class_name, $label, $plugin_id, $category, $context, $type);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

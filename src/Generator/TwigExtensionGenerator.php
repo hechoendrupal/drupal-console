@@ -7,19 +7,24 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 /**
  * Class TwigExtensionGenerator
+ *
  * @package Drupal\Console\Generator
  */
 class TwigExtensionGenerator extends Generator
 {
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * AuthenticationProviderGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

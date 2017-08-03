@@ -1,0 +1,16 @@
+services:
+  console.migrate_rollback:
+    class: Drupal\Console\Command\Migrate\RollBackCommand
+    arguments: ['@?plugin.manager.migration']
+    tags:
+      - { name: drupal.command }
+  console.migrate_execute:
+    class: Drupal\Console\Command\Migrate\ExecuteCommand
+    arguments: ['@?plugin.manager.migration']
+    tags:
+      - { name: drupal.command }
+  console.migrate_setup:
+    class: Drupal\Console\Command\Migrate\SetupCommand
+    arguments: ['@state', '@?plugin.manager.migration']
+    tags:
+      - { name: drupal.command }

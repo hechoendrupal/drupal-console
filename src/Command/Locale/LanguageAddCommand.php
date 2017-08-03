@@ -11,10 +11,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Annotations\DrupalCommand;
@@ -27,7 +26,6 @@ use Drupal\Console\Annotations\DrupalCommand;
  */
 class LanguageAddCommand extends Command
 {
-    use CommandTrait;
     use LocaleTrait;
 
     /**
@@ -42,6 +40,7 @@ class LanguageAddCommand extends Command
 
     /**
      * LanguageAddCommand constructor.
+     *
      * @param Site                   $site
      * @param ModuleHandlerInterface $moduleHandler
      */

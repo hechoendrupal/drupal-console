@@ -28,14 +28,14 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugi
    *
    * @var array
    */
-  protected $defaults = array(
+  protected $defaults = [
     // Add required and optional plugin properties.
     'id' => '',
     'label' => '',
-  );
+  ];
 
   /**
-   * Constructs a {{ plugin_class }}Manager object.
+   * Constructs a new {{ plugin_class }}Manager object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
@@ -45,7 +45,7 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugi
   public function __construct(ModuleHandlerInterface $module_handler, CacheBackendInterface $cache_backend) {
     // Add more services as required.
     $this->moduleHandler = $module_handler;
-    $this->setCacheBackend($cache_backend, '{{ plugin_name }}', array('{{ plugin_name }}'));
+    $this->setCacheBackend($cache_backend, '{{ plugin_name }}', ['{{ plugin_name }}']);
   }
 
   /**

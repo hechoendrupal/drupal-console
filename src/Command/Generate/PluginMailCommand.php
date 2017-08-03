@@ -15,30 +15,33 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Generator\PluginMailGenerator;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginMailCommand
+ *
  * @package Drupal\Console\Command\Generate
  */
-class PluginMailCommand extends Command
+class PluginMailCommand extends ContainerAwareCommand
 {
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
-    /** @var Manager  */
+    /**
+ * @var Manager
+*/
     protected $extensionManager;
 
-    /** @var PluginMailGenerator  */
+    /**
+ * @var PluginMailGenerator
+*/
     protected $generator;
 
     /**
@@ -46,7 +49,9 @@ class PluginMailCommand extends Command
      */
     protected $stringConverter;
 
-    /** @var Validator  */
+    /**
+ * @var Validator
+*/
     protected $validator;
 
     /**
@@ -57,6 +62,7 @@ class PluginMailCommand extends Command
 
     /**
      * PluginMailCommand constructor.
+     *
      * @param Manager             $extensionManager
      * @param PluginMailGenerator $generator
      * @param StringConverter     $stringConverter
@@ -84,31 +90,31 @@ class PluginMailCommand extends Command
             ->setName('generate:plugin:mail')
             ->setDescription($this->trans('commands.generate.plugin.mail.description'))
             ->setHelp($this->trans('commands.generate.plugin.mail.help'))
-            ->addOption('module', '', InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
             ->addOption(
                 'class',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.mail.options.class')
             )
             ->addOption(
                 'label',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.mail.options.label')
             )
             ->addOption(
                 'plugin-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.mail.options.plugin-id')
             )
             ->addOption(
                 'services',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
-            );
+            )->setAliases(['gpm']);
     }
 
     /**

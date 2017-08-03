@@ -1,0 +1,24 @@
+services:
+  console.site:
+    class: Drupal\Console\Utils\Site
+    arguments: ['@app.root', '@console.configuration_manager']
+  console.extension_manager:
+    class: Drupal\Console\Extension\Manager
+    arguments: ['@console.site', '@http_client', '@app.root']
+  console.server:
+    class: Drupal\Console\Command\ServerCommand
+    arguments: ['@app.root', '@console.configuration_manager']
+    tags:
+      - { name: drupal.command }
+  console.site_install:
+    class: Drupal\Console\Command\Site\InstallCommand
+    arguments: ['@console.extension_manager', '@console.site', '@console.configuration_manager', '@app.root']
+    tags:
+      - { name: drupal.command }
+  console.multisite_new:
+    class: Drupal\Console\Command\Multisite\NewCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }
+  http_client:
+    class: GuzzleHttp\Client

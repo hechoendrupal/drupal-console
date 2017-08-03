@@ -11,38 +11,43 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\CachedStorage;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Extension\Manager;
 
 class ExportViewCommand extends Command
 {
-    use CommandTrait;
     use ModuleTrait;
     use ExportTrait;
 
     protected $configExport;
 
 
-    /** @var EntityTypeManagerInterface  */
+    /**
+     * @var EntityTypeManagerInterface
+     */
     protected $entityTypeManager;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
 
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * ExportViewCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param CachedStorage     $configStorage
-     * @param Manager           $extensionManager
+     * @param CachedStorage              $configStorage
+     * @param Manager                    $extensionManager
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
@@ -62,7 +67,7 @@ class ExportViewCommand extends Command
             ->setName('config:export:view')
             ->setDescription($this->trans('commands.config.export.view.description'))
             ->addOption(
-                'module', '',
+                'module', null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.common.options.module')
             )
@@ -73,16 +78,17 @@ class ExportViewCommand extends Command
             )
             ->addOption(
                 'optional-config',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.view.options.optional-config')
             )
             ->addOption(
                 'include-module-dependencies',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.view.options.include-module-dependencies')
-            );
+            )
+            ->setAliases(['cev']);
     }
 
     /**
@@ -103,7 +109,6 @@ class ExportViewCommand extends Command
         // view-id argument
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
-
             $views = $this->entityTypeManager->getStorage('view')->loadMultiple();
 
             $viewList = [];
@@ -151,7 +156,7 @@ class ExportViewCommand extends Command
 
         $viewNameConfig = $this->getConfiguration($viewTypeName);
 
-        $this->configExport[$viewTypeName] = array('data' => $viewNameConfig, 'optional' => $optionalConfig);
+        $this->configExport[$viewTypeName] = ['data' => $viewNameConfig, 'optional' => $optionalConfig];
 
         // Include config dependencies in export files
         if ($dependencies = $this->fetchDependencies($viewNameConfig, 'config')) {
@@ -165,6 +170,6 @@ class ExportViewCommand extends Command
             }
         }
 
-        $this->exportConfigToModule($module, $io, $this->trans('commands.views.export.messages.view_exported'));
+        $this->exportConfigToModule($module, $io, $this->trans('commands.views.export.messages.view-exported'));
     }
 }

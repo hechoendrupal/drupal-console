@@ -8,6 +8,7 @@ use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 
 /**
  * Class DrupalKernel
+ *
  * @package Drupal\Console\Utils
  */
 class DrupalKernel extends DrupalKernelBase
@@ -22,8 +23,8 @@ class DrupalKernel extends DrupalKernelBase
      */
     public static function createFromRequest(Request $request, $class_loader, $environment, $allow_dumping = true, $app_root = null)
     {
-        $kernel = new static($environment, $class_loader, $allow_dumping);
-        static::bootEnvironment();
+        $kernel = new static($environment, $class_loader, $allow_dumping, $app_root);
+        static::bootEnvironment($app_root);
         $kernel->initializeSettings($request);
         $kernel->handle($request);
         return $kernel;

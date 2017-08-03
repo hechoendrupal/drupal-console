@@ -7,23 +7,23 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
-use Drupal\Console\Utils\ShellProcess;
+use Drupal\Console\Core\Utils\ShellProcess;
 
 class UpdateCommand extends Command
 {
-    use CommandTrait;
     use ProjectDownloadTrait;
 
 
-    /** @var ShellProcess  */
+    /**
+ * @var ShellProcess
+*/
     protected $shellProcess;
 
     /**
@@ -33,6 +33,7 @@ class UpdateCommand extends Command
 
     /**
      * UpdateCommand constructor.
+     *
      * @param ShellProcess $shellProcess
      * @param $root
      */
@@ -56,16 +57,16 @@ class UpdateCommand extends Command
             )
             ->addOption(
                 'composer',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.update.options.composer')
             )
             ->addOption(
                 'simulate',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.update.options.simulate')
-            );
+            )->setAliases(['moup']);
     }
 
     /**

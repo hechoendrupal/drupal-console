@@ -12,16 +12,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\CachedStorage;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Extension\Manager;
+use Webmozart\PathUtil\Path;
 
 class ExportSingleCommand extends Command
 {
-    use CommandTrait;
     use ExportTrait;
 
     /**
@@ -29,25 +29,38 @@ class ExportSingleCommand extends Command
      */
     protected $definitions;
 
-    /** @var EntityTypeManagerInterface  */
+    /**
+     * @var EntityTypeManagerInterface
+     */
     protected $entityTypeManager;
 
-    /** @var CachedStorage  */
+    /**
+     * @var CachedStorage
+     */
     protected $configStorage;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
 
     protected $configExport;
 
     /**
      * ExportSingleCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param CachedStorage     $configStorage
+     * @param CachedStorage              $configStorage
+     * @param Manager                    $extensionManager
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
-        CachedStorage $configStorage
+        CachedStorage $configStorage,
+        Manager $extensionManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
@@ -57,39 +70,45 @@ class ExportSingleCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('config:export:single')
-          ->setDescription($this->trans('commands.config.export.single.description'))
-          ->addArgument(
-            'config-name',
-            InputArgument::REQUIRED,
-            $this->trans('commands.config.export.single.arguments.config-name')
-          )
-          ->addOption(
-            'directory',
-            '',
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.config.export.arguments.directory')
-          )
-          ->addOption(
-            'include-dependencies',
-            '',
-            InputOption::VALUE_NONE,
-            $this->trans('commands.config.export.single.options.include-dependencies')
-          )->addOption(
-            'module', '',
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.common.options.module')
-          )->addOption(
-            'optional-config',
-            '',
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.config.export.single.options.optional-config')
-          )->addOption(
-            'remove-uuid',
-            '',
-            InputOption::VALUE_NONE,
-            $this->trans('commands.config.export.single.options.remove-uuid')
-          );
+            ->setName('config:export:single')
+            ->setDescription($this->trans('commands.config.export.single.description'))
+            ->addOption(
+                'name',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.config.export.single.options.name')
+            )->addOption(
+                'directory',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.arguments.directory')
+            )->addOption(
+                'module',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.common.options.module')
+            )->addOption(
+                'include-dependencies',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.single.options.include-dependencies')
+            )->addOption(
+                'optional',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.single.options.optional')
+            )->addOption(
+                'remove-uuid',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.single.options.remove-uuid')
+            )->addOption(
+                'remove-config-hash',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.single.options.remove-config-hash')
+            )
+            ->setAliases(['ces']);
     }
 
     /*
@@ -103,15 +122,15 @@ class ExportSingleCommand extends Command
             }
         }
         $entity_types = array_map(
-          function ($definition) {
-              return $definition->getLabel();
-          }, $this->definitions
+            function ($definition) {
+                return $definition->getLabel();
+            }, $this->definitions
         );
 
         uasort($entity_types, 'strnatcasecmp');
-        $config_types = array(
-            'system.simple' => $this->trans('commands.config.export.single.options.simple-configuration'),
-          ) + $entity_types;
+        $config_types = [
+                'system.simple' => $this->trans('commands.config.export.single.options.simple-configuration'),
+            ] + $entity_types;
 
         return $config_types;
     }
@@ -121,7 +140,7 @@ class ExportSingleCommand extends Command
      */
     protected function getConfigNames($config_type)
     {
-
+        $names = [];
         // For a given entity type, load all entities.
         if ($config_type && $config_type !== 'system.simple') {
             $entity_storage = $this->entityTypeManager->getStorage($config_type);
@@ -135,9 +154,9 @@ class ExportSingleCommand extends Command
         else {
             // Gather the config entity prefixes.
             $config_prefixes = array_map(
-              function ($definition) {
-                  return $definition->getConfigPrefix() . '.';
-              }, $this->definitions
+                function ($definition) {
+                    return $definition->getConfigPrefix() . '.';
+                }, $this->definitions
             );
 
             // Find all config, and then filter our anything matching a config prefix.
@@ -164,49 +183,55 @@ class ExportSingleCommand extends Command
 
         $config_types = $this->getConfigTypes();
 
-        $config_name = $input->getArgument('config-name');
-        if (!$config_name) {
-            $config_type = $io->choiceNoList(
-              $this->trans('commands.config.export.single.questions.config-type'),
-              array_keys($config_types),
-              $this->trans('commands.config.export.single.options.simple-configuration')
+        $name = $input->getOption('name');
+        if (!$name) {
+            $type = $io->choiceNoList(
+                $this->trans('commands.config.export.single.questions.config-type'),
+                array_keys($config_types),
+                'system.simple'
             );
-            $config_names = $this->getConfigNames($config_type);
+            $names = $this->getConfigNames($type);
 
-            $config_name = $io->choiceNoList(
-              $this->trans('commands.config.export.single.questions.config-name'),
-              array_keys($config_names)
+            $name = $io->choiceNoList(
+                $this->trans('commands.config.export.single.questions.name'),
+                array_keys($names)
             );
 
-            if ($config_type !== 'system.simple') {
-                $definition = $this->entityTypeManager->getDefinition($config_type);
-                $config_name = $definition->getConfigPrefix() . '.' . $config_name;
+            if ($type !== 'system.simple') {
+                $definition = $this->entityTypeManager->getDefinition($type);
+                $name = $definition->getConfigPrefix() . '.' . $name;
             }
 
-            $input->setArgument('config-name', $config_name);
+            $input->setOption('name', [$name]);
         }
 
         $module = $input->getOption('module');
-
         if ($module) {
-            $optionalConfig = $input->getOption('optional-config');
+            $optionalConfig = $input->getOption('optional');
             if (!$optionalConfig) {
                 $optionalConfig = $io->confirm(
-                  $this->trans('commands.config.export.single.questions.optional-config'),
-                  true
+                    $this->trans('commands.config.export.single.questions.optional'),
+                    true
                 );
-                $input->setOption('optional-config', $optionalConfig);
+                $input->setOption('optional', $optionalConfig);
             }
         }
+
         if (!$input->getOption('remove-uuid')) {
             $removeUuid = $io->confirm(
-              $this->trans('commands.config.export.single.questions.remove-uuid'),
-              true
+                $this->trans('commands.config.export.single.questions.remove-uuid'),
+                true
             );
             $input->setOption('remove-uuid', $removeUuid);
         }
+        if (!$input->getOption('remove-config-hash')) {
+            $removeHash = $io->confirm(
+                $this->trans('commands.config.export.single.questions.remove-config-hash'),
+                true
+            );
+            $input->setOption('remove-config-hash', $removeHash);
+        }
     }
-
 
     /**
      * {@inheritdoc}
@@ -217,40 +242,63 @@ class ExportSingleCommand extends Command
 
         $directory = $input->getOption('directory');
         $module = $input->getOption('module');
-        $configName = $input->getArgument('config-name');
-        $optionalConfig = $input->getOption('optional-config');
+        $name = $input->getOption('name');
+        $optional = $input->getOption('optional');
         $removeUuid = $input->getOption('remove-uuid');
+        $removeHash = $input->getOption('remove-config-hash');
+        $includeDependencies = $input->getOption('include-dependencies');
 
-        if (!$removeUuid) {
-            $config = $this->getConfiguration($configName, true);
-        } else {
-            $config = $this->getConfiguration($configName, false);
-        }
-        if ($config) {
-            if (!$directory) {
-                $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
-            }
+        foreach ($name as $nameItem) {
+            $config = $this->getConfiguration(
+                $nameItem,
+                $removeUuid,
+                $removeHash
+            );
 
-            $this->configExport[$configName] = array('data' => $config, 'optional' => $optionalConfig);
+            if ($config) {
+                $this->configExport[$nameItem] = [
+                    'data' => $config,
+                    'optional' => $optional
+                ];
 
-            if ($input->getOption('include-dependencies')) {
-                // Include config dependencies in export files
-                if ($dependencies = $this->fetchDependencies($config, 'config')) {
-                    $this->resolveDependencies($dependencies, $optionalConfig);
+                if ($includeDependencies) {
+                    // Include config dependencies in export files
+                    if ($dependencies = $this->fetchDependencies($config, 'config')) {
+                        $this->resolveDependencies($dependencies, $optional);
+                    }
                 }
+            } else {
+                $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
             }
-        } else {
-            $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
         }
 
-        if (!$module) {
-            if (!$directory) {
-                $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
-            }
+        if ($module) {
+            $this->exportConfigToModule(
+                $module,
+                $io,
+                $this->trans(
+                    'commands.config.export.single.messages.config-exported'
+                )
+            );
 
-            $this->exportConfig($directory, $io, $this->trans('commands.config.export.single.messages.config_exported'));
-        } else {
-            $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.single.messages.config_exported'));
+            return 0;
         }
+
+        if (!is_dir($directory)) {
+            $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+        } else {
+            $directory = Path::canonicalize($directory);
+            if (!file_exists($directory)) {
+                mkdir($directory, 0755, true);
+            }
+        }
+
+        $this->exportConfig(
+            $directory,
+            $io,
+            $this->trans('commands.config.export.single.messages.config-exported')
+        );
+
+        return 0;
     }
 }

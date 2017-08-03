@@ -17,9 +17,6 @@ application:
     php-cs-fixer:
       enabled: true
       exception: false
-      file:
-        config-file: .php_cs
-        single-execution: false
       options:
         level: psr2
       arguments:
@@ -36,7 +33,7 @@ application:
       arguments:
         - '-n'
     phpcs:
-      enabled: true
+      enabled: false
       exception: false
       options:
         standard: PSR2

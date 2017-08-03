@@ -10,20 +10,18 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\user\Entity\User;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class CreateCommand extends Command
 {
-    use CommandTrait;
     use ConfirmationTrait;
 
     /**
@@ -48,10 +46,11 @@ class CreateCommand extends Command
 
     /**
      * CreateCommand constructor.
-     * @param Connection                    $database
-     * @param EntityTypeManagerInterface    $entityTypeManager
-     * @param DateFormatterInterface        $dateFormatter
-     * @param DrupalApi                     $drupalApi
+     *
+     * @param Connection                 $database
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param DateFormatterInterface     $dateFormatter
+     * @param DrupalApi                  $drupalApi
      */
     public function __construct(
         Connection $database,
@@ -75,11 +74,34 @@ class CreateCommand extends Command
             ->setName('user:create')
             ->setDescription($this->trans('commands.user.create.description'))
             ->setHelp($this->trans('commands.user.create.help'))
-            ->addArgument('username', InputArgument::OPTIONAL, $this->trans('commands.user.create.options.username'))
-            ->addArgument('password', InputArgument::OPTIONAL, $this->trans('commands.user.create.options.password'))
-            ->addOption('roles', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.user.create.options.roles'))
-            ->addOption('email', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.user.create.options.email'))
-            ->addOption('status', null, InputOption::VALUE_OPTIONAL, $this->trans('commands.user.create.options.status'));
+            ->addArgument(
+                'username',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.user.create.options.username')
+            )
+            ->addArgument(
+                'password',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.user.create.options.password')
+            )
+            ->addOption(
+                'roles',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.user.create.options.roles')
+            )
+            ->addOption(
+                'email',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.user.create.options.email')
+            )
+            ->addOption(
+                'status',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.user.create.options.status')
+            )->setAliases(['uc']);
     }
 
     /**

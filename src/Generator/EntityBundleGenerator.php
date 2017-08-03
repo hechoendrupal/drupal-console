@@ -7,16 +7,19 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
 class EntityBundleGenerator extends Generator
 {
-
-    /** @var Manager  */
+    /**
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * PermissionGenerator constructor.
+     *
      * @param Manager $extensionManager
      */
     public function __construct(

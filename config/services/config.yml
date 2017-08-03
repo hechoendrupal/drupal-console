@@ -1,0 +1,55 @@
+services:
+  console.config_delete:
+    class: Drupal\Console\Command\Config\DeleteCommand
+    arguments: ['@config.factory', '@config.storage', '@config.storage.sync']
+    tags:
+      - { name: drupal.command }
+  console.config_diff:
+    class: Drupal\Console\Command\Config\DiffCommand
+    arguments: ['@config.storage', '@config.manager']
+    tags:
+      - { name: drupal.command }
+  console.config_edit:
+    class: Drupal\Console\Command\Config\EditCommand
+    arguments: ['@config.factory', '@config.storage', '@console.configuration_manager']
+    tags:
+      - { name: drupal.command }
+  console.config_export:
+    class: Drupal\Console\Command\Config\ExportCommand
+    arguments: ['@config.manager', '@config.storage']
+    tags:
+      - { name: drupal.command }
+  console.config_export_content_type:
+    class: Drupal\Console\Command\Config\ExportContentTypeCommand
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
+    tags:
+      - { name: drupal.command }
+  console.config_export_single:
+    class: Drupal\Console\Command\Config\ExportSingleCommand
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
+    tags:
+      - { name: drupal.command }
+  console.config_export_view:
+    class: Drupal\Console\Command\Config\ExportViewCommand
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
+    tags:
+      - { name: drupal.command }
+  console.config_import:
+    class: Drupal\Console\Command\Config\ImportCommand
+    arguments: ['@config.storage', '@config.manager']
+    tags:
+      - { name: drupal.command }
+  console.config_import_single:
+    class: Drupal\Console\Command\Config\ImportSingleCommand
+    arguments: ['@config.storage', '@config.manager']
+    tags:
+      - { name: drupal.command }
+  console.config_override:
+    class: Drupal\Console\Command\Config\OverrideCommand
+    arguments: ['@config.storage', '@config.factory']
+    tags:
+      - { name: drupal.command }
+  console.config_validate:
+    class: Drupal\Console\Command\Config\ValidateCommand
+    tags:
+      - { name: drupal.command }

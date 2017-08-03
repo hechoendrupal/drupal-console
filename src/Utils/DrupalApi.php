@@ -13,6 +13,7 @@ use GuzzleHttp\Client;
 
 /**
  * Class DrupalHelper
+ *
  * @package Drupal\Console\Utils
  */
 class DrupalApi
@@ -27,6 +28,7 @@ class DrupalApi
 
     /**
      * DebugCommand constructor.
+     *
      * @param Client  $httpClient
      */
 
@@ -34,6 +36,7 @@ class DrupalApi
 
     /**
      * ServerCommand constructor.
+     *
      * @param $appRoot
      * @param $entityTypeManager
      */
@@ -55,7 +58,7 @@ class DrupalApi
     /**
      * Auxiliary function to get all available drupal caches.
      *
-     * @return array The all available drupal caches
+     * @return \Drupal\Core\Cache\CacheBackendInterface[] The all available drupal caches
      */
     public function getCaches()
     {
@@ -224,7 +227,7 @@ class DrupalApi
 
     public function downloadFile($url, $destination)
     {
-        $this->httpClient->get($url, array('sink' => $destination));
+        $this->httpClient->get($url, ['sink' => $destination]);
 
         return file_exists($destination);
     }
@@ -314,14 +317,15 @@ class DrupalApi
      *
      * Rebuilds all caches even when Drupal itself does not work.
      *
-     * @param \Composer\Autoload\ClassLoader $class_loader
+     * @param \Composer\Autoload\ClassLoader            $class_loader
      *   The class loader.
      * @param \Symfony\Component\HttpFoundation\Request $request
      *   The current request.
      *
      * @see rebuild.php
      */
-    public function drupal_rebuild($class_loader, \Symfony\Component\HttpFoundation\Request $request) {
+    public function drupal_rebuild($class_loader, \Symfony\Component\HttpFoundation\Request $request)
+    {
         // Remove Drupal's error and exception handlers; they rely on a working
         // service container and other subsystems and will only cause a fatal error
         // that hides the actual error.

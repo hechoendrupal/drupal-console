@@ -9,18 +9,37 @@ use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Site\Settings;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class Site
 {
+    /**
+     * @var string
+     */
     protected $appRoot;
 
     /**
-     * Site constructor.
-     * @param $appRoot
+     * @var ConfigurationManager
      */
-    public function __construct($appRoot)
-    {
+    protected $configurationManager;
+
+    /**
+     * @var string
+     */
+    protected $cacheServicesFile;
+
+    /**
+     * Site constructor.
+     *
+     * @param string               $appRoot
+     * @param ConfigurationManager $configurationManager
+     */
+    public function __construct(
+        $appRoot,
+        ConfigurationManager $configurationManager
+    ) {
         $this->appRoot = $appRoot;
+        $this->configurationManager = $configurationManager;
     }
 
     public function loadLegacyFile($legacyFile, $relative = true)
@@ -62,9 +81,21 @@ class Site
         $this->loadLegacyFile('/core/includes/install.inc');
         $this->setMinimalContainerPreKernel();
 
+        $driverDirectories = [
+            $this->appRoot . '/core/lib/Drupal/Core/Database/Driver',
+            $this->appRoot . '/drivers/lib/Drupal/Driver/Database'
+        ];
+
+        $driverDirectories = array_filter(
+            $driverDirectories,
+            function ($directory) {
+                return is_dir($directory);
+            }
+        );
+
         $finder = new Finder();
         $finder->directories()
-            ->in($this->appRoot . '/core/lib/Drupal/Core/Database/Driver')
+            ->in($driverDirectories)
             ->depth('== 0');
 
         $databases = [];
@@ -103,7 +134,7 @@ class Site
         // Register the stream wrapper manager.
         $container
             ->register('stream_wrapper_manager', 'Drupal\Core\StreamWrapper\StreamWrapperManager')
-            ->addMethodCall('setContainer', array(new Reference('service_container')));
+            ->addMethodCall('setContainer', [new Reference('service_container')]);
         $container
             ->register('file_system', 'Drupal\Core\File\FileSystem')
             ->addArgument(new Reference('stream_wrapper_manager'))
@@ -134,5 +165,73 @@ class Site
         $autoLoadFile = $this->appRoot.'/autoload.php';
 
         return include $autoLoadFile;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function multisiteMode($uri)
+    {
+        if ($uri != 'default') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function validMultisite($uri)
+    {
+        $multiSiteFile = sprintf(
+            '%s/sites/sites.php',
+            $this->appRoot
+        );
+
+        if (file_exists($multiSiteFile)) {
+            include $multiSiteFile;
+        } else {
+            return false;
+        }
+
+        if (isset($sites[$uri]) && is_dir($this->appRoot . "/sites/" . $sites[$uri])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getCachedServicesFile()
+    {
+        if (!$this->cacheServicesFile) {
+            $configFactory = \Drupal::configFactory();
+            $siteId = $configFactory->get('system.site')->get('uuid');
+
+            $this->cacheServicesFile = \Drupal::service('console.root') .
+                DRUPAL_CONSOLE . $siteId . '-console.services.yml';
+        }
+
+        return $this->cacheServicesFile;
+    }
+
+    public function cachedServicesFileExists()
+    {
+        return file_exists($this->getCachedServicesFile());
+    }
+
+    public function removeCachedServicesFile()
+    {
+        if ($this->cachedServicesFileExists()) {
+            unlink($this->getCachedServicesFile());
+        }
+    }
+
+    /**
+     * @param string $root
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
     }
 }

@@ -7,23 +7,21 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Extension\Manager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Utils\Validator;
 use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Config\ConfigFactory;
 
 class UninstallCommand extends Command
 {
-    use CommandTrait;
     use ProjectDownloadTrait;
 
     /**
@@ -31,7 +29,9 @@ class UninstallCommand extends Command
      */
     protected $site;
 
-    /** @var ModuleInstaller  */
+    /**
+     * @var ModuleInstaller
+     */
     protected $moduleInstaller;
 
     /**
@@ -39,28 +39,37 @@ class UninstallCommand extends Command
      */
     protected $chainQueue;
 
-    /** @var ConfigFactory  */
+    /**
+     * @var ConfigFactory
+     */
     protected $configFactory;
 
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
 
     /**
      * InstallCommand constructor.
-     * @param Site $site
-     * @param Validator $validator
-     * @param ChainQueue $chainQueue
-     * @param ConfigFactory $configFactory
+     *
+     * @param Site            $site
+     * @param ModuleInstaller $moduleInstaller
+     * @param ChainQueue      $chainQueue
+     * @param ConfigFactory   $configFactory
+     * @param Manager         $extensionManager
      */
     public function __construct(
         Site $site,
         ModuleInstaller $moduleInstaller,
         ChainQueue $chainQueue,
-        ConfigFactory $configFactory
-
+        ConfigFactory $configFactory,
+        Manager $extensionManager
     ) {
         $this->site = $site;
         $this->moduleInstaller = $moduleInstaller;
         $this->chainQueue = $chainQueue;
         $this->configFactory = $configFactory;
+        $this->extensionManager = $extensionManager;
         parent::__construct();
     }
 
@@ -79,16 +88,17 @@ class UninstallCommand extends Command
             )
             ->addOption(
                 'force',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.uninstall.options.force')
             )
             ->addOption(
                 'composer',
-                '',
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.uninstall.options.composer')
-            );
+            )
+            ->setAliases(['mou']);
     }
     /**
      * {@inheritdoc}
@@ -152,7 +162,7 @@ class UninstallCommand extends Command
             return 1;
         }
 
-        $installedModules = $coreExtension->get('module') ?: array();
+        $installedModules = $coreExtension->get('module') ?: [];
         if (!$moduleList = array_intersect_key($moduleList, $installedModules)) {
             $io->info($this->trans('commands.module.uninstall.messages.nothing'));
 
@@ -160,6 +170,7 @@ class UninstallCommand extends Command
         }
 
         if (!$force = $input->getOption('force')) {
+            $profile = drupal_get_profile();
             $dependencies = [];
             while (list($module) = each($moduleList)) {
                 foreach (array_keys($moduleData[$module]->required_by) as $dependency) {
@@ -199,13 +210,13 @@ class UninstallCommand extends Command
                     false
                 )
             );
-
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
             return 1;
         }
 
+        $this->site->removeCachedServicesFile();
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
 }

@@ -2,6 +2,7 @@
 /.rules
 
 # Composer
+composer.lock
 /vendor
 /bin/phpunit
 /bin/jsonlint
@@ -11,6 +12,12 @@
 /bin/pdepend
 /bin/php-cs-fixer
 /bin/phpmd
+/bin/php-parse
+/bin/psysh
+PATCHES.txt
+
+# Develop
+autoload.local.php
 
 # Binaries
 /box.phar
@@ -25,14 +32,6 @@
 /core
 /nbproject/
 
-composer.phar
-
-.idea/DrupalConsole.iml
-
-.idea/modules.xml
-
-.idea/php.xml
-
-.idea/vcs.xml
-
-.idea/workspace.xml
+# drupal/console-extend-plugin generated files
+extend.console.*.yml
+*-console.services.yml

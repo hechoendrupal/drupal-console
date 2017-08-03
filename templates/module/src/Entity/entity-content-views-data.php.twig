@@ -10,14 +10,13 @@ namespace Drupal\{{ module }}\Entity;
 
 {% block use_class %}
 use Drupal\views\EntityViewsData;
-use Drupal\views\EntityViewsDataInterface;
 {% endblock %}
 
 {% block class_declaration %}
 /**
  * Provides Views data for {{ label }} entities.
  */
-class {{ entity_class }}ViewsData extends EntityViewsData implements EntityViewsDataInterface {% endblock %}
+class {{ entity_class }}ViewsData extends EntityViewsData {% endblock %}
 {% block class_methods %}
   /**
    * {@inheritdoc}
@@ -25,11 +24,8 @@ class {{ entity_class }}ViewsData extends EntityViewsData implements EntityViews
   public function getViewsData() {
     $data = parent::getViewsData();
 
-    $data['{{ entity_name }}']['table']['base'] = array(
-      'field' => 'id',
-      'title' => $this->t('{{ label }}'),
-      'help' => $this->t('The {{ label }} ID.'),
-    );
+    // Additional information for Views integration, such as table joins, can be
+    // put here.
 
     return $data;
   }

@@ -1,0 +1,11 @@
+services:
+  console.state_delete:
+    class: Drupal\Console\Command\State\DeleteCommand
+    arguments: ['@state', '@keyvalue']
+    tags:
+      - { name: drupal.command }
+  console.state_override:
+    class: Drupal\Console\Command\State\OverrideCommand
+    arguments: ['@state', '@keyvalue']
+    tags:
+      - { name: drupal.command }

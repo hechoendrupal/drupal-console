@@ -14,3 +14,10 @@ dependencies:
   - {{ dependency }}
 {% endfor %}
 {% endif %}
+{% if themes %}
+
+themes:
+{% for theme in themes %}
+  - {{ theme }}
+{% endfor %}
+{% endif %}

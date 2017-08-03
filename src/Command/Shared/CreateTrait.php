@@ -9,6 +9,7 @@ namespace Drupal\Console\Command\Shared;
 
 /**
  * Class CreateTrait
+ *
  * @package Drupal\Console\Command
  */
 trait CreateTrait

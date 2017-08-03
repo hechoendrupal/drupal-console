@@ -15,21 +15,19 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\EventSubscriberGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\EventsTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Utils\StringConverter;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Drupal\Console\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\ChainQueue;
 
-class EventSubscriberCommand extends Command
+class EventSubscriberCommand extends ContainerAwareCommand
 {
     use EventsTrait;
     use ServicesTrait;
     use ModuleTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
      * @var Manager
@@ -58,6 +56,7 @@ class EventSubscriberCommand extends Command
 
     /**
      * EventSubscriberCommand constructor.
+     *
      * @param Manager                  $extensionManager
      * @param EventSubscriberGenerator $generator
      * @param StringConverter          $stringConverter
@@ -93,7 +92,7 @@ class EventSubscriberCommand extends Command
                 'name',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.name')
+                $this->trans('commands.generate.service.options.service-name')
             )
             ->addOption(
                 'class',
@@ -112,7 +111,8 @@ class EventSubscriberCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
-            );
+            )
+            ->setAliases(['ges']);
     }
 
     /**
@@ -124,7 +124,7 @@ class EventSubscriberCommand extends Command
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration($io)) {
-            return;
+            return 1;
         }
 
         $module = $input->getOption('module');

@@ -9,9 +9,8 @@ namespace Drupal\Console\Command\Site;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\ContainerAwareCommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Extension\Manager;
@@ -19,12 +18,11 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Class StatisticsCommand
+ *
  * @package Drupal\Console\Command\Site
  */
-class StatisticsCommand extends Command
+class StatisticsCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
-
     /**
      * @var DrupalApi
      */
@@ -47,10 +45,11 @@ class StatisticsCommand extends Command
 
     /**
      * StatisticsCommand constructor.
-     * @param DrupalApi                 $drupalApi
-     * @param QueryFactory              $entityQuery;
-     * @param Manager                   $extensionManager
-     * @param ModuleHandlerInterface    $moduleHandler
+     *
+     * @param DrupalApi              $drupalApi
+     * @param QueryFactory           $entityQuery;
+     * @param Manager                $extensionManager
+     * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
         DrupalApi $drupalApi,
@@ -73,7 +72,8 @@ class StatisticsCommand extends Command
         $this
             ->setName('site:statistics')
             ->setDescription($this->trans('commands.site.statistics.description'))
-            ->setHelp($this->trans('commands.site.statistics.help'));
+            ->setHelp($this->trans('commands.site.statistics.help'))
+            ->setAliases(['sst']);
         ;
     }
 

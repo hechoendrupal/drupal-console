@@ -58,7 +58,7 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
  protected $imageStyleStorage;
 
 /**
- * Constructs an ImageFormatter object.
+ * Constructs a new {{ class_name }} object.
  *
  * @param string $plugin_id
  *   The plugin_id for the formatter.
@@ -177,7 +177,7 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
    if ($image_link_setting == 'content') {
      $entity = $items->getEntity();
      if (!$entity->isNew()) {
-       $url = $entity->urlInfo();
+       $url = $entity->toUrl();
      }
    }
    elseif ($image_link_setting == 'file') {

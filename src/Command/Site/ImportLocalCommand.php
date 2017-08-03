@@ -11,21 +11,19 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
-use Drupal\Console\Utils\ConfigurationManager;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class ImportLocalCommand
+ *
  * @package Drupal\Console\Command\Site
  */
 class ImportLocalCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var string
      */
@@ -38,6 +36,7 @@ class ImportLocalCommand extends Command
 
     /**
      * ImportLocalCommand constructor.
+     *
      * @param $appRoot
      * @param ConfigurationManager $configurationManager
      */
@@ -74,7 +73,8 @@ class ImportLocalCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.site.import.local.options.environment')
             )
-            ->setHelp($this->trans('commands.site.import.local.help'));
+            ->setHelp($this->trans('commands.site.import.local.help'))
+            ->setAliases(['sil']);
         ;
     }
 

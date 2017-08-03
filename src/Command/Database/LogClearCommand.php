@@ -11,16 +11,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
-use Drupal\Console\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Core\Logger\RfcLogLevel;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class LogClearCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var Connection
      */
@@ -28,9 +26,11 @@ class LogClearCommand extends Command
 
     /**
      * LogClearCommand constructor.
+     *
      * @param Connection $database
      */
-    public function __construct(Connection $database) {
+    public function __construct(Connection $database)
+    {
         $this->database = $database;
         parent::__construct();
     }
@@ -50,22 +50,23 @@ class LogClearCommand extends Command
             )
             ->addOption(
                 'type',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.log.clear.options.type')
             )
             ->addOption(
                 'severity',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.log.clear.options.severity')
             )
             ->addOption(
                 'user-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.log.clear.options.user-id')
-            );
+            )
+            ->setAliases(['dblc']);
     }
 
     /**
@@ -120,7 +121,7 @@ class LogClearCommand extends Command
     }
 
     /**
-     * @param DrupalStyle $io
+     * @param DrupalStyle   $io
      * @param $eventType
      * @param $eventSeverity
      * @param $userId

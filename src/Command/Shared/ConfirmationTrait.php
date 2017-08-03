@@ -7,10 +7,11 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ConfirmationTrait
+ *
  * @package Drupal\Console\Command
  */
 trait ConfirmationTrait

@@ -9,15 +9,12 @@ namespace Drupal\Console\Command\Image;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Command\Shared\CommandTrait;
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 class StylesFlushCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var EntityTypeManagerInterface
      */
@@ -25,6 +22,7 @@ class StylesFlushCommand extends Command
 
     /**
      * StylesDebugCommand constructor.
+     *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(EntityTypeManagerInterface $entityTypeManager)
@@ -42,7 +40,7 @@ class StylesFlushCommand extends Command
                 'styles',
                 InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 $this->trans('commands.image.styles.flush.options.image-style')
-            );
+            )->setAliases(['isf']);
     }
 
     /**

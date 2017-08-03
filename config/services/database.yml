@@ -1,0 +1,43 @@
+services:
+  console.database_add:
+    class: Drupal\Console\Command\Database\AddCommand
+    arguments: ['@console.database_settings_generator']
+    tags:
+      - { name: drupal.command }
+  console.database_client:
+    class: Drupal\Console\Command\Database\ClientCommand
+    tags:
+      - { name: drupal.command }
+  console.database_query:
+    class: Drupal\Console\Command\Database\QueryCommand
+    tags:
+      - { name: drupal.command }
+  console.database_connect:
+    class: Drupal\Console\Command\Database\ConnectCommand
+    tags:
+      - { name: drupal.command }
+  console.database_drop:
+    class: Drupal\Console\Command\Database\DropCommand
+    arguments: ['@database']
+    tags:
+      - { name: drupal.command }
+  console.database_dump:
+    class: Drupal\Console\Command\Database\DumpCommand
+    arguments: ['@app.root', '@console.shell_process']
+    tags:
+      - { name: drupal.command }
+  console.database_log_clear:
+    class: Drupal\Console\Command\Database\LogClearCommand
+    arguments: ['@database']
+    tags:
+      - { name: drupal.command }
+  console.database_log_poll:
+    class: Drupal\Console\Command\Database\LogPollCommand
+    arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
+    tags:
+      - { name: drupal.command }
+  console.database_restore:
+    class: Drupal\Console\Command\Database\RestoreCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }

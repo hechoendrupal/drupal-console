@@ -7,13 +7,12 @@
 
 namespace Drupal\Console\Command\Locale;
 
-use Drupal\Console\Style\DrupalStyle;
+use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Command\Shared\CommandTrait;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Utils\Site;
@@ -27,7 +26,6 @@ use Drupal\Console\Annotations\DrupalCommand;
  */
 class LanguageDeleteCommand extends Command
 {
-    use CommandTrait;
     use LocaleTrait;
 
     /**
@@ -47,9 +45,10 @@ class LanguageDeleteCommand extends Command
 
     /**
      * LoginUrlCommand constructor.
-     * @param Site                   $site
-     * @param EntityTypeManagerInterface      $entityTypeManager
-     * @param ModuleHandlerInterface $moduleHandler
+     *
+     * @param Site                       $site
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param ModuleHandlerInterface     $moduleHandler
      */
     public function __construct(
         Site $site,
