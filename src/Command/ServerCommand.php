@@ -97,8 +97,14 @@ class ServerCommand extends Command
             )
         );
 
+        if ($io->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+            $callback = [$this, 'outputCallback'];
+        } else {
+            $callback = null;
+        }
+
         // Use the process helper to copy process output to console output.
-        $this->getHelper('process')->run($output, $process, null, null);
+        $this->getHelper('process')->run($output, $process, null, $callback);
 
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());
@@ -164,5 +170,10 @@ class ServerCommand extends Command
         }
 
         return $address;
+    }
+
+    function outputCallback($type, $buffer) {
+        // TODO: seems like $type is Process::ERR always
+        echo $buffer;
     }
 }
