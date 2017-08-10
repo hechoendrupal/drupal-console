@@ -143,7 +143,7 @@ class ExportCommand extends Command
                 $collection_storage = $this->storage->createCollection($collection);
                 $collection_path = str_replace('.', '/', $collection);
                 if (!$tar) {
-                  mkdir("$directory/$collection_path", 0755, TRUE);
+                    mkdir("$directory/$collection_path", 0755, true);
                 }
                 foreach ($collection_storage->listAll() as $name) {
                     $configName = "$collection_path/$name.yml";
