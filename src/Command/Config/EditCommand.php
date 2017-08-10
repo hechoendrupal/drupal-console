@@ -166,7 +166,7 @@ class EditCommand extends Command
     protected function getEditor()
     {
         $config = $this->configurationManager->getConfiguration();
-        $editor = $config->get('application.editor', 'vi');
+        $editor = $config->get('application.editor', '');
 
         if ($editor != '') {
             return trim($editor);
