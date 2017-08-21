@@ -84,5 +84,4 @@ if (!$container) {
 }
 
 $application = new Application($container);
-$application->setDefaultCommand('about');
 $application->run();

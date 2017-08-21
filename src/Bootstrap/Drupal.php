@@ -105,6 +105,7 @@ class Drupal
                 false,
                 $this->drupalFinder->getDrupalRoot()
             );
+
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Registering dynamic services');
