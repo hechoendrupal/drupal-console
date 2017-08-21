@@ -206,10 +206,14 @@ class Site
     {
         if (!$this->cacheServicesFile) {
             $configFactory = \Drupal::configFactory();
-            $siteId = $configFactory->get('system.site')->get('uuid');
+            $siteId = $configFactory->get('system.site')
+                ->get('uuid');
 
-            $this->cacheServicesFile = \Drupal::service('console.root') .
-                DRUPAL_CONSOLE . $siteId . '-console.services.yml';
+            $directory = \Drupal::service('stream_wrapper.temporary')
+                ->getDirectoryPath();
+
+            $this->cacheServicesFile = $directory . '/' . $siteId .
+                '-console.services.yml';
         }
 
         return $this->cacheServicesFile;
