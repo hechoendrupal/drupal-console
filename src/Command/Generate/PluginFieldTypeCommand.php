@@ -78,7 +78,12 @@ class PluginFieldTypeCommand extends Command
             ->setName('generate:plugin:fieldtype')
             ->setDescription($this->trans('commands.generate.plugin.fieldtype.description'))
             ->setHelp($this->trans('commands.generate.plugin.fieldtype.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,

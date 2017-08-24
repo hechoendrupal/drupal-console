@@ -81,7 +81,12 @@ class PluginConditionCommand extends Command
             ->setName('generate:plugin:condition')
             ->setDescription($this->trans('commands.generate.plugin.condition.description'))
             ->setHelp($this->trans('commands.generate.plugin.condition.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,

@@ -163,7 +163,7 @@ class TwigExtensionCommand extends ContainerAwareCommand
         $name = $input->getOption('name');
         if (!$name) {
             $name = $io->ask(
-                $this->trans('commands.generate.twig.extension.questions.twig-extension'),
+                $this->trans('commands.generate.twig.extension.questions.name'),
                 $module.'.twig.extension'
             );
             $input->setOption('name', $name);

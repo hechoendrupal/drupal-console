@@ -122,7 +122,7 @@ class ServiceCommand extends ContainerAwareCommand
                 'path-service',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.path')
+                $this->trans('commands.generate.service.options.path-service')
             )
             ->setAliases(['gs']);
     }
@@ -233,7 +233,7 @@ class ServiceCommand extends ContainerAwareCommand
         $path_service = $input->getOption('path-service');
         if (!$path_service) {
             $path_service = $io->ask(
-                $this->trans('commands.generate.service.questions.path'),
+                $this->trans('commands.generate.service.questions.path-service'),
                 '/modules/custom/' . $module . '/src/'
             );
             $input->setOption('path-service', $path_service);

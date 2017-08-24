@@ -85,13 +85,13 @@ class CacheContextCommand extends ContainerAwareCommand
                 'cache-context',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.cache.context.questions.name')
+                $this->trans('commands.generate.cache.context.options.name')
             )
             ->addOption(
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.cache.context.questions.class')
+                $this->trans('commands.generate.cache.context.options.class')
             )
             ->addOption(
                 'services',

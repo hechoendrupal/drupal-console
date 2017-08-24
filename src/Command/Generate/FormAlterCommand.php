@@ -130,9 +130,7 @@ class FormAlterCommand extends Command
     {
         $this
             ->setName('generate:form:alter')
-            ->setDescription(
-                $this->trans('commands.generate.form.alter.description')
-            )
+            ->setDescription($this->trans('commands.generate.form.alter.description'))
             ->setHelp($this->trans('commands.generate.form.alter.help'))
             ->addOption(
                 'module',
@@ -223,7 +221,7 @@ class FormAlterCommand extends Command
 
             if (!empty($forms)) {
                 $formId = $io->choiceNoList(
-                    $this->trans('commands.generate.form.alter.options.form-id'),
+                    $this->trans('commands.generate.form.alter.questions.form-id'),
                     array_keys($forms)
                 );
             }

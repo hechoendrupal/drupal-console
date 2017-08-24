@@ -72,7 +72,12 @@ class PluginTypeYamlCommand extends Command
             ->setName('generate:plugin:type:yaml')
             ->setDescription($this->trans('commands.generate.plugin.type.yaml.description'))
             ->setHelp($this->trans('commands.generate.plugin.type.yaml.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,

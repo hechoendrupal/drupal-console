@@ -64,7 +64,6 @@ class EntityConfigCommand extends EntityCommand
         $this->setEntityType('EntityConfig');
         $this->setCommandName('generate:entity:config');
         parent::configure();
-
         $this->addOption(
             'bundle-of',
             null,

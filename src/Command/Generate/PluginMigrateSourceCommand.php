@@ -107,7 +107,12 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
             ->setName('generate:plugin:migrate:source')
             ->setDescription($this->trans('commands.generate.plugin.migrate.source.description'))
             ->setHelp($this->trans('commands.generate.plugin.migrate.source.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,
@@ -244,14 +249,14 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
             $fields = [];
             while (true) {
                 $id = $io->ask(
-                    $this->trans('commands.generate.plugin.migrate.source.questions.fields.id'),
+                    $this->trans('commands.generate.plugin.migrate.source.questions.id'),
                     false
                 );
                 if (!$id) {
                     break;
                 }
                 $description = $io->ask(
-                    $this->trans('commands.generate.plugin.migrate.source.questions.fields.description'),
+                    $this->trans('commands.generate.plugin.migrate.source.questions.description'),
                     $id
                 );
                 $fields[] = [

@@ -87,18 +87,23 @@ class EventSubscriberCommand extends ContainerAwareCommand
             ->setName('generate:event:subscriber')
             ->setDescription($this->trans('commands.generate.event.subscriber.description'))
             ->setHelp($this->trans('commands.generate.event.subscriber.description'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'name',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.service-name')
+                $this->trans('commands.generate.event.subscriber.options.name')
             )
             ->addOption(
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.class')
+                $this->trans('commands.generate.event.subscriber.options.class')
             )
             ->addOption(
                 'events',
