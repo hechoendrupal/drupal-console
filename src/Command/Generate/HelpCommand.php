@@ -82,7 +82,7 @@ class HelpCommand extends Command
                 'description',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.description')
+                $this->trans('commands.generate.help.options.description')
             )->setAliases(['gh']);
     }
 
@@ -137,7 +137,7 @@ class HelpCommand extends Command
         $description = $input->getOption('description');
         if (!$description) {
             $description = $io->ask(
-                $this->trans('commands.generate.module.questions.description'),
+                $this->trans('commands.generate.help.questions.description'),
                 $this->trans('commands.generate.module.suggestions.my-awesome-module')
             );
         }

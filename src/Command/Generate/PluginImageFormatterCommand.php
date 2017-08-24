@@ -81,7 +81,12 @@ class PluginImageFormatterCommand extends Command
             ->setName('generate:plugin:imageformatter')
             ->setDescription($this->trans('commands.generate.plugin.imageformatter.description'))
             ->setHelp($this->trans('commands.generate.plugin.imageformatter.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,

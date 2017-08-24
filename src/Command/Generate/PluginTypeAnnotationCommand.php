@@ -71,7 +71,12 @@ class PluginTypeAnnotationCommand extends Command
             ->setName('generate:plugin:type:annotation')
             ->setDescription($this->trans('commands.generate.plugin.type.annotation.description'))
             ->setHelp($this->trans('commands.generate.plugin.type.annotation.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,

@@ -81,18 +81,17 @@ class PluginRestResourceCommand extends Command
             ->setName('generate:plugin:rest:resource')
             ->setDescription($this->trans('commands.generate.plugin.rest.resource.description'))
             ->setHelp($this->trans('commands.generate.plugin.rest.resource.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.rest.resource.options.class')
-            )
-            ->addOption(
-                'name',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.service-name')
             )
             ->addOption(
                 'plugin-id',

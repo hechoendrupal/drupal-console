@@ -123,7 +123,7 @@ class AuthenticationProviderCommand extends Command
         if (!$class) {
             $class = $io->ask(
                 $this->trans(
-                    'commands.generate.authentication.provider.options.class'
+                    'commands.generate.authentication.provider.questions.class'
                 ),
                 'DefaultAuthenticationProvider',
                 function ($value) use ($stringUtils) {
@@ -140,7 +140,7 @@ class AuthenticationProviderCommand extends Command
         $provider_id = $input->getOption('provider-id');
         if (!$provider_id) {
             $provider_id = $io->ask(
-                $this->trans('commands.generate.authentication.provider.options.provider-id'),
+                $this->trans('commands.generate.authentication.provider.questions.provider-id'),
                 $stringUtils->camelCaseToUnderscore($class),
                 function ($value) use ($stringUtils) {
                     if (!strlen(trim($value))) {

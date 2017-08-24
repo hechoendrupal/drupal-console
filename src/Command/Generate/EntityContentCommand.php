@@ -77,7 +77,6 @@ class EntityContentCommand extends EntityCommand
         $this->setEntityType('EntityContent');
         $this->setCommandName('generate:entity:content');
         parent::configure();
-
         $this->addOption(
             'has-bundles',
             null,

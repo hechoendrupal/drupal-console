@@ -85,7 +85,12 @@ class PluginViewsFieldCommand extends Command
             ->setName('generate:plugin:views:field')
             ->setDescription($this->trans('commands.generate.plugin.views.field.description'))
             ->setHelp($this->trans('commands.generate.plugin.views.field.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,
