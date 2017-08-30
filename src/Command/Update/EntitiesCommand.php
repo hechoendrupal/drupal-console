@@ -87,8 +87,8 @@ class EntitiesCommand extends Command
         } catch (EntityStorageException $e) {
             /* @var Error $variables */
             $variables = Error::decodeException($e);
-            $io->info($this->trans('commands.update.entities.messages.error'));
-            $io->info($variables);
+            $io->errorLite($this->trans('commands.update.entities.messages.error'));
+            $io->error(strtr('%type: @message in %function (line %line of %file).', $variables));
         }
 
         $this->state->set('system.maintenance_mode', false);
