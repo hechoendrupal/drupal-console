@@ -363,6 +363,11 @@ class ThemeCommand extends Command
                 $input->setOption('regions', $regions);
             }
         }
+        else
+        {
+          $regions = json_decode('['.$regions.']', TRUE);
+          $input->setOption('regions', $regions);
+        }
 
         // --breakpoints option.
         $breakpoints = $input->getOption('breakpoints');
