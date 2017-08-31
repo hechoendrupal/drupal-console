@@ -75,7 +75,7 @@ class LoginUrlCommand extends Command
             return 1;
         }
 
-        $url = user_pass_reset_url($user);
+        $url = user_pass_reset_url($user) . '/login';
         $io->success(
             sprintf(
                 $this->trans('commands.user.login.url.messages.url'),
