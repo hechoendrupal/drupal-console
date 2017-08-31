@@ -113,6 +113,12 @@ class CommandCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.command.options.name')
             )
             ->addOption(
+                'interact',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.command.options.interact')
+            )
+            ->addOption(
                 'container-aware',
                 null,
                 InputOption::VALUE_NONE,
@@ -138,6 +144,7 @@ class CommandCommand extends ContainerAwareCommand
         $extensionType = $input->getOption('extension-type');
         $class = $input->getOption('class');
         $name = $input->getOption('name');
+        $interact = $input->getOption('interact');
         $containerAware = $input->getOption('container-aware');
         $services = $input->getOption('services');
         $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
@@ -154,6 +161,7 @@ class CommandCommand extends ContainerAwareCommand
             $extension,
             $extensionType,
             $name,
+            $interact,
             $class,
             $containerAware,
             $build_services
@@ -191,6 +199,16 @@ class CommandCommand extends ContainerAwareCommand
                 sprintf('%s:default', $extension->getName())
             );
             $input->setOption('name', $name);
+        }
+
+        $interact = $input->getOption('interact');
+
+        if (!$interact) {
+            $interact = $io->confirm(
+                $this->trans('commands.generate.command.questions.interact'),
+                true
+            );
+            $input->setOption('interact', $interact);
         }
 
         $class = $input->getOption('class');

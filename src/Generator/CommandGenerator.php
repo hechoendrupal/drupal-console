@@ -48,11 +48,12 @@ class CommandGenerator extends Generator
      * @param string  $extension      Extension name
      * @param string  $extensionType  Extension type
      * @param string  $name           Command name
+     * @param string  $interact       Interact
      * @param string  $class          Class name
      * @param boolean $containerAware Container Aware command
      * @param array   $services       Services array
      */
-    public function generate($extension, $extensionType, $name, $class, $containerAware, $services)
+    public function generate($extension, $extensionType, $name,$interact, $class, $containerAware, $services)
     {
         $command_key = str_replace(':', '.', $name);
 
@@ -62,6 +63,7 @@ class CommandGenerator extends Generator
             'extension' => $extension,
             'extensionType' => $extensionType,
             'name' => $name,
+            'interact' => $interact,
             'class_name' => $class,
             'container_aware' => $containerAware,
             'command_key' => $command_key,

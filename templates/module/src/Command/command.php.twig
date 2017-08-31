@@ -61,4 +61,15 @@ class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% e
 
     $io->info($this->trans('commands.{{ command_key }}.messages.success'));
   }
+
+{% if interact %}
+ /**
+  * {@inheritdoc}
+  */
+ protected function interact(InputInterface $input, OutputInterface $output) {
+   $io = new DrupalStyle($input, $output);
+
+ }
+{% endif %}
+
 {%- endblock -%}
