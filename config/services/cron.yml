@@ -1,7 +1,7 @@
 services:
   console.cron_execute:
     class: Drupal\Console\Command\Cron\ExecuteCommand
-    arguments: ['@module_handler', '@lock', '@state', '@console.chain_queue']
+    arguments: ['@module_handler', '@lock', '@state']
     tags:
       - { name: drupal.command }
   console.cron_release:
