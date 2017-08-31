@@ -243,7 +243,7 @@ class ThemeCommand extends Command
         }
 
         try {
-            $machine_name = $input->getOption('machine-name') ? $this->validator->validateModule($input->getOption('machine-name')) : null;
+            $machine_name = $input->getOption('machine-name') ? $this->validator->validateModuleName($input->getOption('machine-name')) : null;
         } catch (\Exception $error) {
             $io->error($error->getMessage());
 
