@@ -79,25 +79,30 @@ class RestoreCommand extends Command
             );
             return 1;
         }
+        if (strpos($file, '.sql.gz') !== FALSE) {
+            $catCommand = "gunzip -c %s | ";
+        } else {
+            $catCommand = "cat %s | ";
+        }
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
-                'mysql --user=%s --password=%s --host=%s --port=%s %s < %s',
+                $catCommand . 'mysql --user=%s --password=%s --host=%s --port=%s %s',
+                $file,
                 $databaseConnection['username'],
                 $databaseConnection['password'],
                 $databaseConnection['host'],
                 $databaseConnection['port'],
-                $databaseConnection['database'],
-                $file
+                $databaseConnection['database']
             );
         } elseif ($databaseConnection['driver'] == 'pgsql') {
             $command = sprintf(
-                'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s -f %s',
+                'PGPASSWORD="%s" ' . $catCommand . 'psql -w -U %s -h %s -p %s -d %s',
+                $file,
                 $databaseConnection['password'],
                 $databaseConnection['username'],
                 $databaseConnection['host'],
                 $databaseConnection['port'],
-                $databaseConnection['database'],
-                $file
+                $databaseConnection['database']
             );
         }
 
