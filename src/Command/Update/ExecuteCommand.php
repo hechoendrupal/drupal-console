@@ -197,8 +197,8 @@ class ExecuteCommand extends Command
             $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
         }
 
-        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
         $this->chainQueue->addCommand('update:entities');
+        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 
         return 0;
     }
