@@ -131,7 +131,7 @@ final class ConsoleSettings {
     }
 
     if ($db_settings_fail) {
-      if (is_readable($app_root . '/' . $site_path . '/settings.php')) {
+      if (is_readable($app_root . '/' . $site_path . '/drushrc.php')) {
         require $app_root . '/' . $site_path . '/drushrc.php';
         foreach ($items as $key => $item) {
           if (!empty($options[$item])) {
