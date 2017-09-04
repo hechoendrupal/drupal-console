@@ -107,7 +107,7 @@ class ExecuteCommand extends Command
                 'update-n',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.update.execute.options.update-n'),
-                '8000'
+                '9000'
             )
             ->setAliases(['upex']);
     }
@@ -127,19 +127,7 @@ class ExecuteCommand extends Command
         drupal_load_updates();
         update_fix_compatibility();
 
-        $start = $this->getUpdateList();
-        if ($this->module !== 'all') {
-            if (isset($start[$this->module])) {
-                $start = [
-                    $this->module => $start[$this->module]
-                ];
-            } else {
-                $start = [];
-                $this->update_n = 8000;
-            }
-        } else {
-            $this->update_n = 9000;
-        }
+        $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
         $dependencyMap = [];
         foreach ($updates as $function => $update) {
@@ -147,21 +135,21 @@ class ExecuteCommand extends Command
         }
 
         if (!$this->checkUpdates($start, $updates)) {
-            if ($this->module !== 'all') {
+            if ($this->module === 'all') {
                 $io->error(
                     sprintf(
                         $this->trans(
-                            'commands.update.execute.messages.no-module-updates'
-                        ),
-                        $this->module
+                            'commands.update.execute.messages.no-pending-updates'
+                        )
                     )
                 );
             } else {
                 $io->error(
                     sprintf(
                         $this->trans(
-                            'commands.update.execute.messages.no-pending-updates'
-                        )
+                            'commands.update.execute.messages.no-module-updates'
+                        ),
+                        $this->module
                     )
                 );
             }
@@ -177,13 +165,13 @@ class ExecuteCommand extends Command
         }
 
         try {
-            $complete = $this->runUpdates(
+            $this->runUpdates(
                 $io,
                 $updates
             );
 
             // Post Updates are only safe to run after all schemas have been updated.
-            if ($complete) {
+            if (!$this->getUpdates()) {
                 $this->runPostUpdates($io);
             }
         } catch (\Exception $e) {
@@ -197,7 +185,10 @@ class ExecuteCommand extends Command
             $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
         }
 
-        $this->chainQueue->addCommand('update:entities');
+        if (!$this->getUpdates()) {
+            $this->chainQueue->addCommand('update:entities');
+        }
+
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 
         return 0;
@@ -231,7 +222,7 @@ class ExecuteCommand extends Command
                 $hooks
             );
 
-            if ((int)$this->update_n > (int)max($hooks)) {
+            if ((int)min($hooks) > (int)$this->update_n) {
                 return false;
             }
         }
@@ -242,8 +233,6 @@ class ExecuteCommand extends Command
     /**
      * @param DrupalStyle $io
      * @param array       $updates
-     *
-     * @return bool True if all available updates have been run.
      */
     private function runUpdates(
         DrupalStyle $io,
@@ -258,8 +247,8 @@ class ExecuteCommand extends Command
                 continue;
             }
 
-            if ($update['number'] > $this->update_n) {
-                continue;
+            if ($this->module !== 'all' && $update['number'] > $this->update_n) {
+                break;
             }
 
             $io->comment(
@@ -282,8 +271,6 @@ class ExecuteCommand extends Command
                 $update['number']
             );
         }
-
-        return true;
     }
 
     /**
@@ -320,6 +307,22 @@ class ExecuteCommand extends Command
         return true;
     }
 
+    protected function getUpdates($module = null)
+    {
+        $start = $this->getUpdateList();
+        if ($module) {
+            if (isset($start[$module])) {
+                $start = [
+                    $module => $start[$module]
+                ];
+            } else {
+                $start = [];
+            }
+        }
+
+        return $start;
+    }
+
     // Copy of protected \Drupal\system\Controller\DbUpdateController::getModuleUpdates.
     protected function getUpdateList()
     {
@@ -328,6 +331,7 @@ class ExecuteCommand extends Command
         foreach ($updates as $module => $update) {
             $start[$module] = $update['start'];
         }
+
         return $start;
     }
 
