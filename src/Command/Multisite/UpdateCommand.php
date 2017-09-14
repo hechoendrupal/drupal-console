@@ -84,28 +84,10 @@ class UpdateCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $sites = [];
+        $this->uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
 
-        $multiSiteFile = sprintf(
-            '%s/sites/sites.php',
-            $this->appRoot
-        );
-
-        if (file_exists($multiSiteFile)) {
-            include $multiSiteFile;
-        }
-
-        if (!$sites) {
-            $io->error(
-                $this->trans('commands.debug.multisite.messages.no-multisites')
-            );
-
-            return 1;
-        }
-
-        $this->uri = substr($input->getOption('uri'), 7);
+        $sites = $this->getMultisite($io, $this->uri);
         if ($this->uri == "default") {
-
             $this->uri = $io->choice($this->trans('commands.multisite.update.questions.uri'),
                 $sites
             );
@@ -119,12 +101,12 @@ class UpdateCommand extends Command
         $this->uri = $sites[$this->uri];
 
         $directory = $input->getOption('directory');
-
         if (!$directory) {
             $directory = $io->ask($this->trans('commands.multisite.update.questions.directory'));
         }
         $input->setOption('directory', $directory);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -132,6 +114,12 @@ class UpdateCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
         $this->fs = new Filesystem();
+
+        if(empty($this->uri)){
+            $uri =  parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $sites = $this->getMultisite($io, $uri);
+            $this->uri = $sites[$uri];
+        }
 
         $this->directory = $input->getOption('directory');
         $this->explodeDirectory = explode('/', $this->directory);
@@ -198,9 +186,9 @@ class UpdateCommand extends Command
                             $this->appRoot.'/sites/'.$this->explodeUriDirectory[0].'/files',
                             $this->appRoot . '/sites/' . $this->explodeDirectory[0].'/files'
                         );
+                    }else {
+                        $this->fs->remove($this->appRoot.'/sites/'.$this->explodeUriDirectory[0]);
                     }
-                    $this->fs->remove($this->appRoot.'/sites/'.$this->explodeUriDirectory[0]);
-
                 }
                 //Directory == 2 folders && uri == 1 folder
                 else {
@@ -216,7 +204,6 @@ class UpdateCommand extends Command
                                 );
                                 $this->fs->remove($this->appRoot.'/sites/'.$this->uri);
                             }
-                            $this->moveSettings($io);
                         } catch (IOExceptionInterface $e) {
                             $io->error(
                                 sprintf(
@@ -225,14 +212,8 @@ class UpdateCommand extends Command
                                 )
                             );
                         }
-                    }else {
-                        $io->error(
-                            sprintf(
-                                $this->trans('commands.multisite.update.errors.subdir-exists'),
-                                $this->directory
-                            )
-                        );
                     }
+                    $this->moveSettings($io);
                 }
             }
 
@@ -249,15 +230,48 @@ class UpdateCommand extends Command
 
     }
 
+    /**
+     * Get all Multisites.
+     *
+     * @param DrupalStyle $io
+     */
+    protected function getMultisite(DrupalStyle $io)
+    {
+        $sites = [];
+        $multiSiteFile = sprintf(
+            '%s/sites/sites.php',
+            $this->appRoot
+        );
+
+        if (file_exists($multiSiteFile)) {
+            include $multiSiteFile;
+        }
+
+        if (!$sites) {
+            $io->error(
+                $this->trans('commands.debug.multisite.messages.no-multisites')
+            );
+
+            return 1;
+        }
+
+        return $sites;
+    }
+
+    /**
+     * Move the settings.php file to new directory.
+     *
+     * @param DrupalStyle $io
+     */
     protected function moveSettings(DrupalStyle $io)
     {
         try {
             if(!$this->fs->exists($this->appRoot.'/sites/'.$this->directory.'/settings.php')){
                 $this->fs->copy(
-                    $this->appRoot.'/sites/'.$this->explodeDirectory[0].'/settings.php',
+                    $this->appRoot.'/sites/'.$this->uri.'/settings.php',
                     $this->appRoot.'/sites/'.$this->directory.'/settings.php'
                 );
-                $this->fs->remove($this->appRoot.'/sites/'.$this->explodeDirectory[0].'/settings.php');
+                $this->fs->remove($this->appRoot.'/sites/'.$this->uri.'/settings.php');
             }
         } catch (IOExceptionInterface $e) {
             $io->error(
@@ -271,6 +285,11 @@ class UpdateCommand extends Command
         }
     }
 
+    /**
+     * Edit the settings.php file to change the database parameters, because the settings.php file was moved.
+     *
+     * @param DrupalStyle $io
+     */
     protected function editSettings(DrupalStyle $io)
     {
         $multiSiteSettingsFile = sprintf(
@@ -321,6 +340,12 @@ class UpdateCommand extends Command
 
     }
 
+    /**
+     * Custom function to recursively copy all file and folders in new destination
+     *
+     * @param   $source
+     * @param   $destination
+     */
     public function recurse_copy($source, $destination) {
         $directory = opendir($source);
         $this->fs->mkdir($destination, 0755);
