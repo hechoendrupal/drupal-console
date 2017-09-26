@@ -121,7 +121,7 @@ class PluginImageFormatterCommand extends Command
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
 
@@ -147,7 +147,10 @@ class PluginImageFormatterCommand extends Command
         if (!$class_name) {
             $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.imageformatter.questions.class'),
-                'ExampleImageFormatter'
+                'ExampleImageFormatter',
+                function ($class_name) {
+                    return $this->validator->validateClassName($class_name);
+                }
             );
             $input->setOption('class', $class_name);
         }

@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,13 +32,13 @@ class PluginViewsFieldCommand extends Command
     use ConfirmationTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var PluginViewsFieldGenerator
-*/
+     * @var PluginViewsFieldGenerator
+     */
     protected $generator;
 
     /**
@@ -51,6 +52,11 @@ class PluginViewsFieldCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * @var ChainQueue
      */
     protected $chainQueue;
@@ -62,6 +68,7 @@ class PluginViewsFieldCommand extends Command
      * @param PluginViewsFieldGenerator $generator
      * @param Site                      $site
      * @param StringConverter           $stringConverter
+     * @param Validator                 $validator
      * @param ChainQueue                $chainQueue
      */
     public function __construct(
@@ -69,12 +76,14 @@ class PluginViewsFieldCommand extends Command
         PluginViewsFieldGenerator $generator,
         Site $site,
         StringConverter $stringConverter,
+        Validator $validator,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->site = $site;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
@@ -125,7 +134,7 @@ class PluginViewsFieldCommand extends Command
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $class_machine_name = $this->stringConverter->camelCaseToUnderscore($class_name);
         $title = $input->getOption('title');
         $description = $input->getOption('description');
@@ -154,7 +163,10 @@ class PluginViewsFieldCommand extends Command
         if (!$class_name) {
             $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.views.field.questions.class'),
-                'CustomViewsField'
+                'CustomViewsField',
+                function ($class_name) {
+                    return $this->validator->validateClassName($class_name);
+                }
             );
         }
         $input->setOption('class', $class_name);

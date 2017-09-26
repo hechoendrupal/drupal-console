@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,6 +35,11 @@ class PluginFieldCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * @var ChainQueue
      */
     protected $chainQueue;
@@ -44,15 +50,18 @@ class PluginFieldCommand extends Command
      *
      * @param Manager         $extensionManager
      * @param StringConverter $stringConverter
+     * @param Validator       $validator
      * @param ChainQueue      $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
         StringConverter $stringConverter,
+        Validator $validator,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
@@ -166,7 +175,7 @@ class PluginFieldCommand extends Command
             ->addCommand(
                 'generate:plugin:fieldtype', [
                 '--module' => $input->getOption('module'),
-                '--class' => $input->getOption('type-class'),
+                '--class' => $this->validator->validateClassName($input->getOption('type-class')),
                 '--label' => $input->getOption('type-label'),
                 '--plugin-id' => $input->getOption('type-plugin-id'),
                 '--description' => $input->getOption('type-description'),
@@ -180,7 +189,7 @@ class PluginFieldCommand extends Command
             ->addCommand(
                 'generate:plugin:fieldwidget', [
                 '--module' => $input->getOption('module'),
-                '--class' => $input->getOption('widget-class'),
+                '--class' => $this->validator->validateClassName($input->getOption('widget-class')),
                 '--label' => $input->getOption('widget-label'),
                 '--plugin-id' => $input->getOption('widget-plugin-id'),
                 '--field-type' => $input->getOption('field-type'),
@@ -191,7 +200,7 @@ class PluginFieldCommand extends Command
             ->addCommand(
                 'generate:plugin:fieldformatter', [
                 '--module' => $input->getOption('module'),
-                '--class' => $input->getOption('formatter-class'),
+                '--class' => $this->validator->validateClassName($input->getOption('formatter-class')),
                 '--label' => $input->getOption('formatter-label'),
                 '--plugin-id' => $input->getOption('formatter-plugin-id'),
                 '--field-type' => $input->getOption('field-type'),
@@ -221,7 +230,10 @@ class PluginFieldCommand extends Command
         if (!$typeClass) {
             $typeClass = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.type-class'),
-                'ExampleFieldType'
+                'ExampleFieldType',
+                function ($typeClass) {
+                    return $this->validator->validateClassName($typeClass);
+                }
             );
             $input->setOption('type-class', $typeClass);
         }
@@ -261,7 +273,10 @@ class PluginFieldCommand extends Command
         if (!$widgetClass) {
             $widgetClass = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.widget-class'),
-                'ExampleWidgetType'
+                'ExampleWidgetType',
+                function ($widgetClass) {
+                    return $this->validator->validateClassName($widgetClass);
+                }
             );
             $input->setOption('widget-class', $widgetClass);
         }
@@ -291,7 +306,10 @@ class PluginFieldCommand extends Command
         if (!$formatterClass) {
             $formatterClass = $io->ask(
                 $this->trans('commands.generate.plugin.field.questions.formatter-class'),
-                'ExampleFormatterType'
+                'ExampleFormatterType',
+                function ($formatterClass) {
+                    return $this->validator->validateClassName($formatterClass);
+                }
             );
             $input->setOption('formatter-class', $formatterClass);
         }

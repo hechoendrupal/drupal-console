@@ -33,13 +33,13 @@ class PluginSkeletonCommand extends ContainerAwareCommand
     use ServicesTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var PluginSkeletonGenerator
-*/
+     * @var PluginSkeletonGenerator
+     */
     protected $generator;
 
     /**
@@ -48,8 +48,8 @@ class PluginSkeletonCommand extends ContainerAwareCommand
     protected $stringConverter;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
@@ -162,7 +162,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
             );
         }
 
-        $className = $input->getOption('class');
+        $className = $this->validator->validateClassName($input->getOption('class'));
         $services = $input->getOption('services');
 
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices

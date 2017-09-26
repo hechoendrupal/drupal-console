@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Generator\PluginTypeAnnotationGenerator;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -48,20 +49,28 @@ class PluginTypeAnnotationCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * PluginTypeAnnotationCommand constructor.
      *
      * @param Manager                       $extensionManager
      * @param PluginTypeAnnotationGenerator $generator
      * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
      */
     public function __construct(
         Manager $extensionManager,
         PluginTypeAnnotationGenerator $generator,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        Validator $validator
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -104,7 +113,7 @@ class PluginTypeAnnotationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $machine_name = $input->getOption('machine-name');
         $label = $input->getOption('label');
 
@@ -128,7 +137,10 @@ class PluginTypeAnnotationCommand extends Command
         if (!$class_name) {
             $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.type.annotation.options.class'),
-                'ExamplePlugin'
+                'ExamplePlugin',
+                function ($class_name) {
+                    return $this->validator->validateClassName($class_name);
+                }
             );
             $input->setOption('class', $class_name);
         }

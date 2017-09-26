@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,19 +33,24 @@ class ServiceCommand extends ContainerAwareCommand
     use ConfirmationTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var ServiceGenerator
-*/
+     * @var ServiceGenerator
+     */
     protected $generator;
 
     /**
      * @var StringConverter
      */
     protected $stringConverter;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
 
     /**
      * @var ChainQueue
@@ -57,17 +63,20 @@ class ServiceCommand extends ContainerAwareCommand
      * @param Manager          $extensionManager
      * @param ServiceGenerator $generator
      * @param StringConverter  $stringConverter
+     * @param Validator        $validator
      * @param ChainQueue       $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
         ServiceGenerator $generator,
         StringConverter $stringConverter,
+        Validator $validator,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
@@ -141,7 +150,7 @@ class ServiceCommand extends ContainerAwareCommand
 
         $module = $input->getOption('module');
         $name = $input->getOption('name');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateClassName($input->getOption('class'));
         $interface = $input->getOption('interface');
         $interface_name = $input->getOption('interface-name');
         $services = $input->getOption('services');
@@ -197,7 +206,10 @@ class ServiceCommand extends ContainerAwareCommand
         if (!$class) {
             $class = $io->ask(
                 $this->trans('commands.generate.service.questions.class'),
-                'DefaultService'
+                'DefaultService',
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }

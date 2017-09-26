@@ -140,7 +140,7 @@ class ControllerCommand extends ContainerAwareCommand
         }
 
         $module = $input->getOption('module');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateControllerName($input->getOption('class'));
         $routes = $input->getOption('routes');
         $test = $input->getOption('test');
         $services = $input->getOption('services');
@@ -188,7 +188,7 @@ class ControllerCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.controller.questions.class'),
                 'DefaultController',
                 function ($class) {
-                    return $this->validator->validateClassName($class);
+                    return $this->validator->validateControllerName($class);
                 }
             );
             $input->setOption('class', $class);

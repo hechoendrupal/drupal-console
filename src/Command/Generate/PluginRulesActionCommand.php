@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Generator\PluginRulesActionGenerator;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -49,6 +50,11 @@ class PluginRulesActionCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * @var ChainQueue
      */
     protected $chainQueue;
@@ -60,17 +66,20 @@ class PluginRulesActionCommand extends Command
      * @param Manager                    $extensionManager
      * @param PluginRulesActionGenerator $generator
      * @param StringConverter            $stringConverter
+     * @param Validator                  $validator
      * @param ChainQueue                 $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
         PluginRulesActionGenerator $generator,
         StringConverter $stringConverter,
+        Validator $validator,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
@@ -134,7 +143,7 @@ class PluginRulesActionCommand extends Command
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $type = $input->getOption('type');
@@ -165,7 +174,10 @@ class PluginRulesActionCommand extends Command
         if (!$class_name) {
             $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.rulesaction.options.class'),
-                'DefaultAction'
+                'DefaultAction',
+                function ($class_name) {
+                    return $this->validator->validateClassName($class_name);
+                }
             );
             $input->setOption('class', $class_name);
         }

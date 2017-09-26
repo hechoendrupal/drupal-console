@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -54,6 +55,11 @@ abstract class FormCommand extends ContainerAwareCommand
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * @var ElementInfoManager
      */
     protected $elementInfoManager;
@@ -71,6 +77,7 @@ abstract class FormCommand extends ContainerAwareCommand
      * @param FormGenerator          $generator
      * @param ChainQueue             $chainQueue
      * @param StringConverter        $stringConverter
+     * @param Validator              $validator
      * @param ElementInfoManager     $elementInfoManager
      * @param RouteProviderInterface $routeProvider
      */
@@ -79,6 +86,7 @@ abstract class FormCommand extends ContainerAwareCommand
         FormGenerator $generator,
         ChainQueue $chainQueue,
         StringConverter $stringConverter,
+        Validator $validator,
         ElementInfoManager $elementInfoManager,
         RouteProviderInterface $routeProvider
     ) {
@@ -86,6 +94,7 @@ abstract class FormCommand extends ContainerAwareCommand
         $this->generator = $generator;
         $this->chainQueue = $chainQueue;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->elementInfoManager = $elementInfoManager;
         $this->routeProvider = $routeProvider;
         parent::__construct();
@@ -195,7 +204,7 @@ abstract class FormCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         $path = $input->getOption('path');
         $config_file = $input->getOption('config-file');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $form_id = $input->getOption('form-id');
         $form_type = $this->formType;
         $menu_link_gen = $input->getOption('menu-link-gen');
@@ -234,7 +243,10 @@ abstract class FormCommand extends ContainerAwareCommand
         if (!$className) {
             $className = $io->ask(
                 $this->trans('commands.generate.form.questions.class'),
-                'DefaultForm'
+                'DefaultForm',
+                function ($className) {
+                    return $this->validator->validateClassName($className);
+                }
             );
             $input->setOption('class', $className);
         }

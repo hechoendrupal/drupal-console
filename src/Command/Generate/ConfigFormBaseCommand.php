@@ -11,6 +11,7 @@ use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Utils\Validator;
 use Drupal\Core\Routing\RouteProviderInterface;
 use Drupal\Core\Render\ElementInfoManager;
 
@@ -30,6 +31,11 @@ class ConfigFormBaseCommand extends FormCommand
      * @var StringConverter
      */
     protected $stringConverter;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
 
     /**
      * @var RouteProviderInterface
@@ -57,6 +63,7 @@ class ConfigFormBaseCommand extends FormCommand
      * @param Manager                $extensionManager
      * @param FormGenerator          $generator
      * @param StringConverter        $stringConverter
+     * @param Validator              $validator
      * @param RouteProviderInterface $routeProvider
      * @param ElementInfoManager     $elementInfoManager
      * @param $appRoot
@@ -66,6 +73,7 @@ class ConfigFormBaseCommand extends FormCommand
         Manager $extensionManager,
         FormGenerator $generator,
         StringConverter $stringConverter,
+        Validator $validator,
         RouteProviderInterface $routeProvider,
         ElementInfoManager $elementInfoManager,
         $appRoot,
@@ -74,11 +82,12 @@ class ConfigFormBaseCommand extends FormCommand
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->routeProvider = $routeProvider;
         $this->elementInfoManager = $elementInfoManager;
         $this->appRoot = $appRoot;
         $this->chainQueue = $chainQueue;
-        parent::__construct($extensionManager, $generator, $chainQueue, $stringConverter, $elementInfoManager, $routeProvider);
+        parent::__construct($extensionManager, $generator, $chainQueue, $stringConverter, $validator, $elementInfoManager, $routeProvider);
     }
 
     protected function configure()

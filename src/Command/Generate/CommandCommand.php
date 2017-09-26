@@ -23,7 +23,6 @@ use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\Site;
 
 class CommandCommand extends ContainerAwareCommand
-
 {
     use ConfirmationTrait;
     use ServicesTrait;
@@ -142,7 +141,7 @@ class CommandCommand extends ContainerAwareCommand
 
         $extension = $input->getOption('extension');
         $extensionType = $input->getOption('extension-type');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateCommandName($input->getOption('class'));
         $name = $input->getOption('name');
         $interact = $input->getOption('interact');
         $containerAware = $input->getOption('container-aware');

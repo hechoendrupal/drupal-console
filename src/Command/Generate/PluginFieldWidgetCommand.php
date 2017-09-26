@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,13 +32,13 @@ class PluginFieldWidgetCommand extends Command
     use ConfirmationTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var PluginFieldWidgetGenerator
-*/
+     * @var PluginFieldWidgetGenerator
+     */
     protected $generator;
 
     /**
@@ -46,13 +47,13 @@ class PluginFieldWidgetCommand extends Command
     protected $stringConverter;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
- * @var FieldTypePluginManager
-*/
+     * @var FieldTypePluginManager
+     */
     protected $fieldTypePluginManager;
 
     /**
@@ -67,6 +68,7 @@ class PluginFieldWidgetCommand extends Command
      * @param Manager                    $extensionManager
      * @param PluginFieldWidgetGenerator $generator
      * @param StringConverter            $stringConverter
+     * @param Validator                  $validator
      * @param FieldTypePluginManager     $fieldTypePluginManager
      * @param ChainQueue                 $chainQueue
      */
@@ -74,12 +76,14 @@ class PluginFieldWidgetCommand extends Command
         Manager $extensionManager,
         PluginFieldWidgetGenerator $generator,
         StringConverter $stringConverter,
+        Validator $validator,
         FieldTypePluginManager $fieldTypePluginManager,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->fieldTypePluginManager = $fieldTypePluginManager;
         $this->chainQueue = $chainQueue;
         parent::__construct();
@@ -137,7 +141,7 @@ class PluginFieldWidgetCommand extends Command
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $field_type = $input->getOption('field-type');
@@ -166,7 +170,10 @@ class PluginFieldWidgetCommand extends Command
         if (!$class_name) {
             $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.fieldwidget.questions.class'),
-                'ExampleFieldWidget'
+                'ExampleFieldWidget',
+                function ($class_name) {
+                    return $this->validator->validateClassName($class_name);
+                }
             );
             $input->setOption('class', $class_name);
         }
