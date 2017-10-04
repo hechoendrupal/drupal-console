@@ -13,11 +13,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\PluginViewsFieldGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\StringConverter;
 
@@ -30,8 +29,6 @@ class PluginViewsFieldCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use CommandTrait;
-
 
     /**
  * @var Manager
@@ -88,7 +85,12 @@ class PluginViewsFieldCommand extends Command
             ->setName('generate:plugin:views:field')
             ->setDescription($this->trans('commands.generate.plugin.views.field.description'))
             ->setHelp($this->trans('commands.generate.plugin.views.field.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,

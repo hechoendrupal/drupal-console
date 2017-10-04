@@ -12,10 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 
@@ -23,7 +22,6 @@ class PluginFieldCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use CommandTrait;
 
     /**
  * @var Manager
@@ -65,7 +63,12 @@ class PluginFieldCommand extends Command
             ->setName('generate:plugin:field')
             ->setDescription($this->trans('commands.generate.plugin.field.description'))
             ->setHelp($this->trans('commands.generate.plugin.field.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'type-class',
                 null,
@@ -88,13 +91,13 @@ class PluginFieldCommand extends Command
                 'type-description',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.field.options.type-type-description')
+                $this->trans('commands.generate.plugin.field.options.type-description')
             )
             ->addOption(
                 'formatter-class',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.field.options.class')
+                $this->trans('commands.generate.plugin.field.options.formatter-class')
             )
             ->addOption(
                 'formatter-label',

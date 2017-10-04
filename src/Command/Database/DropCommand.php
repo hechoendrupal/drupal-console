@@ -10,9 +10,8 @@ namespace Drupal\Console\Command\Database;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
@@ -23,7 +22,6 @@ use Drupal\Console\Core\Style\DrupalStyle;
  */
 class DropCommand extends Command
 {
-    use CommandTrait;
     use ConnectTrait;
 
     /**

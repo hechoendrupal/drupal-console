@@ -9,16 +9,13 @@ namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Update\UpdateRegistry;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 class UpdateCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var Site
      */

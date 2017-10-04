@@ -13,11 +13,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 
@@ -27,7 +26,6 @@ class AuthenticationProviderCommand extends Command
     use ModuleTrait;
     use FormTrait;
     use ConfirmationTrait;
-    use CommandTrait;
 
     /**
  * @var Manager
@@ -125,7 +123,7 @@ class AuthenticationProviderCommand extends Command
         if (!$class) {
             $class = $io->ask(
                 $this->trans(
-                    'commands.generate.authentication.provider.options.class'
+                    'commands.generate.authentication.provider.questions.class'
                 ),
                 'DefaultAuthenticationProvider',
                 function ($value) use ($stringUtils) {
@@ -142,7 +140,7 @@ class AuthenticationProviderCommand extends Command
         $provider_id = $input->getOption('provider-id');
         if (!$provider_id) {
             $provider_id = $io->ask(
-                $this->trans('commands.generate.authentication.provider.options.provider-id'),
+                $this->trans('commands.generate.authentication.provider.questions.provider-id'),
                 $stringUtils->camelCaseToUnderscore($class),
                 function ($value) use ($stringUtils) {
                     if (!strlen(trim($value))) {

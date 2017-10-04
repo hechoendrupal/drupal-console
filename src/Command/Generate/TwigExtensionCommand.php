@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
@@ -19,19 +19,17 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 
 /**
  * Class TwigExtensionCommand
  *
  * @package Drupal\Console\Command\Generate
  */
-class TwigExtensionCommand extends Command
+class TwigExtensionCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ServicesTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
  * @var Manager
@@ -165,7 +163,7 @@ class TwigExtensionCommand extends Command
         $name = $input->getOption('name');
         if (!$name) {
             $name = $io->ask(
-                $this->trans('commands.generate.twig.extension.questions.twig-extension'),
+                $this->trans('commands.generate.twig.extension.questions.name'),
                 $module.'.twig.extension'
             );
             $input->setOption('name', $name);

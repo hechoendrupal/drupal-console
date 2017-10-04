@@ -9,8 +9,7 @@ namespace Drupal\Console\Command\Config;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\TypedConfigManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,9 +20,8 @@ use Drupal\Core\Config\Schema\SchemaCheckTrait;
  *
  * @package Drupal\Console\Command\Config
  */
-class ValidateCommand extends Command
+class ValidateCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
     use SchemaCheckTrait;
     use PrintConfigValidationTrait;
 

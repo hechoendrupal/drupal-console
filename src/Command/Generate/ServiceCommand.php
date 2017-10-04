@@ -14,9 +14,8 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
@@ -26,12 +25,11 @@ use Drupal\Console\Core\Utils\StringConverter;
  *
  * @package Drupal\Console\Command\Generate
  */
-class ServiceCommand extends Command
+class ServiceCommand extends ContainerAwareCommand
 {
     use ServicesTrait;
     use ModuleTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
  * @var Manager
@@ -94,7 +92,7 @@ class ServiceCommand extends Command
                 'name',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.service.options.name')
+                $this->trans('commands.generate.service.options.service-name')
             )
             ->addOption(
                 'class',
@@ -106,13 +104,13 @@ class ServiceCommand extends Command
                 'interface',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.common.service.options.interface')
+                $this->trans('commands.generate.service.options.interface')
             )
             ->addOption(
                 'interface-name',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.common.service.options.interface-name')
+                $this->trans('commands.generate.service.options.interface-name')
             )
             ->addOption(
                 'services',
@@ -124,7 +122,7 @@ class ServiceCommand extends Command
                 'path-service',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.service.options.path')
+                $this->trans('commands.generate.service.options.path-service')
             )
             ->setAliases(['gs']);
     }
@@ -235,7 +233,7 @@ class ServiceCommand extends Command
         $path_service = $input->getOption('path-service');
         if (!$path_service) {
             $path_service = $io->ask(
-                $this->trans('commands.generate.service.questions.path'),
+                $this->trans('commands.generate.service.questions.path-service'),
                 '/modules/custom/' . $module . '/src/'
             );
             $input->setOption('path-service', $path_service);

@@ -10,8 +10,7 @@ namespace Drupal\Console\Command\Rest;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
@@ -26,7 +25,6 @@ use Drupal\rest\Plugin\Type\ResourcePluginManager;
  */
 class DisableCommand extends Command
 {
-    use CommandTrait;
     use RestTrait;
 
     /**

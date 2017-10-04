@@ -114,4 +114,31 @@ class Extension extends BaseExtension
     {
         return $this->getPath($fullPath) . '/templates';
     }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getTestsPath($fullPath = false)
+    {
+        return $this->getPath($fullPath) . '/tests';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getTestsSourcePath($fullPath = false)
+    {
+        return $this->getTestsPath($fullPath) . '/src';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getJsTestsPath($fullPath = false)
+    {
+        return $this->getTestsSourcePath($fullPath) . '/FunctionalJavascript';
+    }
 }

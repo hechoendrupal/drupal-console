@@ -14,16 +14,13 @@ use Drupal\Core\Config\StorageInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigManager;
 
 class ExportCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var ConfigManager
      */
@@ -144,8 +141,12 @@ class ExportCommand extends Command
             // Get all override data from the remaining collections.
             foreach ($this->storage->getAllCollectionNames() as $collection) {
                 $collection_storage = $this->storage->createCollection($collection);
+                $collection_path = str_replace('.', '/', $collection);
+                if (!$tar) {
+                    mkdir("$directory/$collection_path", 0755, true);
+                }
                 foreach ($collection_storage->listAll() as $name) {
-                    $configName = str_replace('.', '/', $collection) . "/$name.yml";
+                    $configName = "$collection_path/$name.yml";
                     $configData = $collection_storage->read($name);
                     if ($removeUuid) {
                         unset($configData['uuid']);

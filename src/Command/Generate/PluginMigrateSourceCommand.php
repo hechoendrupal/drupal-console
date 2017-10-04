@@ -10,11 +10,10 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Generator\PluginMigrateSourceGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\StringConverter;
@@ -24,11 +23,10 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
 
-class PluginMigrateSourceCommand extends Command
+class PluginMigrateSourceCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
      * @var ConfigFactory
@@ -109,7 +107,12 @@ class PluginMigrateSourceCommand extends Command
             ->setName('generate:plugin:migrate:source')
             ->setDescription($this->trans('commands.generate.plugin.migrate.source.description'))
             ->setHelp($this->trans('commands.generate.plugin.migrate.source.help'))
-            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addOption(
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'class',
                 null,
@@ -246,14 +249,14 @@ class PluginMigrateSourceCommand extends Command
             $fields = [];
             while (true) {
                 $id = $io->ask(
-                    $this->trans('commands.generate.plugin.migrate.source.questions.fields.id'),
+                    $this->trans('commands.generate.plugin.migrate.source.questions.id'),
                     false
                 );
                 if (!$id) {
                     break;
                 }
                 $description = $io->ask(
-                    $this->trans('commands.generate.plugin.migrate.source.questions.fields.description'),
+                    $this->trans('commands.generate.plugin.migrate.source.questions.description'),
                     $id
                 );
                 $fields[] = [

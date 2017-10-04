@@ -16,11 +16,10 @@ use Drupal\migrate\MigrateExecutable;
 use Drupal\Console\Utils\MigrateExecuteMessageCapture;
 use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\Console\Command\Shared\DatabaseTrait;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\State\StateInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 use Drupal\Console\Annotations\DrupalCommand;
 
@@ -34,7 +33,6 @@ class ExecuteCommand extends Command
 {
     use DatabaseTrait;
     use MigrationTrait;
-    use CommandTrait;
 
     protected $migrateConnection;
 
@@ -71,7 +69,7 @@ class ExecuteCommand extends Command
                 'db-type',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.migrate.setup.migrations.options.db-type')
+                $this->trans('commands.migrate.execute.migrations.options.db-type')
             )
             ->addOption(
                 'db-host',

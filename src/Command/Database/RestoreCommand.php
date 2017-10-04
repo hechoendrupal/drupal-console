@@ -12,14 +12,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 class RestoreCommand extends Command
 {
-    use CommandTrait;
     use ConnectTrait;
 
     /**
@@ -81,25 +79,30 @@ class RestoreCommand extends Command
             );
             return 1;
         }
+        if (strpos($file, '.sql.gz') !== FALSE) {
+            $catCommand = "gunzip -c %s | ";
+        } else {
+            $catCommand = "cat %s | ";
+        }
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
-                'mysql --user=%s --password=%s --host=%s --port=%s %s < %s',
+                $catCommand . 'mysql --user=%s --password=%s --host=%s --port=%s %s',
+                $file,
                 $databaseConnection['username'],
                 $databaseConnection['password'],
                 $databaseConnection['host'],
                 $databaseConnection['port'],
-                $databaseConnection['database'],
-                $file
+                $databaseConnection['database']
             );
         } elseif ($databaseConnection['driver'] == 'pgsql') {
             $command = sprintf(
-                'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s -f %s',
+                'PGPASSWORD="%s" ' . $catCommand . 'psql -w -U %s -h %s -p %s -d %s',
+                $file,
                 $databaseConnection['password'],
                 $databaseConnection['username'],
                 $databaseConnection['host'],
                 $databaseConnection['port'],
-                $databaseConnection['database'],
-                $file
+                $databaseConnection['database']
             );
         }
 
@@ -110,7 +113,7 @@ class RestoreCommand extends Command
         $processBuilder = new ProcessBuilder(['-v']);
         $process = $processBuilder->getProcess();
         $process->setWorkingDirectory($this->appRoot);
-        $process->setTty('true');
+        $process->setTty($input->isInteractive());
         $process->setCommandLine($command);
         $process->run();
 

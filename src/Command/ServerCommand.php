@@ -12,8 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 use \Drupal\Console\Core\Utils\ConfigurationManager;
 
@@ -24,8 +23,6 @@ use \Drupal\Console\Core\Utils\ConfigurationManager;
  */
 class ServerCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var string
      */
@@ -100,8 +97,14 @@ class ServerCommand extends Command
             )
         );
 
+        if ($io->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+            $callback = [$this, 'outputCallback'];
+        } else {
+            $callback = null;
+        }
+
         // Use the process helper to copy process output to console output.
-        $this->getHelper('process')->run($output, $process, null, null);
+        $this->getHelper('process')->run($output, $process, null, $callback);
 
         if (!$process->isSuccessful()) {
             $io->error($process->getErrorOutput());
@@ -167,5 +170,10 @@ class ServerCommand extends Command
         }
 
         return $address;
+    }
+
+    function outputCallback($type, $buffer) {
+        // TODO: seems like $type is Process::ERR always
+        echo $buffer;
     }
 }

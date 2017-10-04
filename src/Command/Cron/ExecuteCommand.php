@@ -10,18 +10,14 @@ namespace Drupal\Console\Command\Cron;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var ModuleHandlerInterface
      */
@@ -38,28 +34,20 @@ class ExecuteCommand extends Command
     protected $state;
 
     /**
-     * @var ChainQueue
-     */
-    protected $chainQueue;
-
-    /**
      * DebugCommand constructor.
      *
      * @param ModuleHandlerInterface $moduleHandler
      * @param LockBackendInterface   $lock
      * @param StateInterface         $state
-     * @param ChainQueue             $chainQueue
      */
     public function __construct(
         ModuleHandlerInterface $moduleHandler,
         LockBackendInterface $lock,
-        StateInterface $state,
-        ChainQueue $chainQueue
+        StateInterface $state
     ) {
         $this->moduleHandler = $moduleHandler;
         $this->lock = $lock;
         $this->state = $state;
-        $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
@@ -123,8 +111,6 @@ class ExecuteCommand extends Command
 
         $this->state->set('system.cron_last', REQUEST_TIME);
         $this->lock->release('cron');
-
-        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 
         $io->success($this->trans('commands.cron.execute.messages.success'));
 

@@ -10,19 +10,17 @@ namespace Drupal\Console\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\PermissionTrait;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 
 class PermissionCommand extends Command
 {
-    use CommandTrait;
     use ModuleTrait;
     use PermissionTrait;
     use ConfirmationTrait;
@@ -66,8 +64,8 @@ class PermissionCommand extends Command
     {
         $this
             ->setName('generate:permissions')
-            ->setDescription($this->trans('commands.generate.permission.description'))
-            ->setHelp($this->trans('commands.generate.permission.help'))
+            ->setDescription($this->trans('commands.generate.permissions.description'))
+            ->setHelp($this->trans('commands.generate.permissions.help'))
             ->addOption(
                 'module',
                 null,

@@ -11,13 +11,12 @@ use Drupal\Console\Generator\PluginSkeletonGenerator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
@@ -27,12 +26,11 @@ use Drupal\Console\Utils\Validator;
  *
  * @package Drupal\Console\Command\Generate
  */
-class PluginSkeletonCommand extends Command
+class PluginSkeletonCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
     use ServicesTrait;
-    use ContainerAwareCommandTrait;
 
     /**
  * @var Manager
@@ -111,13 +109,13 @@ class PluginSkeletonCommand extends Command
                 'plugin-id',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.options.plugin-id')
+                $this->trans('commands.generate.plugin.skeleton.options.plugin')
             )
             ->addOption(
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.block.options.class')
+                $this->trans('commands.generate.plugin.skeleton.options.class')
             )
             ->addOption(
                 'services',
@@ -126,7 +124,6 @@ class PluginSkeletonCommand extends Command
                 $this->trans('commands.common.options.services')
             )->setAliases(['gps']);
     }
-
     /**
      * {@inheritdoc}
      */

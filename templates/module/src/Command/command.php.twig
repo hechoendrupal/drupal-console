@@ -11,11 +11,10 @@ namespace Drupal\{{extension}}\Command;
 {% block use_class %}
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
 {% if container_aware %}
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 {% else %}
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 {% endif %}
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Annotations\DrupalCommand;
@@ -30,7 +29,7 @@ use Drupal\Console\Annotations\DrupalCommand;
  *     extensionType="{{ extensionType }}"
  * )
  */
-class {{ class_name }} extends Command {% endblock %}
+class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% else %}Command{% endif %} {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
 
@@ -42,15 +41,6 @@ class {{ class_name }} extends Command {% endblock %}
     parent::__construct();
   }
 {% endif %}
-{% endblock %}
-
-{% block use_trait %}
-{% if container_aware %}
-  use ContainerAwareCommandTrait;
-{% else %}
-  use CommandTrait;
-{% endif %}
-
 {% endblock %}
 
 {% block class_methods %}
@@ -71,4 +61,15 @@ class {{ class_name }} extends Command {% endblock %}
 
     $io->info($this->trans('commands.{{ command_key }}.messages.success'));
   }
+
+{% if interact %}
+ /**
+  * {@inheritdoc}
+  */
+ protected function interact(InputInterface $input, OutputInterface $output) {
+   $io = new DrupalStyle($input, $output);
+
+ }
+{% endif %}
+
 {%- endblock -%}

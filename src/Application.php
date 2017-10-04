@@ -25,7 +25,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.0.0-rc25';
+    const VERSION = '1.0.2';
 
     public function __construct(ContainerInterface $container)
     {
@@ -156,6 +156,14 @@ class Application extends BaseApplication
             ->get('application.commands.aliases')?:[];
 
         foreach ($consoleCommands as $name) {
+
+            AnnotationRegistry::reset();
+            AnnotationRegistry::registerLoader(
+                [
+                    $this->container->get('class_loader'),
+                    "loadClass"
+                ]
+            );
 
             if (!$this->container->has($name)) {
                 continue;

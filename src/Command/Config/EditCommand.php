@@ -17,15 +17,12 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class EditCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var ConfigFactory
      */
@@ -169,7 +166,7 @@ class EditCommand extends Command
     protected function getEditor()
     {
         $config = $this->configurationManager->getConfiguration();
-        $editor = $config->get('application.editor', 'vi');
+        $editor = $config->get('application.editor', '');
 
         if ($editor != '') {
             return trim($editor);

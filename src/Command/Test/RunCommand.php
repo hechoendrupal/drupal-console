@@ -12,8 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -28,8 +27,6 @@ use Drupal\Core\Datetime\DateFormatter;
  */
 class RunCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var string
      */

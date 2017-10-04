@@ -7,13 +7,12 @@
 
 namespace Drupal\Console\Command\Queue;
 
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
@@ -23,8 +22,6 @@ use Drupal\Console\Core\Style\DrupalStyle;
  */
 class RunCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var QueueWorkerManagerInterface
      */
@@ -34,7 +31,7 @@ class RunCommand extends Command
     /**
      * @var QueueFactory
      */
-    protected $queue;
+    protected $queueFactory;
 
     /**
      * DebugCommand constructor.
@@ -44,10 +41,10 @@ class RunCommand extends Command
      */
     public function __construct(
         QueueWorkerManagerInterface $queueWorker,
-        QueueFactory $queue
+        QueueFactory $queueFactory
     ) {
         $this->queueWorker = $queueWorker;
-        $this->queue = $queue;
+        $this->queueFactory = $queueFactory;
         parent::__construct();
     }
 
@@ -84,6 +81,7 @@ class RunCommand extends Command
 
         try {
             $worker = $this->queueWorker->createInstance($name);
+            $queue = $this->queueFactory->get($name);
         } catch (\Exception $e) {
             $io->error(
                 sprintf(
@@ -96,7 +94,7 @@ class RunCommand extends Command
         }
 
         $start = microtime(true);
-        $result = $this->runQueue($worker);
+        $result = $this->runQueue($queue, $worker);
         $time = microtime(true) - $start;
 
         if (!empty($result['error'])) {
@@ -125,21 +123,22 @@ class RunCommand extends Command
     }
 
     /**
-     * @param $worker
+     * @param \Drupal\Core\Queue\QueueInterface $queue
+     * @param \Drupal\Core\Queue\QueueWorkerInterface $worker
      *
      * @return array
      */
-    private function runQueue($worker)
+    private function runQueue($queue, $worker)
     {
         $result['count'] = 0;
-        $result['total'] = $this->queue->numberOfItems();
-        while ($item = $this->queue->claimItem()) {
+        $result['total'] = $queue->numberOfItems();
+        while ($item = $queue->claimItem()) {
             try {
                 $worker->processItem($item->data);
-                $this->queue->deleteItem($item);
+                $queue->deleteItem($item);
                 $result['count']++;
             } catch (SuspendQueueException $e) {
-                $this->queue->releaseItem($item);
+                $queue->releaseItem($item);
                 $result['error'] = $e;
             }
         }

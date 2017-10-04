@@ -204,3 +204,8 @@ services:
     arguments: [ '@console.cache_context_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter']
     tags:
        - { name: drupal.command }
+  console.generate_js_test:
+    class: Drupal\Console\Command\Generate\JsTestCommand
+    arguments: ['@console.extension_manager', '@console.js_test_generator', '@console.validator']
+    tags:
+       - { name: drupal.command }

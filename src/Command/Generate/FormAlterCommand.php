@@ -16,9 +16,8 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -35,7 +34,6 @@ class FormAlterCommand extends Command
     use FormTrait;
     use MenuTrait;
     use ConfirmationTrait;
-    use CommandTrait;
 
     /**
  * @var Manager
@@ -132,9 +130,7 @@ class FormAlterCommand extends Command
     {
         $this
             ->setName('generate:form:alter')
-            ->setDescription(
-                $this->trans('commands.generate.form.alter.description')
-            )
+            ->setDescription($this->trans('commands.generate.form.alter.description'))
             ->setHelp($this->trans('commands.generate.form.alter.help'))
             ->addOption(
                 'module',
@@ -225,7 +221,7 @@ class FormAlterCommand extends Command
 
             if (!empty($forms)) {
                 $formId = $io->choiceNoList(
-                    $this->trans('commands.generate.form.alter.options.form-id'),
+                    $this->trans('commands.generate.form.alter.questions.form-id'),
                     array_keys($forms)
                 );
             }

@@ -98,13 +98,32 @@ class Drupal
                 $io->writeln('➤ Creating Drupal kernel');
             }
 
-            $drupalKernel = DrupalKernel::createFromRequest(
-                $request,
-                $this->autoload,
-                'prod',
-                false,
-                $this->drupalFinder->getDrupalRoot()
-            );
+            $updateCommands = [
+                'update:execute',
+                'upex',
+                'updb',
+                'update:entities',
+                'upe'
+            ];
+
+            if (!in_array($command, $updateCommands)) {
+                $drupalKernel = DrupalKernel::createFromRequest(
+                    $request,
+                    $this->autoload,
+                    'prod',
+                    false,
+                    $this->drupalFinder->getDrupalRoot()
+                );
+            } else {
+                $drupalKernel = DrupalUpdateKernel::createFromRequest(
+                    $request,
+                    $this->autoload,
+                    'prod',
+                    false,
+                    $this->drupalFinder->getDrupalRoot()
+                );
+            }
+
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Registering dynamic services');

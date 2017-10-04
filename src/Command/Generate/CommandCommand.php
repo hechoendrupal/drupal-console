@@ -12,8 +12,7 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\CommandGenerator;
@@ -23,9 +22,9 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\Site;
 
-class CommandCommand extends Command
+class CommandCommand extends ContainerAwareCommand
+
 {
-    use ContainerAwareCommandTrait;
     use ConfirmationTrait;
     use ServicesTrait;
     use ModuleTrait;
@@ -114,6 +113,12 @@ class CommandCommand extends Command
                 $this->trans('commands.generate.command.options.name')
             )
             ->addOption(
+                'interact',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.command.options.interact')
+            )
+            ->addOption(
                 'container-aware',
                 null,
                 InputOption::VALUE_NONE,
@@ -139,6 +144,7 @@ class CommandCommand extends Command
         $extensionType = $input->getOption('extension-type');
         $class = $input->getOption('class');
         $name = $input->getOption('name');
+        $interact = $input->getOption('interact');
         $containerAware = $input->getOption('container-aware');
         $services = $input->getOption('services');
         $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
@@ -155,6 +161,7 @@ class CommandCommand extends Command
             $extension,
             $extensionType,
             $name,
+            $interact,
             $class,
             $containerAware,
             $build_services
@@ -192,6 +199,16 @@ class CommandCommand extends Command
                 sprintf('%s:default', $extension->getName())
             );
             $input->setOption('name', $name);
+        }
+
+        $interact = $input->getOption('interact');
+
+        if (!$interact) {
+            $interact = $io->confirm(
+                $this->trans('commands.generate.command.questions.interact'),
+                true
+            );
+            $input->setOption('interact', $interact);
         }
 
         $class = $input->getOption('class');

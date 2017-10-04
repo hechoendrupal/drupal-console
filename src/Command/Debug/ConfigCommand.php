@@ -13,14 +13,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 class ConfigCommand extends Command
 {
-    use CommandTrait;
-
     /**
      * @var ConfigFactory
      */

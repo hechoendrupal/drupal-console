@@ -45,6 +45,11 @@ services:
     arguments: ['@config.factory', '@theme_handler']
     tags:
       - { name: drupal.command }
+  console.theme_keys_debug:
+    class: Drupal\Console\Command\Debug\ThemeKeysCommand
+    arguments: ['@theme.registry']
+    tags:
+      - { name: drupal.command }
   console.router_debug:
     class: Drupal\Console\Command\Debug\RouterCommand
     arguments: ['@router.route_provider']
@@ -92,7 +97,7 @@ services:
       - { name: drupal.command }
   console.breakpoints_debug:
     class: Drupal\Console\Command\Debug\BreakpointsCommand
-    arguments: ['@breakpoint.manager', '@app.root']
+    arguments: ['@?breakpoint.manager', '@app.root']
     tags:
       - { name: drupal.command }
   console.cache_context_debug:

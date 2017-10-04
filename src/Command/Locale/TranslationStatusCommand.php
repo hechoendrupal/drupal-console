@@ -10,10 +10,9 @@ namespace Drupal\Console\Command\Locale;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Annotations\DrupalCommand;
@@ -26,7 +25,6 @@ use Drupal\Console\Annotations\DrupalCommand;
  */
 class TranslationStatusCommand extends Command
 {
-    use CommandTrait;
     use LocaleTrait;
 
     /**

@@ -12,8 +12,7 @@ use Drupal\Core\State\StateInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\DatabaseTrait;
 use Drupal\Console\Command\Shared\MigrationTrait;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
@@ -28,9 +27,8 @@ use Drupal\Console\Annotations\DrupalCommand;
  *     extensionType = "module"
  * )
  */
-class SetupCommand extends Command
+class SetupCommand extends ContainerAwareCommand
 {
-    use ContainerAwareCommandTrait;
     use DatabaseTrait;
     use MigrationTrait;
 

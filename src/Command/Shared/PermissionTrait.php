@@ -22,19 +22,19 @@ trait PermissionTrait
         $boolOrNone = ['true','false','none'];
         while (true) {
             $permission = $output->ask(
-                $this->trans('commands.generate.permission.questions.permission'),
-                $this->trans('commands.generate.permission.suggestions.access-content')
+                $this->trans('commands.generate.permissions.questions.permission'),
+                $this->trans('commands.generate.permissions.suggestions.access-content')
             );
             $title = $output->ask(
-                $this->trans('commands.generate.permission.questions.title'),
-                $this->trans('commands.generate.permission.suggestions.access-content')
+                $this->trans('commands.generate.permissions.questions.title'),
+                $this->trans('commands.generate.permissions.suggestions.access-content')
             );
             $description = $output->ask(
-                $this->trans('commands.generate.permission.questions.description'),
-                $this->trans('commands.generate.permission.suggestions.allow-access-content')
+                $this->trans('commands.generate.permissions.questions.description'),
+                $this->trans('commands.generate.permissions.suggestions.allow-access-content')
             );
             $restrictAccess = $output->choiceNoList(
-                $this->trans('commands.generate.permission.questions.restrict-access'),
+                $this->trans('commands.generate.permissions.questions.restrict-access'),
                 $boolOrNone,
                 'none'
             );
@@ -53,7 +53,7 @@ trait PermissionTrait
             );
 
             if (!$output->confirm(
-                $this->trans('commands.generate.permission.questions.add'),
+                $this->trans('commands.generate.permissions.questions.add'),
                 true
             )
             ) {
