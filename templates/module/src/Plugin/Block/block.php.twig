@@ -69,15 +69,14 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% endblock %}
 {% block class_methods %}
 {% if inputs %}
-
   /**
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
     return [
-    {% for input in inputs %}
-     '{{ input.name }}' => {{ input.default_code }},
-    {% endfor %}
+{% for input in inputs %}
+      '{{ input.name }}' => {{ input.default_code }},
+{% endfor %}
     ] + parent::defaultConfiguration();
   }
 
