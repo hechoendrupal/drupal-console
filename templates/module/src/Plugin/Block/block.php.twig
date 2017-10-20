@@ -42,10 +42,10 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    *   The plugin implementation definition.
    */
   public function __construct(
-        array $configuration,
-        $plugin_id,
-        $plugin_definition,
-        {{ servicesAsParameters(services)|join(', \n\t') }}
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    {{ servicesAsParameters(services)|join(', \n\t') }}
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 {{ serviceClassInitialization(services) }}
@@ -79,8 +79,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
      '{{ input.name }}' => {{ input.default_code }},
     {% endfor %}
     ] + parent::defaultConfiguration();
-
- }
+  }
 
   /**
    * {@inheritdoc}
@@ -94,7 +93,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% if input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
-      '#default_value' => $this->configuration['{{ input.name  }}'],
+      '#default_value' => $this->configuration['{{ input.name }}'],
 {% if input.maxlength|length %}
       '#maxlength' => {{ input.maxlength }},
 {% endif %}
