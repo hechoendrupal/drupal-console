@@ -88,8 +88,8 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% for input in inputs %}
     $form['{{ input.name }}'] = [
       '#type' => '{{ input.type }}',
-      '#title' => $this->t('{{ input.label }}'),
-      '#description' => $this->t('{{ input.description }}'),
+      '#title' => $this->t('{{ input.label|escape }}'),
+      '#description' => $this->t('{{ input.description|escape }}'),
 {% if input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
