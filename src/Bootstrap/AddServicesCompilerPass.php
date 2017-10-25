@@ -12,6 +12,8 @@ use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Utils\TranslatorManager;
 use Drupal\Console\Extension\Extension;
 use Drupal\Console\Extension\Manager;
+use Drupal\Core\Cache\ListCacheBinsPass;
+use GuzzleHttp\Client;
 
 /**
  * FindCommandsCompilerPass
@@ -77,15 +79,35 @@ class AddServicesCompilerPass implements CompilerPassInterface
          * @var Site $site
          */
         $site = $container->get('console.site');
-        \Drupal::getContainer()->set(
+        $container->set(
             'console.root',
             $this->root
         );
+
+        // The AddServicesCompilerPass cache pass is executed before the
+        // ListCacheBinsPass causing exception: ParameterNotFoundException: You
+        // have requested a non-existent parameter "cache_default_bin_backends"
+        $cache_pass = new ListCacheBinsPass();
+        $cache_pass->process($container);
+
+        // Fix ContainerNotInitializedException: \Drupal::$container is not initialized yet.
+        // \Drupal::setContainer() must be called with a real container. The use of stream_wrapper.temporary
+        // service at cachedServicesFileExists method uses the container that in compiler pass
+        // is not ready to use: https://github.com/symfony/symfony/issues/22125#issuecomment-288734689
+        // This is workaroud works but seems that we cannot depend on services at this stage.
+        \Drupal::setContainer($container);
+
+        // Avoid Error: Call to undefined function
+        // Drupal\Core\StreamWrapper\file_directory_temp() in TemporaryStream
+        // that seems to be needed to the cache services and when no other
+        // stream wrapper is available defaults ont TemporaryStream.
+        $site->loadLegacyFile('/core/includes/file.inc');
 
         if (!$this->rebuild && $site->cachedServicesFileExists()) {
             $loader->load($site->getCachedServicesFile());
         } else {
             $site->removeCachedServicesFile();
+
             $finder = new Finder();
             $finder->files()
                 ->name('*.yml')
@@ -105,10 +127,18 @@ class AddServicesCompilerPass implements CompilerPassInterface
                 );
             }
 
+            // Avoid to use the container to get the console.extension_manager due
+            // container is not ready and cause exceptions.
+
+            /**
+             * @var GuzzleHttp\Client $httpClient
+             */
+            $httpClient = new Client;
             /**
              * @var Manager $extensionManager
              */
-            $extensionManager = $container->get('console.extension_manager');
+            $extensionManager = new Manager($site, $httpClient, $this->appRoot);
+
             /**
              * @var Extension[] $modules
              */

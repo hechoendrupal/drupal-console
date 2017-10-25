@@ -211,7 +211,6 @@ class Manager
             $extensions[$name] = $extension;
         }
 
-
         return $nameOnly?array_keys($extensions):$extensions;
     }
 
@@ -221,11 +220,6 @@ class Manager
      */
     private function discoverExtensions($type)
     {
-        if ($type === 'module') {
-            $this->site->loadLegacyFile('/core/modules/system/system.module');
-            system_rebuild_module_data();
-        }
-
         if ($type === 'theme') {
             $themeHandler = \Drupal::service('theme_handler');
             $themeHandler->rebuildThemeData();
@@ -237,8 +231,29 @@ class Manager
          */
         $discovery = new Discovery($this->appRoot);
         $discovery->reset();
+        $extensions = $discovery->scan($type);
 
-        return $discovery->scan($type);
+        if ($type === 'module') {
+          // Using system_rebuild_module_data causes an error:
+          // Constructing service "logger.factory" from a parent definition is not supported at build time.
+          //$this->site->loadLegacyFile('/core/modules/system/system.module');
+          //system_rebuild_module_data();
+
+          // Looks that dependency on rebuild module data is just to determine
+          // the installed status so alternatively we can just look on installed
+          // modules config and apply to discovered extensions.
+          $installed_modules = \Drupal::config('core.extension')->get('module') ?: [];
+
+          /**
+           * @var \Drupal\Core\Extension\Extension $extension
+           */
+          foreach ($extensions as $name => $extension) {
+            $extensions[$name]->weight = isset($installed_modules[$name]) ? $installed_modules[$name] : 0;
+            $extensions[$name]->status = (int) isset($installed_modules[$name]);
+          }
+        }
+
+        return $extensions;
     }
 
     /**

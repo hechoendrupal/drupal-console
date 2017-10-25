@@ -26,7 +26,17 @@ class DrupalKernel extends DrupalKernelBase
         $kernel = new static($environment, $class_loader, $allow_dumping, $app_root);
         static::bootEnvironment($app_root);
         $kernel->initializeSettings($request);
-        $kernel->handle($request);
+        // Calling the request handle causes that a page request "/" is
+        // processed for any console execution even: help or --version and
+        // with sites that have globally displayed blocks contexts are not
+        // ready for blocks plugins so this causes lot of problems like:
+        // https://github.com/hechoendrupal/drupal-console/issues/3091 and
+        // https://github.com/hechoendrupal/drupal-console/issues/3553 Also
+        // handle does a initializeContainer which originally was invalidated
+        // and rebuild at Console Drupal Bootstrap. By disabling handle
+        // and processing the boot() at Bootstrap commands that do not
+        // depend on requests works well.
+        //$kernel->handle($request);
         return $kernel;
     }
 
