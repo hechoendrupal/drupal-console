@@ -201,3 +201,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.js_test_generator:
+    class: Drupal\Console\Generator\JsTestGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }

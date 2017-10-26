@@ -136,7 +136,7 @@ class ExecuteCommand extends Command
 
         if (!$this->checkUpdates($start, $updates)) {
             if ($this->module === 'all') {
-                $io->error(
+                $io->warning(
                     sprintf(
                         $this->trans(
                             'commands.update.execute.messages.no-pending-updates'
@@ -144,7 +144,7 @@ class ExecuteCommand extends Command
                     )
                 );
             } else {
-                $io->error(
+                $io->warning(
                     sprintf(
                         $this->trans(
                             'commands.update.execute.messages.no-module-updates'
@@ -154,7 +154,7 @@ class ExecuteCommand extends Command
                 );
             }
 
-            return 1;
+            return 0;
         }
 
         $maintenanceMode = $this->state->get('system.maintenance_mode', false);

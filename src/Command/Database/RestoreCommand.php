@@ -113,7 +113,7 @@ class RestoreCommand extends Command
         $processBuilder = new ProcessBuilder(['-v']);
         $process = $processBuilder->getProcess();
         $process->setWorkingDirectory($this->appRoot);
-        $process->setTty('true');
+        $process->setTty($input->isInteractive());
         $process->setCommandLine($command);
         $process->run();
 
