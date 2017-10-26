@@ -152,11 +152,19 @@ class Drupal
             // needs to be set manually to allow use of the cache files.
             FileCacheFactory::setPrefix($this->drupalFinder->getDrupalRoot());
 
+            // Invalidate container to ensure rebuild of any cached state
+            // when boot is processed.
             $drupalKernel->invalidateContainer();
+
             // Looks that the boot process is handling an initializeContainer
             // so looks that rebuildContainer repeats what we finally do in boot().
             //$drupalKernel->rebuildContainer();
+
+            // Load legacy libraries, modules, register stream wrapper, and push
+            // request to request stack but without trigger processing of '/'
+            // request that invokes hooks like hook_page_attachments().
             $drupalKernel->boot();
+            $drupalKernel->preHandle($request);
 
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
