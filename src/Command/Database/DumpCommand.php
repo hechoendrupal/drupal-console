@@ -92,7 +92,7 @@ class DumpCommand extends Command
                 '%s/%s-%s.sql',
                 $this->appRoot,
                 $databaseConnection['database'],
-                $date->format('Y-m-d-h-i-s')
+                $date->format('Y-m-d-H-i-s')
             );
         }
 
