@@ -20,5 +20,11 @@ services:
     arguments: ['@app.root']
     tags:
       - { name: drupal.command }
+  console.multisite_update:
+    class: Drupal\Console\Command\Multisite\UpdateCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }
   http_client:
     class: GuzzleHttp\Client
+
