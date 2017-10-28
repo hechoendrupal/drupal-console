@@ -301,6 +301,7 @@ class ExecuteCommand extends Command
                     $function,
                     $context
                 );
+                $this->postUpdateRegistry->registerInvokedUpdates([$function]);
             }
         }
 
