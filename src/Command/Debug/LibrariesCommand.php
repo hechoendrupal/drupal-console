@@ -81,22 +81,58 @@ class LibrariesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
-        $group = $input->getArgument('group');
+        $extension = $input->getArgument('group');
 
-        if (!$group) {
+        if (!$extension) {
             $groups = $this->getAllLibraries();
 
+            $tableRow = [];
+
             $tableHeader = [
-                $this->trans('commands.debug.libraries.messages.name'),
+                $this->trans('commands.debug.libraries.messages.extension'),
+                $this->trans('commands.debug.libraries.messages.library'),
             ];
 
-            $io->table($tableHeader, $groups, 'compact');
+            foreach ($groups as $extension) {
+                $library = $this->libraryDiscovery
+                    ->getLibrariesByExtension($extension);
+
+                if (!$library) {
+                    continue;
+                }
+
+                if ($libraryKeys = array_keys($library)) {
+                    $libraryKeys = array_map(
+                        function ($value) use ($extension) {
+                            return $extension . '/' . $value;
+                        },
+                        $libraryKeys
+                    );
+
+                    $tableRow[] = [
+                        $extension,
+                        $libraryKeys = implode("\n", $libraryKeys) . "\n"
+                    ];
+                }
+            }
+
+            $io->table($tableHeader, $tableRow, 'default');
         } else {
+            $libraryName = null;
+            if ($library = explode('/', $extension)) {
+                $extension = $library[0];
+                $libraryName = $library[1];
+            }
+
             $librariesData = $this->libraryDiscovery
-                ->getLibrariesByExtension($group);
+                ->getLibrariesByExtension($extension);
 
             foreach ($librariesData as $key => $libraries) {
-                $io->comment($key);
+                if ($libraryName && $libraryName != $key) {
+                    continue;
+                }
+
+                $io->writeln('<info>'.$extension.'/'.$key.'</info>');
                 $io->writeln(Yaml::encode($libraries));
             }
         }
