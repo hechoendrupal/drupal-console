@@ -120,7 +120,7 @@ class Validator
                 )
             );
         }
-
+        chmod($module_path, 0755);
         return $module_path;
     }
 

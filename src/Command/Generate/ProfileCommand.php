@@ -94,6 +94,12 @@ class ProfileCommand extends Command
                 $this->trans('commands.generate.profile.options.machine-name')
             )
             ->addOption(
+                'base-path',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.generate.profile.options.base-path')
+            )
+            ->addOption(
                 'description',
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -140,17 +146,18 @@ class ProfileCommand extends Command
 
         $profile = $this->validator->validateModuleName($input->getOption('profile'));
         $machine_name = $this->validator->validateMachineName($input->getOption('machine-name'));
+        $base_path = $this->appRoot . $input->getOption('base-path');
+        $base_path = $this->validator->validateModulePath($base_path, true);
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $dependencies = $this->validator->validateExtensions($input->getOption('dependencies'), 'module', $io);
         $themes = $this->validator->validateExtensions($input->getOption('themes'), 'theme', $io);
         $distribution = $input->getOption('distribution');
-        $profile_path = $this->appRoot . '/profiles';
 
         $this->generator->generate(
             $profile,
             $machine_name,
-            $profile_path,
+            $base_path,
             $description,
             $core,
             $dependencies,
@@ -208,6 +215,30 @@ class ProfileCommand extends Command
             );
             $input->setOption('machine-name', $machine_name);
         }
+
+        $base_path = $input->getOption('base-path');
+        if (!$base_path) {
+            $drupalRoot = $this->appRoot;
+            $base_path = $io->ask(
+                $this->trans('commands.generate.profile.questions.base-path'),
+                '/profiles',
+                function ($base_path) use ($drupalRoot, $machine_name) {
+                    $base_path = ($base_path[0] != '/' ? '/' : '').$base_path;
+                    $fullPath = $drupalRoot.$base_path.'/'.$machine_name;
+                    if (file_exists($fullPath)) {
+                        throw new \InvalidArgumentException(
+                            sprintf(
+                                $this->trans('commands.generate.profile.errors.directory-exists'),
+                                $fullPath
+                            )
+                        );
+                    }
+
+                    return $base_path;
+                }
+            );
+        }
+        $input->setOption('base-path', $base_path);
 
         $description = $input->getOption('description');
         if (!$description) {
