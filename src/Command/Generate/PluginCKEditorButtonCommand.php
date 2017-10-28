@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,6 +47,11 @@ class PluginCKEditorButtonCommand extends Command
      */
     protected $stringConverter;
 
+    /**
+     * @var Validator
+     */
+    protected $validator;
+
 
     /**
      * PluginCKEditorButtonCommand constructor.
@@ -54,17 +60,20 @@ class PluginCKEditorButtonCommand extends Command
      * @param PluginCKEditorButtonGenerator $generator
      * @param Manager                       $extensionManager
      * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
      */
     public function __construct(
         ChainQueue $chainQueue,
         PluginCKEditorButtonGenerator $generator,
         Manager $extensionManager,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        Validator $validator
     ) {
         $this->chainQueue = $chainQueue;
         $this->generator = $generator;
         $this->extensionManager = $extensionManager;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -125,7 +134,7 @@ class PluginCKEditorButtonCommand extends Command
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $button_name = $input->getOption('button-name');
@@ -157,7 +166,10 @@ class PluginCKEditorButtonCommand extends Command
         if (!$class_name) {
             $class_name = $io->ask(
                 $this->trans('commands.generate.plugin.ckeditorbutton.questions.class'),
-                'DefaultCKEditorButton'
+                'DefaultCKEditorButton',
+                function ($class_name) {
+                    return $this->validator->validateClassName($class_name);
+                }
             );
             $input->setOption('class', $class_name);
         }

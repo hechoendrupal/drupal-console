@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -45,6 +46,11 @@ class EventSubscriberCommand extends ContainerAwareCommand
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
@@ -60,6 +66,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
      * @param Manager                  $extensionManager
      * @param EventSubscriberGenerator $generator
      * @param StringConverter          $stringConverter
+     * @param Validator                $validator
      * @param EventDispatcherInterface $eventDispatcher
      * @param ChainQueue               $chainQueue
      */
@@ -67,12 +74,14 @@ class EventSubscriberCommand extends ContainerAwareCommand
         Manager $extensionManager,
         EventSubscriberGenerator $generator,
         StringConverter $stringConverter,
+        Validator $validator,
         EventDispatcherInterface $eventDispatcher,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->eventDispatcher = $eventDispatcher;
         $this->chainQueue = $chainQueue;
         parent::__construct();
@@ -134,7 +143,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
 
         $module = $input->getOption('module');
         $name = $input->getOption('name');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateClassName($input->getOption('class'));
         $events = $input->getOption('events');
         $services = $input->getOption('services');
 
@@ -176,7 +185,10 @@ class EventSubscriberCommand extends ContainerAwareCommand
         if (!$class) {
             $class = $io->ask(
                 $this->trans('commands.generate.event.subscriber.questions.class'),
-                'DefaultSubscriber'
+                'DefaultSubscriber',
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }

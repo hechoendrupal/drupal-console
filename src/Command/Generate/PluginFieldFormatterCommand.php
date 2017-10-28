@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,6 +47,11 @@ class PluginFieldFormatterCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
  * @var FieldTypePluginManager
 */
     protected $fieldTypePluginManager;
@@ -62,6 +68,7 @@ class PluginFieldFormatterCommand extends Command
      * @param Manager                       $extensionManager
      * @param PluginFieldFormatterGenerator $generator
      * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
      * @param FieldTypePluginManager        $fieldTypePluginManager
      * @param ChainQueue                    $chainQueue
      */
@@ -69,12 +76,14 @@ class PluginFieldFormatterCommand extends Command
         Manager $extensionManager,
         PluginFieldFormatterGenerator $generator,
         StringConverter $stringConverter,
+        Validator $validator,
         FieldTypePluginManager $fieldTypePluginManager,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->fieldTypePluginManager = $fieldTypePluginManager;
         $this->chainQueue = $chainQueue;
         parent::__construct();
@@ -132,7 +141,7 @@ class PluginFieldFormatterCommand extends Command
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $field_type = $input->getOption('field-type');
@@ -161,7 +170,10 @@ class PluginFieldFormatterCommand extends Command
         if (!$class) {
             $class = $io->ask(
                 $this->trans('commands.generate.plugin.fieldformatter.questions.class'),
-                'ExampleFieldFormatter'
+                'ExampleFieldFormatter',
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }

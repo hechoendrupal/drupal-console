@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -45,23 +46,31 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * PluginBlockCommand constructor.
      *
      * @param PluginMigrateProcessGenerator $generator
      * @param ChainQueue                    $chainQueue
      * @param Manager                       $extensionManager
      * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
      */
     public function __construct(
         PluginMigrateProcessGenerator $generator,
         ChainQueue $chainQueue,
         Manager $extensionManager,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        Validator $validator
     ) {
         $this->generator = $generator;
         $this->chainQueue = $chainQueue;
         $this->extensionManager = $extensionManager;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -104,7 +113,7 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_id = $input->getOption('plugin-id');
 
         $this->generator->generate($module, $class_name, $plugin_id);
@@ -132,7 +141,10 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
         if (!$class) {
             $class = $io->ask(
                 $this->trans('commands.generate.plugin.migrate.process.questions.class'),
-                ucfirst($this->stringConverter->underscoreToCamelCase($module))
+                ucfirst($this->stringConverter->underscoreToCamelCase($module)),
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }

@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,13 +30,13 @@ class RouteSubscriberCommand extends Command
     use ConfirmationTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var RouteSubscriberGenerator
-*/
+     * @var RouteSubscriberGenerator
+     */
     protected $generator;
 
     /**
@@ -44,20 +45,28 @@ class RouteSubscriberCommand extends Command
     protected $chainQueue;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * RouteSubscriberCommand constructor.
      *
      * @param Manager                  $extensionManager
      * @param RouteSubscriberGenerator $generator
      * @param ChainQueue               $chainQueue
+     * @param Validator                $validator
      */
     public function __construct(
         Manager $extensionManager,
         RouteSubscriberGenerator $generator,
-        ChainQueue $chainQueue
+        ChainQueue $chainQueue,
+        Validator $validator
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->chainQueue = $chainQueue;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -104,7 +113,7 @@ class RouteSubscriberCommand extends Command
 
         $module = $input->getOption('module');
         $name = $input->getOption('name');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateClassName($input->getOption('class'));
 
         $this->generator->generate($module, $name, $class);
 
@@ -143,7 +152,10 @@ class RouteSubscriberCommand extends Command
         if (!$class) {
             $class = $io->ask(
                 $this->trans('commands.generate.routesubscriber.questions.class'),
-                'RouteSubscriber'
+                'RouteSubscriber',
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }

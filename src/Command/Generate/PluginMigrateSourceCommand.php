@@ -164,7 +164,7 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_id = $input->getOption('plugin-id');
         $table = $input->getOption('table');
         $alias = $input->getOption('alias');

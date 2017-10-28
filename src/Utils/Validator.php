@@ -14,6 +14,7 @@ class Validator
 {
     const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
     const REGEX_COMMAND_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+Command$/';
+    const REGEX_CONTROLLER_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+Controller$/';
     const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
     // This REGEX remove spaces between words
     const REGEX_REMOVE_SPACES = '/[\\s+]/';
@@ -86,6 +87,27 @@ class Validator
             throw new \InvalidArgumentException(
                 sprintf(
                     'Command name "%s" is invalid, it must starts with a letter or underscore, followed by any number of letters, numbers, or underscores and then with the word \'Command\'.',
+                    $class_name
+                )
+            );
+        }
+    }
+
+    public function validateControllerName($class_name)
+    {
+        if (preg_match(self::REGEX_CONTROLLER_CLASS_NAME, $class_name)) {
+            return $class_name;
+        } elseif (preg_match(self::REGEX_CLASS_NAME, $class_name)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Controller name "%s" is invalid, it must end with the word \'Controller\'',
+                    $class_name
+                )
+            );
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Controller name "%s" is invalid, it must starts with a letter or underscore, followed by any number of letters, numbers, or underscores and then with the word \'Controller\'.',
                     $class_name
                 )
             );

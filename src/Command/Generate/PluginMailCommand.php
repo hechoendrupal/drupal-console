@@ -135,7 +135,7 @@ class PluginMailCommand extends ContainerAwareCommand
         }
 
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
         $services = $input->getOption('services');

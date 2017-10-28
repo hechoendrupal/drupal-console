@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,49 +28,57 @@ class CacheContextCommand extends ContainerAwareCommand
     use ServicesTrait;
 
     /**
-   * @var CacheContextGenerator
-   */
+     * @var CacheContextGenerator
+     */
     protected $generator;
 
     /**
-   * @var ChainQueue
-   */
+     * @var ChainQueue
+     */
     protected $chainQueue;
 
     /**
-   * @var Manager
-   */
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
-   * @var StringConverter
-   */
+     * @var StringConverter
+     */
     protected $stringConverter;
 
     /**
-   * CacheContextCommand constructor.
-   *
-   * @param CacheContextGenerator $generator
-   * @param ChainQueue            $chainQueue
-   * @param Manager               $extensionManager
-   * @param StringConverter       $stringConverter
-   */
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
+     * CacheContextCommand constructor.
+     *
+     * @param CacheContextGenerator $generator
+     * @param ChainQueue            $chainQueue
+     * @param Manager               $extensionManager
+     * @param StringConverter       $stringConverter
+     * @param Validator             $validator
+     */
     public function __construct(
         CacheContextGenerator $generator,
         ChainQueue $chainQueue,
         Manager $extensionManager,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        Validator $validator
     ) {
         $this->generator = $generator;
         $this->chainQueue = $chainQueue;
         $this->extensionManager = $extensionManager;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         parent::__construct();
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -77,10 +86,11 @@ class CacheContextCommand extends ContainerAwareCommand
             ->setDescription($this->trans('commands.generate.cache.context.description'))
             ->setHelp($this->trans('commands.generate.cache.context.description'))
             ->addOption(
-            	'module', 
-            	null, 
-            	InputOption::VALUE_REQUIRED, 
-            	$this->trans('commands.common.options.module'))
+                'module',
+                null,
+                InputOption::VALUE_REQUIRED,
+                $this->trans('commands.common.options.module')
+            )
             ->addOption(
                 'cache-context',
                 null,
@@ -102,8 +112,8 @@ class CacheContextCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -115,7 +125,7 @@ class CacheContextCommand extends ContainerAwareCommand
 
         $module = $input->getOption('module');
         $cache_context = $input->getOption('cache-context');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateClassName($input->getOption('class'));
         $services = $input->getOption('services');
 
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
@@ -127,8 +137,8 @@ class CacheContextCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $io = new DrupalStyle($input, $output);
@@ -156,7 +166,10 @@ class CacheContextCommand extends ContainerAwareCommand
         if (!$class) {
             $class = $io->ask(
                 $this->trans('commands.generate.cache.context.questions.class'),
-                'DefaultCacheContext'
+                'DefaultCacheContext',
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }
