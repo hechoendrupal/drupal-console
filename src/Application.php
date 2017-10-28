@@ -112,6 +112,12 @@ class Application extends BaseApplication
                     $this->container->get('console.file_queue')
                 );
             }
+
+            if (method_exists($generator, 'setCountCodeLines')) {
+                $generator->setCountCodeLines(
+                    $this->container->get('console.count_code_lines')
+                );
+            }
         }
     }
 
