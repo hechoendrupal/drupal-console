@@ -16,9 +16,9 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
-use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 class UninstallCommand extends Command
 {
@@ -60,9 +60,9 @@ class UninstallCommand extends Command
      */
     public function __construct(
         Site $site,
-        ModuleInstaller $moduleInstaller,
+        ModuleInstallerInterface $moduleInstaller,
         ChainQueue $chainQueue,
-        ConfigFactory $configFactory,
+        ConfigFactoryInterface $configFactory,
         Manager $extensionManager
     ) {
         $this->site = $site;

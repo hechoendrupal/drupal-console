@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\Extension\ThemeHandler;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Config\UnmetDependenciesException;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -43,8 +43,8 @@ class InstallCommand extends Command
      * @param ChainQueue    $chainQueue
      */
     public function __construct(
-        ConfigFactory $configFactory,
-        ThemeHandler $themeHandler,
+        ConfigFactoryInterface $configFactory,
+        ThemeHandlerInterface $themeHandler,
         ChainQueue $chainQueue
     ) {
         $this->configFactory = $configFactory;
