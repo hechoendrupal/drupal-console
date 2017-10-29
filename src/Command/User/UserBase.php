@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jmolivas
- * Date: 10/28/17
- * Time: 3:56 PM
- */
 
 namespace Drupal\Console\Command\User;
 
