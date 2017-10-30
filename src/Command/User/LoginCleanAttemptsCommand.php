@@ -10,16 +10,13 @@ namespace Drupal\Console\Command\User;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Command\Command;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\user\Entity\User;
 
-class LoginCleanAttemptsCommand extends Command
+class LoginCleanAttemptsCommand extends UserBase
 {
-    use ConfirmationTrait;
-
     /**
      * @var Connection
      */
@@ -28,12 +25,15 @@ class LoginCleanAttemptsCommand extends Command
     /**
      * LoginCleanAttemptsCommand constructor.
      *
-     * @param Connection $database
+     * @param Connection                 $database
+     * @param EntityTypeManagerInterface $entityTypeManager
      */
-    public function __construct(Connection $database)
-    {
+    public function __construct(
+        Connection $database,
+        EntityTypeManagerInterface $entityTypeManager
+    ) {
         $this->database = $database;
-        parent::__construct();
+        parent::__construct($entityTypeManager);
     }
 
     /**
@@ -46,9 +46,9 @@ class LoginCleanAttemptsCommand extends Command
             ->setDescription($this->trans('commands.user.login.clear.attempts.description'))
             ->setHelp($this->trans('commands.user.login.clear.attempts.help'))
             ->addArgument(
-                'uid',
+                'user',
                 InputArgument::REQUIRED,
-                $this->trans('commands.user.login.clear.attempts.options.user-id')
+                $this->trans('commands.user.login.clear.attempts.arguments.user')
             )
             ->setAliases(['ulca']);
     }
@@ -60,39 +60,13 @@ class LoginCleanAttemptsCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $uid = $input->getArgument('uid');
-        // Check if $uid argument is already set.
-        if (!$uid) {
-            while (true) {
-                // Request $uid argument.
-                $uid = $io->ask(
-                    $this->trans('commands.user.login.clear.attempts.questions.uid'),
-                    1,
-                    function ($uid) use ($io) {
-                        $message = (!is_numeric($uid)) ?
-                        $this->trans('commands.user.login.clear.attempts.questions.numeric-uid') :
-                        false;
-                        // Check if $uid is upper than zero.
-                        if (!$message && $uid <= 0) {
-                            $message = $this->trans('commands.user.login.clear.attempts.questions.invalid-uid');
-                        }
-                        // Check if message was defined.
-                        if ($message) {
-                            $io->error($message);
+        $user = $input->getArgument('user');
+        if (!$user) {
+            $user = $io->ask(
+                $this->trans('commands.user.login.clear.attempts.questions.user')
+            );
 
-                            return false;
-                        }
-                        // Return a valid $uid.
-                        return (int) $uid;
-                    }
-                );
-
-                if ($uid) {
-                    break;
-                }
-            }
-
-            $input->setArgument('uid', $uid);
+            $input->setArgument('user', $user);
         }
     }
 
@@ -103,15 +77,14 @@ class LoginCleanAttemptsCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        $uid = $input->getArgument('uid');
-        $account = User::load($uid);
+        $user = $input->getArgument('user');
+        $userEntity = $this->getUserEntity($user);
 
-        if (!$account) {
-            // Error loading User entity.
+        if (!$userEntity) {
             $io->error(
                 sprintf(
                     $this->trans('commands.user.login.clear.attempts.errors.invalid-user'),
-                    $uid
+                    $user
                 )
             );
 
@@ -122,7 +95,7 @@ class LoginCleanAttemptsCommand extends Command
         $event = 'user.failed_login_user';
         // Identifier is created by uid and IP address,
         // Then we defined a generic identifier.
-        $identifier = "{$account->id()}-";
+        $identifier = "{$userEntity->id()}-";
 
         // Retrieve current database connection.
         $schema = $this->database->schema();
@@ -146,7 +119,7 @@ class LoginCleanAttemptsCommand extends Command
         $io->success(
             sprintf(
                 $this->trans('commands.user.login.clear.attempts.messages.successful'),
-                $uid
+                $userEntity->getUsername()
             )
         );
     }
