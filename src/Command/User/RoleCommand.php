@@ -65,8 +65,9 @@ class RoleCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new DrupalStyle($input, $output);
         $operation = $input->getArgument('operation');
         $user = $input->getArgument('user');
         $role = $input->getArgument('role');
@@ -76,17 +77,6 @@ class RoleCommand extends Command
                 $this->trans('commands.user.role.messages.bad-arguments')
             );
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $io = new DrupalStyle($input, $output);
-        $operation = $input->getArgument('operation');
-        $user = $input->getArgument('user');
-        $role = $input->getArgument('role');
 
         $systemRoles = $this->drupalApi->getRoles();
 

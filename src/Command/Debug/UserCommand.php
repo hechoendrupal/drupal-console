@@ -160,11 +160,18 @@ class UserCommand extends Command
         foreach ($users as $userId => $user) {
             $userRoles = [];
             foreach ($user->getRoles() as $userRole) {
-                $userRoles[] = $systemRoles[$userRole];
+                if ($systemRoles[$userRole]) {
+                    $userRoles[] = $systemRoles[$userRole];
+                }
             }
 
             $status = $user->isActive()?$this->trans('commands.common.status.enabled'):$this->trans('commands.common.status.disabled');
-            $tableRows[] = [$userId, $user->getUsername(), implode(', ', $userRoles), $status];
+            $tableRows[] = [
+                $userId,
+                $user->getUsername(),
+                implode(', ', $userRoles),
+                $status
+            ];
         }
 
         $io->table($tableHeader, $tableRows);

@@ -6,7 +6,7 @@ services:
       - { name: drupal.command }
   console.user_login_clear_attempts:
     class: Drupal\Console\Command\User\LoginCleanAttemptsCommand
-    arguments: ['@database']
+    arguments: ['@database', '@entity_type.manager']
     tags:
       - { name: drupal.command }
   console.user_login_url:
@@ -21,12 +21,12 @@ services:
       - { name: drupal.command }
   console.user_password_reset:
     class: Drupal\Console\Command\User\PasswordResetCommand
-    arguments: ['@database', '@console.chain_queue']
+    arguments: ['@database', '@console.chain_queue', '@entity_type.manager']
     tags:
       - { name: drupal.command }
   console.user_role:
     class: Drupal\Console\Command\User\RoleCommand
-    arguments: ['@console.drupal_api']
+    arguments: ['@console.drupal_api', '@entity_type.manager']
     tags:
       - { name: drupal.command }
   console.user_create:
