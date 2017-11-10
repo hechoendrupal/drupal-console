@@ -10,6 +10,8 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
 use Drupal\Console\Core\Utils\DrupalFinder;
+use Drupal\Component\FileCache\FileCacheFactory;
+use Drupal\Core\Site\Settings;
 
 class Drupal
 {
@@ -143,9 +145,26 @@ class Drupal
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Rebuilding container');
             }
+
+            // Fix an exception of FileCacheFactory not prefix not set when
+            // container is build and looks that as we depend on cache for
+            // AddServicesCompilerPass but container is not ready this prefix
+            // needs to be set manually to allow use of the cache files.
+            FileCacheFactory::setPrefix($this->drupalFinder->getDrupalRoot());
+
+            // Invalidate container to ensure rebuild of any cached state
+            // when boot is processed.
             $drupalKernel->invalidateContainer();
-            $drupalKernel->rebuildContainer();
+
+            // Looks that the boot process is handling an initializeContainer
+            // so looks that rebuildContainer repeats what we finally do in boot().
+            //$drupalKernel->rebuildContainer();
+
+            // Load legacy libraries, modules, register stream wrapper, and push
+            // request to request stack but without trigger processing of '/'
+            // request that invokes hooks like hook_page_attachments().
             $drupalKernel->boot();
+            $drupalKernel->preHandle($request);
 
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
