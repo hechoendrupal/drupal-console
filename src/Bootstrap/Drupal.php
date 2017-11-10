@@ -134,10 +134,8 @@ class Drupal
             $drupalKernel->addServiceModifier(
                 new DrupalServiceModifier(
                     $this->drupalFinder->getComposerRoot(),
-                    $this->drupalFinder->getDrupalRoot(),
                     'drupal.command',
-                    'drupal.generator',
-                    $rebuildServicesFile
+                    'drupal.generator'
                 )
             );
 
@@ -156,21 +154,17 @@ class Drupal
             // when boot is processed.
             $drupalKernel->invalidateContainer();
 
-            // Looks that the boot process is handling an initializeContainer
-            // so looks that rebuildContainer repeats what we finally do in boot().
-            //$drupalKernel->rebuildContainer();
-
             // Load legacy libraries, modules, register stream wrapper, and push
             // request to request stack but without trigger processing of '/'
             // request that invokes hooks like hook_page_attachments().
             $drupalKernel->boot();
             $drupalKernel->preHandle($request);
-
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
             }
 
             $container = $drupalKernel->getContainer();
+
             $container->set(
                 'console.root',
                 $this->drupalFinder->getComposerRoot()
@@ -187,14 +181,6 @@ class Drupal
                     $this->drupalFinder->getComposerRoot()
                 );
 
-            $consoleExtendConfigFile = $this->drupalFinder
-                ->getComposerRoot() . DRUPAL_CONSOLE
-                    .'/extend.console.config.yml';
-            if (file_exists($consoleExtendConfigFile)) {
-                $container->get('console.configuration_manager')
-                    ->importConfigurationFile($consoleExtendConfigFile);
-            }
-
             $container->get('console.renderer')
                 ->setSkeletonDirs(
                     [
@@ -205,7 +191,7 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
-            if ($command == 'list') {
+            if ($command != 'about') {
                 $io->error($e->getMessage());
             }
             $drupal = new DrupalConsoleCore(

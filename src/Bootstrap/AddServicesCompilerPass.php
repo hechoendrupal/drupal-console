@@ -2,18 +2,13 @@
 
 namespace Drupal\Console\Bootstrap;
 
-use Drupal\Console\Utils\Site;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Utils\TranslatorManager;
-use Drupal\Console\Extension\Extension;
-use Drupal\Console\Extension\Manager;
 use Drupal\Core\Cache\ListCacheBinsPass;
-use GuzzleHttp\Client;
 
 /**
  * FindCommandsCompilerPass
@@ -36,17 +31,18 @@ class AddServicesCompilerPass implements CompilerPassInterface
     protected $rebuild;
 
     /**
+     * @var YamlFileLoader
+     */
+    protected $loader;
+
+    /**
      * AddCommandsCompilerPass constructor.
      *
      * @param string  $root
-     * @param string  $appRoot
-     * @param boolean $rebuild
      */
-    public function __construct($root, $appRoot, $rebuild = false)
+    public function __construct($root)
     {
         $this->root = $root;
-        $this->appRoot = $appRoot;
-        $this->rebuild = $rebuild;
     }
 
     /**
@@ -54,35 +50,30 @@ class AddServicesCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader(
+        $this->loader = new YamlFileLoader(
             $container,
             new FileLocator($this->root)
         );
 
-        $servicesFiles = [
-            $this->root. DRUPAL_CONSOLE_CORE . 'services.yml',
-            $this->root. DRUPAL_CONSOLE . 'uninstall.services.yml',
-            $this->root. DRUPAL_CONSOLE . 'services.yml'
-        ];
+        // Load DrupalConsole services
+        $this->addDrupalConsoleServices();
 
-        foreach ($servicesFiles as $servicesFile) {
-            if (file_exists($servicesFile)) {
-                $loader->load($servicesFile);
-            }
-        }
-
+        // Load configuration from directory
         $container->get('console.configuration_manager')
             ->loadConfiguration($this->root)
             ->getConfiguration();
 
-        /**
-         * @var Site $site
-         */
-        $site = $container->get('console.site');
+        // Set console.root services
         $container->set(
             'console.root',
             $this->root
         );
+
+        // Load DrupalConsole services
+        $this->addDrupalConsoleConfigServices();
+
+        // Load DrupalConsole extended services
+        $this->addDrupalConsoleExtendedServices();
 
         // The AddServicesCompilerPass cache pass is executed before the
         // ListCacheBinsPass causing exception: ParameterNotFoundException: You
@@ -90,159 +81,62 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $cache_pass = new ListCacheBinsPass();
         $cache_pass->process($container);
 
-        // Fix ContainerNotInitializedException: \Drupal::$container is not initialized yet.
-        // \Drupal::setContainer() must be called with a real container. The use of stream_wrapper.temporary
-        // service at cachedServicesFileExists method uses the container that in compiler pass
-        // is not ready to use: https://github.com/symfony/symfony/issues/22125#issuecomment-288734689
-        // This is workaroud works but seems that we cannot depend on services at this stage.
-        \Drupal::setContainer($container);
+        // Override TranslatorManager service definition
+        $translatorManagerDefinition = $container
+            ->getDefinition('console.translator_manager');
+        $translatorManagerDefinition->setClass(TranslatorManager::class);
 
-        // Avoid Error: Call to undefined function
-        // Drupal\Core\StreamWrapper\file_directory_temp() in TemporaryStream
-        // that seems to be needed to the cache services and when no other
-        // stream wrapper is available defaults ont TemporaryStream.
-        $site->loadLegacyFile('/core/includes/file.inc');
-
-        if (!$this->rebuild && $site->cachedServicesFileExists()) {
-            $loader->load($site->getCachedServicesFile());
-        } else {
-            $site->removeCachedServicesFile();
-
-            $finder = new Finder();
-            $finder->files()
-                ->name('*.yml')
-                ->in(
-                    sprintf(
-                        '%s/config/services',
-                        $this->root.DRUPAL_CONSOLE
-                    )
-                );
-
-            $servicesData = [];
-            foreach ($finder as $file) {
-                $loader->load($file->getPathName());
-                $servicesData = $this->extractServiceData(
-                    $file->getPathName(),
-                    $servicesData
-                );
-            }
-
-            // Avoid to use the container to get the console.extension_manager due
-            // container is not ready and cause exceptions.
-
-            /**
-             * @var GuzzleHttp\Client $httpClient
-             */
-            $httpClient = new Client;
-            /**
-             * @var Manager $extensionManager
-             */
-            $extensionManager = new Manager($site, $httpClient, $this->appRoot);
-
-            /**
-             * @var Extension[] $modules
-             */
-            $modules = $extensionManager->discoverModules()
-                ->showCore()
-                ->showNoCore()
-                ->showInstalled()
-                ->getList(false);
-
-            foreach ($modules as $module) {
-                $consoleServicesExtensionFile = $this->appRoot . '/' .
-                    $module->getPath() . '/console.services.yml';
-                if (is_file($consoleServicesExtensionFile)) {
-                    $loader->load($consoleServicesExtensionFile);
-                    $servicesData = $this->extractServiceData(
-                        $consoleServicesExtensionFile,
-                        $servicesData
-                    );
-                }
-            }
-
-            /**
-             * @var Extension[] $themes
-             */
-            $themes = $extensionManager->discoverThemes()
-                ->showNoCore()
-                ->showInstalled()
-                ->getList(false);
-
-            foreach ($themes as $theme) {
-                $consoleServicesExtensionFile = $this->appRoot . '/' .
-                    $theme->getPath() . '/console.services.yml';
-                if (is_file($consoleServicesExtensionFile)) {
-                    $loader->load($consoleServicesExtensionFile);
-                    $servicesData = $this->extractServiceData(
-                        $consoleServicesExtensionFile,
-                        $servicesData
-                    );
-                }
-            }
-
-            if ($servicesData) {
-                file_put_contents(
-                    $site->getCachedServicesFile(),
-                    Yaml::dump($servicesData, 4, 2)
-                );
-            }
-        }
-
-        $extendServicesFiles = [
-            $this->root . DRUPAL_CONSOLE . 'extend.console.services.yml',
-            $this->root . DRUPAL_CONSOLE . 'extend.console.uninstall.services.yml',
-        ];
-
-        foreach ($extendServicesFiles as $extendServicesFile) {
-            if (file_exists($extendServicesFile)) {
-                $loader->load($extendServicesFile);
-            }
-        }
-
-        $configurationManager = $container->get('console.configuration_manager');
-        $directory = $configurationManager->getConsoleDirectory() . 'extend/';
-        $autoloadFile = $directory . 'vendor/autoload.php';
-        if (is_file($autoloadFile)) {
-            include_once $autoloadFile;
-
-            $extendServicesFiles = [
-                $directory . 'extend.console.services.yml',
-                $directory . 'extend.console.uninstall.services.yml',
-            ];
-
-            foreach ($extendServicesFiles as $extendServicesFile) {
-                if (file_exists($extendServicesFile)) {
-                    $loader->load($extendServicesFile);
-                }
-            }
-        }
-
+        // Set console.service_definitions service
         $container->setParameter(
             'console.service_definitions',
             $container->getDefinitions()
         );
-
-        $definition = $container->getDefinition('console.translator_manager');
-        $definition->setClass(TranslatorManager::class);
     }
 
-    /**
-     * @param $filePath
-     * @param $servicesData
-     *
-     * @return array
-     */
-    protected function extractServiceData($filePath, $servicesData)
+    protected function addDrupalConsoleServiceFiles($servicesFiles)
     {
-        $serviceFileData = Yaml::parse(
-            file_get_contents($filePath)
-        );
+        foreach ($servicesFiles as $servicesFile) {
+            if (file_exists($servicesFile)) {
+                $this->loader->load($servicesFile);
+            }
+        }
+    }
 
-        $servicesData = array_merge_recursive(
-            $servicesData,
-            $serviceFileData
-        );
+    protected function addDrupalConsoleServices()
+    {
+        $servicesFiles = [
+            $this->root. DRUPAL_CONSOLE_CORE . 'services.yml',
+            $this->root. DRUPAL_CONSOLE . 'uninstall.services.yml',
+            $this->root. DRUPAL_CONSOLE . 'services.yml'
+        ];
 
-        return $servicesData;
+        $this->addDrupalConsoleServiceFiles($servicesFiles);
+    }
+
+    protected function addDrupalConsoleConfigServices()
+    {
+        $finder = new Finder();
+        $finder->files()
+            ->name('*.yml')
+            ->in(
+                sprintf(
+                    '%s/config/services',
+                    $this->root.DRUPAL_CONSOLE
+                )
+            );
+
+        foreach ($finder as $file) {
+            $this->loader->load($file->getPathName());
+        }
+    }
+
+    protected function addDrupalConsoleExtendedServices()
+    {
+        $servicesFiles = [
+            $this->root . DRUPAL_CONSOLE . 'extend.console.services.yml',
+            $this->root . DRUPAL_CONSOLE . 'extend.console.uninstall.services.yml',
+        ];
+
+        $this->addDrupalConsoleServiceFiles($servicesFiles);
     }
 }
