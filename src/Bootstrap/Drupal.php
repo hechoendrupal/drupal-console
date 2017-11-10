@@ -191,9 +191,6 @@ class Drupal
 
             return $container;
         } catch (\Exception $e) {
-            if ($command != 'about') {
-                $io->error($e->getMessage());
-            }
             $drupal = new DrupalConsoleCore(
                 $this->drupalFinder->getComposerRoot(),
                 $this->drupalFinder->getDrupalRoot()
