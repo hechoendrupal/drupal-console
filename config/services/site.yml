@@ -21,6 +21,6 @@ services:
       - { name: drupal.command }
   console.site_status:
     class: Drupal\Console\Command\Site\StatusCommand
-    arguments: ['@system.manager', '@settings', '@config.factory', '@theme_handler', '@app.root']
+    arguments: ['@?system.manager', '@settings', '@config.factory', '@theme_handler', '@app.root']
     tags:
       - { name: drupal.command }
