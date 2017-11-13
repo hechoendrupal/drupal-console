@@ -20,7 +20,7 @@ class DrupalCommand
     public $extension;
 
     /**
-     * @var string
+     * @Enum({"module", "theme", "profile", "library"})
      */
     public $extensionType;
 
