@@ -59,110 +59,46 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $this->registerGenerators();
-        $this->registerCommands();
-        $clear = $this->container->get('console.configuration_manager')
-            ->getConfiguration()
-            ->get('application.clear')?:false;
-        if ($clear === true || $clear === 'true') {
-            $output->write(sprintf("\033\143"));
-        }
+        $this->validateCommands();
 
-        $exitCode = parent::doRun($input, $output);
-        return $exitCode;
+        return parent::doRun($input, $output);
     }
 
-    private function registerGenerators()
+    public function validateCommands()
     {
-        if ($this->container->hasParameter('drupal.generators')) {
-            $consoleGenerators = $this->container->getParameter(
-                'drupal.generators'
-            );
-        } else {
-            $consoleGenerators = array_keys(
-                $this->container->findTaggedServiceIds('drupal.generator')
-            );
+        $consoleCommands = $this->container
+            ->findTaggedServiceIds('drupal.command');
+
+        if (!$consoleCommands) {
+            return;
         }
 
-        foreach ($consoleGenerators as $name) {
-            if (!$this->container->has($name)) {
-                continue;
-            }
-
-            try {
-                $generator = $this->container->get($name);
-            } catch (\Exception $e) {
-                echo $name . ' - ' . $e->getMessage() . PHP_EOL;
-
-                continue;
-            }
-
-            if (!$generator) {
-                continue;
-            }
-
-            if (method_exists($generator, 'setRenderer')) {
-                $generator->setRenderer(
-                    $this->container->get('console.renderer')
-                );
-            }
-
-            if (method_exists($generator, 'setFileQueue')) {
-                $generator->setFileQueue(
-                    $this->container->get('console.file_queue')
-                );
-            }
-
-            if (method_exists($generator, 'setCountCodeLines')) {
-                $generator->setCountCodeLines(
-                    $this->container->get('console.count_code_lines')
-                );
-            }
-        }
-    }
-
-    private function registerCommands()
-    {
-        if ($this->container->hasParameter('drupal.commands')) {
-            $consoleCommands = $this->container->getParameter(
-                'drupal.commands'
-            );
-        } else {
-            $consoleCommands = array_keys(
-                $this->container->findTaggedServiceIds('drupal.command')
-            );
-            $this->container->setParameter(
-                'console.warning',
-                'application.site.errors.settings'
-            );
+        if (!$this->container->hasParameter('console.service_definitions')) {
+            return;
         }
 
-        $serviceDefinitions = [];
-        $annotationValidator = null;
-        $annotationCommandReader = null;
-        if ($this->container->hasParameter('console.service_definitions')) {
-            $serviceDefinitions = $this->container
-                ->getParameter('console.service_definitions');
+        $serviceDefinitions = $this->container
+            ->getParameter('console.service_definitions');
 
-            /**
-             * @var DrupalCommandAnnotationReader $annotationCommandReader
-             */
-            $annotationCommandReader = $this->container
-                ->get('console.annotation_command_reader');
-
-            /**
-             * @var AnnotationValidator $annotationValidator
-             */
-            $annotationValidator = $this->container
-                ->get('console.annotation_validator');
+        if (!$serviceDefinitions) {
+            return;
         }
 
-        $aliases = $this->container->get('console.configuration_manager')
-            ->getConfiguration()
-            ->get('application.commands.aliases')?:[];
+        /**
+         * @var DrupalCommandAnnotationReader $annotationCommandReader
+         */
+        $annotationCommandReader = $this->container
+            ->get('console.annotation_command_reader');
 
-        foreach ($consoleCommands as $name) {
+        /**
+         * @var AnnotationValidator $annotationValidator
+         */
+        $annotationValidator = $this->container
+            ->get('console.annotation_validator');
 
+        $invalidCommands = [];
+
+        foreach ($consoleCommands as $name => $tags) {
             AnnotationRegistry::reset();
             AnnotationRegistry::registerLoader(
                 [
@@ -172,66 +108,40 @@ class Application extends BaseApplication
             );
 
             if (!$this->container->has($name)) {
+                $invalidCommands[] = $name;
                 continue;
             }
 
-            if ($annotationValidator && $annotationCommandReader) {
-                if (!$serviceDefinition = $serviceDefinitions[$name]) {
-                    continue;
-                }
-
-                if (!$annotationValidator->isValidCommand($serviceDefinition->getClass())) {
-                    continue;
-                }
-
-                $annotation = $annotationCommandReader
-                    ->readAnnotation($serviceDefinition->getClass());
-                if ($annotation) {
-                    $this->container->get('console.translator_manager')
-                        ->addResourceTranslationsByExtension(
-                            $annotation['extension'],
-                            $annotation['extensionType']
-                        );
-                }
-            }
-
-            try {
-                $command = $this->container->get($name);
-            } catch (\Exception $e) {
-                echo $name . ' - ' . $e->getMessage() . PHP_EOL;
-
+            if (!$serviceDefinition = $serviceDefinitions[$name]) {
+                $invalidCommands[] = $name;
                 continue;
             }
 
-            if (!$command) {
+            if (!$annotationValidator->isValidCommand(
+                $serviceDefinition->getClass()
+            )
+            ) {
+                $invalidCommands[] = $name;
                 continue;
             }
 
-            if (method_exists($command, 'setTranslator')) {
-                $command->setTranslator(
-                    $this->container->get('console.translator_manager')
-                );
+            $annotation = $annotationCommandReader
+                ->readAnnotation($serviceDefinition->getClass());
+            if ($annotation) {
+                $this->container->get('console.translator_manager')
+                    ->addResourceTranslationsByExtension(
+                        $annotation['extension'],
+                        $annotation['extensionType']
+                    );
             }
-
-            if (method_exists($command, 'setContainer')) {
-                $command->setContainer(
-                    $this->container->get('service_container')
-                );
-            }
-
-            if (array_key_exists($command->getName(), $aliases)) {
-                $commandAliases = array_unique(array_merge(
-                    $command->getAliases()?$command->getAliases():[],
-                    array_key_exists($command->getName(), $aliases)?$aliases[$command->getName()]:[]
-                ));
-                if (!is_array($commandAliases)) {
-                    $commandAliases = [$commandAliases];
-                }
-                $command->setAliases($commandAliases);
-            }
-
-            $this->add($command);
         }
+
+        $this->container->set(
+            'console.invalid_commands',
+            $invalidCommands
+        );
+
+        return;
     }
 
     public function getData()
@@ -398,12 +308,5 @@ class Application extends BaseApplication
         ];
 
         return $data;
-    }
-
-    public function setContainer($container)
-    {
-        $this->container = $container;
-        $this->registerGenerators();
-        $this->registerCommands();
     }
 }

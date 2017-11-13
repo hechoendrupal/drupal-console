@@ -38,7 +38,7 @@ class AddServicesCompilerPass implements CompilerPassInterface
     /**
      * AddCommandsCompilerPass constructor.
      *
-     * @param string  $root
+     * @param string $root
      */
     public function __construct($root)
     {
@@ -90,6 +90,12 @@ class AddServicesCompilerPass implements CompilerPassInterface
         $container->setParameter(
             'console.service_definitions',
             $container->getDefinitions()
+        );
+
+        // Set console.invalid_commands service
+        $container->set(
+            'console.invalid_commands',
+            null
         );
     }
 
