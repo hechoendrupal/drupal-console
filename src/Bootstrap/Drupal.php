@@ -6,14 +6,16 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Drupal\Component\FileCache\FileCacheFactory;
+use Drupal\Core\Site\Settings;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
 use Drupal\Console\Core\Utils\DrupalFinder;
-use Drupal\Component\FileCache\FileCacheFactory;
-use Drupal\Core\Site\Settings;
+use Drupal\Console\Core\Bootstrap\DrupalInterface;
 
-class Drupal
+class Drupal implements DrupalInterface
 {
     protected $autoload;
 
@@ -74,10 +76,10 @@ class Drupal
                 }
             }
 
-            $rebuildServicesFile = false;
-            if ($command=='cache:rebuild' || $command=='cr') {
-                $rebuildServicesFile = true;
-            }
+            //            $rebuildServicesFile = false;
+            //            if ($command=='cache:rebuild' || $command=='cr') {
+            //                $rebuildServicesFile = true;
+            //            }
 
             if ($debug) {
                 $io->writeln('➤ Creating request');

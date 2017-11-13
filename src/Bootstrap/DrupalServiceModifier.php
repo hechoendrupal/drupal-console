@@ -7,6 +7,7 @@ use Drupal\Core\DependencyInjection\ContainerBuilder;
 
 /**
  * Class DrupalServiceModifier
+ *
  * @package Drupal\Console\Bootstrap
  */
 class DrupalServiceModifier implements ServiceModifierInterface
@@ -29,9 +30,9 @@ class DrupalServiceModifier implements ServiceModifierInterface
     /**
      * DrupalServiceModifier constructor.
      *
-     * @param string  $root
-     * @param string  $serviceTag
-     * @param string  $generatorTag
+     * @param string $root
+     * @param string $serviceTag
+     * @param string $generatorTag
      */
     public function __construct(
         $root = null,
@@ -52,11 +53,11 @@ class DrupalServiceModifier implements ServiceModifierInterface
             new AddServicesCompilerPass($this->root)
         );
 
-        $container->addCompilerPass(
-            new FindCommandsCompilerPass($this->commandTag)
-        );
-        $container->addCompilerPass(
-            new FindGeneratorsCompilerPass($this->generatorTag)
-        );
+        //        $container->addCompilerPass(
+        //            new FindCommandsCompilerPass($this->commandTag)
+        //        );
+        //        $container->addCompilerPass(
+        //            new FindGeneratorsCompilerPass($this->generatorTag)
+        //        );
     }
 }
