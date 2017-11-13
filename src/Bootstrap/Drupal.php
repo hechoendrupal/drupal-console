@@ -76,11 +76,6 @@ class Drupal implements DrupalInterface
                 }
             }
 
-            //            $rebuildServicesFile = false;
-            //            if ($command=='cache:rebuild' || $command=='cr') {
-            //                $rebuildServicesFile = true;
-            //            }
-
             if ($debug) {
                 $io->writeln('➤ Creating request');
             }

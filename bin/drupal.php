@@ -64,7 +64,7 @@ if ($configuration && $options = $configuration->get('application.options') ?: [
 }
 $argvInputReader->setOptionsAsArgv();
 
-if ($debug){
+if ($debug) {
     $io->writeln(
         sprintf(
             '<info>%s</info> version <comment>%s</comment>',
@@ -84,4 +84,5 @@ if (!$container) {
 }
 
 $application = new Application($container);
+$application->setDrupal($drupal);
 $application->run();
