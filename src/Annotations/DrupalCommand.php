@@ -28,4 +28,9 @@ class DrupalCommand
      * @var array
      */
     public $dependencies;
+
+    /**
+     * @Enum({"none", "site", "install"})
+     */
+    public $bootstrap;
 }
