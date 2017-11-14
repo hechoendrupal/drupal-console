@@ -6,7 +6,6 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Drupal\Component\FileCache\FileCacheFactory;
 use Drupal\Core\Site\Settings;
 use Drupal\Console\Core\Style\DrupalStyle;
@@ -194,6 +193,22 @@ class Drupal implements DrupalInterface
             );
             $container = $drupal->boot();
             $container->set('class_loader', $this->autoload);
+
+            $notifyErrorCodes = [
+                0,
+                1045,
+                1049,
+                2002,
+            ];
+
+            if (in_array($e->getCode(), $notifyErrorCodes)) {
+                $messageParser = $container->get('console.message_parser');
+                $messageParser->addMessage(
+                    $container,
+                    'error',
+                    $e->getMessage()
+                );
+            }
 
             return $container;
         }
