@@ -142,3 +142,8 @@ services:
     class: Drupal\Console\Command\Debug\FeaturesCommand
     tags:
       - { name: drupal.command }
+  console.roles_debug:
+    class: Drupal\Console\Command\Debug\RolesCommand
+    arguments: ['@console.drupal_api']
+    tags:
+      - { name: drupal.command }
