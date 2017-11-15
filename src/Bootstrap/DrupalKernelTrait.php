@@ -94,7 +94,7 @@ trait DrupalKernelTrait
     public function addDrupalServiceFiles($servicesFiles) {
         $this->serviceYamls['site'] = array_merge(
             $this->serviceYamls['site'],
-            $servicesFiles, 'file_exists'
+            $servicesFiles
         );
     }
 
