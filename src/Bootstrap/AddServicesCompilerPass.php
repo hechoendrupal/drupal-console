@@ -3,6 +3,7 @@
 namespace Drupal\Console\Bootstrap;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -69,17 +70,25 @@ class AddServicesCompilerPass implements CompilerPassInterface
             $this->root
         );
 
-        // Load DrupalConsole services
-        $this->addDrupalConsoleConfigServices();
-
-        // Load DrupalConsole extended services
-        $this->addDrupalConsoleExtendedServices();
-
         // The AddServicesCompilerPass cache pass is executed before the
         // ListCacheBinsPass causing exception: ParameterNotFoundException: You
         // have requested a non-existent parameter "cache_default_bin_backends"
         $cache_pass = new ListCacheBinsPass();
         $cache_pass->process($container);
+
+        // Fix. You have requested a non-existent service "cache.backend.null"
+        if (!$container->hasDefinition('cache.backend.null')) {
+            $container->setDefinition(
+                'cache.backend.null',
+                new Definition('Drupal\Core\Cache\NullBackendFactory')
+            );
+        }
+
+        // Load DrupalConsole services
+        $this->addDrupalConsoleConfigServices();
+
+        // Load DrupalConsole extended services
+        $this->addDrupalConsoleExtendedServices();
 
         // Override TranslatorManager service definition
         $translatorManagerDefinition = $container
