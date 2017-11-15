@@ -57,9 +57,14 @@ trait DrupalKernelTrait
      */
     public function discoverServiceProviders()
     {
-        // Discover all Drupal service providers
+        // Discover Drupal service providers
         parent::discoverServiceProviders();
 
+        // Discover Drupal Console service providers
+        $this->discoverDrupalConsoleServiceProviders();
+    }
+
+    public function discoverDrupalConsoleServiceProviders() {
         $drupalFinder = new DrupalFinder();
         $drupalFinder->locateRoot(getcwd());
 
@@ -82,7 +87,15 @@ trait DrupalKernelTrait
                 $servicesFiles[] = $servicesFile;
             }
         }
-        $this->addServiceFiles($servicesFiles);
+
+        $this->addDrupalServiceFiles($servicesFiles);
+    }
+
+    public function addDrupalServiceFiles($servicesFiles) {
+        $this->serviceYamls['site'] = array_merge(
+            $this->serviceYamls['site'],
+            $servicesFiles
+        );
     }
 
     protected function addDrupalConsoleThemeServices($root)
