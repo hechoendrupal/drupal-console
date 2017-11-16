@@ -40,10 +40,7 @@ class RoleData extends Base
     /**
      * Create and returns an array of new Roles.
      *
-     * @param $roles
      * @param $limit
-     * @param $password
-     * @param $timeRange
      *
      * @return array
      */

@@ -174,6 +174,14 @@ class NewCommand extends Command
         }
     }
 
+    /**
+     * Create and returns an array of new role
+     *
+     * @param $rolename
+     * @param $machine_name
+     *
+     * @return $array
+     */
     private function createRole($rolename, $machine_name)
     {
         $role = Role::create(
