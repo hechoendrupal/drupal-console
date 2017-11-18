@@ -244,21 +244,12 @@ class Drupal implements DrupalInterface
             return true;
         }
 
-        $database = $container->get('database');
-        $validateTables = [
-            'sessions',
-            'key_value'
-        ];
-
-        foreach ($validateTables as $table) {
-            $tableExists = $database
-                ->schema()
-                ->tableExists($table);
-            if (!$tableExists) {
-                return true;
-            }
+        if (!$container->has('database')) {
+            return true;
         }
 
+
+        return !$container->get('database')->schema()->tableExists('sessions');
     }
 
 }
