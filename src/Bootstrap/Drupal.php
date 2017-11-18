@@ -37,6 +37,7 @@ class Drupal implements DrupalInterface
 
     /**
      * Boot the Drupal object
+     *
      * @return \Symfony\Component\DependencyInjection\ContainerBuilder
      */
     public function boot()
@@ -195,7 +196,6 @@ class Drupal implements DrupalInterface
 
             return $container;
         } catch (\Exception $e) {
-
             $container = $this->bootDrupalConsoleCore();
             $container->set('class_loader', $this->autoload);
 
@@ -221,9 +221,11 @@ class Drupal implements DrupalInterface
 
     /**
      * Builds and boot a DrupalConsoleCore object
+     *
      * @return \Symfony\Component\DependencyInjection\ContainerBuilder
      */
-    protected function bootDrupalConsoleCore() {
+    protected function bootDrupalConsoleCore()
+    {
         $drupal = new DrupalConsoleCore(
             $this->drupalFinder->getComposerRoot(),
             $this->drupalFinder->getDrupalRoot()
@@ -235,11 +237,11 @@ class Drupal implements DrupalInterface
     /**
      * Validate if flow should redirect to DrupalCore
      *
-     * @param $container
+     * @param  $container
      * @return bool
      */
-    protected function shouldRedirectToDrupalCore($container) {
-
+    protected function shouldRedirectToDrupalCore($container)
+    {
         if (!Database::getConnectionInfo()) {
             return true;
         }
@@ -251,5 +253,4 @@ class Drupal implements DrupalInterface
 
         return !$container->get('database')->schema()->tableExists('sessions');
     }
-
 }
