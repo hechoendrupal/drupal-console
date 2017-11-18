@@ -36,7 +36,7 @@ class Drupal implements DrupalInterface
     }
 
     /**
-     * Boots the Drupal object
+     * Boot the Drupal object
      * @return \Symfony\Component\DependencyInjection\ContainerBuilder
      */
     public function boot()
