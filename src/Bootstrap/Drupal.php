@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Component\FileCache\FileCacheFactory;
-use Drupal\Core\Site\Settings;
+use Drupal\Core\Database\Database;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
@@ -162,22 +162,11 @@ class Drupal implements DrupalInterface
 
             $container = $drupalKernel->getContainer();
 
-            /* @TODO Relocate to a BootstrapManager class */
-            $database = $container->get('database');
-            $validateTables = [
-                'key_value',
-            ];
+            if ($this->shouldRedirectToDrupalCore($container)) {
+                $container = $this->bootDrupalConsoleCore();
+                $container->set('class_loader', $this->autoload);
 
-            foreach ($validateTables as $table) {
-                $tableExists = $database
-                    ->schema()
-                    ->tableExists($table);
-                if (!$tableExists) {
-                    $container = $this->bootDrupalConsoleCore();
-                    $container->set('class_loader', $this->autoload);
-
-                    return $container;
-                }
+                return $container;
             }
 
             $container->set(
@@ -241,6 +230,35 @@ class Drupal implements DrupalInterface
         );
 
         return $drupal->boot();
+    }
+
+    /**
+     * Validate if flow should redirect to DrupalCore
+     *
+     * @param $container
+     * @return bool
+     */
+    protected function shouldRedirectToDrupalCore($container) {
+
+        if (!Database::getConnectionInfo()) {
+            return true;
+        }
+
+        $database = $container->get('database');
+        $validateTables = [
+            'sessions',
+            'key_value'
+        ];
+
+        foreach ($validateTables as $table) {
+            $tableExists = $database
+                ->schema()
+                ->tableExists($table);
+            if (!$tableExists) {
+                return true;
+            }
+        }
+
     }
 
 }
