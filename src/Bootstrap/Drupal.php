@@ -35,6 +35,10 @@ class Drupal implements DrupalInterface
         $this->drupalFinder = $drupalFinder;
     }
 
+    /**
+     * Boots the Drupal object
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
     public function boot()
     {
         $output = new ConsoleOutput();
@@ -54,11 +58,8 @@ class Drupal implements DrupalInterface
 
         if (!class_exists('Drupal\Core\DrupalKernel')) {
             $io->error('Class Drupal\Core\DrupalKernel does not exist.');
-            $drupal = new DrupalConsoleCore(
-                $this->drupalFinder->getComposerRoot(),
-                $this->drupalFinder->getDrupalRoot()
-            );
-            return $drupal->boot();
+
+            return $this->bootDrupalConsoleCore();
         }
 
         try {
@@ -161,6 +162,24 @@ class Drupal implements DrupalInterface
 
             $container = $drupalKernel->getContainer();
 
+            /* @TODO Relocate to a BootstrapManager class */
+            $database = $container->get('database');
+            $validateTables = [
+                'key_value',
+            ];
+
+            foreach ($validateTables as $table) {
+                $tableExists = $database
+                    ->schema()
+                    ->tableExists($table);
+                if (!$tableExists) {
+                    $container = $this->bootDrupalConsoleCore();
+                    $container->set('class_loader', $this->autoload);
+
+                    return $container;
+                }
+            }
+
             $container->set(
                 'console.root',
                 $this->drupalFinder->getComposerRoot()
@@ -187,11 +206,8 @@ class Drupal implements DrupalInterface
 
             return $container;
         } catch (\Exception $e) {
-            $drupal = new DrupalConsoleCore(
-                $this->drupalFinder->getComposerRoot(),
-                $this->drupalFinder->getDrupalRoot()
-            );
-            $container = $drupal->boot();
+
+            $container = $this->bootDrupalConsoleCore();
             $container->set('class_loader', $this->autoload);
 
             $notifyErrorCodes = [
@@ -213,4 +229,18 @@ class Drupal implements DrupalInterface
             return $container;
         }
     }
+
+    /**
+     * Builds and boot a DrupalConsoleCore object
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    protected function bootDrupalConsoleCore() {
+        $drupal = new DrupalConsoleCore(
+            $this->drupalFinder->getComposerRoot(),
+            $this->drupalFinder->getDrupalRoot()
+        );
+
+        return $drupal->boot();
+    }
+
 }
