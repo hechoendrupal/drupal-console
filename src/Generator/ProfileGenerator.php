@@ -14,14 +14,14 @@ class ProfileGenerator extends Generator
     public function generate(
         $profile,
         $machine_name,
-        $base_path,
+        $profile_path,
         $description,
         $core,
         $dependencies,
         $themes,
         $distribution
     ) {
-        $dir = $base_path . '/' . $machine_name;
+        $dir = $profile_path . '/' . $machine_name;
 
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
