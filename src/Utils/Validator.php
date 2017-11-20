@@ -130,27 +130,33 @@ class Validator
 
     public function validateModulePath($module_path, $create = false)
     {
-        if (!is_dir($module_path)) {
-            if ($create && mkdir($module_path, 0755, true)) {
-                return $module_path;
-            }
-
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Module path "%s" is invalid. You need to provide a valid path.',
-                    $module_path
-                )
-            );
+        if (strlen($module_path) > 1 && $module_path[strlen($module_path)-1] == "/") {
+            $module_path = substr($module_path, 0, -1);
         }
-        chmod($module_path, 0755);
-        return $module_path;
+
+        if (is_dir($module_path)) {
+            chmod($module_path, 0755);
+            return $module_path;
+        }
+
+
+        if ($create && mkdir($module_path, 0755, true)) {
+            return $module_path;
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf(
+                'Path "%s" is invalid. You need to provide a valid path.',
+                $module_path
+            )
+        );
     }
 
     public function validateMachineNameList($list)
     {
         $list_checked = [
-          'success' => [],
-          'fail' => [],
+            'success' => [],
+            'fail' => [],
         ];
 
         if (empty($list)) {
