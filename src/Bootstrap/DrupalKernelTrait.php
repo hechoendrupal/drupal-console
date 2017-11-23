@@ -65,6 +65,10 @@ trait DrupalKernelTrait
         $this->discoverDrupalConsoleServiceProviders();
     }
 
+    public function getContainerKey() {
+        return hash("sha256", $this->getContainerCacheKey());
+    }
+
     public function discoverDrupalConsoleServiceProviders()
     {
         $drupalFinder = new DrupalFinder();

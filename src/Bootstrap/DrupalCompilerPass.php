@@ -39,5 +39,11 @@ class DrupalCompilerPass implements CompilerPassInterface
             'console.invalid_commands',
             null
         );
+
+        // Set console.cache_key service
+        $container->set(
+            'console.cache_key',
+            null
+        );
     }
 }
