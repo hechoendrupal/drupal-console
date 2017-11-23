@@ -85,8 +85,6 @@ class ThemeGenerator extends Generator
             'libraries' => $libraries,
             'regions' => $regions,
             'breakpoints' => $breakpoints,
-            'path' => $dir
-
         ];
 
         $this->renderFile(

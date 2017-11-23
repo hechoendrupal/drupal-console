@@ -83,8 +83,6 @@ class ModuleGenerator extends Generator
             'dependencies' => $dependencies,
             'test' => $test,
             'twigtemplate' => $twigtemplate,
-            'path' => $dir
-
         ];
 
         $this->renderFile(

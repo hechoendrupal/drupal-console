@@ -59,7 +59,6 @@ class ProfileGenerator extends Generator
             'dependencies' => $dependencies,
             'themes' => $themes,
             'distribution' => $distribution,
-            'path' => $dir
         ];
 
         $this->renderFile(
