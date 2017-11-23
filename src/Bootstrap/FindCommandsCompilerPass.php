@@ -34,11 +34,10 @@ class FindCommandsCompilerPass implements CompilerPassInterface
             $this->serviceTag
         );
 
-        $commands = [];
         foreach ($taggedServices as $id => $tags) {
-            $commands[] = $id;
+            $container->getDefinition($id)
+                ->setMethodCalls()
+                ->addTag('persist');
         }
-
-        $container->setParameter('drupal.commands', $commands);
     }
 }
