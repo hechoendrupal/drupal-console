@@ -199,6 +199,11 @@ class Drupal implements DrupalInterface
                     ]
                 );
 
+            $container->set(
+                'console.cache_key',
+                $drupalKernel->getContainerKey()
+            );
+
             return $container;
         } catch (\Exception $e) {
             $container = $this->bootDrupalConsoleCore();
