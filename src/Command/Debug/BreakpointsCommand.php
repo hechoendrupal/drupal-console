@@ -41,7 +41,7 @@ class BreakpointsCommand extends Command
      * @param string                     $appRoot
      */
     public function __construct(
-        BreakpointManagerInterface $breakpointManager,
+        BreakpointManagerInterface $breakpointManager = null,
         $appRoot
     ) {
         $this->breakpointManager = $breakpointManager;

@@ -2,6 +2,7 @@
 
 namespace Drupal\Console\Bootstrap;
 
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
@@ -64,15 +65,66 @@ trait DrupalKernelTrait
         $this->discoverDrupalConsoleServiceProviders();
     }
 
-    public function discoverDrupalConsoleServiceProviders() {
+    public function discoverDrupalConsoleServiceProviders()
+    {
         $drupalFinder = new DrupalFinder();
         $drupalFinder->locateRoot(getcwd());
+
+        // Load DrupalConsole services
+        $this->addDrupalConsoleServices($drupalFinder->getComposerRoot());
+
+        // Load DrupalConsole services
+        $this->addDrupalConsoleConfigServices($drupalFinder->getComposerRoot());
+
+        // Load DrupalConsole extended services
+        $this->addDrupalConsoleExtendedServices($drupalFinder->getComposerRoot());
 
         // Add DrupalConsole module(s) services
         $this->addDrupalConsoleModuleServices($drupalFinder->getDrupalRoot());
 
         // Add DrupalConsole theme(s) services
         $this->addDrupalConsoleThemeServices($drupalFinder->getDrupalRoot());
+    }
+
+    protected function addDrupalConsoleServices($root)
+    {
+        $servicesFiles = [
+            $root. DRUPAL_CONSOLE_CORE . 'services.yml',
+            $root. DRUPAL_CONSOLE . 'uninstall.services.yml',
+            $root. DRUPAL_CONSOLE . 'services.yml'
+        ];
+
+        $this->addDrupalServiceFiles($servicesFiles);
+    }
+
+    protected function addDrupalConsoleConfigServices($root)
+    {
+        $finder = new Finder();
+        $finder->files()
+            ->name('*.yml')
+            ->in(
+                sprintf(
+                    '%s/config/services',
+                    $root.DRUPAL_CONSOLE
+                )
+            );
+
+        $servicesFiles  = [];
+        foreach ($finder as $file) {
+            $servicesFiles[] = $file->getPathname();
+        }
+
+        $this->addDrupalServiceFiles($servicesFiles);
+    }
+
+    protected function addDrupalConsoleExtendedServices($root)
+    {
+        $servicesFiles = [
+            $root . DRUPAL_CONSOLE . 'extend.console.services.yml',
+            $root . DRUPAL_CONSOLE . 'extend.console.uninstall.services.yml',
+        ];
+
+        $this->addDrupalServiceFiles($servicesFiles);
     }
 
     protected function addDrupalConsoleModuleServices($root)
@@ -91,7 +143,8 @@ trait DrupalKernelTrait
         $this->addDrupalServiceFiles($servicesFiles);
     }
 
-    public function addDrupalServiceFiles($servicesFiles) {
+    public function addDrupalServiceFiles($servicesFiles)
+    {
         $this->serviceYamls['site'] = array_merge(
             $this->serviceYamls['site'],
             $servicesFiles

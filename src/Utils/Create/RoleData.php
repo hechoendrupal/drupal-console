@@ -19,31 +19,9 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 class RoleData extends Base
 {
     /**
-     * Roles constructor.
-     *
-     * @param EntityTypeManagerInterface  $entityTypeManager
-     * @param EntityFieldManagerInterface $entityFieldManager
-     * @param DateFormatterInterface      $dateFormatter
-     */
-    public function __construct(
-        EntityTypeManagerInterface $entityTypeManager,
-        EntityFieldManagerInterface $entityFieldManager,
-        DateFormatterInterface $dateFormatter
-    ) {
-        parent::__construct(
-            $entityTypeManager,
-            $entityFieldManager,
-            $dateFormatter
-        );
-    }
-
-    /**
      * Create and returns an array of new Roles.
      *
-     * @param $roles
      * @param $limit
-     * @param $password
-     * @param $timeRange
      *
      * @return array
      */

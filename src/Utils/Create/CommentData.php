@@ -19,25 +19,6 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 class CommentData extends Base
 {
     /**
-     * Comments constructor.
-     *
-     * @param EntityTypeManagerInterface  $entityTypeManager
-     * @param EntityFieldManagerInterface $entityFieldManager
-     * @param DateFormatterInterface      $dateFormatter
-     */
-    public function __construct(
-        EntityTypeManagerInterface $entityTypeManager,
-        EntityFieldManagerInterface $entityFieldManager,
-        DateFormatterInterface $dateFormatter
-    ) {
-        parent::__construct(
-            $entityTypeManager,
-            $entityFieldManager,
-            $dateFormatter
-        );
-    }
-
-    /**
      * @param $nid
      * @param $limit
      * @param $titleWords
