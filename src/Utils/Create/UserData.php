@@ -18,31 +18,6 @@ use Drupal\Core\Datetime\DateFormatterInterface;
  */
 class UserData extends Base
 {
-    /* @var array */
-    protected $roles = [];
-
-    /**
-     * Users constructor.
-     *
-     * @param EntityTypeManagerInterface  $entityTypeManager
-     * @param EntityFieldManagerInterface $entityFieldManager
-     * @param DateFormatterInterface      $dateFormatter
-     * @param array                       $roles
-     */
-    public function __construct(
-        EntityTypeManagerInterface $entityTypeManager,
-        EntityFieldManagerInterface $entityFieldManager,
-        DateFormatterInterface $dateFormatter,
-        $roles
-    ) {
-        $this->roles = $roles;
-        parent::__construct(
-            $entityTypeManager,
-            $entityFieldManager,
-            $dateFormatter
-        );
-    }
-
     /**
      * Create and returns an array of new Users.
      *
@@ -59,6 +34,7 @@ class UserData extends Base
         $password,
         $timeRange
     ) {
+        $siteRoles = $this->drupalApi->getRoles();
         $users = [];
         for ($i=0; $i<$limit; $i++) {
             $username = $this->getRandom()->word(mt_rand(6, 12));
@@ -79,7 +55,7 @@ class UserData extends Base
 
                 $userRoles = [];
                 foreach ($user->getRoles() as $userRole) {
-                    $userRoles[] = $this->roles[$userRole];
+                    $userRoles[] = $siteRoles[$userRole];
                 }
 
                 $users['success'][] = [
