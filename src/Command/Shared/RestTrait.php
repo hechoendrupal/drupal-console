@@ -21,7 +21,6 @@ trait RestTrait
 
         $resources = $this->pluginManagerRest->getDefinitions();
 
-
         $enabled_resources = array_combine(array_keys($config), array_keys($config));
         $available_resources = ['enabled' => [], 'disabled' => []];
 

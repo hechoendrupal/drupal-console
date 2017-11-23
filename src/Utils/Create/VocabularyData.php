@@ -21,25 +21,6 @@ use Drupal\Core\Language\LanguageInterface;
 class VocabularyData extends Base
 {
     /**
-     * Vocabularies constructor.
-     *
-     * @param EntityTypeManagerInterface  $entityManager
-     * @param EntityFieldManagerInterface $entityFieldManager
-     * @param DateFormatterInterface      $dateFormatter
-     */
-    public function __construct(
-        EntityTypeManagerInterface $entityManager,
-        EntityFieldManagerInterface $entityFieldManager,
-        DateFormatterInterface $dateFormatter
-    ) {
-        parent::__construct(
-            $entityManager,
-            $entityFieldManager,
-            $dateFormatter
-        );
-    }
-
-    /**
      * Create and returns an array of new Vocabularies.
      *
      * @param $limit

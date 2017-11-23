@@ -19,31 +19,6 @@ use Drupal\Core\Language\LanguageInterface;
  */
 class TermData extends Base
 {
-    /* @var array */
-    protected $vocabularies = [];
-
-    /**
-     * Terms constructor.
-     *
-     * @param EntityTypeManagerInterface  $entityTypeManager
-     * @param EntityFieldManagerInterface $entityFieldManager
-     * @param DateFormatterInterface      $dateFormatter
-     * @param array                       $vocabularies
-     */
-    public function __construct(
-        EntityTypeManagerInterface $entityTypeManager,
-        EntityFieldManagerInterface $entityFieldManager,
-        DateFormatterInterface $dateFormatter,
-        $vocabularies
-    ) {
-        $this->vocabularies = $vocabularies;
-        parent::__construct(
-            $entityTypeManager,
-            $entityFieldManager,
-            $dateFormatter
-        );
-    }
-
     /**
      * Create and returns an array of new Terms.
      *
@@ -58,6 +33,7 @@ class TermData extends Base
         $limit,
         $nameWords
     ) {
+        $siteVocabularies = $this->drupalApi->getVocabularies();
         $terms = [];
         for ($i=0; $i<$limit; $i++) {
             $vocabulary = $vocabularies[array_rand($vocabularies)];
@@ -77,12 +53,12 @@ class TermData extends Base
                 $term->save();
                 $terms['success'][] = [
                     'tid' => $term->id(),
-                    'vocabulary' => $this->vocabularies[$vocabulary],
+                    'vocabulary' => $siteVocabularies[$vocabulary],
                     'name' => $term->getName(),
                 ];
             } catch (\Exception $error) {
                 $terms['error'][] = [
-                    'vocabulary' => $this->vocabularies[$vocabulary],
+                    'vocabulary' => $siteVocabularies[$vocabulary],
                     'name' => $term->getName(),
                     'error' => $error->getMessage()
                 ];
