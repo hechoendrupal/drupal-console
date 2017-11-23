@@ -36,7 +36,6 @@ class FindCommandsCompilerPass implements CompilerPassInterface
 
         foreach ($taggedServices as $id => $tags) {
             $container->getDefinition($id)
-                ->setMethodCalls()
                 ->addTag('persist');
         }
     }
