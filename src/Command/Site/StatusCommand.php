@@ -77,7 +77,7 @@ class StatusCommand extends ContainerAwareCommand
      * @param $appRoot
      */
     public function __construct(
-        SystemManager $systemManager,
+        SystemManager $systemManager = null,
         Settings $settings,
         ConfigFactory $configFactory,
         ThemeHandler $themeHandler,
