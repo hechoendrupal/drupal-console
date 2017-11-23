@@ -177,6 +177,11 @@ class Drupal implements DrupalInterface
 
             AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
+            // Load configuration from directory
+            $container->get('console.configuration_manager')
+                ->loadConfiguration($this->drupalFinder->getComposerRoot())
+                ->getConfiguration();
+
             $configuration = $container->get('console.configuration_manager')
                 ->getConfiguration();
 
@@ -207,11 +212,10 @@ class Drupal implements DrupalInterface
             ];
 
             if (in_array($e->getCode(), $notifyErrorCodes)) {
-                $messageParser = $container->get('console.message_parser');
-                $messageParser->addMessage(
-                    $container,
-                    'error',
-                    $e->getMessage()
+                $messageManager = $container->get('console.message_manager');
+                $messageManager->error(
+                    $e->getMessage(),
+                    $e->getCode()
                 );
             }
 

@@ -50,12 +50,13 @@ class DrupalServiceModifier implements ServiceModifierInterface
     public function alter(ContainerBuilder $container)
     {
         $container->addCompilerPass(
-            new AddServicesCompilerPass($this->root)
+            new DrupalCompilerPass()
         );
 
         //        $container->addCompilerPass(
         //            new FindCommandsCompilerPass($this->commandTag)
         //        );
+        //
         //        $container->addCompilerPass(
         //            new FindGeneratorsCompilerPass($this->generatorTag)
         //        );
