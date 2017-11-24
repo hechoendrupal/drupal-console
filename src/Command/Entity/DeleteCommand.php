@@ -118,14 +118,21 @@ class DeleteCommand extends Command
 
             if ($input->getOption('all')) {
                 $entities = $storage->loadMultiple();
-                $storage->delete($entities);
-                $io->success(
-                    sprintf(
-                        $this->trans('commands.entity.delete.messages.deleted-all'),
-                        $entityDefinitionID,
-                        count($entities)
-                    )
-                );
+                if ($io->confirm(sprintf(
+                    $this->trans('commands.entity.delete.messages.confirm-delete-all'),
+                    $entityDefinitionID,
+                    count($entities)
+                ))
+                ) {
+                    $storage->delete($entities);
+                    $io->success(
+                        sprintf(
+                            $this->trans('commands.entity.delete.messages.deleted-all'),
+                            $entityDefinitionID,
+                            count($entities)
+                        )
+                    );
+                }
             }
             else {
                 $entityID = $input->getArgument('entity-id');
