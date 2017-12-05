@@ -48,7 +48,7 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $entity = &$this->entity;
+    $entity = $this->entity;
 {% if revisionable %}
 
     // Save as a new revision if requested to do so.
