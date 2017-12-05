@@ -122,7 +122,11 @@ class OverrideCommand extends Command
 
         $config = $this->configFactory->getEditable($configName);
 
-        $configurationOverrideResult = $this->overrideConfiguration($config, $key, $value);
+        $configurationOverrideResult = $this->overrideConfiguration(
+            $config,
+            $key,
+            $value
+        );
 
         $config->save();
 
@@ -136,8 +140,6 @@ class OverrideCommand extends Command
         ];
         $tableRows = $configurationOverrideResult;
         $io->table($tableHeader, $tableRows);
-
-        $config->save();
     }
 
 

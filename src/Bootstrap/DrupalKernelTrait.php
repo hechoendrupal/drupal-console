@@ -4,7 +4,6 @@ namespace Drupal\Console\Bootstrap;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Core\Site\Settings;
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 use Drupal\Console\Core\Utils\DrupalFinder;
 
