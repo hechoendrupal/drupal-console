@@ -73,14 +73,14 @@ class Application extends BaseApplication
             return;
         }
 
-        if (!$this->container->hasParameter('console.service_definitions')) {
+        $serviceDefinitions = $this->container->getDefinitions();
+
+        if (!$serviceDefinitions) {
             return;
         }
 
-        $serviceDefinitions = $this->container
-            ->getParameter('console.service_definitions');
 
-        if (!$serviceDefinitions) {
+        if (!$this->container->has('console.annotation_command_reader')) {
             return;
         }
 
@@ -89,6 +89,10 @@ class Application extends BaseApplication
          */
         $annotationCommandReader = $this->container
             ->get('console.annotation_command_reader');
+
+        if (!$this->container->has('console.annotation_validator')) {
+            return;
+        }
 
         /**
          * @var AnnotationValidator $annotationValidator
