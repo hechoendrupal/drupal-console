@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,6 +17,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\DrupalApi;
+use Webmozart\PathUtil\Path;
 
 class ModuleCommand extends Command
 {
@@ -181,7 +181,11 @@ class ModuleCommand extends Command
 
         $module = $this->validator->validateModuleName($input->getOption('module'));
 
-        $modulePath = $this->appRoot . $input->getOption('module-path');
+        // Get the profile path and define a profile path if it is null
+        // Check that it is an absolute path or otherwise create an absolute path using appRoot
+        $modulePath = $input->getOption('module-path');
+        $modulePath = $modulePath == null ? 'modules/custom' : $modulePath;
+        $modulePath = Path::isAbsolute($modulePath) ? $modulePath : Path::makeAbsolute($modulePath, $this->appRoot);
         $modulePath = $this->validator->validateModulePath($modulePath, true);
 
         $machineName = $this->validator->validateMachineName($input->getOption('machine-name'));
@@ -270,13 +274,12 @@ class ModuleCommand extends Command
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
-            $drupalRoot = $this->appRoot;
             $modulePath = $io->ask(
                 $this->trans('commands.generate.module.questions.module-path'),
-                '/modules/custom',
-                function ($modulePath) use ($drupalRoot, $machineName) {
-                    $modulePath = ($modulePath[0] != '/' ? '/' : '').$modulePath;
-                    $fullPath = $drupalRoot.$modulePath.'/'.$machineName;
+                'modules/custom',
+                function ($modulePath) use ($machineName) {
+                    $fullPath = Path::isAbsolute($modulePath) ? $modulePath : Path::makeAbsolute($modulePath, $this->appRoot);
+                    $fullPath = $fullPath.'/'.$machineName;
                     if (file_exists($fullPath)) {
                         throw new \InvalidArgumentException(
                             sprintf(

@@ -44,7 +44,7 @@ class ModuleGenerator extends Generator
         $test,
         $twigtemplate
     ) {
-        $dir .= '/'.$machineName;
+        $dir = ($dir == "/" ? '': $dir).'/'.$machineName;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
@@ -74,15 +74,15 @@ class ModuleGenerator extends Generator
         }
 
         $parameters = [
-          'module' => $module,
-          'machine_name' => $machineName,
-          'type' => 'module',
-          'core' => $core,
-          'description' => $description,
-          'package' => $package,
-          'dependencies' => $dependencies,
-          'test' => $test,
-          'twigtemplate' => $twigtemplate,
+            'module' => $module,
+            'machine_name' => $machineName,
+            'type' => 'module',
+            'core' => $core,
+            'description' => $description,
+            'package' => $package,
+            'dependencies' => $dependencies,
+            'test' => $test,
+            'twigtemplate' => $twigtemplate,
         ];
 
         $this->renderFile(
@@ -96,7 +96,7 @@ class ModuleGenerator extends Generator
                 'module/features.yml.twig',
                 $dir.'/'.$machineName.'.features.yml',
                 [
-                'bundle' => $featuresBundle,
+                    'bundle' => $featuresBundle,
                 ]
             );
         }

@@ -17,6 +17,7 @@ use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
+use Webmozart\PathUtil\Path;
 
 /**
  * Class ProfileCommand
@@ -94,10 +95,10 @@ class ProfileCommand extends Command
                 $this->trans('commands.generate.profile.options.machine-name')
             )
             ->addOption(
-                'base-path',
+                'profile-path',
                 null,
                 InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.profile.options.base-path')
+                $this->trans('commands.generate.profile.options.profile-path')
             )
             ->addOption(
                 'description',
@@ -144,10 +145,16 @@ class ProfileCommand extends Command
             return 1;
         }
 
+
+        // Get the profile path and define a profile path if it is null
+        // Check that it is an absolute path or otherwise create an absolute path using appRoot
+        $profile_path = $input->getOption('profile-path');
+        $profile_path = $profile_path == null ? 'profiles' : $profile_path;
+        $profile_path = Path::isAbsolute($profile_path) ? $profile_path : Path::makeAbsolute($profile_path, $this->appRoot);
+        $profile_path = $this->validator->validateModulePath($profile_path, true);
+
         $profile = $this->validator->validateModuleName($input->getOption('profile'));
         $machine_name = $this->validator->validateMachineName($input->getOption('machine-name'));
-        $base_path = $this->appRoot . $input->getOption('base-path');
-        $base_path = $this->validator->validateModulePath($base_path, true);
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $dependencies = $this->validator->validateExtensions($input->getOption('dependencies'), 'module', $io);
@@ -157,7 +164,7 @@ class ProfileCommand extends Command
         $this->generator->generate(
             $profile,
             $machine_name,
-            $base_path,
+            $profile_path,
             $description,
             $core,
             $dependencies,
@@ -216,15 +223,14 @@ class ProfileCommand extends Command
             $input->setOption('machine-name', $machine_name);
         }
 
-        $base_path = $input->getOption('base-path');
-        if (!$base_path) {
-            $drupalRoot = $this->appRoot;
-            $base_path = $io->ask(
-                $this->trans('commands.generate.profile.questions.base-path'),
-                '/profiles',
-                function ($base_path) use ($drupalRoot, $machine_name) {
-                    $base_path = ($base_path[0] != '/' ? '/' : '').$base_path;
-                    $fullPath = $drupalRoot.$base_path.'/'.$machine_name;
+        $profile_path = $input->getOption('profile-path');
+        if (!$profile_path) {
+            $profile_path = $io->ask(
+                $this->trans('commands.generate.profile.questions.profile-path'),
+                'profiles',
+                function ($profile_path) use ($machine_name) {
+                    $fullPath = Path::isAbsolute($profile_path) ? $profile_path : Path::makeAbsolute($profile_path, $this->appRoot);
+                    $fullPath = $fullPath.'/'.$machine_name;
                     if (file_exists($fullPath)) {
                         throw new \InvalidArgumentException(
                             sprintf(
@@ -234,11 +240,11 @@ class ProfileCommand extends Command
                         );
                     }
 
-                    return $base_path;
+                    return $profile_path;
                 }
             );
         }
-        $input->setOption('base-path', $base_path);
+        $input->setOption('profile-path', $profile_path);
 
         $description = $input->getOption('description');
         if (!$description) {

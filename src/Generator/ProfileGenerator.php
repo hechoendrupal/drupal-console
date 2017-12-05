@@ -14,15 +14,14 @@ class ProfileGenerator extends Generator
     public function generate(
         $profile,
         $machine_name,
-        $base_path,
+        $dir,
         $description,
         $core,
         $dependencies,
         $themes,
         $distribution
     ) {
-        $dir = $base_path . '/' . $machine_name;
-
+        $dir = ($dir == "/" ? '': $dir).'/'.$machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
@@ -52,14 +51,14 @@ class ProfileGenerator extends Generator
         }
 
         $parameters = [
-          'profile' => $profile,
-          'machine_name' => $machine_name,
-          'type' => 'profile',
-          'core' => $core,
-          'description' => $description,
-          'dependencies' => $dependencies,
-          'themes' => $themes,
-          'distribution' => $distribution,
+            'profile' => $profile,
+            'machine_name' => $machine_name,
+            'type' => 'profile',
+            'core' => $core,
+            'description' => $description,
+            'dependencies' => $dependencies,
+            'themes' => $themes,
+            'distribution' => $distribution,
         ];
 
         $this->renderFile(
