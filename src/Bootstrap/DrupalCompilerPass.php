@@ -28,12 +28,6 @@ class DrupalCompilerPass implements CompilerPassInterface
             ->getDefinition('console.translator_manager')
             ->setClass(TranslatorManager::class);
 
-        // Set console.service_definitions service
-        $container->setParameter(
-            'console.service_definitions',
-            $container->getDefinitions()
-        );
-
         // Set console.invalid_commands service
         $container->set(
             'console.invalid_commands',
