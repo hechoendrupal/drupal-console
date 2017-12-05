@@ -58,8 +58,7 @@ class PluginCommand extends ContainerAwareCommand
                 $this->trans('commands.debug.plugin.table-headers.plugin-type-class')
             ];
             $tableRows = [];
-            $serviceDefinitions = $this->container
-                ->getParameter('console.service_definitions');
+            $serviceDefinitions = $this->container->getDefinitions();
 
             foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
                 if (strpos($serviceId, 'plugin.manager.') === 0) {

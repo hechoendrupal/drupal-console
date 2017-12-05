@@ -48,6 +48,11 @@ class ContainerCommand extends ContainerAwareCommand
                 'arguments',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.container.arguments.arguments')
+            )->addOption(
+                'tag',
+                null,
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.debug.container.options.tag')
             )
             ->setAliases(['dco']);
     }
@@ -60,6 +65,7 @@ class ContainerCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
         $service = $input->getArgument('service');
         $parameters = $input->getOption('parameters');
+        $tag = $input->getOption('tag');
         $method = $input->getArgument('method');
         $args = $input->getArgument('arguments');
 
@@ -90,8 +96,7 @@ class ContainerCommand extends ContainerAwareCommand
                 $this->trans('commands.debug.container.messages.service-id'),
                 $this->trans('commands.debug.container.messages.class-name')
             ];
-
-            $tableRows = $this->getServiceList();
+            $tableRows = $this->getServiceList($tag);
             $io->table($tableHeader, $tableRows, 'compact');
         }
 
@@ -142,11 +147,15 @@ class ContainerCommand extends ContainerAwareCommand
         ];
         return $serviceDetail;
     }
-    private function getServiceList()
+
+    private function getServiceList($tag)
     {
+        if ($tag) {
+            return $this->getServiceListByTag($tag);
+        }
+
         $services = [];
-        $serviceDefinitions = $this->container
-            ->getParameter('console.service_definitions');
+        $serviceDefinitions = $this->container->getDefinitions();
 
         foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
             $services[] = [$serviceId, $serviceDefinition->getClass()];
@@ -154,6 +163,30 @@ class ContainerCommand extends ContainerAwareCommand
         usort($services, [$this, 'compareService']);
         return $services;
     }
+
+    private function getServiceListByTag($tag) {
+        $services = [];
+        $serviceIds = [];
+        $serviceDefinitions = $this->container->getDefinitions();
+
+        foreach ($tag as $tagId) {
+            $serviceIds = array_merge(
+                $serviceIds,
+                array_keys($this->container->findTaggedServiceIds($tagId))
+            );
+        }
+
+        foreach ($serviceIds as $serviceId) {
+            $serviceDefinition = $serviceDefinitions[$serviceId];
+            if ($serviceDefinition) {
+                $services[] = [$serviceId, $serviceDefinition->getClass()];
+            }
+        }
+
+        usort($services, [$this, 'compareService']);
+        return $services;
+    }
+
     private function compareService($a, $b)
     {
         return strcmp($a[0], $b[0]);
