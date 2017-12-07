@@ -220,7 +220,8 @@ class Drupal implements DrupalInterface
                 $messageManager = $container->get('console.message_manager');
                 $messageManager->error(
                     $e->getMessage(),
-                    $e->getCode()
+                    $e->getCode(),
+                    true
                 );
             }
 
