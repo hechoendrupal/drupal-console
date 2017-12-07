@@ -440,6 +440,10 @@ class InstallCommand extends ContainerAwareCommand
             $autoload = $this->container->get('class_loader');
             $drupal = new Drupal($autoload, $drupalFinder);
             $container = $drupal->boot();
+
+            $messageManager = $container->get('console.message_manager');
+            $messageManager->remove('error', 0);
+
             $this->getApplication()->setContainer($container);
         } catch (Exception $e) {
             $io->error($e->getMessage());
