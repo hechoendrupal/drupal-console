@@ -34,6 +34,11 @@ trait ExportTrait
         // Exclude default_config_hash inside _core is site-specific.
         if ($hash) {
             unset($config['_core']['default_config_hash']);
+
+          // Remove empty _core to match core's output.
+          if (empty($config['_core'])) {
+            unset($config['_core']);
+          }
         }
 
         return $config;
