@@ -60,7 +60,7 @@ class ServerCommand extends Command
                 InputArgument::OPTIONAL,
                 $this->trans('commands.server.arguments.address'),
                 '127.0.0.1:8088'
-            );
+            )->setAliases(['serve']);
     }
 
     /**
@@ -172,7 +172,8 @@ class ServerCommand extends Command
         return $address;
     }
 
-    function outputCallback($type, $buffer) {
+    public function outputCallback($type, $buffer)
+    {
         // TODO: seems like $type is Process::ERR always
         echo $buffer;
     }
