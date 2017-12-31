@@ -57,6 +57,7 @@ class ComposerizeCommand extends ContainerAwareCommand
          */
         $extensionManager = $this->get('console.extension_manager');
         $this->processModules($extensionManager);
+        $this->processThemes($extensionManager);
 
         $types = [
           'module',
@@ -114,22 +115,45 @@ class ComposerizeCommand extends ContainerAwareCommand
          * @var \Drupal\Core\Extension\Extension[] $module
          */
         foreach ($modules as $module) {
-            $moduleDependencies = [];
-            if ($this->isValidModule($module)) {
-                $moduleDependencies = $this->extractDependencies(
-                    $module,
-                    array_keys($modules)
-                );
-                $this->packages[$type][] = [
-                    'name' => sprintf('drupal/%s', $module->getName()),
-                    'version' => $this->calculateVersion($module->info['version']),
-                    'dependencies' => implode(', ', array_values($moduleDependencies))
-                ];
+            if (!$this->isValidModule($module)) {
+                continue;
             }
+            $moduleDependencies = $this->extractDependencies(
+                $module,
+                array_keys($modules)
+            );
+            $this->packages[$type][] = [
+                'name' => sprintf('drupal/%s', $module->getName()),
+                'version' => $this->calculateVersion($module->info['version']),
+                'dependencies' => implode(', ', array_values($moduleDependencies))
+            ];
             $this->dependencies[$type] = array_merge(
                 $this->dependencies[$type],
                 array_keys($moduleDependencies)
             );
+        }
+    }
+
+    private function processThemes(Manager $extensionManager)
+    {
+        $type = 'theme';
+        $themes = $extensionManager->discoverThemes()
+            ->showInstalled()
+            ->showNoCore()
+            ->showCore()
+            ->getList();
+        /**
+         * @var \Drupal\Core\Extension\Extension[] $module
+         */
+        foreach ($themes as $theme) {
+            if (!$this->isValidTheme($theme)) {
+                continue;
+            }
+            $this->packages[$type][] = [
+                'name' => sprintf('drupal/%s', $theme->getName()),
+                'version' => $this->calculateVersion($theme->info['version']),
+                'dependencies' => ''
+            ];
         }
     }
 
@@ -148,6 +172,15 @@ class ComposerizeCommand extends ContainerAwareCommand
         }
 
         return $module->info['project'] === $module->getName();
+    }
+
+    private function isValidTheme($module)
+    {
+        if (strpos($module->getPath(), 'themes/custom') === 0) {
+            return false;
+        }
+
+        return true;
     }
 
     private function extractDependencies($module, $modules)
