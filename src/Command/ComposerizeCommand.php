@@ -140,7 +140,6 @@ class ComposerizeCommand extends ContainerAwareCommand
         $themes = $extensionManager->discoverThemes()
             ->showInstalled()
             ->showNoCore()
-            ->showCore()
             ->getList();
         /**
          * @var \Drupal\Core\Extension\Extension[] $module
