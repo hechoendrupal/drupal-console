@@ -3,6 +3,7 @@
 namespace Drupal\Console\Command;
 
 use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Extension\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,6 +11,10 @@ use Drupal\Console\Core\Command\ContainerAwareCommand;
 
 class ComposerizeCommand extends ContainerAwareCommand
 {
+
+    protected $packages = [];
+
+    protected $dependencies = [];
 
     /**
      * {@inheritdoc}
@@ -19,21 +24,21 @@ class ComposerizeCommand extends ContainerAwareCommand
         $this
             ->setName('composerize')
             ->setDescription(
-                $this->trans('commands.generate.composer.description')
+                $this->trans('commands.composerize.description')
             )
             ->addOption(
-                'show-packages',
+                'hide-packages',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.generate.composer.options.show-packages')
+                $this->trans('commands.composerize.options.hide-packages')
             )
             ->addOption(
                 'include-version',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.generate.composer.options.include-version')
+                $this->trans('commands.composerize.options.include-version')
             )
-            ->setHelp($this->trans('commands.generate.composer.help'));
+            ->setHelp($this->trans('commands.composerize.help'));
     }
 
     /**
@@ -46,55 +51,25 @@ class ComposerizeCommand extends ContainerAwareCommand
          */
         $io = new DrupalStyle($input, $output);
         $includeVersion = $input->getOption('include-version');
-        $showPackages = $input->getOption('show-packages');
+        $hidePackages = $input->getOption('hide-packages')?:false;
 
         /**
          * @var \Drupal\Console\Extension\Manager $extensionManager
          */
         $extensionManager = $this->get('console.extension_manager');
-        $modules = $extensionManager->discoverModules()
-            ->showInstalled()
-            ->showNoCore()
-            ->getList();
-        $packages = [];
-        $dependencies = [];
-        /**
-         * @var \Drupal\Core\Extension\Extension[] $module
-         */
-        foreach ($modules as $module) {
-            $moduleDependencies = [];
-            if ($this->isValid($module)) {
-                $moduleDependencies = $this->extractDependencies($module, array_keys($modules));
-                $packages[] = [
-                    'name' => sprintf('drupal/%s', $module->getName()),
-                    'version' => $this->calculateVersion($module->info['version']),
-                    'type' => 'Module',
-                    'dependencies' => implode(', ', array_values($moduleDependencies))
-                ];
-            }
-            $dependencies = array_merge(
-                $dependencies,
-                array_keys($moduleDependencies)
-            );
-        }
+        $this->processModules($extensionManager);
+
         //        $themes = $extensionManager->discoverThemes()
         //            ->showInstalled()
         //            ->showUninstalled()
         //            ->showNoCore()
         //            ->getList(true);
         //        var_export($themes);
-        //        $profiles = $extensionManager->discoverProfiles()
-        //            ->showInstalled()
-        //            ->showUninstalled()
-        //            ->showNoCore()
-        //            ->getList();
-        //        var_export($profiles);
-        //        var_export($profiles);
 
         $composerCommand = 'composer require ';
-        foreach ($packages as $package) {
+        foreach ($this->packages as $package) {
             $module = str_replace('drupal/', '', $package['name']);
-            if (in_array($module, $dependencies)) {
+            if (in_array($module, $this->dependencies)) {
                 continue;
             }
             $composerCommand .= $package['name'];
@@ -104,10 +79,10 @@ class ComposerizeCommand extends ContainerAwareCommand
             $composerCommand .= ' ';
         }
         $io->newLine();
-        if ($showPackages) {
-            $io->comment('Detected extensions (modules and themes).');
-            $tableHeader = ['Package', 'Version', 'Type', 'Dependencies'];
-            $io->table($tableHeader, $packages);
+        if (!$hidePackages) {
+            $io->comment('Module(s) detected.');
+            $tableHeader = ['Name', 'Version', 'Dependencies'];
+            $io->table($tableHeader, $this->packages);
         }
         $io->comment('From your project root:');
         $io->simple($this->get('console.root'));
@@ -123,7 +98,37 @@ class ComposerizeCommand extends ContainerAwareCommand
         ]);
     }
 
-    private function isValid($module)
+    private function processModules(Manager $extensionManager)
+    {
+        $modules = $extensionManager->discoverModules()
+            ->showInstalled()
+            ->showNoCore()
+            ->getList();
+
+        /**
+         * @var \Drupal\Core\Extension\Extension[] $module
+         */
+        foreach ($modules as $module) {
+            $moduleDependencies = [];
+            if ($this->isValidModule($module)) {
+                $moduleDependencies = $this->extractDependencies(
+                    $module,
+                    array_keys($modules)
+                );
+                $this->packages[] = [
+                    'name' => sprintf('drupal/%s', $module->getName()),
+                    'version' => $this->calculateVersion($module->info['version']),
+                    'dependencies' => implode(', ', array_values($moduleDependencies))
+                ];
+            }
+            $this->dependencies = array_merge(
+                $this->dependencies,
+                array_keys($moduleDependencies)
+            );
+        }
+    }
+
+    private function isValidModule($module)
     {
         if (strpos($module->getPath(), 'modules/custom') === 0) {
             return false;
