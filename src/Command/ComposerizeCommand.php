@@ -8,12 +8,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 
-class ComposerizeCommand extends ContainerAwareCommand {
+class ComposerizeCommand extends ContainerAwareCommand
+{
 
     /**
      * {@inheritdoc}
      */
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->setName('composerize')
             ->setDescription(
@@ -31,44 +33,63 @@ class ComposerizeCommand extends ContainerAwareCommand {
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        /** @var DrupalStyle $io */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        /**
+ * @var DrupalStyle $io 
+*/
         $io = new DrupalStyle($input, $output);
-
         $showVersion = $input->getOption('show-version');
 
-        /** @var \Drupal\Console\Extension\Manager $extensionManager */
+        /**
+ * @var \Drupal\Console\Extension\Manager $extensionManager 
+*/
         $extensionManager = $this->get('console.extension_manager');
         $modules = $extensionManager->discoverModules()
             ->showInstalled()
             ->showNoCore()
             ->getList();
         $packages = [];
-        /** @var \Drupal\Core\Extension\Extension[] $module */
+        $dependencies = [];
+        /**
+ * @var \Drupal\Core\Extension\Extension[] $module 
+*/
         foreach ($modules as $module) {
-            if ($this->isValid($module->info, $module->getName())) {
+            $moduleDependencies = [];
+            if ($this->isValid($module)) {
+                $moduleDependencies = $this->extractDependencies($module, array_keys($modules));
                 $packages[] = [
                     'name' => sprintf('drupal/%s', $module->getName()),
                     'version' => $this->calculateVersion($module->info['version']),
-                    'type' => 'Module'
+                    'type' => 'Module',
+                    'dependencies' => implode(', ', array_values($moduleDependencies))
                 ];
             }
+            $dependencies = array_merge(
+                $dependencies,
+                array_keys($moduleDependencies)
+            );
         }
-//        $themes = $extensionManager->discoverThemes()
-//            ->showInstalled()
-//            ->showUninstalled()
-//            ->showNoCore()
-//            ->getList(true);
-//        var_export($themes);
-//        $profiles = $extensionManager->discoverProfiles()
-//            ->showInstalled()
-//            ->showUninstalled()
-//            ->showNoCore()
-//            ->getList();
-//        var_export($profiles);
+        //        $themes = $extensionManager->discoverThemes()
+        //            ->showInstalled()
+        //            ->showUninstalled()
+        //            ->showNoCore()
+        //            ->getList(true);
+        //        var_export($themes);
+        //        $profiles = $extensionManager->discoverProfiles()
+        //            ->showInstalled()
+        //            ->showUninstalled()
+        //            ->showNoCore()
+        //            ->getList();
+        //        var_export($profiles);
+        //        var_export($profiles);
 
         $composerCommand = 'composer require ';
         foreach ($packages as $package) {
+            $module = str_replace('drupal/', '', $package['name']);
+            if (in_array($module, $dependencies)) {
+                continue;
+            }
             $composerCommand .= $package['name'];
             if ($showVersion) {
                 $composerCommand .= ':'.$package['version'];
@@ -77,23 +98,60 @@ class ComposerizeCommand extends ContainerAwareCommand {
         }
         $io->newLine();
         $io->comment('Detected extensions (modules, themes and profiles).');
-        $tableHeader = ['Package', 'Version', 'Type'];
+        $tableHeader = ['Package', 'Version', 'Type', 'Dependencies'];
         $io->table($tableHeader, $packages);
-        $io->comment('Execute this command from your project root:');
-        $io->text($composerCommand);
+        $io->comment('From your project root:');
+        $io->simple($this->get('console.root'));
         $io->newLine();
+        $io->comment('Execute this command:');
+        $io->simple($composerCommand);
     }
 
+    private function isValid($module)
+    {
+        if (strpos($module->getPath(), 'modules/custom') === 0) {
+            return false;
+        }
 
-    private function isValid($info, $name) {
-        if (!array_key_exists('project',$info)){
+        if (!array_key_exists('project', $module->info)) {
             return true;
         }
 
-        return $info['project'] === $name;
+        if (!array_key_exists('project', $module->info)) {
+            return true;
+        }
+
+        return $module->info['project'] === $module->getName();
     }
 
-    private function calculateVersion($version) {
+    private function extractDependencies($module, $modules)
+    {
+        if (!array_key_exists('dependencies', $module->info)) {
+            return [];
+        }
+
+        $dependencies = [];
+        foreach ($module->info['dependencies'] as $dependency) {
+            $dependencyExploded = explode(':', $dependency);
+            $moduleDependency = count($dependencyExploded)>1?$dependencyExploded[1]:$dependencyExploded[0];
+            if ($space = strpos($moduleDependency, ' ')) {
+                $moduleDependency = substr($moduleDependency, 0, $space);
+            }
+
+            if (!in_array($moduleDependency, $modules)) {
+                continue;
+            }
+
+            if ($moduleDependency !== $module->getName()) {
+                $dependencies[$moduleDependency] = 'drupal/'.$moduleDependency;
+            }
+        }
+
+        return $dependencies;
+    }
+
+    private function calculateVersion($version)
+    {
         $replaceKeys = [
             '8.x-' => '',
             '8.' => ''
