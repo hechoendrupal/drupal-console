@@ -114,6 +114,13 @@ class ComposerizeCommand extends ContainerAwareCommand
         $io->newLine();
         $io->comment('Execute this command:');
         $io->simple($composerCommand);
+        $io->newLine();
+        $io->comment('To ignore third party libraries, modules and themes add to your .gitignore file:');
+        $io->writeln([
+            ' /vendor/',
+            ' /modules/contrib',
+            ' /themes/contrib'
+        ]);
     }
 
     private function isValid($module)
