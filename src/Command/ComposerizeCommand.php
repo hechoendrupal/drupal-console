@@ -22,10 +22,16 @@ class ComposerizeCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.composer.description')
             )
             ->addOption(
-                'show-version',
+                'show-packages',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.generate.composer.options.version')
+                $this->trans('commands.generate.composer.options.show-packages')
+            )
+            ->addOption(
+                'include-version',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.composer.options.include-version')
             )
             ->setHelp($this->trans('commands.generate.composer.help'));
     }
@@ -36,14 +42,15 @@ class ComposerizeCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /**
- * @var DrupalStyle $io 
-*/
+         * @var DrupalStyle $io
+         */
         $io = new DrupalStyle($input, $output);
-        $showVersion = $input->getOption('show-version');
+        $includeVersion = $input->getOption('include-version');
+        $showPackages = $input->getOption('show-packages');
 
         /**
- * @var \Drupal\Console\Extension\Manager $extensionManager 
-*/
+         * @var \Drupal\Console\Extension\Manager $extensionManager
+         */
         $extensionManager = $this->get('console.extension_manager');
         $modules = $extensionManager->discoverModules()
             ->showInstalled()
@@ -52,8 +59,8 @@ class ComposerizeCommand extends ContainerAwareCommand
         $packages = [];
         $dependencies = [];
         /**
- * @var \Drupal\Core\Extension\Extension[] $module 
-*/
+         * @var \Drupal\Core\Extension\Extension[] $module
+         */
         foreach ($modules as $module) {
             $moduleDependencies = [];
             if ($this->isValid($module)) {
@@ -91,15 +98,17 @@ class ComposerizeCommand extends ContainerAwareCommand
                 continue;
             }
             $composerCommand .= $package['name'];
-            if ($showVersion) {
+            if ($includeVersion) {
                 $composerCommand .= ':'.$package['version'];
             }
             $composerCommand .= ' ';
         }
         $io->newLine();
-        $io->comment('Detected extensions (modules, themes and profiles).');
-        $tableHeader = ['Package', 'Version', 'Type', 'Dependencies'];
-        $io->table($tableHeader, $packages);
+        if ($showPackages) {
+            $io->comment('Detected extensions (modules and themes).');
+            $tableHeader = ['Package', 'Version', 'Type', 'Dependencies'];
+            $io->table($tableHeader, $packages);
+        }
         $io->comment('From your project root:');
         $io->simple($this->get('console.root'));
         $io->newLine();
