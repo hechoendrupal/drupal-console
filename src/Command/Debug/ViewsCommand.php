@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\views\Entity\View;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
@@ -27,15 +28,21 @@ class ViewsCommand extends Command
      * @var EntityTypeManagerInterface
      */
     protected $entityTypeManager;
+    /**
+     * @var PluginManagerInterface
+     */
+    protected $viewsDisplayManager;
 
     /**
      * DebugCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
+     * @param PluginManagerInterface $viewsDisplayManager
      */
-    public function __construct(EntityTypeManagerInterface $entityTypeManager)
+    public function __construct(EntityTypeManagerInterface $entityTypeManager, PluginManagerInterface $viewsDisplayManager)
     {
         $this->entityTypeManager = $entityTypeManager;
+        $this->viewsDisplayManager = $viewsDisplayManager;
         parent::__construct();
     }
 
@@ -215,10 +222,9 @@ class ViewsCommand extends Command
      */
     protected function viewDisplayList(View $view)
     {
-        $displayManager = $this->getViewDisplayManager();
         $displays = [];
         foreach ($view->get('display') as $display) {
-            $definition = $displayManager->getDefinition($display['display_plugin']);
+            $definition = $this->viewsDisplayManager->getDefinition($display['display_plugin']);
             if (!empty($definition['admin'])) {
                 // Cast the admin label to a string since it is an object.
                 $displays[$definition['id']]['name'] = (string) $definition['admin'];
