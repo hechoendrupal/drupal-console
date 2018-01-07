@@ -3,6 +3,7 @@
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Core\Style\DrupalStyle;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Class ModuleTrait
@@ -88,15 +89,15 @@ trait ModuleTrait
     }
 
     /**
-   * Get module name from user.
-   *
-   * @param  \Drupal\Console\Core\Style\DrupalStyle        $io
-   *   Console interface.
-   * @param  \Drupal\Console\Command\Shared\InputInterface $input
-   *   Input interface.
-   * @throws \Exception
-   *   When module is not found.
-   */
+     * Get module name from user.
+     *
+     * @param  \Drupal\Console\Core\Style\DrupalStyle $io
+     *   Console interface.
+     * @param  InputInterface                         $input
+     *   Input interface.
+     * @throws \Exception
+     *   When module is not found.
+     */
     public function moduleFromInput(DrupalStyle $io, InputInterface $input)
     {
         $module = $input->getOption('module');

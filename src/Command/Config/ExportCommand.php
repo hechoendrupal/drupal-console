@@ -129,6 +129,9 @@ class ExportCommand extends Command
                 }
                 if ($removeHash) {
                     unset($configData['_core']['default_config_hash']);
+                    if (empty($configData['_core'])) {
+                        unset($configData['_core']);
+                    }
                 }
                 $ymlData = Yaml::encode($configData);
 
@@ -153,6 +156,9 @@ class ExportCommand extends Command
                     }
                     if ($removeHash) {
                         unset($configData['_core']['default_config_hash']);
+                        if (empty($configData['_core'])) {
+                            unset($configData['_core']);
+                        }
                     }
 
                     $ymlData = Yaml::encode($configData);
