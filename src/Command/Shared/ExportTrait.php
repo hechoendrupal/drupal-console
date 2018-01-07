@@ -22,10 +22,10 @@ trait ExportTrait
      * @param bool|false $uuid
      * @return mixed
      */
-    protected function getConfiguration($configName, $uuid = false, $hash = false)
+    protected function getConfiguration($configName, $uuid = false, $hash = false, $collection = '')
     {
-        $config = $this->configStorage->read($configName);
 
+        $config = $this->configStorage->createCollection($collection)->read($configName);
         // Exclude uuid base in parameter, useful to share configurations.
         if ($uuid) {
             unset($config['uuid']);

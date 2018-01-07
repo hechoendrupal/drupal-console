@@ -18,6 +18,7 @@ use Drupal\Core\Config\CachedStorage;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Extension\Manager;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Webmozart\PathUtil\Path;
 
 class ExportSingleCommand extends Command
@@ -44,7 +45,15 @@ class ExportSingleCommand extends Command
      */
     protected $extensionManager;
 
+    /**
+     * @var Configuration.
+     */
     protected $configExport;
+
+    /**
+     * @var LanguageManagerInterface
+     */
+    protected $languageManager;
 
     /**
      * ExportSingleCommand constructor.
@@ -52,15 +61,18 @@ class ExportSingleCommand extends Command
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param CachedStorage              $configStorage
      * @param Manager                    $extensionManager
+     * @param languageManager            $languageManager
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
         CachedStorage $configStorage,
-        Manager $extensionManager
+        Manager $extensionManager,
+        LanguageManagerInterface $languageManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;
+        $this->languageManager = $languageManager;
         parent::__construct();
     }
 
@@ -248,57 +260,83 @@ class ExportSingleCommand extends Command
         $removeHash = $input->getOption('remove-config-hash');
         $includeDependencies = $input->getOption('include-dependencies');
 
-        foreach ($name as $nameItem) {
-            $config = $this->getConfiguration(
-                $nameItem,
-                $removeUuid,
-                $removeHash
-            );
+        foreach ($this->getLanguage() as $value) {
+            foreach ($name as $nameItem) {
+                $config = $this->getConfiguration(
+                    $nameItem,
+                    $removeUuid,
+                    $removeHash,
+                    $value
+                );
 
-            if ($config) {
-                $this->configExport[$nameItem] = [
-                    'data' => $config,
-                    'optional' => $optional
-                ];
+                if ($config) {
+                    $this->configExport[$nameItem] = [
+                        'data' => $config,
+                        'optional' => $optional
+                    ];
 
-                if ($includeDependencies) {
-                    // Include config dependencies in export files
-                    if ($dependencies = $this->fetchDependencies($config, 'config')) {
-                        $this->resolveDependencies($dependencies, $optional);
+                    if ($includeDependencies) {
+                        // Include config dependencies in export files
+                        if ($dependencies = $this->fetchDependencies($config, 'config')) {
+                            $this->resolveDependencies($dependencies, $optional);
+                        }
                     }
+                } else {
+                    $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
+                }
+            }
+
+            if ($module) {
+                $this->exportConfigToModule(
+                    $module,
+                    $io,
+                    $this->trans(
+                        'commands.config.export.single.messages.config-exported'
+                    )
+                );
+
+                return 0;
+            }
+
+            if (!is_dir($directory)) {
+                $directory = $directory_copy = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+                if ($value) {
+                    $directory = $directory_copy .'/' . str_replace('.', '/', $value);
                 }
             } else {
-                $io->error($this->trans('commands.config.export.single.messages.config-not-found'));
+                $directory = $directory_copy .'/' . str_replace('.', '/', $value);
+                $directory = Path::canonicalize($directory);
+                if (!file_exists($directory)) {
+                    mkdir($directory, 0755, true);
+                }
             }
-        }
 
-        if ($module) {
-            $this->exportConfigToModule(
-                $module,
+            $this->exportConfig(
+                $directory,
                 $io,
-                $this->trans(
-                    'commands.config.export.single.messages.config-exported'
-                )
+                $this->trans('commands.config.export.single.messages.config-exported')
             );
-
-            return 0;
         }
-
-        if (!is_dir($directory)) {
-            $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
-        } else {
-            $directory = Path::canonicalize($directory);
-            if (!file_exists($directory)) {
-                mkdir($directory, 0755, true);
-            }
-        }
-
-        $this->exportConfig(
-            $directory,
-            $io,
-            $this->trans('commands.config.export.single.messages.config-exported')
-        );
 
         return 0;
+    }
+
+    /**
+     * Get the languague enable.
+     */
+    protected function getLanguage()
+    {
+      $output = [];
+      // Get the language that be for default.
+      $default_id = $this->languageManager->getDefaultLanguage()->getId();
+      foreach ($this->languageManager->getLanguages() as $key => $value) {
+        if ($default_id == $key) {
+          $output[] = '';
+        }
+        else {
+          $output[] = 'language.' . $value->getId();
+        }
+      }
+      return $output;
     }
 }
