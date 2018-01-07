@@ -13,6 +13,7 @@ use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
 use Drupal\Console\Core\Utils\DrupalFinder;
 use Drupal\Console\Core\Bootstrap\DrupalInterface;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class Drupal implements DrupalInterface
 {
@@ -24,15 +25,25 @@ class Drupal implements DrupalInterface
     protected $drupalFinder;
 
     /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
      * Drupal constructor.
      *
      * @param $autoload
      * @param $drupalFinder
+     * @param $configurationManager
      */
-    public function __construct($autoload, DrupalFinder $drupalFinder)
-    {
+    public function __construct(
+        $autoload,
+        DrupalFinder $drupalFinder,
+        ConfigurationManager $configurationManager
+    ) {
         $this->autoload = $autoload;
         $this->drupalFinder = $drupalFinder;
+        $this->configurationManager = $configurationManager;
     }
 
     /**
@@ -177,13 +188,12 @@ class Drupal implements DrupalInterface
 
             AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
-            // Load configuration from directory
-            $container->get('console.configuration_manager')
-                ->loadConfiguration($this->drupalFinder->getComposerRoot())
-                ->getConfiguration();
+            $container->set(
+                'console.configuration_manager',
+                $this->configurationManager
+            );
 
-            $configuration = $container->get('console.configuration_manager')
-                ->getConfiguration();
+            $configuration = $this->configurationManager->getConfiguration();
 
             $container->get('console.translator_manager')
                 ->loadCoreLanguage(
