@@ -180,12 +180,8 @@ class PluginSkeletonCommand extends ContainerAwareCommand
     {
         $io = new DrupalStyle($input, $output);
 
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        // --module option
+        $this->moduleFromInput($io, $input);
 
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {

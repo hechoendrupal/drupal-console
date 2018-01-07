@@ -131,13 +131,10 @@ class UpdateCommand extends Command
         $this->site->loadLegacyFile('/core/includes/update.inc');
         $this->site->loadLegacyFile('/core/includes/schema.inc');
 
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        // --module option
+        $this->moduleFromInput($io, $input);
 
+        $module = $input->getOption('module');
         $lastUpdateSchema = $this->getLastUpdate($module);
         $nextUpdateSchema = $lastUpdateSchema ? ($lastUpdateSchema + 1): 8001;
 

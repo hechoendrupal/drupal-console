@@ -219,12 +219,8 @@ class ExportSingleCommand extends Command
             $input->setOption('name', [$name]);
         }
 
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-        }
-        $input->setOption('module', $module);
+        // --module option
+        $this->moduleFromInput($io, $input);
 
         $module = $input->getOption('module');
         if ($module) {
