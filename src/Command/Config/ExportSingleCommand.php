@@ -17,12 +17,14 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Webmozart\PathUtil\Path;
 
 class ExportSingleCommand extends Command
 {
+    use ModuleTrait;
     use ExportTrait;
 
     /**
@@ -216,6 +218,13 @@ class ExportSingleCommand extends Command
 
             $input->setOption('name', [$name]);
         }
+
+        $module = $input->getOption('module');
+        if (!$module) {
+          // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
+          $module = $this->moduleQuestion($io);
+        }
+        $input->setOption('module', $module);
 
         $module = $input->getOption('module');
         if ($module) {
