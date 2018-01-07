@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Config;
 
 use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -43,20 +44,28 @@ class ExportContentTypeCommand extends Command
     protected $configExport;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * ExportContentTypeCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param CachedStorage              $configStorage
      * @param Manager                    $extensionManager
+     * @param Validator                  $validator
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
         CachedStorage $configStorage,
-        Manager $extensionManager
+        Manager $extensionManager,
+        Validator $validator
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
         parent::__construct();
     }
 

@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Utils\Validator;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Console\Core\Style\DrupalStyle;
@@ -58,23 +59,31 @@ class ExportSingleCommand extends Command
     protected $languageManager;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * ExportSingleCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
      * @param CachedStorage              $configStorage
      * @param Manager                    $extensionManager
      * @param languageManager            $languageManager
+     * @param Validator                  $validator
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
         CachedStorage $configStorage,
         Manager $extensionManager,
-        LanguageManagerInterface $languageManager
+        LanguageManagerInterface $languageManager,
+        Validator $validator
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;
         $this->languageManager = $languageManager;
+        $this->validator = $validator;
         parent::__construct();
     }
 

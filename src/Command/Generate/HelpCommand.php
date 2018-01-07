@@ -18,6 +18,7 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Utils\Validator;
 
 class HelpCommand extends Command
 {
@@ -25,8 +26,8 @@ class HelpCommand extends Command
     use ConfirmationTrait;
 
     /**
- * @var HelpGenerator
-*/
+     * @var HelpGenerator
+     */
     protected $generator;
 
     /**
@@ -35,14 +36,19 @@ class HelpCommand extends Command
     protected $site;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
      * @var ChainQueue
      */
     protected $chainQueue;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
 
 
     /**
@@ -57,12 +63,14 @@ class HelpCommand extends Command
         HelpGenerator $generator,
         Site $site,
         Manager $extensionManager,
-        ChainQueue $chainQueue
+        ChainQueue $chainQueue,
+        Validator $validator
     ) {
         $this->generator = $generator;
         $this->site = $site;
         $this->extensionManager = $extensionManager;
         $this->chainQueue = $chainQueue;
+        $this->validator = $validator;
         parent::__construct();
     }
 

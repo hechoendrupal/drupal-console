@@ -16,6 +16,7 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Utils\Validator;
 
 /**
  * Class ModuleFileCommand
@@ -28,14 +29,19 @@ class ModuleFileCommand extends Command
     use ModuleTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var ModuleFileGenerator
-*/
+     * @var ModuleFileGenerator
+     */
     protected $generator;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
 
 
     /**
@@ -46,10 +52,12 @@ class ModuleFileCommand extends Command
      */
     public function __construct(
         Manager $extensionManager,
-        ModuleFileGenerator $generator
+        ModuleFileGenerator $generator,
+        Validator $validator
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
+        $this->validator = $validator;
         parent::__construct();
     }
 

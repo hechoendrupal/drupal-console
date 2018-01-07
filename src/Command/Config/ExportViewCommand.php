@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Utils\Validator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\CachedStorage;
@@ -43,6 +44,11 @@ class ExportViewCommand extends Command
     protected $extensionManager;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * ExportViewCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
@@ -52,11 +58,13 @@ class ExportViewCommand extends Command
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
         CachedStorage $configStorage,
-        Manager $extensionManager
+        Manager $extensionManager,
+        Validator $validator
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
         parent::__construct();
     }
 
