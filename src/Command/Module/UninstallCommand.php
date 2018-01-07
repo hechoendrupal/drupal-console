@@ -177,8 +177,7 @@ class UninstallCommand extends Command
                 // #1356276 adds the profile_handler service but it hasn't been committed
                 // to core yet so we need to check if it exists.
                 $profiles = \Drupal::service('profile_handler')->getProfileInheritance();
-            }
-            else {
+            } else {
                 $profiles[drupal_get_profile()] = [];
             }
 

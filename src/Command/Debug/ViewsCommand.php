@@ -37,7 +37,7 @@ class ViewsCommand extends Command
      * DebugCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param PluginManagerInterface $viewsDisplayManager
+     * @param PluginManagerInterface     $viewsDisplayManager
      */
     public function __construct(EntityTypeManagerInterface $entityTypeManager, PluginManagerInterface $viewsDisplayManager)
     {

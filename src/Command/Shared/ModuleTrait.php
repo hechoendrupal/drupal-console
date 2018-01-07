@@ -91,21 +91,21 @@ trait ModuleTrait
     /**
      * Get module name from user.
      *
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
+     * @param  \Drupal\Console\Core\Style\DrupalStyle $io
      *   Console interface.
-     * @param InputInterface $input
+     * @param  InputInterface                         $input
      *   Input interface.
      * @throws \Exception
      *   When module is not found.
      */
-    public function moduleFromInput( DrupalStyle $io, InputInterface $input) {
+    public function moduleFromInput(DrupalStyle $io, InputInterface $input)
+    {
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
             $module = $this->moduleQuestion($io);
             $input->setOption('module', $module);
-        }
-        else {
+        } else {
             $missing_modules = $this->validator->getMissingModules([$module]);
             if ($missing_modules) {
                 throw new \Exception(

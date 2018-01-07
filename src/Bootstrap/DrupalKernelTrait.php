@@ -64,7 +64,8 @@ trait DrupalKernelTrait
         $this->discoverDrupalConsoleServiceProviders();
     }
 
-    public function getContainerKey() {
+    public function getContainerKey()
+    {
         return hash("sha256", $this->getContainerCacheKey());
     }
 
@@ -97,7 +98,9 @@ trait DrupalKernelTrait
                 $root. DRUPAL_CONSOLE . 'uninstall.services.yml',
                 $root. DRUPAL_CONSOLE . 'services.yml'
             ],
-            function ($file) { return file_exists($file); }
+            function ($file) {
+                return file_exists($file);
+            }
         );
 
         $this->addDrupalServiceFiles($servicesFiles);
@@ -130,7 +133,9 @@ trait DrupalKernelTrait
                 $root . DRUPAL_CONSOLE . 'extend.console.services.yml',
                 $root . DRUPAL_CONSOLE . 'extend.console.uninstall.services.yml',
             ],
-            function ($file) { return file_exists($file); }
+            function ($file) {
+                return file_exists($file);
+            }
         );
 
         $this->addDrupalServiceFiles($servicesFiles);

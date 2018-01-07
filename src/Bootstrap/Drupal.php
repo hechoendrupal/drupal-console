@@ -227,7 +227,9 @@ class Drupal implements DrupalInterface
             ];
 
             if (in_array($e->getCode(), $notifyErrorCodes)) {
-                /** @var \Drupal\Console\Core\Utils\MessageManager $messageManager */
+                /**
+                 * @var \Drupal\Console\Core\Utils\MessageManager $messageManager
+                 */
                 $messageManager = $container->get('console.message_manager');
                 $messageManager->error(
                     $e->getMessage(),

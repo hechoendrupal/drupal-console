@@ -123,7 +123,7 @@ class RunCommand extends Command
     }
 
     /**
-     * @param \Drupal\Core\Queue\QueueInterface $queue
+     * @param \Drupal\Core\Queue\QueueInterface       $queue
      * @param \Drupal\Core\Queue\QueueWorkerInterface $worker
      *
      * @return array

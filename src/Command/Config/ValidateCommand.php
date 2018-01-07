@@ -34,8 +34,8 @@ class ValidateCommand extends ContainerAwareCommand
             ->setName('config:validate')
             ->setDescription($this->trans('commands.config.validate.description'))
             ->addArgument(
-            		'name', 
-            		InputArgument::REQUIRED
+                'name',
+                InputArgument::REQUIRED
             )->setAliases(['cv']);
     }
 

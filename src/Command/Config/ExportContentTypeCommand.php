@@ -50,9 +50,9 @@ class ExportContentTypeCommand extends Command
      * @param Manager                    $extensionManager
      */
     public function __construct(
-      EntityTypeManagerInterface $entityTypeManager,
-      CachedStorage $configStorage,
-      Manager $extensionManager
+        EntityTypeManagerInterface $entityTypeManager,
+        CachedStorage $configStorage,
+        Manager $extensionManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
@@ -66,30 +66,30 @@ class ExportContentTypeCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('config:export:content:type')
-          ->setDescription($this->trans('commands.config.export.content.type.description'))
-          ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
-          ->addArgument(
-            'content-type',
-            InputArgument::REQUIRED,
-            $this->trans('commands.config.export.content.type.arguments.content-type')
-          )->addOption(
-            'optional-config',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.config.export.content.type.options.optional-config')
-          )->addOption(
-            'remove-uuid',
-            null,
-            InputOption::VALUE_NONE,
-            $this->trans('commands.config.export.content.type.options.remove-uuid')
-          )->addOption(
-            'remove-config-hash',
-            null,
-            InputOption::VALUE_NONE,
-            $this->trans('commands.config.export.content.type.options.remove-config-hash')
-          )
-          ->setAliases(['cect']);
+            ->setName('config:export:content:type')
+            ->setDescription($this->trans('commands.config.export.content.type.description'))
+            ->addOption('module', null, InputOption::VALUE_REQUIRED, $this->trans('commands.common.options.module'))
+            ->addArgument(
+                'content-type',
+                InputArgument::REQUIRED,
+                $this->trans('commands.config.export.content.type.arguments.content-type')
+            )->addOption(
+                'optional-config',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.content.type.options.optional-config')
+            )->addOption(
+                'remove-uuid',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.content.type.options.remove-uuid')
+            )->addOption(
+                'remove-config-hash',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.content.type.options.remove-config-hash')
+            )
+            ->setAliases(['cect']);
 
         $this->configExport = [];
     }
@@ -149,7 +149,6 @@ class ExportContentTypeCommand extends Command
             );
             $input->setOption('remove-config-hash', $removeHash);
         }
-
     }
 
     /**
@@ -171,7 +170,7 @@ class ExportContentTypeCommand extends Command
         $contentTypeNameConfig = $this->getConfiguration($contentTypeName, $removeUuid, $removeHash);
 
         if (empty($contentTypeNameConfig)) {
-          throw new InvalidOptionException(sprintf('The content type %s does not exist.', $contentType));
+            throw new InvalidOptionException(sprintf('The content type %s does not exist.', $contentType));
         }
 
         $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];

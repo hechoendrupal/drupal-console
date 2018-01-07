@@ -164,7 +164,8 @@ class ContainerCommand extends ContainerAwareCommand
         return $services;
     }
 
-    private function getServiceListByTag($tag) {
+    private function getServiceListByTag($tag)
+    {
         $services = [];
         $serviceIds = [];
         $serviceDefinitions = $this->container->getDefinitions();
