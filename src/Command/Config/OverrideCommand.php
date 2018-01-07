@@ -53,13 +53,14 @@ class OverrideCommand extends Command
                 $this->trans('commands.config.override.arguments.name')
             )
             ->addArgument(
-            	'key', 
-            	InputArgument::REQUIRED, 
-            	$this->trans('commands.config.override.arguments.key'))
+                'key',
+                InputArgument::REQUIRED,
+                $this->trans('commands.config.override.arguments.key')
+            )
             ->addArgument(
-            	'value', 
-            	InputArgument::REQUIRED, 
-            	$this->trans('commands.config.override.arguments.value')
+                'value',
+                InputArgument::REQUIRED,
+                $this->trans('commands.config.override.arguments.value')
             )
             ->setAliases(['co']);
     }

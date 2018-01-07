@@ -53,7 +53,7 @@ class CommandGenerator extends Generator
      * @param boolean $containerAware Container Aware command
      * @param array   $services       Services array
      */
-    public function generate($extension, $extensionType, $name,$interact, $class, $containerAware, $services)
+    public function generate($extension, $extensionType, $name, $interact, $class, $containerAware, $services)
     {
         $command_key = str_replace(':', '.', $name);
 

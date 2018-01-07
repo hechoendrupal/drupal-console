@@ -51,7 +51,7 @@ class DeleteCommand extends Command
             ->setDescription($this->trans('commands.entity.delete.description'))
             ->addOption(
                 'all',
-                NULL,
+                null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.entity.delete.options.all')
             )
@@ -95,8 +95,7 @@ class DeleteCommand extends Command
 
         if ($all) {
             $input->setArgument('entity-id', '-');
-        }
-        elseif (!$entityID) {
+        } elseif (!$entityID) {
             $entityID = $io->ask(
                 $this->trans('commands.entity.delete.questions.entity-id')
             );
@@ -118,11 +117,13 @@ class DeleteCommand extends Command
 
             if ($input->getOption('all')) {
                 $entities = $storage->loadMultiple();
-                if ($io->confirm(sprintf(
-                    $this->trans('commands.entity.delete.messages.confirm-delete-all'),
-                    $entityDefinitionID,
-                    count($entities)
-                ))
+                if ($io->confirm(
+                    sprintf(
+                        $this->trans('commands.entity.delete.messages.confirm-delete-all'),
+                        $entityDefinitionID,
+                        count($entities)
+                    )
+                )
                 ) {
                     $storage->delete($entities);
                     $io->success(
@@ -133,8 +134,7 @@ class DeleteCommand extends Command
                         )
                     );
                 }
-            }
-            else {
+            } else {
                 $entityID = $input->getArgument('entity-id');
                 $storage->load($entityID)->delete();
                 $io->success(
@@ -150,7 +150,5 @@ class DeleteCommand extends Command
 
             return 1;
         }
-
-
     }
 }

@@ -79,7 +79,7 @@ class RestoreCommand extends Command
             );
             return 1;
         }
-        if (strpos($file, '.sql.gz') !== FALSE) {
+        if (strpos($file, '.sql.gz') !== false) {
             $catCommand = "gunzip -c %s | ";
         } else {
             $catCommand = "cat %s | ";

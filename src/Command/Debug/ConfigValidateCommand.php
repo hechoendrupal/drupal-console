@@ -37,17 +37,17 @@ class ConfigValidateCommand extends ContainerAwareCommand
             ->setName('debug:config:validate')
             ->setDescription($this->trans('commands.debug.config.validate.description'))
             ->addArgument(
-            		'filepath',
-            		InputArgument::REQUIRED
+                'filepath',
+                InputArgument::REQUIRED
             )
             ->addArgument(
-            		'schema-filepath',
-            		InputArgument::REQUIRED
+                'schema-filepath',
+                InputArgument::REQUIRED
             )
             ->addOption(
-            		'schema-name',
-            		'sch',
-            		InputOption::VALUE_REQUIRED
+                'schema-name',
+                'sch',
+                InputOption::VALUE_REQUIRED
             )->setAliases(['dcv']);
     }
 

@@ -61,7 +61,6 @@ class DeleteTermCommand extends Command
         if ($vid === 'all') {
             $vid = $vid;
         } elseif (!in_array($vid, array_keys($this->getVocabularies()))) {
-
             $io->error(
                 sprintf(
                     $this->trans('commands.taxonomy.term.delete.messages.invalid-vocabulary'),
@@ -69,7 +68,6 @@ class DeleteTermCommand extends Command
                 )
             );
             return;
-
         }
         $this->deleteExistingTerms($vid, $io);
     }
@@ -94,12 +92,12 @@ class DeleteTermCommand extends Command
 
     /**
      * Destroy all existing terms
+     *
      * @param $vid
      * @param $io
      */
     private function deleteExistingTerms($vid = null, DrupalStyle $io)
     {
-
         $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
         //Load all vocabularies
         $vocabularies = $this->getVocabularies();
@@ -121,7 +119,6 @@ class DeleteTermCommand extends Command
                         $item
                     )
                 );
-
             } else {
                 foreach ($terms as $term) {
                     $treal = $termStorage->load($term->tid);
@@ -136,7 +133,6 @@ class DeleteTermCommand extends Command
                         $treal->delete();
                     }
                 }
-
             }
         }
     }

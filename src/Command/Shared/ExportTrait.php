@@ -25,7 +25,6 @@ trait ExportTrait
      */
     protected function getConfiguration($configName, $uuid = false, $hash = false, $collection = '')
     {
-
         $config = $this->configStorage->createCollection($collection)->read($configName);
         // Exclude uuid base in parameter, useful to share configurations.
         if ($uuid) {
@@ -36,10 +35,10 @@ trait ExportTrait
         if ($hash) {
             unset($config['_core']['default_config_hash']);
 
-          // Remove empty _core to match core's output.
-          if (empty($config['_core'])) {
-            unset($config['_core']);
-          }
+            // Remove empty _core to match core's output.
+            if (empty($config['_core'])) {
+                unset($config['_core']);
+            }
         }
 
         return $config;

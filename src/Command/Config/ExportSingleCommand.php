@@ -221,8 +221,8 @@ class ExportSingleCommand extends Command
 
         $module = $input->getOption('module');
         if (!$module) {
-          // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-          $module = $this->moduleQuestion($io);
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
+            $module = $this->moduleQuestion($io);
         }
         $input->setOption('module', $module);
 
@@ -335,17 +335,16 @@ class ExportSingleCommand extends Command
      */
     protected function getLanguage()
     {
-      $output = [];
-      // Get the language that be for default.
-      $default_id = $this->languageManager->getDefaultLanguage()->getId();
-      foreach ($this->languageManager->getLanguages() as $key => $value) {
-        if ($default_id == $key) {
-          $output[] = '';
+        $output = [];
+        // Get the language that be for default.
+        $default_id = $this->languageManager->getDefaultLanguage()->getId();
+        foreach ($this->languageManager->getLanguages() as $key => $value) {
+            if ($default_id == $key) {
+                $output[] = '';
+            } else {
+                $output[] = 'language.' . $value->getId();
+            }
         }
-        else {
-          $output[] = 'language.' . $value->getId();
-        }
-      }
-      return $output;
+        return $output;
     }
 }

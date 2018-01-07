@@ -18,7 +18,6 @@ use Drupal\Console\Core\Style\DrupalStyle;
 /**
  * Class CommentsCommand
  *
- *
  * @package Drupal\Console\Command\Generate
  *
  * @DrupalCommand(

@@ -88,10 +88,11 @@ class UpdateCommand extends Command
 
         $sites = $this->getMultisite($io, $this->uri);
         if ($this->uri == "default") {
-            $this->uri = $io->choice($this->trans('commands.multisite.update.questions.uri'),
+            $this->uri = $io->choice(
+                $this->trans('commands.multisite.update.questions.uri'),
                 $sites
             );
-        }else if (!array_key_exists($this->uri, $sites)) {
+        } elseif (!array_key_exists($this->uri, $sites)) {
             $io->error(
                 $this->trans('commands.multisite.update.error.invalid-uri')
             );
@@ -115,7 +116,7 @@ class UpdateCommand extends Command
         $io = new DrupalStyle($input, $output);
         $this->fs = new Filesystem();
 
-        if(empty($this->uri)){
+        if (empty($this->uri)) {
             $uri =  parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
             $sites = $this->getMultisite($io, $uri);
             $this->uri = $sites[$uri];
@@ -138,8 +139,7 @@ class UpdateCommand extends Command
                 $content_chunks=explode($string_to_replace, $content);
                 $content=implode($replace_with, $content_chunks);
                 file_put_contents($multiSiteFile, $content);
-            }
-            catch (IOExceptionInterface $e) {
+            } catch (IOExceptionInterface $e) {
                 $io->error(
                     sprintf(
                         $this->trans('commands.multisite.update.errors.write-fail'),
@@ -151,16 +151,15 @@ class UpdateCommand extends Command
             }
 
             //Directory == 1 folder
-            if(count($this->explodeDirectory) == 1){
-
+            if (count($this->explodeDirectory) == 1) {
                 $this->recurse_copy(
                     $this->appRoot.'/sites/'.$this->uri,
                     $this->appRoot.'/sites/'.$this->directory
                 );
 
-                if($this->explodeDirectory[0] != $this->explodeUriDirectory[0]
+                if ($this->explodeDirectory[0] != $this->explodeUriDirectory[0]
                     && $this->fs->exists($this->appRoot.'/sites/'.$this->explodeUriDirectory[0].'/files')
-                ){
+                ) {
                     $this->fs->remove($this->appRoot.'/sites/'.$this->directory.'/files');
 
                     $this->recurse_copy(
@@ -171,9 +170,9 @@ class UpdateCommand extends Command
 
                 $this->fs->chmod($this->appRoot.'/sites/'.$this->uri, 0755);
                 $this->fs->remove($this->appRoot.'/sites/'.$this->uri);
-            }else{
+            } else {
                 //Directory == 2 folders && uri == 2 folders
-                if(count($this->explodeUriDirectory) != 1) {
+                if (count($this->explodeUriDirectory) != 1) {
                     if (!$this->fs->exists($this->appRoot . '/sites/' . $this->directory)) {
                         $this->fs->rename(
                             $this->appRoot . '/sites/' . $this->uri,
@@ -181,23 +180,23 @@ class UpdateCommand extends Command
                         );
                     }
 
-                    if(count(scandir($this->appRoot.'/sites/'.$this->explodeUriDirectory[0])) != 2){
+                    if (count(scandir($this->appRoot.'/sites/'.$this->explodeUriDirectory[0])) != 2) {
                         $this->recurse_copy(
                             $this->appRoot.'/sites/'.$this->explodeUriDirectory[0].'/files',
                             $this->appRoot . '/sites/' . $this->explodeDirectory[0].'/files'
                         );
-                    }else {
+                    } else {
                         $this->fs->remove($this->appRoot.'/sites/'.$this->explodeUriDirectory[0]);
                     }
                 }
                 //Directory == 2 folders && uri == 1 folder
                 else {
-                    if(!$this->fs->exists($this->appRoot.'/sites/'.$this->directory)) {
+                    if (!$this->fs->exists($this->appRoot.'/sites/'.$this->directory)) {
                         try {
                             $this->fs->chmod($this->appRoot.'/sites/'.$this->uri, 0755);
                             $this->fs->mkdir($this->appRoot.'/sites/'.$this->directory, 0755);
 
-                            if($this->explodeUriDirectory[0] != $this->explodeDirectory[0]){
+                            if ($this->explodeUriDirectory[0] != $this->explodeDirectory[0]) {
                                 $this->recurse_copy(
                                     $this->appRoot.'/sites/'.$this->uri,
                                     $this->appRoot.'/sites/'.$this->explodeDirectory[0]
@@ -218,8 +217,7 @@ class UpdateCommand extends Command
             }
 
             $this->editSettings($io);
-
-        }else {
+        } else {
             $io->error(
                 sprintf(
                     $this->trans('commands.multisite.update.errors.invalid-new-dir'),
@@ -227,7 +225,6 @@ class UpdateCommand extends Command
                 )
             );
         }
-
     }
 
     /**
@@ -266,7 +263,7 @@ class UpdateCommand extends Command
     protected function moveSettings(DrupalStyle $io)
     {
         try {
-            if(!$this->fs->exists($this->appRoot.'/sites/'.$this->directory.'/settings.php')){
+            if (!$this->fs->exists($this->appRoot.'/sites/'.$this->directory.'/settings.php')) {
                 $this->fs->copy(
                     $this->appRoot.'/sites/'.$this->uri.'/settings.php',
                     $this->appRoot.'/sites/'.$this->directory.'/settings.php'
@@ -296,7 +293,7 @@ class UpdateCommand extends Command
             '%s/sites/'.$this->explodeDirectory[0].'/settings.php',
             $this->appRoot
         );
-        if(!$this->fs->exists($multiSiteSettingsFile)){
+        if (!$this->fs->exists($multiSiteSettingsFile)) {
             $multiSiteSettingsFile = sprintf(
                 '%s/sites/'.$this->directory.'/settings.php',
                 $this->appRoot
@@ -311,7 +308,7 @@ class UpdateCommand extends Command
         }
 
         try {
-            if (!empty($databases) || !empty($config_directories) ) {
+            if (!empty($databases) || !empty($config_directories)) {
                 //Replace $databases['default']['default']['database']
                 $line = explode('/', $databases['default']['default']['database']);
                 $string_to_replace= $databases['default']['default']['database'];
@@ -327,8 +324,7 @@ class UpdateCommand extends Command
                 $content=implode($replace_with, $content_chunks);
                 file_put_contents($multiSiteSettingsFile, $content);
             }
-        }
-        catch (IOExceptionInterface $e) {
+        } catch (IOExceptionInterface $e) {
             $io->error(
                 sprintf(
                     $this->trans('commands.multisite.update.messages.write-fail'),
@@ -337,29 +333,27 @@ class UpdateCommand extends Command
             );
             return 1;
         }
-
     }
 
     /**
      * Custom function to recursively copy all file and folders in new destination
      *
-     * @param   $source
-     * @param   $destination
+     * @param $source
+     * @param $destination
      */
-    public function recurse_copy($source, $destination) {
+    public function recurse_copy($source, $destination)
+    {
         $directory = opendir($source);
         $this->fs->mkdir($destination, 0755);
-        while(false !== ( $file = readdir($directory)) ) {
-            if (( $file != '.' ) && ( $file != '..' )) {
-                if ( is_dir($source . '/' . $file) ) {
-                    $this->recurse_copy($source . '/' . $file,$destination . '/' . $file);
-                }
-                else {
-                    $this->fs->copy($source . '/' . $file,$destination . '/' . $file);
+        while (false !== ($file = readdir($directory))) {
+            if (($file != '.') && ($file != '..')) {
+                if (is_dir($source . '/' . $file)) {
+                    $this->recurse_copy($source . '/' . $file, $destination . '/' . $file);
+                } else {
+                    $this->fs->copy($source . '/' . $file, $destination . '/' . $file);
                 }
             }
         }
         closedir($directory);
     }
-
 }
