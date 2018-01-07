@@ -3,6 +3,7 @@
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Core\Style\DrupalStyle;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Class ModuleTrait
@@ -87,35 +88,35 @@ trait ModuleTrait
         }
     }
 
-  /**
-   * Get module name from user.
-   *
-   * @param \Drupal\Console\Core\Style\DrupalStyle $io
-   *   Console interface.
-   * @param \Drupal\Console\Command\Shared\InputInterface $input
-   *   Input interface.
-   * @throws \Exception
-   *   When module is not found.
-   */
+    /**
+     * Get module name from user.
+     *
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
+     *   Console interface.
+     * @param InputInterface $input
+     *   Input interface.
+     * @throws \Exception
+     *   When module is not found.
+     */
     public function moduleFromInput( DrupalStyle $io, InputInterface $input) {
-      $module = $input->getOption('module');
-      if (!$module) {
-        // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-        $module = $this->moduleQuestion($io);
-        $input->setOption('module', $module);
-      }
-      else {
-        $missing_modules = $this->validator->getMissingModules([$module]);
-        if ($missing_modules) {
-          throw new \Exception(
-            sprintf(
-              $this->trans(
-                'commands.module.download.messages.no-releases'
-              ),
-              $module
-            )
-          );
+        $module = $input->getOption('module');
+        if (!$module) {
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
+            $module = $this->moduleQuestion($io);
+            $input->setOption('module', $module);
         }
-      }
+        else {
+            $missing_modules = $this->validator->getMissingModules([$module]);
+            if ($missing_modules) {
+                throw new \Exception(
+                    sprintf(
+                        $this->trans(
+                            'commands.module.download.messages.no-releases'
+                        ),
+                        $module
+                    )
+                );
+            }
+        }
     }
 }
