@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Config;
 
 use Drupal\Console\Command\Shared\ModuleTrait;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -168,6 +169,10 @@ class ExportContentTypeCommand extends Command
         $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
 
         $contentTypeNameConfig = $this->getConfiguration($contentTypeName, $removeUuid, $removeHash);
+
+        if (empty($contentTypeNameConfig)) {
+          throw new InvalidOptionException(sprintf('The content type %s does not exist.', $contentType));
+        }
 
         $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];
 
