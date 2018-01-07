@@ -107,7 +107,7 @@ class RouteSubscriberCommand extends Command
         $output = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($output)) {
+        if (!$this->confirmGeneration($output, $input)) {
             return 1;
         }
 

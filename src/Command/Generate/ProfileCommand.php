@@ -141,10 +141,9 @@ class ProfileCommand extends Command
     {
         $io = new DrupalStyle($input, $output);
 
-        if (!$this->confirmGeneration($io)) {
+        if (!$this->confirmGeneration($io, $input)) {
             return 1;
         }
-
 
         // Get the profile path and define a profile path if it is null
         // Check that it is an absolute path or otherwise create an absolute path using appRoot

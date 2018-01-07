@@ -78,7 +78,7 @@ class ModuleFileCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $yes)) {
+        if (!$this->confirmGeneration($io, $input)) {
             return 1;
         }
 

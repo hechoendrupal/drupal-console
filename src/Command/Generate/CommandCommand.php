@@ -146,10 +146,9 @@ class CommandCommand extends ContainerAwareCommand
         $interact = $input->getOption('interact');
         $containerAware = $input->getOption('container-aware');
         $services = $input->getOption('services');
-        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $yes)) {
+        if (!$this->confirmGeneration($io, $input)) {
             return 1;
         }
 
