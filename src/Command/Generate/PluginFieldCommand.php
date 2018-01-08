@@ -218,12 +218,7 @@ class PluginFieldCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->moduleFromInput($io, $input);
 
         // --type-class option
         $typeClass = $input->getOption('type-class');

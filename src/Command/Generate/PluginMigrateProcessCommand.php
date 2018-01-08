@@ -129,12 +129,7 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // 'module-name' option.
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->moduleFromInput($io, $input);
 
         // 'class-name' option
         $class = $input->getOption('class');

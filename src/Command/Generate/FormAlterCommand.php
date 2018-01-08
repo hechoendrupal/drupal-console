@@ -61,13 +61,13 @@ class FormAlterCommand extends Command
     protected $elementInfoManager;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
- * @var RouteProviderInterface
-*/
+     * @var RouteProviderInterface
+     */
     protected $routeProvider;
 
     /**
@@ -106,7 +106,8 @@ class FormAlterCommand extends Command
         ElementInfoManager $elementInfoManager,
         Profiler $profiler = null,
         $appRoot,
-        ChainQueue $chainQueue
+        ChainQueue $chainQueue,
+        Validator $validator
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
@@ -116,6 +117,7 @@ class FormAlterCommand extends Command
         $this->profiler = $profiler;
         $this->appRoot = $appRoot;
         $this->chainQueue = $chainQueue;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -199,13 +201,7 @@ class FormAlterCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-        }
-
-        $input->setOption('module', $module);
+        $this->moduleFromInput($io, $input);
 
         // --form-id option
         $formId = $input->getOption('form-id');

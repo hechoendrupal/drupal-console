@@ -6,7 +6,7 @@ services:
        - { name: drupal.command }
   console.generate_modulefile:
     class: Drupal\Console\Command\Generate\ModuleFileCommand
-    arguments: ['@console.extension_manager', '@console.modulefile_generator']
+    arguments: ['@console.extension_manager', '@console.modulefile_generator', '@console.validator']
     tags:
        - { name: drupal.command }
   console.generate_authentication_provider:
@@ -26,7 +26,7 @@ services:
       - { name: drupal.command }
   console.generate_help:
     class: Drupal\Console\Command\Generate\HelpCommand
-    arguments: ['@console.help_generator', '@console.site', '@console.extension_manager', '@console.chain_queue']
+    arguments: ['@console.help_generator', '@console.site', '@console.extension_manager', '@console.chain_queue', '@console.validator']
     tags:
        - { name: drupal.command }
   console.generate_form:
@@ -36,12 +36,12 @@ services:
        - { name: drupal.command }
   console.generate_form_alter:
     class: Drupal\Console\Command\Generate\FormAlterCommand
-    arguments: ['@console.extension_manager', '@console.form_alter_generator', '@console.string_converter', '@module_handler', '@plugin.manager.element_info', '@?profiler', '@app.root', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.form_alter_generator', '@console.string_converter', '@module_handler', '@plugin.manager.element_info', '@?profiler', '@app.root', '@console.chain_queue', '@console.validator']
     tags:
        - { name: drupal.command }
   console.generate_permissions:
     class: Drupal\Console\Command\Generate\PermissionCommand
-    arguments: ['@console.extension_manager', '@console.string_converter', '@console.permission_generator']
+    arguments: ['@console.extension_manager', '@console.string_converter', '@console.permission_generator', '@console.validator']
     tags:
        - { name: drupal.command }
   console.generate_event_subscriber:
@@ -166,7 +166,7 @@ services:
        - { name: drupal.command }
   console.generate_update:
     class: Drupal\Console\Command\Generate\UpdateCommand
-    arguments: ['@console.extension_manager', '@console.update_generator', '@console.site', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.update_generator', '@console.site', '@console.chain_queue', '@console.validator']
     tags:
        - { name: drupal.command }
   console.generate_pluginblock:

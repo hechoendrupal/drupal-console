@@ -18,6 +18,7 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Utils\Validator;
 
 class PermissionCommand extends Command
 {
@@ -41,6 +42,11 @@ class PermissionCommand extends Command
     protected $generator;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * PermissionCommand constructor.
      *
      * @param Manager         $extensionManager
@@ -49,11 +55,13 @@ class PermissionCommand extends Command
     public function __construct(
         Manager $extensionManager,
         StringConverter $stringConverter,
-        PermissionGenerator $permissionGenerator
+        PermissionGenerator $permissionGenerator,
+        Validator $validator
     ) {
         $this->extensionManager = $extensionManager;
         $this->stringConverter = $stringConverter;
         $this->generator = $permissionGenerator;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -102,12 +110,7 @@ class PermissionCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->moduleFromInput($io, $input);
 
         // --permissions option
         $permissions = $input->getOption('permissions');
