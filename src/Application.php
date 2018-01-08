@@ -79,7 +79,6 @@ class Application extends BaseApplication
             return;
         }
 
-
         if (!$this->container->has('console.annotation_command_reader')) {
             return;
         }
