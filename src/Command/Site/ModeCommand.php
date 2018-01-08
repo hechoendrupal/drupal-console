@@ -238,7 +238,7 @@ class ModeCommand extends ContainerAwareCommand
     protected function loadConfigurations($env)
     {
         $configFile = $this->configurationManager
-                ->getVendorCoreDirectory() . 'site.mode.yml';
+            ->getVendorCoreDirectory() . 'site.mode.yml';
 
         $siteModeConfiguration = Yaml::parse(file_get_contents($configFile));
         $configKeys = array_keys($siteModeConfiguration);
