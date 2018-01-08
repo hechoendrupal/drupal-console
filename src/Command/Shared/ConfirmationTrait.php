@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 trait ConfirmationTrait
 {
     /**
-     * @param  DrupalStyle $io
+     * @param  DrupalStyle    $io
      *   Console interface.
      * @param  InputInterface $input
      *   Input interface.
