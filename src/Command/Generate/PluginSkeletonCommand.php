@@ -133,7 +133,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
         $plugins = $this->getPlugins();
 
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        if (!$this->confirmGeneration($io, $input)) {
             return 1;
         }
 
