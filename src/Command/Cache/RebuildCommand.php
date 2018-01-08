@@ -7,14 +7,15 @@
 
 namespace Drupal\Console\Command\Cache;
 
+use Composer\Autoload\ClassLoader;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Utils\Site;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Utils\Site;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class RebuildCommand
@@ -33,7 +34,11 @@ class RebuildCommand extends Command
      */
     protected $site;
 
+    /**
+     * @var ClassLoader
+     */
     protected $classLoader;
+
     /**
      * @var RequestStack
      */
@@ -44,7 +49,7 @@ class RebuildCommand extends Command
      *
      * @param DrupalApi    $drupalApi
      * @param Site         $site
-     * @param $classLoader
+     * @param ClassLoader  $classLoader
      * @param RequestStack $requestStack
      */
     public function __construct(
