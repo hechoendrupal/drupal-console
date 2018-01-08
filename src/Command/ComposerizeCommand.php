@@ -9,6 +9,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 
+/**
+ * Class ComposerizeCommand
+ *
+ * @package Drupal\Console\Command
+ */
 class ComposerizeCommand extends ContainerAwareCommand
 {
     protected $packages = [];
@@ -37,7 +42,7 @@ class ComposerizeCommand extends ContainerAwareCommand
                 InputOption::VALUE_NONE,
                 $this->trans('commands.composerize.options.include-version')
             )
-            ->setHelp($this->trans('commands.composerize.help'));
+            ->setHelp($this->trans('commands.composerize.description'));
     }
 
     /**
@@ -71,8 +76,12 @@ class ComposerizeCommand extends ContainerAwareCommand
                 continue;
             }
             if (!$hidePackages) {
-                $io->comment(ucfirst($type).'(s) detected.');
-                $tableHeader = ['Name', 'Version', 'Dependencies'];
+                $io->comment($this->trans('commands.composerize.messages.'.$type));
+                $tableHeader = [
+                    $this->trans('commands.composerize.messages.name'),
+                    $this->trans('commands.composerize.messages.version'),
+                    $this->trans('commands.composerize.messages.dependencies')
+                ];
                 $io->table($tableHeader, $packages);
             }
             foreach ($packages as $package) {
@@ -87,13 +96,13 @@ class ComposerizeCommand extends ContainerAwareCommand
                 $composerCommand .= ' ';
             }
         }
-        $io->comment('From your project root:');
+        $io->comment($this->trans('commands.composerize.messages.from'));
         $io->simple($this->get('console.root'));
         $io->newLine();
-        $io->comment('Execute this command:');
+        $io->comment($this->trans('commands.composerize.messages.execute'));
         $io->simple($composerCommand);
         $io->newLine();
-        $io->comment('To ignore third party libraries, modules and themes add to your .gitignore file:');
+        $io->comment($this->trans('commands.composerize.messages.ignore'));
         $io->writeln(
             [
                 ' /vendor/',
