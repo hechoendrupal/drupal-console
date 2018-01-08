@@ -4,6 +4,7 @@ namespace Drupal\Console\Command\User;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Core\Command\Command;
+use Drupal\Core\Entity\Query\QueryFactory;
 
 /**
  * Class UserBase
@@ -17,15 +18,22 @@ class UserBase extends Command
      */
     protected $entityTypeManager;
 
+		/**
+		 * @var QueryFactory
+		 */
+		protected $entityQuery;
+
     /**
      * Base constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(
-        EntityTypeManagerInterface $entityTypeManager
+        EntityTypeManagerInterface $entityTypeManager,
+				QueryFactory $entityQuery
     ) {
         $this->entityTypeManager = $entityTypeManager;
+			  $this->entityQuery = $entityQuery;
         parent::__construct();
     }
 
@@ -50,4 +58,30 @@ class UserBase extends Command
 
         return $userEntity;
     }
+
+		/**
+		 * @param $user mixed
+		 *
+		 * @return mixed
+		 */
+		public function getUserName()
+		{
+			//$query = $this->entityQuery->get('user');
+			$query =  \Drupal::entityQuery('user');
+			$query->sort('uid');
+
+			$results = $query->execute();
+
+			$userStorage = \Drupal::entityManager()->getStorage('user');
+					//$this->entityTypeManager->getStorage('user');
+			$users = $userStorage->loadMultiple($results);
+
+			$users = [];
+			foreach ($users as $userId => $user) {
+				 $users[$userId] = $user->getUsername();
+			}
+
+			return $users;
+
+		}
 }
