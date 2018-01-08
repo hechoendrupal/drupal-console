@@ -51,6 +51,6 @@ class {{ class }} extends JavaScriptTestBase {% endblock %}
   public function testFrontpage() {
     $this->drupalGet(Url::fromRoute('<front>'));
     $page = $this->getSession()->getPage();
-    $this->assertResponse(200);
+    $this->assertSession()->statusCodeEquals(200);
   }
 {% endblock %}
