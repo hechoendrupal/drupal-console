@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Cache;
 
-use Composer\Autoload\ClassLoader;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
@@ -34,9 +33,6 @@ class RebuildCommand extends Command
      */
     protected $site;
 
-    /**
-     * @var ClassLoader
-     */
     protected $classLoader;
 
     /**
@@ -49,7 +45,7 @@ class RebuildCommand extends Command
      *
      * @param DrupalApi    $drupalApi
      * @param Site         $site
-     * @param ClassLoader  $classLoader
+     * @param $classLoader
      * @param RequestStack $requestStack
      */
     public function __construct(
