@@ -54,14 +54,7 @@ class LoginUrlCommand extends UserBase
     {
         $io = new DrupalStyle($input, $output);
 
-        $user = $input->getArgument('user');
-        if (!$user) {
-            $user = $io->ask(
-                $this->trans('commands.user.login.url.questions.user')
-            );
-
-            $input->setArgument('user', $user);
-        }
+			  $this->userQuestion();
     }
 
     /**

@@ -4,7 +4,6 @@ namespace Drupal\Console\Command\User;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Core\Entity\Query\QueryFactory;
 
 /**
  * Class UserBase
@@ -18,10 +17,6 @@ class UserBase extends Command
      */
     protected $entityTypeManager;
 
-		/**
-		 * @var QueryFactory
-		 */
-		protected $entityQuery;
 
     /**
      * Base constructor.
@@ -29,11 +24,9 @@ class UserBase extends Command
      * @param EntityTypeManagerInterface $entityTypeManager
      */
     public function __construct(
-        EntityTypeManagerInterface $entityTypeManager,
-				QueryFactory $entityQuery
+        EntityTypeManagerInterface $entityTypeManager
     ) {
         $this->entityTypeManager = $entityTypeManager;
-			  $this->entityQuery = $entityQuery;
         parent::__construct();
     }
 
@@ -60,28 +53,37 @@ class UserBase extends Command
     }
 
 		/**
-		 * @param $user mixed
 		 *
-		 * @return mixed
+		 * @return array users from site
 		 */
-		public function getUserName()
+		public function getUsers()
 		{
-			//$query = $this->entityQuery->get('user');
-			$query =  \Drupal::entityQuery('user');
-			$query->sort('uid');
 
-			$results = $query->execute();
+			$userStorage =  $this->entityTypeManager->getStorage('user');
+			$users = $userStorage->loadMultiple();
 
-			$userStorage = \Drupal::entityManager()->getStorage('user');
-					//$this->entityTypeManager->getStorage('user');
-			$users = $userStorage->loadMultiple($results);
-
-			$users = [];
+			$userList = [];
 			foreach ($users as $userId => $user) {
-				 $users[$userId] = $user->getUsername();
+				 $userList[$userId] = $user->getUsername();
 			}
 
-			return $users;
+			return $userList;
 
+		}
+
+		public function userQuestion(){
+			$input = $this->getIo()->getInput();
+			$user = $input->getArgument('user');
+			if (!$user) {
+
+				$user = $this->getIo()->choiceNoList(
+						$this->trans('commands.user.password.reset.questions.user'),
+						$this->getUsers()
+				);
+
+				$input->setArgument('user', $user);
+			}
+
+			return $user;
 		}
 }

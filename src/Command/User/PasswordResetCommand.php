@@ -72,21 +72,7 @@ class PasswordResetCommand extends UserBase
     {
         $io = new DrupalStyle($input, $output);
 
-        $user = $input->getArgument('user');
-        if (!$user) {
-//            $user = $io->ask(
-//                $this->trans('commands.user.password.reset.questions.user')
-//            );
-//
-//            $input->setArgument('user', $user);
-					$themes = \Drupal::service('entity_type.manager')->getStorage('user');
-					$user = $io->choiceNoList(
-							$this->trans('commands.user.password.reset.questions.user'),
-							array_keys($themes)
-					);
-
-					$input->setArgument('user', $user);
-        }
+        $this->userQuestion();
 
         $password = $input->getArgument('password');
         if (!$password) {
