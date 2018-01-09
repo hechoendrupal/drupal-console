@@ -6,14 +6,15 @@
 
 namespace Drupal\Console\Command\Create;
 
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Command\Shared\CreateTrait;
-use Drupal\Console\Utils\Create\CommentData;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Utils\Create\CommentData;
+use Drupal\node\Entity\Node;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class CommentsCommand
@@ -134,6 +135,14 @@ class CommentsCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         $nodeId = $input->getArgument('node-id')?:1;
+        $node = \Drupal\node\Entity\Node::load($nodeId);
+        if (empty($node)) {
+            throw new \InvalidArgumentException(
+                $this->trans(
+                    'commands.generate.controller.messages.node-id-invalid'
+                )
+            );
+        }
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
