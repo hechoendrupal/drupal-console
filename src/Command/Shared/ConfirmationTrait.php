@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Console\Core\Style\DrupalStyle;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Class ConfirmationTrait
@@ -17,13 +18,16 @@ use Drupal\Console\Core\Style\DrupalStyle;
 trait ConfirmationTrait
 {
     /**
-     * @param DrupalStyle $io
-     * @param bool        $yes
+     * @param  DrupalStyle    $io
+     *   Console interface.
+     * @param  InputInterface $input
+     *   Input interface.
      *
      * @return bool
      */
-    public function confirmGeneration(DrupalStyle $io, $yes = false)
+    public function confirmGeneration(DrupalStyle $io, InputInterface $input)
     {
+        $yes = $input->hasOption('yes') ? $input->getOption('yes') : false;
         if ($yes) {
             return $yes;
         }

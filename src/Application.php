@@ -25,7 +25,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.3.2';
+    const VERSION = '1.4.0';
 
     public function __construct(ContainerInterface $container)
     {
@@ -78,7 +78,6 @@ class Application extends BaseApplication
         if (!$serviceDefinitions) {
             return;
         }
-
 
         if (!$this->container->has('console.annotation_command_reader')) {
             return;

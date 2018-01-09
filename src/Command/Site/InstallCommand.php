@@ -438,7 +438,11 @@ class InstallCommand extends ContainerAwareCommand
             $this->runInstaller($io, $input, $database, $uri);
 
             $autoload = $this->container->get('class_loader');
-            $drupal = new Drupal($autoload, $drupalFinder);
+            $drupal = new Drupal(
+                $autoload,
+                $drupalFinder,
+                $this->configurationManager
+            );
             $container = $drupal->boot();
             $this->getApplication()->setContainer($container);
         } catch (Exception $e) {

@@ -77,7 +77,9 @@ class ServerCommand extends Command
             return 1;
         }
 
-        $router = $this->getRouterPath();
+        $router = $this->configurationManager
+            ->getVendorCoreDirectory() . 'router.php';
+
         $processBuilder = new ProcessBuilder([$binary, '-S', $address, $router]);
         $processBuilder->setTimeout(null);
         $processBuilder->setWorkingDirectory($this->appRoot);
@@ -112,36 +114,6 @@ class ServerCommand extends Command
         }
 
         return 0;
-    }
-
-    /**
-     * @return null|string
-     */
-    private function getRouterPath()
-    {
-        $routerPath = [
-            sprintf(
-                '%s/.console/router.php',
-                $this->configurationManager->getHomeDirectory()
-            ),
-            sprintf(
-                '%s/console/router.php',
-                $this->configurationManager->getApplicationDirectory()
-            ),
-            sprintf(
-                '%s/%s/config/dist/router.php',
-                $this->configurationManager->getApplicationDirectory(),
-                DRUPAL_CONSOLE_CORE
-            )
-        ];
-
-        foreach ($routerPath as $router) {
-            if (file_exists($router)) {
-                return $router;
-            }
-        }
-
-        return null;
     }
 
     /**

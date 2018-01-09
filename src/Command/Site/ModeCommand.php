@@ -237,17 +237,8 @@ class ModeCommand extends ContainerAwareCommand
 
     protected function loadConfigurations($env)
     {
-        $configFile = sprintf(
-            '%s/.console/site.mode.yml',
-            $this->configurationManager->getHomeDirectory()
-        );
-
-        if (!file_exists($configFile)) {
-            $configFile = sprintf(
-                '%s/config/dist/site.mode.yml',
-                $this->configurationManager->getApplicationDirectory() . DRUPAL_CONSOLE_CORE
-            );
-        }
+        $configFile = $this->configurationManager
+            ->getVendorCoreDirectory() . 'site.mode.yml';
 
         $siteModeConfiguration = Yaml::parse(file_get_contents($configFile));
         $configKeys = array_keys($siteModeConfiguration);
