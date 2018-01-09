@@ -49,11 +49,11 @@ class BreakPointGenerator extends Generator
           'machine_name' => $machine_name
         ];
 
-        $theme_path =  $this->extensionManager->getTheme($theme)->getPath();
+        $theme_path = $this->extensionManager->getTheme($theme)->getPath();
 
         $this->renderFile(
             'theme/breakpoints.yml.twig',
-            $theme_path .'/'.$machine_name.'.breakpoints.yml',
+            $theme_path . '/' . $machine_name . '.breakpoints.yml',
             $parameters,
             FILE_APPEND
         );
