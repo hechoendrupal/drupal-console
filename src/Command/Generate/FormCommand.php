@@ -231,7 +231,7 @@ abstract class FormCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $module = $this->moduleFromInput($io, $input);
 
         // --class option
         $className = $input->getOption('class');

@@ -144,7 +144,7 @@ class CacheContextCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $module = $this->moduleFromInput($io, $input);
 
         // --cache_context option
         $cache_context = $input->getOption('cache-context');

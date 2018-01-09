@@ -184,12 +184,11 @@ class ServiceCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $module = $this->moduleFromInput($io, $input);
 
         //--name option
         $name = $input->getOption('name');
         if (!$name) {
-            $module = $input->getOption('module');
             $name = $io->ask(
                 $this->trans('commands.generate.service.questions.service-name'),
                 $module.'.default'
