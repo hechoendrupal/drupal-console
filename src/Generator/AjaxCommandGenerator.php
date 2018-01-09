@@ -2,166 +2,56 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\Generate\ControllerCommand.
+ * Contains Drupal\Console\Generator\AjaxCommandGenerator.
  */
 
-namespace Drupal\Console\Command\Generate;
+namespace Drupal\Console\Generator;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Generator\AjaxCommandGenerator;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\Validator;
 
-class AjaxCommand extends ContainerAwareCommand
+class AjaxCommandGenerator extends Generator
 {
-    use ModuleTrait;
-    use ServicesTrait;
-    use ConfirmationTrait;
-
 	/**
 	 * @var Manager
 	 */
 	protected $extensionManager;
 
 	/**
-	 * @var ControllerGenerator
-	 */
-	protected $generator;
-
-
-	/**
-	 * @var Validator
-	 */
-	protected $validator;
-
-	/**
-	 * @var ChainQueue
-	 */
-	protected $chainQueue;
-
-	/**
-	 * AjaxCommand constructor.
+	 * AuthenticationProviderGenerator constructor.
 	 *
-	 * @param Manager                $extensionManager
-	 * @param AjaxCommandGenerator   $generator
-	 * @param Validator              $validator
-	 * @param ChainQueue             $chainQueue
+	 * @param Manager $extensionManager
 	 */
 	public function __construct(
-			Manager $extensionManager,
-			AjaxCommandGenerator $generator,
-			Validator $validator,
-			ChainQueue $chainQueue
+			Manager $extensionManager
 	) {
 		$this->extensionManager = $extensionManager;
-		$this->generator = $generator;
-		$this->validator = $validator;
-		$this->chainQueue = $chainQueue;
-		parent::__construct();
 	}
 
-	protected function configure()
+	public function generate($module, $class, $method)
 	{
-		$this
-				->setName('generate:ajax:command')
-				->setDescription($this->trans('commands.generate.ajax.command.description'))
-				->setHelp($this->trans('commands.generate.ajax.command.help'))
-				->addOption(
-						'module',
-						null,
-						InputOption::VALUE_REQUIRED,
-						$this->trans('commands.common.options.module')
-				)
-				->addOption(
-						'class',
-						null,
-						InputOption::VALUE_OPTIONAL,
-						$this->trans('commands.generate.ajax.command.options.class')
-				)
-				->addOption(
-						'method',
-						null,
-						InputOption::VALUE_OPTIONAL,
-						$this->trans('commands.generate.ajax.command.options.method')
-				)
-				->setAliases(['gac']);
-	}
+		$parameters = [
+				'class_name' => $class,
+				'module' => $module,
+			  'method' => $method
+		];
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$io = new DrupalStyle($input, $output);
-
-		// @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-		if (!$this->confirmGeneration($io, $input)) {
-			return 1;
-		}
-
-		$module = $input->getOption('module');
-		$class = $this->validator->validateClassName($input->getOption('class'));
-		$method = $input->getOption('method');
-
-		$this->generator->generate(
-				$module,
-				$class,
-				$method
+		$this->renderFile(
+				'module/src/Ajax/ajax-command.php.twig',
+				$this->extensionManager->getModule($module)->getAjaxPath().'/'.$class.'.php',
+				$parameters
 		);
 
-		// Run cache rebuild to see changes in Web UI
-		$this->chainQueue->addCommand('router:rebuild', []);
+		$this->renderFile(
+				'module/js/commands.php.twig',
+				$this->extensionManager->getModule($module)->getPath().'/js'.'/'.'custom.js',
+				$parameters
+		);
 
-		return 0;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function interact(InputInterface $input, OutputInterface $output)
-	{
-		$io = new DrupalStyle($input, $output);
-
-		// --module option
-		$this->moduleFromInput($io, $input);
-
-		// --class option
-		$class = $input->getOption('class');
-		if (!$class) {
-			$class = $io->ask(
-					$this->trans('commands.generate.ajax.command.questions.class'),
-					'AjaxCommand',
-					function ($class) {
-						return $this->validator->validateClassName($class);
-					}
-			);
-			$input->setOption('class', $class);
-		}
-
-		// --method option
-		$method = $input->getOption('method');
-		if (!$method) {
-			$method = $io->ask(
-					$this->trans('commands.generate.ajax.command.questions.method'),
-					'hello'
-		  );
-			$input->setOption('method', $method);
-		}
-	}
-
-	/**
-	 * @return \Drupal\Console\Generator\AjaxCommandGenerator
-	 */
-	protected function createGenerator()
-	{
-		return new AjaxCommandGenerator();
+		$this->renderFile(
+				'module/module-libraries.yml.twig',
+				$this->extensionManager->getModule($module)->getPath().'/'.$module.'.libraries.yml',
+				$parameters
+		);
 	}
 }
