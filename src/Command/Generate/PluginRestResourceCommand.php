@@ -235,34 +235,34 @@ class PluginRestResourceCommand extends Command
     protected function getHttpMethods()
     {
         return [
-        'GET' => [
-          'http_code' => 200,
-          'response_class' => 'ResourceResponse',
-        ],
-        'PUT' => [
-          'http_code' => 201,
-          'response_class' => 'ModifiedResourceResponse',
-        ],
-        'POST' => [
-          'http_code' => 200,
-          'response_class' => 'ModifiedResourceResponse',
-        ],
-        'PATCH' => [
-          'http_code' => 204,
-          'response_class' => 'ModifiedResourceResponse',
-        ],
-        'DELETE' => [
-          'http_code' => 204,
-          'response_class' => 'ModifiedResourceResponse',
-        ],
-        'HEAD' => [
-          'http_code' => 200,
-          'response_class' => 'ResourceResponse',
-        ],
-        'OPTIONS' => [
-          'http_code' => 200,
-          'response_class' => 'ResourceResponse',
-        ],
+            'GET' => [
+              'http_code' => 200,
+              'response_class' => 'ResourceResponse',
+            ],
+            'PUT' => [
+              'http_code' => 201,
+              'response_class' => 'ModifiedResourceResponse',
+            ],
+            'POST' => [
+              'http_code' => 200,
+              'response_class' => 'ModifiedResourceResponse',
+            ],
+            'PATCH' => [
+              'http_code' => 204,
+              'response_class' => 'ModifiedResourceResponse',
+            ],
+            'DELETE' => [
+              'http_code' => 204,
+              'response_class' => 'ModifiedResourceResponse',
+            ],
+            'HEAD' => [
+              'http_code' => 200,
+              'response_class' => 'ResourceResponse',
+            ],
+            'OPTIONS' => [
+              'http_code' => 200,
+              'response_class' => 'ResourceResponse',
+            ],
         ];
     }
 }
