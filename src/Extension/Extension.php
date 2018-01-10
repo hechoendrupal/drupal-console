@@ -33,6 +33,15 @@ class Extension extends BaseExtension
         return $this->getSourcePath($fullPath) . '/Controller';
     }
 
+     /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getAjaxPath($fullPath = false)
+    {
+        return $this->getSourcePath($fullPath) . '/Ajax';
+    }
+
     /**
      * @param bool $fullPath
      * @return string

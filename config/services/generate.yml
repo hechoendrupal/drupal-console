@@ -19,6 +19,11 @@ services:
     arguments: ['@console.extension_manager', '@console.controller_generator', '@console.string_converter', '@console.validator', '@router.route_provider', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_ajax:
+    class: Drupal\Console\Command\Generate\AjaxCommand
+    arguments: ['@console.extension_manager', '@console.ajax_command_generator', '@console.validator', '@console.chain_queue']
+    tags:
+       - { name: drupal.command }      
   console.generate_breakpoint:
     class: Drupal\Console\Command\Generate\BreakPointCommand
     arguments: ['@console.breakpoint_generator', '@app.root', '@theme_handler', '@console.validator', '@console.string_converter']
