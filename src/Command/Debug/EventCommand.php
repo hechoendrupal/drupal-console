@@ -112,7 +112,7 @@ class EventCommand extends Command
                 $listeners[] = [
                     'class' => $className,
                     'method' => $value[1],
-                    'events' => Yaml::dump($subscribedEventData, 4, 2)
+                    'events' => rtrim(Yaml::dump($subscribedEventData, 4, 2))
                 ];
             }
 
