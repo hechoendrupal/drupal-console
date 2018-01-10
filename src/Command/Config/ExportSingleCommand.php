@@ -229,9 +229,7 @@ class ExportSingleCommand extends Command
         }
 
         // --module option
-        $this->moduleFromInput($io, $input);
-
-        $module = $input->getOption('module');
+        $module = $this->moduleFromInput($io, $input);
         if ($module) {
             $optionalConfig = $input->getOption('optional');
             if (!$optionalConfig) {

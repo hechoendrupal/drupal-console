@@ -95,6 +95,9 @@ trait ModuleTrait
      *   Console interface.
      * @param  InputInterface                         $input
      *   Input interface.
+     *
+     * @return mixed|string
+     *   Module name.
      * @throws \Exception
      *   When module is not found.
      */
@@ -118,5 +121,7 @@ trait ModuleTrait
                 );
             }
         }
+
+        return $module;
     }
 }

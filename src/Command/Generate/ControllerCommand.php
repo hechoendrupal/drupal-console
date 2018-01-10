@@ -173,7 +173,7 @@ class ControllerCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $module = $this->moduleFromInput($io, $input);
 
         // --class option
         $class = $input->getOption('class');

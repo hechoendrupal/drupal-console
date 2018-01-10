@@ -163,7 +163,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $module = $this->moduleFromInput($io, $input);
 
         // --service-name option
         $name = $input->getOption('name');
