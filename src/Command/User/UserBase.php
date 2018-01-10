@@ -17,6 +17,7 @@ class UserBase extends Command
      */
     protected $entityTypeManager;
 
+
     /**
      * Base constructor.
      *
@@ -49,5 +50,38 @@ class UserBase extends Command
         }
 
         return $userEntity;
+    }
+
+    /***
+     * @return array users from site
+     */
+    public function getUsers()
+    {
+        $userStorage =  $this->entityTypeManager->getStorage('user');
+        $users = $userStorage->loadMultiple();
+
+        $userList = [];
+        foreach ($users as $userId => $user) {
+            $userList[$userId] = $user->getUsername();
+        }
+
+        return $userList;
+    }
+
+    public function userQuestion()
+    {
+        $input = $this->getIo()->getInput();
+        $user = $input->getArgument('user');
+
+        if (!$user) {
+            $user = $this->getIo()->choiceNoList(
+                $this->trans('commands.user.password.reset.questions.user'),
+                $this->getUsers()
+            );
+
+            $input->setArgument('user', $user);
+        }
+
+        return $user;
     }
 }
