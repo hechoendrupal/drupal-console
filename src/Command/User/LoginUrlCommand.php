@@ -54,7 +54,7 @@ class LoginUrlCommand extends UserBase
     {
         $io = new DrupalStyle($input, $output);
 
-			  $this->userQuestion();
+        $this->userQuestion();
     }
 
     /**
