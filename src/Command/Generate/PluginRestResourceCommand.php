@@ -151,7 +151,7 @@ class PluginRestResourceCommand extends Command
 
         $prepared_plugin = [];
         foreach ($plugin_states as $plugin_state) {
-          $prepared_plugin[$plugin_state] = $http_methods[$plugin_state];
+            $prepared_plugin[$plugin_state] = $http_methods[$plugin_state];
         }
 
         $this->generator->generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $prepared_plugin);
@@ -224,7 +224,6 @@ class PluginRestResourceCommand extends Command
 
             $input->setOption('plugin-states', $plugin_states);
         }
-
     }
 
     /**
@@ -233,8 +232,9 @@ class PluginRestResourceCommand extends Command
      * @return array
      *   Available HTTP methods.
      */
-    protected function getHttpMethods() {
-      return [
+    protected function getHttpMethods()
+    {
+        return [
         'GET' => [
           'http_code' => 200,
           'response_class' => 'ResourceResponse',
@@ -263,6 +263,6 @@ class PluginRestResourceCommand extends Command
           'http_code' => 200,
           'response_class' => 'ResourceResponse',
         ],
-      ];
+        ];
     }
 }

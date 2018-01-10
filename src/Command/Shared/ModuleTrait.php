@@ -91,9 +91,9 @@ trait ModuleTrait
     /**
      * Get module name from user.
      *
-     * @param  \Drupal\Console\Core\Style\DrupalStyle $io
+     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      *   Console interface.
-     * @param  InputInterface                         $input
+     * @param InputInterface                         $input
      *   Input interface.
      *
      * @return mixed|string
