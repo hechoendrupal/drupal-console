@@ -52,39 +52,36 @@ class UserBase extends Command
         return $userEntity;
     }
 
-		/**
-		 *
-		 * @return array users from site
-		 */
-		public function getUsers()
-		{
-				$userStorage =  $this->entityTypeManager->getStorage('user');
-				$users = $userStorage->loadMultiple();
+    /***
+     * @return array users from site
+     */
+    public function getUsers()
+    {
+        $userStorage =  $this->entityTypeManager->getStorage('user');
+        $users = $userStorage->loadMultiple();
 
-				$userList = [];
-				foreach ($users as $userId => $user) {
-					 $userList[$userId] = $user->getUsername();
-				}
+        $userList = [];
+        foreach ($users as $userId => $user) {
+            $userList[$userId] = $user->getUsername();
+        }
 
-				return $userList;
+        return $userList;
+    }
 
-		}
+    public function userQuestion()
+    {
+        $input = $this->getIo()->getInput();
+        $user = $input->getArgument('user');
 
-		public function userQuestion()
-		{
-				$input = $this->getIo()->getInput();
-				$user = $input->getArgument('user');
+        if (!$user) {
+            $user = $this->getIo()->choiceNoList(
+                $this->trans('commands.user.password.reset.questions.user'),
+                $this->getUsers()
+            );
 
-				if (!$user) {
+            $input->setArgument('user', $user);
+        }
 
-					$user = $this->getIo()->choiceNoList(
-							$this->trans('commands.user.password.reset.questions.user'),
-							$this->getUsers()
-					);
-
-					$input->setArgument('user', $user);
-				}
-
-				return $user;
-		}
+        return $user;
+    }
 }
