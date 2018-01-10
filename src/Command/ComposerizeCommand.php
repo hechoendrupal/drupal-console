@@ -177,7 +177,6 @@ class ComposerizeCommand extends ContainerAwareCommand
         $profiles = $this->extensionManager->discoverProfiles()
             ->showNoCore()
             ->showInstalled()
-            ->showUninstalled()
             ->getList();
 
         /**
