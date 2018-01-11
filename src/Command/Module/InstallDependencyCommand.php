@@ -91,12 +91,10 @@ class InstallDependencyCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $module = $input->getArgument('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
+            $module = $this->moduleQuestion();
             $input->setArgument('module', $module);
         }
     }

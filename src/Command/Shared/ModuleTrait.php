@@ -15,8 +15,6 @@ trait ModuleTrait
     /**
      * Ask the user to choose a module or profile.
      *
-     * @param DrupalStyle $io
-     *   Console interface.
      * @param bool        $showProfile
      *   If profiles should be discovered.
      *
@@ -25,7 +23,7 @@ trait ModuleTrait
      *
      * @return string
      */
-    public function moduleQuestion(DrupalStyle $io, $showProfile = true)
+    public function moduleQuestion($showProfile = true)
     {
         $modules = $this->extensionManager->discoverModules()
             ->showInstalled()
@@ -48,7 +46,7 @@ trait ModuleTrait
             throw new \Exception('No extension available, execute the proper generator command to generate one.');
         }
 
-        $module = $io->choiceNoList(
+        $module = $this->getIo()->choiceNoList(
             $this->trans('commands.common.questions.module'),
             $modules
         );
@@ -91,22 +89,18 @@ trait ModuleTrait
     /**
      * Get module name from user.
      *
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     *   Console interface.
-     * @param InputInterface                         $input
-     *   Input interface.
-     *
      * @return mixed|string
      *   Module name.
      * @throws \Exception
      *   When module is not found.
      */
-    public function moduleFromInput(DrupalStyle $io, InputInterface $input)
+    public function getModuleOption()
     {
+        $input = $this->getIo()->getInput();
         $module = $input->getOption('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
+            $module = $this->moduleQuestion();
             $input->setOption('module', $module);
         } else {
             $missing_modules = $this->validator->getMissingModules([$module]);

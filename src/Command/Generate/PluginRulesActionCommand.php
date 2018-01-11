@@ -162,7 +162,7 @@ class PluginRulesActionCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         // --class option
         $class_name = $input->getOption('class');

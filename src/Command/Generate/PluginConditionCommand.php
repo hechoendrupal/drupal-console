@@ -173,7 +173,7 @@ class PluginConditionCommand extends Command
         $entity_types = $entityTypeRepository->getEntityTypeLabels(true);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');
