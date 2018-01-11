@@ -107,7 +107,7 @@ class ExportViewCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         // view-id argument
         $viewId = $input->getArgument('view-id');

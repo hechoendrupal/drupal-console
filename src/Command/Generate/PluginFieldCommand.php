@@ -218,7 +218,7 @@ class PluginFieldCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         // --type-class option
         $typeClass = $input->getOption('type-class');

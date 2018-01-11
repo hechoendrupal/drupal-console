@@ -131,7 +131,7 @@ class PostUpdateCommand extends Command
         $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         $postUpdateName = $input->getOption('post-update-name');
         if (!$postUpdateName) {

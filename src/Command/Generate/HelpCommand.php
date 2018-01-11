@@ -136,7 +136,7 @@ class HelpCommand extends Command
         $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         $description = $input->getOption('description');
         if (!$description) {

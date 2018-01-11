@@ -192,7 +192,7 @@ abstract class FormCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.menu-link-desc')
-            )->setAliases(['gf']);
+            );
     }
 
     /**
@@ -231,7 +231,7 @@ abstract class FormCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $module = $this->moduleFromInput($io, $input);
+        $module = $this->getModuleOption();
 
         // --class option
         $className = $input->getOption('class');

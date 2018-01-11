@@ -130,7 +130,7 @@ class RouteSubscriberCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $module = $this->moduleFromInput($io, $input);
+        $module = $this->getModuleOption();
 
         // --name option
         $name = $input->getOption('name');

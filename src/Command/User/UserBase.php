@@ -68,19 +68,34 @@ class UserBase extends Command
         return $userList;
     }
 
-    public function userQuestion()
+    private function userQuestion($user)
     {
-        $input = $this->getIo()->getInput();
-        $user = $input->getArgument('user');
-
         if (!$user) {
             $user = $this->getIo()->choiceNoList(
                 $this->trans('commands.user.password.reset.questions.user'),
                 $this->getUsers()
             );
-
-            $input->setArgument('user', $user);
         }
+
+        return $user;
+    }
+
+    public function getUserOption()
+    {
+        $input = $this->getIo()->getInput();
+
+        $user = $this->userQuestion($input->getOption('user'));
+        $input->setOption('user', $user);
+
+        return $user;
+    }
+
+    public function getUserArgument()
+    {
+        $input = $this->getIo()->getInput();
+
+        $user = $this->userQuestion($input->getArgument('user'));
+        $input->setArgument('user', $user);
 
         return $user;
     }
