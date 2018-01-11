@@ -78,14 +78,7 @@ class DeleteCommand extends UserBase
     {
         $io = new DrupalStyle($input, $output);
 
-        $user = $input->getOption('user');
-        if (!$user) {
-            $user = $io->askEmpty(
-                $this->trans('commands.user.delete.questions.user'),
-                null
-            );
-            $input->setOption('user', $user);
-        }
+        $user = $this->getUserOption();
 
         $roles = $input->getOption('roles');
 

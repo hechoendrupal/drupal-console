@@ -72,7 +72,7 @@ class PasswordResetCommand extends UserBase
     {
         $io = new DrupalStyle($input, $output);
 
-        $this->userQuestion();
+        $this->getUserArgument();
 
         $password = $input->getArgument('password');
         if (!$password) {
