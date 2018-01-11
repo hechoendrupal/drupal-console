@@ -192,7 +192,7 @@ abstract class FormCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.form.options.menu-link-desc')
-            )->setAliases(['gf']);
+            );
     }
 
     /**
