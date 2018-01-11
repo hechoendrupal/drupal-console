@@ -89,6 +89,14 @@ class DatabaseTableCommand extends Command
 
         if ($table) {
             $this->redBean = $this->getRedBeanConnection($database);
+            if (empty($this->redBean)) {
+                throw new \Exception(
+                    sprintf(
+                        $this->trans('commands.debug.database.table.messages.no-connection'),
+                        $database
+                    )
+                );
+            }
             $tableInfo = $this->redBean->inspect($table);
 
             $tableHeader = [

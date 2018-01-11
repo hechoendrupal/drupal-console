@@ -325,25 +325,25 @@ class Validator
         return $extensions;
     }
 
-  /**
+    /**
    * Validate if http methods exist.
    *
-   * @param array $httpMethods  Array http methods.
+   * @param array $httpMethods          Array http methods.
    * @param array $availableHttpMethods Array of available http methods.
    *
    * @return string
    */
-  public function validateHttpMethods($httpMethods, $availableHttpMethods)
-  {
-    if (empty($httpMethods)) {
-      return null;
-    }
+    public function validateHttpMethods($httpMethods, $availableHttpMethods)
+    {
+        if (empty($httpMethods)) {
+            return null;
+        }
 
-    $missing_methods = array_diff(array_values($httpMethods), array_keys($availableHttpMethods));
-    if (!empty($missing_methods)) {
-      throw new \InvalidArgumentException(sprintf('HTTP methods "%s" are invalid.', implode(', ', $missing_methods)));
-    }
+        $missing_methods = array_diff(array_values($httpMethods), array_keys($availableHttpMethods));
+        if (!empty($missing_methods)) {
+            throw new \InvalidArgumentException(sprintf('HTTP methods "%s" are invalid.', implode(', ', $missing_methods)));
+        }
 
-    return $httpMethods;
-  }
+        return $httpMethods;
+    }
 }

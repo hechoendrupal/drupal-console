@@ -119,7 +119,7 @@ class AuthenticationProviderCommand extends Command
         $stringUtils = $this->stringConverter;
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');

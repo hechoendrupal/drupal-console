@@ -139,7 +139,7 @@ class UpdateCommand extends Command
         $this->site->loadLegacyFile('/core/includes/schema.inc');
 
         // --module option
-        $module = $this->moduleFromInput($io, $input);
+        $module = $this->getModuleOption();
 
         $lastUpdateSchema = $this->getLastUpdate($module);
         $nextUpdateSchema = $lastUpdateSchema ? ($lastUpdateSchema + 1): 8001;

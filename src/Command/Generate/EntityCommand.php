@@ -101,7 +101,7 @@ abstract class EntityCommand extends Command
         $utils = $this->stringConverter;
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         // --entity-class option
         $entityClass = $input->getOption('entity-class');

@@ -131,7 +131,7 @@ class AjaxCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');
@@ -140,7 +140,7 @@ class AjaxCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.controller.questions.class'),
                 'AjaxCommand',
                 function ($class) {
-                        return $this->validator->validateClassName($class);
+                    return $this->validator->validateClassName($class);
                 }
             );
             $input->setOption('class', $class);
