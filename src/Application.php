@@ -25,7 +25,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.4.0';
+    const VERSION = '1.5.0';
 
     public function __construct(ContainerInterface $container)
     {
