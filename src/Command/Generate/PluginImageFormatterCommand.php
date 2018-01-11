@@ -135,7 +135,7 @@ class PluginImageFormatterCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->moduleFromInput();
 
         // --class option
         $class_name = $input->getOption('class');

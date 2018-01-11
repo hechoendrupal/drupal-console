@@ -153,7 +153,7 @@ class PluginMailCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->moduleFromInput();
 
         // --class option
         $class = $input->getOption('class');

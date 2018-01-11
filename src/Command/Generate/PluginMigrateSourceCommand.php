@@ -190,7 +190,7 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // 'module-name' option.
-        $module = $this->moduleFromInput($io, $input);
+        $module = $this->moduleFromInput();
 
         $class = $input->getOption('class');
         if (!$class) {

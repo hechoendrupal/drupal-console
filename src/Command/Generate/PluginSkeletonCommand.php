@@ -181,7 +181,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->moduleFromInput();
 
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {

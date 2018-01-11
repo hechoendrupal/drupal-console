@@ -228,7 +228,7 @@ class PluginBlockCommand extends ContainerAwareCommand
         $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->moduleFromInput();
 
         // --class option
         $class = $input->getOption('class');

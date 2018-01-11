@@ -110,7 +110,7 @@ class PermissionCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput($io, $input);
+        $this->moduleFromInput();
 
         // --permissions option
         $permissions = $input->getOption('permissions');

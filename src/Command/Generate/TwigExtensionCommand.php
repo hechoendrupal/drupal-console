@@ -161,7 +161,7 @@ class TwigExtensionCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $module = $this->moduleFromInput($io, $input);
+        $module = $this->moduleFromInput();
 
         // --name option
         $name = $input->getOption('name');
