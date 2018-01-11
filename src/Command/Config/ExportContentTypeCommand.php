@@ -111,7 +111,7 @@ class ExportContentTypeCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput();
+        $this->getModuleOption();
 
         // --content-type argument
         $contentType = $input->getArgument('content-type');

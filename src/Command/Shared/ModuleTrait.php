@@ -94,7 +94,7 @@ trait ModuleTrait
      * @throws \Exception
      *   When module is not found.
      */
-    public function moduleFromInput()
+    public function getModuleOption()
     {
         $input = $this->getIo()->getInput();
         $module = $input->getOption('module');

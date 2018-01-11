@@ -131,7 +131,7 @@ class AjaxCommand extends ContainerAwareCommand
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput();
+        $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');

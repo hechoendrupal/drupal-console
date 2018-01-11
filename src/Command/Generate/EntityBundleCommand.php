@@ -118,7 +118,7 @@ class EntityBundleCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput();
+        $this->getModuleOption();
 
         // --bundle-name option
         $bundleName = $input->getOption('bundle-name');

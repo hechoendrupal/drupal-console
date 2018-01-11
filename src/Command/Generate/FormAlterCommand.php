@@ -201,7 +201,7 @@ class FormAlterCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $this->moduleFromInput();
+        $this->getModuleOption();
 
         // --form-id option
         $formId = $input->getOption('form-id');

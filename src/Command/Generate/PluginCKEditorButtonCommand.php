@@ -154,7 +154,7 @@ class PluginCKEditorButtonCommand extends Command
         $io = new DrupalStyle($input, $output);
 
         // --module option
-        $module = $this->moduleFromInput();
+        $module = $this->getModuleOption();
 
         // --class option
         $class_name = $input->getOption('class');
