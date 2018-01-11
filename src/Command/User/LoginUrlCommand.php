@@ -52,9 +52,7 @@ class LoginUrlCommand extends UserBase
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-			  $this->userQuestion();
+        $this->getUserArgument();
     }
 
     /**

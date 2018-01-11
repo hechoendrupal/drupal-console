@@ -58,16 +58,7 @@ class LoginCleanAttemptsCommand extends UserBase
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $user = $input->getArgument('user');
-        if (!$user) {
-            $user = $io->ask(
-                $this->trans('commands.user.login.clear.attempts.questions.user')
-            );
-
-            $input->setArgument('user', $user);
-        }
+        $this->getUserArgument();
     }
 
     /**
