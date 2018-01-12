@@ -15,10 +15,16 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\views\Entity\View;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
+use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ViewsCommand
+ *
+ * @DrupalCommand(
+ *     extension = "views",
+ *     extensionType = "module"
+ * )
  *
  * @package Drupal\Console\Command\Debug
  */
