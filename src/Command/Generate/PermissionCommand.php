@@ -15,7 +15,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\PermissionTrait;
 use Drupal\Console\Generator\PermissionGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
@@ -107,8 +106,6 @@ class PermissionCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
 
@@ -116,7 +113,7 @@ class PermissionCommand extends Command
         $permissions = $input->getOption('permissions');
         if (!$permissions) {
             // @see \Drupal\Console\Command\Shared\PermissionTrait::permissionQuestion
-            $permissions = $this->permissionQuestion($io);
+            $permissions = $this->permissionQuestion();
             $input->setOption('permissions', $permissions);
         }
     }

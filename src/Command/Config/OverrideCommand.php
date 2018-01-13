@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class OverrideCommand extends Command
 {
@@ -70,12 +69,11 @@ class OverrideCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
         $names = $this->configFactory->listAll();
         if ($name) {
             if (!in_array($name, $names)) {
-                $io->warning(
+                $this->getIo()->warning(
                     sprintf(
                         $this->trans('commands.config.override.messages.invalid-name'),
                         $name
@@ -85,7 +83,7 @@ class OverrideCommand extends Command
             }
         }
         if (!$name) {
-            $name = $io->choiceNoList(
+            $name = $this->getIo()->choiceNoList(
                 $this->trans('commands.config.override.questions.name'),
                 $names
             );
@@ -96,7 +94,7 @@ class OverrideCommand extends Command
             if ($this->configStorage->exists($name)) {
                 $configuration = $this->configStorage->read($name);
             }
-            $key = $io->choiceNoList(
+            $key = $this->getIo()->choiceNoList(
                 $this->trans('commands.config.override.questions.key'),
                 array_keys($configuration)
             );
@@ -104,7 +102,7 @@ class OverrideCommand extends Command
         }
         $value = $input->getArgument('value');
         if (!$value) {
-            $value = $io->ask(
+            $value = $this->getIo()->ask(
                 $this->trans('commands.config.override.questions.value')
             );
             $input->setArgument('value', $value);
@@ -115,8 +113,6 @@ class OverrideCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $configName = $input->getArgument('name');
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
@@ -131,8 +127,8 @@ class OverrideCommand extends Command
 
         $config->save();
 
-        $io->info($this->trans('commands.config.override.messages.configuration'), false);
-        $io->comment($configName);
+        $this->getIo()->info($this->trans('commands.config.override.messages.configuration'), false);
+        $this->getIo()->comment($configName);
 
         $tableHeader = [
             $this->trans('commands.config.override.messages.configuration-key'),
@@ -140,7 +136,7 @@ class OverrideCommand extends Command
             $this->trans('commands.config.override.messages.updated'),
         ];
         $tableRows = $configurationOverrideResult;
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 
 

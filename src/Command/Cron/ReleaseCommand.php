@@ -13,8 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ReleaseCommand extends Command
 {
@@ -59,14 +57,12 @@ class ReleaseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         try {
             $this->lock->release('cron');
 
-            $io->info($this->trans('commands.cron.release.messages.released'));
+            $this->getIo()->info($this->trans('commands.cron.release.messages.released'));
         } catch (Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }

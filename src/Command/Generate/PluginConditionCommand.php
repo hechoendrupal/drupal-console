@@ -16,7 +16,6 @@ use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\Console\Generator\PluginConditionGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
@@ -140,10 +139,8 @@ class PluginConditionCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -166,8 +163,6 @@ class PluginConditionCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $entityTypeRepository = $this->entitytyperepository;
 
         $entity_types = $entityTypeRepository->getEntityTypeLabels(true);
@@ -178,7 +173,7 @@ class PluginConditionCommand extends Command
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.condition.questions.class'),
                 'ExampleCondition',
                 function ($class) {
@@ -191,7 +186,7 @@ class PluginConditionCommand extends Command
         // --plugin label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $io->ask(
+            $label = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.condition.questions.label'),
                 $this->stringConverter->camelCaseToHuman($class)
             );
@@ -201,7 +196,7 @@ class PluginConditionCommand extends Command
         // --plugin-id option
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
-            $pluginId = $io->ask(
+            $pluginId = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.condition.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
@@ -211,7 +206,7 @@ class PluginConditionCommand extends Command
         $context_definition_id = $input->getOption('context-definition-id');
         if (!$context_definition_id) {
             $context_type = ['language' => 'Language', "entity" => "Entity"];
-            $context_type_sel = $io->choice(
+            $context_type_sel = $this->getIo()->choice(
                 $this->trans('commands.generate.plugin.condition.questions.context-type'),
                 array_values($context_type)
             );
@@ -221,13 +216,13 @@ class PluginConditionCommand extends Command
                 $context_definition_id = $context_type_sel;
                 $context_definition_id_value = ucfirst($context_type_sel);
             } else {
-                $content_entity_types_sel = $io->choice(
+                $content_entity_types_sel = $this->getIo()->choice(
                     $this->trans('commands.generate.plugin.condition.questions.context-entity-type'),
                     array_keys($entity_types)
                 );
 
                 $contextDefinitionIdList = $entity_types[$content_entity_types_sel];
-                $context_definition_id_sel = $io->choice(
+                $context_definition_id_sel = $this->getIo()->choice(
                     $this->trans('commands.generate.plugin.condition.questions.context-definition-id'),
                     array_values($contextDefinitionIdList)
                 );
@@ -244,7 +239,7 @@ class PluginConditionCommand extends Command
 
         $context_definition_label = $input->getOption('context-definition-label');
         if (!$context_definition_label) {
-            $context_definition_label = $io->ask(
+            $context_definition_label = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.condition.questions.context-definition-label'),
                 $context_definition_id_value?:null
             );
@@ -253,7 +248,7 @@ class PluginConditionCommand extends Command
 
         $context_definition_required = $input->getOption('context-definition-required');
         if (empty($context_definition_required)) {
-            $context_definition_required = $io->confirm(
+            $context_definition_required = $this->getIo()->confirm(
                 $this->trans('commands.generate.plugin.condition.questions.context-definition-required'),
                 true
             );

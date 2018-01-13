@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Core\Utils\ShellProcess;
 
@@ -74,18 +73,17 @@ class UpdateCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $composer = $input->getOption('composer');
         $module = $input->getArgument('module');
 
         if (!$composer) {
-            $io->error($this->trans('commands.module.update.messages.only-composer'));
+            $this->getIo()->error($this->trans('commands.module.update.messages.only-composer'));
 
             return 1;
         }
 
         if (!$module) {
-            $module = $this->modulesQuestion($io);
+            $module = $this->modulesQuestion();
             $input->setArgument('module', $module);
         }
     }
@@ -95,20 +93,18 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $modules = $input->getArgument('module');
         $composer = $input->getOption('composer');
         $simulate = $input->getOption('simulate');
 
         if (!$composer) {
-            $io->error($this->trans('commands.module.update.messages.only-composer'));
+            $this->getIo()->error($this->trans('commands.module.update.messages.only-composer'));
 
             return 1;
         }
 
         if (!$modules) {
-            $io->error(
+            $this->getIo()->error(
                 $this->trans('commands.module.update.messages.missing-module')
             );
 
@@ -133,7 +129,7 @@ class UpdateCommand extends Command
             }
 
             if ($this->shellProcess->exec($command, $this->root)) {
-                $io->success(
+                $this->getIo()->success(
                     sprintf(
                         $this->trans('commands.module.update.messages.composer'),
                         trim($modules)

@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -18,14 +17,13 @@ use Symfony\Component\Yaml\Parser;
 trait MenuTrait
 {
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param string                                 $className The form class name
      * @return string
      * @throws \Exception
      */
-    public function menuQuestion(DrupalStyle $io, $className)
+    public function menuQuestion($className)
     {
-        if ($io->confirm(
+        if ($this->getIo()->confirm(
             $this->trans('commands.generate.form.options.menu-link-gen'),
             true
         )
@@ -35,7 +33,7 @@ trait MenuTrait
             $menu_options = [
                 'menu_link_gen' => true,
             ];
-            $menu_link_title = $io->ask(
+            $menu_link_title = $this->getIo()->ask(
                 $menu_link_title = $this->trans('commands.generate.form.options.menu-link-title'),
                 $className
             );
@@ -48,13 +46,13 @@ trait MenuTrait
             $menuLinkContent = $parser->parse(file_get_contents($menuLinkFile));
 
 
-            $menu_parent = $io->choiceNoList(
+            $menu_parent = $this->getIo()->choiceNoList(
                 $menu_parent = $this->trans('commands.generate.form.options.menu-parent'),
                 array_keys($menuLinkContent),
                 'system.admin_config_system'
             );
 
-            $menu_link_desc = $io->ask(
+            $menu_link_desc = $this->getIo()->ask(
                 $menu_link_desc = $this->trans('commands.generate.form.options.menu-link-desc'),
                 $menu_link_desc = $this->trans('commands.generate.form.suggestions.description-for-menu')
             );

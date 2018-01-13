@@ -19,7 +19,6 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -161,10 +160,8 @@ class PluginBlockCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -180,7 +177,7 @@ class PluginBlockCommand extends ContainerAwareCommand
         $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
 
         if (!empty($theme_region) && !isset($themeRegions[$theme_region])) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.generate.plugin.block.messages.invalid-theme-region'),
                     $theme_region
@@ -222,8 +219,6 @@ class PluginBlockCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $theme = $this->configFactory->get('system.theme')->get('default');
         $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
 
@@ -233,7 +228,7 @@ class PluginBlockCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.block.questions.class'),
                 'DefaultBlock',
                 function ($class) {
@@ -246,7 +241,7 @@ class PluginBlockCommand extends ContainerAwareCommand
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $io->ask(
+            $label = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.block.questions.label'),
                 $this->stringConverter->camelCaseToHuman($class)
             );
@@ -256,7 +251,7 @@ class PluginBlockCommand extends ContainerAwareCommand
         // --plugin-id option
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
-            $pluginId = $io->ask(
+            $pluginId = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.block.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
@@ -266,7 +261,7 @@ class PluginBlockCommand extends ContainerAwareCommand
         // --theme-region option
         $themeRegion = $input->getOption('theme-region');
         if (!$themeRegion) {
-            $themeRegion =  $io->choiceNoList(
+            $themeRegion =  $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.plugin.block.questions.theme-region'),
                 array_values($themeRegions),
                 null,
@@ -278,13 +273,13 @@ class PluginBlockCommand extends ContainerAwareCommand
 
         // --services option
         // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-        $services = $this->servicesQuestion($io);
+        $services = $this->servicesQuestion();
         $input->setOption('services', $services);
 
         $output->writeln($this->trans('commands.generate.plugin.block.messages.inputs'));
 
         // @see Drupal\Console\Command\Shared\FormTrait::formQuestion
-        $inputs = $this->formQuestion($io);
+        $inputs = $this->formQuestion();
         $input->setOption('inputs', $inputs);
     }
 }

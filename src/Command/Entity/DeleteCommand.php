@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class DeleteCommand extends Command
 {
@@ -72,7 +71,6 @@ class DeleteCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $entityDefinitionID = $input->getArgument('entity-definition-id');
         $entityID = $input->getArgument('entity-id');
         $all = $input->getOption('all');
@@ -80,12 +78,12 @@ class DeleteCommand extends Command
         if (!$entityDefinitionID) {
             $entityTypes = $this->entityTypeRepository->getEntityTypeLabels(true);
 
-            $entityType = $io->choice(
+            $entityType = $this->getIo()->choice(
                 $this->trans('commands.entity.delete.questions.entity-type'),
                 array_keys($entityTypes)
             );
 
-            $entityDefinitionID = $io->choice(
+            $entityDefinitionID = $this->getIo()->choice(
                 $this->trans('commands.entity.delete.questions.entity-definition-id'),
                 array_keys($entityTypes[$entityType])
             );
@@ -96,7 +94,7 @@ class DeleteCommand extends Command
         if ($all) {
             $input->setArgument('entity-id', '-');
         } elseif (!$entityID) {
-            $entityID = $io->ask(
+            $entityID = $this->getIo()->ask(
                 $this->trans('commands.entity.delete.questions.entity-id')
             );
             $input->setArgument('entity-id', $entityID);
@@ -108,8 +106,6 @@ class DeleteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $entityDefinitionID = $input->getArgument('entity-definition-id');
 
         try {
@@ -117,7 +113,7 @@ class DeleteCommand extends Command
 
             if ($input->getOption('all')) {
                 $entities = $storage->loadMultiple();
-                if ($io->confirm(
+                if ($this->getIo()->confirm(
                     sprintf(
                         $this->trans('commands.entity.delete.messages.confirm-delete-all'),
                         $entityDefinitionID,
@@ -126,7 +122,7 @@ class DeleteCommand extends Command
                 )
                 ) {
                     $storage->delete($entities);
-                    $io->success(
+                    $this->getIo()->success(
                         sprintf(
                             $this->trans('commands.entity.delete.messages.deleted-all'),
                             $entityDefinitionID,
@@ -137,7 +133,7 @@ class DeleteCommand extends Command
             } else {
                 $entityID = $input->getArgument('entity-id');
                 $storage->load($entityID)->delete();
-                $io->success(
+                $this->getIo()->success(
                     sprintf(
                         $this->trans('commands.entity.delete.messages.deleted'),
                         $entityDefinitionID,
@@ -146,7 +142,7 @@ class DeleteCommand extends Command
                 );
             }
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }

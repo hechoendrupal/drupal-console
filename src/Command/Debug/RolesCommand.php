@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Debug;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 
 /**
@@ -53,8 +52,6 @@ class RolesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $roles = $this->drupalApi->getRoles();
 
         $tableHeader = [
@@ -70,6 +67,6 @@ class RolesCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 }

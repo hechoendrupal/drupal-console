@@ -7,27 +7,23 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
-
 trait ServicesTrait
 {
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function servicesQuestion(DrupalStyle $io)
+    public function servicesQuestion()
     {
-        if ($io->confirm(
+        if ($this->getIo()->confirm(
             $this->trans('commands.common.questions.services.confirm'),
             false
         )
         ) {
             $service_collection = [];
-            $io->writeln($this->trans('commands.common.questions.services.message'));
+            $this->getIo()->writeln($this->trans('commands.common.questions.services.message'));
             $services = $this->container->getServiceIds();
             while (true) {
-                $service = $io->choiceNoList(
+                $service = $this->getIo()->choiceNoList(
                     $this->trans('commands.common.questions.services.name'),
                     $services,
                     null,

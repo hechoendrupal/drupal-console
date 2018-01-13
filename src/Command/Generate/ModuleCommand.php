@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\ModuleGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\DrupalApi;
@@ -171,10 +170,8 @@ class ModuleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -197,7 +194,7 @@ class ModuleCommand extends Command
         $dependencies = $this->validator->validateExtensions(
             $input->getOption('dependencies'),
             'module',
-            $io
+            $this->getIo()
         );
         $test = $input->getOption('test');
         $twigTemplate = $input->getOption('twigtemplate');
@@ -225,8 +222,6 @@ class ModuleCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $validator = $this->validator;
 
         try {
@@ -235,13 +230,13 @@ class ModuleCommand extends Command
                   $input->getOption('module')
               ) : null;
         } catch (\Exception $error) {
-            $io->error($error->getMessage());
+            $this->getIo()->error($error->getMessage());
 
             return 1;
         }
 
         if (!$module) {
-            $module = $io->ask(
+            $module = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.module'),
                 null,
                 function ($module) use ($validator) {
@@ -257,11 +252,11 @@ class ModuleCommand extends Command
                   $input->getOption('machine-name')
               ) : null;
         } catch (\Exception $error) {
-            $io->error($error->getMessage());
+            $this->getIo()->error($error->getMessage());
         }
 
         if (!$machineName) {
-            $machineName = $io->ask(
+            $machineName = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.machine-name'),
                 $this->stringConverter->createMachineName($module),
                 function ($machine_name) use ($validator) {
@@ -273,7 +268,7 @@ class ModuleCommand extends Command
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
-            $modulePath = $io->ask(
+            $modulePath = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.module-path'),
                 'modules/custom',
                 function ($modulePath) use ($machineName) {
@@ -296,7 +291,7 @@ class ModuleCommand extends Command
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $io->ask(
+            $description = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.description'),
                 $this->trans('commands.generate.module.suggestions.my-awesome-module')
             );
@@ -305,7 +300,7 @@ class ModuleCommand extends Command
 
         $package = $input->getOption('package');
         if (!$package) {
-            $package = $io->ask(
+            $package = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.package'),
                 'Custom'
             );
@@ -314,7 +309,7 @@ class ModuleCommand extends Command
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $io->ask(
+            $core = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.core'), '8.x',
                 function ($core) {
                     // Only allow 8.x and higher as core version.
@@ -335,7 +330,7 @@ class ModuleCommand extends Command
 
         $moduleFile = $input->getOption('module-file');
         if (!$moduleFile) {
-            $moduleFile = $io->confirm(
+            $moduleFile = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.module-file'),
                 true
             );
@@ -344,12 +339,12 @@ class ModuleCommand extends Command
 
         $featuresBundle = $input->getOption('features-bundle');
         if (!$featuresBundle) {
-            $featuresSupport = $io->confirm(
+            $featuresSupport = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.features-support'),
                 false
             );
             if ($featuresSupport) {
-                $featuresBundle = $io->ask(
+                $featuresBundle = $this->getIo()->ask(
                     $this->trans('commands.generate.module.questions.features-bundle'),
                     'default'
                 );
@@ -359,7 +354,7 @@ class ModuleCommand extends Command
 
         $composer = $input->getOption('composer');
         if (!$composer) {
-            $composer = $io->confirm(
+            $composer = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.composer'),
                 true
             );
@@ -368,12 +363,12 @@ class ModuleCommand extends Command
 
         $dependencies = $input->getOption('dependencies');
         if (!$dependencies) {
-            $addDependencies = $io->confirm(
+            $addDependencies = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.dependencies'),
                 false
             );
             if ($addDependencies) {
-                $dependencies = $io->ask(
+                $dependencies = $this->getIo()->ask(
                     $this->trans('commands.generate.module.options.dependencies')
                 );
             }
@@ -382,7 +377,7 @@ class ModuleCommand extends Command
 
         $test = $input->getOption('test');
         if (!$test) {
-            $test = $io->confirm(
+            $test = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.test'),
                 true
             );
@@ -391,7 +386,7 @@ class ModuleCommand extends Command
 
         $twigtemplate = $input->getOption('twigtemplate');
         if (!$twigtemplate) {
-            $twigtemplate = $io->confirm(
+            $twigtemplate = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.twigtemplate'),
                 true
             );

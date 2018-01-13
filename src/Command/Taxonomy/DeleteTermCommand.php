@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DeleteTermCommand.
@@ -56,12 +55,11 @@ class DeleteTermCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $vid = $input->getArgument('vid');
-        $io = new DrupalStyle($input, $output);
 
         if ($vid === 'all') {
             $vid = $vid;
         } elseif (!in_array($vid, array_keys($this->getVocabularies()))) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.taxonomy.term.delete.messages.invalid-vocabulary'),
                     $vid
@@ -69,7 +67,7 @@ class DeleteTermCommand extends Command
             );
             return;
         }
-        $this->deleteExistingTerms($vid, $io);
+        $this->deleteExistingTerms($vid);
     }
 
     /**
@@ -77,12 +75,10 @@ class DeleteTermCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --vid argument
         $vid = $input->getArgument('vid');
         if (!$vid) {
-            $vid = $io->choiceNoList(
+            $vid = $this->getIo()->choiceNoList(
                 $this->trans('commands.taxonomy.term.delete.vid'),
                 array_keys($this->getVocabularies())
             );
@@ -94,9 +90,8 @@ class DeleteTermCommand extends Command
      * Destroy all existing terms
      *
      * @param $vid
-     * @param $io
      */
-    private function deleteExistingTerms($vid = null, DrupalStyle $io)
+    private function deleteExistingTerms($vid = null)
     {
         $termStorage = $this->entityTypeManager->getStorage('taxonomy_term');
         //Load all vocabularies
@@ -113,7 +108,7 @@ class DeleteTermCommand extends Command
             $terms = $termStorage->loadTree($vocabulary->id());
 
             if (empty($terms)) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.taxonomy.term.delete.messages.nothing'),
                         $item
@@ -124,7 +119,7 @@ class DeleteTermCommand extends Command
                     $treal = $termStorage->load($term->tid);
 
                     if ($treal !== null) {
-                        $io->info(
+                        $this->getIo()->info(
                             sprintf(
                                 $this->trans('commands.taxonomy.term.delete.messages.processing'),
                                 $term->name

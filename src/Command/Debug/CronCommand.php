@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class CronCommand extends Command
 {
@@ -47,13 +46,11 @@ class CronCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $io->section(
+        $this->getIo()->section(
             $this->trans('commands.debug.cron.messages.module-list')
         );
 
-        $io->table(
+        $this->getIo()->table(
             [ $this->trans('commands.debug.cron.messages.module') ],
             $this->moduleHandler->getImplementations('cron'),
             'compact'

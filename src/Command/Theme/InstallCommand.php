@@ -15,7 +15,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Config\UnmetDependenciesException;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ChainQueue;
 
 class InstallCommand extends Command
@@ -76,8 +75,6 @@ class InstallCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $theme = $input->getArgument('theme');
 
         if (!$theme) {
@@ -97,10 +94,10 @@ class InstallCommand extends Command
                 $theme_list[$theme_id] = $theme->getName();
             }
 
-            $io->info($this->trans('commands.theme.install.messages.disabled-themes'));
+            $this->getIo()->info($this->trans('commands.theme.install.messages.disabled-themes'));
 
             while (true) {
-                $theme_name = $io->choiceNoList(
+                $theme_name = $this->getIo()->choiceNoList(
                     $this->trans('commands.theme.install.questions.theme'),
                     array_keys($theme_list),
                     null,
@@ -124,8 +121,6 @@ class InstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $config = $this->configFactory->getEditable('system.theme');
 
         $this->themeHandler->refreshInfo();
@@ -133,7 +128,7 @@ class InstallCommand extends Command
         $default = $input->getOption('set-default');
 
         if ($default && count($theme) > 1) {
-            $io->error($this->trans('commands.theme.install.messages.invalid-theme-default'));
+            $this->getIo()->error($this->trans('commands.theme.install.messages.invalid-theme-default'));
 
             return 1;
         }
@@ -157,7 +152,7 @@ class InstallCommand extends Command
             try {
                 if ($this->themeHandler->install($theme)) {
                     if (count($themesAvailable) > 1) {
-                        $io->info(
+                        $this->getIo()->info(
                             sprintf(
                                 $this->trans('commands.theme.install.messages.themes-success'),
                                 implode(',', $themesAvailable)
@@ -167,14 +162,14 @@ class InstallCommand extends Command
                         if ($default) {
                             // Set the default theme.
                             $config->set('default', $theme[0])->save();
-                            $io->info(
+                            $this->getIo()->info(
                                 sprintf(
                                     $this->trans('commands.theme.install.messages.theme-default-success'),
                                     $themesAvailable[0]
                                 )
                             );
                         } else {
-                            $io->info(
+                            $this->getIo()->info(
                                 sprintf(
                                     $this->trans('commands.theme.install.messages.theme-success'),
                                     $themesAvailable[0]
@@ -184,7 +179,7 @@ class InstallCommand extends Command
                     }
                 }
             } catch (UnmetDependenciesException $e) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.theme.install.messages.success'),
                         $theme
@@ -196,14 +191,14 @@ class InstallCommand extends Command
             }
         } elseif (empty($themesAvailable) && count($themesInstalled) > 0) {
             if (count($themesInstalled) > 1) {
-                $io->info(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.theme.install.messages.themes-nothing'),
                         implode(',', $themesInstalled)
                     )
                 );
             } else {
-                $io->info(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.theme.install.messages.theme-nothing'),
                         implode(',', $themesInstalled)
@@ -212,14 +207,14 @@ class InstallCommand extends Command
             }
         } else {
             if (count($themesUnavailable) > 1) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.theme.install.messages.themes-missing'),
                         implode(',', $themesUnavailable)
                     )
                 );
             } else {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.theme.install.messages.theme-missing'),
                         implode(',', $themesUnavailable)

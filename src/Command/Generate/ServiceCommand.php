@@ -16,7 +16,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
@@ -141,10 +140,8 @@ class ServiceCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -181,15 +178,13 @@ class ServiceCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $module = $this->getModuleOption();
 
         //--name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $io->ask(
+            $name = $this->getIo()->ask(
                 $this->trans('commands.generate.service.questions.service-name'),
                 $module.'.default'
             );
@@ -199,7 +194,7 @@ class ServiceCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.service.questions.class'),
                 'DefaultService',
                 function ($class) {
@@ -212,7 +207,7 @@ class ServiceCommand extends ContainerAwareCommand
         // --interface option
         $interface = $input->getOption('interface');
         if (!$interface) {
-            $interface = $io->confirm(
+            $interface = $this->getIo()->confirm(
                 $this->trans('commands.generate.service.questions.interface'),
                 true
             );
@@ -222,7 +217,7 @@ class ServiceCommand extends ContainerAwareCommand
         // --interface_name option
         $interface_name = $input->getOption('interface-name');
         if ($interface && !$interface_name) {
-            $interface_name = $io->askEmpty(
+            $interface_name = $this->getIo()->askEmpty(
                 $this->trans('commands.generate.service.questions.interface-name')
             );
             $input->setOption('interface-name', $interface_name);
@@ -232,14 +227,14 @@ class ServiceCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
 
         // --path_service option
         $path_service = $input->getOption('path-service');
         if (!$path_service) {
-            $path_service = $io->ask(
+            $path_service = $this->getIo()->ask(
                 $this->trans('commands.generate.service.questions.path-service'),
                 '/modules/custom/' . $module . '/src/'
             );

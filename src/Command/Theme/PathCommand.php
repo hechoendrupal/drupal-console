@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Extension\ThemeHandler;
 
 class PathCommand extends Command
@@ -61,13 +60,12 @@ class PathCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $theme = $input->getArgument('theme');
 
         $fullPath = $input->getOption('absolute');
 
         if (!in_array($theme, $this->getThemeList())) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.theme.path.messages.invalid-theme-name'),
                     $theme
@@ -77,7 +75,7 @@ class PathCommand extends Command
         }
         $theme = $this->extensionManager->getTheme($theme);
 
-        $io->info(
+        $this->getIo()->info(
             $theme->getPath($fullPath)
         );
     }
@@ -87,12 +85,10 @@ class PathCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --theme argument
         $theme = $input->getArgument('theme');
         if (!$theme) {
-            $theme = $io->choiceNoList(
+            $theme = $this->getIo()->choiceNoList(
                 $this->trans('commands.theme.path.arguments.theme'),
                 $this->getThemeList()
             );

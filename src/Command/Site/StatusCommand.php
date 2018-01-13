@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\system\SystemManager;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Config\ConfigFactory;
@@ -117,8 +116,6 @@ class StatusCommand extends ContainerAwareCommand
         // Make sure all modules are loaded.
         $this->container->get('module_handler')->loadAll();
 
-        $io = new DrupalStyle($input, $output);
-
         $systemData = $this->getSystemData();
         $connectionData = $this->getConnectionData();
         $themeInfo = $this->getThemeData();
@@ -134,7 +131,7 @@ class StatusCommand extends ContainerAwareCommand
         $format = $input->getOption('format');
 
         if ('table' === $format) {
-            $this->showDataAsTable($io, $siteData);
+            $this->showDataAsTable($siteData);
         }
 
         if ('json' === $format) {
@@ -244,22 +241,22 @@ class StatusCommand extends ContainerAwareCommand
         ];
     }
 
-    protected function showDataAsTable(DrupalStyle $io, $siteData)
+    protected function showDataAsTable($siteData)
     {
         if (empty($siteData)) {
             return [];
         }
-        $io->newLine();
+        $this->getIo()->newLine();
         foreach ($this->groups as $group) {
             $tableRows = [];
             $groupData = $siteData[$group];
-            $io->comment($this->trans('commands.site.status.messages.'.$group));
+            $this->getIo()->comment($this->trans('commands.site.status.messages.'.$group));
 
             foreach ($groupData as $key => $item) {
                 $tableRows[] = [$key, $item];
             }
 
-            $io->table([], $tableRows, 'compact');
+            $this->getIo()->table([], $tableRows, 'compact');
         }
     }
 }

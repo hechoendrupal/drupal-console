@@ -15,7 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigManager;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class DiffCommand extends Command
 {
@@ -85,11 +84,10 @@ class DiffCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         global $config_directories;
-        $io = new DrupalStyle($input, $output);
 
         $directory = $input->getArgument('directory');
         if (!$directory) {
-            $directory = $io->choice(
+            $directory = $this->getIo()->choice(
                 $this->trans('commands.config.diff.questions.directories'),
                 $config_directories,
                 CONFIG_SYNC_DIRECTORY
@@ -105,7 +103,6 @@ class DiffCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         global $config_directories;
-        $io = new DrupalStyle($input, $output);
         $directory = $input->getArgument('directory') ?: CONFIG_SYNC_DIRECTORY;
         if (array_key_exists($directory, $config_directories)) {
             $directory = $config_directories[$directory];
@@ -126,18 +123,16 @@ class DiffCommand extends Command
             $change_list[$collection] = $config_comparer->getChangelist(null, $collection);
         }
 
-        $this->outputDiffTable($io, $change_list);
+        $this->outputDiffTable($change_list);
     }
 
     /**
      * Ouputs a table of configuration changes.
      *
-     * @param DrupalStyle $io
-     *   The io.
      * @param array       $change_list
      *   The list of changes from the StorageComparer.
      */
-    protected function outputDiffTable(DrupalStyle $io, array $change_list)
+    protected function outputDiffTable(array $change_list)
     {
         $header = [
             $this->trans('commands.config.diff.table.headers.collection'),
@@ -156,6 +151,6 @@ class DiffCommand extends Command
                 }
             }
         }
-        $io->table($header, $rows);
+        $this->getIo()->table($header, $rows);
     }
 }

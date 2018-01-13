@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ThemeCommand extends Command
 {
@@ -57,17 +56,15 @@ class ThemeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $theme = $input->getArgument('theme');
         if ($theme) {
-            $this->themeDetail($io, $theme);
+            $this->themeDetail($theme);
         } else {
-            $this->themeList($io);
+            $this->themeList();
         }
     }
 
-    protected function themeList(DrupalStyle $io)
+    protected function themeList()
     {
         $tableHeader = [
             $this->trans('commands.debug.theme.messages.theme-id'),
@@ -86,10 +83,10 @@ class ThemeCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 
-    protected function themeDetail(DrupalStyle $io, $themeId)
+    protected function themeDetail($themeId)
     {
         $theme = null;
         $themes = $this->themeHandler->rebuildThemeData();
@@ -110,29 +107,29 @@ class ThemeCommand extends Command
             $theme = $themes[$themeId];
             $status = $this->getThemeStatus($themeId);
 
-            $io->info($theme->info['name']);
+            $this->getIo()->info($theme->info['name']);
 
-            $io->comment(
+            $this->getIo()->comment(
                 sprintf(
                     '%s : ',
                     $this->trans('commands.debug.theme.messages.status')
                 ),
                 false
             );
-            $io->writeln($status);
-            $io->comment(
+            $this->getIo()->writeln($status);
+            $this->getIo()->comment(
                 sprintf(
                     '%s : ',
                     $this->trans('commands.debug.theme.messages.version')
                 ),
                 false
             );
-            $io->writeln($theme->info['version']);
-            $io->comment($this->trans('commands.debug.theme.messages.regions'));
+            $this->getIo()->writeln($theme->info['version']);
+            $this->getIo()->comment($this->trans('commands.debug.theme.messages.regions'));
             $tableRows = $this->addThemeAttributes($theme->info['regions'], $tableRows);
-            $io->table([], $tableRows);
+            $this->getIo()->table([], $tableRows);
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.debug.theme.messages.invalid-theme'),
                     $themeId

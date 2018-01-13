@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 
 /**
@@ -101,7 +100,6 @@ class UserCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $roles = $input->getOption('roles');
         $limit = $input->getOption('limit');
 
@@ -174,7 +172,7 @@ class UserCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 
     //@TODO: this should be in src/Command/Shared/CommandTrait.php

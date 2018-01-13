@@ -16,7 +16,6 @@ use Drupal\Console\Utils\Validator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\CachedStorage;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Extension\Manager;
 
@@ -104,8 +103,6 @@ class ExportViewCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
 
@@ -119,7 +116,7 @@ class ExportViewCommand extends Command
                 $viewList[$view->get('id')] = $view->get('label');
             }
 
-            $viewId = $io->choiceNoList(
+            $viewId = $this->getIo()->choiceNoList(
                 $this->trans('commands.config.export.view.questions.view'),
                 $viewList
             );
@@ -128,7 +125,7 @@ class ExportViewCommand extends Command
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
-            $optionalConfig = $io->confirm(
+            $optionalConfig = $this->getIo()->confirm(
                 $this->trans('commands.config.export.view.questions.optional-config'),
                 true
             );
@@ -137,7 +134,7 @@ class ExportViewCommand extends Command
 
         $includeModuleDependencies = $input->getOption('include-module-dependencies');
         if (!$includeModuleDependencies) {
-            $includeModuleDependencies = $io->confirm(
+            $includeModuleDependencies = $this->getIo()->confirm(
                 $this->trans('commands.config.export.view.questions.include-module-dependencies'),
                 true
             );
@@ -147,8 +144,6 @@ class ExportViewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $module = $input->getOption('module');
         $viewId = $input->getArgument('view-id');
         $optionalConfig = $input->getOption('optional-config');
@@ -169,10 +164,10 @@ class ExportViewCommand extends Command
         // Include module dependencies in export files if export is not optional
         if ($includeModuleDependencies) {
             if ($dependencies = $this->fetchDependencies($viewNameConfig, 'module')) {
-                $this->exportModuleDependencies($io, $module, $dependencies);
+                $this->exportModuleDependencies($module, $dependencies);
             }
         }
 
-        $this->exportConfigToModule($module, $io, $this->trans('commands.views.export.messages.view-exported'));
+        $this->exportConfigToModule($module, $this->trans('commands.views.export.messages.view-exported'));
     }
 }

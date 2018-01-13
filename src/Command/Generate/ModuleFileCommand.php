@@ -15,7 +15,6 @@ use Drupal\Console\Generator\ModuleFileGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 
 /**
@@ -83,10 +82,8 @@ class ModuleFileCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -106,8 +103,6 @@ class ModuleFileCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
     }

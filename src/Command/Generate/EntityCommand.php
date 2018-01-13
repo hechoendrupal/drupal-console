@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 abstract class EntityCommand extends Command
 {
@@ -95,8 +94,6 @@ abstract class EntityCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $commandKey = str_replace(':', '.', $this->commandName);
         $utils = $this->stringConverter;
 
@@ -106,7 +103,7 @@ abstract class EntityCommand extends Command
         // --entity-class option
         $entityClass = $input->getOption('entity-class');
         if (!$entityClass) {
-            $entityClass = $io->ask(
+            $entityClass = $this->getIo()->ask(
                 $this->trans('commands.'.$commandKey.'.questions.entity-class'),
                 'DefaultEntity',
                 function ($entityClass) {
@@ -120,7 +117,7 @@ abstract class EntityCommand extends Command
         // --entity-name option
         $entityName = $input->getOption('entity-name');
         if (!$entityName) {
-            $entityName = $io->ask(
+            $entityName = $this->getIo()->ask(
                 $this->trans('commands.'.$commandKey.'.questions.entity-name'),
                 $utils->camelCaseToMachineName($entityClass),
                 function ($entityName) {
@@ -133,7 +130,7 @@ abstract class EntityCommand extends Command
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $io->ask(
+            $label = $this->getIo()->ask(
                 $this->trans('commands.'.$commandKey.'.questions.label'),
                 $utils->camelCaseToHuman($entityClass)
             );
@@ -145,7 +142,7 @@ abstract class EntityCommand extends Command
         if (!$base_path) {
             $base_path = $this->getDefaultBasePath();
         }
-        $base_path = $io->ask(
+        $base_path = $this->getIo()->ask(
             $this->trans('commands.'.$commandKey.'.questions.base-path'),
             $base_path
         );
