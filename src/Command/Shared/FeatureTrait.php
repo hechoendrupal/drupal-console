@@ -20,7 +20,7 @@ use Drupal\config_update\ConfigRevertInterface;
  */
 trait FeatureTrait
 {
-    public function packageQuestion(DrupalStyle $io)
+    public function packageQuestion($bundle)
     {
         $packages = $this->getPackagesByBundle($bundle);
 
@@ -30,7 +30,7 @@ trait FeatureTrait
             );
         }
 
-        $package = $io->choiceNoList(
+        $package = $this->getIo()->choiceNoList(
             $this->trans('commands.features.import.questions.packages'),
             $packages
         );
