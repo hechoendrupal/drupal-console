@@ -186,11 +186,10 @@ class InstallCommand extends Command
             } catch (UnmetDependenciesException $e) {
                 $io->error(
                     sprintf(
-                        $this->trans('commands.theme.install.messages.success'),
+                        $this->trans('commands.theme.install.messages.dependencies'),
                         $theme
                     )
                 );
-                drupal_set_message($e->getTranslatedMessage($this->getStringTranslation(), $theme), 'error');
 
                 return 1;
             }
