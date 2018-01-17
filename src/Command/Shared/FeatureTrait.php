@@ -19,7 +19,7 @@ use Drupal\config_update\ConfigRevertInterface;
  */
 trait FeatureTrait
 {
-    public function packageQuestion()
+    public function packageQuestion($bundle)
     {
         $packages = $this->getPackagesByBundle($bundle);
 

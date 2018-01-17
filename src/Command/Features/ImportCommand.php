@@ -70,11 +70,10 @@ class ImportCommand extends Command
     {
         $packages = $input->getArgument('packages');
         $bundle = $input->getOption('bundle');
-
-        if (!$packages && !$bundle) {
+        if (!$packages) {
             // @see Drupal\Console\Command\Shared\FeatureTrait::packageQuestion
-            $bundle = $this->packageQuestion();
-            $input->setArgument('packages', $bundle);
+            $package = $this->packageQuestion($bundle);
+            $input->setArgument('packages', $package);
         }
     }
 }
