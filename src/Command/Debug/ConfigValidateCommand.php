@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Drupal\Core\Config\TypedConfigManagerInterface;
 use Drupal\Core\Serialization\Yaml;
@@ -56,25 +55,22 @@ class ConfigValidateCommand extends ContainerAwareCommand
    */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         /**
          * @var TypedConfigManagerInterface $typedConfigManager
          */
         $typedConfigManager = $this->get('config.typed');
 
-        $io = new DrupalStyle($input, $output);
-
         //Validate config file path
         $configFilePath = $input->getArgument('filepath');
         if (!file_exists($configFilePath)) {
-            $io->info($this->trans('commands.debug.config.validate.messages.noConfFile'));
+            $this->getIo()->info($this->trans('commands.debug.config.validate.messages.noConfFile'));
             return 1;
         }
 
         //Validate schema path
         $configSchemaFilePath = $input->getArgument('schema-filepath');
         if (!file_exists($configSchemaFilePath)) {
-            $io->info($this->trans('commands.debug.config.validate.messages.noConfSchema'));
+            $this->getIo()->info($this->trans('commands.debug.config.validate.messages.noConfSchema'));
             return 1;
         }
 
@@ -82,18 +78,18 @@ class ConfigValidateCommand extends ContainerAwareCommand
         $schema = Yaml::decode(file_get_contents($configSchemaFilePath));
 
         //Get the schema name and check it exists in the schema array
-        $schemaName = $this->getSchemaName($input, $configFilePath);
+        $schemaName = $this->getSchemaName($configFilePath);
         if (!array_key_exists($schemaName, $schema)) {
-            $io->warning($this->trans('commands.debug.config.validate.messages.noSchemaName') . $schemaName);
+            $this->getIo()->warning($this->trans('commands.debug.config.validate.messages.noSchemaName') . $schemaName);
             return 1;
         }
 
-        return $this->printResults($this->manualCheckConfigSchema($typedConfigManager, $config, $schema[$schemaName]), $io);
+        return $this->printResults($this->manualCheckConfigSchema($typedConfigManager, $config, $schema[$schemaName]));
     }
 
-    private function getSchemaName(InputInterface $input, $configFilePath)
+    private function getSchemaName($configFilePath)
     {
-        $schemaName = $input->getOption('schema-name');
+        $schemaName = $this->getIo()->getInput()->getOption('schema-name');
         if ($schemaName === null) {
             $schema_name = end(explode('/', $configFilePath));
             $schemaName = substr($schema_name, 0, -4);

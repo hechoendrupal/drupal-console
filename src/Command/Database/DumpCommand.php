@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Core\Utils\ShellProcess;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class DumpCommand extends Command
 {
@@ -77,14 +76,12 @@ class DumpCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
         $learning = $input->getOption('learning');
         $gz = $input->getOption('gz');
 
-        $databaseConnection = $this->resolveConnection($io, $database);
+        $databaseConnection = $this->resolveConnection($database);
 
         if (!$file) {
             $date = new \DateTime();
@@ -121,7 +118,7 @@ class DumpCommand extends Command
         }
 
         if ($learning) {
-            $io->commentBlock($command);
+            $this->getIo()->commentBlock($command);
         }
 
         if ($this->shellProcess->exec($command, $this->appRoot)) {
@@ -143,7 +140,7 @@ class DumpCommand extends Command
                 }
             }
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     '%s %s',
                     $this->trans('commands.database.dump.messages.success'),

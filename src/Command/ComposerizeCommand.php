@@ -2,7 +2,6 @@
 
 namespace Drupal\Console\Command;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\DrupalFinder;
 use Symfony\Component\Console\Input\InputInterface;
@@ -75,10 +74,6 @@ class ComposerizeCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /**
-         * @var DrupalStyle $io
-         */
-        $io = new DrupalStyle($input, $output);
         $includeVersion = $input->getOption('include-version');
         $showPackages = $input->getOption('show-packages')?:false;
 
@@ -106,13 +101,13 @@ class ComposerizeCommand extends ContainerAwareCommand
             }
 
             if ($showPackages) {
-                $io->comment($this->trans('commands.composerize.messages.'.$type));
+                $this->getIo()->comment($this->trans('commands.composerize.messages.'.$type));
                 $tableHeader = [
                     $this->trans('commands.composerize.messages.name'),
                     $this->trans('commands.composerize.messages.version'),
                     $this->trans('commands.composerize.messages.dependencies')
                 ];
-                $io->table($tableHeader, $packages);
+                $this->getIo()->table($tableHeader, $packages);
             }
             foreach ($packages as $package) {
                 $module = str_replace('drupal/', '', $package['name']);
@@ -126,13 +121,13 @@ class ComposerizeCommand extends ContainerAwareCommand
                 $composerCommand .= ' ';
             }
         }
-        $io->comment($this->trans('commands.composerize.messages.from'));
-        $io->simple($this->get('console.root'));
-        $io->newLine();
-        $io->comment($this->trans('commands.composerize.messages.execute'));
-        $io->simple($composerCommand);
-        $io->newLine();
-        $io->comment($this->trans('commands.composerize.messages.ignore'));
+        $this->getIo()->comment($this->trans('commands.composerize.messages.from'));
+        $this->getIo()->simple($this->get('console.root'));
+        $this->getIo()->newLine();
+        $this->getIo()->comment($this->trans('commands.composerize.messages.execute'));
+        $this->getIo()->simple($composerCommand);
+        $this->getIo()->newLine();
+        $this->getIo()->comment($this->trans('commands.composerize.messages.ignore'));
 
         $webRoot = str_replace(
             $this->drupalFinder->getComposerRoot() . '/',
@@ -140,7 +135,7 @@ class ComposerizeCommand extends ContainerAwareCommand
             $this->drupalFinder->getDrupalRoot() . '/'
         );
 
-        $io->writeln(
+        $this->getIo()->writeln(
             [
                 ' vendor/',
                 ' '.$webRoot.'modules/contrib',

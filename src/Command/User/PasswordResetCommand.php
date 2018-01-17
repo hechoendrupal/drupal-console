@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class PasswordResetCommand extends UserBase
 {
@@ -70,13 +69,11 @@ class PasswordResetCommand extends UserBase
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $this->getUserArgument();
 
         $password = $input->getArgument('password');
         if (!$password) {
-            $password = $io->ask(
+            $password = $this->getIo()->ask(
                 $this->trans('commands.user.password.hash.questions.password')
             );
 
@@ -89,14 +86,12 @@ class PasswordResetCommand extends UserBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $user = $input->getArgument('user');
 
         $userEntity = $this->getUserEntity($user);
 
         if (!$userEntity) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.user.password.reset.errors.invalid-user'),
                     $user
@@ -108,7 +103,7 @@ class PasswordResetCommand extends UserBase
 
         $password = $input->getArgument('password');
         if (!$password) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.user.password.reset.errors.empty-password'),
                     $password
@@ -130,7 +125,7 @@ class PasswordResetCommand extends UserBase
                     ->addCommand('user:login:clear:attempts', ['user' => $user]);
             }
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.user.password.reset.messages.reset-successful'),
                     $user
@@ -138,7 +133,7 @@ class PasswordResetCommand extends UserBase
             );
             return 0;
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }

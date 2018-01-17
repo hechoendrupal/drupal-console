@@ -16,7 +16,6 @@ use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Generator\PluginMailGenerator;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
@@ -127,10 +126,8 @@ class PluginMailCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -150,15 +147,13 @@ class PluginMailCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.mail.options.class'),
                 'HtmlFormatterMail',
                 function ($class) {
@@ -171,7 +166,7 @@ class PluginMailCommand extends ContainerAwareCommand
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $io->ask(
+            $label = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.mail.options.label'),
                 $this->stringConverter->camelCaseToHuman($class)
             );
@@ -181,7 +176,7 @@ class PluginMailCommand extends ContainerAwareCommand
         // --plugin-id option
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
-            $pluginId = $io->ask(
+            $pluginId = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.mail.options.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
@@ -190,7 +185,7 @@ class PluginMailCommand extends ContainerAwareCommand
 
         // --services option
         // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-        $services = $this->servicesQuestion($io);
+        $services = $this->servicesQuestion();
         $input->setOption('services', $services);
     }
 }

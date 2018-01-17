@@ -15,7 +15,6 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Extension\Manager;
 
@@ -87,10 +86,8 @@ class JsTestCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -110,15 +107,13 @@ class JsTestCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.jstest.questions.class'),
                 'DefaultJsTest',
                 function ($class) {

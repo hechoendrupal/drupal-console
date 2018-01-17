@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\MigrationTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Core\Command\Command;
 use Drupal\migrate_plus\Entity\MigrationGroup;
@@ -65,8 +64,6 @@ class RollBackCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $sourceBasepath = $input->getOption('source-base_path');
         $configuration['source']['constants']['source_base_path'] = rtrim($sourceBasepath, '/') . '/';
         // --migration-id prefix
@@ -86,7 +83,7 @@ class RollBackCommand extends Command
 
         foreach ($migration_ids as  $migration) {
             if (!in_array($migration, $migrations_list)) {
-                $io->warning(
+                $this->getIo()->warning(
                     sprintf(
                         $this->trans('commands.migrate.rollback.messages.not-available'),
                         $migration
@@ -102,7 +99,7 @@ class RollBackCommand extends Command
                 $migration_status = $executable->rollback();
                 switch ($migration_status) {
                 case MigrationInterface::RESULT_COMPLETED:
-                    $io->info(
+                    $this->getIo()->info(
                         sprintf(
                             $this->trans('commands.migrate.rollback.messages.processing'),
                             $migration
@@ -110,7 +107,7 @@ class RollBackCommand extends Command
                     );
                     break;
                 case MigrationInterface::RESULT_INCOMPLETE:
-                    $io->info(
+                    $this->getIo()->info(
                         sprintf(
                             $this->trans('commands.migrate.execute.messages.importing-incomplete'),
                             $migration
@@ -118,7 +115,7 @@ class RollBackCommand extends Command
                     );
                     break;
                 case MigrationInterface::RESULT_STOPPED:
-                    $io->error(
+                    $this->getIo()->error(
                         sprintf(
                             $this->trans('commands.migrate.execute.messages.import-stopped'),
                             $migration
@@ -137,7 +134,6 @@ class RollBackCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         // Get migrations
         $migrations_list = $this->getMigrations($version_tag);
 
@@ -149,7 +145,7 @@ class RollBackCommand extends Command
             $migrations_ids = [];
 
             while (true) {
-                $migration_id = $io->choiceNoList(
+                $migration_id = $this->getIo()->choiceNoList(
                     $this->trans('commands.migrate.execute.questions.id'),
                     array_keys($migrations_list),
                     'all'
@@ -172,7 +168,7 @@ class RollBackCommand extends Command
         // --source-base_path
         $sourceBasepath = $input->getOption('source-base_path');
         if (!$sourceBasepath) {
-            $sourceBasepath = $io->ask(
+            $sourceBasepath = $this->getIo()->ask(
                 $this->trans('commands.migrate.setup.questions.source-base-path'),
                 ''
             );

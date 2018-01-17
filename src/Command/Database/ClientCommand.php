@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ClientCommand extends Command
 {
@@ -42,12 +41,10 @@ class ClientCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $database = $input->getArgument('database');
         $learning = $input->getOption('learning');
 
-        $databaseConnection = $this->resolveConnection($io, $database);
+        $databaseConnection = $this->resolveConnection($database);
 
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
@@ -60,7 +57,7 @@ class ClientCommand extends Command
         );
 
         if ($learning) {
-            $io->commentBlock(
+            $this->getIo()->commentBlock(
                 sprintf(
                     $this->trans('commands.database.client.messages.connection'),
                     $connection

@@ -14,7 +14,6 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ConfigCommand extends Command
 {
@@ -64,20 +63,15 @@ class ConfigCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $configName = $input->getArgument('name');
         if (!$configName) {
-            $this->getAllConfigurations($io);
+            $this->getAllConfigurations();
         } else {
-            $this->getConfigurationByName($io, $configName);
+            $this->getConfigurationByName($configName);
         }
     }
 
-    /**
-     * @param $io         DrupalStyle
-     */
-    private function getAllConfigurations(DrupalStyle $io)
+    private function getAllConfigurations()
     {
         $names = $this->configFactory->listAll();
         $tableHeader = [
@@ -90,14 +84,13 @@ class ConfigCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 
     /**
-     * @param $io             DrupalStyle
      * @param $config_name    String
      */
-    private function getConfigurationByName(DrupalStyle $io, $config_name)
+    private function getConfigurationByName($config_name)
     {
         if ($this->configStorage->exists($config_name)) {
             $tableHeader = [
@@ -111,9 +104,9 @@ class ConfigCommand extends Command
                 $configurationEncoded,
             ];
 
-            $io->table($tableHeader, $tableRows, 'compact');
+            $this->getIo()->table($tableHeader, $tableRows, 'compact');
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf($this->trans('commands.debug.config.errors.not-exists'), $config_name)
             );
         }

@@ -57,9 +57,7 @@ class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% e
    * {@inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
-    $io = new DrupalStyle($input, $output);
-
-    $io->info($this->trans('commands.{{ command_key }}.messages.success'));
+    $this->getIo()->info($this->trans('commands.{{ command_key }}.messages.success'));
   }
 
 {% if interact %}
@@ -67,7 +65,6 @@ class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% e
   * {@inheritdoc}
   */
  protected function interact(InputInterface $input, OutputInterface $output) {
-   $io = new DrupalStyle($input, $output);
 
  }
 {% endif %}

@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Debug;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class CacheContextCommand.
@@ -35,7 +34,6 @@ class CacheContextCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $contextManager = $this->get('cache_contexts_manager');
 
         $tableHeader = [
@@ -55,7 +53,7 @@ class CacheContextCommand extends ContainerAwareCommand
             ];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
 
         return 0;
     }

@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Database\Connection;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\user\Entity\User;
 
 class LoginCleanAttemptsCommand extends UserBase
@@ -66,13 +65,11 @@ class LoginCleanAttemptsCommand extends UserBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $user = $input->getArgument('user');
         $userEntity = $this->getUserEntity($user);
 
         if (!$userEntity) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.user.login.clear.attempts.errors.invalid-user'),
                     $user
@@ -93,7 +90,7 @@ class LoginCleanAttemptsCommand extends UserBase
         $flood = $schema->findTables('flood');
 
         if (!$flood) {
-            $io->error(
+            $this->getIo()->error(
                 $this->trans('commands.user.login.clear.attempts.errors.no-flood')
             );
 
@@ -107,7 +104,7 @@ class LoginCleanAttemptsCommand extends UserBase
             ->execute();
 
         // Command executed successful.
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.user.login.clear.attempts.messages.successful'),
                 $userEntity->getUsername()

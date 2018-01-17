@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Routing\RouteBuilderInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class RebuildCommand extends Command
 {
@@ -41,16 +40,14 @@ class RebuildCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $io->newLine();
-        $io->comment(
+        $this->getIo()->newLine();
+        $this->getIo()->comment(
             $this->trans('commands.router.rebuild.messages.rebuilding')
         );
 
         $this->routerBuilder->rebuild();
 
-        $io->success(
+        $this->getIo()->success(
             $this->trans('commands.router.rebuild.messages.completed')
         );
     }

@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Database\DatabaseLogBase;
 
 /**
@@ -98,8 +97,6 @@ class DatabaseLogCommand extends DatabaseLogBase
    */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $this->getDefaultOptions($input);
         $this->eventId = $input->getArgument('event-id');
         $this->asc = $input->getOption('asc');
@@ -107,20 +104,18 @@ class DatabaseLogCommand extends DatabaseLogBase
         $this->offset = $input->getOption('offset');
         $this->ymlStyle = $input->getOption('yml');
 
-
         if ($this->eventId) {
-            return $this->getEventDetails($io);
+            return $this->getEventDetails();
         } else {
-            return $this->getAllEvents($io);
+            return $this->getAllEvents();
         }
     }
 
     /**
-   * @param $io
    * @param $eventId
    * @return bool
    */
-    private function getEventDetails(DrupalStyle $io)
+    private function getEventDetails()
     {
         $dblog = $this->database
             ->query(
@@ -130,7 +125,7 @@ class DatabaseLogCommand extends DatabaseLogBase
             ->fetchObject();
 
         if (!$dblog) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.debug.database.log.messages.not-found'),
                     $this->eventId
@@ -140,9 +135,9 @@ class DatabaseLogCommand extends DatabaseLogBase
         }
 
         if ($this->ymlStyle) {
-            $io->writeln(Yaml::encode($this->formatSingle($dblog)));
+            $this->getIo()->writeln(Yaml::encode($this->formatSingle($dblog)));
         } else {
-            $io->table(
+            $this->getIo()->table(
                 $this->createTableHeader(),
                 [$this->createTableRow($dblog)]
             );
@@ -150,12 +145,11 @@ class DatabaseLogCommand extends DatabaseLogBase
     }
 
     /**
-   * @param \Drupal\Console\Core\Style\DrupalStyle $io
    * @return bool
    */
-    private function getAllEvents(DrupalStyle $io)
+    private function getAllEvents()
     {
-        $query = $this->makeQuery($io);
+        $query = $this->makeQuery();
 
         $result = $query->execute();
 
@@ -164,7 +158,7 @@ class DatabaseLogCommand extends DatabaseLogBase
             $tableRows[] = $this->createTableRow($dblog);
         }
 
-        $io->table(
+        $this->getIo()->table(
             $this->createTableHeader(),
             $tableRows
         );

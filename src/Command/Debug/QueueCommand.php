@@ -11,7 +11,6 @@ use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
@@ -52,8 +51,6 @@ class QueueCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $tableHeader = [
             $this->trans('commands.debug.queue.messages.queue'),
             $this->trans('commands.debug.queue.messages.items'),
@@ -62,7 +59,7 @@ class QueueCommand extends Command
 
         $tableBody = $this->listQueues();
 
-        $io->table($tableHeader, $tableBody);
+        $this->getIo()->table($tableHeader, $tableBody);
 
         return 0;
     }

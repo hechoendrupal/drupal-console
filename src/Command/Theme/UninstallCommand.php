@@ -14,7 +14,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Config\UnmetDependenciesException;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ChainQueue;
 
 class UninstallCommand extends Command
@@ -70,8 +69,6 @@ class UninstallCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $theme = $input->getArgument('theme');
 
         if (!$theme) {
@@ -90,10 +87,10 @@ class UninstallCommand extends Command
                 $theme_list[$theme_id] = $theme->getName();
             }
 
-            $io->info($this->trans('commands.theme.uninstall.messages.installed-themes'));
+            $this->getIo()->info($this->trans('commands.theme.uninstall.messages.installed-themes'));
 
             while (true) {
-                $theme_name = $io->choiceNoList(
+                $theme_name = $this->getIo()->choiceNoList(
                     $this->trans('commands.theme.uninstall.questions.theme'),
                     array_keys($theme_list),
                     null,
@@ -117,8 +114,6 @@ class UninstallCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $config = $this->configFactory->getEditable('system.theme');
 
         $this->themeHandler->refreshInfo();
@@ -143,7 +138,7 @@ class UninstallCommand extends Command
             try {
                 foreach ($themesAvailable as $themeKey => $themeName) {
                     if ($themeKey === $config->get('default')) {
-                        $io->error(
+                        $this->getIo()->error(
                             sprintf(
                                 $this->trans('commands.theme.uninstall.messages.error-default-theme'),
                                 implode(',', $themesAvailable)
@@ -154,7 +149,7 @@ class UninstallCommand extends Command
                     }
 
                     if ($themeKey === $config->get('admin')) {
-                        $io->error(
+                        $this->getIo()->error(
                             sprintf(
                                 $this->trans('commands.theme.uninstall.messages.error-admin-theme'),
                                 implode(',', $themesAvailable)
@@ -167,14 +162,14 @@ class UninstallCommand extends Command
                 $this->themeHandler->uninstall($theme);
 
                 if (count($themesAvailable) > 1) {
-                    $io->info(
+                    $this->getIo()->info(
                         sprintf(
                             $this->trans('commands.theme.uninstall.messages.themes-success'),
                             implode(',', $themesAvailable)
                         )
                     );
                 } else {
-                    $io->info(
+                    $this->getIo()->info(
                         sprintf(
                             $this->trans('commands.theme.uninstall.messages.theme-success'),
                             array_shift($themesAvailable)
@@ -182,7 +177,7 @@ class UninstallCommand extends Command
                     );
                 }
             } catch (UnmetDependenciesException $e) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.theme.uninstall.messages.dependencies'),
                         $e->getMessage()
@@ -194,14 +189,14 @@ class UninstallCommand extends Command
             }
         } elseif (empty($themesAvailable) && count($themesUninstalled) > 0) {
             if (count($themesUninstalled) > 1) {
-                $io->info(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.theme.uninstall.messages.themes-nothing'),
                         implode(',', $themesUninstalled)
                     )
                 );
             } else {
-                $io->info(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.theme.uninstall.messages.theme-nothing'),
                         implode(',', $themesUninstalled)
@@ -210,14 +205,14 @@ class UninstallCommand extends Command
             }
         } else {
             if (count($themesUnavailable) > 1) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.theme.uninstall.messages.themes-missing'),
                         implode(',', $themesUnavailable)
                     )
                 );
             } else {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.theme.uninstall.messages.theme-missing'),
                         implode(',', $themesUnavailable)

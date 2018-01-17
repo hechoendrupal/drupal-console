@@ -20,7 +20,6 @@ use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\Html;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DatabaseLogBase
@@ -134,12 +133,11 @@ abstract class DatabaseLogBase extends Command
     }
 
     /**
-     * @param DrupalStyle $io
      * @param null        $offset
      * @param int         $range
      * @return bool|\Drupal\Core\Database\Query\SelectInterface
      */
-    protected function makeQuery(DrupalStyle $io, $offset = null, $range = 1000)
+    protected function makeQuery($offset = null, $range = 1000)
     {
         $query = $this->database->select('watchdog', 'w');
         $query->fields(
@@ -161,7 +159,7 @@ abstract class DatabaseLogBase extends Command
 
         if ($this->eventSeverity) {
             if (!in_array($this->eventSeverity, $this->severityList)) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('database.log.common.messages.invalid-severity'),
                         $this->eventSeverity
