@@ -74,7 +74,7 @@ class ThemeBaseCommand extends Command
         parent::__construct();
     }
 
-    /***
+    /**
      * Gets the list of themes available on the website.
      *
      * @return array themes from site.
@@ -84,7 +84,7 @@ class ThemeBaseCommand extends Command
         return $this->themes;
     }
 
-    /***
+    /**
      * Gets unavailable themes.
      *
      * @return array
@@ -95,7 +95,7 @@ class ThemeBaseCommand extends Command
         return $this->availableThemes;
     }
 
-    /***
+    /**
      * Gets unavailable themes.
      *
      * @return array
@@ -106,7 +106,7 @@ class ThemeBaseCommand extends Command
         return $this->unavailableThemes;
     }
 
-    /***
+    /**
      * Gets uninstalled themes.
      *
      * @return array
@@ -117,7 +117,7 @@ class ThemeBaseCommand extends Command
         return $this->uninstalledThemes;
     }
 
-    /***
+    /**
      * Adds available theme.
      *
      * @param string $themeMachineName
@@ -130,8 +130,8 @@ class ThemeBaseCommand extends Command
         $this->availableThemes[$themeMachineName] = $themeName;
     }
 
-    /***
-     * Ads unavailable theme.
+    /**
+     * Adds unavailable theme.
      *
      * @param string $themeMachineName
      *   Theme machine name.
@@ -143,7 +143,7 @@ class ThemeBaseCommand extends Command
         $this->unavailableThemes[$themeMachineName] = $themeName;
     }
 
-    /***
+    /**
      * Adds uninstall theme.
      *
      * @param string $themeMachineName
