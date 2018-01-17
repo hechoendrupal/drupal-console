@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\State\StateInterface;
 use Drupal\Console\Core\Utils\ChainQueue;
 
@@ -58,8 +57,6 @@ class MaintenanceCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $mode = $input->getArgument('mode');
         $stateName = 'system.maintenance_mode';
         $modeMessage = null;
@@ -79,7 +76,7 @@ class MaintenanceCommand extends ContainerAwareCommand
             $cacheRebuild = false;
         }
 
-        $io->info($this->trans($modeMessage));
+        $this->getIo()->info($this->trans($modeMessage));
 
         if ($cacheRebuild) {
             $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);

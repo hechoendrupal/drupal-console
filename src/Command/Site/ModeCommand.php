@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -75,12 +74,10 @@ class ModeCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $environment = $input->getArgument('environment');
 
         if (!in_array($environment, ['dev', 'prod'])) {
-            $io->error($this->trans('commands.site.mode.messages.invalid-env'));
+            $this->getIo()->error($this->trans('commands.site.mode.messages.invalid-env'));
             return 1;
         }
 
@@ -91,11 +88,11 @@ class ModeCommand extends ContainerAwareCommand
         );
 
         foreach ($configurationOverrideResult as $configName => $result) {
-            $io->info(
+            $this->getIo()->info(
                 $this->trans('commands.site.mode.messages.configuration') . ':',
                 false
             );
-            $io->comment($configName);
+            $this->getIo()->comment($configName);
 
             $tableHeader = [
                 $this->trans('commands.site.mode.messages.configuration-key'),
@@ -103,17 +100,16 @@ class ModeCommand extends ContainerAwareCommand
                 $this->trans('commands.site.mode.messages.updated'),
             ];
 
-            $io->table($tableHeader, $result);
+            $this->getIo()->table($tableHeader, $result);
         }
 
         $servicesOverrideResult = $this->processServicesFile(
             $environment,
-            $loadedConfigurations['services'],
-            $io
+            $loadedConfigurations['services']
         );
 
         if (!empty($servicesOverrideResult)) {
-            $io->info(
+            $this->getIo()->info(
                 $this->trans('commands.site.mode.messages.new-services-settings')
             );
 
@@ -123,7 +119,7 @@ class ModeCommand extends ContainerAwareCommand
                 $this->trans('commands.site.mode.messages.service-value'),
             ];
 
-            $io->table($tableHeaders, $servicesOverrideResult);
+            $this->getIo()->table($tableHeaders, $servicesOverrideResult);
         }
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
@@ -157,7 +153,7 @@ class ModeCommand extends ContainerAwareCommand
         return $result;
     }
 
-    protected function processServicesFile($environment, $servicesSettings, DrupalStyle $io)
+    protected function processServicesFile($environment, $servicesSettings)
     {
         $directory = sprintf(
             '%s/%s',
@@ -171,7 +167,7 @@ class ModeCommand extends ContainerAwareCommand
             // Copying default services
             $defaultServicesFile = $this->appRoot . '/sites/default/default.services.yml';
             if (!copy($defaultServicesFile, $settingsServicesFile)) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         '%s: %s/services.yml',
                         $this->trans('commands.site.mode.messages.error-copying-file'),
@@ -213,14 +209,14 @@ class ModeCommand extends ContainerAwareCommand
         }
 
         if (file_put_contents($settingsServicesFile, $yaml->dump($services))) {
-            $io->commentBlock(
+            $this->getIo()->commentBlock(
                 sprintf(
                     $this->trans('commands.site.mode.messages.services-file-overwritten'),
                     $settingsServicesFile
                 )
             );
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     '%s : %s/services.yml',
                     $this->trans('commands.site.mode.messages.error-writing-file'),

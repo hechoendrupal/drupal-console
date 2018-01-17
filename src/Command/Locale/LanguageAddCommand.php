@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Console\Utils\Site;
@@ -67,7 +66,6 @@ class LanguageAddCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $moduleHandler = $this->moduleHandler;
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
@@ -80,7 +78,7 @@ class LanguageAddCommand extends Command
         } elseif (array_search($language, $languages)) {
             $langcode = array_search($language, $languages);
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.locale.language.add.messages.invalid-language'),
                     $language
@@ -95,9 +93,9 @@ class LanguageAddCommand extends Command
             $language->type = LOCALE_TRANSLATION_REMOTE;
             $language->save();
 
-            $io->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-successfully'), $language->getName()));
+            $this->getIo()->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-successfully'), $language->getName()));
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }

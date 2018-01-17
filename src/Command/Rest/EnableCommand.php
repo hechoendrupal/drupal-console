@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\rest\RestResourceConfigInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 use Drupal\Core\Authentication\AuthenticationCollector;
@@ -90,8 +89,6 @@ class EnableCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
         $rest_resources_ids = array_merge(
@@ -99,7 +96,7 @@ class EnableCommand extends ContainerAwareCommand
             array_keys($rest_resources['disabled'])
         );
         if (!$resource_id) {
-            $resource_id = $io->choiceNoList(
+            $resource_id = $this->getIo()->choiceNoList(
                 $this->trans('commands.rest.enable.arguments.resource-id'),
                 $rest_resources_ids
             );
@@ -116,34 +113,34 @@ class EnableCommand extends ContainerAwareCommand
         $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
         $methods = $plugin->availableMethods();
-        $method = $io->choice(
+        $method = $this->getIo()->choice(
             $this->trans('commands.rest.enable.arguments.methods'),
             $methods
         );
-        $io->writeln(
+        $this->getIo()->writeln(
             $this->trans('commands.rest.enable.messages.selected-method') . ' ' . $method
         );
 
-        $format = $io->choice(
+        $format = $this->getIo()->choice(
             $this->trans('commands.rest.enable.arguments.formats'),
             $this->container->getParameter('serializer.formats')
         );
 
-        $io->writeln(
+        $this->getIo()->writeln(
             $this->trans('commands.rest.enable.messages.selected-format') . ' ' . $format
         );
 
         // Get Authentication Provider and generate the question
         $authenticationProviders = $this->authenticationCollector->getSortedProviders();
 
-        $authenticationProvidersSelected = $io->choice(
+        $authenticationProvidersSelected = $this->getIo()->choice(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
             array_keys($authenticationProviders),
             0,
             true
         );
 
-        $io->writeln(
+        $this->getIo()->writeln(
             $this->trans('commands.rest.enable.messages.selected-authentication-providers') . ' ' . implode(
                 ', ',
                 $authenticationProvidersSelected
@@ -169,7 +166,7 @@ class EnableCommand extends ContainerAwareCommand
         $config->set('configuration', $configuration);
         $config->save();
         $message = sprintf($this->trans('commands.rest.enable.messages.success'), $resource_id);
-        $io->info($message);
+        $this->getIo()->info($message);
         return true;
     }
 }

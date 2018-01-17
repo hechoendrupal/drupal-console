@@ -18,7 +18,6 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class EditCommand extends Command
@@ -81,8 +80,6 @@ class EditCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $configName = $input->getArgument('config-name');
         $editor = $input->getArgument('editor');
         $config = $this->configFactory->getEditable($configName);
@@ -93,7 +90,7 @@ class EditCommand extends Command
         $fileSystem = new Filesystem();
 
         if (!$configName) {
-            $io->error($this->trans('commands.config.edit.messages.no-config'));
+            $this->getIo()->error($this->trans('commands.config.edit.messages.no-config'));
 
             return 1;
         }
@@ -102,7 +99,7 @@ class EditCommand extends Command
             $fileSystem->mkdir($temporaryDirectory);
             $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
-            $io->error($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
+            $this->getIo()->error($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
 
             return 1;
         }
@@ -122,7 +119,7 @@ class EditCommand extends Command
         }
 
         if (!$process->isSuccessful()) {
-            $io->error($process->getErrorOutput());
+            $this->getIo()->error($process->getErrorOutput());
             return 1;
         }
 
@@ -131,12 +128,10 @@ class EditCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $configName = $input->getArgument('config-name');
         if (!$configName) {
             $configNames = $this->configFactory->listAll();
-            $configName = $io->choice(
+            $configName = $this->getIo()->choice(
                 $this->trans('commands.config.edit.messages.choose-configuration'),
                 $configNames
             );

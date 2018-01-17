@@ -17,7 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Extension\Manager;
 
@@ -108,8 +107,6 @@ class ExportContentTypeCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
 
@@ -122,7 +119,7 @@ class ExportContentTypeCommand extends Command
                 $bundles[$entity->id()] = $entity->label();
             }
 
-            $contentType = $io->choice(
+            $contentType = $this->getIo()->choice(
                 $this->trans('commands.config.export.content.type.questions.content-type'),
                 $bundles
             );
@@ -131,7 +128,7 @@ class ExportContentTypeCommand extends Command
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
-            $optionalConfig = $io->confirm(
+            $optionalConfig = $this->getIo()->confirm(
                 $this->trans('commands.config.export.content.type.questions.optional-config'),
                 true
             );
@@ -140,14 +137,14 @@ class ExportContentTypeCommand extends Command
 
 
         if (!$input->getOption('remove-uuid')) {
-            $removeUuid = $io->confirm(
+            $removeUuid = $this->getIo()->confirm(
                 $this->trans('commands.config.export.content.type.questions.remove-uuid'),
                 true
             );
             $input->setOption('remove-uuid', $removeUuid);
         }
         if (!$input->getOption('remove-config-hash')) {
-            $removeHash = $io->confirm(
+            $removeHash = $this->getIo()->confirm(
                 $this->trans('commands.config.export.content.type.questions.remove-config-hash'),
                 true
             );
@@ -160,8 +157,6 @@ class ExportContentTypeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $module = $input->getOption('module');
         $contentType = $input->getArgument('content-type');
         $optionalConfig = $input->getOption('optional-config');
@@ -185,7 +180,7 @@ class ExportContentTypeCommand extends Command
 
         $this->getViewDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
 
-        $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
+        $this->exportConfigToModule($module, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
     }
 
     protected function getFields($contentType, $optional = false, $removeUuid = false, $removeHash = false)

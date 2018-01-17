@@ -17,7 +17,6 @@ use Drupal\Console\Generator\EventSubscriberGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\EventsTrait;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -134,10 +133,8 @@ class EventSubscriberCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -160,15 +157,13 @@ class EventSubscriberCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $module = $this->getModuleOption();
 
         // --service-name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $io->ask(
+            $name = $this->getIo()->ask(
                 $this->trans('commands.generate.service.questions.service-name'),
                 sprintf('%s.default', $module)
             );
@@ -178,7 +173,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.event.subscriber.questions.class'),
                 'DefaultSubscriber',
                 function ($class) {
@@ -192,7 +187,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
         $events = $input->getOption('events');
         if (!$events) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $events = $this->eventsQuestion($io);
+            $events = $this->eventsQuestion();
             $input->setOption('events', $events);
         }
 
@@ -200,7 +195,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
     }

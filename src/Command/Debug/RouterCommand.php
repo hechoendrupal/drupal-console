@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Routing\RouteProviderInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
 class RouterCommand extends Command
@@ -48,18 +47,16 @@ class RouterCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $route_name = $input->getArgument('route-name');
 
         if ($route_name) {
-            $this->getRouteByNames($io, $route_name);
+            $this->getRouteByNames($route_name);
         } else {
-            $this->getAllRoutes($io);
+            $this->getAllRoutes();
         }
     }
 
-    protected function getAllRoutes(DrupalStyle $io)
+    protected function getAllRoutes()
     {
         $routes = $this->routeProvider->getAllRoutes();
 
@@ -73,10 +70,10 @@ class RouterCommand extends Command
             $tableRows[] = [$route_name, $route->getPath()];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 
-    protected function getRouteByNames(DrupalStyle $io, $route_name)
+    protected function getRouteByNames($route_name)
     {
         $routes = $this->routeProvider->getRoutesByNames($route_name);
 
@@ -110,7 +107,7 @@ class RouterCommand extends Command
                 $tableRows[] = $option;
             }
 
-            $io->table($tableHeader, $tableRows, 'compact');
+            $this->getIo()->table($tableHeader, $tableRows, 'compact');
         }
     }
 

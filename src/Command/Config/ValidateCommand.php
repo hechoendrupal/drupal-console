@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\TypedConfigManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Drupal\Core\Config\Schema\SchemaCheckTrait;
@@ -44,18 +43,15 @@ class ValidateCommand extends ContainerAwareCommand
    */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         /**
          * @var TypedConfigManagerInterface $typedConfigManager
          */
         $typedConfigManager = $this->get('config.typed');
 
-        $io = new DrupalStyle($input, $output);
-
         //Test the config name and see if a schema exists, if not it will fail
         $name = $input->getArgument('name');
         if (!$typedConfigManager->hasConfigSchema($name)) {
-            $io->warning($this->trans('commands.config.validate.messages.no-conf'));
+            $this->getIo()->warning($this->trans('commands.config.validate.messages.no-conf'));
             return 1;
         }
 
@@ -63,6 +59,6 @@ class ValidateCommand extends ContainerAwareCommand
         $configFactory = $this->get('config.factory');
         $config_data = $configFactory->get($name)->get();
 
-        return $this->printResults($this->checkConfigSchema($typedConfigManager, $name, $config_data), $io);
+        return $this->printResults($this->checkConfigSchema($typedConfigManager, $name, $config_data));
     }
 }

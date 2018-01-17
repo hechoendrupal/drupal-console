@@ -9,7 +9,6 @@ namespace Drupal\Console\Command\Shared;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -76,15 +75,13 @@ trait MigrationTrait
     }
 
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function dbDriverTypeQuestion(DrupalStyle $io)
+    public function dbDriverTypeQuestion()
     {
         $databases = $this->getDatabaseDrivers();
 
-        $dbType = $io->choice(
+        $dbType = $this->getIo()->choice(
             $this->trans('commands.migrate.setup.questions.db-type'),
             array_keys($databases)
         );
@@ -151,16 +148,15 @@ trait MigrationTrait
     }
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $target
      * @param $key
      */
-    protected function getDBConnection(DrupalStyle $io, $target, $key)
+    protected function getDBConnection($target, $key)
     {
         try {
             return Database::getConnection($target, $key);
         } catch (\Exception $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     '%s: %s',
                     $this->trans('commands.migrate.execute.messages.destination-error'),
@@ -172,12 +168,9 @@ trait MigrationTrait
         }
     }
 
-    /**
-     * @param InputInterface $input
-     * @param DrupalStyle    $io
-     */
-    protected function registerMigrateDB(InputInterface $input, DrupalStyle $io)
+    protected function registerMigrateDB()
     {
+        $input = $this->getIo()->getInput();
         $dbType = $input->getOption('db-type');
         $dbHost = $input->getOption('db-host');
         $dbName = $input->getOption('db-name');
@@ -186,12 +179,11 @@ trait MigrationTrait
         $dbPrefix = $input->getOption('db-prefix');
         $dbPort = $input->getOption('db-port');
 
-        $this->addDBConnection($io, 'upgrade', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
+        $this->addDBConnection('upgrade', 'default', $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost);
     }
 
 
     /**
-     * @param DrupalStyle $io
      * @param $key
      * @param $target
      * @param $dbType
@@ -202,7 +194,7 @@ trait MigrationTrait
      * @param $dbPort
      * @param $dbHost
      */
-    protected function addDBConnection(DrupalStyle $io, $key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
+    protected function addDBConnection($key, $target, $dbType, $dbName, $dbUser, $dbPass, $dbPrefix, $dbPort, $dbHost)
     {
         $database_type = $this->getDatabaseDrivers();
         $reflection = new \ReflectionClass($database_type[$dbType]);
@@ -224,7 +216,7 @@ trait MigrationTrait
         try {
             return Database::addConnectionInfo($key, $target, $this->database);
         } catch (\Exception $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     '%s: %s',
                     $this->trans('commands.migrate.execute.messages.source-error'),

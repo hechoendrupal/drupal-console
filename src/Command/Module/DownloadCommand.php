@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 use GuzzleHttp\Client;
 use Drupal\Console\Extension\Manager;
@@ -144,19 +143,18 @@ class DownloadCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $composer = $input->getOption('composer');
         $module = $input->getArgument('module');
 
         if (!$module) {
-            $module = $this->modulesQuestion($io);
+            $module = $this->modulesQuestion();
             $input->setArgument('module', $module);
         }
 
         if (!$composer) {
             $path = $input->getOption('path');
             if (!$path) {
-                $path = $io->ask(
+                $path = $this->getIo()->ask(
                     $this->trans('commands.module.download.questions.path'),
                     'modules/contrib'
                 );
@@ -170,8 +168,6 @@ class DownloadCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $modules = $input->getArgument('module');
         $latest = $input->getOption('latest');
         $path = $input->getOption('path');
@@ -185,7 +181,7 @@ class DownloadCommand extends Command
                         ->getPackagistModuleReleases($module, 10, $unstable);
 
                     if (!$versions) {
-                        $io->error(
+                        $this->getIo()->error(
                             sprintf(
                                 $this->trans(
                                     'commands.module.download.messages.no-releases'
@@ -196,7 +192,7 @@ class DownloadCommand extends Command
 
                         return 1;
                     } else {
-                        $version = $io->choice(
+                        $version = $this->getIo()->choice(
                             sprintf(
                                 $this->trans(
                                     'commands.site.new.questions.composer-release'
@@ -211,7 +207,7 @@ class DownloadCommand extends Command
                         ->getPackagistModuleReleases($module, 10, $unstable);
 
                     if (!$versions) {
-                        $io->error(
+                        $this->getIo()->error(
                             sprintf(
                                 $this->trans(
                                     'commands.module.download.messages.no-releases'
@@ -239,7 +235,7 @@ class DownloadCommand extends Command
                 );
 
                 if ($this->shellProcess->exec($command, $this->root)) {
-                    $io->success(
+                    $this->getIo()->success(
                         sprintf(
                             $this->trans('commands.module.download.messages.composer'),
                             $module
@@ -248,7 +244,7 @@ class DownloadCommand extends Command
                 }
             }
         } else {
-            $this->downloadModules($io, $modules, $latest, $path);
+            $this->downloadModules($modules, $latest, $path);
         }
 
         return true;

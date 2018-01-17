@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class RunCommand
@@ -68,11 +67,10 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $name = $input->getArgument('name');
 
         if (!$name) {
-            $io->error(
+            $this->getIo()->error(
                 $this->trans('commands.queue.run.messages.missing-name')
             );
 
@@ -83,7 +81,7 @@ class RunCommand extends Command
             $worker = $this->queueWorker->createInstance($name);
             $queue = $this->queueFactory->get($name);
         } catch (\Exception $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.queue.run.messages.invalid-name'),
                     $name
@@ -98,7 +96,7 @@ class RunCommand extends Command
         $time = microtime(true) - $start;
 
         if (!empty($result['error'])) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.queue.run.messages.failed'),
                     $name,
@@ -109,7 +107,7 @@ class RunCommand extends Command
             return 1;
         }
 
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.queue.run.success'),
                 $name,

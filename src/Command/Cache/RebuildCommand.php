@@ -8,7 +8,6 @@
 namespace Drupal\Console\Command\Cache;
 
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Utils\Site;
 use Symfony\Component\Console\Input\InputArgument;
@@ -81,12 +80,11 @@ class RebuildCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $cache = $input->getArgument('cache')?:'all';
         $this->site->loadLegacyFile('/core/includes/utility.inc');
 
         if ($cache && !$this->drupalApi->isValidCache($cache)) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.cache.rebuild.messages.invalid-cache'),
                     $cache
@@ -96,8 +94,8 @@ class RebuildCommand extends Command
             return 1;
         }
 
-        $io->newLine();
-        $io->comment($this->trans('commands.cache.rebuild.messages.rebuild'));
+        $this->getIo()->newLine();
+        $this->getIo()->comment($this->trans('commands.cache.rebuild.messages.rebuild'));
 
         if ($cache === 'all') {
             $this->drupalApi->drupal_rebuild(
@@ -109,7 +107,7 @@ class RebuildCommand extends Command
             $caches[$cache]->deleteAll();
         }
 
-        $io->success($this->trans('commands.cache.rebuild.messages.completed'));
+        $this->getIo()->success($this->trans('commands.cache.rebuild.messages.completed'));
 
         return 0;
     }
@@ -119,13 +117,11 @@ class RebuildCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $cache = $input->getArgument('cache');
         if (!$cache) {
             $cacheKeys = array_keys($this->drupalApi->getCaches());
 
-            $cache = $io->choiceNoList(
+            $cache = $this->getIo()->choiceNoList(
                 $this->trans('commands.cache.rebuild.questions.cache'),
                 $cacheKeys,
                 'all'

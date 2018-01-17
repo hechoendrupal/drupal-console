@@ -18,7 +18,6 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\user\Entity\Role;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class NewCommand extends Command
 {
@@ -107,8 +106,6 @@ class NewCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $rolename = $input->getArgument('rolename');
         $machine_name= $input->getArgument('machine-name');
 
@@ -123,9 +120,9 @@ class NewCommand extends Command
         ];
 
         if ($role['success']) {
-            $io->table($tableHeader, $role['success']);
+            $this->getIo()->table($tableHeader, $role['success']);
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.role.new.messages.role-created'),
                     $role['success'][0]['role-name']
@@ -136,7 +133,7 @@ class NewCommand extends Command
         }
 
         if ($role['error']) {
-            $io->error($role['error']['error']);
+            $this->getIo()->error($role['error']['error']);
 
             return 1;
         }
@@ -147,18 +144,16 @@ class NewCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $name = $input->getArgument('rolename');
         if (!$name) {
-            $name = $io->ask($this->trans('commands.role.new.questions.rolename'));
+            $name = $this->getIo()->ask($this->trans('commands.role.new.questions.rolename'));
             $input->setArgument('rolename', $name);
         }
 
         $machine_name = $input->getArgument('machine-name');
 
         if (!$machine_name) {
-            $machine_name = $io->ask(
+            $machine_name = $this->getIo()->ask(
                 $this->trans('commands.role.new.questions.machine-name'),
                 $this->stringConverter->createMachineName($name),
                 function ($machine_name) {

@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
@@ -46,8 +45,6 @@ class PluginCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $pluginType = $input->getArgument('type');
         $pluginId = $input->getArgument('id');
 
@@ -71,14 +68,14 @@ class PluginCommand extends ContainerAwareCommand
             }
 
             ksort($tableRows);
-            $io->table($tableHeader, array_values($tableRows));
+            $this->getIo()->table($tableHeader, array_values($tableRows));
 
             return true;
         }
 
         $service = $this->container->get('plugin.manager.' . $pluginType);
         if (!$service) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.debug.plugin.errors.plugin-type-not-found'),
                     $pluginType
@@ -100,7 +97,7 @@ class PluginCommand extends ContainerAwareCommand
                 $tableRows[$pluginId] = [$pluginId, $className];
             }
             ksort($tableRows);
-            $io->table($tableHeader, array_values($tableRows));
+            $this->getIo()->table($tableHeader, array_values($tableRows));
             return true;
         }
 
@@ -122,7 +119,7 @@ class PluginCommand extends ContainerAwareCommand
             $tableRows[$key] = [$key, $value];
         }
         ksort($tableRows);
-        $io->table($tableHeader, array_values($tableRows));
+        $this->getIo()->table($tableHeader, array_values($tableRows));
         return true;
     }
 }

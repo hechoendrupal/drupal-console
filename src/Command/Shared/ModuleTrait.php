@@ -2,9 +2,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
-use Symfony\Component\Console\Input\InputInterface;
-
 /**
  * Class ModuleTrait
  *
@@ -59,13 +56,11 @@ trait ModuleTrait
      *
      * @param string[]    $module
      *   List of modules to verify.
-     * @param DrupalStyle $io
-     *   Console interface.
      *
      * @throws \Exception
      *   When one or more requirements are not met.
      */
-    public function moduleRequirement(array $module, DrupalStyle $io)
+    public function moduleRequirement(array $module)
     {
         // TODO: Module dependencies should also be checked
         // for unmet requirements recursively.
@@ -75,7 +70,7 @@ trait ModuleTrait
             if ($requirements = \Drupal::moduleHandler()->invoke($module_name, 'requirements', ['install'])) {
                 foreach ($requirements as $requirement) {
                     if (isset($requirement['severity']) && $requirement['severity'] == REQUIREMENT_ERROR) {
-                        $io->info("Module '{$module_name}' cannot be installed: " . $requirement['title'] . ' | ' . $requirement['value']);
+                        $this->getIo()->info("Module '{$module_name}' cannot be installed: " . $requirement['title'] . ' | ' . $requirement['value']);
                         $fail = true;
                     }
                 }
