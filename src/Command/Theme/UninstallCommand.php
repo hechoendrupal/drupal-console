@@ -119,7 +119,7 @@ class UninstallCommand extends Command
         $this->themeHandler->refreshInfo();
         $theme = $input->getArgument('theme');
 
-        $themes  = $this->themeHandler->rebuildThemeData();
+        $themes = $this->themeHandler->rebuildThemeData();
         $themesAvailable = [];
         $themesUninstalled = [];
         $themesUnavailable = [];
@@ -183,7 +183,6 @@ class UninstallCommand extends Command
                         $e->getMessage()
                     )
                 );
-                drupal_set_message($e->getTranslatedMessage($this->getStringTranslation(), $theme), 'error');
 
                 return 1;
             }
