@@ -11,46 +11,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Config\UnmetDependenciesException;
-use Drupal\Console\Core\Utils\ChainQueue;
 
-class InstallCommand extends Command
+class InstallCommand extends ThemeBaseCommand
 {
-    /**
-     * @var ConfigFactory
-     */
-    protected $configFactory;
-
-    /**
-     * @var ThemeHandler
-     */
-    protected $themeHandler;
-
-    /**
-     * @var ChainQueue
-     */
-    protected $chainQueue;
-
-    /**
-     * DebugCommand constructor.
-     *
-     * @param ConfigFactory $configFactory
-     * @param ThemeHandler  $themeHandler
-     * @param ChainQueue    $chainQueue
-     */
-    public function __construct(
-        ConfigFactoryInterface $configFactory,
-        ThemeHandlerInterface $themeHandler,
-        ChainQueue $chainQueue
-    ) {
-        $this->configFactory = $configFactory;
-        $this->themeHandler = $themeHandler;
-        $this->chainQueue = $chainQueue;
-        parent::__construct();
-    }
 
     protected function configure()
     {
@@ -75,48 +39,10 @@ class InstallCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $theme = $input->getArgument('theme');
-
-        if (!$theme) {
-            $theme_list = [];
-
-            $themes = $this->themeHandler->rebuildThemeData();
-
-            foreach ($themes as $theme_id => $theme) {
-                if (!empty($theme->info['hidden'])) {
-                    continue;
-                }
-
-                if ($theme->status) {
-                    continue;
-                }
-
-                $theme_list[$theme_id] = $theme->getName();
-            }
-
-            $this->getIo()->info($this->trans('commands.theme.install.messages.disabled-themes'));
-
-            while (true) {
-                $theme_name = $this->getIo()->choiceNoList(
-                    $this->trans('commands.theme.install.questions.theme'),
-                    array_keys($theme_list),
-                    null,
-                    true
-                );
-
-                if (empty($theme_name)) {
-                    break;
-                }
-
-                $theme_list_install[] = $theme_name;
-
-                if (array_search($theme_name, $theme_list_install, true) >= 0) {
-                    unset($theme_list[$theme_name]);
-                }
-            }
-
-            $input->setArgument('theme', $theme_list_install);
-        }
+        $titleTranslatableString = 'commands.theme.install.messages.disabled-themes';
+        $questionTranslatableString = 'commands.theme.install.questions.theme';
+        $autocompleteAvailableThemes = $this->getAutoCompleteList();
+        $this->getThemeArgument($titleTranslatableString, $questionTranslatableString, $autocompleteAvailableThemes);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -133,92 +59,37 @@ class InstallCommand extends Command
             return 1;
         }
 
-        $themes  = $this->themeHandler->rebuildThemeData();
-        $themesAvailable = [];
-        $themesInstalled = [];
-        $themesUnavailable = [];
-
-        foreach ($theme as $themeName) {
-            if (isset($themes[$themeName]) && $themes[$themeName]->status == 0) {
-                $themesAvailable[] = $themes[$themeName]->info['name'];
-            } elseif (isset($themes[$themeName]) && $themes[$themeName]->status == 1) {
-                $themesInstalled[] = $themes[$themeName]->info['name'];
-            } else {
-                $themesUnavailable[] = $themeName;
-            }
-        }
-
-        if (count($themesAvailable) > 0) {
+        $this->prepareThemesArrays($theme);
+        if (count($this->getUninstalledThemes()) > 0) {
             try {
                 if ($this->themeHandler->install($theme)) {
-                    if (count($themesAvailable) > 1) {
-                        $this->getIo()->info(
-                            sprintf(
-                                $this->trans('commands.theme.install.messages.themes-success'),
-                                implode(',', $themesAvailable)
-                            )
-                        );
+                    if (count($this->getUninstalledThemes()) > 1) {
+                        $this->setInfoMessage('commands.theme.install.messages.themes-success', $this->getUninstalledThemes());
                     } else {
                         if ($default) {
                             // Set the default theme.
                             $config->set('default', $theme[0])->save();
-                            $this->getIo()->info(
-                                sprintf(
-                                    $this->trans('commands.theme.install.messages.theme-default-success'),
-                                    $themesAvailable[0]
-                                )
-                            );
+                            $this->setInfoMessage('commands.theme.install.messages.theme-default-success', array_shift($this->getUninstalledThemes()));
                         } else {
-                            $this->getIo()->info(
-                                sprintf(
-                                    $this->trans('commands.theme.install.messages.theme-success'),
-                                    $themesAvailable[0]
-                                )
-                            );
+                            $this->setInfoMessage('commands.theme.install.messages.theme-success', array_shift($this->getUninstalledThemes()));
                         }
                     }
                 }
             } catch (UnmetDependenciesException $e) {
-                $this->getIo()->error(
-                    sprintf(
-                        $this->trans('commands.theme.install.messages.dependencies'),
-                        $theme
-                    )
-                );
-
+                $this->setErrorMessage('commands.theme.install.messages.dependencies', $theme);
                 return 1;
             }
-        } elseif (empty($themesAvailable) && count($themesInstalled) > 0) {
-            if (count($themesInstalled) > 1) {
-                $this->getIo()->info(
-                    sprintf(
-                        $this->trans('commands.theme.install.messages.themes-nothing'),
-                        implode(',', $themesInstalled)
-                    )
-                );
+        } elseif (empty($this->getUninstalledThemes()) && count($this->getAvailableThemes()) > 0) {
+            if (count($this->getAvailableThemes()) > 1) {
+                $this->setInfoMessage('commands.theme.install.messages.themes-nothing', $this->getAvailableThemes());
             } else {
-                $this->getIo()->info(
-                    sprintf(
-                        $this->trans('commands.theme.install.messages.theme-nothing'),
-                        implode(',', $themesInstalled)
-                    )
-                );
+              $this->setInfoMessage('commands.theme.install.messages.theme-nothing', $this->getAvailableThemes());
             }
         } else {
-            if (count($themesUnavailable) > 1) {
-                $this->getIo()->error(
-                    sprintf(
-                        $this->trans('commands.theme.install.messages.themes-missing'),
-                        implode(',', $themesUnavailable)
-                    )
-                );
+            if (count($this->getUnavailableThemes()) > 1) {
+                $this->setErrorMessage('commands.theme.install.messages.themes-missing', $this->getUnavailableThemes());
             } else {
-                $this->getIo()->error(
-                    sprintf(
-                        $this->trans('commands.theme.install.messages.theme-missing'),
-                        implode(',', $themesUnavailable)
-                    )
-                );
+                $this->setErrorMessage('commands.theme.install.messages.themes-missing', $this->getUnavailableThemes());
             }
         }
 
