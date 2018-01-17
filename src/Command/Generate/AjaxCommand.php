@@ -71,8 +71,8 @@ class AjaxCommand extends ContainerAwareCommand
     {
         $this
             ->setName('generate:ajax:command')
-            ->setDescription($this->trans('commands.generate.controller.description'))
-            ->setHelp($this->trans('commands.generate.controller.help'))
+            ->setDescription($this->trans('commands.generate.ajax.command.description'))
+            ->setHelp($this->trans('commands.generate.ajax.command.help'))
             ->addOption(
                 'module',
                 null,
@@ -83,13 +83,13 @@ class AjaxCommand extends ContainerAwareCommand
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.controller.options.class')
+                $this->trans('commands.generate.ajax.command.options.class')
             )
             ->addOption(
                 'method',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.controller.options.class')
+                $this->trans('commands.generate.ajax.command.options.method')
             )
             ->setAliases(['gac']);
     }
@@ -132,7 +132,7 @@ class AjaxCommand extends ContainerAwareCommand
         $class = $input->getOption('class');
         if (!$class) {
             $class = $this->getIo()->ask(
-                $this->trans('commands.generate.controller.questions.class'),
+                $this->trans('commands.generate.ajax.command.questions.class'),
                 'AjaxCommand',
                 function ($class) {
                     return $this->validator->validateClassName($class);
@@ -145,7 +145,7 @@ class AjaxCommand extends ContainerAwareCommand
         $method = $input->getOption('method');
         if (!$method) {
             $method = $this->getIo()->ask(
-                $this->trans('commands.generate.controller.questions.method'),
+                $this->trans('commands.generate.ajax.command.questions.method'),
                 'hello'
             );
             $input->setOption('method', $method);
