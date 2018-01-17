@@ -58,7 +58,6 @@ trait ThemeRegionTrait
    */
     public function libraryQuestion()
     {
-        $validators = $this->validator;
         $libraries = [];
         while (true) {
             $libraryName = $this->getIo()->ask(
