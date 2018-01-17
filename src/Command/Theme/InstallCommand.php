@@ -15,7 +15,6 @@ use Drupal\Core\Config\UnmetDependenciesException;
 
 class InstallCommand extends ThemeBaseCommand
 {
-
     protected function configure()
     {
         $this
@@ -83,7 +82,7 @@ class InstallCommand extends ThemeBaseCommand
             if (count($this->getAvailableThemes()) > 1) {
                 $this->setInfoMessage('commands.theme.install.messages.themes-nothing', $this->getAvailableThemes());
             } else {
-              $this->setInfoMessage('commands.theme.install.messages.theme-nothing', $this->getAvailableThemes());
+                $this->setInfoMessage('commands.theme.install.messages.theme-nothing', $this->getAvailableThemes());
             }
         } else {
             if (count($this->getUnavailableThemes()) > 1) {
