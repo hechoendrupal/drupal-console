@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class RestoreCommand extends Command
 {
@@ -65,16 +64,14 @@ class RestoreCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $database = $input->getArgument('database');
         $file = $input->getOption('file');
         $learning = $input->getOption('learning');
 
-        $databaseConnection = $this->resolveConnection($io, $database);
+        $databaseConnection = $this->resolveConnection($database);
 
         if (!$file) {
-            $io->error(
+            $this->getIo()->error(
                 $this->trans('commands.database.restore.messages.no-file')
             );
             return 1;
@@ -107,7 +104,7 @@ class RestoreCommand extends Command
         }
 
         if ($learning) {
-            $io->commentBlock($command);
+            $this->getIo()->commentBlock($command);
         }
 
         $processBuilder = new ProcessBuilder(['-v']);
@@ -121,7 +118,7 @@ class RestoreCommand extends Command
             throw new \RuntimeException($process->getErrorOutput());
         }
 
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 '%s %s',
                 $this->trans('commands.database.restore.messages.success'),

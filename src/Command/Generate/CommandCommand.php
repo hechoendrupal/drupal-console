@@ -18,7 +18,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\CommandGenerator;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Utils\Site;
 
@@ -137,8 +136,6 @@ class CommandCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $extension = $input->getOption('extension');
         $extensionType = $input->getOption('extension-type');
         $class = $this->validator->validateCommandName($input->getOption('class'));
@@ -148,7 +145,7 @@ class CommandCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -175,24 +172,22 @@ class CommandCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $extension = $input->getOption('extension');
         if (!$extension) {
-            $extension = $this->extensionQuestion($io, true, true);
+            $extension = $this->extensionQuestion(true, true);
             $input->setOption('extension', $extension->getName());
             $input->setOption('extension-type', $extension->getType());
         }
 
         $extensionType = $input->getOption('extension-type');
         if (!$extensionType) {
-            $extensionType = $this->extensionTypeQuestion($io);
+            $extensionType = $this->extensionTypeQuestion();
             $input->setOption('extension-type', $extensionType);
         }
 
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $io->ask(
+            $name = $this->getIo()->ask(
                 $this->trans('commands.generate.command.questions.name'),
                 sprintf('%s:default', $extension->getName())
             );
@@ -202,7 +197,7 @@ class CommandCommand extends ContainerAwareCommand
         $interact = $input->getOption('interact');
 
         if (!$interact) {
-            $interact = $io->confirm(
+            $interact = $this->getIo()->confirm(
                 $this->trans('commands.generate.command.questions.interact'),
                 true
             );
@@ -211,7 +206,7 @@ class CommandCommand extends ContainerAwareCommand
 
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.command.questions.class'),
                 'DefaultCommand',
                 function ($class) {
@@ -223,7 +218,7 @@ class CommandCommand extends ContainerAwareCommand
 
         $containerAware = $input->getOption('container-aware');
         if (!$containerAware) {
-            $containerAware = $io->confirm(
+            $containerAware = $this->getIo()->confirm(
                 $this->trans('commands.generate.command.questions.container-aware'),
                 false
             );
@@ -232,7 +227,7 @@ class CommandCommand extends ContainerAwareCommand
 
         if (!$containerAware) {
             // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
     }

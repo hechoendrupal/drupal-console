@@ -15,7 +15,6 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
@@ -106,12 +105,11 @@ class EntityContentCommand extends EntityCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
-        $io = new DrupalStyle($input, $output);
 
         // --bundle-of option
         $bundle_of = $input->getOption('has-bundles');
         if (!$bundle_of) {
-            $bundle_of = $io->confirm(
+            $bundle_of = $this->getIo()->confirm(
                 $this->trans('commands.generate.entity.content.questions.has-bundles'),
                 false
             );
@@ -119,14 +117,14 @@ class EntityContentCommand extends EntityCommand
         }
 
         // --is-translatable option
-        $is_translatable = $io->confirm(
+        $is_translatable = $this->getIo()->confirm(
             $this->trans('commands.generate.entity.content.questions.is-translatable'),
             true
         );
         $input->setOption('is-translatable', $is_translatable);
 
         // --revisionable option
-        $revisionable = $io->confirm(
+        $revisionable = $this->getIo()->confirm(
             $this->trans('commands.generate.entity.content.questions.revisionable'),
             true
         );
@@ -149,10 +147,9 @@ class EntityContentCommand extends EntityCommand
         $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
         $revisionable = $input->hasOption('revisionable') ? $input->getOption('revisionable') : false;
 
-        $io = new DrupalStyle($input, $output);
         $generator = $this->generator;
 
-        $generator->setIo($io);
+        $generator->setIo($this->getIo());
         //@TODO:
         //$generator->setLearning($learning);
 

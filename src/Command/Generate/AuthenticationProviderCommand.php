@@ -17,7 +17,6 @@ use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 
@@ -96,10 +95,8 @@ class AuthenticationProviderCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -114,8 +111,6 @@ class AuthenticationProviderCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $stringUtils = $this->stringConverter;
 
         // --module option
@@ -124,7 +119,7 @@ class AuthenticationProviderCommand extends Command
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans(
                     'commands.generate.authentication.provider.questions.class'
                 ),
@@ -138,7 +133,7 @@ class AuthenticationProviderCommand extends Command
         // --provider-id option
         $provider_id = $input->getOption('provider-id');
         if (!$provider_id) {
-            $provider_id = $io->ask(
+            $provider_id = $this->getIo()->ask(
                 $this->trans('commands.generate.authentication.provider.questions.provider-id'),
                 $stringUtils->camelCaseToUnderscore($class),
                 function ($value) use ($stringUtils) {

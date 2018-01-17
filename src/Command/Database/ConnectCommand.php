@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ConnectCommand extends Command
 {
@@ -41,10 +40,8 @@ class ConnectCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $database = $input->getArgument('database');
-        $databaseConnection = $this->resolveConnection($io, $database);
+        $databaseConnection = $this->resolveConnection($database);
 
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
@@ -56,7 +53,7 @@ class ConnectCommand extends Command
             $databaseConnection['port']
         );
 
-        $io->commentBlock(
+        $this->getIo()->commentBlock(
             sprintf(
                 $this->trans('commands.database.connect.messages.connection'),
                 $connection

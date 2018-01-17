@@ -15,7 +15,6 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\AjaxCommandGenerator;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
@@ -100,10 +99,8 @@ class AjaxCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -128,15 +125,13 @@ class AjaxCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.ajax.command.questions.class'),
                 'AjaxCommand',
                 function ($class) {
@@ -149,7 +144,7 @@ class AjaxCommand extends ContainerAwareCommand
         // --method option
         $method = $input->getOption('method');
         if (!$method) {
-            $method = $io->ask(
+            $method = $this->getIo()->ask(
                 $this->trans('commands.generate.ajax.command.questions.method'),
                 'hello'
             );

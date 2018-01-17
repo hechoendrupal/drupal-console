@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Debug;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Site\Settings;
 
@@ -54,22 +53,20 @@ class ConfigSettingsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $settingKeys = array_keys($this->settings->getAll());
 
-        $io->newLine();
-        $io->info($this->trans('commands.debug.config.settings.messages.current'));
-        $io->newLine();
+        $this->getIo()->newLine();
+        $this->getIo()->info($this->trans('commands.debug.config.settings.messages.current'));
+        $this->getIo()->newLine();
 
         foreach ($settingKeys as $settingKey) {
             $settingValue = $this->settings->get($settingKey);
-            $io->comment($settingKey . ': ', is_array($settingValue));
-            $io->write(Yaml::encode($settingValue));
+            $this->getIo()->comment($settingKey . ': ', is_array($settingValue));
+            $this->getIo()->write(Yaml::encode($settingValue));
             if (!is_array($settingValue)) {
-                $io->newLine();
+                $this->getIo()->newLine();
             }
         }
-        $io->newLine();
+        $this->getIo()->newLine();
     }
 }

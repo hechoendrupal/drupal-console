@@ -7,13 +7,11 @@
 
 namespace Drupal\Console\Command\Create;
 
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Utils\Create\VocabularyData;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class VocabulariesCommand
@@ -65,11 +63,9 @@ class VocabulariesCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $limit = $input->getOption('limit');
         if (!$limit) {
-            $limit = $io->ask(
+            $limit = $this->getIo()->ask(
                 $this->trans('commands.create.vocabularies.questions.limit'),
                 25
             );
@@ -78,7 +74,7 @@ class VocabulariesCommand extends Command
 
         $nameWords = $input->getOption('name-words');
         if (!$nameWords) {
-            $nameWords = $io->ask(
+            $nameWords = $this->getIo()->ask(
                 $this->trans('commands.create.vocabularies.questions.name-words'),
                 5
             );
@@ -92,8 +88,6 @@ class VocabulariesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $limit = $input->getOption('limit')?:25;
         $nameWords = $input->getOption('name-words')?:5;
 
@@ -108,16 +102,16 @@ class VocabulariesCommand extends Command
         ];
 
         if (isset($vocabularies['success'])) {
-            $io->table($tableHeader, $vocabularies['success']);
+            $this->getIo()->table($tableHeader, $vocabularies['success']);
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.create.vocabularies.messages.created-terms'),
                     $limit
                 )
             );
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.create.vocabularies.messages.error'),
                     $vocabularies['error'][0]['error']

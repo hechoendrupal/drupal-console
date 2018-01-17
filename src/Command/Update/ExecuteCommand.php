@@ -14,7 +14,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Update\UpdateRegistry;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -117,7 +116,6 @@ class ExecuteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $this->module = $input->getArgument('module');
         $this->update_n = (int)$input->getArgument('update-n');
 
@@ -136,7 +134,7 @@ class ExecuteCommand extends Command
 
         if (!$this->checkUpdates($start, $updates)) {
             if ($this->module === 'all') {
-                $io->warning(
+                $this->getIo()->warning(
                     sprintf(
                         $this->trans(
                             'commands.update.execute.messages.no-pending-updates'
@@ -144,7 +142,7 @@ class ExecuteCommand extends Command
                     )
                 );
             } else {
-                $io->warning(
+                $this->getIo()->warning(
                     sprintf(
                         $this->trans(
                             'commands.update.execute.messages.no-module-updates'
@@ -160,29 +158,29 @@ class ExecuteCommand extends Command
         $maintenanceMode = $this->state->get('system.maintenance_mode', false);
 
         if (!$maintenanceMode) {
-            $io->info($this->trans('commands.site.maintenance.description'));
+            $this->getIo()->info($this->trans('commands.site.maintenance.description'));
             $this->state->set('system.maintenance_mode', true);
         }
 
         try {
             $this->runUpdates(
-                $io,
+                $this->getIo(),
                 $updates
             );
 
             // Post Updates are only safe to run after all schemas have been updated.
             if (!$this->getUpdates()) {
-                $this->runPostUpdates($io);
+                $this->runPostUpdates();
             }
         } catch (\Exception $e) {
             watchdog_exception('update', $e);
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
             return 1;
         }
 
         if (!$maintenanceMode) {
             $this->state->set('system.maintenance_mode', false);
-            $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
+            $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
         }
 
         if (!$this->getUpdates()) {
@@ -231,14 +229,12 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param DrupalStyle $io
      * @param array       $updates
      */
     private function runUpdates(
-        DrupalStyle $io,
         array $updates
     ) {
-        $io->info(
+        $this->getIo()->info(
             $this->trans('commands.update.execute.messages.executing-required-previous-updates')
         );
 
@@ -251,7 +247,7 @@ class ExecuteCommand extends Command
                 break;
             }
 
-            $io->comment(
+            $this->getIo()->comment(
                 sprintf(
                     $this->trans('commands.update.execute.messages.executing-update'),
                     $update['number'],
@@ -274,16 +270,14 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param DrupalStyle $io
-     *
      * @return bool
      */
-    private function runPostUpdates(DrupalStyle $io)
+    private function runPostUpdates()
     {
         $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
         foreach ($postUpdates as $module => $updates) {
             foreach ($updates['pending'] as $updateName => $update) {
-                $io->info(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.update.execute.messages.executing-update'),
                         $updateName,

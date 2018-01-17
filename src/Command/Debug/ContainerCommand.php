@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ContainerCommand
@@ -62,7 +61,6 @@ class ContainerCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $service = $input->getArgument('service');
         $parameters = $input->getOption('parameters');
         $tag = $input->getOption('tag');
@@ -72,7 +70,7 @@ class ContainerCommand extends ContainerAwareCommand
         if ($parameters) {
             $parameterList = $this->getParameterList();
             ksort($parameterList);
-            $io->write(Yaml::dump(['parameters' => $parameterList], 4, 2));
+            $this->getIo()->write(Yaml::dump(['parameters' => $parameterList], 4, 2));
 
             return 0;
         }
@@ -80,14 +78,14 @@ class ContainerCommand extends ContainerAwareCommand
         if ($method) {
             $tableHeader = [];
             $callbackRow = $this->getCallbackReturnList($service, $method, $args);
-            $io->table($tableHeader, $callbackRow, 'compact');
+            $this->getIo()->table($tableHeader, $callbackRow, 'compact');
 
             return 0;
         } else {
             $tableHeader = [];
             if ($service) {
                 $tableRows = $this->getServiceDetail($service);
-                $io->table($tableHeader, $tableRows, 'compact');
+                $this->getIo()->table($tableHeader, $tableRows, 'compact');
 
                 return 0;
             }
@@ -97,7 +95,7 @@ class ContainerCommand extends ContainerAwareCommand
                 $this->trans('commands.debug.container.messages.class-name')
             ];
             $tableRows = $this->getServiceList($tag);
-            $io->table($tableHeader, $tableRows, 'compact');
+            $this->getIo()->table($tableHeader, $tableRows, 'compact');
         }
 
         return 0;

@@ -14,7 +14,6 @@ use Drupal\Console\Generator\PostUpdateGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
@@ -104,10 +103,8 @@ class PostUpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -125,8 +122,6 @@ class PostUpdateCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $this->site->loadLegacyFile('/core/includes/update.inc');
         $this->site->loadLegacyFile('/core/includes/schema.inc');
 
@@ -135,7 +130,7 @@ class PostUpdateCommand extends Command
 
         $postUpdateName = $input->getOption('post-update-name');
         if (!$postUpdateName) {
-            $postUpdateName = $io->ask(
+            $postUpdateName = $this->getIo()->ask(
                 $this->trans('commands.generate.post.update.questions.post-update-name'),
                 '',
                 function ($postUpdateName) {

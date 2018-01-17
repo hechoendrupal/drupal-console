@@ -16,7 +16,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Generator\FormGenerator;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -228,15 +227,13 @@ abstract class FormCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $module = $this->getModuleOption();
 
         // --class option
         $className = $input->getOption('class');
         if (!$className) {
-            $className = $io->ask(
+            $className = $this->getIo()->ask(
                 $this->trans('commands.generate.form.questions.class'),
                 'DefaultForm',
                 function ($className) {
@@ -249,7 +246,7 @@ abstract class FormCommand extends ContainerAwareCommand
         // --form-id option
         $formId = $input->getOption('form-id');
         if (!$formId) {
-            $formId = $io->ask(
+            $formId = $this->getIo()->ask(
                 $this->trans('commands.generate.form.questions.form-id'),
                 $this->stringConverter->camelCaseToMachineName($className)
             );
@@ -258,14 +255,14 @@ abstract class FormCommand extends ContainerAwareCommand
 
         // --services option
         // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-        $services = $this->servicesQuestion($io);
+        $services = $this->servicesQuestion();
         $input->setOption('services', $services);
         
         // --config_file option
         $config_file = $input->getOption('config-file');
 
         if (!$config_file) {
-            $config_file = $io->confirm(
+            $config_file = $this->getIo()->confirm(
                 $this->trans('commands.generate.form.questions.config-file'),
                 true
             );
@@ -276,7 +273,7 @@ abstract class FormCommand extends ContainerAwareCommand
         $inputs = $input->getOption('inputs');
         if (!$inputs) {
             // @see \Drupal\Console\Command\Shared\FormTrait::formQuestion
-            $inputs = $this->formQuestion($io);
+            $inputs = $this->formQuestion();
             $input->setOption('inputs', $inputs);
         }
 
@@ -296,7 +293,7 @@ abstract class FormCommand extends ContainerAwareCommand
                     $this->stringConverter->camelCaseToMachineName($this->stringConverter->removeSuffix($className))
                 );
             }
-            $path = $io->ask(
+            $path = $this->getIo()->ask(
                 $this->trans('commands.generate.form.questions.path'),
                 $form_path,
                 function ($path) {
@@ -319,7 +316,7 @@ abstract class FormCommand extends ContainerAwareCommand
 
         // --link option for links.menu
         if ($this->formType == 'ConfigFormBase') {
-            $menu_options = $this->menuQuestion($io, $className);
+            $menu_options = $this->menuQuestion($className);
             $menu_link_gen = $input->getOption('menu-link-gen');
             $menu_link_title = $input->getOption('menu-link-title');
             $menu_parent = $input->getOption('menu-parent');

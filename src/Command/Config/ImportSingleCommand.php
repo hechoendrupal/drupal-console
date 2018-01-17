@@ -7,7 +7,6 @@
 namespace Drupal\Console\Command\Config;
 
 use Drupal\config\StorageReplaceDataWrapper;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\ConfigImporterException;
@@ -74,13 +73,11 @@ class ImportSingleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $file = $input->getOption('file');
         $directory = $input->getOption('directory');
 
         if (!$file) {
-            $io->error($this->trans('commands.config.import.single..message.missing-file'));
+            $this->getIo()->error($this->trans('commands.config.import.single..message.missing-file'));
 
             return 1;
         }
@@ -111,7 +108,7 @@ class ImportSingleCommand extends Command
                     continue;
                 }
 
-                $io->error($this->trans('commands.config.import.single.messages.empty-value'));
+                $this->getIo()->error($this->trans('commands.config.import.single.messages.empty-value'));
                 return 1;
             }
 
@@ -121,8 +118,8 @@ class ImportSingleCommand extends Command
                 $this->configManager
             );
 
-            if ($this->configImport($io, $storageComparer)) {
-                $io->success(
+            if ($this->configImport($storageComparer)) {
+                $this->getIo()->success(
                     sprintf(
                         $this->trans(
                             'commands.config.import.single.messages.success'
@@ -132,13 +129,13 @@ class ImportSingleCommand extends Command
                 );
             }
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }
     }
 
-    private function configImport($io, StorageComparer $storageComparer)
+    private function configImport(StorageComparer $storageComparer)
     {
         $configImporter = new ConfigImporter(
             $storageComparer,
@@ -153,7 +150,7 @@ class ImportSingleCommand extends Command
         );
 
         if ($configImporter->alreadyImporting()) {
-            $io->success($this->trans('commands.config.import.messages.already-imported'));
+            $this->getIo()->success($this->trans('commands.config.import.messages.already-imported'));
         } else {
             try {
                 if ($configImporter->validate()) {
@@ -171,14 +168,14 @@ class ImportSingleCommand extends Command
             } catch (ConfigImporterException $e) {
                 $message = $this->trans('commands.config.import.messages.import-fail') . "\n";
                 $message .= implode("\n", $configImporter->getErrors());
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.site.import.local.messages.error-writing'),
                         $message
                     )
                 );
             } catch (\Exception $e) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.site.import.local.messages.error-writing'),
                         $e->getMessage()
@@ -193,18 +190,17 @@ class ImportSingleCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $file = $input->getOption('file');
         $directory = $input->getOption('directory');
 
         if (!$file) {
-            $file = $io->ask(
+            $file = $this->getIo()->ask(
                 $this->trans('commands.config.import.single.questions.file')
             );
             $input->setOption('file', [$file]);
 
             if (!$directory && !Path::isAbsolute($file)) {
-                $directory = $io->ask(
+                $directory = $this->getIo()->ask(
                     $this->trans('commands.config.import.single.questions.directory')
                 );
 

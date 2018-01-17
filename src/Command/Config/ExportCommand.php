@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigManager;
 
 class ExportCommand extends Command
@@ -82,8 +81,6 @@ class ExportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
         $removeUuid = $input->getOption('remove-uuid');
@@ -97,7 +94,7 @@ class ExportCommand extends Command
         try {
             $fileSystem->mkdir($directory);
         } catch (IOExceptionInterface $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.config.export.messages.error'),
                     $e->getPath()
@@ -170,10 +167,10 @@ class ExportCommand extends Command
                 }
             }
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
         }
 
-        $io->info(
+        $this->getIo()->info(
             sprintf(
                 $this->trans('commands.config.export.messages.directory'),
                 $directory

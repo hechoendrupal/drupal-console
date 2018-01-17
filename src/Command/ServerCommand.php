@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use \Drupal\Console\Core\Utils\ConfigurationManager;
 
 /**
@@ -68,12 +67,11 @@ class ServerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $address = $this->validatePort($input->getArgument('address'));
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
-            $io->error($this->trans('commands.server.errors.binary'));
+            $this->getIo()->error($this->trans('commands.server.errors.binary'));
             return 1;
         }
 
@@ -85,21 +83,21 @@ class ServerCommand extends Command
         $processBuilder->setWorkingDirectory($this->appRoot);
         $process = $processBuilder->getProcess();
 
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.server.messages.executing'),
                 $binary
             )
         );
 
-        $io->commentBlock(
+        $this->getIo()->commentBlock(
             sprintf(
                 $this->trans('commands.server.messages.listening'),
                 'http://'.$address
             )
         );
 
-        if ($io->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+        if ($this->getIo()->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             $callback = [$this, 'outputCallback'];
         } else {
             $callback = null;
@@ -109,7 +107,7 @@ class ServerCommand extends Command
         $this->getHelper('process')->run($output, $process, null, $callback);
 
         if (!$process->isSuccessful()) {
-            $io->error($process->getErrorOutput());
+            $this->getIo()->error($process->getErrorOutput());
             return 1;
         }
 

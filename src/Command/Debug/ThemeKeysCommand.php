@@ -14,7 +14,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Core\Theme\Registry;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ThemeKeysCommand extends Command
 {
@@ -53,18 +52,16 @@ class ThemeKeysCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $key = $input->getArgument('key');
 
         if (!$key) {
-            $this->themeKeysList($io);
+            $this->themeKeysList();
         } else {
-            $this->themeKeysDetail($io, $key);
+            $this->themeKeysDetail($key);
         }
     }
 
-    protected function themeKeysList(DrupalStyle $io)
+    protected function themeKeysList()
     {
         $tableHeader = [
         $this->trans('commands.debug.theme.keys.table-headers.key'),
@@ -83,10 +80,10 @@ class ThemeKeysCommand extends Command
         }
         array_multisort($tableRows, array_column($tableRows, 0));
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 
-    protected function themeKeysDetail(DrupalStyle $io, $key)
+    protected function themeKeysDetail($key)
     {
         $tableHeader = [
         $this->trans('commands.debug.theme.keys.table-headers.key'),
@@ -108,6 +105,6 @@ class ThemeKeysCommand extends Command
             $tableRows[$key] = [$key, $value];
         }
         ksort($tableRows);
-        $io->table($tableHeader, array_values($tableRows));
+        $this->getIo()->table($tableHeader, array_values($tableRows));
     }
 }

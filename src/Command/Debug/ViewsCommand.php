@@ -15,10 +15,15 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\views\Entity\View;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Annotations\DrupalCommand;
 
 /**
  * Class ViewsCommand
+ *
+ * @DrupalCommand(
+ *     extension = "views",
+ *     extensionType = "module"
+ * )
  *
  * @package Drupal\Console\Command\Debug
  */
@@ -78,7 +83,6 @@ class ViewsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $view_id = $input->getArgument('view-id');
         $view_tag = $input->getOption('tag');
         $view_status = $input->getOption('status');
@@ -92,24 +96,23 @@ class ViewsCommand extends Command
         }
 
         if ($view_id) {
-            $this->viewDetail($io, $view_id);
+            $this->viewDetail($view_id);
         } else {
-            $this->viewList($io, $view_tag, $view_status);
+            $this->viewList($view_tag, $view_status);
         }
     }
 
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $view_id
      * @return bool
      */
-    private function viewDetail(DrupalStyle $io, $view_id)
+    private function viewDetail($view_id)
     {
         $view = $this->entityTypeManager->getStorage('view')->load($view_id);
 
         if (empty($view)) {
-            $io->error(sprintf($this->trans('commands.debug.views.messages.not-found'), $view_id));
+            $this->getIo()->error(sprintf($this->trans('commands.debug.views.messages.not-found'), $view_id));
 
             return false;
         }
@@ -121,9 +124,9 @@ class ViewsCommand extends Command
         $configuration [] = [$this->trans('commands.debug.views.messages.status'), $view->status() ? $this->trans('commands.common.status.enabled') : $this->trans('commands.common.status.disabled')];
         $configuration [] = [$this->trans('commands.debug.views.messages.description'), $view->get('description')];
 
-        $io->comment($view_id);
+        $this->getIo()->comment($view_id);
 
-        $io->table([], $configuration);
+        $this->getIo()->table([], $configuration);
 
         $tableHeader = [
           $this->trans('commands.debug.views.messages.display-id'),
@@ -133,7 +136,7 @@ class ViewsCommand extends Command
         ];
         $displays = $this->viewDisplayList($view);
 
-        $io->info(sprintf($this->trans('commands.debug.views.messages.display-list'), $view_id));
+        $this->getIo()->info(sprintf($this->trans('commands.debug.views.messages.display-list'), $view_id));
 
         $tableRows = [];
         foreach ($displays as $display_id => $display) {
@@ -145,15 +148,14 @@ class ViewsCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $tag
      * @param $status
      */
-    protected function viewList(DrupalStyle $io, $tag, $status)
+    protected function viewList($tag, $status)
     {
         $views = $this->entityTypeManager->getStorage('view')->loadMultiple();
 
@@ -182,7 +184,7 @@ class ViewsCommand extends Command
               $this->viewDisplayPaths($view),
             ];
         }
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 
 
