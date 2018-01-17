@@ -14,7 +14,6 @@ use Drupal\Console\Generator\PluginImageFormatterGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
@@ -113,10 +112,8 @@ class PluginImageFormatterCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -132,15 +129,13 @@ class PluginImageFormatterCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
 
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $io->ask(
+            $class_name = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.imageformatter.questions.class'),
                 'ExampleImageFormatter',
                 function ($class_name) {
@@ -153,7 +148,7 @@ class PluginImageFormatterCommand extends Command
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $io->ask(
+            $label = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.imageformatter.questions.label'),
                 $this->stringConverter->camelCaseToHuman($class_name)
             );
@@ -163,7 +158,7 @@ class PluginImageFormatterCommand extends Command
         // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
-            $plugin_id = $io->ask(
+            $plugin_id = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.imageformatter.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class_name)
             );

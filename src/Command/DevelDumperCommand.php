@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\devel\DevelDumperPluginManager;
 use Drupal\devel\DevelDumperManager;
 
@@ -60,9 +59,8 @@ class DevelDumperCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         if (!\Drupal::moduleHandler()->moduleExists('devel')) {
-            $io->error($this->trans('commands.devel.dumper.messages.devel-must-be-installed'));
+            $this->getIo()->error($this->trans('commands.devel.dumper.messages.devel-must-be-installed'));
 
             return 1;
         }
@@ -72,7 +70,7 @@ class DevelDumperCommand extends ContainerAwareCommand
             /* @var string[] $dumpKeys */
             $dumpKeys = $this->getDumperKeys();
 
-            $dumper = $io->choice(
+            $dumper = $this->getIo()->choice(
                 $this->trans('commands.devel.dumper.messages.select-debug-dumper'),
                 $dumpKeys,
                 'kint', //Make kint the default for quick 'switchback'
@@ -88,13 +86,11 @@ class DevelDumperCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         //Check the dumper actually exists
         $dumper = $input->getArgument('dumper');
         $dumpKeys = $this->getDumperKeys();
         if (!in_array($dumper, $dumpKeys)) {
-            $io->error($this->trans('commands.devel.dumper.messages.dumper-not-exist'));
+            $this->getIo()->error($this->trans('commands.devel.dumper.messages.dumper-not-exist'));
 
             return 1;
         }
@@ -103,7 +99,7 @@ class DevelDumperCommand extends ContainerAwareCommand
         /* @var Config $develSettings */
         $develSettings = $configFactory->getEditable('devel.settings');
         $develSettings->set('devel_dumper', $dumper)->save();
-        $io->info(
+        $this->getIo()->info(
             sprintf(
                 $this->trans('commands.devel.dumper.messages.devel-dumper-set'),
                 $configFactory->get('devel.settings')->get('devel_dumper')

@@ -8,12 +8,10 @@
 namespace Drupal\Console\Command\Create;
 
 use Drupal\Console\Utils\Create\RoleData;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class RolesCommand
@@ -61,11 +59,9 @@ class RolesCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $limit = $input->getOption('limit');
         if (!$limit) {
-            $limit = $io->ask(
+            $limit = $this->getIo()->ask(
                 $this->trans('commands.create.roles.questions.limit'),
                 5
             );
@@ -78,8 +74,6 @@ class RolesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $limit = $input->getOption('limit')?:5;
 
         $roles = $this->createRoleData->create(
@@ -92,9 +86,9 @@ class RolesCommand extends Command
         ];
 
         if ($roles['success']) {
-            $io->table($tableHeader, $roles['success']);
+            $this->getIo()->table($tableHeader, $roles['success']);
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.create.roles.messages.created-roles'),
                     $limit

@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class EventCommand
@@ -57,8 +56,6 @@ class EventCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $events = array_keys($this->eventDispatcher->getListeners());
         $event = $input->getArgument('event');
 
@@ -129,12 +126,12 @@ class EventCommand extends Command
                  ];
             }
 
-            $io->table($tableHeader, $tableRows);
+            $this->getIo()->table($tableHeader, $tableRows);
 
             return 0;
         }
 
-        $io->table(
+        $this->getIo()->table(
             [$this->trans('commands.debug.event.messages.event')],
             $events
         );

@@ -15,7 +15,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\CacheContextGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Command\Shared\ServicesTrait;
@@ -116,10 +115,8 @@ class CacheContextCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -141,15 +138,13 @@ class CacheContextCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $module = $this->getModuleOption();
 
         // --cache_context option
         $cache_context = $input->getOption('cache-context');
         if (!$cache_context) {
-            $cache_context = $io->ask(
+            $cache_context = $this->getIo()->ask(
                 $this->trans('commands.generate.cache.context.questions.name'),
                 sprintf('%s', $module)
             );
@@ -159,7 +154,7 @@ class CacheContextCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.cache.context.questions.class'),
                 'DefaultCacheContext',
                 function ($class) {
@@ -173,7 +168,7 @@ class CacheContextCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
     }

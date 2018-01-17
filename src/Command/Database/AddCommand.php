@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Generator\DatabaseSettingsGenerator;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class AddCommand extends Command
 {
@@ -95,12 +94,11 @@ class AddCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $result = $this
             ->generator
             ->generate($input->getOptions());
         if (!$result) {
-            $io->error($this->trans('commands.database.add.error'));
+            $this->getIo()->error($this->trans('commands.database.add.error'));
         }
     }
 
@@ -109,11 +107,9 @@ class AddCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $database = $input->getOption('database');
         if (!$database) {
-            $database = $io->ask(
+            $database = $this->getIo()->ask(
                 $this->trans('commands.database.add.questions.database'),
                 'migrate_db'
             );
@@ -121,7 +117,7 @@ class AddCommand extends Command
         $input->setOption('database', $database);
         $username = $input->getOption('username');
         if (!$username) {
-            $username = $io->ask(
+            $username = $this->getIo()->ask(
                 $this->trans('commands.database.add.questions.username'),
                 ''
             );
@@ -129,7 +125,7 @@ class AddCommand extends Command
         $input->setOption('username', $username);
         $password = $input->getOption('password');
         if (!$password) {
-            $password = $io->ask(
+            $password = $this->getIo()->ask(
                 $this->trans('commands.database.add.questions.password'),
                 ''
             );
@@ -137,7 +133,7 @@ class AddCommand extends Command
         $input->setOption('password', $password);
         $prefix = $input->getOption('prefix');
         if (!$prefix) {
-            $prefix = $io->ask(
+            $prefix = $this->getIo()->ask(
                 $this->trans('commands.database.add.questions.prefix'),
                 false
             );
@@ -145,7 +141,7 @@ class AddCommand extends Command
         $input->setOption('prefix', $prefix);
         $host = $input->getOption('host');
         if (!$host) {
-            $host = $io->ask(
+            $host = $this->getIo()->ask(
                 $this->trans('commands.database.add.questions.host'),
                 'localhost'
             );
@@ -153,7 +149,7 @@ class AddCommand extends Command
         $input->setOption('host', $host);
         $port = $input->getOption('port');
         if (!$port) {
-            $port = $io->ask(
+            $port = $this->getIo()->ask(
                 $this->trans('commands.database.add.questions.port'),
                 3306
             );
@@ -161,7 +157,7 @@ class AddCommand extends Command
         $input->setOption('port', $port);
         $driver = $input->getOption('driver');
         if (!$driver) {
-            $driver = $io->ask(
+            $driver = $this->getIo()->ask(
                 $this->trans('commands.database.add.questions.driver'),
                 'mysql'
             );

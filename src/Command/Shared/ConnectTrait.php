@@ -7,19 +7,18 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Database\Database;
 
 trait ConnectTrait
 {
     protected $supportedDrivers = ['mysql','pgsql'];
 
-    public function resolveConnection(DrupalStyle $io, $database = 'default')
+    public function resolveConnection($database = 'default')
     {
         $connectionInfo = Database::getConnectionInfo();
 
         if (!$connectionInfo || !isset($connectionInfo[$database])) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.database.connect.messages.database-not-found'),
                     $database
@@ -31,7 +30,7 @@ trait ConnectTrait
 
         $databaseConnection = $connectionInfo[$database];
         if (!in_array($databaseConnection['driver'], $this->supportedDrivers)) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.database.connect.messages.database-not-supported'),
                     $databaseConnection['driver']

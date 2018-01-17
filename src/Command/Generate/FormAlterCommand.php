@@ -17,7 +17,6 @@ use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -160,10 +159,8 @@ class FormAlterCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $input)) {
+        if (!$this->confirmGeneration()) {
             return 1;
         }
 
@@ -198,8 +195,6 @@ class FormAlterCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
         $this->getModuleOption();
 
@@ -209,14 +204,14 @@ class FormAlterCommand extends Command
             $forms = [];
             // Get form ids from webprofiler
             if ($this->moduleHandler->moduleExists('webprofiler')) {
-                $io->info(
+                $this->getIo()->info(
                     $this->trans('commands.generate.form.alter.messages.loading-forms')
                 );
                 $forms = $this->getWebprofilerForms();
             }
 
             if (!empty($forms)) {
-                $formId = $io->choiceNoList(
+                $formId = $this->getIo()->choiceNoList(
                     $this->trans('commands.generate.form.alter.questions.form-id'),
                     array_keys($forms)
                 );
@@ -245,7 +240,7 @@ class FormAlterCommand extends Command
 
             $formItems = array_keys($forms[$formId]['form']);
 
-            $formItemsToHide = $io->choice(
+            $formItemsToHide = $this->getIo()->choice(
                 $this->trans('commands.generate.form.alter.messages.hide-form-elements'),
                 $formItems,
                 null,
@@ -261,8 +256,8 @@ class FormAlterCommand extends Command
         $inputs = $input->getOption('inputs');
 
         if (empty($inputs)) {
-            $io->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
-            $inputs = $this->formQuestion($io);
+            $this->getIo()->writeln($this->trans('commands.generate.form.alter.messages.inputs'));
+            $inputs = $this->formQuestion();
         } else {
             $inputs= $this->explodeInlineArray($inputs);
         }

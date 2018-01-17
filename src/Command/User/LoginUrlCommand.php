@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class UserLoginCommand.
@@ -60,13 +59,11 @@ class LoginUrlCommand extends UserBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $user = $input->getArgument('user');
         $userEntity = $this->getUserEntity($user);
 
         if (!$userEntity) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.user.login.url.errors.invalid-user'),
                     $user
@@ -77,15 +74,15 @@ class LoginUrlCommand extends UserBase
         }
 
         $url = user_pass_reset_url($userEntity) . '/login';
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.user.login.url.messages.url'),
                 $userEntity->getUsername()
             )
         );
 
-        $io->simple($url);
-        $io->newLine();
+        $this->getIo()->simple($url);
+        $this->getIo()->newLine();
 
         return 0;
     }

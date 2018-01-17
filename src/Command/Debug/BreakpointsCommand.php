@@ -14,7 +14,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\breakpoint\BreakpointManagerInterface;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * @DrupalCommand(
@@ -69,14 +68,12 @@ class BreakpointsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $group = $input->getArgument('group');
         if ($group) {
             $breakPointData = $this->getBreakpointByName($group);
             foreach ($breakPointData as $key => $breakPoint) {
-                $io->comment($key, false);
-                $io->block(Yaml::dump($breakPoint));
+                $this->getIo()->comment($key, false);
+                $this->getIo()->block(Yaml::dump($breakPoint));
             }
 
             return 0;
@@ -87,7 +84,7 @@ class BreakpointsCommand extends Command
             $this->trans('commands.debug.breakpoints.messages.name'),
         ];
 
-        $io->table($tableHeader, $groups, 'compact');
+        $this->getIo()->table($tableHeader, $groups, 'compact');
 
         return 0;
     }

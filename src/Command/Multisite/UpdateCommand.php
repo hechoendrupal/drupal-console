@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Multisite;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -82,18 +81,16 @@ class UpdateCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $this->uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
 
-        $sites = $this->getMultisite($io, $this->uri);
+        $sites = $this->getMultisite($this->uri);
         if ($this->uri == "default") {
-            $this->uri = $io->choice(
+            $this->uri = $this->getIo()->choice(
                 $this->trans('commands.multisite.update.questions.uri'),
                 $sites
             );
         } elseif (!array_key_exists($this->uri, $sites)) {
-            $io->error(
+            $this->getIo()->error(
                 $this->trans('commands.multisite.update.error.invalid-uri')
             );
 
@@ -103,7 +100,7 @@ class UpdateCommand extends Command
 
         $directory = $input->getOption('directory');
         if (!$directory) {
-            $directory = $io->ask($this->trans('commands.multisite.update.questions.directory'));
+            $directory = $this->getIo()->ask($this->trans('commands.multisite.update.questions.directory'));
         }
         $input->setOption('directory', $directory);
     }
@@ -113,12 +110,11 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $this->fs = new Filesystem();
 
         if (empty($this->uri)) {
             $uri =  parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
-            $sites = $this->getMultisite($io, $uri);
+            $sites = $this->getMultisite($uri);
             $this->uri = $sites[$uri];
         }
 
@@ -140,7 +136,7 @@ class UpdateCommand extends Command
                 $content=implode($replace_with, $content_chunks);
                 file_put_contents($multiSiteFile, $content);
             } catch (IOExceptionInterface $e) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.multisite.update.errors.write-fail'),
                         $this->uri,
@@ -204,7 +200,7 @@ class UpdateCommand extends Command
                                 $this->fs->remove($this->appRoot.'/sites/'.$this->uri);
                             }
                         } catch (IOExceptionInterface $e) {
-                            $io->error(
+                            $this->getIo()->error(
                                 sprintf(
                                     $this->trans('commands.multisite.update.errors.mkdir-fail'),
                                     $this->directory
@@ -212,13 +208,13 @@ class UpdateCommand extends Command
                             );
                         }
                     }
-                    $this->moveSettings($io);
+                    $this->moveSettings();
                 }
             }
 
-            $this->editSettings($io);
+            $this->editSettings();
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.update.errors.invalid-new-dir'),
                     $this->directory
@@ -229,10 +225,8 @@ class UpdateCommand extends Command
 
     /**
      * Get all Multisites.
-     *
-     * @param DrupalStyle $io
      */
-    protected function getMultisite(DrupalStyle $io)
+    protected function getMultisite()
     {
         $sites = [];
         $multiSiteFile = sprintf(
@@ -245,7 +239,7 @@ class UpdateCommand extends Command
         }
 
         if (!$sites) {
-            $io->error(
+            $this->getIo()->error(
                 $this->trans('commands.debug.multisite.messages.no-multisites')
             );
 
@@ -257,10 +251,8 @@ class UpdateCommand extends Command
 
     /**
      * Move the settings.php file to new directory.
-     *
-     * @param DrupalStyle $io
      */
-    protected function moveSettings(DrupalStyle $io)
+    protected function moveSettings()
     {
         try {
             if (!$this->fs->exists($this->appRoot.'/sites/'.$this->directory.'/settings.php')) {
@@ -271,7 +263,7 @@ class UpdateCommand extends Command
                 $this->fs->remove($this->appRoot.'/sites/'.$this->uri.'/settings.php');
             }
         } catch (IOExceptionInterface $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.update.errors.copy-fail'),
                     $this->appRoot.'/sites/'.$this->explodeDirectory[0].'/settings.php',
@@ -284,10 +276,8 @@ class UpdateCommand extends Command
 
     /**
      * Edit the settings.php file to change the database parameters, because the settings.php file was moved.
-     *
-     * @param DrupalStyle $io
      */
-    protected function editSettings(DrupalStyle $io)
+    protected function editSettings()
     {
         $multiSiteSettingsFile = sprintf(
             '%s/sites/'.$this->explodeDirectory[0].'/settings.php',
@@ -325,7 +315,7 @@ class UpdateCommand extends Command
                 file_put_contents($multiSiteSettingsFile, $content);
             }
         } catch (IOExceptionInterface $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.update.messages.write-fail'),
                     $multiSiteSettingsFile

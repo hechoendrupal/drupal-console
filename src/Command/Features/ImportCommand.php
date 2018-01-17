@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\FeatureTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Core\Command\Command;
 
@@ -53,8 +52,6 @@ class ImportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $packages = $input->getArgument('packages');
         $bundle = $input->getOption('bundle');
       
@@ -63,7 +60,7 @@ class ImportCommand extends Command
         }
       
         $this->getAssigner($bundle);
-        $this->importFeature($io, $packages);
+        $this->importFeature($packages);
     }
 
     /**
@@ -73,7 +70,6 @@ class ImportCommand extends Command
     {
         $packages = $input->getArgument('packages');
         $bundle = $input->getOption('bundle');
-        
         if (!$packages) {
             // @see Drupal\Console\Command\Shared\FeatureTrait::packageQuestion
             $package = $this->packageQuestion($bundle);

@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 
@@ -64,28 +63,26 @@ class RestCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $resource_id = $input->getArgument('resource-id');
         $status = $input->getOption('authorization');
 
         if ($resource_id) {
-            $this->restDetail($io, $resource_id);
+            $this->restDetail($resource_id);
         } else {
-            $this->restList($io, $status);
+            $this->restList($status);
         }
 
         return 0;
     }
 
-    private function restDetail(DrupalStyle $io, $resource_id)
+    private function restDetail($resource_id)
     {
         $config = $this->getRestDrupalConfig();
 
         $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
         if (empty($plugin)) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.debug.rest.messages.not-found'),
                     $resource_id
@@ -122,10 +119,10 @@ class RestCommand extends Command
           )
         ];
 
-        $io->comment($resource_id);
-        $io->newLine();
+        $this->getIo()->comment($resource_id);
+        $this->getIo()->newLine();
 
-        $io->table([], $configuration, 'compact');
+        $this->getIo()->table([], $configuration, 'compact');
 
         $tableHeader = [
           $this->trans('commands.debug.rest.messages.rest-state'),
@@ -142,10 +139,10 @@ class RestCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 
-    protected function restList(DrupalStyle $io, $status)
+    protected function restList($status)
     {
         $rest_resources = $this->getRestResources($status);
 
@@ -169,6 +166,6 @@ class RestCommand extends Command
                 ];
             }
         }
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 }

@@ -14,7 +14,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class EnableCommand
@@ -69,14 +68,13 @@ class EnableCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
             $views = $this->entityQuery
                 ->get('view')
                 ->condition('status', 0)
                 ->execute();
-            $viewId = $io->choiceNoList(
+            $viewId = $this->getIo()->choiceNoList(
                 $this->trans('commands.debug.views.arguments.view-id'),
                 $views
             );
@@ -89,13 +87,12 @@ class EnableCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
 
         $view = $this->entityTypeManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.debug.views.messages.not-found'),
                     $viewId
@@ -106,14 +103,14 @@ class EnableCommand extends Command
 
         try {
             $view->enable()->save();
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.views.enable.messages.enabled-successfully'),
                     $view->get('label')
                 )
             );
         } catch (Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }

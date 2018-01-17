@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class StylesDebugCommand
@@ -52,27 +51,24 @@ class ImageStylesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $imageStyle = $this->entityTypeManager->getStorage('image_style');
 
-        $io->newLine();
-        $io->comment(
+        $this->getIo()->newLine();
+        $this->getIo()->comment(
             $this->trans('commands.debug.image.styles.messages.styles-list')
         );
 
         if ($imageStyle) {
-            $this->imageStyleList($io, $imageStyle);
+            $this->imageStyleList($imageStyle);
         }
 
         return 0;
     }
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $imageStyle
      */
-    protected function imageStyleList(DrupalStyle $io, $imageStyle)
+    protected function imageStyleList($imageStyle)
     {
         $tableHeader = [
           $this->trans('commands.debug.image.styles.messages.styles-name'),
@@ -88,7 +84,7 @@ class ImageStylesCommand extends Command
             ];
         }
 
-        $io->table(
+        $this->getIo()->table(
             $tableHeader,
             $tableRows
         );

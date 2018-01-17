@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use GuzzleHttp\Client;
 use Drupal\Console\Core\Utils\ConfigurationManager;
@@ -81,8 +80,6 @@ class ModuleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $this->site->loadLegacyFile('/core/modules/system/system.module');
 
         $status = strtolower($input->getOption('status'));
@@ -103,7 +100,7 @@ class ModuleCommand extends Command
                 try {
                     $data = $this->httpClient->getUrlAsJson($repo . $url);
                 } catch (\Exception $e) {
-                    $io->error(
+                    $this->getIo()->error(
                         sprintf(
                             $this->trans('commands.debug.module.messages.no-results'),
                             $module
@@ -138,7 +135,7 @@ class ModuleCommand extends Command
                   $data->package->downloads->daily
                 ];
 
-                $io->table($tableHeader, $tableRows, 'compact');
+                $this->getIo()->table($tableHeader, $tableRows, 'compact');
             }
             return 0;
         }
@@ -195,6 +192,6 @@ class ModuleCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 }
