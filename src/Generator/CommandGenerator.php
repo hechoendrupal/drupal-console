@@ -48,13 +48,22 @@ class CommandGenerator extends Generator
      * @param string  $extension      Extension name
      * @param string  $extensionType  Extension type
      * @param string  $name           Command name
-     * @param string  $interact       Interact
+     * @param string  $initialize     Initialize method
+     * @param string  $interact       Interact method
      * @param string  $class          Class name
      * @param boolean $containerAware Container Aware command
      * @param array   $services       Services array
      */
-    public function generate($extension, $extensionType, $name, $interact, $class, $containerAware, $services)
-    {
+    public function generate(
+        $extension,
+        $extensionType,
+        $name,
+        $initialize,
+        $interact,
+        $class,
+        $containerAware,
+        $services
+    ) {
         $command_key = str_replace(':', '.', $name);
 
         $extensionObject = $this->extensionManager->getDrupalExtension($extensionType, $extension);
@@ -64,6 +73,7 @@ class CommandGenerator extends Generator
             'extensionType' => $extensionType,
             'name' => $name,
             'interact' => $interact,
+            'initialize' => $initialize,
             'class_name' => $class,
             'container_aware' => $containerAware,
             'command_key' => $command_key,
