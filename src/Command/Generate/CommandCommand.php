@@ -111,6 +111,12 @@ class CommandCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.command.options.name')
             )
             ->addOption(
+                'initialize',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.command.options.initialize')
+            )
+            ->addOption(
                 'interact',
                 null,
                 InputOption::VALUE_NONE,
@@ -140,6 +146,7 @@ class CommandCommand extends ContainerAwareCommand
         $extensionType = $input->getOption('extension-type');
         $class = $this->validator->validateCommandName($input->getOption('class'));
         $name = $input->getOption('name');
+        $initialize = $input->getOption('initialize');
         $interact = $input->getOption('interact');
         $containerAware = $input->getOption('container-aware');
         $services = $input->getOption('services');
@@ -156,6 +163,7 @@ class CommandCommand extends ContainerAwareCommand
             $extension,
             $extensionType,
             $name,
+            $initialize,
             $interact,
             $class,
             $containerAware,
@@ -194,12 +202,20 @@ class CommandCommand extends ContainerAwareCommand
             $input->setOption('name', $name);
         }
 
-        $interact = $input->getOption('interact');
+        $initialize = $input->getOption('initialize');
+        if (!$initialize) {
+            $initialize = $this->getIo()->confirm(
+                $this->trans('commands.generate.command.questions.initialize'),
+                false
+            );
+            $input->setOption('initialize', $initialize);
+        }
 
+        $interact = $input->getOption('interact');
         if (!$interact) {
             $interact = $this->getIo()->confirm(
                 $this->trans('commands.generate.command.questions.interact'),
-                true
+                false
             );
             $input->setOption('interact', $interact);
         }
