@@ -10,6 +10,11 @@ namespace Drupal\Console\Generator;
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
+/**
+ * Class AjaxCommandGenerator
+ *
+ * @package Drupal\Console\Generator
+ */
 class AjaxCommandGenerator extends Generator
 {
     /**
@@ -28,13 +33,13 @@ class AjaxCommandGenerator extends Generator
         $this->extensionManager = $extensionManager;
     }
 
-    public function generate($module, $class, $method)
+    /**
+     * @param $parameters array
+     */
+    public function generate($parameters)
     {
-        $parameters = [
-                'class_name' => $class,
-                'module' => $module,
-              'method' => $method
-        ];
+        $class = $parameters['class_name'];
+        $module = $parameters['module'];
 
         $this->renderFile(
             'module/src/Ajax/ajax-command.php.twig',
