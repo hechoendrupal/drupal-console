@@ -26,6 +26,8 @@ trait ConfirmationTrait
             return $yes;
         }
 
+        $this->getSummary();
+
         $confirmation = $this->getIo()->confirm(
             $this->trans('commands.common.questions.confirm'),
             true
@@ -36,5 +38,21 @@ trait ConfirmationTrait
         }
 
         return $confirmation;
+    }
+
+    /**
+     * Generates summary based on options.
+     */
+    protected function getSummary() {
+        if (!method_exists($this, 'getOptions')) {
+            return;
+        }
+        $input = $this->getIo()->getInput();
+        $tableRows = [];
+        foreach ($this->getOptions() as $option) {
+            $tableRows[] = [$this->trans($option['description']), $input->getOption($option['name'])];
+        }
+
+        $this->getIo()->table([], $tableRows);
     }
 }
