@@ -57,10 +57,10 @@ class ModuleCommand extends Command
      * ModuleCommand constructor.
      *
      * @param ModuleGenerator $generator
-     * @param Validator       $validator
+     * @param Validator $validator
      * @param $appRoot
      * @param StringConverter $stringConverter
-     * @param DrupalApi       $drupalApi
+     * @param DrupalApi $drupalApi
      * @param $twigtemplate
      */
     public function __construct(
@@ -89,80 +89,16 @@ class ModuleCommand extends Command
             ->setName('generate:module')
             ->setDescription($this->trans('commands.generate.module.description'))
             ->setHelp($this->trans('commands.generate.module.help'))
-            ->addOption(
-                'module',
-                null,
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.module.options.module')
-            )
-            ->addOption(
-                'machine-name',
-                null,
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.module.options.machine-name')
-            )
-            ->addOption(
-                'module-path',
-                null,
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.module.options.module-path')
-            )
-            ->addOption(
-                'description',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.description')
-            )
-            ->addOption(
-                'core',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.core')
-            )
-            ->addOption(
-                'package',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.package')
-            )
-            ->addOption(
-                'module-file',
-                null,
-                InputOption::VALUE_NONE,
-                $this->trans('commands.generate.module.options.module-file')
-            )
-            ->addOption(
-                'features-bundle',
-                null,
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.module.options.features-bundle')
-            )
-            ->addOption(
-                'composer',
-                null,
-                InputOption::VALUE_NONE,
-                $this->trans('commands.generate.module.options.composer')
-            )
-            ->addOption(
-                'dependencies',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.dependencies'),
-                ''
-            )
-            ->addOption(
-                'test',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.test')
-            )
-            ->addOption(
-                'twigtemplate',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.module.options.twigtemplate')
-            )
             ->setAliases(['gm']);
+
+        foreach ($this->getOptions() as $option) {
+            $this->addOption(
+                $option['name'],
+                $option['shortcut'],
+                $option['mode'],
+                $this->trans($option['description'])
+            );
+        }
     }
 
     /**
@@ -226,9 +162,9 @@ class ModuleCommand extends Command
 
         try {
             $module = $input->getOption('module') ?
-              $this->validator->validateModuleName(
-                  $input->getOption('module')
-              ) : null;
+                $this->validator->validateModuleName(
+                    $input->getOption('module')
+                ) : null;
         } catch (\Exception $error) {
             $this->getIo()->error($error->getMessage());
 
@@ -248,9 +184,9 @@ class ModuleCommand extends Command
 
         try {
             $machineName = $input->getOption('machine-name') ?
-              $this->validator->validateModuleName(
-                  $input->getOption('machine-name')
-              ) : null;
+                $this->validator->validateModuleName(
+                    $input->getOption('machine-name')
+                ) : null;
         } catch (\Exception $error) {
             $this->getIo()->error($error->getMessage());
         }
@@ -272,7 +208,8 @@ class ModuleCommand extends Command
                 $this->trans('commands.generate.module.questions.module-path'),
                 'modules/custom',
                 function ($modulePath) use ($machineName) {
-                    $fullPath = Path::isAbsolute($modulePath) ? $modulePath : Path::makeAbsolute($modulePath, $this->appRoot);
+                    $fullPath = Path::isAbsolute($modulePath) ? $modulePath : Path::makeAbsolute($modulePath,
+                        $this->appRoot);
                     $fullPath = $fullPath.'/'.$machineName;
                     if (file_exists($fullPath)) {
                         throw new \InvalidArgumentException(
@@ -400,5 +337,84 @@ class ModuleCommand extends Command
     protected function createGenerator()
     {
         return new ModuleGenerator();
+    }
+
+    protected function getOptions()
+    {
+        return [
+            [
+
+                'name' => 'module',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_REQUIRED,
+                'description' => 'commands.generate.module.options.module',
+            ],
+            [
+                'name' => 'machine-name',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_REQUIRED,
+                'description' => 'commands.generate.module.options.machine-name',
+            ],
+            [
+                'name' => 'module-path',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_REQUIRED,
+                'description' => 'commands.generate.module.options.module-path',
+            ],
+            [
+                'name' => 'description',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_OPTIONAL,
+                'description' => 'commands.generate.module.options.description',
+            ],
+            [
+                'name' => 'core',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_OPTIONAL,
+                'description' => 'commands.generate.module.options.core',
+            ],
+            [
+                'name' => 'package',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_OPTIONAL,
+                'description' => 'commands.generate.module.options.package',
+            ],
+            [
+                'name' => 'module-file',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_NONE,
+                'description' => 'commands.generate.module.options.module-file',
+            ],
+            [
+                'name' => 'features-bundle',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_REQUIRED,
+                'description' => 'commands.generate.module.options.features-bundle',
+            ],
+            [
+                'name' => 'composer',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_NONE,
+                'description' => 'commands.generate.module.options.composer',
+            ],
+            [
+                'name' => 'dependencies',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_OPTIONAL,
+                'description' => 'commands.generate.module.options.dependencies',
+            ],
+            [
+                'name' => 'test',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_OPTIONAL,
+                'description' => 'commands.generate.module.options.test',
+            ],
+            [
+                'name' => 'twigtemplate',
+                'shortcut' => null,
+                'mode' => InputOption::VALUE_OPTIONAL,
+                'description' => 'commands.generate.module.options.twigtemplate',
+            ],
+        ];
     }
 }
