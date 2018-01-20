@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,6 +33,7 @@ class ThemeCommand extends Command
     use ConfirmationTrait;
     use ThemeRegionTrait;
     use ThemeBreakpointTrait;
+    use ArrayInputTrait;
 
     /**
  * @var Manager
@@ -148,7 +150,7 @@ class ThemeCommand extends Command
             ->addOption(
                 'libraries',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.theme.options.libraries')
             )
             ->addOption(
@@ -160,13 +162,13 @@ class ThemeCommand extends Command
             ->addOption(
                 'regions',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.theme.options.regions')
             )
             ->addOption(
                 'breakpoints',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.theme.options.breakpoints')
             )
             ->setAliases(['gt']);
@@ -199,6 +201,14 @@ class ThemeCommand extends Command
         $libraries = $input->getOption('libraries');
         $regions = $input->getOption('regions');
         $breakpoints = $input->getOption('breakpoints');
+        $noInteraction = $input->getOption('no-interaction');
+
+        // Parse nested data.
+        if ($noInteraction) {
+            $libraries = $this->explodeInlineArray($libraries);
+            $regions = $this->explodeInlineArray($regions);
+            $breakpoints = $this->explodeInlineArray($breakpoints);
+        }
 
         $this->generator->generate(
             $theme,
@@ -345,9 +355,11 @@ class ThemeCommand extends Command
             ) {
                 // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::libraryQuestion
                 $libraries = $this->libraryQuestion();
-                $input->setOption('libraries', $libraries);
             }
+        } else {
+            $libraries = $this->explodeInlineArray($libraries);
         }
+        $input->setOption('libraries', $libraries);
 
         // --regions option.
         $regions = $input->getOption('regions');
@@ -359,9 +371,11 @@ class ThemeCommand extends Command
             ) {
                 // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::regionQuestion
                 $regions = $this->regionQuestion();
-                $input->setOption('regions', $regions);
             }
+        } else {
+            $regions = $this->explodeInlineArray($regions);
         }
+        $input->setOption('regions', $regions);
 
         // --breakpoints option.
         $breakpoints = $input->getOption('breakpoints');
@@ -373,8 +387,10 @@ class ThemeCommand extends Command
             ) {
                 // @see \Drupal\Console\Command\Shared\ThemeRegionTrait::regionQuestion
                 $breakpoints = $this->breakpointQuestion();
-                $input->setOption('breakpoints', $breakpoints);
             }
+        } else {
+            $breakpoints = $this->explodeInlineArray($breakpoints);
         }
+        $input->setOption('breakpoints', $breakpoints);
     }
 }
