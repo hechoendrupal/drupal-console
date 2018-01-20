@@ -160,7 +160,7 @@ class ThemeCommand extends Command
             ->addOption(
                 'regions',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.theme.options.regions')
             )
             ->addOption(
@@ -361,6 +361,16 @@ class ThemeCommand extends Command
                 $regions = $this->regionQuestion();
                 $input->setOption('regions', $regions);
             }
+        }
+        else {
+            $parsed_regions = [];
+            foreach ($regions as $region) {
+                $json_object = json_decode($region);
+                if (!empty($json_object)) {
+                    $parsed_regions[] = $json_object;
+                }
+            }
+            $input->setOption('regions', $parsed_regions);
         }
 
         // --breakpoints option.

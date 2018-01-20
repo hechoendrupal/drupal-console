@@ -32,12 +32,13 @@ trait ThemeRegionTrait
                 }
             );
 
+            $regionItem = new StdClass();
+            $regionItem->region_name = $regionName;
+            $regionItem->region_machine_name = $regionMachineName;
+
             array_push(
                 $regions,
-                [
-                    'region_name' => $regionName,
-                    'region_machine_name' => $regionMachineName,
-                ]
+                $regionItem
             );
 
             if (!$this->getIo()->confirm(
