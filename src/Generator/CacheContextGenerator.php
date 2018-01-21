@@ -11,7 +11,7 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Core\Generator\GeneratorInterface;
 
-class CacheContextGenerator extends Generator
+class CacheContextGenerator extends Generator implements GeneratorInterface
 {
     /**
    * @var Manager
