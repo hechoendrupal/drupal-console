@@ -16,7 +16,7 @@ use Drupal\Console\Core\Generator\GeneratorInterface;
  *
  * @package Drupal\Console\Generator
  */
-class BreakPointGenerator extends Generator
+class BreakPointGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -28,9 +28,7 @@ class BreakPointGenerator extends Generator
      *
      * @param Manager $extensionManager
      */
-    public function __construct(
-        Manager $extensionManager
-    ) {
+    public function __construct(Manager $extensionManager) {
         $this->extensionManager = $extensionManager;
     }
 
@@ -38,11 +36,9 @@ class BreakPointGenerator extends Generator
     /**
      * Generator BreakPoint.
      *
-     * @param $theme
-     * @param $breakpoints
-     * @param $machine_name
+     * @param $parameters
      */
-    public function generate($parameters)
+    public function generate($parameters = [])
     {
         $theme_path = $this->extensionManager->getTheme($parameters['theme'])->getPath();
 

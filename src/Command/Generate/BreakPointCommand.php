@@ -123,11 +123,11 @@ class BreakPointCommand extends Command
         $theme = $input->getOption('theme');
         $breakpoints = $input->getOption('breakpoints');
 
-        $this->generator->generate(
-            $theme,
-            $breakpoints,
-            $machine_name
-        );
+        $this->generator->generate([
+            'theme' => $theme,
+            'breakpoints' => $breakpoints,
+            'machine_name' => $machine_name,
+        ]);
 
         return 0;
     }
