@@ -40,7 +40,6 @@ class AuthenticationProviderGenerator extends Generator implements GeneratorInte
         $class = $parameters['class'];
         $provider_id = $parameters['provider_id'];
 
-
         $template_parameters = [
           'module' => $module,
           'class' => $class,
