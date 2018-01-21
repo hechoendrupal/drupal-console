@@ -7,17 +7,14 @@
 
 namespace Drupal\Console\Command\Database;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Generator\DatabaseSettingsGenerator;
-use Drupal\Console\Command\Shared\ConnectTrait;
 
 class AddCommand extends Command
 {
-    use ConnectTrait;
 
     /**
      * @var DatabaseSettingsGenerator
