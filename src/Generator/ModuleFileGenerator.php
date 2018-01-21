@@ -8,23 +8,24 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 
 /**
  * Class ModuleFileGenerator
  *
  * @package Drupal\Console\Generator
  */
-class ModuleFileGenerator extends Generator
+class ModuleFileGenerator extends Generator implements GeneratorInterface
 {
     /**
-     * @param $machine_name
-     * @param $file_path
+     * @param $parameters
      */
-    public function generate(
-        $machine_name,
-        $file_path
-    ) {
-        $dir = $file_path .'/'. $machine_name. '.module';
+    public function generate($parameters = []) {
+
+        $machine_name = $parameters['machine_name'];
+        $file_path = $parameters['file_path'];
+
+        $dir = $file_path . '/' . $machine_name . '.module';
       
         if (file_exists($dir)) {
             if (!is_dir($dir)) {

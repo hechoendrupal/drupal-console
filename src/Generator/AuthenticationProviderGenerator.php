@@ -7,10 +7,11 @@
 
 namespace Drupal\Console\Generator;
 
-use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 
-class AuthenticationProviderGenerator extends Generator
+class AuthenticationProviderGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -31,33 +32,36 @@ class AuthenticationProviderGenerator extends Generator
     /**
      * Generator Plugin Block.
      *
-     * @param $module
-     * @param $class
-     * @param $provider_id
+     * @param $parameters
      */
-    public function generate($module, $class, $provider_id)
+    public function generate($parameters = [])
     {
-        $parameters = [
+        $module = $parameters['module'];
+        $class = $parameters['class'];
+        $provider_id = $parameters['provider_id'];
+
+
+        $template_parameters = [
           'module' => $module,
           'class' => $class,
         ];
 
         $this->renderFile(
             'module/src/Authentication/Provider/authentication-provider.php.twig',
-            $this->extensionManager->getModule($module)->getAuthenticationPath('Provider'). '/' . $class . '.php',
-            $parameters
+            $this->extensionManager->getModule($module)->getAuthenticationPath('Provider') . '/' . $class . '.php',
+            $template_parameters
         );
 
-        $parameters = [
+        $template_parameters = [
           'module' => $module,
           'class' => $class,
           'class_path' => sprintf('Drupal\%s\Authentication\Provider\%s', $module, $class),
-          'name' => 'authentication.'.$module,
+          'name' => 'authentication.' . $module,
           'services' => [
             ['name' => 'config.factory'],
             ['name' => 'entity_type.manager'],
           ],
-          'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
+          'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() . '/' . $module . '.services.yml'),
           'tags' => [
             'name' => 'authentication_provider',
             'provider_id' => $provider_id,
@@ -68,7 +72,7 @@ class AuthenticationProviderGenerator extends Generator
         $this->renderFile(
             'module/services.yml.twig',
             $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.services.yml',
-            $parameters,
+             $template_parameters,
             FILE_APPEND
         );
     }

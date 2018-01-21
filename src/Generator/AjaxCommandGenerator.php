@@ -8,6 +8,7 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
 /**
@@ -15,7 +16,7 @@ use Drupal\Console\Extension\Manager;
  *
  * @package Drupal\Console\Generator
  */
-class AjaxCommandGenerator extends Generator
+class AjaxCommandGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -36,26 +37,26 @@ class AjaxCommandGenerator extends Generator
     /**
      * @param $parameters array
      */
-    public function generate($parameters)
+    public function generate($parameters = [])
     {
         $class = $parameters['class_name'];
         $module = $parameters['module'];
 
         $this->renderFile(
             'module/src/Ajax/ajax-command.php.twig',
-            $this->extensionManager->getModule($module)->getAjaxPath().'/'.$class.'.php',
+            $this->extensionManager->getModule($module)->getAjaxPath() . '/' . $class . '.php',
             $parameters
         );
 
         $this->renderFile(
             'module/js/commands.php.twig',
-            $this->extensionManager->getModule($module)->getPath().'/js'.'/'.'custom.js',
+            $this->extensionManager->getModule($module)->getPath() . '/js/custom.js',
             $parameters
         );
 
         $this->renderFile(
             'module/module-libraries.yml.twig',
-            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.libraries.yml',
+            $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.libraries.yml',
             $parameters
         );
     }

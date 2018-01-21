@@ -8,43 +8,34 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 
 /**
  * Class ModuleGenerator
  *
  * @package Drupal\Console\Generator
  */
-class ModuleGenerator extends Generator
+class ModuleGenerator extends Generator implements GeneratorInterface
 {
     /**
-     * @param $module
-     * @param $machineName
-     * @param $dir
-     * @param $description
-     * @param $core
-     * @param $package
-     * @param $moduleFile
-     * @param $featuresBundle
-     * @param $composer
-     * @param $dependencies
-     * @param $test
-     * @param $twigtemplate
+     * @param $parameters
      */
-    public function generate(
-        $module,
-        $machineName,
-        $dir,
-        $description,
-        $core,
-        $package,
-        $moduleFile,
-        $featuresBundle,
-        $composer,
-        $dependencies,
-        $test,
-        $twigtemplate
-    ) {
-        $dir = ($dir == "/" ? '': $dir).'/'.$machineName;
+    public function generate($parameters = []) {
+
+        $module = $parameters['module'];
+        $machineName = $parameters['machine_name'];
+        $dir = $parameters['dir'];
+        $description = $parameters['description'];
+        $core = $parameters['core'];
+        $package = $parameters['package'];
+        $moduleFile = $parameters['module_file'];
+        $featuresBundle = $parameters['features_bundle'];
+        $composer = $parameters['composer'];
+        $dependencies = $parameters['dependencies'];
+        $test = $parameters['test'];
+        $twigtemplate = $parameters['twigtemplate'];
+
+        $dir = ($dir == "/" ? '': $dir) . '/' . $machineName;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
@@ -87,14 +78,14 @@ class ModuleGenerator extends Generator
 
         $this->renderFile(
             'module/info.yml.twig',
-            $dir.'/'.$machineName.'.info.yml',
+            $dir . '/' . $machineName . '.info.yml',
             $parameters
         );
 
         if (!empty($featuresBundle)) {
             $this->renderFile(
                 'module/features.yml.twig',
-                $dir.'/'.$machineName.'.features.yml',
+                $dir . '/' . $machineName . '.features.yml',
                 [
                     'bundle' => $featuresBundle,
                 ]
@@ -109,7 +100,7 @@ class ModuleGenerator extends Generator
         if ($composer) {
             $this->renderFile(
                 'module/composer.json.twig',
-                $dir.'/'.'composer.json',
+                $dir . '/' . 'composer.json',
                 $parameters
             );
         }
@@ -129,7 +120,7 @@ class ModuleGenerator extends Generator
             }
             $this->renderFile(
                 'module/module-twig-template-append.twig',
-                $dir .'/' . $machineName . '.module',
+                $dir . '/' . $machineName . '.module',
                 $parameters,
                 FILE_APPEND
             );

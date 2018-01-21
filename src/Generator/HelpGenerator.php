@@ -31,22 +31,25 @@ class HelpGenerator extends Generator
     /**
      * Generator Post Update Name function.
      *
-     * @param $module
-     * @param $description
+     * @param $parameters
      */
-    public function generate($module, $description)
+    public function generate($parameters = [])
     {
+
+        $module = $parameters['module'];
+        $description = $parameters['description'];
+
         $module_path =  $this->extensionManager->getModule($module)->getPath();
 
         $parameters = [
           'machine_name' => $module,
           'description' => $description,
-          'file_exists' => file_exists($module_path .'/'.$module.'.module'),
+          'file_exists' => file_exists($module_path . '/' . $module . '.module'),
         ];
 
         $this->renderFile(
             'module/help.php.twig',
-            $module_path .'/'.$module.'.module',
+            $module_path . '/' . $module . '.module',
             $parameters,
             FILE_APPEND
         );
