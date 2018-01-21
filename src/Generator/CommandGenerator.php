@@ -17,7 +17,7 @@ use Drupal\Console\Extension\Manager;
  *
  * @package Drupal\Console\Generator
  */
-class CommandGenerator extends Generator
+class CommandGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -84,7 +84,7 @@ class CommandGenerator extends Generator
             $template_parameters
         );
 
-        $template_parameters['name'] = $extension.'.' . str_replace(':', '_', $name);
+        $template_parameters['name'] = $extension . '.' . str_replace(':', '_', $name);
 
         $this->renderFile(
             'module/services.yml.twig',
@@ -95,7 +95,7 @@ class CommandGenerator extends Generator
 
         $this->renderFile(
             'module/src/Command/console/translations/en/command.yml.twig',
-            $extensionObject->getPath() . '/console/translations/en/' . $command_key.'.yml'
+            $extensionObject->getPath() . '/console/translations/en/' . $command_key . '.yml'
         );
     }
 }

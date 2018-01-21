@@ -159,16 +159,16 @@ class CommandCommand extends ContainerAwareCommand
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        $this->generator->generate(
-            $extension,
-            $extensionType,
-            $name,
-            $initialize,
-            $interact,
-            $class,
-            $containerAware,
-            $build_services
-        );
+        $this->generator->generate([
+            'extension' => $extension,
+            'extension_type' => $extensionType,
+            'name' => $name,
+            'initialize' => $initialize,
+            'interact' => $interact,
+            'class' => $class,
+            'container_aware' => $containerAware,
+            'services' => $build_services
+        ]);
 
         $this->site->removeCachedServicesFile();
 
