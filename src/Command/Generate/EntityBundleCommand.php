@@ -102,7 +102,11 @@ class EntityBundleCommand extends Command
         $generator = $this->generator;
         //TODO:
         //        $generator->setLearning($learning);
-        $generator->generate($module, $bundleName, $bundleTitle);
+        $generator->generate([
+            'module' => $module,
+            'bundle_name' => $bundleName,
+            'bundle_title' => $bundleTitle,
+        ]);
 
         return 0;
     }

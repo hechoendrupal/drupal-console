@@ -7,10 +7,11 @@
 
 namespace Drupal\Console\Generator;
 
-use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 
-class EntityBundleGenerator extends Generator
+class EntityBundleGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -28,15 +29,13 @@ class EntityBundleGenerator extends Generator
         $this->extensionManager = $extensionManager;
     }
 
-    public function generate($module, $bundleName, $bundleTitle)
+    /**
+     * {@inheritdoc}
+     */
+    public function generate($parameters = [])
     {
-        $parameters = [
-            'module' => $module,
-            'bundle_name' => $bundleName,
-            'bundle_title' => $bundleTitle,
-            //TODO:
-            //'learning' => $this->isLearning(),
-        ];
+        $module = $parameters['module'];
+        $bundleName = $parameters['bundle_name'];
 
         /**
          * Generate core.entity_form_display.node.{ bundle_name }.default.yml
@@ -52,7 +51,7 @@ class EntityBundleGenerator extends Generator
          */
         $this->renderFile(
             'module/src/Entity/Bundle/core.entity_view_display.node.default.yml.twig',
-            $this->extensionManager->getModule($module)->getPath()  . '/config/install/core.entity_view_display.node.' . $bundleName . '.default.yml',
+            $this->extensionManager->getModule($module)->getPath() . '/config/install/core.entity_view_display.node.' . $bundleName . '.default.yml',
             $parameters
         );
 
@@ -61,7 +60,7 @@ class EntityBundleGenerator extends Generator
          */
         $this->renderFile(
             'module/src/Entity/Bundle/core.entity_view_display.node.teaser.yml.twig',
-            $this->extensionManager->getModule($module)->getPath()  . '/config/install/core.entity_view_display.node.' . $bundleName . '.teaser.yml',
+            $this->extensionManager->getModule($module)->getPath() . '/config/install/core.entity_view_display.node.' . $bundleName . '.teaser.yml',
             $parameters
         );
 
@@ -70,7 +69,7 @@ class EntityBundleGenerator extends Generator
          */
         $this->renderFile(
             'module/src/Entity/Bundle/field.field.node.body.yml.twig',
-            $this->extensionManager->getModule($module)->getPath()  . '/config/install/field.field.node.' . $bundleName . '.body.yml',
+            $this->extensionManager->getModule($module)->getPath() . '/config/install/field.field.node.' . $bundleName . '.body.yml',
             $parameters
         );
 
