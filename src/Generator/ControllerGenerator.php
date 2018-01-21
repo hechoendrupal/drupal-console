@@ -28,25 +28,24 @@ class ControllerGenerator extends Generator
         $this->extensionManager = $extensionManager;
     }
 
-    public function generate($module, $class, $routes, $test, $services)
+    /**
+     * {@inheritdoc}
+     */
+    public function generate($parameters = [])
     {
-        $parameters = [
-          'class_name' => $class,
-          'services' => $services,
-          'module' => $module,
-          'routes' => $routes,
-          //'learning' => $this->isLearning(),
-        ];
+        $class = $parameters['class_name'];
+        $test = $parameters['test'];
+        $module = $parameters['module'];
 
         $this->renderFile(
             'module/src/Controller/controller.php.twig',
-            $this->extensionManager->getModule($module)->getControllerPath().'/'.$class.'.php',
+            $this->extensionManager->getModule($module)->getControllerPath() . '/' . $class . '.php',
             $parameters
         );
 
         $this->renderFile(
             'module/routing-controller.yml.twig',
-            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.routing.yml',
+            $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.routing.yml',
             $parameters,
             FILE_APPEND
         );
@@ -54,7 +53,7 @@ class ControllerGenerator extends Generator
         if ($test) {
             $this->renderFile(
                 'module/Tests/Controller/controller.php.twig',
-                $this->extensionManager->getModule($module)->getTestPath('Controller').'/'.$class.'Test.php',
+                $this->extensionManager->getModule($module)->getTestPath('Controller') . '/' . $class . 'Test.php',
                 $parameters
             );
         }

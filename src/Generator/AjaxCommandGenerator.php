@@ -35,7 +35,7 @@ class AjaxCommandGenerator extends Generator implements GeneratorInterface
     }
 
     /**
-     * @param $parameters array
+     * {@inheritdoc}
      */
     public function generate($parameters = [])
     {

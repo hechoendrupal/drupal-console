@@ -34,9 +34,7 @@ class BreakPointGenerator extends Generator implements GeneratorInterface
 
 
     /**
-     * Generator BreakPoint.
-     *
-     * @param $parameters
+     * {@inheritdoc}
      */
     public function generate($parameters = [])
     {

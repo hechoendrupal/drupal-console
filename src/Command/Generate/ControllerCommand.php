@@ -148,13 +148,13 @@ class ControllerCommand extends ContainerAwareCommand
         $build_services = $this->buildServices($services);
 
         //$this->generator->setLearning($learning);
-        $this->generator->generate(
-            $module,
-            $class,
-            $routes,
-            $test,
-            $build_services
-        );
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class,
+            'routes' => $routes,
+            'test' => $test,
+            'services' => $build_services
+        ]);
 
         // Run cache rebuild to see changes in Web UI
         $this->chainQueue->addCommand('router:rebuild', []);

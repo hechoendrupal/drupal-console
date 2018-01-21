@@ -44,9 +44,7 @@ class CommandGenerator extends Generator implements GeneratorInterface
     }
 
     /**
-     * Generate.
-     *
-     * @param array   $parameters
+     * {@inheritdoc}
      */
     public function generate($parameters = []) {
 

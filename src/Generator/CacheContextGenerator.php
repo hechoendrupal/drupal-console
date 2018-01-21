@@ -30,10 +30,8 @@ class CacheContextGenerator extends Generator implements GeneratorInterface
     }
 
     /**
-   * Generator Service.
-   *
-   * @param array  $parameters
-   */
+     * {@inheritdoc}
+     */
     public function generate($parameters = [])
     {
         $module = $parameters['module'];

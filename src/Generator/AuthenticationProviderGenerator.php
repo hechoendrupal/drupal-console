@@ -30,9 +30,7 @@ class AuthenticationProviderGenerator extends Generator implements GeneratorInte
     }
 
     /**
-     * Generator Plugin Block.
-     *
-     * @param $parameters
+     * {@inheritdoc}
      */
     public function generate($parameters = [])
     {
