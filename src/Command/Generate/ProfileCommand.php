@@ -138,6 +138,7 @@ class ProfileCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration()) {
             return 1;
         }

@@ -9,7 +9,6 @@ namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
-use Drupal\Console\Command\Shared\ThemeRegionTrait;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Generator\BreakPointGenerator;
@@ -27,7 +26,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class BreakPointCommand extends Command
 {
     use ConfirmationTrait;
-    use ThemeRegionTrait;
     use ThemeBreakpointTrait;
 
     /**

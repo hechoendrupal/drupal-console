@@ -14,7 +14,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\PermissionTrait;
 use Drupal\Console\Generator\PermissionGenerator;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
@@ -23,7 +22,6 @@ class PermissionCommand extends Command
 {
     use ModuleTrait;
     use PermissionTrait;
-    use ConfirmationTrait;
 
     /**
      * @var Manager
