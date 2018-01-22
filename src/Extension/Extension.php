@@ -110,6 +110,15 @@ class Extension extends BaseExtension
      * @param bool $fullPath
      * @return string
      */
+    public function getGeneratorDirectory($fullPath=false)
+    {
+        return $this->getSourcePath($fullPath) . '/Generator/';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
     public function getEntityPath($fullPath = false)
     {
         return $this->getSourcePath($fullPath) . '/Entity';
