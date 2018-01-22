@@ -27,11 +27,11 @@
         },
         {
             "name":      "Drupal Console Contributors",
-            "homepage":  "https://github.com/hechoendrupal/DrupalConsole/graphs/contributors"
+            "homepage":  "https://github.com/hechoendrupal/drupal-console/graphs/contributors"
         }
     ],
     "support": {
-        "issues": "https://github.com/hechoendrupal/DrupalConsole/issues",
+        "issues": "https://github.com/hechoendrupal/drupal-console/issues",
         "forum": "https://gitter.im/hechoendrupal/DrupalConsole",
         "docs": "https://docs.drupalconsole.com/"
     },
@@ -50,7 +50,8 @@
         "symfony/css-selector": "~2.8|~3.0",
         "symfony/dom-crawler": "~2.8|~3.0",
         "symfony/expression-language": "~2.8|~3.0",
-        "symfony/http-foundation": "~2.8|~3.0"
+        "symfony/http-foundation": "~2.8|~3.0",
+        "symfony/thanks": "^1.0"
     },
     "bin": ["bin/drupal"],
     "config": {
