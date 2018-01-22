@@ -8,6 +8,7 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
 /**
@@ -15,7 +16,7 @@ use Drupal\Console\Extension\Manager;
  *
  * @package Drupal\Console\Generator
  */
-class AjaxCommandGenerator extends Generator
+class AjaxCommandGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -23,7 +24,7 @@ class AjaxCommandGenerator extends Generator
     protected $extensionManager;
 
     /**
-     * AuthenticationProviderGenerator constructor.
+     * AjaxCommandGenerator constructor.
      *
      * @param Manager $extensionManager
      */
@@ -34,9 +35,9 @@ class AjaxCommandGenerator extends Generator
     }
 
     /**
-     * @param $parameters array
+     * {@inheritdoc}
      */
-    public function generate($parameters)
+    public function generate(array $parameters)
     {
         $class = $parameters['class_name'];
         $module = $parameters['module'];
