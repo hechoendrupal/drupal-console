@@ -188,6 +188,7 @@ class ControllerCommand extends ContainerAwareCommand
             while (true) {
                 $title = $this->getIo()->askEmpty(
                     $this->trans('commands.generate.controller.questions.title'),
+                    '',
                     function ($title) use ($routes) {
                         if ($routes && empty(trim($title))) {
                             return false;
