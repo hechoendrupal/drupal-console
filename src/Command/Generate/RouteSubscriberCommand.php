@@ -150,9 +150,4 @@ class RouteSubscriberCommand extends Command
             $input->setOption('class', $class);
         }
     }
-
-    protected function createGenerator()
-    {
-        return new RouteSubscriberGenerator();
-    }
 }
