@@ -142,12 +142,6 @@ class PostUpdateCommand extends Command
         }
     }
 
-
-    protected function createGenerator()
-    {
-        return new PostUpdateGenerator();
-    }
-
     protected function getLastUpdate($module)
     {
         $this->site->loadLegacyFile('/core/includes/update.inc');

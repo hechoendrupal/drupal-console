@@ -289,12 +289,4 @@ class ProfileCommand extends Command
             }
         }
     }
-
-    /**
-     * @return ProfileGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ProfileGenerator();
-    }
 }

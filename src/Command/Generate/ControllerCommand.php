@@ -297,12 +297,4 @@ class ControllerCommand extends ContainerAwareCommand
         $services = $this->servicesQuestion();
         $input->setOption('services', $services);
     }
-
-    /**
-     * @return \Drupal\Console\Generator\ControllerGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ControllerGenerator();
-    }
 }

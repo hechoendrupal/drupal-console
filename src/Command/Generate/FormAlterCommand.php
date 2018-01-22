@@ -284,11 +284,6 @@ class FormAlterCommand extends Command
         return $inputs;
     }
 
-    protected function createGenerator()
-    {
-        return new FormAlterGenerator();
-    }
-
     public function getWebprofilerForms()
     {
         $tokens = $this->profiler->find(null, null, 1000, null, '', '');
