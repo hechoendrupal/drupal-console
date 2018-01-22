@@ -22,16 +22,17 @@ trait ServicesTrait
             $service_collection = [];
             $this->getIo()->writeln($this->trans('commands.common.questions.services.message'));
             $services = $this->container->getServiceIds();
+
             while (true) {
                 $service = $this->getIo()->choiceNoList(
                     $this->trans('commands.common.questions.services.name'),
                     $services,
-                    null,
+                    '',
                     true
                 );
 
                 $service = trim($service);
-                if (empty($service)) {
+                if (empty($service) || is_numeric($service)) {
                     break;
                 }
 
