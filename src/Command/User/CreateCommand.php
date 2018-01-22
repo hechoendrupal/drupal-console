@@ -205,8 +205,7 @@ class CreateCommand extends Command
         $email = $input->getOption('email');
         if (!$email) {
             $email = $this->getIo()->askEmpty(
-                $this->trans('commands.user.create.questions.email'),
-                ''
+                $this->trans('commands.user.create.questions.email')
             );
 
             $input->setOption('email', $email);
