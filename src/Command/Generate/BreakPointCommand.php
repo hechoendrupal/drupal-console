@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ThemeBreakpointTrait;
 use Drupal\Console\Core\Command\Command;
@@ -27,6 +28,7 @@ class BreakPointCommand extends Command
 {
     use ConfirmationTrait;
     use ThemeBreakpointTrait;
+    use ArrayInputTrait;
 
     /**
      * @var BreakPointGenerator
@@ -100,7 +102,7 @@ class BreakPointCommand extends Command
             ->addOption(
                 'breakpoints',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.generate.breakpoint.options.breakpoints')
             )->setAliases(['gb']);
     }
@@ -120,6 +122,11 @@ class BreakPointCommand extends Command
         $machine_name = $validators->validateMachineName($input->getOption('theme'));
         $theme = $input->getOption('theme');
         $breakpoints = $input->getOption('breakpoints');
+        $noInteraction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($noInteraction) {
+            $breakpoints = $this->explodeInlineArray($breakpoints);
+        }
 
         $this->generator->generate(
             $theme,
@@ -157,6 +164,9 @@ class BreakPointCommand extends Command
         if (!$breakpoints) {
             $breakpoints = $this->breakpointQuestion();
             $input->setOption('breakpoints', $breakpoints);
+        } else {
+            $breakpoints = $this->explodeInlineArray($breakpoints);
         }
+        $input->setOption('breakpoints', $breakpoints);
     }
 }
