@@ -28,11 +28,11 @@ trait EventsTrait
             $event = $this->getIo()->choiceNoList(
                 $this->trans('commands.common.questions.events.name'),
                 $events,
-                null,
+                '',
                 true
             );
 
-            if (empty($event)) {
+            if (empty($event) || is_numeric($event)) {
                 break;
             }
 

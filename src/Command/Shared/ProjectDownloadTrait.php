@@ -33,11 +33,11 @@ trait ProjectDownloadTrait
             $moduleName = $this->getIo()->choiceNoList(
                 $this->trans('commands.module.install.questions.module'),
                 $modules,
-                null,
+                '',
                 true
             );
 
-            if (empty($moduleName)) {
+            if (empty($moduleName) && is_numeric($moduleName)) {
                 break;
             }
 
@@ -65,11 +65,11 @@ trait ProjectDownloadTrait
             $moduleName = $this->getIo()->choiceNoList(
                 $this->trans('commands.module.uninstall.questions.module'),
                 $modules,
-                null,
+                '',
                 true
             );
 
-            if (empty($moduleName)) {
+            if (empty($moduleName) || is_numeric($modules)) {
                 break;
             }
 
