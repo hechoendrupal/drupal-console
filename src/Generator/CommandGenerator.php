@@ -7,16 +7,17 @@
 
 namespace Drupal\Console\Generator;
 
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\TranslatorManagerInterface;
 use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
+use Drupal\Console\Core\Utils\TranslatorManagerInterface;
+use Drupal\Console\Extension\Manager;
 
 /**
  * Class CommandGenerator
  *
  * @package Drupal\Console\Generator
  */
-class CommandGenerator extends Generator
+class CommandGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -43,55 +44,34 @@ class CommandGenerator extends Generator
     }
 
     /**
-     * Generate.
-     *
-     * @param string  $extension       Extension name
-     * @param string  $extensionType   Extension type
-     * @param string  $name            Command name
-     * @param string  $initialize      Initialize method
-     * @param string  $interact        Interact method
-     * @param string  $class           Class name
-     * @param boolean $containerAware  Container Aware command
-     * @param array   $services        Services array
-     * @param boolean $generator       Generate generator
-     * @param string  $class_generator Generator Class name
+     * {@inheritdoc}
      */
-    public function generate(
-        $extension,
-        $extensionType,
-        $name,
-        $initialize,
-        $interact,
-        $class,
-        $containerAware,
-        $services,
-        $generator,
-        $class_generator
-    ) {
+    public function generate(array $parameters) {
+
+        $extension = $parameters['extension'];
+        $extensionType = $parameters['extension_type'];
+        $name = $parameters['name'];
+        $class = $parameters['class_name'];
+        $class_generator = $parameters['class_generator'];
+        $generator = $parameters['generator'];
+
         $command_key = str_replace(':', '.', $name);
 
         $extensionObject = $this->extensionManager
             ->getDrupalExtension($extensionType, $extension);
+        $extensionObjectPath = $extensionObject->getPath();
 
-        $parameters = [
-            'extension' => $extension,
-            'extensionType' => $extensionType,
-            'name' => $name,
-            'interact' => $interact,
-            'initialize' => $initialize,
-            'class_name' => $class,
-            'container_aware' => $containerAware,
+        $parameters = array_merge(
+            $parameters,[
             'command_key' => $command_key,
-            'services' => $services,
             'tags' => [ 'name' => 'drupal.command' ],
             'class_path' => sprintf('Drupal\%s\Command\%s', $extension, $class),
-            'file_exists' => file_exists($extensionObject->getPath().'/console.services.yml'),
-            'class_generator' => $class_generator,
+            'file_exists' => file_exists($extensionObjectPath . '/console.services.yml'),
             'class_generator_path' => sprintf('Drupal\%s\Command\%s', $extension, $class_generator),
-        ];
+        ]);
 
-        $commandServiceName = $extension.'.'.str_replace(':', '_', $name);
-        $generatorServiceName = $commandServiceName.'_generator';
+        $commandServiceName = $extension . '.' . str_replace(':', '_', $name);
+        $generatorServiceName = $commandServiceName . '_generator';
 
         if ($generator) {
             $machineName = str_replace('.', '_', $generatorServiceName);
@@ -106,7 +86,7 @@ class CommandGenerator extends Generator
 
         $this->renderFile(
             'module/src/Command/command.php.twig',
-            $extensionObject->getCommandDirectory().$class.'.php',
+            $extensionObject->getCommandDirectory() . $class . '.php',
             $parameters
         );
 
@@ -114,14 +94,14 @@ class CommandGenerator extends Generator
 
         $this->renderFile(
             'module/services.yml.twig',
-            $extensionObject->getPath() .'/console.services.yml',
+            $extensionObjectPath . '/console.services.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/src/Command/console/translations/en/command.yml.twig',
-            $extensionObject->getPath().'/console/translations/en/'.$command_key.'.yml'
+            $extensionObjectPath . '/console/translations/en/' . $command_key . '.yml'
         );
 
         if ($generator) {
@@ -139,7 +119,7 @@ class CommandGenerator extends Generator
                     'services' => [],
                     'tags' => [ 'name' => 'drupal.generator' ],
                     'class_path' => sprintf('Drupal\%s\Generator\%s', $extension, $class_generator),
-                    'file_exists' => file_exists($extensionObject->getPath().'/console.services.yml'),
+                    'file_exists' => file_exists($extensionObjectPath . '/console.services.yml'),
                     'class_generator' => $class_generator,
                     'class_generator_path' => sprintf('Drupal\%s\Generator\%s', $extension, $class_generator),
                 ]
@@ -147,7 +127,7 @@ class CommandGenerator extends Generator
 
             $this->renderFile(
                 'module/services.yml.twig',
-                $extensionObject->getPath() .'/console.services.yml',
+                $extensionObjectPath .'/console.services.yml',
                 $parameters,
                 FILE_APPEND
             );

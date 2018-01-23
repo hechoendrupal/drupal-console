@@ -42,21 +42,23 @@ class AjaxCommandGenerator extends Generator implements GeneratorInterface
         $class = $parameters['class_name'];
         $module = $parameters['module'];
 
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $moduleDir = $moduleInstance->getPath();
         $this->renderFile(
             'module/src/Ajax/ajax-command.php.twig',
-            $this->extensionManager->getModule($module)->getAjaxPath().'/'.$class.'.php',
+            $moduleInstance->getAjaxPath() . '/' . $class . '.php',
             $parameters
         );
 
         $this->renderFile(
             'module/js/commands.php.twig',
-            $this->extensionManager->getModule($module)->getPath().'/js'.'/'.'custom.js',
+            $moduleDir . '/js/custom.js',
             $parameters
         );
 
         $this->renderFile(
             'module/module-libraries.yml.twig',
-            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.libraries.yml',
+            $moduleDir . '/' . $module . '.libraries.yml',
             $parameters
         );
     }

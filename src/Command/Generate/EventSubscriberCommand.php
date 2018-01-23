@@ -147,7 +147,13 @@ class EventSubscriberCommand extends ContainerAwareCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $buildServices = $this->buildServices($services);
 
-        $this->generator->generate($module, $name, $class, $events, $buildServices);
+        $this->generator->generate([
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+            'events' => $events,
+            'services' => $buildServices,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }

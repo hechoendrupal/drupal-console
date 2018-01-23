@@ -171,18 +171,18 @@ class CommandCommand extends ContainerAwareCommand
             $class_generator = str_replace('Command', 'Generator', $class);
         }
 
-        $this->generator->generate(
-            $extension,
-            $extensionType,
-            $name,
-            $initialize,
-            $interact,
-            $class,
-            $containerAware,
-            $build_services,
-            $generator,
-            $class_generator
-        );
+        $this->generator->generate([
+            'extension' => $extension,
+            'extension_type' => $extensionType,
+            'name' => $name,
+            'initialize' => $initialize,
+            'interact' => $interact,
+            'class_name' => $class,
+            'container_aware' => $containerAware,
+            'services' => $build_services,
+            'class_generator' => $class_generator,
+            'generator' => $generator,
+        ]);
 
         $this->site->removeCachedServicesFile();
 

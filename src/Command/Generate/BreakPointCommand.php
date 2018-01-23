@@ -128,11 +128,11 @@ class BreakPointCommand extends Command
             $breakpoints = $this->explodeInlineArray($breakpoints);
         }
 
-        $this->generator->generate(
-            $theme,
-            $breakpoints,
-            $machine_name
-        );
+        $this->generator->generate([
+            'theme' => $theme,
+            'breakpoints' => $breakpoints,
+            'machine_name' => $machine_name,
+        ]);
 
         return 0;
     }

@@ -118,8 +118,8 @@ class AjaxCommand extends Command
         $this->generator->generate(
             [
                 'module' => $module,
-                'class' => $class,
-                '$method' => $method
+                'class_name' => $class,
+                'method' => $method,
             ]
         );
 

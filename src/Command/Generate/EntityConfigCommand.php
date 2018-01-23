@@ -58,7 +58,9 @@ class EntityConfigCommand extends EntityCommand
         parent::__construct();
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this->setEntityType('EntityConfig');
@@ -93,8 +95,13 @@ class EntityConfigCommand extends EntityCommand
         $bundle_of = $input->getOption('bundle-of');
         $base_path = $input->getOption('base-path');
 
-        $this
-            ->generator
-            ->generate($module, $entity_name, $entity_class, $label, $base_path, $bundle_of);
+        $this->generator->generate([
+            'module' => $module,
+            'entity_name' => $entity_name,
+            'entity_class' => $entity_class,
+            'label' => $label,
+            'base_path' => $base_path,
+            'bundle_of' => $bundle_of,
+        ]);
     }
 }
