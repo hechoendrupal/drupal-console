@@ -215,9 +215,21 @@ abstract class FormCommand extends ContainerAwareCommand
         $inputs = $input->getOption('inputs');
         $build_services = $this->buildServices($services);
 
-        $this
-            ->generator
-            ->generate($module, $class_name, $form_id, $form_type, $build_services, $config_file, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc);
+        $this->generator->generate([
+          'class_name' => $class_name,
+          'services' => $build_services,
+          'config_file' => $config_file,
+          'inputs' => $inputs,
+          'module_name' => $module,
+          'form_id' => $form_id,
+          'form_type' => $form_type,
+          'path' => $path,
+          'route_name' => $class_name,
+          'menu_link_title' => $menu_link_title,
+          'menu_parent' => $menu_parent,
+          'menu_link_desc' => $menu_link_desc,
+          'menu_link_gen' => $menu_link_gen,
+        ]);
 
         $this->chainQueue->addCommand('router:rebuild', []);
     }
