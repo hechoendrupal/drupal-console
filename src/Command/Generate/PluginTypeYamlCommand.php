@@ -14,8 +14,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\FormTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
@@ -29,8 +27,6 @@ class PluginTypeYamlCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
-    use FormTrait;
-    use ConfirmationTrait;
 
     /**
      * @var Manager

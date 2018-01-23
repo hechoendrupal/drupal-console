@@ -134,6 +134,12 @@ class CommandCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             )
+            ->addOption(
+                'generator',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.command.options.generator')
+            )
             ->setAliases(['gco']);
     }
 
@@ -150,6 +156,7 @@ class CommandCommand extends ContainerAwareCommand
         $interact = $input->getOption('interact');
         $containerAware = $input->getOption('container-aware');
         $services = $input->getOption('services');
+        $generator = $input->getOption('generator');
 
         // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration()) {
@@ -159,15 +166,22 @@ class CommandCommand extends ContainerAwareCommand
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
+        $class_generator = null;
+        if ($generator) {
+            $class_generator = str_replace('Command', 'Generator', $class);
+        }
+
         $this->generator->generate([
             'extension' => $extension,
             'extension_type' => $extensionType,
             'name' => $name,
             'initialize' => $initialize,
             'interact' => $interact,
-            'class' => $class,
+            'class_name' => $class,
             'container_aware' => $containerAware,
-            'services' => $build_services
+            'services' => $build_services,
+            'class_generator' => $class_generator,
+            'generator' => $generator,
         ]);
 
         $this->site->removeCachedServicesFile();
@@ -245,6 +259,15 @@ class CommandCommand extends ContainerAwareCommand
             // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
             $services = $this->servicesQuestion();
             $input->setOption('services', $services);
+        }
+
+        $generator = $input->getOption('generator');
+        if (!$generator) {
+            $generator = $this->getIo()->confirm(
+                $this->trans('commands.generate.command.questions.generator'),
+                false
+            );
+            $input->setOption('generator', $generator);
         }
     }
 }

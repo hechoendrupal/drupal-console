@@ -32,7 +32,7 @@ class ControllerGenerator extends Generator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($parameters = [])
+    public function generate(array $parameters)
     {
         $class = $parameters['class_name'];
         $test = $parameters['test'];

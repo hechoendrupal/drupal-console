@@ -170,12 +170,6 @@ class UpdateCommand extends Command
         }
     }
 
-
-    protected function createGenerator()
-    {
-        return new UpdateGenerator();
-    }
-
     protected function getLastUpdate($module)
     {
         $this->site->loadLegacyFile('/core/includes/update.inc');

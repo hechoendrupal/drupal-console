@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\FormAlterGenerator;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\MenuTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
@@ -31,7 +30,6 @@ class FormAlterCommand extends Command
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;
-    use MenuTrait;
     use ConfirmationTrait;
 
     /**
@@ -284,11 +282,6 @@ class FormAlterCommand extends Command
         }
 
         return $inputs;
-    }
-
-    protected function createGenerator()
-    {
-        return new FormAlterGenerator();
     }
 
     public function getWebprofilerForms()

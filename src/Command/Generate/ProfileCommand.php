@@ -138,6 +138,7 @@ class ProfileCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration()) {
             return 1;
         }
@@ -287,13 +288,5 @@ class ProfileCommand extends Command
                 $input->setOption('distribution', $distribution);
             }
         }
-    }
-
-    /**
-     * @return ProfileGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ProfileGenerator();
     }
 }

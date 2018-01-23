@@ -393,12 +393,4 @@ class ModuleCommand extends Command
             $input->setOption('twigtemplate', $twigtemplate);
         }
     }
-
-    /**
-     * @return ModuleGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ModuleGenerator();
-    }
 }

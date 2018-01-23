@@ -14,11 +14,9 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
 
 class DeleteCommand extends Command
 {
-    use ConfirmationTrait;
 
     /**
      * @var Connection

@@ -24,7 +24,7 @@ class AjaxCommandGenerator extends Generator implements GeneratorInterface
     protected $extensionManager;
 
     /**
-     * AuthenticationProviderGenerator constructor.
+     * AjaxCommandGenerator constructor.
      *
      * @param Manager $extensionManager
      */
@@ -37,7 +37,7 @@ class AjaxCommandGenerator extends Generator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($parameters = [])
+    public function generate(array $parameters)
     {
         $class = $parameters['class_name'];
         $module = $parameters['module'];

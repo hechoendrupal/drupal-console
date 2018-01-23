@@ -20,22 +20,17 @@ class ModuleGenerator extends Generator implements GeneratorInterface
     /**
      * @param $parameters
      */
-    public function generate($parameters = []) {
+    public function generate(array $parameters) {
 
-        $module = $parameters['module'];
         $machineName = $parameters['machine_name'];
         $dir = $parameters['dir'];
-        $description = $parameters['description'];
-        $core = $parameters['core'];
-        $package = $parameters['package'];
         $moduleFile = $parameters['module_file'];
         $featuresBundle = $parameters['features_bundle'];
         $composer = $parameters['composer'];
-        $dependencies = $parameters['dependencies'];
         $test = $parameters['test'];
         $twigtemplate = $parameters['twigtemplate'];
 
-        $dir = ($dir == "/" ? '': $dir) . '/' . $machineName;
+        $dir = ($dir == '/' ? '': $dir) . '/' . $machineName;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
@@ -65,15 +60,7 @@ class ModuleGenerator extends Generator implements GeneratorInterface
         }
 
         $parameters = [
-            'module' => $module,
-            'machine_name' => $machineName,
             'type' => 'module',
-            'core' => $core,
-            'description' => $description,
-            'package' => $package,
-            'dependencies' => $dependencies,
-            'test' => $test,
-            'twigtemplate' => $twigtemplate,
         ];
 
         $this->renderFile(
@@ -154,7 +141,7 @@ class ModuleGenerator extends Generator implements GeneratorInterface
             }
             $this->renderFile(
                 'module/twig-template-file.twig',
-                $dir . str_replace("_", "-", $machineName) . '.html.twig',
+                $dir . str_replace('_', '-', $machineName) . '.html.twig',
                 $parameters
             );
         }

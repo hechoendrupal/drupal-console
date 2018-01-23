@@ -32,7 +32,7 @@ class AuthenticationProviderGenerator extends Generator implements GeneratorInte
     /**
      * {@inheritdoc}
      */
-    public function generate($parameters = [])
+    public function generate(array $parameters)
     {
         $module = $parameters['module'];
         $class = $parameters['class'];

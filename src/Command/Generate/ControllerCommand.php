@@ -188,6 +188,7 @@ class ControllerCommand extends ContainerAwareCommand
             while (true) {
                 $title = $this->getIo()->askEmpty(
                     $this->trans('commands.generate.controller.questions.title'),
+                    '',
                     function ($title) use ($routes) {
                         if ($routes && empty(trim($title))) {
                             return false;
@@ -295,13 +296,5 @@ class ControllerCommand extends ContainerAwareCommand
         // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $this->servicesQuestion();
         $input->setOption('services', $services);
-    }
-
-    /**
-     * @return \Drupal\Console\Generator\ControllerGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ControllerGenerator();
     }
 }

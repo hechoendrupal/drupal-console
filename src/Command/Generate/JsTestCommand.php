@@ -123,12 +123,4 @@ class JsTestCommand extends Command
             $input->setOption('class', $class);
         }
     }
-
-    /**
-     * @return \Drupal\Console\Generator\JsTestGenerator
-     */
-    protected function createGenerator()
-    {
-        return new JsTestGenerator();
-    }
 }

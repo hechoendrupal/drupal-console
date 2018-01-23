@@ -36,7 +36,7 @@ class BreakPointGenerator extends Generator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($parameters = [])
+    public function generate(array $parameters)
     {
         $theme_path = $this->extensionManager->getTheme($parameters['theme'])->getPath();
 

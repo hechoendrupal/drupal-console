@@ -32,7 +32,7 @@ class EntityBundleGenerator extends Generator implements GeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($parameters = [])
+    public function generate(array $parameters)
     {
         $module = $parameters['module'];
         $bundleName = $parameters['bundle_name'];
