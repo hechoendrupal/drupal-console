@@ -125,11 +125,11 @@ class DeleteCommand extends Command
                 $role = $this->getIo()->choiceNoList(
                     $this->trans('commands.common.questions.roles.name'),
                     $roles,
-                    null,
+                    '',
                     true
                 );
                 $role = trim($role);
-                if (empty($role)) {
+                if (empty($role) || is_numeric($role)) {
                     break;
                 }
 

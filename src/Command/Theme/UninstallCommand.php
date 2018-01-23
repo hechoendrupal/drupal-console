@@ -93,11 +93,11 @@ class UninstallCommand extends Command
                 $theme_name = $this->getIo()->choiceNoList(
                     $this->trans('commands.theme.uninstall.questions.theme'),
                     array_keys($theme_list),
-                    null,
+                    '',
                     true
                 );
 
-                if (empty($theme_name)) {
+                if (empty($theme_name) || is_numeric($theme_name)) {
                     break;
                 }
 
