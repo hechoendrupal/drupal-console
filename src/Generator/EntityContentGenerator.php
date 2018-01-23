@@ -70,7 +70,7 @@ class EntityContentGenerator extends Generator implements GeneratorInterface
         $moduleDir = $moduleInstance->getPath();
         $modulePath = $moduleDir . '/' . $module;
         $moduleSourcePath = $moduleInstance->getSourcePath() . '/' . $entity_class;
-        $moduleFormPath = $moduleInstance->getFormPath()  . '/' . $entity_class;
+        $moduleFormPath = $moduleInstance->getFormPath() . '/' . $entity_class;
         $moduleEntityPath = $moduleInstance->getEntityPath() . '/' . $entity_class;
         $moduleTemplatePath = $moduleInstance->getTemplatePath() . '/';
         $moduleFileName = $modulePath . '.module';

@@ -39,59 +39,66 @@ class EntityConfigGenerator extends Generator implements GeneratorInterface
         $entity_name = $parameters['entity_name'];
         $entity_class = $parameters['entity_class'];
 
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $moduleDir = $moduleInstance->getPath();
+        $modulePath = $moduleDir . '/' . $module;
+        $moduleSourcePath = $moduleInstance->getSourcePath() . '/' . $entity_class;
+        $moduleFormPath = $moduleInstance->getFormPath() . '/' . $entity_class;
+        $moduleEntityPath = $moduleInstance->getEntityPath() . '/' . $entity_class;
+
         $this->renderFile(
             'module/config/schema/entity.schema.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() . '/config/schema/'.$entity_name.'.schema.yml',
+            $moduleDir . '/config/schema/' . $entity_name . '.schema.yml',
             $parameters
         );
 
         $this->renderFile(
             'module/links.menu-entity-config.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() . '/' . $module.'.links.menu.yml',
+            $modulePath . '.links.menu.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/links.action-entity.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.links.action.yml',
+            $modulePath . '.links.action.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/src/Entity/interface-entity.php.twig',
-            $this->extensionManager->getModule($module)->getEntityPath() . '/' . $entity_class . 'Interface.php',
+            $moduleEntityPath . 'Interface.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/entity.php.twig',
-            $this->extensionManager->getModule($module)->getEntityPath() . '/' . $entity_class . '.php',
+            $moduleEntityPath . '.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/entity-route-provider.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath() . '/' . $entity_class.'HtmlRouteProvider.php',
+            $moduleSourcePath . 'HtmlRouteProvider.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Form/entity.php.twig',
-            $this->extensionManager->getModule($module)->getFormPath() . '/' . $entity_class . 'Form.php',
+            $moduleFormPath . 'Form.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Form/entity-delete.php.twig',
-            $this->extensionManager->getModule($module)->getFormPath() . '/' . $entity_class . 'DeleteForm.php',
+            $moduleFormPath . 'DeleteForm.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/entity-listbuilder.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath() . '/' . $entity_class . 'ListBuilder.php',
+            $moduleSourcePath . 'ListBuilder.php',
             $parameters
         );
     }

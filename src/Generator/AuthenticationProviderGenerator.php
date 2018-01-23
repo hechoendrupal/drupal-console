@@ -37,19 +37,16 @@ class AuthenticationProviderGenerator extends Generator implements GeneratorInte
         $module = $parameters['module'];
         $class = $parameters['class'];
         $provider_id = $parameters['provider_id'];
-
-        $template_parameters = [
-          'module' => $module,
-          'class' => $class,
-        ];
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $modulePath = $moduleInstance->getPath() . '/' . $module;
 
         $this->renderFile(
             'module/src/Authentication/Provider/authentication-provider.php.twig',
-            $this->extensionManager->getModule($module)->getAuthenticationPath('Provider') . '/' . $class . '.php',
-            $template_parameters
+            $moduleInstance->getAuthenticationPath('Provider') . '/' . $class . '.php',
+            $parameters
         );
 
-        $template_parameters = [
+        $parameters = array_merge($parameters, [
           'module' => $module,
           'class' => $class,
           'class_path' => sprintf('Drupal\%s\Authentication\Provider\%s', $module, $class),
@@ -58,18 +55,18 @@ class AuthenticationProviderGenerator extends Generator implements GeneratorInte
             ['name' => 'config.factory'],
             ['name' => 'entity_type.manager'],
           ],
-          'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() . '/' . $module . '.services.yml'),
+          'file_exists' => file_exists($modulePath . '.services.yml'),
           'tags' => [
             'name' => 'authentication_provider',
             'provider_id' => $provider_id,
             'priority' => '100',
           ],
-        ];
+        ]);
 
         $this->renderFile(
             'module/services.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.services.yml',
-             $template_parameters,
+            $modulePath . '.services.yml',
+             $parameters,
             FILE_APPEND
         );
     }
