@@ -11,17 +11,15 @@ use Drupal\Console\Core\Generator\Generator;
 
 class ProfileGenerator extends Generator
 {
-    public function generate(
-        $profile,
-        $machine_name,
-        $dir,
-        $description,
-        $core,
-        $dependencies,
-        $themes,
-        $distribution
-    ) {
-        $dir = ($dir == "/" ? '': $dir).'/'.$machine_name;
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
+    {
+        $dir = $parameters['dir'];
+        $machine_name = $parameters['machine_name'];
+
+        $dir = ($dir == '/' ? '' : $dir) . '/' . $machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
@@ -50,32 +48,24 @@ class ProfileGenerator extends Generator
             }
         }
 
-        $parameters = [
-            'profile' => $profile,
-            'machine_name' => $machine_name,
-            'type' => 'profile',
-            'core' => $core,
-            'description' => $description,
-            'dependencies' => $dependencies,
-            'themes' => $themes,
-            'distribution' => $distribution,
-        ];
+        $profilePath = $dir . '/' . $machine_name;
+
 
         $this->renderFile(
             'profile/info.yml.twig',
-            $dir . '/' . $machine_name . '.info.yml',
+            $profilePath . '.info.yml',
             $parameters
         );
 
         $this->renderFile(
             'profile/profile.twig',
-            $dir . '/' . $machine_name . '.profile',
+            $profilePath . '.profile',
             $parameters
         );
 
         $this->renderFile(
             'profile/install.twig',
-            $dir . '/' . $machine_name . '.install',
+            $profilePath . '.install',
             $parameters
         );
     }
