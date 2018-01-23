@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,27 +26,28 @@ use Drupal\Core\Routing\RouteProviderInterface;
 
 abstract class FormCommand extends ContainerAwareCommand
 {
-    use ModuleTrait;
-    use ServicesTrait;
+    use ArrayInputTrait;
     use FormTrait;
     use MenuTrait;
+    use ModuleTrait;
+    use ServicesTrait;
 
     private $formType;
     private $commandName;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var FormGenerator
-*/
+     * @var FormGenerator
+     */
     protected $generator;
 
     /**
- * @var ChainQueue
-*/
+     * @var ChainQueue
+     */
     protected $chainQueue;
 
     /**
@@ -159,7 +161,7 @@ abstract class FormCommand extends ContainerAwareCommand
             ->addOption(
                 'inputs',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.inputs')
             )
             ->addOption(
@@ -210,9 +212,14 @@ abstract class FormCommand extends ContainerAwareCommand
         $menu_parent = $input->getOption('menu-parent');
         $menu_link_title = $input->getOption('menu-link-title');
         $menu_link_desc = $input->getOption('menu-link-desc');
+        $inputs = $input->getOption('inputs');
+        $noInteraction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($noInteraction) {
+            $inputs = $this->explodeInlineArray($inputs);
+        }
 
         // if exist form generate config file
-        $inputs = $input->getOption('inputs');
         $build_services = $this->buildServices($services);
 
         $this
@@ -275,7 +282,10 @@ abstract class FormCommand extends ContainerAwareCommand
             // @see \Drupal\Console\Command\Shared\FormTrait::formQuestion
             $inputs = $this->formQuestion();
             $input->setOption('inputs', $inputs);
+        } else {
+            $inputs= $this->explodeInlineArray($inputs);
         }
+        $input->setOption('inputs', $inputs);
 
         $path = $input->getOption('path');
         if (!$path) {
