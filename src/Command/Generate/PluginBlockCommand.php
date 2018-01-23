@@ -190,28 +190,26 @@ class PluginBlockCommand extends ContainerAwareCommand
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        $this->generator
-            ->generate(
-                $module,
-                $class_name,
-                $label,
-                $plugin_id,
-                $build_services,
-                $inputs
-            );
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'label' => $label,
+          'plugin_id' => $plugin_id,
+          'services' => $build_services,
+          'inputs' => $inputs,
+        ]);
+
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
         if ($theme_region) {
             $block = $this->entityTypeManager
                 ->getStorage('block')
-                ->create(
-                    [
-                        'id'=> $plugin_id,
-                        'plugin' => $plugin_id,
-                        'theme' => $theme
-                    ]
-                );
+                ->create([
+                    'id'=> $plugin_id,
+                    'plugin' => $plugin_id,
+                    'theme' => $theme,
+                ]);
             $block->setRegion($theme_region);
             $block->save();
         }
