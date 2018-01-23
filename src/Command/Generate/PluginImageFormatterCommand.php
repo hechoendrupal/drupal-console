@@ -25,13 +25,13 @@ class PluginImageFormatterCommand extends Command
     use ConfirmationTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var PluginImageFormatterGenerator
-*/
+     * @var PluginImageFormatterGenerator
+     */
     protected $generator;
 
     /**
@@ -40,8 +40,8 @@ class PluginImageFormatterCommand extends Command
     protected $stringConverter;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
@@ -122,7 +122,12 @@ class PluginImageFormatterCommand extends Command
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
 
-        $this->generator->generate($module, $class_name, $label, $plugin_id);
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'label' => $label,
+          'plugin_id' => $plugin_id,
+        ]);
         
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }

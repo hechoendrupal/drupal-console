@@ -8,9 +8,10 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
-class PluginImageFormatterGenerator extends Generator
+class PluginImageFormatterGenerator extends Generator implements GeneratorInterface
 {
 
     /**
@@ -31,21 +32,12 @@ class PluginImageFormatterGenerator extends Generator
 
 
     /**
-     * Generator Plugin Image Formatter.
-     *
-     * @param string $module     Module name
-     * @param string $class_name Plugin Class name
-     * @param string $label      Plugin label
-     * @param string $plugin_id  Plugin id
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $label, $plugin_id)
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'class_name' => $class_name,
-            'label' => $label,
-            'plugin_id' => $plugin_id,
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
 
         $this->renderFile(
             'module/src/Plugin/Field/FieldFormatter/imageformatter.php.twig',
