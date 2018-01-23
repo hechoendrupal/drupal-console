@@ -26,28 +26,23 @@ class ModuleFileGenerator extends Generator implements GeneratorInterface
         $machine_name = $parameters['machine_name'];
         $file_path = $parameters['file_path'];
 
-        $dir = $file_path . '/' . $machine_name . '.module';
+        $moduleFilePath = $file_path . '/' . $machine_name . '.module';
       
-        if (file_exists($dir)) {
-            if (!is_dir($dir)) {
+        if (file_exists($moduleFilePath)) {
+            if (!is_dir($moduleFilePath)) {
                 throw new \RuntimeException(
                     sprintf(
                         'Unable to generate the .module file , it already exist at "%s"',
-                        realpath($dir)
+                        realpath($moduleFilePath)
                     )
                 );
             }
         }
 
-        $parameters = [
-          'machine_name' => $machine_name,
-          'file_path' => $file_path ,
-        ];
-
         if ($machine_name) {
             $this->renderFile(
                 'module/module-file.twig',
-                $file_path . '/' . $machine_name . '.module',
+              $moduleFilePath,
                 $parameters
             );
         }

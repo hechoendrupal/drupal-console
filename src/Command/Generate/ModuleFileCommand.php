@@ -89,12 +89,11 @@ class ModuleFileCommand extends Command
 
         $machine_name =  $input->getOption('module');
         $file_path =  $this->extensionManager->getModule($machine_name)->getPath();
-        $generator = $this->generator;
 
-        $generator->generate(
-            $machine_name,
-            $file_path
-        );
+        $this->generator->generate([
+            'machine_name' => $machine_name,
+            'file_path' => $file_path,
+        ]);
     }
 
 
