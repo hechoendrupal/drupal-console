@@ -134,7 +134,13 @@ class PluginImageEffectCommand extends Command
         $plugin_id = $input->getOption('plugin-id');
         $description = $input->getOption('description');
 
-        $this->generator->generate($module, $class_name, $label, $plugin_id, $description);
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'label' => $label,
+          'plugin_id' => $plugin_id,
+          'description' => $description,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }

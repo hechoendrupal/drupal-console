@@ -30,9 +30,9 @@ class PluginFieldWidgetGenerator extends Generator implements GeneratorInterface
         $this->extensionManager = $extensionManager;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function generate(array $parameters)
     {
         $module = $parameters['module'];
