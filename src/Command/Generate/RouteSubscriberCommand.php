@@ -112,7 +112,11 @@ class RouteSubscriberCommand extends Command
         $name = $input->getOption('name');
         $class = $this->validator->validateClassName($input->getOption('class'));
 
-        $this->generator->generate($module, $name, $class);
+        $this->generator->generate([
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 
