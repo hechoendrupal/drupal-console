@@ -8,6 +8,7 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
 /**
@@ -15,7 +16,7 @@ use Drupal\Console\Extension\Manager;
  *
  * @package Drupal\Console\Generator
  */
-class JsTestGenerator extends Generator
+class JsTestGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -33,15 +34,12 @@ class JsTestGenerator extends Generator
     }
 
     /**
-     * @param $module
-     * @param $class
+     * {@inheritdoc}
      */
-    public function generate($module, $class)
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module' => $module,
-          'class' => $class,
-        ];
+        $class = $parameters['class'];
+        $module = $parameters['module'];
 
         $this->renderFile(
             'module/src/Tests/js-test.php.twig',
