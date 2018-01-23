@@ -58,7 +58,9 @@ class EntityConfigCommand extends EntityCommand
         parent::__construct();
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this->setEntityType('EntityConfig');

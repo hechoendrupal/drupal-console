@@ -143,7 +143,7 @@ class EntityContentCommand extends EntityCommand
         $has_bundles = $input->getOption('has-bundles');
         $base_path = $input->getOption('base-path');
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
-        $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
+        $bundle_entity_type = $has_bundles ? $entity_name . '_type' : null;
         $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
         $revisionable = $input->hasOption('revisionable') ? $input->getOption('revisionable') : false;
 
@@ -153,7 +153,16 @@ class EntityContentCommand extends EntityCommand
         //@TODO:
         //$generator->setLearning($learning);
 
-        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name, $revisionable);
+        $generator->generate([
+            'module' => $module,
+            'entity_name' => $entity_name,
+            'entity_class' => $entity_class,
+            'label' => $label,
+            'bundle_entity_type' => $bundle_entity_type,
+            'base_path' => $base_path,
+            'is_translatable' => $is_translatable,
+            'revisionable' => $revisionable,
+        ]);
 
         if ($has_bundles) {
             $this->chainQueue->addCommand(
