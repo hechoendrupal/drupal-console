@@ -60,9 +60,9 @@ class ModuleGenerator extends Generator implements GeneratorInterface
             }
         }
 
-        $parameters = [
+        $parameters = array_merge($parameters, [
             'type' => 'module',
-        ];
+        ]);
 
         $this->renderFile(
             'module/info.yml.twig',
@@ -88,7 +88,7 @@ class ModuleGenerator extends Generator implements GeneratorInterface
         if ($composer) {
             $this->renderFile(
                 'module/composer.json.twig',
-                $dir . '/' . 'composer.json',
+                $dir . '/composer.json',
                 $parameters
             );
         }
@@ -96,7 +96,7 @@ class ModuleGenerator extends Generator implements GeneratorInterface
         if ($test) {
             $this->renderFile(
                 'module/src/Tests/load-test.php.twig',
-                $dir . '/tests/src/Functional/' . 'LoadTest.php',
+                $dir . '/tests/src/Functional/LoadTest.php',
                 $parameters
             );
         }
