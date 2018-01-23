@@ -149,7 +149,14 @@ class PluginRestResourceCommand extends Command
             $prepared_plugin[$plugin_state] = $http_methods[$plugin_state];
         }
 
-        $this->generator->generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $prepared_plugin);
+        $this->generator->generate([
+            'module_name' => $module,
+            'class_name' => $class_name,
+            'plugin_label' => $plugin_label,
+            'plugin_id' => $plugin_id,
+            'plugin_url' => $plugin_url,
+            'plugin_states' => $prepared_plugin,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 

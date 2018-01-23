@@ -8,10 +8,9 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
-class PluginMailGenerator extends Generator implements GeneratorInterface
+class PluginMailGenerator extends Generator
 {
     /**
      * @var Manager

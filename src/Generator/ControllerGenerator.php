@@ -9,9 +9,8 @@ namespace Drupal\Console\Generator;
 
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 
-class ControllerGenerator extends Generator implements GeneratorInterface
+class ControllerGenerator extends Generator
 {
     /**
      * @var Manager

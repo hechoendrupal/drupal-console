@@ -8,14 +8,13 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 
 /**
  * Class ModuleFileGenerator
  *
  * @package Drupal\Console\Generator
  */
-class ModuleFileGenerator extends Generator implements GeneratorInterface
+class ModuleFileGenerator extends Generator
 {
 
     /**
