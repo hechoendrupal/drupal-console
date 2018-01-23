@@ -26,9 +26,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class BreakPointCommand extends Command
 {
+    use ArrayInputTrait;
     use ConfirmationTrait;
     use ThemeBreakpointTrait;
-    use ArrayInputTrait;
 
     /**
      * @var BreakPointGenerator
