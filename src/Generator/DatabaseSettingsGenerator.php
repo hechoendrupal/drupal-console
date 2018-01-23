@@ -28,11 +28,8 @@ class DatabaseSettingsGenerator extends Generator
         $this->kernel = $kernel;
     }
 
-
     /**
-     * Generator Plugin Block.
-     *
-     * @param $parameters
+     * {@inheritdoc}
      */
     public function generate(array $parameters)
     {

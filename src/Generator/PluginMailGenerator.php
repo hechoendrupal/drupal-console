@@ -13,6 +13,12 @@ use Drupal\Console\Extension\Manager;
 class PluginMailGenerator extends Generator
 {
     /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+
+    /**
      * PluginMailGenerator constructor.
      *
      * @param Manager $extensionManager
