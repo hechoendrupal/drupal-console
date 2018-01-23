@@ -201,18 +201,18 @@ class ModuleCommand extends Command
 
         $this->generator->generate(
             [
-            'module' => $module,
-            'machine_name' => $machineName,
-            'module_path' => $modulePath,
-            'description' => $description,
-            'core' => $core,
-            'package' => $package,
-            'module_file' => $moduleFile,
-            'features_bundle' => $featuresBundle,
-            'composer' => $composer,
-            'dependencies' => $dependencies,
-            'test' => $test,
-            'twig_template' => $twigTemplate
+                'module' => $module,
+                'machine_name' => $machineName,
+                'module_path' => $modulePath,
+                'description' => $description,
+                'core' => $core,
+                'package' => $package,
+                'module_file' => $moduleFile,
+                'features_bundle' => $featuresBundle,
+                'composer' => $composer,
+                'dependencies' => $dependencies,
+                'test' => $test,
+                'twig_template' => $twigTemplate
             ]
         );
 
