@@ -138,7 +138,13 @@ class PluginMailCommand extends ContainerAwareCommand
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        $this->generator->generate($module, $class_name, $label, $plugin_id, $build_services);
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'label' => $label,
+          'plugin_id' => $plugin_id,
+          'services' => $build_services,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }

@@ -30,7 +30,6 @@ class PluginImageFormatterGenerator extends Generator implements GeneratorInterf
         $this->extensionManager = $extensionManager;
     }
 
-
     /**
      * {@inheritdoc}
      */
