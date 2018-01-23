@@ -148,13 +148,13 @@ class ControllerCommand extends ContainerAwareCommand
         $build_services = $this->buildServices($services);
 
         //$this->generator->setLearning($learning);
-        $this->generator->generate(
-            $module,
-            $class,
-            $routes,
-            $test,
-            $build_services
-        );
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class,
+            'routes' => $routes,
+            'test' => $test,
+            'services' => $build_services
+        ]);
 
         // Run cache rebuild to see changes in Web UI
         $this->chainQueue->addCommand('router:rebuild', []);
@@ -188,6 +188,7 @@ class ControllerCommand extends ContainerAwareCommand
             while (true) {
                 $title = $this->getIo()->askEmpty(
                     $this->trans('commands.generate.controller.questions.title'),
+                    '',
                     function ($title) use ($routes) {
                         if ($routes && empty(trim($title))) {
                             return false;
@@ -295,13 +296,5 @@ class ControllerCommand extends ContainerAwareCommand
         // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $this->servicesQuestion();
         $input->setOption('services', $services);
-    }
-
-    /**
-     * @return \Drupal\Console\Generator\ControllerGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ControllerGenerator();
     }
 }

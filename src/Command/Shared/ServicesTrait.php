@@ -22,16 +22,17 @@ trait ServicesTrait
             $service_collection = [];
             $this->getIo()->writeln($this->trans('commands.common.questions.services.message'));
             $services = $this->container->getServiceIds();
+
             while (true) {
                 $service = $this->getIo()->choiceNoList(
                     $this->trans('commands.common.questions.services.name'),
                     $services,
-                    null,
+                    '',
                     true
                 );
 
                 $service = trim($service);
-                if (empty($service)) {
+                if (empty($service) || is_numeric($service)) {
                     break;
                 }
 
@@ -54,8 +55,8 @@ trait ServicesTrait
      */
     public function buildServices($services)
     {
+        $buildServices = [];
         if (!empty($services)) {
-            $buildServices = [];
             foreach ($services as $service) {
                 $class = get_class($this->container->get($service));
                 $shortClass = explode('\\', $class);
@@ -68,10 +69,8 @@ trait ServicesTrait
                   'short' => end($shortClass),
                 ];
             }
-
-            return $buildServices;
         }
 
-        return [];
+        return $buildServices;
     }
 }

@@ -8,9 +8,10 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
-class HelpGenerator extends Generator
+class HelpGenerator extends Generator implements GeneratorInterface
 {
     /**
      * @var Manager
@@ -29,24 +30,24 @@ class HelpGenerator extends Generator
     }
 
     /**
-     * Generator Post Update Name function.
-     *
-     * @param $module
-     * @param $description
+     * {@inheritdoc}
      */
-    public function generate($module, $description)
+    public function generate(array $parameters)
     {
+        $module = $parameters['module'];
+        $description = $parameters['description'];
+
         $module_path =  $this->extensionManager->getModule($module)->getPath();
 
         $parameters = [
           'machine_name' => $module,
           'description' => $description,
-          'file_exists' => file_exists($module_path .'/'.$module.'.module'),
+          'file_exists' => file_exists($module_path . '/' . $module . '.module'),
         ];
 
         $this->renderFile(
             'module/help.php.twig',
-            $module_path .'/'.$module.'.module',
+            $module_path . '/' . $module . '.module',
             $parameters,
             FILE_APPEND
         );

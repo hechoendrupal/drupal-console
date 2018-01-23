@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Generator\PluginMailGenerator;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
@@ -30,7 +29,6 @@ class PluginMailCommand extends ContainerAwareCommand
 {
     use ServicesTrait;
     use ModuleTrait;
-    use FormTrait;
     use ConfirmationTrait;
 
     /**

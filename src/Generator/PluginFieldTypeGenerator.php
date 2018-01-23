@@ -12,6 +12,12 @@ use Drupal\Console\Extension\Manager;
 
 class PluginFieldTypeGenerator extends Generator
 {
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
     /**
      * PluginFieldTypeGenerator constructor.
      *

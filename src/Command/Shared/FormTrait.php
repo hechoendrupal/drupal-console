@@ -46,11 +46,11 @@ trait FormTrait
                 $input_type = $this->getIo()->choiceNoList(
                     $this->trans('commands.common.questions.inputs.type'),
                     $input_types,
-                    null,
+                    '',
                     true
                 );
 
-                if (empty($input_type)) {
+                if (empty($input_type) || is_numeric($input_type)) {
                     break;
                 }
 
@@ -78,7 +78,7 @@ trait FormTrait
                     $inputFieldSet = $this->getIo()->choiceNoList(
                         $this->trans('commands.common.questions.inputs.fieldset'),
                         $fieldSets,
-                        null,
+                        '',
                         true
                     );
 

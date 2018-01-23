@@ -128,7 +128,12 @@ class CacheContextCommand extends ContainerAwareCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $buildServices = $this->buildServices($services);
 
-        $this->generator->generate($module, $cache_context, $class, $buildServices);
+        $this->generator->generate([
+            'module' => $module,
+            'cache_context' => $cache_context,
+            'class' => $class,
+            'services' => $buildServices,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }

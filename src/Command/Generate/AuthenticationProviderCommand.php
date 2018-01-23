@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
@@ -24,7 +23,6 @@ class AuthenticationProviderCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
-    use FormTrait;
     use ConfirmationTrait;
 
     /**
@@ -104,7 +102,11 @@ class AuthenticationProviderCommand extends Command
         $class = $this->validator->validateClassName($input->getOption('class'));
         $provider_id = $input->getOption('provider-id');
 
-        $this->generator->generate($module, $class, $provider_id);
+        $this->generator->generate([
+            'module' => $module,
+            'class' => $class,
+            'provider_id' => $provider_id,
+        ]);
 
         return 0;
     }

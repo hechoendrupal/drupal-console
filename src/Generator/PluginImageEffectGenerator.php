@@ -12,6 +12,12 @@ use Drupal\Console\Extension\Manager;
 
 class PluginImageEffectGenerator extends Generator
 {
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
     /**
      * PluginImageEffectGenerator constructor.
      *

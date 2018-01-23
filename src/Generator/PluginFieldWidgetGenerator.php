@@ -12,6 +12,12 @@ use Drupal\Console\Extension\Manager;
 
 class PluginFieldWidgetGenerator extends Generator
 {
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
     /**
      * PluginFieldWidgetGenerator constructor.
      *

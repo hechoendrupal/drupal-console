@@ -181,9 +181,4 @@ class PluginViewsFieldCommand extends Command
             $input->setOption('description', $description);
         }
     }
-
-    protected function createGenerator()
-    {
-        return new PluginViewsFieldGenerator();
-    }
 }

@@ -14,12 +14,17 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\AjaxCommandGenerator;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 
-class AjaxCommand extends ContainerAwareCommand
+/**
+ * Class AjaxCommand
+ *
+ * @package Drupal\Console\Command\Generate
+ */
+class AjaxCommand extends Command
 {
     use ModuleTrait;
     use ServicesTrait;
@@ -31,10 +36,9 @@ class AjaxCommand extends ContainerAwareCommand
     protected $extensionManager;
 
     /**
-     * @var ControllerGenerator
+     * @var AjaxCommandGenerator
      */
     protected $generator;
-
 
     /**
      * @var Validator
@@ -67,6 +71,9 @@ class AjaxCommand extends ContainerAwareCommand
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -109,9 +116,11 @@ class AjaxCommand extends ContainerAwareCommand
         $method = $input->getOption('method');
 
         $this->generator->generate(
-            $module,
-            $class,
-            $method
+            [
+                'module' => $module,
+                'class_name' => $class,
+                'method' => $method,
+            ]
         );
 
         // Run cache rebuild to see changes in Web UI
@@ -150,13 +159,5 @@ class AjaxCommand extends ContainerAwareCommand
             );
             $input->setOption('method', $method);
         }
-    }
-
-    /**
-     * @return \Drupal\Console\Generator\AjaxCommandGenerator
-     */
-    protected function createGenerator()
-    {
-        return new AjaxCommandGenerator();
     }
 }
