@@ -264,7 +264,7 @@ class PluginBlockCommand extends ContainerAwareCommand
             $themeRegion =  $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.plugin.block.questions.theme-region'),
                 array_values($themeRegions),
-                null,
+                '',
                 true
             );
             $themeRegion = array_search($themeRegion, $themeRegions);

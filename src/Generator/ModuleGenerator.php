@@ -17,11 +17,12 @@ use Drupal\Console\Core\Generator\GeneratorInterface;
  */
 class ModuleGenerator extends Generator implements GeneratorInterface
 {
-    /**
-     * @param $parameters
-     */
-    public function generate(array $parameters) {
 
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
+    {
         $machineName = $parameters['machine_name'];
         $dir = $parameters['dir'];
         $moduleFile = $parameters['module_file'];

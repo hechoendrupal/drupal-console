@@ -12,6 +12,12 @@ use Drupal\Console\Extension\Manager;
 
 class PluginImageFormatterGenerator extends Generator
 {
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
     /**
      * PluginImageFormatterGenerator constructor.
      *

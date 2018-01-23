@@ -10,7 +10,7 @@ namespace Drupal\Console\Generator;
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
-class HelpGenerator extends Generator
+class HelpGenerator extends Generator implements Gener
 {
     /**
      * @var Manager
@@ -29,13 +29,10 @@ class HelpGenerator extends Generator
     }
 
     /**
-     * Generator Post Update Name function.
-     *
-     * @param $parameters
+     * {@inheritdoc}
      */
-    public function generate($parameters = [])
+    public function generate(array $parameters)
     {
-
         $module = $parameters['module'];
         $description = $parameters['description'];
 

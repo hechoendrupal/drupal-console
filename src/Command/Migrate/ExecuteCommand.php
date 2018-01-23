@@ -251,11 +251,11 @@ class ExecuteCommand extends Command
                 $exclude_id = $this->getIo()->choiceNoList(
                     $this->trans('commands.migrate.execute.questions.exclude-id'),
                     array_keys($migrations_list),
-                    null,
+                    '',
                     true
                 );
 
-                if (empty($exclude_id)) {
+                if (empty($exclude_id) || is_numeric($exclude_id)) {
                     break;
                 } else {
                     unset($migrations_list[$exclude_id]);

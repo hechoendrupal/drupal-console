@@ -44,13 +44,13 @@ class TwigExtensionGenerator extends Generator
     public function generate($module, $name, $class, $services)
     {
         $parameters = [
-        'module' => $module,
-        'name' => $name,
-        'class' => $class,
-        'class_path' => sprintf('Drupal\%s\TwigExtension\%s', $module, $class),
-        'services' => $services,
-        'tags' => ['name' => 'twig.extension'],
-        'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+            'class_path' => sprintf('Drupal\%s\TwigExtension\%s', $module, $class),
+            'services' => $services,
+            'tags' => ['name' => 'twig.extension'],
+            'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
         ];
 
         $this->renderFile(

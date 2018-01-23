@@ -26,8 +26,8 @@ class EntityContentGenerator extends Generator implements GeneratorInterface
     protected $site;
 
     /**
- * @var TwigRenderer
-*/
+     * @var TwigRenderer
+     */
     protected $twigrenderer;
 
     protected $io;

@@ -14,15 +14,15 @@ use Drupal\Console\Core\Generator\GeneratorInterface;
 class CacheContextGenerator extends Generator implements GeneratorInterface
 {
     /**
-   * @var Manager
-   */
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
-   * CacheContextGenerator constructor.
-   *
-   * @param Manager $extensionManager
-   */
+     * CacheContextGenerator constructor.
+     *
+     * @param Manager $extensionManager
+     */
     public function __construct(
         Manager $extensionManager
     ) {
@@ -37,7 +37,6 @@ class CacheContextGenerator extends Generator implements GeneratorInterface
         $module = $parameters['module'];
         $cache_context = $parameters['ache_context'];
         $class = $parameters['class'];
-        $services = $parameters['services'];
 
         $moduleInstance = $this->extensionManager->getModule($module);
         $modulePath = $moduleInstance->getPath() . '/' . $module;
