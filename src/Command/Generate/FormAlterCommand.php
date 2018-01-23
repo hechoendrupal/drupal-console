@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,19 +28,20 @@ use Drupal\webprofiler\Profiler\Profiler;
 
 class FormAlterCommand extends Command
 {
-    use ServicesTrait;
-    use ModuleTrait;
-    use FormTrait;
     use ConfirmationTrait;
+    use ArrayInputTrait;
+    use FormTrait;
+    use ModuleTrait;
+    use ServicesTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var FormAlterGenerator
-*/
+     * @var FormAlterGenerator
+     */
     protected $generator;
 
     /**
@@ -165,8 +167,13 @@ class FormAlterCommand extends Command
         $module = $input->getOption('module');
         $formId = $input->getOption('form-id');
         $inputs = $input->getOption('inputs');
+        $noInteraction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($noInteraction) {
+          $inputs = $this->explodeInlineArray($inputs);
+        }
 
-        $function = $module . '_form_' .$formId . '_alter';
+        $function = $module . '_form_' . $formId . '_alter';
 
         if ($this->extensionManager->validateModuleFunctionExist($module, $function)) {
             throw new \Exception(
@@ -175,11 +182,6 @@ class FormAlterCommand extends Command
                     $module
                 )
             );
-        }
-
-        //validate if input is an array
-        if (!is_array($inputs[0])) {
-            $inputs= $this->explodeInlineArray($inputs);
         }
 
         $this
@@ -261,27 +263,6 @@ class FormAlterCommand extends Command
         }
 
         $input->setOption('inputs', $inputs);
-    }
-
-    /**
-     * @{@inheritdoc}
-     */
-    public function explodeInlineArray($inlineInputs)
-    {
-        $inputs = [];
-        foreach ($inlineInputs as $inlineInput) {
-            $explodeInput = explode(" ", $inlineInput);
-            $parameters = [];
-            foreach ($explodeInput as $inlineParameter) {
-                list($key, $value) = explode(":", $inlineParameter);
-                if (!empty($value)) {
-                    $parameters[$key] = $value;
-                }
-            }
-            $inputs[] = $parameters;
-        }
-
-        return $inputs;
     }
 
     public function getWebprofilerForms()
