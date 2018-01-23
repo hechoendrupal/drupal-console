@@ -145,7 +145,15 @@ class PluginRulesActionCommand extends Command
         $category = $input->getOption('category');
         $context = $input->getOption('context');
 
-        $this->generator->generate($module, $class_name, $label, $plugin_id, $category, $context, $type);
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class_name,
+            'label' => $label,
+            'plugin_id' => $plugin_id,
+            'category' => $category,
+            'context' => $context,
+            'type' => $type,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
