@@ -14,15 +14,15 @@ use Drupal\Console\Core\Generator\GeneratorInterface;
 class CacheContextGenerator extends Generator implements GeneratorInterface
 {
     /**
-   * @var Manager
-   */
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
-   * CacheContextGenerator constructor.
-   *
-   * @param Manager $extensionManager
-   */
+     * CacheContextGenerator constructor.
+     *
+     * @param Manager $extensionManager
+     */
     public function __construct(
         Manager $extensionManager
     ) {
@@ -42,12 +42,14 @@ class CacheContextGenerator extends Generator implements GeneratorInterface
         $moduleInstance = $this->extensionManager->getModule($module);
         $modulePath = $moduleInstance->getPath() . '/' . $module;
 
-        $parameters = array_merge($parameters, [
+        $parameters = array_merge(
+            $parameters, [
             'name' => 'cache_context.' . $cache_context,
             'class_path' => sprintf('Drupal\%s\CacheContext\%s', $module, $class),
             'tags' => ['name' => 'cache.context'],
             'file_exists' => file_exists($modulePath . '.services.yml'),
-        ]);
+            ]
+        );
 
         $this->renderFile(
             'module/src/cache-context.php.twig',

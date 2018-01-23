@@ -28,10 +28,10 @@ class BreakPointGenerator extends Generator implements GeneratorInterface
      *
      * @param Manager $extensionManager
      */
-    public function __construct(Manager $extensionManager) {
+    public function __construct(Manager $extensionManager)
+    {
         $this->extensionManager = $extensionManager;
     }
-
 
     /**
      * {@inheritdoc}
@@ -43,7 +43,7 @@ class BreakPointGenerator extends Generator implements GeneratorInterface
         $this->renderFile(
             'theme/breakpoints.yml.twig',
             $theme_path . '/' . $parameters['machine_name'] . '.breakpoints.yml',
-             $parameters,
+            $parameters,
             FILE_APPEND
         );
     }
