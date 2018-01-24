@@ -43,12 +43,12 @@ class LanguageAddCommand extends Command
     /**
      * LanguageAddCommand constructor.
      *
-     * @param Site                   $site
+     * @param Site $site
      * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
-        Site $site,
-        ModuleHandlerInterface $moduleHandler
+      Site $site,
+      ModuleHandlerInterface $moduleHandler
     ) {
         $this->site = $site;
         $this->moduleHandler = $moduleHandler;
@@ -58,13 +58,13 @@ class LanguageAddCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('locale:language:add')
-            ->setDescription($this->trans('commands.locale.language.add.description'))
-            ->addArgument(
-                'language',
-                InputArgument::REQUIRED | InputArgument::IS_ARRAY,
-                $this->trans('commands.locale.translation.status.arguments.language')
-            );
+          ->setName('locale:language:add')
+          ->setDescription($this->trans('commands.locale.language.add.description'))
+          ->addArgument(
+            'language',
+            InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+            $this->trans('commands.locale.translation.status.arguments.language')
+          );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -75,26 +75,44 @@ class LanguageAddCommand extends Command
 
         $languageArguments = $this->checkLanguages($input->getArgument('language'));
         $missingLanguages = $this->getMissingLangugaes();
-        if (count($missingLanguages) > 0) {
-          $this->getIo()->error(
-            sprintf(
-              $this->trans('commands.locale.language.add.messages.invalid-language'),
+        if (!empty($missingLanguages)) {
+            $translatableString = count($missingLanguages) == 1 ? 'commands.locale.language.add.messages.invalid-language' : 'commands.locale.language.add.messages.invalid-languages';
+            $this->getIo()->error(sprintf(
+              $this->trans($translatableString),
               implode(', ', $missingLanguages)
-            )
-          );
+            ));
 
-          return 1;
+            return 1;
         }
 
         try {
+            $installedLanguages = [];
             foreach (array_keys($languageArguments) as $langcode) {
-              if (!($language = ConfigurableLanguage::load($langcode))) {
-                $language = ConfigurableLanguage::createFromLangcode($langcode);
-                $language->type = LOCALE_TRANSLATION_REMOTE;
-                $language->save();
-              }
+                if (!($language = ConfigurableLanguage::load($langcode))) {
+                    $language = ConfigurableLanguage::createFromLangcode($langcode);
+                    $language->type = LOCALE_TRANSLATION_REMOTE;
+                    $language->save();
+                } else {
+                    $installedLanguages[] = $languageArguments[$langcode];
+                    unset($languageArguments[$langcode]);
+                }
             }
-            $this->getIo()->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-successfully'), implode(', ', $languageArguments)));
+
+            if (!empty($languageArguments)) {
+                $translatableString = count($languageArguments) == 1 ? 'commands.locale.language.add.messages.language-add-successfully' : 'commands.locale.language.add.messages.languages-add-successfully';
+                $this->getIo()->info(sprintf(
+                  $this->trans($translatableString),
+                  implode(', ', $languageArguments)
+                ));
+            }
+
+            if (!empty($installedLanguages)) {
+                $translatableString = count($installedLanguages) == 1 ? 'commands.locale.language.add.messages.language-installed' : 'commands.locale.language.add.messages.languages-installed';
+                $this->getIo()->note(sprintf(
+                  $this->trans($translatableString),
+                  implode(', ', $installedLanguages)
+                ));
+            }
         } catch (\Exception $e) {
             $this->getIo()->error($e->getMessage());
 
@@ -113,20 +131,21 @@ class LanguageAddCommand extends Command
      * @return array
      *   List of available languages.
      */
-    protected function checkLanguages($languageArguments) {
-      $languages = $this->site->getStandardLanguages();
-      $language_codes = array_keys($languages);
-      $buildLanguages = [];
-      foreach ($languageArguments as $language) {
-        if (array_search($language, $language_codes)) {
-          $buildLanguages[$language] = $languages[$language];
-        } elseif ($language_code = array_search($language, $languages)) {
-          $buildLanguages[$language_code] = $language;
-        } else {
-          $this->addMissingLanguage($language);
+    protected function checkLanguages($languageArguments)
+    {
+        $languages = $this->site->getStandardLanguages();
+        $language_codes = array_keys($languages);
+        $buildLanguages = [];
+        foreach ($languageArguments as $language) {
+            if (array_search($language, $language_codes)) {
+                $buildLanguages[$language] = $languages[$language];
+            } elseif ($language_code = array_search($language, $languages)) {
+                $buildLanguages[$language_code] = $language;
+            } else {
+                $this->addMissingLanguage($language);
+            }
         }
-      }
-      return $buildLanguages;
+        return $buildLanguages;
     }
 
     /**
@@ -135,8 +154,9 @@ class LanguageAddCommand extends Command
      * @param string $language
      *   Language code or name.
      */
-    private function addMissingLanguage($language) {
-      $this->missingLangues[] = $language;
+    private function addMissingLanguage($language)
+    {
+        $this->missingLangues[] = $language;
     }
 
     /**
@@ -145,7 +165,8 @@ class LanguageAddCommand extends Command
      * @return array
      *   Missing languges.
      */
-    private function getMissingLangugaes() {
-      return $this->missingLangues;
+    private function getMissingLangugaes()
+    {
+        return $this->missingLangues;
     }
 }
