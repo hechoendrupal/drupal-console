@@ -60,24 +60,30 @@ class {{ class_name }} extends FormBase {% endblock %}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 {% for input in inputs %}
-{% if input.fieldset|length %}
+{% if input.fieldset is defined and input.fieldset|length %}
     $form['{{ input.fieldset }}']['{{ input.name }}'] = [
 {% else %}
     $form['{{ input.name }}'] = [
 {% endif %}
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label|e }}'),
-{% if input.description|length %}
+{% if input.description is defined and input.description|length %}
       '#description' => $this->t('{{ input.description|e }}'),
 {% endif %}
-{% if input.options|length %}
+{% if input.options is defined and input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
-{% if input.maxlength|length %}
+{% if input.maxlength is defined and input.maxlength|length %}
       '#maxlength' => {{ input.maxlength }},
 {% endif %}
-{% if input.size|length %}
+{% if input.size is defined and input.size|length %}
       '#size' => {{ input.size }},
+{% endif %}
+{% if input.default_value is defined and input.default_value|length %}
+      '#default_value' => {{ input.default_value }},
+{% endif %}
+{% if input.weight is defined and input.weight|length %}
+      '#weight' => '{{ input.weight }}',
 {% endif %}
     ];
 {% endfor %}

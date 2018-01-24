@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{extension}}\Generator\{{ class_generator }}.
+\Drupal\{{extension}}\Generator\{{ class }}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -15,11 +15,11 @@ use Drupal\Console\Core\Generator\GeneratorInterface;
 
 {% block class_declaration %}
 /**
- * Class {{ class_generator }}
+ * Class {{ class_name }}
  *
  * @package Drupal\Console\Generator
  */
-class {{ class_generator }} extends Generator implements GeneratorInterface
+class {{ class_name }} extends Generator implements GeneratorInterface
 {% endblock %}
 
 {% block class_methods %}
