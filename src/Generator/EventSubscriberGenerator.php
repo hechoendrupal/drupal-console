@@ -34,7 +34,7 @@ class EventSubscriberGenerator extends Generator
     public function generate(array $parameters)
     {
         $module = $parameters['module'];
-        $class = $parameters['module'];
+        $class = $parameters['class'];
         $moduleInstance = $this->extensionManager->getModule($module);
         $modulePath = $moduleInstance->getPath() . '/' . $module;
         $parameters = array_merge($parameters,
