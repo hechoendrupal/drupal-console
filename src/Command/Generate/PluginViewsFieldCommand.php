@@ -136,7 +136,13 @@ class PluginViewsFieldCommand extends Command
         $title = $input->getOption('title');
         $description = $input->getOption('description');
 
-        $this->generator->generate($module, $class_machine_name, $class_name, $title, $description);
+        $this->generator->generate([
+            'module' => $module,
+            'class_machine_name' => $class_machine_name,
+            'class_name' => $class_name,
+            'title' => $title,
+            'description' => $description,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 

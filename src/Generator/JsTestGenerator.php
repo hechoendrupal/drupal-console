@@ -8,7 +8,6 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
 /**
@@ -16,7 +15,7 @@ use Drupal\Console\Extension\Manager;
  *
  * @package Drupal\Console\Generator
  */
-class JsTestGenerator extends Generator implements GeneratorInterface
+class JsTestGenerator extends Generator
 {
     /**
      * @var Manager

@@ -166,7 +166,14 @@ class ServiceCommand extends ContainerAwareCommand
 
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
-        $this->generator->generate($module, $name, $class, $interface, $interface_name, $build_services, $path_service);
+        $this->generator->generate([
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+            'interface' => $interface,
+            'services' => $build_services,
+            'path_service' => $path_service,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 

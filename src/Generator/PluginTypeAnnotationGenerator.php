@@ -29,24 +29,20 @@ class PluginTypeAnnotationGenerator extends Generator
     }
 
     /**
-     * Generator for Plugin type with annotation discovery.
-     *
-     * @param $module
-     * @param $class_name
-     * @param $machine_name
-     * @param $label
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $machine_name, $label)
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'class_name' => $class_name,
-            'machine_name' => $machine_name,
-            'label' => $label,
-            'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
 
-        $directory = $this->extensionManager->getModule($module)->getSourcePath() . '/Plugin/' . $class_name;
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $moduleSourcePath = $moduleInstance->getSourcePath();
+        $modulePath = $moduleInstance->getPath() . '/' . $module;
+        $modulePluginClass = $moduleSourcePath . '/Plugin/' . $class_name;
+        $moduleServiceYaml = $modulePath . '.services.yml';
+        $parameters['file_exists'] = file_exists($moduleServiceYaml);
+        $directory = $modulePluginClass;
 
         if (!is_dir($directory)) {
             mkdir($directory, 0777, true);
@@ -54,30 +50,30 @@ class PluginTypeAnnotationGenerator extends Generator
         
         $this->renderFile(
             'module/src/Annotation/plugin-type.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath() . '/Annotation/' . $class_name . '.php',
+            $moduleSourcePath . '/Annotation/' . $class_name . '.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/plugin-type-annotation-base.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath() .'/Plugin/' . $class_name . 'Base.php',
+            $modulePluginClass . 'Base.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/plugin-type-annotation-interface.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath() .'/Plugin/' . $class_name . 'Interface.php',
+            $modulePluginClass . 'Interface.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/plugin-type-annotation-manager.php.twig',
-            $this->extensionManager->getModule($module)->getSourcePath() .'/Plugin/' . $class_name . 'Manager.php',
+            $modulePluginClass . 'Manager.php',
             $parameters
         );
         $this->renderFile(
             'module/plugin-annotation-services.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.services.yml',
+            $moduleServiceYaml,
             $parameters,
             FILE_APPEND
         );

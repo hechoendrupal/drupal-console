@@ -143,7 +143,12 @@ class TwigExtensionCommand extends ContainerAwareCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        $this->generator->generate($module, $name, $class, $build_services);
+        $this->generator->generate([
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+            'services' => $build_services,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 

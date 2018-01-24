@@ -31,20 +31,18 @@ class ThemeGenerator extends Generator
         $this->extensionManager = $extensionManager;
     }
 
-    public function generate(
-        $theme,
-        $machine_name,
-        $dir,
-        $description,
-        $core,
-        $package,
-        $base_theme,
-        $global_library,
-        $libraries,
-        $regions,
-        $breakpoints
-    ) {
-        $dir = ($dir == "/" ? '': $dir).'/'.$machine_name;
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
+    {
+        $dir = $parameters['dir'];
+        $breakpoints = $parameters['breakpoints'];
+        $libraries = $parameters['libraries'];
+        $machine_name = $parameters['machine_name'];
+        $parameters['type'] = 'theme';
+
+        $dir = ($dir == '/' ? '': $dir) . '/' . $machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
@@ -73,36 +71,24 @@ class ThemeGenerator extends Generator
             }
         }
 
-        $parameters = [
-            'theme' => $theme,
-            'machine_name' => $machine_name,
-            'type' => 'theme',
-            'core' => $core,
-            'description' => $description,
-            'package' => $package,
-            'base_theme' => $base_theme,
-            'global_library' => $global_library,
-            'libraries' => $libraries,
-            'regions' => $regions,
-            'breakpoints' => $breakpoints,
-        ];
+        $themePath = $dir . '/' . $machine_name;
 
         $this->renderFile(
             'theme/info.yml.twig',
-            $dir . '/' . $machine_name . '.info.yml',
+            $themePath . '.info.yml',
             $parameters
         );
 
         $this->renderFile(
             'theme/theme.twig',
-            $dir . '/' . $machine_name . '.theme',
+            $themePath . '.theme',
             $parameters
         );
 
         if ($libraries) {
             $this->renderFile(
                 'theme/libraries.yml.twig',
-                $dir . '/' . $machine_name . '.libraries.yml',
+                $themePath . '.libraries.yml',
                 $parameters
             );
         }
@@ -110,7 +96,7 @@ class ThemeGenerator extends Generator
         if ($breakpoints) {
             $this->renderFile(
                 'theme/breakpoints.yml.twig',
-                $dir . '/' . $machine_name . '.breakpoints.yml',
+                $themePath . '.breakpoints.yml',
                 $parameters
             );
         }

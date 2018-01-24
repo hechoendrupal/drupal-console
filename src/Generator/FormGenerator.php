@@ -8,11 +8,10 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 
-class FormGenerator extends Generator implements GeneratorInterface
+class FormGenerator extends Generator
 {
     /**
      * @var Manager

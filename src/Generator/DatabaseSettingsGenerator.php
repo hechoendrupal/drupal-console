@@ -33,7 +33,7 @@ class DatabaseSettingsGenerator extends Generator
      */
     public function generate(array $parameters)
     {
-        $settingsFile = $this->kernel->getSitePath().'/settings.php';
+        $settingsFile = $this->kernel->getSitePath() . '/settings.php';
         if (!is_writable($settingsFile)) {
             return false;
         }

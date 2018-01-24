@@ -8,10 +8,9 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
-class PluginBlockGenerator extends Generator implements GeneratorInterface
+class PluginBlockGenerator extends Generator
 {
     /**
      * @var Manager

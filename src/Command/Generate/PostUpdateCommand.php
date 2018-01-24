@@ -113,7 +113,10 @@ class PostUpdateCommand extends Command
 
         $this->validatePostUpdateName($module, $postUpdateName);
 
-        $this->generator->generate($module, $postUpdateName);
+        $this->generator->generate([
+            'module' => $module,
+            'post_update_name' => $postUpdateName,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 

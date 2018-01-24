@@ -128,8 +128,6 @@ class PluginSkeletonCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $plugins = $this->getPlugins();
-
         // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
         if (!$this->confirmGeneration()) {
             return 1;
@@ -139,6 +137,8 @@ class PluginSkeletonCommand extends ContainerAwareCommand
 
         $pluginId = $input->getOption('plugin-id');
         $plugin = ucfirst($this->stringConverter->underscoreToCamelCase($pluginId));
+
+        $plugins = $this->getPlugins();
 
         // Confirm that plugin.manager is available
         if (!$this->validator->validatePluginManagerServiceExist($pluginId, $plugins)) {
@@ -167,7 +167,14 @@ class PluginSkeletonCommand extends ContainerAwareCommand
         $buildServices = $this->buildServices($services);
         $pluginMetaData = $this->getPluginMetadata($pluginId);
 
-        $this->generator->generate($module, $pluginId, $plugin, $className, $pluginMetaData, $buildServices);
+        $this->generator->generate([
+            'module' => $module,
+            'plugin_id' => $pluginId,
+            'plugin' => $plugin,
+            'class_name' => $className,
+            'services' => $buildServices,
+            'plugin_metadata' => $pluginMetaData,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 

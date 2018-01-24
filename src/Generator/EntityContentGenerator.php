@@ -8,12 +8,11 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Core\Utils\TwigRenderer;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Site;
 
-class EntityContentGenerator extends Generator implements GeneratorInterface
+class EntityContentGenerator extends Generator
 {
     /**
      * @var Manager

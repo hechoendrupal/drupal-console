@@ -112,7 +112,12 @@ class PluginTypeAnnotationCommand extends Command
         $machine_name = $input->getOption('machine-name');
         $label = $input->getOption('label');
 
-        $this->generator->generate($module, $class_name, $machine_name, $label);
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class_name,
+            'machine_name' => $machine_name,
+            'label' => $label,
+        ]);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

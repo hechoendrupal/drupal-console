@@ -8,7 +8,6 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Core\Utils\TranslatorManagerInterface;
 use Drupal\Console\Extension\Manager;
 
@@ -17,7 +16,7 @@ use Drupal\Console\Extension\Manager;
  *
  * @package Drupal\Console\Generator
  */
-class CommandGenerator extends Generator implements GeneratorInterface
+class CommandGenerator extends Generator
 {
     /**
      * @var Manager
