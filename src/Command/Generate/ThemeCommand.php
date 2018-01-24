@@ -210,19 +210,20 @@ class ThemeCommand extends Command
             $breakpoints = $this->explodeInlineArray($breakpoints);
         }
 
-        $this->generator->generate(
-            $theme,
-            $machine_name,
-            $theme_path,
-            $description,
-            $core,
-            $package,
-            $base_theme,
-            $global_library,
-            $libraries,
-            $regions,
-            $breakpoints
-        );
+        $this->generator->generate([
+            'theme' => $theme,
+            'machine_name' => $machine_name,
+            'dir' => $theme_path,
+            'core' => $core,
+            'description' => $description,
+            'package' => $package,
+            'base_theme' => $base_theme,
+            'global_library' => $global_library,
+            'libraries' => $libraries,
+            'regions' => $regions,
+            'breakpoints' => $breakpoints,
+        ]);
+
 
         return 0;
     }
