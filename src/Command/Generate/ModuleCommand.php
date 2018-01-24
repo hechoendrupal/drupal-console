@@ -202,7 +202,7 @@ class ModuleCommand extends Command
         $this->generator->generate([
             'module' => $module,
             'machine_name' => $machineName,
-            'dir' => $modulePath,
+            'module_path' => $modulePath,
             'description' => $description,
             'core' => $core,
             'package' => $package,
