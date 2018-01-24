@@ -200,18 +200,20 @@ class ModuleCommand extends Command
         $twigTemplate = $input->getOption('twigtemplate');
 
         $this->generator->generate(
-            $module,
-            $machineName,
-            $modulePath,
-            $description,
-            $core,
-            $package,
-            $moduleFile,
-            $featuresBundle,
-            $composer,
-            $dependencies,
-            $test,
-            $twigTemplate
+            [
+                'module' => $module,
+                'machine_name' => $machineName,
+                'module_path' => $modulePath,
+                'description' => $description,
+                'core' => $core,
+                'package' => $package,
+                'module_file' => $moduleFile,
+                'features_bundle' => $featuresBundle,
+                'composer' => $composer,
+                'dependencies' => $dependencies,
+                'test' => $test,
+                'twig_template' => $twigTemplate
+            ]
         );
 
         return 0;

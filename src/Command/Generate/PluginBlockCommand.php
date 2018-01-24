@@ -172,6 +172,11 @@ class PluginBlockCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         $theme_region = $input->getOption('theme-region');
         $inputs = $input->getOption('inputs');
+        $noInteraction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($noInteraction) {
+            $inputs = $this->explodeInlineArray($inputs);
+        }
 
         $theme = $this->configFactory->get('system.theme')->get('default');
         $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
@@ -261,7 +266,7 @@ class PluginBlockCommand extends ContainerAwareCommand
         // --theme-region option
         $themeRegion = $input->getOption('theme-region');
         if (!$themeRegion) {
-            $themeRegion =  $this->getIo()->choiceNoList(
+            $themeRegion = $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.plugin.block.questions.theme-region'),
                 array_values($themeRegions),
                 '',
@@ -278,8 +283,15 @@ class PluginBlockCommand extends ContainerAwareCommand
 
         $output->writeln($this->trans('commands.generate.plugin.block.messages.inputs'));
 
-        // @see Drupal\Console\Command\Shared\FormTrait::formQuestion
-        $inputs = $this->formQuestion();
+        // --inputs option
+        $inputs = $input->getOption('inputs');
+        if (!$inputs) {
+            // @see \Drupal\Console\Command\Shared\FormTrait::formQuestion
+            $inputs = $this->formQuestion();
+            $input->setOption('inputs', $inputs);
+        } else {
+            $inputs = $this->explodeInlineArray($inputs);
+        }
         $input->setOption('inputs', $inputs);
     }
 }

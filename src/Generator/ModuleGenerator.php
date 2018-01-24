@@ -24,56 +24,54 @@ class ModuleGenerator extends Generator implements GeneratorInterface
     public function generate(array $parameters)
     {
         $machineName = $parameters['machine_name'];
-        $dir = $parameters['dir'];
+        $modulePath = $parameters['module_path'];
         $moduleFile = $parameters['module_file'];
         $featuresBundle = $parameters['features_bundle'];
         $composer = $parameters['composer'];
         $test = $parameters['test'];
-        $twigtemplate = $parameters['twigtemplate'];
+        $twigTemplate = $parameters['twig_template'];
 
-        $dir = ($dir == '/' ? '': $dir) . '/' . $machineName;
-        if (file_exists($dir)) {
-            if (!is_dir($dir)) {
+        $moduleDirectory = ($modulePath == '/' ? '': $modulePath) . '/' . $machineName;
+        if (file_exists($moduleDirectory)) {
+            if (!is_dir($moduleDirectory)) {
                 throw new \RuntimeException(
                     sprintf(
                         'Unable to generate the module as the target directory "%s" exists but is a file.',
-                        realpath($dir)
+                        realpath($moduleDirectory)
                     )
                 );
             }
-            $files = scandir($dir);
+            $files = scandir($moduleDirectory);
             if ($files != ['.', '..']) {
                 throw new \RuntimeException(
                     sprintf(
                         'Unable to generate the module as the target directory "%s" is not empty.',
-                        realpath($dir)
+                        realpath($moduleDirectory)
                     )
                 );
             }
-            if (!is_writable($dir)) {
+            if (!is_writable($moduleDirectory)) {
                 throw new \RuntimeException(
                     sprintf(
                         'Unable to generate the module as the target directory "%s" is not writable.',
-                        realpath($dir)
+                        realpath($moduleDirectory)
                     )
                 );
             }
         }
 
-        $parameters = [
-            'type' => 'module',
-        ];
+        $parameters['type'] = 'module';
 
         $this->renderFile(
             'module/info.yml.twig',
-            $dir . '/' . $machineName . '.info.yml',
+            $moduleDirectory . '/' . $machineName . '.info.yml',
             $parameters
         );
 
         if (!empty($featuresBundle)) {
             $this->renderFile(
                 'module/features.yml.twig',
-                $dir . '/' . $machineName . '.features.yml',
+                $moduleDirectory . '/' . $machineName . '.features.yml',
                 [
                     'bundle' => $featuresBundle,
                 ]
@@ -81,14 +79,13 @@ class ModuleGenerator extends Generator implements GeneratorInterface
         }
 
         if ($moduleFile) {
-            // Generate '.module' file.
-            $this->createModuleFile($dir, $parameters);
+            $this->createModuleFile($moduleDirectory, $parameters);
         }
 
         if ($composer) {
             $this->renderFile(
                 'module/composer.json.twig',
-                $dir . '/' . 'composer.json',
+                $moduleDirectory . '/' . 'composer.json',
                 $parameters
             );
         }
@@ -96,53 +93,53 @@ class ModuleGenerator extends Generator implements GeneratorInterface
         if ($test) {
             $this->renderFile(
                 'module/src/Tests/load-test.php.twig',
-                $dir . '/tests/src/Functional/' . 'LoadTest.php',
+                $moduleDirectory . '/tests/src/Functional/' . 'LoadTest.php',
                 $parameters
             );
         }
-        if ($twigtemplate) {
+        if ($twigTemplate) {
             // If module file is not created earlier, create now.
             if (!$moduleFile) {
                 // Generate '.module' file.
-                $this->createModuleFile($dir, $parameters);
+                $this->createModuleFile($moduleDirectory, $parameters);
             }
             $this->renderFile(
                 'module/module-twig-template-append.twig',
-                $dir . '/' . $machineName . '.module',
+                $moduleDirectory . '/' . $machineName . '.module',
                 $parameters,
                 FILE_APPEND
             );
-            $dir .= '/templates/';
-            if (file_exists($dir)) {
-                if (!is_dir($dir)) {
+            $moduleDirectory .= '/templates/';
+            if (file_exists($moduleDirectory)) {
+                if (!is_dir($moduleDirectory)) {
                     throw new \RuntimeException(
                         sprintf(
                             'Unable to generate the templates directory as the target directory "%s" exists but is a file.',
-                            realpath($dir)
+                            realpath($moduleDirectory)
                         )
                     );
                 }
-                $files = scandir($dir);
+                $files = scandir($moduleDirectory);
                 if ($files != ['.', '..']) {
                     throw new \RuntimeException(
                         sprintf(
                             'Unable to generate the templates directory as the target directory "%s" is not empty.',
-                            realpath($dir)
+                            realpath($moduleDirectory)
                         )
                     );
                 }
-                if (!is_writable($dir)) {
+                if (!is_writable($moduleDirectory)) {
                     throw new \RuntimeException(
                         sprintf(
                             'Unable to generate the templates directory as the target directory "%s" is not writable.',
-                            realpath($dir)
+                            realpath($moduleDirectory)
                         )
                     );
                 }
             }
             $this->renderFile(
                 'module/twig-template-file.twig',
-                $dir . str_replace('_', '-', $machineName) . '.html.twig',
+                $moduleDirectory . str_replace('_', '-', $machineName) . '.html.twig',
                 $parameters
             );
         }

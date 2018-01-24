@@ -34,16 +34,16 @@ function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_i
         $form['{{ input.name }}'] = [
             '#type' => '{{ input.type }}',
             '#title' => t('{{ input.label|e }}'),
-    {%- if input.description is defined -%}
+    {%- if input.description is defined and input.description is defined -%}
             '#description' => t('{{ input.description|e }}'),
     {% endif %}
     {%- if input.options is defined and input.options|length -%}
             '#options' => {{ input.options }},
     {% endif %}
-    {%- if input.maxlength|length -%}
+    {%- if input.maxlength is defined and input.maxlength|length -%}
             '#maxlength' => {{ input.maxlength }},
     {% endif %}
-    {%- if input.size|length -%}
+    {%- if input.size is defined and input.size|length -%}
             '#size' => {{ input.size }},
     {% endif %}
     {%- if input.default_value is defined and input.default_value|length -%}
