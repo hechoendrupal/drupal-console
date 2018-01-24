@@ -210,6 +210,11 @@ class Drupal implements DrupalInterface
                 );
 
             $container->set(
+                'console.drupal_finder',
+                $this->drupalFinder
+            );
+
+            $container->set(
                 'console.cache_key',
                 $drupalKernel->getContainerKey()
             );
