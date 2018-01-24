@@ -9,14 +9,13 @@ namespace Drupal\Console\Generator;
 
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 
 /**
  * Class BreakPointGenerator
  *
  * @package Drupal\Console\Generator
  */
-class BreakPointGenerator extends Generator implements GeneratorInterface
+class BreakPointGenerator extends Generator
 {
     /**
      * @var Manager
@@ -28,8 +27,7 @@ class BreakPointGenerator extends Generator implements GeneratorInterface
      *
      * @param Manager $extensionManager
      */
-    public function __construct(Manager $extensionManager)
-    {
+    public function __construct(Manager $extensionManager) {
         $this->extensionManager = $extensionManager;
     }
 

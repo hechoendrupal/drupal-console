@@ -29,15 +29,13 @@ class UpdateGenerator extends Generator
     }
 
     /**
-     * Generator Update N function.
-     *
-     * @param $module
-     * @param $update_number
+     * {@inheritdoc}
      */
-    public function generate($module, $update_number)
+    public function generate(array $parameters)
     {
-        $modulePath =  $this->extensionManager->getModule($module)->getPath();
-        $updateFile = $modulePath .'/'.$module.'.install';
+        $module = $parameters['module'];
+        $update_number = $parameters['update_number'];
+        $updateFile = $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.install';
 
         $parameters = [
           'module' => $module,

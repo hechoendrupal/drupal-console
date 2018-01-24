@@ -149,8 +149,15 @@ class PluginFieldTypeCommand extends Command
         $default_widget = $input->getOption('default-widget');
         $default_formatter = $input->getOption('default-formatter');
 
-        $this->generator
-            ->generate($module, $class_name, $label, $plugin_id, $description, $default_widget, $default_formatter);
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class_name,
+            'label' => $label,
+            'plugin_id' => $plugin_id,
+            'description' => $description,
+            'default_widget' => $default_widget,
+            'default_formatter' => $default_formatter,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
 

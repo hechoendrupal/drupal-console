@@ -7,12 +7,10 @@
 
 namespace Drupal\Console\Generator;
 
-use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Extension\Manager;
 
-class HelpGenerator extends Generator implements GeneratorInterface
+class HelpGenerator extends Generator
 {
     /**
      * @var Manager
@@ -35,20 +33,16 @@ class HelpGenerator extends Generator implements GeneratorInterface
      */
     public function generate(array $parameters)
     {
-        $module = $parameters['module'];
-        $description = $parameters['description'];
+        $module = $parameters['machine_name'];
+        $moduleFilePath =  $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.module';
 
-        $module_path =  $this->extensionManager->getModule($module)->getPath();
-
-        $parameters = [
-          'machine_name' => $module,
-          'description' => $description,
-          'file_exists' => file_exists($module_path . '/' . $module . '.module'),
-        ];
+        $parameters = array_merge($parameters, [
+          'file_exists' => file_exists($moduleFilePath),
+        ]);
 
         $this->renderFile(
             'module/help.php.twig',
-            $module_path . '/' . $module . '.module',
+            $moduleFilePath,
             $parameters,
             FILE_APPEND
         );

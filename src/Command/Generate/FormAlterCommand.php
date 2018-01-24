@@ -184,9 +184,12 @@ class FormAlterCommand extends Command
             );
         }
 
-        $this
-            ->generator
-            ->generate($module, $formId, $inputs, $this->metadata);
+        $this->generator->generate([
+            'module' => $module,
+            'form_id' => $formId,
+            'inputs' => $inputs,
+            'metadata' => $this->metadata,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 

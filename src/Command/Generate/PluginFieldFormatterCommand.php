@@ -143,7 +143,13 @@ class PluginFieldFormatterCommand extends Command
         $plugin_id = $input->getOption('plugin-id');
         $field_type = $input->getOption('field-type');
 
-        $this->generator->generate($module, $class_name, $label, $plugin_id, $field_type);
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class_name,
+            'label' => $label,
+            'plugin_id' => $plugin_id,
+            'field_type' => $field_type,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 

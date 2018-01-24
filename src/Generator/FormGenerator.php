@@ -38,39 +38,27 @@ class FormGenerator extends Generator
     }
 
     /**
-     * @param  $module
-     * @param  $class_name
-     * @param  $services
-     * @param  $config_file
-     * @param  $inputs
-     * @param  $form_id
-     * @param  $form_type
-     * @param  $path
-     * @param  $menu_link_gen
-     * @param  $menu_link_title
-     * @param  $menu_parent
-     * @param  $menu_link_desc
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $form_id, $form_type, $services, $config_file, $inputs, $path, $menu_link_gen, $menu_link_title, $menu_parent, $menu_link_desc)
+    public function generate(array $parameters)
     {
+        $class_name = $parameters['class_name'];
+        $form_type = $parameters['form_type'];
+        $module = $parameters['module_name'];
+        $config_file = $parameters['config_file'];
+        $menu_link_gen = $parameters['menu_link_gen'];
+
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $moduleDir = $moduleInstance->getPath();
+        $modulePath = $moduleDir . '/' . $module;
+
         $class_name_short = strtolower(
             $this->stringConverter->removeSuffix($class_name)
         );
 
-        $parameters = [
-          'class_name' => $class_name,
-          'services' => $services,
-          'config_file' => $config_file,
-          'inputs' => $inputs,
-          'module_name' => $module,
-          'form_id' => $form_id,
-          'path' => $path,
-          'route_name' => $class_name,
-          'menu_link_title' => $menu_link_title,
-          'menu_parent' => $menu_parent,
-          'menu_link_desc' => $menu_link_desc,
-          'class_name_short'  => $class_name_short
-        ];
+        $parameters = array_merge($parameters, [
+          'class_name_short' => $class_name_short
+        ]);
 
         if ($form_type == 'ConfigFormBase') {
             $template = 'module/src/Form/form-config.php.twig';
@@ -82,14 +70,14 @@ class FormGenerator extends Generator
 
         $this->renderFile(
             'module/routing-form.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() .'/'.$module.'.routing.yml',
+          $modulePath . '.routing.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             $template,
-            $this->extensionManager->getModule($module)->getFormPath() .'/'.$class_name.'.php',
+            $moduleInstance->getFormPath() . '/' . $class_name . '.php',
             $parameters
         );
         
@@ -97,7 +85,7 @@ class FormGenerator extends Generator
         if ($config_file == true) {
             $this->renderFile(
                 'module/config/install/field.default.yml.twig',
-                $this->extensionManager->getModule($module)->getPath() .'/config/install/'.$module.'.'.$class_name_short.'.yml',
+              $moduleDir . '/config/install/' . $module . '.' . $class_name_short . '.yml',
                 $parameters
             );
         }
@@ -105,7 +93,7 @@ class FormGenerator extends Generator
         if ($menu_link_gen == true) {
             $this->renderFile(
                 'module/links.menu.yml.twig',
-                $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.links.menu.yml',
+              $modulePath . '.links.menu.yml',
                 $parameters,
                 FILE_APPEND
             );

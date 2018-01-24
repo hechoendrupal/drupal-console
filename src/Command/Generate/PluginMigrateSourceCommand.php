@@ -168,16 +168,15 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
         $group_by = $input->getOption('group-by');
         $fields = $input->getOption('fields');
 
-        $this->generator
-            ->generate(
-                $module,
-                $class_name,
-                $plugin_id,
-                $table,
-                $alias,
-                $group_by,
-                $fields
-            );
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'plugin_id' => $plugin_id,
+          'table' => $table,
+          'alias' => $alias,
+          'group_by' => $group_by,
+          'fields' => $fields,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }

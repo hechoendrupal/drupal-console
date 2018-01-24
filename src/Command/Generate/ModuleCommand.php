@@ -199,22 +199,20 @@ class ModuleCommand extends Command
         $test = $input->getOption('test');
         $twigTemplate = $input->getOption('twigtemplate');
 
-        $this->generator->generate(
-            [
-                'module' => $module,
-                'machine_name' => $machineName,
-                'module_path' => $modulePath,
-                'description' => $description,
-                'core' => $core,
-                'package' => $package,
-                'module_file' => $moduleFile,
-                'features_bundle' => $featuresBundle,
-                'composer' => $composer,
-                'dependencies' => $dependencies,
-                'test' => $test,
-                'twig_template' => $twigTemplate
-            ]
-        );
+        $this->generator->generate([
+            'module' => $module,
+            'machine_name' => $machineName,
+            'dir' => $modulePath,
+            'description' => $description,
+            'core' => $core,
+            'package' => $package,
+            'module_file' => $moduleFile,
+            'features_bundle' => $featuresBundle,
+            'composer' => $composer,
+            'dependencies' => $dependencies,
+            'test' => $test,
+            'twigTemplate' => $twigTemplate,
+        ]);
 
         return 0;
     }

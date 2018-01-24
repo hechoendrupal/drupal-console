@@ -113,7 +113,11 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_id = $input->getOption('plugin-id');
 
-        $this->generator->generate($module, $class_name, $plugin_id);
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'plugin_id' => $plugin_id,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }

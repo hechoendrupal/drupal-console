@@ -7,16 +7,16 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Generator\JsTestGenerator;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Generator\JsTestGenerator;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Utils\Validator;
-use Drupal\Console\Extension\Manager;
 
 class JsTestCommand extends Command
 {
@@ -94,10 +94,10 @@ class JsTestCommand extends Command
         $module = $input->getOption('module');
         $class = $this->validator->validateClassName($input->getOption('class'));
 
-        $this->generator->generate(
-            $module,
-            $class
-        );
+        $this->generator->generate([
+            'module' => $module,
+            'class' => $class,
+        ]);
 
         return 0;
     }

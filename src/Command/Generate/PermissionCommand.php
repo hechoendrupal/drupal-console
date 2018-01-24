@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,6 +21,7 @@ use Drupal\Console\Utils\Validator;
 
 class PermissionCommand extends Command
 {
+    use ArrayInputTrait;
     use ModuleTrait;
     use PermissionTrait;
 
@@ -80,7 +82,7 @@ class PermissionCommand extends Command
             ->addOption(
                 'permissions',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.permissions')
             )
             ->setAliases(['gp']);
@@ -94,9 +96,17 @@ class PermissionCommand extends Command
         $module = $input->getOption('module');
         $permissions = $input->getOption('permissions');
         $learning = $input->hasOption('learning');
+        $noInteraction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($noInteraction) {
+          $permissions = $this->explodeInlineArray($permissions);
+        }
 
-
-        $this->generator->generate($module, $permissions, $learning);
+        $this->generator->generate([
+          'module_name' => $module,
+          'permissions' => $permissions,
+          'learning' => $learning,
+        ]);
     }
 
     /**
@@ -112,7 +122,10 @@ class PermissionCommand extends Command
         if (!$permissions) {
             // @see \Drupal\Console\Command\Shared\PermissionTrait::permissionQuestion
             $permissions = $this->permissionQuestion();
-            $input->setOption('permissions', $permissions);
+        } else {
+            $permissions = $this->explodeInlineArray($permissions);
         }
+
+        $input->setOption('permissions', $permissions);
     }
 }

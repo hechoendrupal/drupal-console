@@ -2,5 +2,5 @@
 services:
 {% endif %}
   plugin.manager.{{ plugin_name | lower }}:
-    class: Drupal\{{ module }}\{{ plugin_class }}Manager
+    class: Drupal\{{ module }}\{{ class_name }}Manager
     arguments: ['@module_handler', '@cache.discovery']

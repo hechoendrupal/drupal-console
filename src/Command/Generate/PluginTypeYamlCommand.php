@@ -112,7 +112,12 @@ class PluginTypeYamlCommand extends Command
         $plugin_name = $input->getOption('plugin-name');
         $plugin_file_name = $input->getOption('plugin-file-name');
 
-        $this->generator->generate($module, $class_name, $plugin_name, $plugin_file_name);
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class_name,
+            'plugin_name' => $plugin_name,
+            'plugin_file_name' => $plugin_file_name,
+        ]);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

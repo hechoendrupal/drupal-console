@@ -24,7 +24,6 @@ class PluginCKEditorButtonCommand extends Command
     use ModuleTrait;
     use ConfirmationTrait;
 
-
     /**
      * @var ChainQueue
      */
@@ -137,9 +136,14 @@ class PluginCKEditorButtonCommand extends Command
         $button_name = $input->getOption('button-name');
         $button_icon_path = $input->getOption('button-icon-path');
 
-        $this
-            ->generator
-            ->generate($module, $class_name, $label, $plugin_id, $button_name, $button_icon_path);
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'label' => $label,
+          'plugin_id' => $plugin_id,
+          'button_name' => $button_name,
+          'button_icon_path' => $button_icon_path,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
 

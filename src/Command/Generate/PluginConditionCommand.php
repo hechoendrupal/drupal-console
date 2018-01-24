@@ -152,9 +152,15 @@ class PluginConditionCommand extends Command
         $context_definition_label = $input->getOption('context-definition-label');
         $context_definition_required = $input->getOption('context-definition-required')?'TRUE':'FALSE';
 
-        $this
-            ->generator
-            ->generate($module, $class_name, $label, $plugin_id, $context_definition_id, $context_definition_label, $context_definition_required);
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class_name,
+            'label' => $label,
+            'plugin_id' => $plugin_id,
+            'context_definition_id' => $context_definition_id,
+            'context_definition_label' => $context_definition_label,
+            'context_definition_required' => $context_definition_required,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 

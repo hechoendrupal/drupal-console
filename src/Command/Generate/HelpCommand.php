@@ -116,9 +116,10 @@ class HelpCommand extends Command
 
         $description = $input->getOption('description');
 
-        $this
-            ->generator
-            ->generate($module, $description);
+        $this->generator->generate([
+          'machine_name' => $module,
+          'description' => $description,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 

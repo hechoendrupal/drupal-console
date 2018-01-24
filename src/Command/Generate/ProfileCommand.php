@@ -158,16 +158,17 @@ class ProfileCommand extends Command
         $themes = $this->validator->validateExtensions($input->getOption('themes'), 'theme', $this->getIo());
         $distribution = $input->getOption('distribution');
 
-        $this->generator->generate(
-            $profile,
-            $machine_name,
-            $profile_path,
-            $description,
-            $core,
-            $dependencies,
-            $themes,
-            $distribution
-        );
+        $this->generator->generate([
+            'profile' => $profile,
+            'machine_name' => $machine_name,
+            'type' => 'profile',
+            'core' => $core,
+            'description' => $description,
+            'dependencies' => $dependencies,
+            'themes' => $themes,
+            'distribution' => $distribution,
+            'dir' => $profile_path,
+        ]);
     }
 
     /**

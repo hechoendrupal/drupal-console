@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{ module }}\{{ plugin_class }}Manager.
+\Drupal\{{ module }}\{{ class_name }}Manager.
 {% endblock %}
 
 {% block namespace_class %}
@@ -21,7 +21,7 @@ use Drupal\Core\Plugin\Discovery\YamlDiscovery;
 /**
  * Provides the default {{ plugin_name }} manager.
  */
-class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugin_class }}ManagerInterface {% endblock %}
+class {{ class_name }}Manager extends DefaultPluginManager implements {{ class_name }}ManagerInterface {% endblock %}
 {% block class_methods %}
   /**
    * Provides default values for all {{ plugin_name }} plugins.
@@ -35,7 +35,7 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugi
   ];
 
   /**
-   * Constructs a new {{ plugin_class }}Manager object.
+   * Constructs a new {{ class_name }}Manager object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
@@ -72,5 +72,5 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugi
     }
   }
 
-  // Add other methods here as defined in the {{ plugin_class }}ManagerInterface.
+  // Add other methods here as defined in the {{ class_name }}ManagerInterface.
 {% endblock %}
