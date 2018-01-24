@@ -36,6 +36,11 @@ class LanguageAddCommand extends Command
     protected $moduleHandler;
 
     /**
+     * @var array
+     */
+    protected $missingLangues = [];
+
+    /**
      * LanguageAddCommand constructor.
      *
      * @param Site                   $site
@@ -57,7 +62,7 @@ class LanguageAddCommand extends Command
             ->setDescription($this->trans('commands.locale.language.add.description'))
             ->addArgument(
                 'language',
-                InputArgument::REQUIRED,
+                InputArgument::REQUIRED | InputArgument::IS_ARRAY,
                 $this->trans('commands.locale.translation.status.arguments.language')
             );
     }
@@ -68,30 +73,28 @@ class LanguageAddCommand extends Command
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
 
-        $language = $input->getArgument('language');
-        $languages = $this->site->getStandardLanguages();
+        $languageArguments = $this->checkLanguages($input->getArgument('language'));
+        $missingLanguages = $this->getMissingLangugaes();
+        if (count($missingLanguages) > 0) {
+          $this->getIo()->error(
+            sprintf(
+              $this->trans('commands.locale.language.add.messages.invalid-language'),
+              implode(', ', $missingLanguages)
+            )
+          );
 
-        if (isset($languages[$language])) {
-            $langcode = $language;
-        } elseif (array_search($language, $languages)) {
-            $langcode = array_search($language, $languages);
-        } else {
-            $this->getIo()->error(
-                sprintf(
-                    $this->trans('commands.locale.language.add.messages.invalid-language'),
-                    $language
-                )
-            );
-
-            return 1;
+          return 1;
         }
 
         try {
-            $language = ConfigurableLanguage::createFromLangcode($langcode);
-            $language->type = LOCALE_TRANSLATION_REMOTE;
-            $language->save();
-
-            $this->getIo()->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-successfully'), $language->getName()));
+            foreach (array_keys($languageArguments) as $langcode) {
+              if (!($language = ConfigurableLanguage::load($langcode))) {
+                $language = ConfigurableLanguage::createFromLangcode($langcode);
+                $language->type = LOCALE_TRANSLATION_REMOTE;
+                $language->save();
+              }
+            }
+            $this->getIo()->info(sprintf($this->trans('commands.locale.language.add.messages.language-add-successfully'), implode(', ', $languageArguments)));
         } catch (\Exception $e) {
             $this->getIo()->error($e->getMessage());
 
@@ -99,5 +102,50 @@ class LanguageAddCommand extends Command
         }
 
         return 0;
+    }
+
+    /**
+     * Checks the existance of the languages in the system.
+     *
+     * @param array $languageArguments
+     *   List of language arguments.
+     *
+     * @return array
+     *   List of available languages.
+     */
+    protected function checkLanguages($languageArguments) {
+      $languages = $this->site->getStandardLanguages();
+      $language_codes = array_keys($languages);
+      $buildLanguages = [];
+      foreach ($languageArguments as $language) {
+        if (array_search($language, $language_codes)) {
+          $buildLanguages[$language] = $languages[$language];
+        } elseif ($language_code = array_search($language, $languages)) {
+          $buildLanguages[$language_code] = $language;
+        } else {
+          $this->addMissingLanguage($language);
+        }
+      }
+      return $buildLanguages;
+    }
+
+    /**
+     * Add missing language.
+     *
+     * @param string $language
+     *   Language code or name.
+     */
+    private function addMissingLanguage($language) {
+      $this->missingLangues[] = $language;
+    }
+
+    /**
+     * Get list of missing languages.
+     *
+     * @return array
+     *   Missing languges.
+     */
+    private function getMissingLangugaes() {
+      return $this->missingLangues;
     }
 }
