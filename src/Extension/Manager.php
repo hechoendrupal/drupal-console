@@ -332,7 +332,7 @@ class Manager
         $module = $this->getModule($moduleName);
         $modulePath = $module->getPath();
         if ($moduleFile) {
-            $this->site->loadLegacyFile($modulePath . '/'. $moduleFile);
+            $this->site->loadLegacyFile($modulePath . '/' . $moduleFile);
         } else {
             $this->site->loadLegacyFile($modulePath . '/' . $module->getName() . '.module');
         }
@@ -352,7 +352,7 @@ class Manager
     {
         $module = $this->getModule($moduleName);
 
-        return $module->getPath() . '/src/Plugin/'.$pluginType;
+        return $module->getPath() . '/src/Plugin/' . $pluginType;
     }
 
     public function getDrupalExtension($type, $name)

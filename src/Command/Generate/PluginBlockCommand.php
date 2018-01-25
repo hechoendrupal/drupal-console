@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,6 +27,7 @@ use Drupal\Core\Render\ElementInfoManagerInterface;
 
 class PluginBlockCommand extends ContainerAwareCommand
 {
+    use ArrayInputTrait;
     use ServicesTrait;
     use ModuleTrait;
     use FormTrait;

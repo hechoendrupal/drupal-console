@@ -75,7 +75,9 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
   public function defaultConfiguration() {
     return [
 {% for input in inputs %}
-      '{{ input.name }}' => {{ input.default_code }},
+      {% if input.default_value is defined and input.default_value|length %}
+      '{{ input.name }}' => {{ input.default_value }},
+      {% endif %}
 {% endfor %}
     ] + parent::defaultConfiguration();
   }
