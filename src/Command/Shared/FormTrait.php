@@ -48,7 +48,7 @@ trait FormTrait
             $inputs = [];
             $fieldSets = [];
             while (true) {
-                $this->getIo()->info($this->trans('commands.common.questions.inputs.new-field'));
+                $this->getIo()->comment($this->trans('commands.common.questions.inputs.new-field'));
                 $this->getIo()->newLine();
                 $input_type = $this->getIo()->choiceNoList(
                     $this->trans('commands.common.questions.inputs.type'),
