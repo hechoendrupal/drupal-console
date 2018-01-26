@@ -40,9 +40,16 @@ trait FormTrait
             }
             sort($input_types);
 
+            $this->getIo()->writeln(sprintf(
+              $this->trans('commands.common.messages.available-field-types'), implode(', ', $input_types)
+            ));
+            $this->getIo()->newLine();
+
             $inputs = [];
             $fieldSets = [];
             while (true) {
+                $this->getIo()->comment($this->trans('commands.common.questions.inputs.new-field'));
+                $this->getIo()->newLine();
                 $input_type = $this->getIo()->choiceNoList(
                     $this->trans('commands.common.questions.inputs.type'),
                     $input_types,
@@ -174,6 +181,8 @@ trait FormTrait
                         'fieldset' => $inputFieldSet,
                     ]
                 );
+
+                $this->getIo()->newLine();
             }
 
             return $inputs;
