@@ -37,4 +37,12 @@ trait ConfirmationTrait
 
         return $confirmation;
     }
+
+    /**
+     * @deprecated
+     */
+    public function confirmGeneration()
+    {
+        return $this->confirmOperation();
+    }
 }
