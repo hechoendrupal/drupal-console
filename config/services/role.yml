@@ -6,6 +6,6 @@ services:
       - { name: drupal.command }
   console.role_delete:
     class: Drupal\Console\Command\Role\DeleteCommand
-    arguments: ['@database', '@entity_type.manager', '@date.formatter', '@console.drupal_api']
+    arguments: ['@database', '@entity_type.manager', '@date.formatter', '@console.drupal_api', '@console.validator']
     tags:
       - { name: drupal.command }

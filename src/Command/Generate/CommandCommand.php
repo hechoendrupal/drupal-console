@@ -158,8 +158,8 @@ class CommandCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         $generator = $input->getOption('generator');
 
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration()) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 

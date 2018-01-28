@@ -104,12 +104,12 @@ class NewCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $rolename = $input->getArgument('rolename');
-        $machine_name= $input->getArgument('machine-name');
+        $roleName = $input->getArgument('rolename');
+        $machineName = $this->validator->validateRoleNotExistence($this->validator->validateMachineName($input->getArgument('machine-name')), $this->drupalApi->getRoles());
 
         $role = $this->createRole(
-            $rolename,
-            $machine_name
+            $roleName,
+            $machineName
         );
 
         $tableHeader = [
@@ -119,7 +119,6 @@ class NewCommand extends Command
 
         if ($role['success']) {
             $this->getIo()->table($tableHeader, $role['success']);
-
             $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.role.new.messages.role-created'),
@@ -149,17 +148,12 @@ class NewCommand extends Command
         }
 
         $machine_name = $input->getArgument('machine-name');
-
         if (!$machine_name) {
             $machine_name = $this->getIo()->ask(
                 $this->trans('commands.role.new.questions.machine-name'),
                 $this->stringConverter->createMachineName($name),
                 function ($machine_name) {
-                    $roles = $this->drupalApi->getRoles();
-                    if (array_key_exists($machine_name, $roles)) {
-                        throw new \Exception('The machine name is already exist');
-                    }
-
+                    $this->validator->validateRoleNotExistence($machine_name, $this->drupalApi->getRoles());
                     return $this->validator->validateMachineName($machine_name);
                 }
             );
