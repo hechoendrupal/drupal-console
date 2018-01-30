@@ -239,6 +239,7 @@ class Drupal implements DrupalInterface
                 $messageManager->error(
                     $e->getMessage(),
                     $e->getCode(),
+                    'list',
                     'site:install'
                 );
             }
