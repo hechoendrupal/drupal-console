@@ -18,7 +18,7 @@ trait ConfirmationTrait
      *
      * @return bool
      */
-    public function confirmGeneration()
+    public function confirmOperation()
     {
         $input = $this->getIo()->getInput();
         $yes = $input->hasOption('yes') ? $input->getOption('yes') : false;
@@ -36,5 +36,13 @@ trait ConfirmationTrait
         }
 
         return $confirmation;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function confirmGeneration()
+    {
+        return $this->confirmOperation();
     }
 }

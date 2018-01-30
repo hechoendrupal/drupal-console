@@ -124,8 +124,8 @@ class PluginCKEditorButtonCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration()) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
