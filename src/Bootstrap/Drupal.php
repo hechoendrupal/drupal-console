@@ -257,7 +257,8 @@ class Drupal implements DrupalInterface
     {
         $drupal = new DrupalConsoleCore(
             $this->drupalFinder->getComposerRoot(),
-            $this->drupalFinder->getDrupalRoot()
+            $this->drupalFinder->getDrupalRoot(),
+            $this->drupalFinder
         );
 
         return $drupal->boot();
