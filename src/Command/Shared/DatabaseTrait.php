@@ -19,7 +19,7 @@ trait DatabaseTrait
      */
     public function dbHostQuestion()
     {
-        return $this->getIo->ask(
+        return $this->getIo()->ask(
             $this->trans('commands.migrate.execute.questions.db-host'),
             '127.0.0.1'
         );
