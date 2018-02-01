@@ -40,6 +40,7 @@ class AjaxCommandGenerator extends Generator
     {
         $class = $parameters['class_name'];
         $module = $parameters['module'];
+        $js_name = $parameters['js_name'];
 
         $moduleInstance = $this->extensionManager->getModule($module);
         $moduleDir = $moduleInstance->getPath();
@@ -51,7 +52,7 @@ class AjaxCommandGenerator extends Generator
 
         $this->renderFile(
             'module/js/commands.php.twig',
-            $moduleDir . '/js/custom.js',
+            $moduleDir . '/js/' .$js_name. '.js',
             $parameters
         );
 
