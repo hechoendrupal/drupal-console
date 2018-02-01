@@ -164,7 +164,6 @@ class ExecuteCommand extends Command
 
         try {
             $this->runUpdates(
-                $this->getIo(),
                 $updates
             );
 
