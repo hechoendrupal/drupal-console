@@ -98,6 +98,12 @@ class AjaxCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.ajax.command.options.method')
             )
+            ->addOption(
+                'js-name',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.ajax.command.options.js-name')
+            )
             ->setAliases(['gac']);
     }
 
@@ -114,12 +120,14 @@ class AjaxCommand extends Command
         $module = $input->getOption('module');
         $class = $this->validator->validateClassName($input->getOption('class'));
         $method = $input->getOption('method');
+        $js_name = $input->getOption('js-name');
 
         $this->generator->generate(
             [
                 'module' => $module,
                 'class_name' => $class,
                 'method' => $method,
+                'js_name' => $js_name,
             ]
         );
 
@@ -158,6 +166,16 @@ class AjaxCommand extends Command
                 'hello'
             );
             $input->setOption('method', $method);
+        }
+
+        // --js-name option
+        $js_name = $input->getOption('js-name');
+        if (!$js_name) {
+            $js_name = $this->getIo()->ask(
+                $this->trans('commands.generate.ajax.command.questions.js-name'),
+                'script'
+            );
+            $input->setOption('js-name', $js_name);
         }
     }
 }
