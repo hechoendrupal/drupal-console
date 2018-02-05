@@ -139,10 +139,9 @@ class Application extends BaseApplication
             }
         }
 
-        $this->container->set(
-            'console.invalid_commands',
-            $invalidCommands
-        );
+        $this->container
+            ->get('console.console_container')
+            ->set('invalid_commands', $invalidCommands);
 
         return;
     }
