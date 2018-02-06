@@ -30,7 +30,7 @@ class DrupalCompilerPass implements CompilerPassInterface
 
         // Set console.invalid_commands service
         $container
-            ->get('console.console_container')
+            ->get('console.key_value_storage')
             ->set('invalid_commands', null);
 
         // Set console.cache_key service

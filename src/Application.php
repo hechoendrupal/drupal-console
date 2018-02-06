@@ -140,7 +140,7 @@ class Application extends BaseApplication
         }
 
         $this->container
-            ->get('console.console_container')
+            ->get('console.key_value_storage')
             ->set('invalid_commands', $invalidCommands);
 
         return;
