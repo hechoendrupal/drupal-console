@@ -1,0 +1,34 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Plugin\Validation\Constraint\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin\Validation\Constraint;
+{% endblock %}
+
+{% block use_class %}
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Plugin implementation of the '{{ plugin_id }}'.
+ *
+ * @Constraint(
+ *   id = "{{ plugin_id }}",
+ *   label = @Translation("{{ label }}", context = "Validation"),
+ * )
+ */
+class {{ class_name }} extends Constraint
+{% endblock %}
+
+{% block class_properties %}
+    // The message that will be shown if the value is empty.
+    public $isEmpty = '%value is empty';
+
+    // The message that will be shown if the value is not unique.
+    public $notUnique = '%value is not unique';
+{% endblock %}
