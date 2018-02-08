@@ -64,7 +64,7 @@ class OverrideCommand extends Command
             ->addArgument(
                 'key-values',
                 InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-                $this->trans('commands.config.override.arguments.values')
+                $this->trans('commands.config.override.arguments.key-values')
             )
             ->setAliases(['co']);
     }
