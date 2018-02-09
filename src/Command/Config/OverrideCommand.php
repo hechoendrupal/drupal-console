@@ -121,14 +121,30 @@ class OverrideCommand extends Command
         $configName = $input->getArgument('name');
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
+        $keyValues = $input->getArgument('key-values');
+
+        if (sizeof($keyValues) > 0) {
+          // Multi-value config.
+        }
+        else if (!empty($key)) {
+          // Single config.
+          $keyValues[$key] = $value;
+        }
+        else {
+          Throw new \Exception($this->trans('commands.config.override.messages.key-value-required'));
+        }
 
         $config = $this->configFactory->getEditable($configName);
 
-        $configurationOverrideResult = $this->overrideConfiguration(
-            $config,
-            $key,
-            $value
-        );
+        $configurationOverrideResult = [];
+        foreach ($keyValues as $key => $value) {
+          $result = $this->overrideConfiguration(
+              $config,
+              $key,
+              $value
+          );
+          $configurationOverrideResult = array_merge($configurationOverrideResult, $result);
+        }
 
         $config->save();
 
