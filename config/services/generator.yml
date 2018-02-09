@@ -111,6 +111,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.plugin_migrate_data_parser_generator:
+    class: Drupal\Console\Generator\PluginMigrateDataParserGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.plugin_rest_resource_generator:
     class: Drupal\Console\Generator\PluginRestResourceGenerator
     arguments: ['@console.extension_manager']
