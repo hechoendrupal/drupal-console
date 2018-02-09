@@ -440,6 +440,8 @@ class InstallCommand extends ContainerAwareCommand
             );
             $container = $drupal->boot();
             $this->getApplication()->setContainer($container);
+            $this->getApplication()->validateCommands();
+            $this->getApplication()->loadCommands();
         } catch (Exception $e) {
             $this->getIo()->error($e->getMessage());
             return 1;
