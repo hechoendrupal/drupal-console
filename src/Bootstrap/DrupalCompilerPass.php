@@ -29,10 +29,9 @@ class DrupalCompilerPass implements CompilerPassInterface
             ->setClass(TranslatorManager::class);
 
         // Set console.invalid_commands service
-        $container->set(
-            'console.invalid_commands',
-            null
-        );
+        $container
+            ->get('console.key_value_storage')
+            ->set('invalid_commands', null);
 
         // Set console.cache_key service
         $container->set(
