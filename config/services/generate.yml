@@ -116,7 +116,7 @@ services:
        - { name: drupal.command }
   console.generate_plugin_migrate_data_parser:
     class: Drupal\Console\Command\Generate\PluginMigrateDataParserCommand
-    arguments: [ '@console.plugin_migrate_data_parser_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter', '@console.validator']
+    arguments: [ '@console.plugin_migrate_data_parser_generator', '@console.chain_queue', '@console.string_converter', '@console.validator']
     tags:
        - { name: drupal.command }
   console.generate_plugin_rest_resource:

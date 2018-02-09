@@ -15,7 +15,6 @@ use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Generator\PluginMigrateDataParserGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 
@@ -35,11 +34,6 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
     protected $chainQueue;
 
     /**
-     * @var Manager
-     */
-    protected $extensionManager;
-
-    /**
      * @var StringConverter
      */
     protected $stringConverter;
@@ -53,21 +47,18 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
      * PluginMigrateDataParserGenerator constructor.
      *
      * @param PluginMigrateDataParserGenerator $generator
-     * @param ChainQueue                    $chainQueue
-     * @param Manager                       $extensionManager
-     * @param StringConverter               $stringConverter
-     * @param Validator                     $validator
+     * @param ChainQueue                       $chainQueue
+     * @param StringConverter                  $stringConverter
+     * @param Validator                        $validator
      */
     public function __construct(
       PluginMigrateDataParserGenerator $generator,
-        ChainQueue $chainQueue,
-        Manager $extensionManager,
-        StringConverter $stringConverter,
-        Validator $validator
+      ChainQueue $chainQueue,
+      StringConverter $stringConverter,
+      Validator $validator
     ) {
         $this->generator = $generator;
         $this->chainQueue = $chainQueue;
-        $this->extensionManager = $extensionManager;
         $this->stringConverter = $stringConverter;
         $this->validator = $validator;
         parent::__construct();
