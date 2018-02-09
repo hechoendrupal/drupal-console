@@ -87,6 +87,12 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.plugin.migrate.data_parser.options.plugin-id')
+            )
+            ->addOption(
+                'plugin-title',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.migrate.data_parser.options.plugin-title')
             )->setAliases(['gpmdp']);
     }
 
@@ -103,11 +109,13 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
         $module = $input->getOption('module');
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_id = $input->getOption('plugin-id');
+        $plugin_title = $input->getOption('plugin-title');
 
         $this->generator->generate([
           'module' => $module,
           'class_name' => $class_name,
           'plugin_id' => $plugin_id,
+          'plugin_title' => $plugin_title,
         ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
@@ -142,6 +150,16 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
             $input->setOption('plugin-id', $pluginId);
+        }
+
+        // 'plugin-title' option.
+        $pluginTitle = $input->getOption('plugin-title');
+        if (!$pluginTitle) {
+          $pluginTitle = $this->getIo()->ask(
+            $this->trans('commands.generate.plugin.migrate.data_parser.questions.plugin-title'),
+            $this->stringConverter->camelCaseToUnderscore($class)
+          );
+          $input->setOption('plugin-title', $pluginTitle);
         }
     }
 }
