@@ -59,6 +59,7 @@ trait ServicesTrait
         if (!empty($services)) {
             foreach ($services as $service) {
                 $class = get_class($this->container->get($service));
+                $class = $this->getInterface($class);
                 $shortClass = explode('\\', $class);
                 $machineName = str_replace('.', '_', $service);
                 $buildServices[$service] = [
@@ -72,5 +73,28 @@ trait ServicesTrait
         }
 
         return $buildServices;
+    }
+
+    /**
+     * Gets class interface.
+     *
+     * @param string $class
+     *   Class name.
+     *
+     * @return string
+     *   Interface
+     */
+    private function getInterface($class) {
+        $interfaceName = $class;
+        $interfaces = class_implements($class);
+        if (!empty($interfaces)) {
+            if (count($interfaces) == 1) {
+                $interfaceName = array_shift($interfaces);
+            } elseif ($key = array_search($class . 'Interface', $interfaces)) {
+                $interfaceName = $interfaces[$key];
+            }
+        }
+
+        return $interfaceName;
     }
 }
