@@ -296,7 +296,8 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
         'weight' => -4,
       ])
       ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+      ->setDisplayConfigurable('view', TRUE)
+      ->setRequired(TRUE);
 
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
@@ -304,7 +305,11 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
 {% if revisionable %}
       ->setRevisionable(TRUE)
 {% endif %}
-      ->setDefaultValue(TRUE);
+      ->setDefaultValue(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'checkbox',
+        'weight' => -3,
+      ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
