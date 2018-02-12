@@ -29,18 +29,18 @@ class RoleData extends Base
         $limit
     ) {
         $roles = [];
-        for ($i=0; $i<$limit; $i++) {
-            $rolename = $this->getRandom()->word(mt_rand(6, 12));
-
-            $role = $this->entityTypeManager->getStorage('user_role')->create(
-                [
-                    'id' => $rolename,
-                    'label' => $rolename,
-                    'originalId' => $rolename
-                ]
-            );
-
+        for ($i = 0; $i < $limit; $i++) {
             try {
+                $rolename = $this->getRandom()->word(mt_rand(6, 12));
+
+                $role = $this->entityTypeManager->getStorage('user_role')->create(
+                    [
+                        'id' => $rolename,
+                        'label' => $rolename,
+                        'originalId' => $rolename
+                    ]
+                );
+
                 $role->save();
 
                 $roles['success'][] = [
@@ -48,11 +48,7 @@ class RoleData extends Base
                     'role-name' => $role->get('label')
                 ];
             } catch (\Exception $error) {
-                $roles['error'][] = [
-                    'vid' => $role->id(),
-                    'name' => $role->get('label'),
-                    'error' => $error->getMessage()
-                ];
+                $roles['error'][] = $error->getMessage();
             }
         }
 
