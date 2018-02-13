@@ -62,9 +62,9 @@ class OverrideCommand extends Command
                 $this->trans('commands.config.override.arguments.value')
             )
             ->addArgument(
-                'key-values',
+                'key-value',
                 InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-                $this->trans('commands.config.override.arguments.key-values')
+                $this->trans('commands.config.override.arguments.key-value')
             )
             ->setAliases(['co']);
     }
@@ -121,7 +121,7 @@ class OverrideCommand extends Command
         $configName = $input->getArgument('name');
         $key = $input->getArgument('key');
         $value = $input->getArgument('value');
-        $keyValues = $input->getArgument('key-values');
+        $keyValues = $input->getArgument('key-value');
 
         if (sizeof($keyValues) > 0) {
           // Multi-value config.
