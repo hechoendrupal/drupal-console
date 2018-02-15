@@ -50,8 +50,10 @@
         "symfony/css-selector": "~2.8|~3.0",
         "symfony/dom-crawler": "~2.8|~3.0",
         "symfony/expression-language": "~2.8|~3.0",
-        "symfony/http-foundation": "~2.8|~3.0",
-        "symfony/thanks": "^1.0"
+        "symfony/http-foundation": "~2.8|~3.0"
+    },
+    "suggest": {
+        "symfony/thanks": "Thank your favorite PHP projects on Github using the CLI!"
     },
     "bin": ["bin/drupal"],
     "config": {
