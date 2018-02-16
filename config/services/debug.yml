@@ -147,3 +147,8 @@ services:
     arguments: ['@console.drupal_api']
     tags:
       - { name: drupal.command }
+  console.hook_debug:
+      class: Drupal\Console\Command\Debug\HookCommand
+      arguments: ['@console.extension_manager', '@module_handler']
+      tags:
+        - { name: drupal.command }
