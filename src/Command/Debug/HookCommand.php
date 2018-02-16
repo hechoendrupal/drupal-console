@@ -62,11 +62,7 @@ class HookCommand extends Command
         $this
             ->setName('debug:hook')
             ->setDescription($this->trans('commands.debug.hook.description'))
-            ->addArgument(
-                'module',
-                InputArgument::OPTIONAL,
-                $this->trans('commands.debug.hook.options.module')
-            )->setAliases(['dbh']);
+            ->setAliases(['dbh']);
     }
 
     /**
@@ -80,7 +76,6 @@ class HookCommand extends Command
         ];
 
         $this->getIo()->table($tableHeader, $this->getHooks(), 'compact');
-
         return 0;
     }
 
