@@ -211,7 +211,7 @@ class ModuleCommand extends Command
             'composer' => $composer,
             'dependencies' => $dependencies,
             'test' => $test,
-            'twigTemplate' => $twigTemplate,
+            'twig_template' => $twigTemplate,
         ]);
 
         return 0;
