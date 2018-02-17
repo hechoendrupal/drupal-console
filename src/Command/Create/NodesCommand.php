@@ -203,31 +203,42 @@ class NodesCommand extends Command
             $contentTypes = $available_types;
         }
 
-        $nodes = $this->createNodeData->create(
+        $result = $this->createNodeData->create(
             $contentTypes,
             $limit,
             $titleWords,
             $timeRange,
             $language
         );
-        
-        $nodes = is_array($nodes) ? $nodes : [$nodes];
 
-        $tableHeader = [
-          $this->trans('commands.create.nodes.messages.node-id'),
-          $this->trans('commands.create.nodes.messages.content-type'),
-          $this->trans('commands.create.nodes.messages.title'),
-          $this->trans('commands.create.nodes.messages.created'),
-        ];
+        if ($result['success']) {
+            $tableHeader = [
+                $this->trans('commands.create.nodes.messages.node-id'),
+                $this->trans('commands.create.nodes.messages.content-type'),
+                $this->trans('commands.create.nodes.messages.title'),
+                $this->trans('commands.create.nodes.messages.created'),
+            ];
 
-        $this->getIo()->table($tableHeader, $nodes['success']);
+            $this->getIo()->table($tableHeader, $result['success']);
 
-        $this->getIo()->success(
-            sprintf(
-                $this->trans('commands.create.nodes.messages.created-nodes'),
-                $limit
-            )
-        );
+            $this->getIo()->success(
+                sprintf(
+                    $this->trans('commands.create.nodes.messages.created-nodes'),
+                    count($result['success'])
+                )
+            );
+        }
+
+        if (isset($result['error'])) {
+            foreach ($result['error'] as $error) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.create.nodes.messages.error'),
+                        $error
+                    )
+                );
+            }
+        }
 
         return 0;
     }
