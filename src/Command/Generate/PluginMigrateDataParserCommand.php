@@ -76,9 +76,9 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('generate:plugin:migrate:data_parser')
-            ->setDescription($this->trans('commands.generate.plugin.migrate.data_parser.description'))
-            ->setHelp($this->trans('commands.generate.plugin.migrate.data_parser.help'))
+            ->setName('generate:plugin:migrate:dataparser')
+            ->setDescription($this->trans('commands.generate.plugin.migrate.dataparser.description'))
+            ->setHelp($this->trans('commands.generate.plugin.migrate.dataparser.help'))
             ->addOption(
                 'module',
                 null,
@@ -89,19 +89,19 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.migrate.data_parser.options.class')
+                $this->trans('commands.generate.plugin.migrate.dataparser.options.class')
             )
             ->addOption(
                 'plugin-id',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.migrate.data_parser.options.plugin-id')
+                $this->trans('commands.generate.plugin.migrate.dataparser.options.plugin-id')
             )
             ->addOption(
                 'plugin-title',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.migrate.data_parser.options.plugin-title')
+                $this->trans('commands.generate.plugin.migrate.dataparser.options.plugin-title')
             )->setAliases(['gpmdp']);
     }
 
@@ -142,7 +142,7 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
         $class = $input->getOption('class');
         if (!$class) {
             $class = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.migrate.data_parser.questions.class'),
+                $this->trans('commands.generate.plugin.migrate.dataparser.questions.class'),
                 ucfirst($this->stringConverter->underscoreToCamelCase($module)),
                 function ($class) {
                     return $this->validator->validateClassName($class);
@@ -155,7 +155,7 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
             $pluginId = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.migrate.data_parser.questions.plugin-id'),
+                $this->trans('commands.generate.plugin.migrate.dataparser.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
             $input->setOption('plugin-id', $pluginId);
@@ -165,7 +165,7 @@ class PluginMigrateDataParserCommand extends ContainerAwareCommand
         $pluginTitle = $input->getOption('plugin-title');
         if (!$pluginTitle) {
           $pluginTitle = $this->getIo()->ask(
-            $this->trans('commands.generate.plugin.migrate.data_parser.questions.plugin-title'),
+            $this->trans('commands.generate.plugin.migrate.dataparser.questions.plugin-title'),
             $this->stringConverter->camelCaseToUnderscore($class)
           );
           $input->setOption('plugin-title', $pluginTitle);
