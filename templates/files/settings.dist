@@ -1,0 +1,55 @@
+
+// Load .env file if exists
+if (file_exists(dirname(DRUPAL_ROOT) . '/.env')) {
+    // Load environment
+    // make sure you add the vlucas/phpdotenv dependency using:
+    // composer require vlucas/phpdotenv
+    $dotenv = new \Dotenv\Dotenv(dirname(DRUPAL_ROOT));
+    $dotenv->load();
+}
+
+# Load environment
+$env = getenv('ENVIRONMENT');
+
+# Load key/value settings
+$settings_drupal = array_filter(
+    $_SERVER,
+    function($key) {
+        return  strpos($key, 'SETTINGS_') === 0;
+    },
+    ARRAY_FILTER_USE_KEY
+);
+
+# Set key/value settings
+foreach ($settings_drupal as $name => $value) {
+  if (substr($name, 0, 9) === 'SETTINGS_') {
+    $key = strtolower(substr($name, 9));
+    $settings[$key] = $value;
+  }
+}
+
+$base_path = $app_root . '/' . $site_path;
+$servicesFile = $base_path . '/services.'.$env.'.yml';
+$settingsFile = $base_path . '/settings.'.$env.'.php';
+
+// Load services definition file.
+if (file_exists($servicesFile)) {
+    $settings['container_yamls'][] = $servicesFile;
+}
+
+// Load settings file.
+if (file_exists($settingsFile)) {
+    include $settingsFile;
+}
+
+$databases['default']['default'] = array (
+    'database' =>  getenv('DATABASE_NAME'),
+    'username' => getenv('DATABASE_USER'),
+    'password' => getenv('DATABASE_PASSWORD'),
+    'prefix' => '',
+    'host' => getenv('DATABASE_HOST'),
+    'port' => getenv('DATABASE_PORT'),
+    'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+    'driver' => 'mysql',
+);
+

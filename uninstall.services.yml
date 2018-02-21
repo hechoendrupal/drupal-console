@@ -26,6 +26,22 @@ services:
     arguments: ['@app.root']
     tags:
       - { name: drupal.command }
+  console.dotenv_init:
+    class: \Drupal\Console\Command\Dotenv\InitCommand
+    arguments: ['@console.drupal_finder', '@console.dotenv_init_generator']
+    tags:
+      - { name: drupal.command }
+  console.dotenv_debug:
+    class: \Drupal\Console\Command\Debug\DotenvCommand
+    arguments: ['@console.drupal_finder']
+    tags:
+      - { name: drupal.command}
+  # Generators
+  console.dotenv_init_generator:
+    class: Drupal\Console\Generator\DotenvInitGenerator
+    tags:
+      - { name: drupal.generator }
+  # Drupal services
   http_client:
     class: GuzzleHttp\Client
 
