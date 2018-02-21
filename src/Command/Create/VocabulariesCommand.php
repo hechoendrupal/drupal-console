@@ -91,7 +91,7 @@ class VocabulariesCommand extends Command
         $limit = $input->getOption('limit')?:25;
         $nameWords = $input->getOption('name-words')?:5;
 
-        $vocabularies = $this->vocabularyData->create(
+        $result = $this->vocabularyData->create(
             $limit,
             $nameWords
         );
@@ -101,22 +101,26 @@ class VocabulariesCommand extends Command
           $this->trans('commands.create.vocabularies.messages.name'),
         ];
 
-        if (isset($vocabularies['success'])) {
-            $this->getIo()->table($tableHeader, $vocabularies['success']);
+        if (isset($result['success'])) {
+            $this->getIo()->table($tableHeader, $result['success']);
 
             $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.create.vocabularies.messages.created-terms'),
-                    $limit
+                    count($result['success'])
                 )
             );
-        } else {
-            $this->getIo()->error(
-                sprintf(
-                    $this->trans('commands.create.vocabularies.messages.error'),
-                    $vocabularies['error'][0]['error']
-                )
-            );
+        }
+
+        if (isset($result['error'])) {
+            foreach ($result['error'] as $error) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.create.vocabularies.messages.error'),
+                        $error
+                    )
+                );
+            }
         }
 
         return 0;

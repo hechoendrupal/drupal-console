@@ -57,7 +57,7 @@ services:
       - { name: drupal.command }
   console.queue_debug:
     class: Drupal\Console\Command\Debug\QueueCommand
-    arguments: ['@plugin.manager.queue_worker']
+    arguments: ['@queue', '@plugin.manager.queue_worker']
     tags:
       - { name: drupal.command }
   console.libraries_debug:
@@ -87,7 +87,7 @@ services:
       - { name: drupal.command }
   console.database_table_debug:
     class: Drupal\Console\Command\Debug\DatabaseTableCommand
-    arguments: ['@console.redbean', '@database']
+    arguments: ['@database']
     tags:
       - { name: drupal.command }
   console.cron_debug:
