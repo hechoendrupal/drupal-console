@@ -47,10 +47,10 @@
         "psy/psysh": "0.6.* || ~0.8",
         "symfony/css-selector": "~2.8|~3.0",
         "symfony/dom-crawler": "~2.8|~3.0",
-        "symfony/http-foundation": "~2.8|~3.0",
-        "symfony/thanks": "^1.0"
+        "symfony/http-foundation": "~2.8|~3.0"
     },
     "suggest": {
+        "symfony/thanks": "Thank your favorite PHP projects on Github using the CLI!",
         "drupal/console-dotenv": "This project provide support for env and contains a new command to setup dotenv on a drupal site."
     },
     "bin": ["bin/drupal"],
