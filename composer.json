@@ -44,7 +44,6 @@
         "drupal/console-core": "dev-master",
         "drupal/console-dotenv": "~0",
         "drupal/console-extend-plugin": "~0",
-        "gabordemooij/redbean": "~4.3",
         "guzzlehttp/guzzle": "~6.1",
         "psy/psysh": "0.6.* || ~0.8",
         "symfony/css-selector": "~2.8|~3.0",
