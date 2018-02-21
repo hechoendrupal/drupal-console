@@ -51,7 +51,7 @@
     },
     "suggest": {
         "symfony/thanks": "Thank your favorite PHP projects on Github using the CLI!",
-        "drupal/console-dotenv": "This project provide support for env and contains a new command to setup dotenv on a drupal site."
+        "vlucas/phpdotenv": "Loads environment variables from .env to getenv(), $_ENV and $_SERVER automagically."
     },
     "bin": ["bin/drupal"],
     "config": {
