@@ -4,6 +4,7 @@ namespace Drupal\Console\Bootstrap;
 
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
+use Dflydev\DotAccessConfiguration\ConfigurationInterface;
 
 /**
  * Class DrupalServiceModifier
@@ -27,21 +28,26 @@ class DrupalServiceModifier implements ServiceModifierInterface
      */
     protected $generatorTag;
 
+    protected $configuration;
+
     /**
      * DrupalServiceModifier constructor.
      *
-     * @param string $root
-     * @param string $serviceTag
-     * @param string $generatorTag
+     * @param string                 $root
+     * @param string                 $serviceTag
+     * @param string                 $generatorTag
+     * @param ConfigurationInterface $configuration
      */
     public function __construct(
         $root = null,
         $serviceTag,
-        $generatorTag
+        $generatorTag,
+        $configuration
     ) {
         $this->root = $root;
         $this->commandTag = $serviceTag;
         $this->generatorTag = $generatorTag;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -50,15 +56,7 @@ class DrupalServiceModifier implements ServiceModifierInterface
     public function alter(ContainerBuilder $container)
     {
         $container->addCompilerPass(
-            new DrupalCompilerPass()
+            new DrupalCompilerPass($this->configuration)
         );
-
-        //        $container->addCompilerPass(
-        //            new FindCommandsCompilerPass($this->commandTag)
-        //        );
-        //
-        //        $container->addCompilerPass(
-        //            new FindGeneratorsCompilerPass($this->generatorTag)
-        //        );
     }
 }

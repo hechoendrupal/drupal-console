@@ -2,6 +2,8 @@
 
 namespace Drupal\Console\Bootstrap;
 
+use Dflydev\DotAccessConfiguration\ConfigurationInterface;
+use Drupal\Console\Override\ConfigSubscriber;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Drupal\Console\Utils\TranslatorManager;
@@ -12,6 +14,18 @@ use Drupal\Core\Cache\ListCacheBinsPass;
  */
 class DrupalCompilerPass implements CompilerPassInterface
 {
+    protected $configuration;
+
+    /**
+     * DrupalCompilerPass constructor.
+     *
+     * @param ConfigurationInterface $configuration
+     */
+    public function __construct(ConfigurationInterface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
     /**
      * @inheritdoc
      */
@@ -27,6 +41,16 @@ class DrupalCompilerPass implements CompilerPassInterface
         $container
             ->getDefinition('console.translator_manager')
             ->setClass(TranslatorManager::class);
+
+        $skipValidateSiteUuid = $this->configuration
+            ->get('application.overrides.config.skip-validate-site-uuid');
+
+        if ($skipValidateSiteUuid) {
+            // override system.config_subscriber
+            $container
+                ->getDefinition('system.config_subscriber')
+                ->setClass(ConfigSubscriber::class);
+        }
 
         // Set console.invalid_commands service
         $container
