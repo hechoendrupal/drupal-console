@@ -140,11 +140,14 @@ class Drupal implements DrupalInterface
                 $io->writeln('➤ Registering dynamic services');
             }
 
+            $configuration = $this->configurationManager->getConfiguration();
+
             $drupalKernel->addServiceModifier(
                 new DrupalServiceModifier(
                     $this->drupalFinder->getComposerRoot(),
                     'drupal.command',
-                    'drupal.generator'
+                    'drupal.generator',
+                    $configuration
                 )
             );
 
@@ -192,8 +195,6 @@ class Drupal implements DrupalInterface
                 'console.configuration_manager',
                 $this->configurationManager
             );
-
-            $configuration = $this->configurationManager->getConfiguration();
 
             $container->get('console.translator_manager')
                 ->loadCoreLanguage(
