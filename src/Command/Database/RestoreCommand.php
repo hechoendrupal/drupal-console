@@ -56,7 +56,8 @@ class RestoreCommand extends Command
                 $this->trans('commands.database.restore.options.file')
             )
             ->setHelp($this->trans('commands.database.restore.help'))
-            ->setAliases(['dbr']);
+            ->setAliases(['dbr'])
+            ->enableMaintenance();
     }
 
     /**
