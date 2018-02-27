@@ -260,7 +260,7 @@ class ExportSingleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $directory = $input->getOption('directory');
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $name = $input->getOption('name');
         $optional = $input->getOption('optional');
         $removeUuid = $input->getOption('remove-uuid');

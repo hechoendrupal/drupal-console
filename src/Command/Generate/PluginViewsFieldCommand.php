@@ -130,7 +130,7 @@ class PluginViewsFieldCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $class_machine_name = $this->stringConverter->camelCaseToUnderscore($class_name);
         $title = $input->getOption('title');
