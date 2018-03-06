@@ -1,12 +1,14 @@
 
+// If not using real environment variables.
+// Make sure you add the `vlucas/phpdotenv` dependency using composer:
+// composer require vlucas/phpdoten
+/**
 // Load .env file if exists
 if (file_exists(dirname(DRUPAL_ROOT) . '/.env')) {
-    // Load environment
-    // make sure you add the vlucas/phpdotenv dependency using:
-    // composer require vlucas/phpdotenv
     $dotenv = new \Dotenv\Dotenv(dirname(DRUPAL_ROOT));
     $dotenv->load();
 }
+*/
 
 # Load environment
 $env = getenv('ENVIRONMENT');
