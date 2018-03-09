@@ -47,9 +47,10 @@ class DrupalCompilerPass implements CompilerPassInterface
 
         if ($skipValidateSiteUuid) {
             // override system.config_subscriber
-            $container
-                ->getDefinition('system.config_subscriber')
-                ->setClass(ConfigSubscriber::class);
+            if ($container->has('system.config_subscriber')) {
+                $container->getDefinition('system.config_subscriber')
+                    ->setClass(ConfigSubscriber::class);
+            }
         }
 
         // Set console.invalid_commands service
