@@ -121,6 +121,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.plugin_rules_condition_generator:
+      class: Drupal\Console\Generator\PluginRulesConditionGenerator
+      arguments: ['@console.extension_manager']
+      tags:
+        - { name: drupal.generator }
   console.plugin_skeleton_generator:
     class: Drupal\Console\Generator\PluginSkeletonGenerator
     arguments: ['@console.extension_manager']

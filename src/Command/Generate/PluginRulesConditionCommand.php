@@ -15,7 +15,7 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Generator\PluginRulesActionGenerator;
+use Drupal\Console\Generator\PluginRulesConditionGenerator;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
