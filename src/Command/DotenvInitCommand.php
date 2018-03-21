@@ -107,6 +107,10 @@ class DotenvInitCommand extends GenerateCommand
         $destinationFile = $this->drupalFinder
                 ->getDrupalRoot() . '/sites/default/settings.php';
 
+        $directory = dirname($sourceFile);
+        $permissions = fileperms($directory);
+        $fs->chmod($directory, 0755);
+
         $this->validateFileExists($fs, $sourceFile);
         $this->backUpFile($fs, $destinationFile);
 
@@ -138,6 +142,8 @@ class DotenvInitCommand extends GenerateCommand
         drupal_rewrite_settings($settings, $destinationFile);
 
         $this->showFileCreatedMessage($destinationFile);
+
+        $fs->chmod($directory, $permissions);
     }
 
     private function copyEnvFile(Filesystem $fs)
