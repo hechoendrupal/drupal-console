@@ -53,5 +53,7 @@ class DotenvCommand extends Command
 
         $fileContent = file_get_contents($envFile);
         $this->getIo()->writeln($fileContent);
+
+        $this->getIo()->warning('This command is deprecated use instead: `cat .env`');
     }
 }
