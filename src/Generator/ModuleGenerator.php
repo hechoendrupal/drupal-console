@@ -26,7 +26,6 @@ class ModuleGenerator extends Generator
         $modulePath = $parameters['module_path'];
         $moduleFile = $parameters['module_file'];
         $featuresBundle = $parameters['features_bundle'];
-        $composer = $parameters['composer'];
         $test = $parameters['test'];
         $twigTemplate = $parameters['twig_template'];
 
@@ -79,14 +78,6 @@ class ModuleGenerator extends Generator
 
         if ($moduleFile) {
             $this->createModuleFile($moduleDirectory, $parameters);
-        }
-
-        if ($composer) {
-            $this->renderFile(
-                'module/composer.json.twig',
-                $moduleDirectory . '/' . 'composer.json',
-                $parameters
-            );
         }
 
         if ($test) {

@@ -211,3 +211,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.composer_generator:
+      class: Drupal\Console\Generator\ComposerGenerator
+      arguments: ['@console.extension_manager']
+      tags:
+        - { name: drupal.generator }

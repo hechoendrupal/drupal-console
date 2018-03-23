@@ -1,7 +1,7 @@
 services:
   console.generate_module:
     class: Drupal\Console\Command\Generate\ModuleCommand
-    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api']
+    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api', '@console.chain_queue']
     tags:
        - { name: drupal.command }
   console.generate_modulefile:
@@ -214,3 +214,8 @@ services:
     arguments: ['@console.extension_manager', '@console.js_test_generator', '@console.validator']
     tags:
        - { name: drupal.command }
+  console.generate_composer:
+      class: Drupal\Console\Command\Generate\ComposerCommand
+      arguments: ['@console.composer_generator', '@console.extension_manager', '@console.validator']
+      tags:
+         - { name: drupal.command }
