@@ -112,19 +112,29 @@ class ExportContentTypeCommand extends Command
 
         // --content-type argument
         $contentType = $input->getArgument('content-type');
-        if (!$contentType) {
+
+        if (!$contentType || $contentType == 'all') {
             $bundles_entities = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
-            $bundles = [];
+            $bundles = ['all' => $this->trans('commands.config.export.content.type.questions.all')];
+            $bundles_ids = [];
             foreach ($bundles_entities as $entity) {
                 $bundles[$entity->id()] = $entity->label();
+                $bundles_ids[] = $entity->id();
             }
 
-            $contentType = $this->getIo()->choice(
-                $this->trans('commands.config.export.content.type.questions.content-type'),
-                $bundles
-            );
+            if (!$contentType) {
+              $contentType = $this->getIo()->choice(
+                  $this->trans('commands.config.export.content.type.questions.content-type'),
+                  $bundles
+              );
+            }
         }
-        $input->setArgument('content-type', $contentType);
+
+        if ($contentType == 'all') {
+          $input->setArgument('content-type', $bundles_ids);
+        }else{
+          $input->setArgument('content-type', [$contentType]);
+        }
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
@@ -158,29 +168,31 @@ class ExportContentTypeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $input->getOption('module');
-        $contentType = $input->getArgument('content-type');
+        $contentTypes = $input->getArgument('content-type');
         $optionalConfig = $input->getOption('optional-config');
         $removeUuid = $input->getOption('remove-uuid');
         $removeHash = $input->getOption('remove-config-hash');
 
-        $contentTypeDefinition = $this->entityTypeManager->getDefinition('node_type');
-        $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
+        foreach ($contentTypes as $contentType) {
+            $contentTypeDefinition = $this->entityTypeManager->getDefinition('node_type');
+            $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
 
-        $contentTypeNameConfig = $this->getConfiguration($contentTypeName, $removeUuid, $removeHash);
+            $contentTypeNameConfig = $this->getConfiguration($contentTypeName, $removeUuid, $removeHash);
 
-        if (empty($contentTypeNameConfig)) {
-            throw new InvalidOptionException(sprintf('The content type %s does not exist.', $contentType));
+            if (empty($contentTypeNameConfig)) {
+                throw new InvalidOptionException(sprintf('The content type %s does not exist.', $contentType));
+            }
+
+            $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];
+
+            $this->getFields($contentType, $optionalConfig, $removeUuid, $removeHash);
+
+            $this->getFormDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
+
+            $this->getViewDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
+
+            $this->exportConfigToModule($module, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
         }
-
-        $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];
-
-        $this->getFields($contentType, $optionalConfig, $removeUuid, $removeHash);
-
-        $this->getFormDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
-
-        $this->getViewDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
-
-        $this->exportConfigToModule($module, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
     }
 
     protected function getFields($contentType, $optional = false, $removeUuid = false, $removeHash = false)
