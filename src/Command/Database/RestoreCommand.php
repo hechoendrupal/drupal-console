@@ -128,29 +128,28 @@ class RestoreCommand extends Command
         }
 
         foreach ($commands as $command) {
-          if ($learning) {
-            $this->getIo()->commentBlock($command);
-          }
+            if ($learning) {
+              $this->getIo()->commentBlock($command);
+            }
 
-          $processBuilder = new ProcessBuilder(['-v']);
-          $process = $processBuilder->getProcess();
-          $process->setWorkingDirectory($this->appRoot);
-          $process->setTty($input->isInteractive());
-          $process->setCommandLine($command);
-          $process->run();
+            $processBuilder = new ProcessBuilder(['-v']);
+            $process = $processBuilder->getProcess();
+            $process->setWorkingDirectory($this->appRoot);
+            $process->setTty($input->isInteractive());
+            $process->setCommandLine($command);
+            $process->run();
 
-          if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
-          }
-
+            if (!$process->isSuccessful()) {
+              throw new \RuntimeException($process->getErrorOutput());
+            }
         }
 
         $this->getIo()->success(
-          sprintf(
-            '%s %s',
-            $this->trans('commands.database.restore.messages.success'),
-            $file
-          )
+            sprintf(
+              '%s %s',
+              $this->trans('commands.database.restore.messages.success'),
+              $file
+            )
         );
 
         return 0;
