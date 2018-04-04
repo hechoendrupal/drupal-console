@@ -11,6 +11,11 @@ services:
     arguments: ['@app.root', '@console.configuration_manager']
     tags:
       - { name: drupal.command }
+  console.database_restore:
+    class: Drupal\Console\Command\Database\RestoreCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }
   console.site_install:
     class: Drupal\Console\Command\Site\InstallCommand
     arguments: ['@console.extension_manager', '@console.site', '@console.configuration_manager', '@app.root']

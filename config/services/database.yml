@@ -36,8 +36,3 @@ services:
     arguments: ['@database', '@date.formatter', '@entity_type.manager', '@string_translation']
     tags:
       - { name: drupal.command }
-  console.database_restore:
-    class: Drupal\Console\Command\Database\RestoreCommand
-    arguments: ['@app.root']
-    tags:
-      - { name: drupal.command }
