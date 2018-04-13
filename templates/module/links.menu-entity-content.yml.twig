@@ -11,7 +11,7 @@ entity.{{ entity_name }}.collection:
 {# Note: a content entity with bundles will have the settings configured on the bundle (config) entity. #}
 {% if not bundle_entity_type %}
 {{ entity_name }}.admin.structure.settings:
-  title: {{ label }} settings
+  title: '{{ label }} settings'
   description: 'Configure {{ label }} entities'
   route_name: {{ entity_name }}.settings
   parent: system.admin_structure

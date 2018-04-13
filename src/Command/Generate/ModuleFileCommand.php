@@ -15,7 +15,7 @@ use Drupal\Console\Generator\ModuleFileGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Utils\Validator;
 
 /**
  * Class ModuleFileCommand
@@ -28,14 +28,19 @@ class ModuleFileCommand extends Command
     use ModuleTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var ModuleFileGenerator
-*/
+     * @var ModuleFileGenerator
+     */
     protected $generator;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
 
 
     /**
@@ -46,10 +51,12 @@ class ModuleFileCommand extends Command
      */
     public function __construct(
         Manager $extensionManager,
-        ModuleFileGenerator $generator
+        ModuleFileGenerator $generator,
+        Validator $validator
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -75,21 +82,18 @@ class ModuleFileCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $yes)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
         $machine_name =  $input->getOption('module');
         $file_path =  $this->extensionManager->getModule($machine_name)->getPath();
-        $generator = $this->generator;
 
-        $generator->generate(
-            $machine_name,
-            $file_path
-        );
+        $this->generator->generate([
+            'machine_name' => $machine_name,
+            'file_path' => $file_path,
+        ]);
     }
 
 
@@ -98,16 +102,7 @@ class ModuleFileCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-        }
-
-        $input->setOption('module', $module);
+        $this->getModuleOption();
     }
 }

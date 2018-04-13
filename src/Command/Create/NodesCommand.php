@@ -16,7 +16,6 @@ use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Utils\Create\NodeData;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Language\LanguageInterface;
 
 /**
@@ -101,12 +100,10 @@ class NodesCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $contentTypes = $input->getArgument('content-types');
         if (!$contentTypes) {
             $bundles = $this->drupalApi->getBundles();
-            $contentTypes = $io->choice(
+            $contentTypes = $this->getIo()->choice(
                 $this->trans('commands.create.nodes.questions.content-type'),
                 array_values($bundles),
                 null,
@@ -125,7 +122,7 @@ class NodesCommand extends Command
 
         $limit = $input->getOption('limit');
         if (!$limit) {
-            $limit = $io->ask(
+            $limit = $this->getIo()->ask(
                 $this->trans('commands.create.nodes.questions.limit'),
                 25
             );
@@ -134,7 +131,7 @@ class NodesCommand extends Command
 
         $titleWords = $input->getOption('title-words');
         if (!$titleWords) {
-            $titleWords = $io->ask(
+            $titleWords = $this->getIo()->ask(
                 $this->trans('commands.create.nodes.questions.title-words'),
                 5
             );
@@ -146,7 +143,7 @@ class NodesCommand extends Command
         if (!$timeRange) {
             $timeRanges = $this->getTimeRange();
 
-            $timeRange = $io->choice(
+            $timeRange = $this->getIo()->choice(
                 $this->trans('commands.create.nodes.questions.time-range'),
                 array_values($timeRanges)
             );
@@ -172,7 +169,7 @@ class NodesCommand extends Command
             $language = $input->getOption('language');
             // If no language option or invalid language code in option.
             if (!$language || !array_key_exists($language, $language_list)) {
-                $language = $io->choice(
+                $language = $this->getIo()->choice(
                     $this->trans('commands.create.nodes.questions.language'),
                     $language_list
                 );
@@ -189,8 +186,6 @@ class NodesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $contentTypes = $input->getArgument('content-types');
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
@@ -208,31 +203,42 @@ class NodesCommand extends Command
             $contentTypes = $available_types;
         }
 
-        $nodes = $this->createNodeData->create(
+        $result = $this->createNodeData->create(
             $contentTypes,
             $limit,
             $titleWords,
             $timeRange,
             $language
         );
-        
-        $nodes = is_array($nodes) ? $nodes : [$nodes];
 
-        $tableHeader = [
-          $this->trans('commands.create.nodes.messages.node-id'),
-          $this->trans('commands.create.nodes.messages.content-type'),
-          $this->trans('commands.create.nodes.messages.title'),
-          $this->trans('commands.create.nodes.messages.created'),
-        ];
+        if ($result['success']) {
+            $tableHeader = [
+                $this->trans('commands.create.nodes.messages.node-id'),
+                $this->trans('commands.create.nodes.messages.content-type'),
+                $this->trans('commands.create.nodes.messages.title'),
+                $this->trans('commands.create.nodes.messages.created'),
+            ];
 
-        $io->table($tableHeader, $nodes['success']);
+            $this->getIo()->table($tableHeader, $result['success']);
 
-        $io->success(
-            sprintf(
-                $this->trans('commands.create.nodes.messages.created-nodes'),
-                $limit
-            )
-        );
+            $this->getIo()->success(
+                sprintf(
+                    $this->trans('commands.create.nodes.messages.created-nodes'),
+                    count($result['success'])
+                )
+            );
+        }
+
+        if (isset($result['error'])) {
+            foreach ($result['error'] as $error) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.create.nodes.messages.error'),
+                        $error
+                    )
+                );
+            }
+        }
 
         return 0;
     }

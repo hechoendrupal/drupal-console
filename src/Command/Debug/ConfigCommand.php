@@ -9,12 +9,12 @@ namespace Drupal\Console\Command\Debug;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ConfigCommand extends Command
 {
@@ -56,6 +56,12 @@ class ConfigCommand extends Command
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.config.arguments.name')
             )
+            ->addOption(
+                'show-overridden',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.debug.config.options.show-overridden')
+            )
             ->setAliases(['dc']);
     }
 
@@ -64,20 +70,17 @@ class ConfigCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $configName = $input->getArgument('name');
+        $showOverridden = $input->getOption('show-overridden');
+
         if (!$configName) {
-            $this->getAllConfigurations($io);
+            $this->getAllConfigurations();
         } else {
-            $this->getConfigurationByName($io, $configName);
+            $this->getConfigurationByName($configName, $showOverridden);
         }
     }
 
-    /**
-     * @param $io         DrupalStyle
-     */
-    private function getAllConfigurations(DrupalStyle $io)
+    private function getAllConfigurations()
     {
         $names = $this->configFactory->listAll();
         $tableHeader = [
@@ -90,30 +93,38 @@ class ConfigCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 
     /**
-     * @param $io             DrupalStyle
-     * @param $config_name    String
+     * @param $config_name     String
+     * @param $showOverridden  bool
      */
-    private function getConfigurationByName(DrupalStyle $io, $config_name)
+    private function getConfigurationByName($config_name, $showOverridden = false)
     {
         if ($this->configStorage->exists($config_name)) {
             $tableHeader = [
                 $config_name,
             ];
-
             $configuration = $this->configStorage->read($config_name);
+            if ($showOverridden) {
+                $configurationKeys = array_keys($configuration);
+                foreach ($configurationKeys as $configurationKey) {
+                    $configuration[$configurationKey] = $this->configFactory
+                        ->get($config_name)
+                        ->get($configurationKey);
+                }
+            }
+
             $configurationEncoded = Yaml::encode($configuration);
             $tableRows = [];
             $tableRows[] = [
                 $configurationEncoded,
             ];
 
-            $io->table($tableHeader, $tableRows, 'compact');
+            $this->getIo()->table($tableHeader, $tableRows, 'compact');
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf($this->trans('commands.debug.config.errors.not-exists'), $config_name)
             );
         }

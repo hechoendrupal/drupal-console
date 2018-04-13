@@ -7,12 +7,10 @@
 
 namespace Drupal\Console\Command\Locale;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Console\Utils\Site;
@@ -26,7 +24,6 @@ use Drupal\Console\Annotations\DrupalCommand;
  */
 class LanguageDeleteCommand extends Command
 {
-    use LocaleTrait;
 
     /**
      * @var Site
@@ -75,7 +72,6 @@ class LanguageDeleteCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $moduleHandler = $this->moduleHandler;
         $moduleHandler->loadInclude('locale', 'inc', 'locale.translation');
         $moduleHandler->loadInclude('locale', 'module');
@@ -91,7 +87,7 @@ class LanguageDeleteCommand extends Command
             $langcode = array_search($language, $languages);
             $languageEntity = $languagesObjects[$langcode];
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.locale.language.delete.messages.invalid-language'),
                     $language
@@ -105,14 +101,14 @@ class LanguageDeleteCommand extends Command
             $configurable_language_storage = $this->entityTypeManager->getStorage('configurable_language');
             $configurable_language_storage->load($languageEntity->getId())->delete();
 
-            $io->info(
+            $this->getIo()->info(
                 sprintf(
                     $this->trans('commands.locale.language.delete.messages.language-deleted-successfully'),
                     $languageEntity->getName()
                 )
             );
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }

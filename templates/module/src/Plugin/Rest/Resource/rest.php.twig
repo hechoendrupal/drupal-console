@@ -10,11 +10,12 @@ namespace Drupal\{{module_name}}\Plugin\rest\resource;
 
 {% block use_class %}
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Psr\Log\LoggerInterface;
 {% endblock %}
 
 {% block class_declaration %}
@@ -87,18 +88,23 @@ class {{ class_name }} extends ResourceBase {% endblock %}
     );
   }
 {% endblock %}
+
 {% block class_methods %}
-{% for state in plugin_states %}
+{% for state, state_settings in plugin_states %}
 
   /**
    * Responds to {{ state }} requests.
    *
-   * Returns a list of bundles for specified entity.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
+   *
+   * @return \Drupal\rest\{{ state_settings.response_class }}
+   *   The HTTP response object.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function {{ state|lower }}() {
+  public function {{ state|lower }}(EntityInterface $entity) {
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
@@ -106,7 +112,7 @@ class {{ class_name }} extends ResourceBase {% endblock %}
       throw new AccessDeniedHttpException();
     }
 
-    return new ResourceResponse("Implement REST State {{ state }}!");
+    return new {{ state_settings.response_class }}({{ (state == 'DELETE') ? 'NULL' : '$entity' }}, {{ state_settings.http_code }});
   }
 {% endfor %}
 {% endblock %}

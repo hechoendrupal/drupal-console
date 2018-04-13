@@ -15,7 +15,6 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
@@ -97,7 +96,7 @@ class EntityContentCommand extends EntityCommand
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.revisionable')
         )
-        ->setAliases(['geco']);
+            ->setAliases(['geco']);
     }
 
     /**
@@ -106,12 +105,11 @@ class EntityContentCommand extends EntityCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
-        $io = new DrupalStyle($input, $output);
 
         // --bundle-of option
         $bundle_of = $input->getOption('has-bundles');
         if (!$bundle_of) {
-            $bundle_of = $io->confirm(
+            $bundle_of = $this->getIo()->confirm(
                 $this->trans('commands.generate.entity.content.questions.has-bundles'),
                 false
             );
@@ -119,14 +117,14 @@ class EntityContentCommand extends EntityCommand
         }
 
         // --is-translatable option
-        $is_translatable = $io->confirm(
+        $is_translatable = $this->getIo()->confirm(
             $this->trans('commands.generate.entity.content.questions.is-translatable'),
             true
         );
         $input->setOption('is-translatable', $is_translatable);
 
         // --revisionable option
-        $revisionable = $io->confirm(
+        $revisionable = $this->getIo()->confirm(
             $this->trans('commands.generate.entity.content.questions.revisionable'),
             true
         );
@@ -145,18 +143,26 @@ class EntityContentCommand extends EntityCommand
         $has_bundles = $input->getOption('has-bundles');
         $base_path = $input->getOption('base-path');
         $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
-        $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
+        $bundle_entity_type = $has_bundles ? $entity_name . '_type' : null;
         $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
         $revisionable = $input->hasOption('revisionable') ? $input->getOption('revisionable') : false;
 
-        $io = new DrupalStyle($input, $output);
         $generator = $this->generator;
 
-        $generator->setIo($io);
+        $generator->setIo($this->getIo());
         //@TODO:
         //$generator->setLearning($learning);
 
-        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name, $revisionable);
+        $generator->generate([
+            'module' => $module,
+            'entity_name' => $entity_name,
+            'entity_class' => $entity_class,
+            'label' => $label,
+            'bundle_entity_type' => $bundle_entity_type,
+            'base_path' => $base_path,
+            'is_translatable' => $is_translatable,
+            'revisionable' => $revisionable,
+        ]);
 
         if ($has_bundles) {
             $this->chainQueue->addCommand(

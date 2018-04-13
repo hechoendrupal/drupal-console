@@ -14,10 +14,10 @@ use Drupal\Console\Generator\UpdateGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
 
 /**
  * Class UpdateCommand
@@ -30,13 +30,13 @@ class UpdateCommand extends Command
     use ConfirmationTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var UpdateGenerator
-*/
+     * @var UpdateGenerator
+     */
     protected $generator;
 
     /**
@@ -49,6 +49,10 @@ class UpdateCommand extends Command
      */
     protected $chainQueue;
 
+    /**
+     * @var Validator
+     */
+    protected $validator;
 
     /**
      * UpdateCommand constructor.
@@ -62,12 +66,14 @@ class UpdateCommand extends Command
         Manager $extensionManager,
         UpdateGenerator $generator,
         Site $site,
-        ChainQueue $chainQueue
+        ChainQueue $chainQueue,
+        Validator $validator
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->site = $site;
         $this->chainQueue = $chainQueue;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -96,10 +102,8 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
@@ -117,7 +121,10 @@ class UpdateCommand extends Command
             );
         }
 
-        $this->generator->generate($module, $updateNumber);
+        $this->generator->generate([
+          'module' => $module,
+          'update_number' => $updateNumber,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
@@ -126,24 +133,18 @@ class UpdateCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $this->site->loadLegacyFile('/core/includes/update.inc');
         $this->site->loadLegacyFile('/core/includes/schema.inc');
 
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        // --module option
+        $module = $this->getModuleOption();
 
         $lastUpdateSchema = $this->getLastUpdate($module);
         $nextUpdateSchema = $lastUpdateSchema ? ($lastUpdateSchema + 1): 8001;
 
         $updateNumber = $input->getOption('update-n');
         if (!$updateNumber) {
-            $updateNumber = $io->ask(
+            $updateNumber = $this->getIo()->ask(
                 $this->trans('commands.generate.update.questions.update-n'),
                 $nextUpdateSchema,
                 function ($updateNumber) use ($lastUpdateSchema) {
@@ -170,12 +171,6 @@ class UpdateCommand extends Command
 
             $input->setOption('update-n', $updateNumber);
         }
-    }
-
-
-    protected function createGenerator()
-    {
-        return new UpdateGenerator();
     }
 
     protected function getLastUpdate($module)

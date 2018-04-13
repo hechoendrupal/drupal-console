@@ -9,11 +9,9 @@ namespace Drupal\{{module}}\Entity;
 {% endblock %}
 
 {% block use_class %}
+use Drupal\Core\Entity\ContentEntityInterface;
 {% if revisionable %}
 use Drupal\Core\Entity\RevisionLogInterface;
-use Drupal\Core\Entity\RevisionableInterface;
-{% else %}
-use Drupal\Core\Entity\ContentEntityInterface;
 {% endif %}
 use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\user\EntityOwnerInterface;
@@ -25,7 +23,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup {{module}}
  */
-interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableInterface, RevisionLogInterface{% else %} ContentEntityInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
+interface {{ entity_class }}Interface extends ContentEntityInterface{% if revisionable %}, RevisionLogInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 

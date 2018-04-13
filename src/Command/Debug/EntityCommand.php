@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeRepository;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class EntityCommand extends Command
 {
@@ -60,8 +59,6 @@ class EntityCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $entityType = $input->getArgument('entity-type');
 
         $tableHeader = [
@@ -88,6 +85,6 @@ class EntityCommand extends Command
             }
         }
 
-        $io->table($tableHeader, array_values($tableRows));
+        $this->getIo()->table($tableHeader, array_values($tableRows));
     }
 }

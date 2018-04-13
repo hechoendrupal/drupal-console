@@ -16,7 +16,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ControllerGenerator;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Core\Routing\RouteProviderInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Command\Shared\InputTrait;
@@ -131,16 +130,13 @@ class ControllerCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $yes)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
         $module = $input->getOption('module');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateControllerName($input->getOption('class'));
         $routes = $input->getOption('routes');
         $test = $input->getOption('test');
         $services = $input->getOption('services');
@@ -152,13 +148,13 @@ class ControllerCommand extends ContainerAwareCommand
         $build_services = $this->buildServices($services);
 
         //$this->generator->setLearning($learning);
-        $this->generator->generate(
-            $module,
-            $class,
-            $routes,
-            $test,
-            $build_services
-        );
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class,
+            'routes' => $routes,
+            'test' => $test,
+            'services' => $build_services
+        ]);
 
         // Run cache rebuild to see changes in Web UI
         $this->chainQueue->addCommand('router:rebuild', []);
@@ -171,24 +167,17 @@ class ControllerCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $module = $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.controller.questions.class'),
                 'DefaultController',
                 function ($class) {
-                    return $this->validator->validateClassName($class);
+                    return $this->validator->validateControllerName($class);
                 }
             );
             $input->setOption('class', $class);
@@ -197,8 +186,9 @@ class ControllerCommand extends ContainerAwareCommand
         $routes = $input->getOption('routes');
         if (!$routes) {
             while (true) {
-                $title = $io->askEmpty(
+                $title = $this->getIo()->askEmpty(
                     $this->trans('commands.generate.controller.questions.title'),
+                    '',
                     function ($title) use ($routes) {
                         if ($routes && empty(trim($title))) {
                             return false;
@@ -231,7 +221,7 @@ class ControllerCommand extends ContainerAwareCommand
                     break;
                 }
 
-                $method = $io->ask(
+                $method = $this->getIo()->ask(
                     $this->trans('commands.generate.controller.questions.method'),
                     'hello',
                     function ($method) use ($routes) {
@@ -250,7 +240,7 @@ class ControllerCommand extends ContainerAwareCommand
                     }
                 );
 
-                $path = $io->ask(
+                $path = $this->getIo()->ask(
                     $this->trans('commands.generate.controller.questions.path'),
                     sprintf(
                         '/%s/'.($method!='hello'?$method:'hello/{name}'),
@@ -294,7 +284,7 @@ class ControllerCommand extends ContainerAwareCommand
         // --test option
         $test = $input->getOption('test');
         if (!$test) {
-            $test = $io->confirm(
+            $test = $this->getIo()->confirm(
                 $this->trans('commands.generate.controller.questions.test'),
                 true
             );
@@ -304,15 +294,7 @@ class ControllerCommand extends ContainerAwareCommand
 
         // --services option
         // @see use Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-        $services = $this->servicesQuestion($io);
+        $services = $this->servicesQuestion();
         $input->setOption('services', $services);
-    }
-
-    /**
-     * @return \Drupal\Console\Generator\ControllerGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ControllerGenerator();
     }
 }

@@ -21,17 +21,17 @@ services:
       - { name: drupal.command }
   console.config_export_content_type:
     class: Drupal\Console\Command\Config\ExportContentTypeCommand
-    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator']
     tags:
       - { name: drupal.command }
   console.config_export_single:
     class: Drupal\Console\Command\Config\ExportSingleCommand
-    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager','@language_manager', '@console.validator']
     tags:
       - { name: drupal.command }
   console.config_export_view:
     class: Drupal\Console\Command\Config\ExportViewCommand
-    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager']
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator']
     tags:
       - { name: drupal.command }
   console.config_import:

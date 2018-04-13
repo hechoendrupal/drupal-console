@@ -15,7 +15,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\CreateTrait;
 use Drupal\Console\Utils\Create\UserData;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class UsersCommand
@@ -88,12 +87,10 @@ class UsersCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $rids = $input->getArgument('roles');
         if (!$rids) {
             $roles = $this->drupalApi->getRoles();
-            $rids = $io->choice(
+            $rids = $this->getIo()->choice(
                 $this->trans('commands.create.users.questions.roles'),
                 array_values($roles),
                 null,
@@ -112,7 +109,7 @@ class UsersCommand extends Command
 
         $limit = $input->getOption('limit');
         if (!$limit) {
-            $limit = $io->ask(
+            $limit = $this->getIo()->ask(
                 $this->trans('commands.create.users.questions.limit'),
                 10
             );
@@ -121,7 +118,7 @@ class UsersCommand extends Command
 
         $password = $input->getOption('password');
         if (!$password) {
-            $password = $io->ask(
+            $password = $this->getIo()->ask(
                 $this->trans('commands.create.users.questions.password'),
                 5
             );
@@ -133,7 +130,7 @@ class UsersCommand extends Command
         if (!$timeRange) {
             $timeRanges = $this->getTimeRange();
 
-            $timeRange = $io->choice(
+            $timeRange = $this->getIo()->choice(
                 $this->trans('commands.create.nodes.questions.time-range'),
                 array_values($timeRanges)
             );
@@ -147,8 +144,6 @@ class UsersCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $roles = $input->getArgument('roles');
         $limit = $input->getOption('limit')?:25;
         $password = $input->getOption('password');
@@ -158,7 +153,7 @@ class UsersCommand extends Command
             $roles = $this->drupalApi->getRoles();
         }
 
-        $users = $this->createUserData->create(
+        $result = $this->createUserData->create(
             $roles,
             $limit,
             $password,
@@ -172,15 +167,26 @@ class UsersCommand extends Command
           $this->trans('commands.create.users.messages.created'),
         ];
 
-        if ($users['success']) {
-            $io->table($tableHeader, $users['success']);
+        if ($result['success']) {
+            $this->getIo()->table($tableHeader, $result['success']);
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.create.users.messages.created-users'),
-                    $limit
+                    count($result['success'])
                 )
             );
+        }
+
+        if (isset($result['error'])) {
+            foreach ($result['error'] as $error) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.create.users.messages.error'),
+                        $error
+                    )
+                );
+            }
         }
 
         return 0;

@@ -13,9 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
-use Drupal\Console\Core\Command\Shared\CommandTrait;
 use Drupal\Core\Logger\RfcLogLevel;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class LogClearCommand extends Command
 {
@@ -74,33 +72,30 @@ class LogClearCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $eventId = $input->getArgument('event-id');
         $eventType = $input->getOption('type');
         $eventSeverity = $input->getOption('severity');
         $userId = $input->getOption('user-id');
 
         if ($eventId) {
-            $this->clearEvent($io, $eventId);
+            $this->clearEvent($eventId);
         } else {
-            $this->clearEvents($io, $eventType, $eventSeverity, $userId);
+            $this->clearEvents($eventType, $eventSeverity, $userId);
         }
 
         return 0;
     }
 
     /**
-     * @param DrupalStyle $io
      * @param $eventId
      * @return bool
      */
-    private function clearEvent(DrupalStyle $io, $eventId)
+    private function clearEvent($eventId)
     {
         $result = $this->database->delete('watchdog')->condition('wid', $eventId)->execute();
 
         if (!$result) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.database.log.clear.messages.not-found'),
                     $eventId
@@ -110,7 +105,7 @@ class LogClearCommand extends Command
             return false;
         }
 
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.database.log.clear.messages.event-deleted'),
                 $eventId
@@ -121,13 +116,12 @@ class LogClearCommand extends Command
     }
 
     /**
-     * @param DrupalStyle   $io
      * @param $eventType
      * @param $eventSeverity
      * @param $userId
      * @return bool
      */
-    protected function clearEvents(DrupalStyle $io, $eventType, $eventSeverity, $userId)
+    protected function clearEvents($eventType, $eventSeverity, $userId)
     {
         $severity = RfcLogLevel::getLevels();
         $query = $this->database->delete('watchdog');
@@ -138,7 +132,7 @@ class LogClearCommand extends Command
 
         if ($eventSeverity) {
             if (!in_array($eventSeverity, $severity)) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.database.log.clear.messages.invalid-severity'),
                         $eventSeverity
@@ -158,14 +152,14 @@ class LogClearCommand extends Command
         $result = $query->execute();
 
         if (!$result) {
-            $io->error(
+            $this->getIo()->error(
                 $this->trans('commands.database.log.clear.messages.clear-error')
             );
 
             return false;
         }
 
-        $io->success(
+        $this->getIo()->success(
             $this->trans('commands.database.log.clear.messages.clear-sucess')
         );
 

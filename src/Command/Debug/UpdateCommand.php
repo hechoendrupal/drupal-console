@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Update\UpdateRegistry;
 use Drupal\Console\Utils\Site;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class UpdateCommand extends Command
 {
@@ -57,8 +56,6 @@ class UpdateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $this->site->loadLegacyFile('/core/includes/update.inc');
         $this->site->loadLegacyFile('/core/includes/install.inc');
 
@@ -69,25 +66,24 @@ class UpdateCommand extends Command
         $severity = drupal_requirements_severity($requirements);
         $updates = update_get_update_list();
 
-        $io->newLine();
+        $this->getIo()->newLine();
 
         if ($severity == REQUIREMENT_ERROR || ($severity == REQUIREMENT_WARNING)) {
-            $this->populateRequirements($io, $requirements);
+            $this->populateRequirements($requirements);
         } elseif (empty($updates)) {
-            $io->info($this->trans('commands.debug.update.messages.no-updates'));
+            $this->getIo()->info($this->trans('commands.debug.update.messages.no-updates'));
         } else {
-            $this->populateUpdate($io, $updates);
-            $this->populatePostUpdate($io);
+            $this->populateUpdate($updates);
+            $this->populatePostUpdate();
         }
     }
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $requirements
      */
-    private function populateRequirements(DrupalStyle $io, $requirements)
+    private function populateRequirements($requirements)
     {
-        $io->info($this->trans('commands.debug.update.messages.requirements-error'));
+        $this->getIo()->info($this->trans('commands.debug.update.messages.requirements-error'));
 
         $tableHeader = [
           $this->trans('commands.debug.update.messages.severity'),
@@ -112,16 +108,15 @@ class UpdateCommand extends Command
             }
         }
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $updates
      */
-    private function populateUpdate(DrupalStyle $io, $updates)
+    private function populateUpdate($updates)
     {
-        $io->info($this->trans('commands.debug.update.messages.module-list'));
+        $this->getIo()->info($this->trans('commands.debug.update.messages.module-list'));
         $tableHeader = [
           $this->trans('commands.debug.update.messages.module'),
           $this->trans('commands.debug.update.messages.update-n'),
@@ -138,15 +133,12 @@ class UpdateCommand extends Command
                 ];
             }
         }
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 
-    /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
-     */
-    private function populatePostUpdate(DrupalStyle $io)
+    private function populatePostUpdate()
     {
-        $io->info(
+        $this->getIo()->info(
             $this->trans('commands.debug.update.messages.module-list-post-update')
         );
         $tableHeader = [
@@ -166,6 +158,6 @@ class UpdateCommand extends Command
                 ];
             }
         }
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 }

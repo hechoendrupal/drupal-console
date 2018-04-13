@@ -103,7 +103,7 @@ class Site
             if (file_exists($driver_folder->getRealpath() . '/Install/Tasks.php')) {
                 $driver  = $driver_folder->getBasename();
                 $installer = db_installer_object($driver);
-                // Verify is database is installable
+                // Verify if database is installable
                 if ($installer->installable()) {
                     $reflection = new \ReflectionClass($installer);
                     $install_namespace = $reflection->getNamespaceName();

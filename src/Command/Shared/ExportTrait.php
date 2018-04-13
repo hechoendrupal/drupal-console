@@ -8,7 +8,7 @@
 namespace Drupal\Console\Command\Shared;
 
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 
 /**
  * Class ConfigExportTrait
@@ -22,10 +22,9 @@ trait ExportTrait
      * @param bool|false $uuid
      * @return mixed
      */
-    protected function getConfiguration($configName, $uuid = false, $hash = false)
+    protected function getConfiguration($configName, $uuid = false, $hash = false, $collection = '')
     {
-        $config = $this->configStorage->read($configName);
-
+        $config = $this->configStorage->createCollection($collection)->read($configName);
         // Exclude uuid base in parameter, useful to share configurations.
         if ($uuid) {
             unset($config['uuid']);
@@ -34,6 +33,11 @@ trait ExportTrait
         // Exclude default_config_hash inside _core is site-specific.
         if ($hash) {
             unset($config['_core']['default_config_hash']);
+
+            // Remove empty _core to match core's output.
+            if (empty($config['_core'])) {
+                unset($config['_core']);
+            }
         }
 
         return $config;
@@ -41,12 +45,12 @@ trait ExportTrait
 
     /**
      * @param string      $directory
-     * @param DrupalStyle $io
+     * @param string      $message
      */
-    protected function exportConfig($directory, DrupalStyle $io, $message)
+    protected function exportConfig($directory, $message)
     {
         $directory = realpath($directory);
-        $io->info($message);
+        $this->getIo()->info($message);
 
         foreach ($this->configExport as $fileName => $config) {
             $yamlConfig = Yaml::encode($config['data']);
@@ -57,7 +61,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $io->writeln('- ' . $configFile);
+            $this->getIo()->writeln('- ' . $configFile);
 
             // Create directory if doesn't exist
             if (!file_exists($directory)) {
@@ -72,14 +76,18 @@ trait ExportTrait
     }
 
     /**
-     * @param string      $module
-     * @param DrupalStyle $io
+     * @param string      $moduleName
+     * @param string      $message
      */
-    protected function exportConfigToModule($module, DrupalStyle $io, $message)
+    protected function exportConfigToModule($moduleName, $message)
     {
-        $io->info($message);
+        $this->getIo()->info($message);
 
-        $module = $this->extensionManager->getModule($module);
+        $module = $this->extensionManager->getModule($moduleName);
+
+        if (empty($module)) {
+            throw new InvalidOptionException(sprintf('The module %s does not exist.', $moduleName));
+        }
 
         foreach ($this->configExport as $fileName => $config) {
             $yamlConfig = Yaml::encode($config['data']);
@@ -96,7 +104,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $io->info('- ' . $configFile);
+            $this->getIo()->info('- ' . $configFile);
 
             // Create directory if doesn't exist
             if (!file_exists($configDirectory)) {
@@ -131,7 +139,7 @@ trait ExportTrait
         }
     }
 
-    protected function exportModuleDependencies($io, $module, $dependencies)
+    protected function exportModuleDependencies($module, $dependencies)
     {
         $module = $this->extensionManager->getModule($module);
         $info_yaml = $module->info;
@@ -143,7 +151,7 @@ trait ExportTrait
         }
 
         if (file_put_contents($module->getPathname(), Yaml::encode($info_yaml))) {
-            $io->info(
+            $this->getIo()->info(
                 '[+] ' .
                 sprintf(
                     $this->trans('commands.config.export.view.messages.depencies-included'),
@@ -152,12 +160,12 @@ trait ExportTrait
             );
 
             foreach ($dependencies as $dependency) {
-                $io->info(
+                $this->getIo()->info(
                     '   [-] ' . $dependency
                 );
             }
         } else {
-            $io->error($this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getApplication()->getSite()->getModuleInfoFile($module));
+            $this->getIo()->error($this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getApplication()->getSite()->getModuleInfoFile($module));
 
             return [];
         }

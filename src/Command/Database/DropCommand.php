@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DropCommand
@@ -63,14 +62,13 @@ class DropCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $database = $input->getArgument('database');
         $yes = $input->getOption('yes');
 
-        $databaseConnection = $this->resolveConnection($io, $database);
+        $databaseConnection = $this->resolveConnection($database);
 
         if (!$yes) {
-            if (!$io->confirm(
+            if (!$this->getIo()->confirm(
                 sprintf(
                     $this->trans('commands.database.drop.question.drop-tables'),
                     $databaseConnection['database']
@@ -94,7 +92,7 @@ class DropCommand extends Command
             }
         }
 
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.database.drop.messages.table-drop'),
                 count($tableRows['success'])

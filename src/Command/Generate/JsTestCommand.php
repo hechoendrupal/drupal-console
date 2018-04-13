@@ -7,17 +7,16 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Generator\JsTestGenerator;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Generator\JsTestGenerator;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
-use Symfony\Component\Console\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Utils\Validator;
-use Drupal\Console\Extension\Manager;
 
 class JsTestCommand extends Command
 {
@@ -87,21 +86,18 @@ class JsTestCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-        $yes = $input->hasOption('yes') ? $input->getOption('yes') : false;
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $yes)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
         $module = $input->getOption('module');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateClassName($input->getOption('class'));
 
-        $this->generator->generate(
-            $module,
-            $class
-        );
+        $this->generator->generate([
+            'module' => $module,
+            'class' => $class,
+        ]);
 
         return 0;
     }
@@ -111,20 +107,13 @@ class JsTestCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->getModuleOption();
 
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.jstest.questions.class'),
                 'DefaultJsTest',
                 function ($class) {
@@ -133,13 +122,5 @@ class JsTestCommand extends Command
             );
             $input->setOption('class', $class);
         }
-    }
-
-    /**
-     * @return \Drupal\Console\Generator\JsTestGenerator
-     */
-    protected function createGenerator()
-    {
-        return new JsTestGenerator();
     }
 }

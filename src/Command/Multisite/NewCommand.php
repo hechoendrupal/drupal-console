@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Multisite;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -79,18 +78,17 @@ class NewCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $this->fs = new Filesystem();
         $this->directory = $input->getArgument('directory');
 
         if (!$this->directory) {
-            $io->error($this->trans('commands.multisite.new.errors.subdir-empty'));
+            $this->getIo()->error($this->trans('commands.multisite.new.errors.subdir-empty'));
 
             return 1;
         }
 
         if ($this->fs->exists($this->appRoot . '/sites/' . $this->directory)) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.new.errors.subdir-exists'),
                     $this->directory
@@ -101,7 +99,7 @@ class NewCommand extends Command
         }
 
         if (!$this->fs->exists($this->appRoot . '/sites/default')) {
-            $io->error($this->trans('commands.multisite.new.errors.default-missing'));
+            $this->getIo()->error($this->trans('commands.multisite.new.errors.default-missing'));
 
             return 1;
         }
@@ -109,7 +107,7 @@ class NewCommand extends Command
         try {
             $this->fs->mkdir($this->appRoot . '/sites/' . $this->directory, 0755);
         } catch (IOExceptionInterface $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.new.errors.mkdir-fail'),
                     $this->directory
@@ -121,14 +119,14 @@ class NewCommand extends Command
 
         $uri = $input->getArgument('uri');
         try {
-            $this->addToSitesFile($io, $uri);
+            $this->addToSitesFile($uri);
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }
 
-        $this->createFreshSite($io);
+        $this->createFreshSite();
 
         return 0;
     }
@@ -136,12 +134,11 @@ class NewCommand extends Command
     /**
      * Adds line to sites.php that is needed for the new site to be recognized.
      *
-     * @param DrupalStyle $output
      * @param string      $uri
      *
      * @throws FileNotFoundException
      */
-    protected function addToSitesFile(DrupalStyle $output, $uri)
+    protected function addToSitesFile($uri)
     {
         if ($this->fs->exists($this->appRoot . '/sites/sites.php')) {
             $sites_is_dir = is_dir($this->appRoot . '/sites/sites.php');
@@ -163,19 +160,17 @@ class NewCommand extends Command
             $this->fs->dumpFile($this->appRoot . '/sites/sites.php', $sites_file_contents);
             $this->fs->chmod($this->appRoot . '/sites/sites.php', 0640);
         } catch (IOExceptionInterface $e) {
-            $output->error('commands.multisite.new.errors.sites-other');
+            $this->getIo()->error('commands.multisite.new.errors.sites-other');
         }
     }
 
     /**
      * Copies detected default install alters settings.php to fit the new directory.
-     *
-     * @param DrupalStyle $io
      */
-    protected function copyExistingInstall(DrupalStyle $io)
+    protected function copyExistingInstall()
     {
         if (!$this->fs->exists($this->appRoot . '/sites/default/settings.php')) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.new.errors.file-missing'),
                     'sites/default/settings.php'
@@ -191,7 +186,7 @@ class NewCommand extends Command
                     $this->appRoot . '/sites/' . $this->directory . '/files'
                 );
             } catch (IOExceptionInterface $e) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.multisite.new.errors.copy-fail'),
                         'sites/default/files',
@@ -201,7 +196,7 @@ class NewCommand extends Command
                 return 1;
             }
         } else {
-            $io->warning($this->trans('commands.multisite.new.warnings.missing-files'));
+            $this->getIo()->warning($this->trans('commands.multisite.new.warnings.missing-files'));
         }
 
         $settings = file_get_contents($this->appRoot . '/sites/default/settings.php');
@@ -213,7 +208,7 @@ class NewCommand extends Command
                 $settings
             );
         } catch (IOExceptionInterface $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.new.errors.write-fail'),
                     'sites/' . $this->directory . '/settings.php'
@@ -222,9 +217,9 @@ class NewCommand extends Command
             return 1;
         }
 
-        $this->chmodSettings($io);
+        $this->chmodSettings();
 
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.multisite.new.messages.copy-default'),
                 $this->directory
@@ -234,10 +229,8 @@ class NewCommand extends Command
 
     /**
      * Creates site folder with clean settings.php file.
-     *
-     * @param DrupalStyle $io
      */
-    protected function createFreshSite(DrupalStyle $io)
+    protected function createFreshSite()
     {
         if ($this->fs->exists($this->appRoot . '/sites/default/default.settings.php')) {
             try {
@@ -246,7 +239,7 @@ class NewCommand extends Command
                     $this->appRoot . '/sites/' . $this->directory . '/settings.php'
                 );
             } catch (IOExceptionInterface $e) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.multisite.new.errors.copy-fail'),
                         $this->appRoot . '/sites/default/default.settings.php',
@@ -256,7 +249,7 @@ class NewCommand extends Command
                 return 1;
             }
         } else {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.new.errors.file-missing'),
                     'sites/default/default.settings.php'
@@ -265,9 +258,9 @@ class NewCommand extends Command
             return 1;
         }
 
-        $this->chmodSettings($io);
+        $this->chmodSettings();
 
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.multisite.new.messages.fresh-site'),
                 $this->directory
@@ -283,15 +276,13 @@ class NewCommand extends Command
      * The copy will have 444 permissions by default, which makes it readable by
      * anyone. Also, Drupal likes being able to write to it during, for example,
      * a fresh install.
-     *
-     * @param DrupalStyle $io
      */
-    protected function chmodSettings(DrupalStyle $io)
+    protected function chmodSettings()
     {
         try {
             $this->fs->chmod($this->appRoot . '/sites/' . $this->directory . '/settings.php', 0640);
         } catch (IOExceptionInterface $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.multisite.new.errors.chmod-fail'),
                     $this->appRoot . '/sites/' . $this->directory . '/settings.php'

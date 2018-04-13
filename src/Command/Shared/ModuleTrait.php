@@ -2,8 +2,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
-
 /**
  * Class ModuleTrait
  *
@@ -14,8 +12,6 @@ trait ModuleTrait
     /**
      * Ask the user to choose a module or profile.
      *
-     * @param DrupalStyle $io
-     *   Console interface.
      * @param bool        $showProfile
      *   If profiles should be discovered.
      *
@@ -24,7 +20,7 @@ trait ModuleTrait
      *
      * @return string
      */
-    public function moduleQuestion(DrupalStyle $io, $showProfile = true)
+    public function moduleQuestion($showProfile = true)
     {
         $modules = $this->extensionManager->discoverModules()
             ->showInstalled()
@@ -47,7 +43,7 @@ trait ModuleTrait
             throw new \Exception('No extension available, execute the proper generator command to generate one.');
         }
 
-        $module = $io->choiceNoList(
+        $module = $this->getIo()->choiceNoList(
             $this->trans('commands.common.questions.module'),
             $modules
         );
@@ -60,13 +56,11 @@ trait ModuleTrait
      *
      * @param string[]    $module
      *   List of modules to verify.
-     * @param DrupalStyle $io
-     *   Console interface.
      *
      * @throws \Exception
      *   When one or more requirements are not met.
      */
-    public function moduleRequirement(array $module, DrupalStyle $io)
+    public function moduleRequirement(array $module)
     {
         // TODO: Module dependencies should also be checked
         // for unmet requirements recursively.
@@ -76,7 +70,7 @@ trait ModuleTrait
             if ($requirements = \Drupal::moduleHandler()->invoke($module_name, 'requirements', ['install'])) {
                 foreach ($requirements as $requirement) {
                     if (isset($requirement['severity']) && $requirement['severity'] == REQUIREMENT_ERROR) {
-                        $io->info("Module '{$module_name}' cannot be installed: " . $requirement['title'] . ' | ' . $requirement['value']);
+                        $this->getIo()->info("Module '{$module_name}' cannot be installed: " . $requirement['title'] . ' | ' . $requirement['value']);
                         $fail = true;
                     }
                 }
@@ -85,5 +79,38 @@ trait ModuleTrait
         if ($fail) {
             throw new \Exception("Some module install requirements are not met.");
         }
+    }
+
+    /**
+     * Get module name from user.
+     *
+     * @return mixed|string
+     *   Module name.
+     * @throws \Exception
+     *   When module is not found.
+     */
+    public function getModuleOption()
+    {
+        $input = $this->getIo()->getInput();
+        $module = $input->getOption('module');
+        if (!$module) {
+            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
+            $module = $this->moduleQuestion();
+            $input->setOption('module', $module);
+        } else {
+            $missing_modules = $this->validator->getMissingModules([$module]);
+            if ($missing_modules) {
+                throw new \Exception(
+                    sprintf(
+                        $this->trans(
+                            'commands.module.download.messages.no-releases'
+                        ),
+                        $module
+                    )
+                );
+            }
+        }
+
+        return $module;
     }
 }

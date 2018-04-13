@@ -16,7 +16,6 @@ use Drupal\Console\Core\Command\ContainerAwareCommand;
 {% else %}
 use Drupal\Console\Core\Command\Command;
 {% endif %}
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Annotations\DrupalCommand;
 {% endblock %}
 
@@ -26,7 +25,7 @@ use Drupal\Console\Annotations\DrupalCommand;
  *
  * @DrupalCommand (
  *     extension="{{extension}}",
- *     extensionType="{{ extensionType }}"
+ *     extensionType="{{ extension_type }}"
  * )
  */
 class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% else %}Command{% endif %} {% endblock %}
@@ -53,23 +52,34 @@ class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% e
       ->setDescription($this->trans('commands.{{ command_key }}.description'));
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function execute(InputInterface $input, OutputInterface $output) {
-    $io = new DrupalStyle($input, $output);
-
-    $io->info($this->trans('commands.{{ command_key }}.messages.success'));
+{% if initialize %}
+ /**
+  * {@inheritdoc}
+  */
+  protected function initialize(InputInterface $input, OutputInterface $output) {
+    parent::initialize($input, $output);
+    $this->getIo()->info('initialize');
   }
 
+{% endif %}
 {% if interact %}
  /**
   * {@inheritdoc}
   */
- protected function interact(InputInterface $input, OutputInterface $output) {
-   $io = new DrupalStyle($input, $output);
+  protected function interact(InputInterface $input, OutputInterface $output) {
+    $this->getIo()->info('interact');
+  }
 
- }
 {% endif %}
+  /**
+   * {@inheritdoc}
+   */
+  protected function execute(InputInterface $input, OutputInterface $output) {
+    $this->getIo()->info('execute');
+    $this->getIo()->info($this->trans('commands.{{ command_key }}.messages.success'));
+{% if class_generator %}
+    $this->generator->generate([]);
+{% endif %}
+  }
 
 {%- endblock -%}

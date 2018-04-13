@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DisableCommand
@@ -68,14 +67,13 @@ class DisableCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $viewId = $input->getArgument('view-id');
         if (!$viewId) {
             $views = $this->entityQuery
                 ->get('view')
                 ->condition('status', 1)
                 ->execute();
-            $viewId = $io->choiceNoList(
+            $viewId = $this->getIo()->choiceNoList(
                 $this->trans('commands.debug.views.arguments.view-id'),
                 $views
             );
@@ -88,14 +86,12 @@ class DisableCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $viewId = $input->getArgument('view-id');
 
         $view = $this->entityTypeManager->getStorage('view')->load($viewId);
 
         if (empty($view)) {
-            $io->error(sprintf($this->trans('commands.debug.views.messages.not-found'), $viewId));
+            $this->getIo()->error(sprintf($this->trans('commands.debug.views.messages.not-found'), $viewId));
 
             return 1;
         }
@@ -103,9 +99,9 @@ class DisableCommand extends Command
         try {
             $view->disable()->save();
 
-            $io->success(sprintf($this->trans('commands.views.disable.messages.disabled-successfully'), $view->get('label')));
+            $this->getIo()->success(sprintf($this->trans('commands.views.disable.messages.disabled-successfully'), $view->get('label')));
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }

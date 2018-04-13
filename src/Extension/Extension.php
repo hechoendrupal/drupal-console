@@ -33,6 +33,15 @@ class Extension extends BaseExtension
         return $this->getSourcePath($fullPath) . '/Controller';
     }
 
+     /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getAjaxPath($fullPath = false)
+    {
+        return $this->getSourcePath($fullPath) . '/Ajax';
+    }
+
     /**
      * @param bool $fullPath
      * @return string
@@ -95,6 +104,15 @@ class Extension extends BaseExtension
     public function getCommandDirectory($fullPath=false)
     {
         return $this->getSourcePath($fullPath) . '/Command/';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getGeneratorDirectory($fullPath=false)
+    {
+        return $this->getSourcePath($fullPath) . '/Generator/';
     }
 
     /**

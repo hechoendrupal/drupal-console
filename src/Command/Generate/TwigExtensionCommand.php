@@ -11,7 +11,7 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Generator\TwigExtensionGenerator;
-use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,13 +32,13 @@ class TwigExtensionCommand extends ContainerAwareCommand
     use ConfirmationTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var TwigExtensionGenerator
-*/
+     * @var TwigExtensionGenerator
+     */
     protected $generator;
 
     /**
@@ -52,6 +52,11 @@ class TwigExtensionCommand extends ContainerAwareCommand
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * @var ChainQueue
      */
     protected $chainQueue;
@@ -63,6 +68,7 @@ class TwigExtensionCommand extends ContainerAwareCommand
      * @param Manager                $extensionManager
      * @param TwigExtensionGenerator $generator
      * @param StringConverter        $stringConverter
+     * @param Validator              $validator
      * @param ChainQueue             $chainQueue
      */
     public function __construct(
@@ -70,19 +76,21 @@ class TwigExtensionCommand extends ContainerAwareCommand
         TwigExtensionGenerator $generator,
         Site $site,
         StringConverter $stringConverter,
+        Validator $validator,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->site = $site;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -116,20 +124,18 @@ class TwigExtensionCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
         $module = $input->getOption('module');
         $name = $input->getOption('name');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateClassName($input->getOption('class'));
         $services = $input->getOption('services');
         // Add renderer service as first parameter.
         array_unshift($services, 'renderer');
@@ -137,7 +143,12 @@ class TwigExtensionCommand extends ContainerAwareCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
 
-        $this->generator->generate($module, $name, $class, $build_services);
+        $this->generator->generate([
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+            'services' => $build_services,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 
@@ -145,24 +156,17 @@ class TwigExtensionCommand extends ContainerAwareCommand
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $module = $this->getModuleOption();
 
         // --name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $io->ask(
+            $name = $this->getIo()->ask(
                 $this->trans('commands.generate.twig.extension.questions.name'),
                 $module.'.twig.extension'
             );
@@ -172,9 +176,12 @@ class TwigExtensionCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.common.options.class'),
-                'DefaultTwigExtension'
+                'DefaultTwigExtension',
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }
@@ -183,7 +190,7 @@ class TwigExtensionCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
     }

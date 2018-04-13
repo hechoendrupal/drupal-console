@@ -19,31 +19,6 @@ use Drupal\Core\Language\LanguageInterface;
  */
 class TermData extends Base
 {
-    /* @var array */
-    protected $vocabularies = [];
-
-    /**
-     * Terms constructor.
-     *
-     * @param EntityTypeManagerInterface  $entityTypeManager
-     * @param EntityFieldManagerInterface $entityFieldManager
-     * @param DateFormatterInterface      $dateFormatter
-     * @param array                       $vocabularies
-     */
-    public function __construct(
-        EntityTypeManagerInterface $entityTypeManager,
-        EntityFieldManagerInterface $entityFieldManager,
-        DateFormatterInterface $dateFormatter,
-        $vocabularies
-    ) {
-        $this->vocabularies = $vocabularies;
-        parent::__construct(
-            $entityTypeManager,
-            $entityFieldManager,
-            $dateFormatter
-        );
-    }
-
     /**
      * Create and returns an array of new Terms.
      *
@@ -58,34 +33,30 @@ class TermData extends Base
         $limit,
         $nameWords
     ) {
+        $siteVocabularies = $this->drupalApi->getVocabularies();
         $terms = [];
-        for ($i=0; $i<$limit; $i++) {
-            $vocabulary = $vocabularies[array_rand($vocabularies)];
-            $term = $this->entityTypeManager->getStorage('taxonomy_term')->create(
-                [
-                    'vid' => $vocabulary,
-                    'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
-                    'description' => [
-                        'value' => $this->getRandom()->sentences(mt_rand(1, $nameWords)),
-                        'format' => 'full_html',
-                    ],
-                    'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
-                ]
-            );
-
+        for ($i = 0; $i < $limit; $i++) {
             try {
+                $vocabulary = $vocabularies[array_rand($vocabularies)];
+                $term = $this->entityTypeManager->getStorage('taxonomy_term')->create(
+                    [
+                        'vid' => $vocabulary,
+                        'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
+                        'description' => [
+                            'value' => $this->getRandom()->sentences(mt_rand(1, $nameWords)),
+                            'format' => 'full_html',
+                        ],
+                        'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+                    ]
+                );
                 $term->save();
                 $terms['success'][] = [
                     'tid' => $term->id(),
-                    'vocabulary' => $this->vocabularies[$vocabulary],
+                    'vocabulary' => $siteVocabularies[$vocabulary],
                     'name' => $term->getName(),
                 ];
             } catch (\Exception $error) {
-                $terms['error'][] = [
-                    'vocabulary' => $this->vocabularies[$vocabulary],
-                    'name' => $term->getName(),
-                    'error' => $error->getMessage()
-                ];
+                $terms['error'][] = $error->getMessage();
             }
         }
 

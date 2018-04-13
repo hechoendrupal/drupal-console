@@ -18,31 +18,6 @@ use Drupal\Core\Datetime\DateFormatterInterface;
  */
 class UserData extends Base
 {
-    /* @var array */
-    protected $roles = [];
-
-    /**
-     * Users constructor.
-     *
-     * @param EntityTypeManagerInterface  $entityTypeManager
-     * @param EntityFieldManagerInterface $entityFieldManager
-     * @param DateFormatterInterface      $dateFormatter
-     * @param array                       $roles
-     */
-    public function __construct(
-        EntityTypeManagerInterface $entityTypeManager,
-        EntityFieldManagerInterface $entityFieldManager,
-        DateFormatterInterface $dateFormatter,
-        $roles
-    ) {
-        $this->roles = $roles;
-        parent::__construct(
-            $entityTypeManager,
-            $entityFieldManager,
-            $dateFormatter
-        );
-    }
-
     /**
      * Create and returns an array of new Users.
      *
@@ -59,27 +34,30 @@ class UserData extends Base
         $password,
         $timeRange
     ) {
+        $siteRoles = $this->drupalApi->getRoles();
         $users = [];
-        for ($i=0; $i<$limit; $i++) {
-            $username = $this->getRandom()->word(mt_rand(6, 12));
-
-            $user = $this->entityTypeManager->getStorage('user')->create(
-                [
-                    'name' => $username,
-                    'mail' => $username . '@example.com',
-                    'pass' => $password?:$this->getRandom()->word(mt_rand(8, 16)),
-                    'status' => mt_rand(0, 1),
-                    'roles' => $roles[array_rand($roles)],
-                    'created' => REQUEST_TIME - mt_rand(0, $timeRange),
-                ]
-            );
-
+        for ($i = 0; $i < $limit; $i++) {
             try {
+                $username = $this->getRandom()->word(mt_rand(6, 12));
+
+                $user = $this->entityTypeManager->getStorage('user')->create(
+                    [
+                        'name' => $username,
+                        'mail' => $username . '@example.com',
+                        'pass' => $password?:$this->getRandom()->word(mt_rand(8, 16)),
+                        'status' => mt_rand(0, 1),
+                        'roles' => $roles[array_rand($roles)],
+                        'created' => REQUEST_TIME - mt_rand(0, $timeRange),
+                    ]
+                );
+
                 $user->save();
 
                 $userRoles = [];
                 foreach ($user->getRoles() as $userRole) {
-                    $userRoles[] = $this->roles[$userRole];
+                    if (!empty($siteRoles[$userRole])) {
+                        $userRoles[] = $siteRoles[$userRole];
+                    }
                 }
 
                 $users['success'][] = [
@@ -93,11 +71,7 @@ class UserData extends Base
                     )
                 ];
             } catch (\Exception $error) {
-                $users['error'][] = [
-                    'vid' => $user->id(),
-                    'name' => $user->get('name'),
-                    'error' => $error->getMessage()
-                ];
+                $users['error'][] = $error->getMessage();
             }
         }
 

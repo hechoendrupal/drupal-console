@@ -22,6 +22,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.ajax_command_generator:
+    class: Drupal\Console\Generator\AjaxCommandGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }    
   console.breakpoint_generator:
     class: Drupal\Console\Generator\BreakPointGenerator
     arguments: ['@console.extension_manager']

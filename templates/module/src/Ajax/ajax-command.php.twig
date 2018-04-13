@@ -1,0 +1,33 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\Ajax\{{ class_name }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Ajax;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Ajax\CommandInterface;
+{% endblock %}
+{% block class_declaration %}
+/**
+ * Class {{ class_name }}.
+ */
+class {{ class_name }} implements CommandInterface {% endblock %}
+
+{% block class_methods %}
+  /**
+   * Render custom ajax command.
+   *
+   * @return ajax
+   *   Command function.
+   */
+  public function render() {
+    return [
+      'command' => '{{ method }}',
+      'message' => 'My Awesome Message',
+    ];
+  }
+{% endblock %}

@@ -80,7 +80,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% endif %}
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label|e }}'),
-{% if input.description is defined and input.description is not empty %}
+{% if input.description is defined and input.description|length %}
       '#description' => $this->t('{{ input.description|e }}'),
 {% endif %}
 {% if input.options is defined and input.options is not empty %}

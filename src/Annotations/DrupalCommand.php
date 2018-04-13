@@ -20,7 +20,7 @@ class DrupalCommand
     public $extension;
 
     /**
-     * @var string
+     * @Enum({"module", "theme", "profile", "library"})
      */
     public $extensionType;
 
@@ -28,4 +28,9 @@ class DrupalCommand
      * @var array
      */
     public $dependencies;
+
+    /**
+     * @Enum({"none", "site", "install"})
+     */
+    public $bootstrap;
 }

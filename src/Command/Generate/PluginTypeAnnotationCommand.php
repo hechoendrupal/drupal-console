@@ -8,15 +8,13 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Generator\PluginTypeAnnotationGenerator;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\FormTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 
@@ -29,8 +27,6 @@ class PluginTypeAnnotationCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
-    use FormTrait;
-    use ConfirmationTrait;
 
     /**
  * @var Manager
@@ -48,20 +44,28 @@ class PluginTypeAnnotationCommand extends Command
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * PluginTypeAnnotationCommand constructor.
      *
      * @param Manager                       $extensionManager
      * @param PluginTypeAnnotationGenerator $generator
      * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
      */
     public function __construct(
         Manager $extensionManager,
         PluginTypeAnnotationGenerator $generator,
-        StringConverter $stringConverter
+        StringConverter $stringConverter,
+        Validator $validator
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -104,31 +108,32 @@ class PluginTypeAnnotationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $machine_name = $input->getOption('machine-name');
         $label = $input->getOption('label');
 
-        $this->generator->generate($module, $class_name, $machine_name, $label);
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class_name,
+            'machine_name' => $machine_name,
+            'label' => $label,
+        ]);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->getModuleOption();
 
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $io->ask(
+            $class_name = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.type.annotation.options.class'),
-                'ExamplePlugin'
+                'ExamplePlugin',
+                function ($class_name) {
+                    return $this->validator->validateClassName($class_name);
+                }
             );
             $input->setOption('class', $class_name);
         }
@@ -136,7 +141,7 @@ class PluginTypeAnnotationCommand extends Command
         // --machine-name option
         $machine_name = $input->getOption('machine-name');
         if (!$machine_name) {
-            $machine_name = $io->ask(
+            $machine_name = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.type.annotation.options.machine-name'),
                 $this->stringConverter->camelCaseToUnderscore($class_name)
             );
@@ -146,7 +151,7 @@ class PluginTypeAnnotationCommand extends Command
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $io->ask(
+            $label = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.type.annotation.options.label'),
                 $this->stringConverter->camelCaseToHuman($class_name)
             );

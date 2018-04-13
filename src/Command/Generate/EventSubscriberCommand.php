@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,7 +17,6 @@ use Drupal\Console\Generator\EventSubscriberGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\EventsTrait;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -45,6 +45,11 @@ class EventSubscriberCommand extends ContainerAwareCommand
     protected $stringConverter;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
@@ -60,6 +65,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
      * @param Manager                  $extensionManager
      * @param EventSubscriberGenerator $generator
      * @param StringConverter          $stringConverter
+     * @param Validator                $validator
      * @param EventDispatcherInterface $eventDispatcher
      * @param ChainQueue               $chainQueue
      */
@@ -67,12 +73,14 @@ class EventSubscriberCommand extends ContainerAwareCommand
         Manager $extensionManager,
         EventSubscriberGenerator $generator,
         StringConverter $stringConverter,
+        Validator $validator,
         EventDispatcherInterface $eventDispatcher,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->eventDispatcher = $eventDispatcher;
         $this->chainQueue = $chainQueue;
         parent::__construct();
@@ -125,23 +133,27 @@ class EventSubscriberCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
         $module = $input->getOption('module');
         $name = $input->getOption('name');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateClassName($input->getOption('class'));
         $events = $input->getOption('events');
         $services = $input->getOption('services');
 
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $buildServices = $this->buildServices($services);
 
-        $this->generator->generate($module, $name, $class, $events, $buildServices);
+        $this->generator->generate([
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+            'events' => $events,
+            'services' => $buildServices,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
@@ -151,20 +163,13 @@ class EventSubscriberCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $module = $this->getModuleOption();
 
         // --service-name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $io->ask(
+            $name = $this->getIo()->ask(
                 $this->trans('commands.generate.service.questions.service-name'),
                 sprintf('%s.default', $module)
             );
@@ -174,9 +179,12 @@ class EventSubscriberCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.event.subscriber.questions.class'),
-                'DefaultSubscriber'
+                'DefaultSubscriber',
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }
@@ -185,7 +193,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
         $events = $input->getOption('events');
         if (!$events) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $events = $this->eventsQuestion($io);
+            $events = $this->eventsQuestion();
             $input->setOption('events', $events);
         }
 
@@ -193,7 +201,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
     }

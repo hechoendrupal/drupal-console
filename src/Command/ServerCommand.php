@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use \Drupal\Console\Core\Utils\ConfigurationManager;
 
 /**
@@ -60,7 +59,7 @@ class ServerCommand extends Command
                 InputArgument::OPTIONAL,
                 $this->trans('commands.server.arguments.address'),
                 '127.0.0.1:8088'
-            );
+            )->setAliases(['serve']);
     }
 
     /**
@@ -68,36 +67,37 @@ class ServerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $address = $this->validatePort($input->getArgument('address'));
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
-            $io->error($this->trans('commands.server.errors.binary'));
+            $this->getIo()->error($this->trans('commands.server.errors.binary'));
             return 1;
         }
 
-        $router = $this->getRouterPath();
+        $router = $this->configurationManager
+            ->getVendorCoreDirectory() . 'router.php';
+
         $processBuilder = new ProcessBuilder([$binary, '-S', $address, $router]);
         $processBuilder->setTimeout(null);
         $processBuilder->setWorkingDirectory($this->appRoot);
         $process = $processBuilder->getProcess();
 
-        $io->success(
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.server.messages.executing'),
                 $binary
             )
         );
 
-        $io->commentBlock(
+        $this->getIo()->commentBlock(
             sprintf(
                 $this->trans('commands.server.messages.listening'),
                 'http://'.$address
             )
         );
 
-        if ($io->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+        if ($this->getIo()->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
             $callback = [$this, 'outputCallback'];
         } else {
             $callback = null;
@@ -107,41 +107,11 @@ class ServerCommand extends Command
         $this->getHelper('process')->run($output, $process, null, $callback);
 
         if (!$process->isSuccessful()) {
-            $io->error($process->getErrorOutput());
+            $this->getIo()->error($process->getErrorOutput());
             return 1;
         }
 
         return 0;
-    }
-
-    /**
-     * @return null|string
-     */
-    private function getRouterPath()
-    {
-        $routerPath = [
-            sprintf(
-                '%s/.console/router.php',
-                $this->configurationManager->getHomeDirectory()
-            ),
-            sprintf(
-                '%s/console/router.php',
-                $this->configurationManager->getApplicationDirectory()
-            ),
-            sprintf(
-                '%s/%s/config/dist/router.php',
-                $this->configurationManager->getApplicationDirectory(),
-                DRUPAL_CONSOLE_CORE
-            )
-        ];
-
-        foreach ($routerPath as $router) {
-            if (file_exists($router)) {
-                return $router;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -172,7 +142,8 @@ class ServerCommand extends Command
         return $address;
     }
 
-    function outputCallback($type, $buffer) {
+    public function outputCallback($type, $buffer)
+    {
         // TODO: seems like $type is Process::ERR always
         echo $buffer;
     }

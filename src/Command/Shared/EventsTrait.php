@@ -7,8 +7,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
-
 /**
  * Class EventsTrait
  *
@@ -17,31 +15,29 @@ use Drupal\Console\Core\Style\DrupalStyle;
 trait EventsTrait
 {
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function eventsQuestion(DrupalStyle $io)
+    public function eventsQuestion()
     {
         $eventCollection = [];
-        $io->info($this->trans('commands.common.questions.events.message'));
+        $this->getIo()->info($this->trans('commands.common.questions.events.message'));
 
         $events = $this->getEvents();
 
         while (true) {
-            $event = $io->choiceNoList(
+            $event = $this->getIo()->choiceNoList(
                 $this->trans('commands.common.questions.events.name'),
                 $events,
-                null,
+                '',
                 true
             );
 
-            if (empty($event)) {
+            if (empty($event) || is_numeric($event)) {
                 break;
             }
 
             $callbackSuggestion = str_replace('.', '_', $event);
-            $callback = $io->ask(
+            $callback = $this->getIo()->ask(
                 $this->trans('commands.generate.event.subscriber.questions.callback-name'),
                 $callbackSuggestion
             );

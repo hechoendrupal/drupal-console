@@ -29,23 +29,12 @@ class PluginViewsFieldGenerator extends Generator
     }
 
     /**
-     * Generator Plugin Field Formatter.
-     *
-     * @param string $module     Module name
-     * @param string $class_name Plugin Class name
-     * @param string $label      Plugin label
-     * @param string $plugin_id  Plugin id
-     * @param string $field_type Field type this formatter supports
+     * {@inheritdoc}
      */
-    public function generate($module, $class_machine_name, $class_name, $title, $description)
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'class_machine_name' => $class_machine_name,
-            'class_name' => $class_name,
-            'title' => $title,
-            'description' => $description,
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
 
         $this->renderFile(
             'module/module.views.inc.twig',

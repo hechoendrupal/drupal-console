@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Extension\Manager;
@@ -82,8 +81,6 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $bundles = $this->drupalApi->getBundles();
         foreach ($bundles as $bundleType => $bundleName) {
             $key = sprintf(
@@ -103,7 +100,7 @@ class StatisticsCommand extends ContainerAwareCommand
         $statistics[$this->trans('commands.site.statistics.messages.themes-enabled')] = $this->getThemeCount(true);
         $statistics[$this->trans('commands.site.statistics.messages.themes-disabled')] = $this->getThemeCount(false);
 
-        $this->statisticsList($io, $statistics);
+        $this->statisticsList($statistics);
     }
 
 
@@ -216,10 +213,9 @@ class StatisticsCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param DrupalStyle $io
      * @param mixed       $statistics
      */
-    private function statisticsList(DrupalStyle $io, $statistics)
+    private function statisticsList($statistics)
     {
         $tableHeader =[
             $this->trans('commands.site.statistics.messages.stat-name'),
@@ -234,6 +230,6 @@ class StatisticsCommand extends ContainerAwareCommand
             ];
         }
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
     }
 }

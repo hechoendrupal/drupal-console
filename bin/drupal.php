@@ -56,7 +56,8 @@ if (!$drupalFinder->locateRoot($root)) {
 chdir($drupalFinder->getDrupalRoot());
 $configurationManager = new ConfigurationManager();
 $configuration = $configurationManager
-    ->loadConfigurationFromDirectory($drupalFinder->getComposerRoot());
+    ->loadConfiguration($drupalFinder->getComposerRoot())
+    ->getConfiguration();
 
 $debug = $argvInputReader->get('debug', false);
 if ($configuration && $options = $configuration->get('application.options') ?: []) {
@@ -64,7 +65,7 @@ if ($configuration && $options = $configuration->get('application.options') ?: [
 }
 $argvInputReader->setOptionsAsArgv();
 
-if ($debug){
+if ($debug) {
     $io->writeln(
         sprintf(
             '<info>%s</info> version <comment>%s</comment>',
@@ -74,7 +75,7 @@ if ($debug){
     );
 }
 
-$drupal = new Drupal($autoload, $drupalFinder);
+$drupal = new Drupal($autoload, $drupalFinder, $configurationManager);
 $container = $drupal->boot();
 
 if (!$container) {
@@ -84,4 +85,5 @@ if (!$container) {
 }
 
 $application = new Application($container);
+$application->setDrupal($drupal);
 $application->run();

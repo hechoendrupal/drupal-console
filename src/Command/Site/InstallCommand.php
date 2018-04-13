@@ -19,7 +19,6 @@ use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Shared\DatabaseTrait;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\DrupalFinder;
@@ -177,8 +176,6 @@ class InstallCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --profile option
         $profile = $input->getArgument('profile');
         if (!$profile) {
@@ -197,7 +194,7 @@ class InstallCommand extends ContainerAwareCommand
                 }
             );
 
-            $profile = $io->choice(
+            $profile = $this->getIo()->choice(
                 $this->trans('commands.site.install.questions.profile'),
                 array_values($profiles)
             );
@@ -213,7 +210,7 @@ class InstallCommand extends ContainerAwareCommand
                 ->getConfiguration()
                 ->get('application.language');
 
-            $langcode = $io->choiceNoList(
+            $langcode = $this->getIo()->choiceNoList(
                 $this->trans('commands.site.install.questions.langcode'),
                 $languages,
                 $languages[$defaultLanguage]
@@ -229,7 +226,7 @@ class InstallCommand extends ContainerAwareCommand
             $dbType = $input->getOption('db-type');
             if (!$dbType) {
                 $databases = $this->site->getDatabaseTypes();
-                $dbType = $io->choice(
+                $dbType = $this->getIo()->choice(
                     $this->trans('commands.migrate.setup.questions.db-type'),
                     array_column($databases, 'name')
                 );
@@ -247,7 +244,7 @@ class InstallCommand extends ContainerAwareCommand
                 // --db-file option
                 $dbFile = $input->getOption('db-file');
                 if (!$dbFile) {
-                    $dbFile = $io->ask(
+                    $dbFile = $this->getIo()->ask(
                         $this->trans('commands.migrate.execute.questions.db-file'),
                         'sites/default/files/.ht.sqlite'
                     );
@@ -257,35 +254,35 @@ class InstallCommand extends ContainerAwareCommand
                 // --db-host option
                 $dbHost = $input->getOption('db-host');
                 if (!$dbHost) {
-                    $dbHost = $this->dbHostQuestion($io);
+                    $dbHost = $this->dbHostQuestion();
                     $input->setOption('db-host', $dbHost);
                 }
 
                 // --db-name option
                 $dbName = $input->getOption('db-name');
                 if (!$dbName) {
-                    $dbName = $this->dbNameQuestion($io);
+                    $dbName = $this->dbNameQuestion();
                     $input->setOption('db-name', $dbName);
                 }
 
                 // --db-user option
                 $dbUser = $input->getOption('db-user');
                 if (!$dbUser) {
-                    $dbUser = $this->dbUserQuestion($io);
+                    $dbUser = $this->dbUserQuestion();
                     $input->setOption('db-user', $dbUser);
                 }
 
                 // --db-pass option
                 $dbPass = $input->getOption('db-pass');
                 if (!$dbPass) {
-                    $dbPass = $this->dbPassQuestion($io);
+                    $dbPass = $this->dbPassQuestion();
                     $input->setOption('db-pass', $dbPass);
                 }
 
                 // --db-port prefix
                 $dbPort = $input->getOption('db-port');
                 if (!$dbPort) {
-                    $dbPort = $this->dbPortQuestion($io);
+                    $dbPort = $this->dbPortQuestion();
                     $input->setOption('db-port', $dbPort);
                 }
             }
@@ -293,7 +290,7 @@ class InstallCommand extends ContainerAwareCommand
             // --db-prefix
             $dbPrefix = $input->getOption('db-prefix');
             if (!$dbPrefix) {
-                $dbPrefix = $this->dbPrefixQuestion($io);
+                $dbPrefix = $this->dbPrefixQuestion();
                 $input->setOption('db-prefix', $dbPrefix);
             }
         } else {
@@ -304,7 +301,7 @@ class InstallCommand extends ContainerAwareCommand
             $input->setOption('db-pass', $database['default']['password']);
             $input->setOption('db-port', $database['default']['port']);
             $input->setOption('db-prefix', $database['default']['prefix']['default']);
-            $io->info(
+            $this->getIo()->info(
                 sprintf(
                     $this->trans('commands.site.install.messages.using-current-database'),
                     $database['default']['driver'],
@@ -317,7 +314,7 @@ class InstallCommand extends ContainerAwareCommand
         // --site-name option
         $siteName = $input->getOption('site-name');
         if (!$siteName) {
-            $siteName = $io->ask(
+            $siteName = $this->getIo()->ask(
                 $this->trans('commands.site.install.questions.site-name'),
                 $this->trans('commands.site.install.suggestions.site-name')
             );
@@ -327,7 +324,7 @@ class InstallCommand extends ContainerAwareCommand
         // --site-mail option
         $siteMail = $input->getOption('site-mail');
         if (!$siteMail) {
-            $siteMail = $io->ask(
+            $siteMail = $this->getIo()->ask(
                 $this->trans('commands.site.install.questions.site-mail'),
                 'admin@example.com'
             );
@@ -337,7 +334,7 @@ class InstallCommand extends ContainerAwareCommand
         // --account-name option
         $accountName = $input->getOption('account-name');
         if (!$accountName) {
-            $accountName = $io->ask(
+            $accountName = $this->getIo()->ask(
                 $this->trans('commands.site.install.questions.account-name'),
                 'admin'
             );
@@ -347,7 +344,7 @@ class InstallCommand extends ContainerAwareCommand
         // --account-pass option
         $accountPass = $input->getOption('account-pass');
         if (!$accountPass) {
-            $accountPass = $io->askHidden(
+            $accountPass = $this->getIo()->askHidden(
                 $this->trans('commands.site.install.questions.account-pass')
             );
             $input->setOption('account-pass', $accountPass);
@@ -356,7 +353,7 @@ class InstallCommand extends ContainerAwareCommand
         // --account-mail option
         $accountMail = $input->getOption('account-mail');
         if (!$accountMail) {
-            $accountMail = $io->ask(
+            $accountMail = $this->getIo()->ask(
                 $this->trans('commands.site.install.questions.account-mail'),
                 $siteMail
             );
@@ -369,13 +366,11 @@ class InstallCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $uri =  parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+        $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
 
         if ($this->site->multisiteMode($uri)) {
             if (!$this->site->validMultisite($uri)) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf($this->trans('commands.site.install.messages.invalid-multisite'), $uri, $uri)
                 );
                 exit(1);
@@ -435,18 +430,24 @@ class InstallCommand extends ContainerAwareCommand
         try {
             $drupalFinder = new DrupalFinder();
             $drupalFinder->locateRoot(getcwd());
-            $this->runInstaller($io, $input, $database, $uri);
+            $this->runInstaller($database, $uri);
 
             $autoload = $this->container->get('class_loader');
-            $drupal = new Drupal($autoload, $drupalFinder);
+            $drupal = new Drupal(
+                $autoload,
+                $drupalFinder,
+                $this->configurationManager
+            );
             $container = $drupal->boot();
             $this->getApplication()->setContainer($container);
+            $this->getApplication()->validateCommands();
+            $this->getApplication()->loadCommands();
         } catch (Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
             return 1;
         }
 
-        $this->restoreSitesFile($io);
+        $this->restoreSitesFile();
 
         return 0;
     }
@@ -458,11 +459,9 @@ class InstallCommand extends ContainerAwareCommand
      * install files to be placed directly under /sites instead of the
      * appropriate subdir when run from a script and a sites.php file exists.
      *
-     * @param DrupalStyle $output
-     *
      * @return boolean
      */
-    protected function backupSitesFile(DrupalStyle $output)
+    protected function backupSitesFile()
     {
         if (!file_exists($this->appRoot . '/sites/sites.php')) {
             return true;
@@ -470,7 +469,7 @@ class InstallCommand extends ContainerAwareCommand
 
         $renamed = rename($this->appRoot . '/sites/sites.php', $this->appRoot . '/sites/backup.sites.php');
 
-        $output->info($this->trans('commands.site.install.messages.sites-backup'));
+        $this->getIo()->info($this->trans('commands.site.install.messages.sites-backup'));
 
         return $renamed;
     }
@@ -478,11 +477,9 @@ class InstallCommand extends ContainerAwareCommand
     /**
      * Restores backup.sites.php to sites.php (if needed).
      *
-     * @param DrupalStyle $output
-     *
      * @return boolean
      */
-    protected function restoreSitesFile(DrupalStyle $output)
+    protected function restoreSitesFile()
     {
         if (!file_exists($this->appRoot . '/sites/backup.sites.php')) {
             return true;
@@ -490,17 +487,13 @@ class InstallCommand extends ContainerAwareCommand
 
         $renamed = rename($this->appRoot . '/sites/backup.sites.php', $this->appRoot . '/sites/sites.php');
 
-        $output->info($this->trans('commands.site.install.messages.sites-restore'));
+        $this->getIo()->info($this->trans('commands.site.install.messages.sites-restore'));
 
         return $renamed;
     }
 
-    protected function runInstaller(
-        DrupalStyle $io,
-        InputInterface $input,
-        $database,
-        $uri
-    ) {
+    protected function runInstaller($database, $uri) {
+        $input = $this->getIo()->getInput();
         $this->site->loadLegacyFile('/core/includes/install.core.inc');
 
         $driver = (string)$database['driver'];
@@ -538,28 +531,28 @@ class InstallCommand extends ContainerAwareCommand
         ];
 
         if (!$this->site->multisiteMode($uri)) {
-            $this->backupSitesFile($io);
+            $this->backupSitesFile();
         }
 
-        $io->newLine();
-        $io->info($this->trans('commands.site.install.messages.installing'));
+        $this->getIo()->newLine();
+        $this->getIo()->info($this->trans('commands.site.install.messages.installing'));
 
         try {
             $autoload = $this->site->getAutoload();
             install_drupal($autoload, $settings);
         } catch (AlreadyInstalledException $e) {
-            $io->error($this->trans('commands.site.install.messages.already-installed'));
+            $this->getIo()->error($this->trans('commands.site.install.messages.already-installed'));
             return 1;
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
             return 1;
         }
 
         if (!$this->site->multisiteMode($uri)) {
-            $this->restoreSitesFile($io);
+            $this->restoreSitesFile();
         }
 
-        $io->success($this->trans('commands.site.install.messages.installed'));
+        $this->getIo()->success($this->trans('commands.site.install.messages.installed'));
 
         return 0;
     }

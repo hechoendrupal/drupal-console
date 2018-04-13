@@ -15,7 +15,6 @@ use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -33,13 +32,13 @@ class PluginSkeletonCommand extends ContainerAwareCommand
     use ServicesTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var PluginSkeletonGenerator
-*/
+     * @var PluginSkeletonGenerator
+     */
     protected $generator;
 
     /**
@@ -48,8 +47,8 @@ class PluginSkeletonCommand extends ContainerAwareCommand
     protected $stringConverter;
 
     /**
- * @var Validator
-*/
+     * @var Validator
+     */
     protected $validator;
 
     /**
@@ -129,11 +128,8 @@ class PluginSkeletonCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-        $plugins = $this->getPlugins();
-
-        // @see use Drupal\Console\Command\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
@@ -141,6 +137,8 @@ class PluginSkeletonCommand extends ContainerAwareCommand
 
         $pluginId = $input->getOption('plugin-id');
         $plugin = ucfirst($this->stringConverter->underscoreToCamelCase($pluginId));
+
+        $plugins = $this->getPlugins();
 
         // Confirm that plugin.manager is available
         if (!$this->validator->validatePluginManagerServiceExist($pluginId, $plugins)) {
@@ -153,7 +151,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
         }
 
         if (array_key_exists($pluginId, $this->pluginGeneratorsImplemented)) {
-            $io->warning(
+            $this->getIo()->warning(
                 sprintf(
                     $this->trans('commands.generate.plugin.skeleton.messages.plugin-generator-implemented'),
                     $pluginId,
@@ -162,14 +160,21 @@ class PluginSkeletonCommand extends ContainerAwareCommand
             );
         }
 
-        $className = $input->getOption('class');
+        $className = $this->validator->validateClassName($input->getOption('class'));
         $services = $input->getOption('services');
 
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $buildServices = $this->buildServices($services);
         $pluginMetaData = $this->getPluginMetadata($pluginId);
 
-        $this->generator->generate($module, $pluginId, $plugin, $className, $pluginMetaData, $buildServices);
+        $this->generator->generate([
+            'module' => $module,
+            'plugin_id' => $pluginId,
+            'plugin' => $plugin,
+            'class_name' => $className,
+            'services' => $buildServices,
+            'plugin_metadata' => $pluginMetaData,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
@@ -178,19 +183,13 @@ class PluginSkeletonCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        // --module option
+        $this->getModuleOption();
 
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
             $plugins = $this->getPlugins();
-            $pluginId = $io->choiceNoList(
+            $pluginId = $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.plugin.skeleton.questions.plugin'),
                 $plugins
             );
@@ -198,7 +197,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
         }
 
         if (array_key_exists($pluginId, $this->pluginGeneratorsImplemented)) {
-            $io->warning(
+            $this->getIo()->warning(
                 sprintf(
                     $this->trans('commands.generate.plugin.skeleton.messages.plugin-dont-exist'),
                     $pluginId,
@@ -210,7 +209,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.skeleton.options.class'),
                 sprintf('%s%s', 'Default', ucfirst($this->stringConverter->underscoreToCamelCase($pluginId))),
                 function ($class) {
@@ -224,7 +223,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
         $services = $input->getOption('services');
         if (!$services) {
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
     }

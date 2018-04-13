@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use RedBeanPHP\R;
 use Drupal\Core\Database\Connection;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\ConnectTrait;
 
 /**
@@ -32,21 +31,13 @@ class DatabaseTableCommand extends Command
     protected $database;
 
     /**
-     * @var R
-     */
-    protected $redBean;
-
-    /**
      * DatabaseTableCommand constructor.
      *
-     * @param R          $redBean
      * @param Connection $database
      */
     public function __construct(
-        R $redBean,
         Connection $database
     ) {
-        $this->redBean = $redBean;
         $this->database = $database;
         parent::__construct();
     }
@@ -81,29 +72,36 @@ class DatabaseTableCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $database = $input->getOption('database');
         $table = $input->getArgument('table');
-
-        $databaseConnection = $this->resolveConnection($io, $database);
-
+        $databaseConnection = $this->resolveConnection($database);
         if ($table) {
-            $this->redBean = $this->getRedBeanConnection($database);
-            $tableInfo = $this->redBean->inspect($table);
+            $result = $this->database
+                ->query('DESCRIBE '. $table .';')
+                ->fetchAll();
+            if (!$result) {
+                throw new \Exception(
+                    sprintf(
+                        $this->trans('commands.debug.database.table.messages.no-connection'),
+                        $database
+                    )
+                );
+            }
 
             $tableHeader = [
                 $this->trans('commands.debug.database.table.messages.column'),
                 $this->trans('commands.debug.database.table.messages.type')
             ];
             $tableRows = [];
-            foreach ($tableInfo as $column => $type) {
+            foreach ($result as $record) {
+                $column = json_decode(json_encode($record), true);
                 $tableRows[] = [
-                    'column' => $column,
-                    'type' => $type
+                    'column' => $column['Field'],
+                    'type' => $column['Type'],
                 ];
             }
 
-            $io->table($tableHeader, $tableRows);
+            $this->getIo()->table($tableHeader, $tableRows);
 
             return 0;
         }
@@ -111,14 +109,14 @@ class DatabaseTableCommand extends Command
         $schema = $this->database->schema();
         $tables = $schema->findTables('%');
 
-        $io->comment(
+        $this->getIo()->comment(
             sprintf(
                 $this->trans('commands.debug.database.table.messages.table-show'),
                 $databaseConnection['database']
             )
         );
 
-        $io->table(
+        $this->getIo()->table(
             [$this->trans('commands.debug.database.table.messages.table')],
             $tables
         );

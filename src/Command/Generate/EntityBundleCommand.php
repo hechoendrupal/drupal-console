@@ -15,7 +15,6 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Generator\EntityBundleGenerator;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 
@@ -91,10 +90,8 @@ class EntityBundleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
@@ -102,10 +99,13 @@ class EntityBundleCommand extends Command
         $bundleName = $input->getOption('bundle-name');
         $bundleTitle = $input->getOption('bundle-title');
 
-        $generator = $this->generator;
         //TODO:
         //        $generator->setLearning($learning);
-        $generator->generate($module, $bundleName, $bundleTitle);
+        $this->generator->generate([
+            'module' => $module,
+            'bundle_name' => $bundleName,
+            'bundle_title' => $bundleTitle,
+        ]);
 
         return 0;
     }
@@ -115,20 +115,13 @@ class EntityBundleCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->getModuleOption();
 
         // --bundle-name option
         $bundleName = $input->getOption('bundle-name');
         if (!$bundleName) {
-            $bundleName = $io->ask(
+            $bundleName = $this->getIo()->ask(
                 $this->trans('commands.generate.entity.bundle.questions.bundle-name'),
                 'default',
                 function ($bundleName) {
@@ -141,7 +134,7 @@ class EntityBundleCommand extends Command
         // --bundle-title option
         $bundleTitle = $input->getOption('bundle-title');
         if (!$bundleTitle) {
-            $bundleTitle = $io->ask(
+            $bundleTitle = $this->getIo()->ask(
                 $this->trans('commands.generate.entity.bundle.questions.bundle-title'),
                 'default',
                 function ($bundle_title) {

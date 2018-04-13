@@ -6,12 +6,16 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\Component\FileCache\FileCacheFactory;
+use Drupal\Core\Database\Database;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
 use Drupal\Console\Core\Utils\DrupalFinder;
+use Drupal\Console\Core\Bootstrap\DrupalInterface;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
-class Drupal
+class Drupal implements DrupalInterface
 {
     protected $autoload;
 
@@ -21,17 +25,32 @@ class Drupal
     protected $drupalFinder;
 
     /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
      * Drupal constructor.
      *
      * @param $autoload
      * @param $drupalFinder
+     * @param $configurationManager
      */
-    public function __construct($autoload, DrupalFinder $drupalFinder)
-    {
+    public function __construct(
+        $autoload,
+        DrupalFinder $drupalFinder,
+        ConfigurationManager $configurationManager
+    ) {
         $this->autoload = $autoload;
         $this->drupalFinder = $drupalFinder;
+        $this->configurationManager = $configurationManager;
     }
 
+    /**
+     * Boot the Drupal object
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
     public function boot()
     {
         $output = new ConsoleOutput();
@@ -51,11 +70,8 @@ class Drupal
 
         if (!class_exists('Drupal\Core\DrupalKernel')) {
             $io->error('Class Drupal\Core\DrupalKernel does not exist.');
-            $drupal = new DrupalConsoleCore(
-                $this->drupalFinder->getComposerRoot(),
-                $this->drupalFinder->getDrupalRoot()
-            );
-            return $drupal->boot();
+
+            return $this->bootDrupalConsoleCore();
         }
 
         try {
@@ -70,11 +86,6 @@ class Drupal
                 if (file_exists($devDesktopSettingsDir)) {
                     $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] = $devDesktopSettingsDir;
                 }
-            }
-
-            $rebuildServicesFile = false;
-            if ($command=='cache:rebuild' || $command=='cr') {
-                $rebuildServicesFile = true;
             }
 
             if ($debug) {
@@ -129,13 +140,14 @@ class Drupal
                 $io->writeln('➤ Registering dynamic services');
             }
 
+            $configuration = $this->configurationManager->getConfiguration();
+
             $drupalKernel->addServiceModifier(
                 new DrupalServiceModifier(
                     $this->drupalFinder->getComposerRoot(),
-                    $this->drupalFinder->getDrupalRoot(),
                     'drupal.command',
                     'drupal.generator',
-                    $rebuildServicesFile
+                    $configuration
                 )
             );
 
@@ -143,15 +155,35 @@ class Drupal
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
                 $io->writeln('➤ Rebuilding container');
             }
-            $drupalKernel->invalidateContainer();
-            $drupalKernel->rebuildContainer();
-            $drupalKernel->boot();
 
+            // Fix an exception of FileCacheFactory not prefix not set when
+            // container is build and looks that as we depend on cache for
+            // AddServicesCompilerPass but container is not ready this prefix
+            // needs to be set manually to allow use of the cache files.
+            FileCacheFactory::setPrefix($this->drupalFinder->getDrupalRoot());
+
+            // Invalidate container to ensure rebuild of any cached state
+            // when boot is processed.
+            $drupalKernel->invalidateContainer();
+
+            // Load legacy libraries, modules, register stream wrapper, and push
+            // request to request stack but without trigger processing of '/'
+            // request that invokes hooks like hook_page_attachments().
+            $drupalKernel->boot();
+            $drupalKernel->preHandle($request);
             if ($debug) {
                 $io->writeln("\r\033[K\033[1A\r<info>✔</info>");
             }
 
             $container = $drupalKernel->getContainer();
+
+            if ($this->shouldRedirectToDrupalCore($container)) {
+                $container = $this->bootDrupalConsoleCore();
+                $container->set('class_loader', $this->autoload);
+
+                return $container;
+            }
+
             $container->set(
                 'console.root',
                 $this->drupalFinder->getComposerRoot()
@@ -159,22 +191,16 @@ class Drupal
 
             AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
-            $configuration = $container->get('console.configuration_manager')
-                ->getConfiguration();
+            $container->set(
+                'console.configuration_manager',
+                $this->configurationManager
+            );
 
             $container->get('console.translator_manager')
                 ->loadCoreLanguage(
                     $configuration->get('application.language'),
                     $this->drupalFinder->getComposerRoot()
                 );
-
-            $consoleExtendConfigFile = $this->drupalFinder
-                ->getComposerRoot() . DRUPAL_CONSOLE
-                    .'/extend.console.config.yml';
-            if (file_exists($consoleExtendConfigFile)) {
-                $container->get('console.configuration_manager')
-                    ->importConfigurationFile($consoleExtendConfigFile);
-            }
 
             $container->get('console.renderer')
                 ->setSkeletonDirs(
@@ -184,19 +210,86 @@ class Drupal
                     ]
                 );
 
+            $container->set(
+                'console.drupal_finder',
+                $this->drupalFinder
+            );
+
+            $container->set(
+                'console.cache_key',
+                $drupalKernel->getContainerKey()
+            );
+
             return $container;
         } catch (\Exception $e) {
-            if ($command == 'list') {
-                $io->error($e->getMessage());
-            }
-            $drupal = new DrupalConsoleCore(
-                $this->drupalFinder->getComposerRoot(),
-                $this->drupalFinder->getDrupalRoot()
-            );
-            $container = $drupal->boot();
+            $container = $this->bootDrupalConsoleCore();
             $container->set('class_loader', $this->autoload);
+
+            $container->get('console.renderer')
+                ->setSkeletonDirs(
+                    [
+                        $this->drupalFinder->getComposerRoot().DRUPAL_CONSOLE.'/templates/',
+                        $this->drupalFinder->getComposerRoot().DRUPAL_CONSOLE_CORE.'/templates/'
+                    ]
+                );
+
+            $notifyErrorCodes = [
+                0,
+                1045,
+                1049,
+                2002,
+            ];
+
+            if (in_array($e->getCode(), $notifyErrorCodes)) {
+                /**
+                 * @var \Drupal\Console\Core\Utils\MessageManager $messageManager
+                 */
+                $messageManager = $container->get('console.message_manager');
+                $messageManager->error(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    'list',
+                    'site:install'
+                );
+            }
 
             return $container;
         }
+    }
+
+    /**
+     * Builds and boot a DrupalConsoleCore object
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    protected function bootDrupalConsoleCore()
+    {
+        $drupal = new DrupalConsoleCore(
+            $this->drupalFinder->getComposerRoot(),
+            $this->drupalFinder->getDrupalRoot(),
+            $this->drupalFinder
+        );
+
+        return $drupal->boot();
+    }
+
+    /**
+     * Validate if flow should redirect to DrupalCore
+     *
+     * @param  $container
+     * @return bool
+     */
+    protected function shouldRedirectToDrupalCore($container)
+    {
+        if (!Database::getConnectionInfo()) {
+            return true;
+        }
+
+        if (!$container->has('database')) {
+            return true;
+        }
+
+
+        return !$container->get('database')->schema()->tableExists('sessions');
     }
 }

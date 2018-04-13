@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Zippy\Adapter\TarGzGNUTarForWindowsAdapter;
 use Drupal\Console\Zippy\FileStrategy\TarGzFileForWindowsStrategy;
 use Alchemy\Zippy\Zippy;
@@ -21,7 +20,7 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 trait ProjectDownloadTrait
 {
-    public function modulesQuestion(DrupalStyle $io)
+    public function modulesQuestion()
     {
         $moduleList = [];
 
@@ -31,14 +30,14 @@ trait ProjectDownloadTrait
             ->getList(true);
 
         while (true) {
-            $moduleName = $io->choiceNoList(
+            $moduleName = $this->getIo()->choiceNoList(
                 $this->trans('commands.module.install.questions.module'),
                 $modules,
-                null,
+                '',
                 true
             );
 
-            if (empty($moduleName)) {
+            if (empty($moduleName) && is_numeric($moduleName)) {
                 break;
             }
 
@@ -52,7 +51,7 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
-    public function modulesUninstallQuestion(DrupalStyle $io)
+    public function modulesUninstallQuestion()
     {
         $moduleList = [];
 
@@ -63,14 +62,14 @@ trait ProjectDownloadTrait
             ->getList(true);
 
         while (true) {
-            $moduleName = $io->choiceNoList(
+            $moduleName = $this->getIo()->choiceNoList(
                 $this->trans('commands.module.uninstall.questions.module'),
                 $modules,
-                null,
+                '',
                 true
             );
 
-            if (empty($moduleName)) {
+            if (empty($moduleName) || is_numeric($modules)) {
                 break;
             }
 
@@ -80,7 +79,7 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
-    private function downloadModules(DrupalStyle $io, $modules, $latest, $path = null, $resultList = [])
+    private function downloadModules($modules, $latest, $path = null, $resultList = [])
     {
         if (!$resultList) {
             $resultList = [
@@ -95,16 +94,16 @@ trait ProjectDownloadTrait
 
         $invalidModules = [];
         if ($missingModules) {
-            $io->info(
+            $this->getIo()->info(
                 sprintf(
                     $this->trans('commands.module.install.messages.getting-missing-modules'),
                     implode(', ', $missingModules)
                 )
             );
             foreach ($missingModules as $missingModule) {
-                $version = $this->releasesQuestion($io, $missingModule, $latest);
+                $version = $this->releasesQuestion($missingModule, $latest);
                 if ($version) {
-                    $this->downloadProject($io, $missingModule, $version, 'module', $path);
+                    $this->downloadProject($missingModule, $version, 'module', $path);
                 } else {
                     $invalidModules[] = $missingModule;
                     unset($modules[array_search($missingModule, $modules)]);
@@ -127,7 +126,7 @@ trait ProjectDownloadTrait
             return $resultList;
         }
 
-        return $this->downloadModules($io, $dependencies, $latest, $path, $resultList);
+        return $this->downloadModules($dependencies, $latest, $path, $resultList);
     }
 
     protected function calculateDependencies($modules)
@@ -154,7 +153,6 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $project
      * @param $version
      * @param $type
@@ -162,11 +160,11 @@ trait ProjectDownloadTrait
      *
      * @return string
      */
-    public function downloadProject(DrupalStyle $io, $project, $version, $type, $path = null)
+    public function downloadProject($project, $version, $type, $path = null)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
-        $io->comment(
+        $this->getIo()->comment(
             sprintf(
                 $this->trans('commands.'.$commandKey.'.messages.downloading'),
                 $project,
@@ -192,7 +190,7 @@ trait ProjectDownloadTrait
 
             if (!file_exists($projectPath)) {
                 if (!mkdir($projectPath, 0777, true)) {
-                    $io->error(
+                    $this->getIo()->error(
                         sprintf(
                             $this->trans('commands.'.$commandKey.'.messages.error-creating-folder'),
                             $projectPath
@@ -233,7 +231,7 @@ trait ProjectDownloadTrait
             unlink($destination);
 
             if ($type != 'core') {
-                $io->success(
+                $this->getIo()->success(
                     sprintf(
                         $this->trans(
                             'commands.' . $commandKey . '.messages.downloaded'
@@ -245,7 +243,7 @@ trait ProjectDownloadTrait
                 );
             }
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return null;
         }
@@ -254,17 +252,16 @@ trait ProjectDownloadTrait
     }
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param string                                 $project
      * @param bool                                   $latest
      * @param bool                                   $stable
      * @return string
      */
-    public function releasesQuestion(DrupalStyle $io, $project, $latest = false, $stable = false)
+    public function releasesQuestion($project, $latest = false, $stable = false)
     {
         $commandKey = str_replace(':', '.', $this->getName());
 
-        $io->comment(
+        $this->getIo()->comment(
             sprintf(
                 $this->trans('commands.'.$commandKey.'.messages.getting-releases'),
                 implode(',', [$project])
@@ -274,7 +271,7 @@ trait ProjectDownloadTrait
         $releases = $this->drupalApi->getProjectReleases($project, $latest?1:15, $stable);
 
         if (!$releases) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.'.$commandKey.'.messages.no-releases'),
                     implode(',', [$project])
@@ -288,7 +285,7 @@ trait ProjectDownloadTrait
             return $releases[0];
         }
 
-        $version = $io->choice(
+        $version = $this->getIo()->choice(
             $this->trans('commands.'.$commandKey.'.messages.select-release'),
             $releases
         );
