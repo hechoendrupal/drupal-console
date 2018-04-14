@@ -9,7 +9,7 @@ namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Generator\JsTestGenerator;
@@ -18,11 +18,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class JsTestCommand extends Command
+class JsTestCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
      * @var Manager
