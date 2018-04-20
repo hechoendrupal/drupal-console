@@ -82,7 +82,7 @@ class EnableCommand extends ContainerAwareCommand
             ->addArgument(
                 'resource-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.rest.debug.arguments.resource-id')
+                $this->trans('commands.rest.enable.arguments.resource-id')
             )
             ->setAliases(['ree']);
     }
