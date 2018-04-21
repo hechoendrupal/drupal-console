@@ -214,3 +214,8 @@ services:
     arguments: ['@console.extension_manager', '@console.js_test_generator', '@console.validator']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_validation_constraint:
+    class: Drupal\Console\Command\Generate\PluginValidationConstraintCommand
+    arguments: ['@console.extension_manager', '@console.validation_constraint_generator','@console.string_converter',  '@console.validator', '@console.chain_queue']
+    tags:
+       - { name: drupal.command }
