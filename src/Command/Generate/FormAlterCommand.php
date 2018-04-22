@@ -164,7 +164,7 @@ class FormAlterCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $formId = $input->getOption('form-id');
         $inputs = $input->getOption('inputs');
         $noInteraction = $input->getOption('no-interaction');

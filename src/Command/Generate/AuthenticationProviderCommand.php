@@ -98,7 +98,7 @@ class AuthenticationProviderCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class = $this->validator->validateClassName($input->getOption('class'));
         $provider_id = $input->getOption('provider-id');
 
