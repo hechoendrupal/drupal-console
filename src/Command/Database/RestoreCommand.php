@@ -56,7 +56,8 @@ class RestoreCommand extends Command
                 $this->trans('commands.database.restore.options.file')
             )
             ->setHelp($this->trans('commands.database.restore.help'))
-            ->setAliases(['dbr']);
+            ->setAliases(['dbr'])
+            ->enableMaintenance();
     }
 
     /**
@@ -77,9 +78,9 @@ class RestoreCommand extends Command
             return 1;
         }
         if (strpos($file, '.sql.gz') !== false) {
-            $catCommand = "gunzip -c %s | ";
+            $catCommand = 'gunzip -c %s | ';
         } else {
-            $catCommand = "cat %s | ";
+            $catCommand = 'cat %s | ';
         }
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
@@ -93,7 +94,7 @@ class RestoreCommand extends Command
             );
         } elseif ($databaseConnection['driver'] == 'pgsql') {
             $command = sprintf(
-                'PGPASSWORD="%s" ' . $catCommand . 'psql -w -U %s -h %s -p %s -d %s',
+                $catCommand . 'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s',
                 $file,
                 $databaseConnection['password'],
                 $databaseConnection['username'],

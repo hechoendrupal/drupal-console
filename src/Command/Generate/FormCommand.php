@@ -205,7 +205,7 @@ abstract class FormCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $services = $input->getOption('services');
         $path = $input->getOption('path');
         $config_file = $input->getOption('config-file');

@@ -64,9 +64,7 @@ use Drupal\user\UserInterface;
  *   revision_table = "{{ entity_name }}_revision",
  *   revision_data_table = "{{ entity_name }}_field_revision",
 {% endif %}
-{% if is_translatable %}
- *   translatable = TRUE,
-{% endif %}
+ *   translatable = {{ is_translatable ? 'TRUE' : 'FALSE' }},
  *   admin_permission = "administer {{ label|lower }} entities",
  *   entity_keys = {
  *     "id" = "id",
@@ -152,6 +150,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
 
+    {% if is_translatable %}
     foreach (array_keys($this->getTranslationLanguages()) as $langcode) {
       $translation = $this->getTranslation($langcode);
 
@@ -160,6 +159,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
         $translation->setOwnerId(0);
       }
     }
+    {% endif %}
 
     // If no revision author has been set explicitly, make the {{ entity_name }} owner the
     // revision author.
@@ -256,7 +256,9 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
+{% if is_translatable %}
       ->setTranslatable(TRUE)
+{% endif %}
       ->setDisplayOptions('view', [
         'label' => 'hidden',
         'type' => 'author',

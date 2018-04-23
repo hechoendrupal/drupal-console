@@ -138,7 +138,7 @@ class EventSubscriberCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $name = $input->getOption('name');
         $class = $this->validator->validateClassName($input->getOption('class'));
         $events = $input->getOption('events');

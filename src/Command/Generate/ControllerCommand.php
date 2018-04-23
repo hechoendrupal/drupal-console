@@ -135,7 +135,7 @@ class ControllerCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class = $this->validator->validateControllerName($input->getOption('class'));
         $routes = $input->getOption('routes');
         $test = $input->getOption('test');
