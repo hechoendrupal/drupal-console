@@ -39,7 +39,8 @@ class PluginViewsFieldGenerator extends Generator
         $this->renderFile(
             'module/module.views.inc.twig',
             $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.views.inc',
-            $parameters
+            $parameters,
+            FILE_APPEND
         );
 
         $this->renderFile(

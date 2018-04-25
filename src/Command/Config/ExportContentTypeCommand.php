@@ -157,7 +157,7 @@ class ExportContentTypeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $contentType = $input->getArgument('content-type');
         $optionalConfig = $input->getOption('optional-config');
         $removeUuid = $input->getOption('remove-uuid');

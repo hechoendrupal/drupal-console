@@ -37,7 +37,7 @@ trait ProjectDownloadTrait
                 true
             );
 
-            if (empty($moduleName) && is_numeric($moduleName)) {
+            if (empty($moduleName) || is_numeric($moduleName)) {
                 break;
             }
 
@@ -69,7 +69,7 @@ trait ProjectDownloadTrait
                 true
             );
 
-            if (empty($moduleName) || is_numeric($modules)) {
+            if (empty($moduleName) || is_numeric($moduleName)) {
                 break;
             }
 
@@ -166,7 +166,7 @@ trait ProjectDownloadTrait
 
         $this->getIo()->comment(
             sprintf(
-                $this->trans('commands.'.$commandKey.'.messages.downloading'),
+                $this->trans('commands.' . $commandKey . '.messages.downloading'),
                 $project,
                 $version
             )
@@ -201,7 +201,7 @@ trait ProjectDownloadTrait
             }
 
             $zippy = Zippy::load();
-            if (PHP_OS === "WIN32" || PHP_OS === "WINNT") {
+            if (PHP_OS === 'WIN32' || PHP_OS === 'WINNT') {
                 $container = AdapterContainer::load();
                 $container['Drupal\\Console\\Zippy\\Adapter\\TarGzGNUTarForWindowsAdapter'] = function ($container) {
                     return TarGzGNUTarForWindowsAdapter::newInstance(
@@ -263,17 +263,17 @@ trait ProjectDownloadTrait
 
         $this->getIo()->comment(
             sprintf(
-                $this->trans('commands.'.$commandKey.'.messages.getting-releases'),
+                $this->trans('commands.' . $commandKey . '.messages.getting-releases'),
                 implode(',', [$project])
             )
         );
 
-        $releases = $this->drupalApi->getProjectReleases($project, $latest?1:15, $stable);
+        $releases = $this->drupalApi->getProjectReleases($project, $latest? 1 : 15, $stable);
 
         if (!$releases) {
             $this->getIo()->error(
                 sprintf(
-                    $this->trans('commands.'.$commandKey.'.messages.no-releases'),
+                    $this->trans('commands.' . $commandKey . '.messages.no-releases'),
                     implode(',', [$project])
                 )
             );
@@ -286,7 +286,7 @@ trait ProjectDownloadTrait
         }
 
         $version = $this->getIo()->choice(
-            $this->trans('commands.'.$commandKey.'.messages.select-release'),
+            $this->trans('commands.' . $commandKey . '.messages.select-release'),
             $releases
         );
 

@@ -65,15 +65,19 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
    */
   public function revisionOverview({{ entity_class }}Interface ${{ entity_name }}) {
     $account = $this->currentUser();
+    ${{ entity_name }}_storage = $this->entityManager()->getStorage('{{ entity_name }}');
+
+{% if is_translatable %}
     $langcode = ${{ entity_name }}->language()->getId();
     $langname = ${{ entity_name }}->language()->getName();
     $languages = ${{ entity_name }}->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
-    ${{ entity_name }}_storage = $this->entityManager()->getStorage('{{ entity_name }}');
-
     $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => ${{ entity_name }}->label()]) : $this->t('Revisions for %title', ['%title' => ${{ entity_name }}->label()]);
-    $header = [$this->t('Revision'), $this->t('Operations')];
+{% else %}
+    $build['#title'] = $this->t('Revisions for %title', ['%title' => ${{ entity_name }}->label()]);
+{% endif %}
 
+    $header = [$this->t('Revision'), $this->t('Operations')];
     $revert_permission = (($account->hasPermission("revert all {{ label|lower }} revisions") || $account->hasPermission('administer {{ label|lower }} entities')));
     $delete_permission = (($account->hasPermission("delete all {{ label|lower }} revisions") || $account->hasPermission('administer {{ label|lower }} entities')));
 
@@ -86,9 +90,11 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
     foreach (array_reverse($vids) as $vid) {
       /** @var \Drupal\{{ module }}\{{ entity_class }}Interface $revision */
       $revision = ${{ entity_name }}_storage->loadRevision($vid);
+{% if is_translatable %}
       // Only show revisions that are affected by the language that is being
       // displayed.
       if ($revision->hasTranslation($langcode) && $revision->getTranslation($langcode)->isRevisionTranslationAffected()) {
+{% endif %}
         $username = [
           '#theme' => 'username',
           '#account' => $revision->getRevisionUser(),
@@ -161,7 +167,9 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
         }
 
         $rows[] = $row;
+{% if is_translatable %}
       }
+{% endif %}
     }
 
     $build['{{ entity_name }}_revisions_table'] = [

@@ -26,9 +26,15 @@ class ConnectCommand extends Command
             ->setName('database:connect')
             ->setDescription($this->trans('commands.database.connect.description'))
             ->addArgument(
-                'database',
+                'key',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.connect.arguments.database'),
+                $this->trans('commands.database.connect.arguments.key'),
+                'default'
+            )
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.connect.arguments.target'),
                 'default'
             )
             ->setHelp($this->trans('commands.database.connect.help'))
@@ -40,8 +46,9 @@ class ConnectCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $database = $input->getArgument('database');
-        $databaseConnection = $this->resolveConnection($database);
+        $key = $input->getArgument('key');
+        $target = $input->getArgument('target');
+        $databaseConnection = $this->resolveConnection($key, $target);
 
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',

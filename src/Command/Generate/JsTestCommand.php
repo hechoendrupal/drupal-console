@@ -91,7 +91,7 @@ class JsTestCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class = $this->validator->validateClassName($input->getOption('class'));
 
         $this->generator->generate([

@@ -1,35 +1,13 @@
-
-// If not using real environment variables.
-// Make sure you add the `vlucas/phpdotenv` dependency using composer:
-// composer require vlucas/phpdoten
-/**
-// Load .env file if exists
-if (file_exists(dirname(DRUPAL_ROOT) . '/.env')) {
-    $dotenv = new \Dotenv\Dotenv(dirname(DRUPAL_ROOT));
-    $dotenv->load();
-}
-*/
+{% if load_from_env is defined %}
+{{ yaml_comment('commands.dotenv.init.messages.load-from-env') }}
+{% endif %}
 
 # Load environment
 $env = getenv('ENVIRONMENT');
 
-# Load key/value settings
-$settings_drupal = array_filter(
-    $_SERVER,
-    function($key) {
-        return  strpos($key, 'SETTINGS_') === 0;
-    },
-    ARRAY_FILTER_USE_KEY
-);
-
-# Set key/value settings
-foreach ($settings_drupal as $name => $value) {
-  if (substr($name, 0, 9) === 'SETTINGS_') {
-    $key = strtolower(substr($name, 9));
-    $settings[$key] = $value;
-  }
-}
-
+{% if load_settings is defined %}
+{{ yaml_comment('commands.dotenv.init.messages.load-settings') }}
+{% endif %}
 $base_path = $app_root . '/' . $site_path;
 $servicesFile = $base_path . '/services.'.$env.'.yml';
 $settingsFile = $base_path . '/settings.'.$env.'.php';
@@ -54,4 +32,3 @@ $databases['default']['default'] = array (
     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
     'driver' => 'mysql',
 );
-
