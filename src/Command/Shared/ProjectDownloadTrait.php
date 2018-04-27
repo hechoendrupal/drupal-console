@@ -69,7 +69,7 @@ trait ProjectDownloadTrait
                 true
             );
 
-            if (empty($moduleName) || is_numeric($modules)) {
+            if (empty($moduleName) || is_numeric($moduleName)) {
                 break;
             }
 
