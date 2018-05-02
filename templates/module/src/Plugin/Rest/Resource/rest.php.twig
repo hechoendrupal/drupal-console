@@ -26,7 +26,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *   id = "{{ plugin_id }}",
  *   label = @Translation("{{ plugin_label }}"),
  *   uri_paths = {
- *     "canonical" = "{{ plugin_url }}"
+{% for state_settings in plugin_states %}
+ *     "{{ state_settings.uri_paths }}" = "{{ plugin_url }}"
+{% endfor %}
  *   }
  * )
  */
