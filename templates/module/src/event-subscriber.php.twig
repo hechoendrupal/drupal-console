@@ -50,7 +50,7 @@ class {{ class }} implements EventSubscriberInterface {% endblock %}
    * @param GetResponseEvent $event
    */
   public function {{ callback }}(Event $event) {
-    drupal_set_message('Event {{ event_name }} thrown by Subscriber in module {{ module }}.', 'status', TRUE);
+    \Drupal::messenger()->addMessage('Event {{ event_name }} thrown by Subscriber in module {{ module }}.', 'status', TRUE);
   }
 {% endfor %}
 {% endblock %}
