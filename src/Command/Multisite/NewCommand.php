@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Multisite;
 
 use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -152,6 +153,15 @@ class NewCommand extends Command
             $sites_file_contents .= "\n\$sites = [];";
         } else {
             throw new FileNotFoundException($this->trans('commands.multisite.new.errors.sites-missing'));
+        }
+
+        // Use $uri only when it matches '<port>.<domain>.<path>' -pattern requirement (no schema allowed).
+        try {
+            if (Validator::validateHostname($uri)) {
+                $sites_file_contents .= "\n\$sites['$uri'] = '$this->directory';";
+            }
+        } catch (\Exception $error) {
+            // Swallow exceptions.
         }
 
         $sites_file_contents .= "\n\$sites['$this->directory'] = '$this->directory';";
