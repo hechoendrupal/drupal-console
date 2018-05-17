@@ -18,6 +18,7 @@ class Validator
     const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
     // This REGEX remove spaces between words
     const REGEX_REMOVE_SPACES = '/[\\s+]/';
+    const REGEX_HOSTNAME = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/';
 
     protected $appRoot;
 
@@ -111,6 +112,15 @@ class Validator
                     $class_name
                 )
             );
+        }
+    }
+
+    public function validateHostname($hostname)
+    {
+        if (count(preg_grep(self::REGEX_HOSTNAME, [$hostname]))) {
+            return $hostname;
+        } else {
+            throw new \InvalidArgumentException(sprintf('Hostname name "%s" is invalid.', $hostname));
         }
     }
 
