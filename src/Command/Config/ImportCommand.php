@@ -88,14 +88,10 @@ class ImportCommand extends Command
         $skipUuid = $input->getOption('skip-uuid');
 
         if ($directory) {
-            $configSyncDir = $directory;
+            $source_storage = new FileStorage($directory);
         } else {
-            $configSyncDir = config_get_config_directory(
-                CONFIG_SYNC_DIRECTORY
-            );
+            $source_storage = \Drupal::service('config.storage.sync');
         }
-
-        $source_storage = new FileStorage($configSyncDir);
 
         $storageComparer = '\Drupal\Core\Config\StorageComparer';
         if ($skipUuid) {
