@@ -52,7 +52,7 @@ class RestoreCommand extends Command
             ->addArgument(
                 'target',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.connect.arguments.target'),
+                $this->trans('commands.database.restore.arguments.target'),
                 'default'
             )
             ->addOption(
