@@ -18,7 +18,6 @@ services:
       - { name: drupal.command }
   console.database_drop:
     class: Drupal\Console\Command\Database\DropCommand
-    arguments: ['@database']
     tags:
       - { name: drupal.command }
   console.database_dump:
