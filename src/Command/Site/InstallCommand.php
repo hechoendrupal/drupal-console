@@ -406,6 +406,22 @@ class InstallCommand extends ContainerAwareCommand
         $dbPort = $input->getOption('db-port')?:'3306';
         $force = $input->getOption('force');
 
+        //Check if there is a url to db connection
+        $db_url = $input->getOption('db-url');
+        if ($db_url) {
+            $valuesFromUrl = parse_url($db_url);
+            $dbType = $valuesFromUrl['scheme'];
+            if($dbType === 'sqlite'){
+                $valuesFromUrl = explode('//', $db_url);
+                $dbFile = $valuesFromUrl[1];
+            } else {
+                $dbHost = $valuesFromUrl['host'];
+                $dbName = ltrim($valuesFromUrl['path'], "/");
+                $dbUser = $valuesFromUrl['user'];
+                $dbPass = $valuesFromUrl['pass'];
+            }
+        }
+
         $databases = $this->site->getDatabaseTypes();
 
         if ($dbType === 'sqlite') {
