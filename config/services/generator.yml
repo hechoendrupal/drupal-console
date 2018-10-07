@@ -111,6 +111,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.plugin_migrate_data_parser_generator:
+    class: Drupal\Console\Generator\PluginMigrateDataParserGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.plugin_rest_resource_generator:
     class: Drupal\Console\Generator\PluginRestResourceGenerator
     arguments: ['@console.extension_manager']
@@ -208,6 +213,11 @@ services:
       - { name: drupal.generator }
   console.js_test_generator:
     class: Drupal\Console\Generator\JsTestGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.validation_constraint_generator:
+    class: Drupal\Console\Generator\PluginValidationConstraintGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }

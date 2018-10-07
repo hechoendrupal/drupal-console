@@ -35,7 +35,7 @@ class {{ class }} implements CacheContextInterface {% endblock %}
   * {@inheritdoc}
   */
   public static function getLabel() {
-    drupal_set_message('Lable of cache context');
+    \Drupal::messenger()->addMessage('Lable of cache context');
   }
 
   /**

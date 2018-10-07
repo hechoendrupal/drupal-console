@@ -103,7 +103,7 @@ class HelpCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
 
         if ($this->extensionManager->validateModuleFunctionExist($module, $module . '_help')) {
             throw new \Exception(

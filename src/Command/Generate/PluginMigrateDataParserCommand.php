@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Generate\PluginMigrateProcessCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginMigrateDataParserCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -12,14 +12,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginMigrateProcessGenerator;
+use Drupal\Console\Generator\PluginMigrateDataParserGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 
-class PluginMigrateProcessCommand extends ContainerAwareCommand
+class PluginMigrateDataParserCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ConfirmationTrait;
@@ -50,20 +50,20 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
     protected $validator;
 
     /**
-     * PluginBlockCommand constructor.
+     * PluginMigrateDataParserGenerator constructor.
      *
-     * @param PluginMigrateProcessGenerator $generator
-     * @param ChainQueue                    $chainQueue
-     * @param Manager                       $extensionManager
-     * @param StringConverter               $stringConverter
-     * @param Validator                     $validator
+     * @param PluginMigrateDataParserGenerator $generator
+     * @param ChainQueue                       $chainQueue
+     * @param Manager                          $extensionManager
+     * @param StringConverter                  $stringConverter
+     * @param Validator                        $validator
      */
     public function __construct(
-        PluginMigrateProcessGenerator $generator,
-        ChainQueue $chainQueue,
-        Manager $extensionManager,
-        StringConverter $stringConverter,
-        Validator $validator
+      PluginMigrateDataParserGenerator $generator,
+      ChainQueue $chainQueue,
+      Manager $extensionManager,
+      StringConverter $stringConverter,
+      Validator $validator
     ) {
         $this->generator = $generator;
         $this->chainQueue = $chainQueue;
@@ -76,9 +76,9 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('generate:plugin:migrate:process')
-            ->setDescription($this->trans('commands.generate.plugin.migrate.process.description'))
-            ->setHelp($this->trans('commands.generate.plugin.migrate.process.help'))
+            ->setName('generate:plugin:migrate:dataparser')
+            ->setDescription($this->trans('commands.generate.plugin.migrate.dataparser.description'))
+            ->setHelp($this->trans('commands.generate.plugin.migrate.dataparser.help'))
             ->addOption(
                 'module',
                 null,
@@ -89,14 +89,20 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
                 'class',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.migrate.process.options.class')
+                $this->trans('commands.generate.plugin.migrate.dataparser.options.class')
             )
             ->addOption(
                 'plugin-id',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.migrate.process.options.plugin-id')
-            )->setAliases(['gpmp']);
+                $this->trans('commands.generate.plugin.migrate.dataparser.options.plugin-id')
+            )
+            ->addOption(
+                'plugin-title',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.plugin.migrate.dataparser.options.plugin-title')
+            )->setAliases(['gpmdp']);
     }
 
     /**
@@ -109,14 +115,16 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $this->validateModule($input->getOption('module'));
+        $module = $input->getOption('module');
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_id = $input->getOption('plugin-id');
+        $plugin_title = $input->getOption('plugin-title');
 
         $this->generator->generate([
           'module' => $module,
           'class_name' => $class_name,
           'plugin_id' => $plugin_id,
+          'plugin_title' => $plugin_title,
         ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
@@ -134,7 +142,7 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
         $class = $input->getOption('class');
         if (!$class) {
             $class = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.migrate.process.questions.class'),
+                $this->trans('commands.generate.plugin.migrate.dataparser.questions.class'),
                 ucfirst($this->stringConverter->underscoreToCamelCase($module)),
                 function ($class) {
                     return $this->validator->validateClassName($class);
@@ -147,10 +155,20 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
             $pluginId = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.migrate.source.questions.plugin-id'),
+                $this->trans('commands.generate.plugin.migrate.dataparser.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
             $input->setOption('plugin-id', $pluginId);
+        }
+
+        // 'plugin-title' option.
+        $pluginTitle = $input->getOption('plugin-title');
+        if (!$pluginTitle) {
+          $pluginTitle = $this->getIo()->ask(
+            $this->trans('commands.generate.plugin.migrate.dataparser.questions.plugin-title'),
+            $this->stringConverter->camelCaseToUnderscore($class)
+          );
+          $input->setOption('plugin-title', $pluginTitle);
         }
     }
 }

@@ -179,7 +179,7 @@ class UninstallCommand extends Command
             }
 
             $dependencies = [];
-            while (list($module) = each($moduleList)) {
+            foreach ($moduleList as $module => $value ) {
                 foreach (array_keys($moduleData[$module]->required_by) as $dependency) {
                     if (isset($installedModules[$dependency]) && !isset($moduleList[$dependency]) && (!array_key_exists($dependency, $profiles))) {
                         $dependencies[] = $dependency;

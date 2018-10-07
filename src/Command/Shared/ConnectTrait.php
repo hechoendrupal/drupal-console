@@ -11,24 +11,24 @@ use Drupal\Core\Database\Database;
 
 trait ConnectTrait
 {
-    protected $supportedDrivers = ['mysql','pgsql'];
+    protected $supportedDrivers = ['mysql', 'pgsql'];
 
-    public function resolveConnection($database = 'default')
+    public function resolveConnection($key = 'default', $target = 'default')
     {
-        $connectionInfo = Database::getConnectionInfo();
-
-        if (!$connectionInfo || !isset($connectionInfo[$database])) {
+        $connectionInfo = Database::getConnectionInfo($key);
+        if (!$connectionInfo || !isset($connectionInfo[$target])) {
             $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.database.connect.messages.database-not-found'),
-                    $database
+                    $key,
+                    $target
                 )
             );
 
             return null;
         }
 
-        $databaseConnection = $connectionInfo[$database];
+        $databaseConnection = $connectionInfo[$target];
         if (!in_array($databaseConnection['driver'], $this->supportedDrivers)) {
             $this->getIo()->error(
                 sprintf(

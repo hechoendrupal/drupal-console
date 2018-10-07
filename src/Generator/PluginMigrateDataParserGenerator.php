@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Generator\PluginFieldFormatterGenerator.
+ * Contains \Drupal\Console\Generator\PluginMigrateDataParserGenerator.
  */
 
 namespace Drupal\Console\Generator;
@@ -10,7 +10,7 @@ namespace Drupal\Console\Generator;
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
-class PluginViewsFieldGenerator extends Generator
+class PluginMigrateDataParserGenerator extends Generator
 {
     /**
      * @var Manager
@@ -18,7 +18,7 @@ class PluginViewsFieldGenerator extends Generator
     protected $extensionManager;
 
     /**
-     * PluginViewsFieldGenerator constructor.
+     * PluginMigrateDataParserGenerator constructor.
      *
      * @param Manager $extensionManager
      */
@@ -37,15 +37,8 @@ class PluginViewsFieldGenerator extends Generator
         $class_name = $parameters['class_name'];
 
         $this->renderFile(
-            'module/module.views.inc.twig',
-            $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.views.inc',
-            $parameters,
-            FILE_APPEND
-        );
-
-        $this->renderFile(
-            'module/src/Plugin/Views/field/field.php.twig',
-            $this->extensionManager->getPluginPath($module, 'views/field') . '/' . $class_name . '.php',
+            'module/src/Plugin/migrate_plus/data_parser/data_parser.php.twig',
+            $this->extensionManager->getPluginPath($module, 'migrate_plus') . '/data_parser/' . $class_name . '.php',
             $parameters
         );
     }
