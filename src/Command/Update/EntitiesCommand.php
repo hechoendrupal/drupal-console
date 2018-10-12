@@ -76,7 +76,9 @@ class EntitiesCommand extends Command
         //$state = $this->getDrupalService('state');
         $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-on'));
         $this->getIo()->info($this->trans('commands.update.entities.messages.start'));
-        $this->state->set('system.maintenance_mode', true);
+        if (!$this->state->get('system.maintenance_mode')) {
+          $this->state->set('system.maintenance_mode', true);
+        }
 
         try {
             $this->entityDefinitionUpdateManager->applyUpdates();
@@ -88,7 +90,9 @@ class EntitiesCommand extends Command
             $this->getIo()->error(strtr('%type: @message in %function (line %line of %file).', $variables));
         }
 
-        $this->state->set('system.maintenance_mode', false);
+        if (!$this->state->get('system.maintenance_mode')) {
+          $this->state->set('system.maintenance_mode', false);
+        }
         $this->getIo()->info($this->trans('commands.update.entities.messages.end'));
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
         $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
