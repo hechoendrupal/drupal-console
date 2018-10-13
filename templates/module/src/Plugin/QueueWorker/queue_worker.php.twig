@@ -14,10 +14,10 @@ use Drupal\Core\Queue\QueueWorkerBase;
 
 {% block class_declaration %}
 /**
- * Plugin implementation od the {{ queue_id }} queueworker.
+ * Plugin implementation od the {{ plugin_id }} queueworker.
  *
  * @QueueWorker (
- *   id = "{{ queue_id }}",
+ *   id = "{{ plugin_id }}",
  *   title = @Translation("{{ label }}"),
  *   cron = {"time" = {{ cron_time }}}
  * )
