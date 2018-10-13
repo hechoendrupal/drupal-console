@@ -146,6 +146,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.plugin_queue_generator:
+    class: Drupal\Console\Generator\QueueWorkerGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.route_subscriber_generator:
     class: Drupal\Console\Generator\RouteSubscriberGenerator
     arguments: ['@console.extension_manager']

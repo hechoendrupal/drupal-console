@@ -144,6 +144,11 @@ services:
     arguments: ['@console.extension_manager', '@console.plugin_views_field_generator', '@console.site','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_queue:
+    class: Drupal\Console\Command\Generate\QueueWorkerCommand
+    arguments: ['@console.plugin_queue_generator', '@console.extension_manager', '@console.validator', '@console.string_converter']
+    tags:
+      - { name: drupal.command }
   console.generate_post_update:
     class: Drupal\Console\Command\Generate\PostUpdateCommand
     arguments: ['@console.extension_manager', '@console.post_update_generator', '@console.site', '@console.validator','@console.chain_queue']
