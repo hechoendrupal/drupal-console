@@ -2,6 +2,14 @@
 
 {% block namespace_class %}{% endblock %}
 
+{% block class_docblock %}
+/**
+ * @file
+ * Contains {% block class_path %}{% endblock %}.
+{% block extra_info %}{% endblock %}
+ */
+{% endblock %}
+
 {% block use_class %}{% endblock %}
 {% block use_class_services %}
 {% if services is defined %}
