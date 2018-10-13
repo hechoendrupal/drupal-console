@@ -2,6 +2,9 @@
 
 {% block namespace_class %}{% endblock %}
 
+{% set _class_path = block('class_path') %}
+
+{% if class_path is not empty %}
 {% block class_docblock %}
 /**
  * @file
@@ -9,6 +12,7 @@
 {% block extra_info %}{% endblock %}
  */
 {% endblock %}
+{% endif %}
 
 {% block use_class %}{% endblock %}
 {% block use_class_services %}
