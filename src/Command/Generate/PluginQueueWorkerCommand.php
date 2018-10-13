@@ -109,10 +109,10 @@ class PluginQueueWorkerCommand extends Command {
           $this->trans('commands.generate.plugin.queue.options.module')
       )
       ->addOption(
-          'queue-class',
+          'class',
           NULL,
           InputOption::VALUE_REQUIRED,
-          $this->trans('commands.generate.plugin.queue.options.queue-class')
+          $this->trans('commands.generate.plugin.queue.options.class')
       )
       ->addOption(
           'plugin-id',
@@ -143,17 +143,17 @@ class PluginQueueWorkerCommand extends Command {
     // --module option.
     $this->getModuleOption();
 
-    // --queue-class option.
-    $queue_class = $input->getOption('queue-class');
+    // --class option.
+    $queue_class = $input->getOption('class');
     if (!$queue_class) {
       $queue_class = $this->getIo()->ask(
-            $this->trans('commands.generate.plugin.queue.questions.queue-class'),
+            $this->trans('commands.generate.plugin.queue.questions.class'),
             'ExampleQueue',
             function ($queue_class) {
               return $this->validator->validateClassName($queue_class);
             }
         );
-      $input->setOption('queue-class', $queue_class);
+      $input->setOption('class', $queue_class);
     }
 
     // --plugin-id option.
@@ -199,7 +199,7 @@ class PluginQueueWorkerCommand extends Command {
       return 1;
     }
     $module = $input->getOption('module');
-    $queue_class = $input->getOption('queue-class');
+    $queue_class = $input->getOption('class');
     $plugin_id = $input->getOption('plugin-id');
     $cron_time = $input->getOption('cron-time');
     $label = $input->getOption('label');
