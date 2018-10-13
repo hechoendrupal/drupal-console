@@ -9,13 +9,14 @@ namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Generator\GeneratorInterface;
 
 /**
  * Class PluginQueueWorkerGenerator.
  *
  * @package Drupal\Console\Generator
  */
-class PluginQueueWorkerGenerator extends Generator {
+class PluginQueueWorkerGenerator extends Generator implements GeneratorInterface {
 
   /**
    * Extension Manager.
