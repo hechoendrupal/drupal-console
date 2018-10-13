@@ -1,8 +1,9 @@
 {% extends "base/class.php.twig" %}
 
-{% block file_path %}
-\Drupal\{{ module }}\Plugin\QueueWorker\{{ class_name }}.
-{% endblock %}
+/**
+ * @file
+ * Contains \Drupal\{{ module }}\Plugin\QueueWorker\{{ queue_file_name }}.
+ */
 
 {% block namespace_class %}
 namespace Drupal\{{ module }}\Plugin\QueueWorker;
