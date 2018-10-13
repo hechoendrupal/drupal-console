@@ -3,17 +3,16 @@
 {% block namespace_class %}{% endblock %}
 
 {% set _class_path = block('class_path') %}
-
-{% if class_path is not empty %}
+{% if _class_path is not empty %}
 {% block class_docblock %}
 /**
  * @file
  * Contains {% block class_path %}{% endblock %}.
 {% block extra_info %}{% endblock %}
  */
+
 {% endblock %}
 {% endif %}
-
 {% block use_class %}{% endblock %}
 {% block use_class_services %}
 {% if services is defined %}
