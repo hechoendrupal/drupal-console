@@ -66,18 +66,11 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
 
     $status = parent::save($form, $form_state);
 
-    switch ($status) {
-      case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label {{ label }}.', [
-          '%label' => $entity->label(),
-        ]));
-        break;
+    $this->messenger()->addMessage($this->t('%action the %label ENTITY_TYPE_LABEL.', [
+      '%action' => $status == SAVED_NEW ? 'Created' : 'Saved',
+      '%label' => $entity->label(),
+    ]));
 
-      default:
-        drupal_set_message($this->t('Saved the %label {{ label }}.', [
-          '%label' => $entity->label(),
-        ]));
-    }
     $form_state->setRedirect('entity.{{ entity_name }}.canonical', ['{{ entity_name }}' => $entity->id()]);
   }
 {% endblock %}
