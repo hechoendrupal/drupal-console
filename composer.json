@@ -50,8 +50,8 @@
         "symfony/http-foundation": "~2.8|~3.0"
     },
     "suggest": {
-        "symfony/thanks": "Thank your favorite PHP projects on Github using the CLI!",
-        "vlucas/phpdotenv": "Loads environment variables from .env to getenv(), $_ENV and $_SERVER automagically."
+        "symfony/thanks": "Thank your favorite PHP projects on GitHub using the CLI",
+        "vlucas/phpdotenv": "Loads environment variables from .env to getenv(), $_ENV and $_SERVER automagically"
     },
     "bin": ["bin/drupal"],
     "config": {
