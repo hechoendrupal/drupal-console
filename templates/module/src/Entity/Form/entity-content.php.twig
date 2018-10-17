@@ -66,7 +66,7 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
 
     $status = parent::save($form, $form_state);
 
-    $this->messenger()->addMessage($this->t('%action the %label ENTITY_TYPE_LABEL.', [
+    $this->messenger()->addMessage($this->t('%action the %label {{ label }}.', [
       '%action' => $status == SAVED_NEW ? 'Created' : 'Saved',
       '%label' => $entity->label(),
     ]));
