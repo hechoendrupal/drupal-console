@@ -70,8 +70,7 @@ class RestoreCommand extends Command
         $learning = $input->getOption('learning');
 
         $databaseConnection = $this->resolveConnection($database);
-
-        if (!$file) {
+        if (!$file || !file_exists($file)) {
             $this->getIo()->error(
                 $this->trans('commands.database.restore.messages.no-file')
             );
