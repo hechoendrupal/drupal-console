@@ -1,0 +1,44 @@
+{{ module }}.{{ entity_name }}.*:
+  type: config_entity
+  label: '{{ label }} config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
+
+field.field_settings.[FIELD ID]:
+  type: mapping
+  label: 'FIELDNAME settings'
+  mapping:
+    size:
+      type: string
+      label: 'Size'
+
+field.formatter.settings.example_field_type:
+  type: mapping
+  label: 'My Field Type settings'
+  mapping:
+    value:
+      type: label
+      label: ''
+
+field.widget.settings.size:
+  type: mapping
+  label: 'Size'
+  mapping:
+    placeholder:
+      type: label
+      label: 'Size of a field'
+
+field.widget.settings.placeholder:
+  type: mapping
+  label: 'Placeholder'
+  mapping:
+    placeholder:
+      type: label
+      label: 'Placeholder value'
