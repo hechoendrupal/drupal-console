@@ -206,8 +206,8 @@ class StatusCommand extends ContainerAwareCommand
 
         return [
           'theme' => [
-            $this->trans('commands.site.status.messages.theme_default') => $config->get('default'),
-            $this->trans('commands.site.status.messages.theme_admin') => $config->get('admin'),
+            $this->trans('commands.site.status.messages.theme-default') => $config->get('default'),
+            $this->trans('commands.site.status.messages.theme-admin') => $config->get('admin'),
           ],
         ];
     }
