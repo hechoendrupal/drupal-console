@@ -155,8 +155,9 @@ class StatusCommand extends ContainerAwareCommand
                 $title = $requirement['title'];
             }
 
-            $systemData['system'][$title] = strip_tags($requirement['value']);
+            $systemData['system'][strip_tags($title)] = strip_tags($requirement['value']);
         }
+
 
         if ($this->settings) {
             try {
@@ -177,11 +178,11 @@ class StatusCommand extends ContainerAwareCommand
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
-            if ("password" == $connectionInfoKey) {
+            if ('password' == $connectionInfoKey) {
                 continue;
             }
 
-            $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
+            $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
         }
 
@@ -191,7 +192,7 @@ class StatusCommand extends ContainerAwareCommand
             $connectionInfo['default']['username'],
             $connectionInfo['default']['password'],
             $connectionInfo['default']['host'],
-            $connectionInfo['default']['port'] ? ':'.$connectionInfo['default']['port'] : '',
+            $connectionInfo['default']['port'] ? ':' . $connectionInfo['default']['port'] : '',
             $connectionInfo['default']['database']
         );
 
