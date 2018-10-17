@@ -155,7 +155,8 @@ class StatusCommand extends ContainerAwareCommand
                 $title = $requirement['title'];
             }
 
-            $systemData['system'][strip_tags($title)] = strip_tags($requirement['value']);
+            $value = empty($requirement['description']) ? $requirement['value'] : $requirement['value'] . ' (' . $requirement['description'] . ')';
+            $systemData['system'][strip_tags($title)] = strip_tags($value); ;
         }
 
 
