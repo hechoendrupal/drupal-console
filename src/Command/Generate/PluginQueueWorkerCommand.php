@@ -10,7 +10,6 @@ use Drupal\Console\Core\Generator\GeneratorInterface;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Symfony\Component\Console\Input\InputOption;
-use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\StringConverter;
 
@@ -30,13 +29,6 @@ class PluginQueueWorkerCommand extends Command {
    * @var \Drupal\Console\Core\Generator\GeneratorInterface
    */
   protected $generator;
-
-  /**
-   * Extension Manager.
-   *
-   * @var \Drupal\Console\Extension\Manager
-   */
-  protected $extensionManager;
 
   /**
    * Validator.
@@ -65,8 +57,6 @@ class PluginQueueWorkerCommand extends Command {
    *
    * @param \Drupal\Console\Core\Generator\GeneratorInterface $queue_generator
    *   Queue Generator.
-   * @param \Drupal\Console\Extension\Manager $extensionManager
-   *   Extension manager.
    * @param \Drupal\Console\Utils\Validator $validator
    *   Validator.
    * @param \Drupal\Console\Core\Utils\StringConverter $stringConverter
@@ -76,13 +66,11 @@ class PluginQueueWorkerCommand extends Command {
    */
   public function __construct(
     GeneratorInterface $queue_generator,
-    Manager $extensionManager,
     Validator $validator,
     StringConverter $stringConverter,
     ChainQueue $chainQueue
   ) {
     $this->generator = $queue_generator;
-    $this->extensionManager = $extensionManager;
     $this->validator = $validator;
     $this->stringConverter = $stringConverter;
     $this->chainQueue = $chainQueue;

@@ -146,7 +146,7 @@ services:
        - { name: drupal.command }
   console.generate_plugin_queue:
     class: Drupal\Console\Command\Generate\PluginQueueWorkerCommand
-    arguments: ['@console.plugin_queue_generator','@console.extension_manager','@console.validator','@console.string_converter','@console.chain_queue']
+    arguments: ['@console.plugin_queue_generator','@console.validator','@console.string_converter','@console.chain_queue']
     tags:
       - { name: drupal.command }
   console.generate_post_update:
