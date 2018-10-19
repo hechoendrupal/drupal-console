@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Console\Generator\PluginQueueWorkerGenerator.
- */
-
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;

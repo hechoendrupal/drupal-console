@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Console\Command\Generate\PluginQueueWorkerCommand.
- */
-
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Core\Command\Command;
