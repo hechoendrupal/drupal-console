@@ -306,7 +306,6 @@ abstract class FormCommand extends ContainerAwareCommand
         $path = $input->getOption('path');
         if (!$path) {
             if ($this->formType == 'ConfigFormBase') {
-                $form_path = '/admin/config/{{ module_name }}/{{ class_name_short }}';
                 $form_path = sprintf(
                     '/admin/config/%s/%s',
                     $module,
