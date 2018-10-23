@@ -21,7 +21,7 @@ services:
        - { name: drupal.command }
   console.generate_ajax:
     class: Drupal\Console\Command\Generate\AjaxCommand
-    arguments: ['@console.extension_manager', '@console.ajax_command_generator', '@console.validator', '@console.chain_queue']
+    arguments: ['@console.ajax_command_generator', '@console.chain_queue']
     tags:
        - { name: drupal.command }      
   console.generate_breakpoint:
