@@ -11,7 +11,7 @@ services:
        - { name: drupal.command }
   console.generate_authentication_provider:
     class: Drupal\Console\Command\Generate\AuthenticationProviderCommand
-    arguments: ['@console.extension_manager', '@console.authentication_provider_generator', '@console.string_converter', '@console.validator']
+    arguments: ['@console.authentication_provider_generator', '@console.string_converter']
     tags:
        - { name: drupal.command }
   console.generate_controller:

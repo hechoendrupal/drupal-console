@@ -8,42 +8,23 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Utils\Validator;
+use Drupal\Console\Command\ModuleAwareCommand;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Generator\AuthenticationProviderGenerator;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Generator\AuthenticationProviderGenerator;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Extension\Manager;
 
-class AuthenticationProviderCommand extends Command
+class AuthenticationProviderCommand extends ModuleAwareCommand
 {
     use ServicesTrait;
-    use ModuleTrait;
-    use ConfirmationTrait;
-
-    /**
-     * @var Manager
-     */
-    protected $extensionManager;
-
-    /**
-     * @var AuthenticationProviderGenerator
-     */
-    protected $generator;
 
     /**
      * @var StringConverter
      */
     protected $stringConverter;
-
-    /**
-     * @var Validator
-     */
-    protected $validator;
 
     /**
      * AuthenticationProviderCommand constructor.
@@ -54,16 +35,11 @@ class AuthenticationProviderCommand extends Command
      * @param Validator                       $validator
      */
     public function __construct(
-        Manager $extensionManager,
         AuthenticationProviderGenerator $generator,
-        StringConverter $stringConverter,
-        Validator $validator
+        StringConverter $stringConverter
     ) {
-        $this->extensionManager = $extensionManager;
-        $this->generator = $generator;
         $this->stringConverter = $stringConverter;
-        $this->validator = $validator;
-        parent::__construct();
+        parent::__construct($generator);
     }
 
     protected function configure()
@@ -99,7 +75,7 @@ class AuthenticationProviderCommand extends Command
         }
 
         $module = $this->validateModule($input->getOption('module'));
-        $class = $this->validator->validateClassName($input->getOption('class'));
+        $class = $this->validator()->validateClassName($input->getOption('class'));
         $provider_id = $input->getOption('provider-id');
 
         $this->generator->generate([
@@ -127,7 +103,7 @@ class AuthenticationProviderCommand extends Command
                 ),
                 'DefaultAuthenticationProvider',
                 function ($class) {
-                    return $this->validator->validateClassName($class);
+                    return $this->validator()->validateClassName($class);
                 }
             );
             $input->setOption('class', $class);
