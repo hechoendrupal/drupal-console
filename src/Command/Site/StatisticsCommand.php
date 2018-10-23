@@ -7,20 +7,20 @@
 
 namespace Drupal\Console\Command\Site;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\Console\Extension\Manager;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class StatisticsCommand
  *
  * @package Drupal\Console\Command\Site
  */
-class StatisticsCommand extends ContainerAwareCommand
+class StatisticsCommand extends Command
 {
     /**
      * @var DrupalApi
@@ -73,7 +73,6 @@ class StatisticsCommand extends ContainerAwareCommand
             ->setDescription($this->trans('commands.site.statistics.description'))
             ->setHelp($this->trans('commands.site.statistics.help'))
             ->setAliases(['sst']);
-        ;
     }
 
     /**
@@ -204,9 +203,9 @@ class StatisticsCommand extends ContainerAwareCommand
     /**
      * @return mixed
      */
-    private function getViewCount($status = true, $tag = 'default')
+    private function getViewCount($tag = 'default')
     {
-        $entityQuery = $this->entityQuery->get('view')->condition('tag', 'default', '<>')->count();
+        $entityQuery = $this->entityQuery->get('view')->condition('tag', $tag, '<>')->count();
         $views = $entityQuery->execute();
 
         return $views;
@@ -217,7 +216,7 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function statisticsList($statistics)
     {
-        $tableHeader =[
+        $tableHeader = [
             $this->trans('commands.site.statistics.messages.stat-name'),
             $this->trans('commands.site.statistics.messages.stat-quantity'),
         ];
