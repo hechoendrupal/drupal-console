@@ -37,7 +37,7 @@
     },
     "require": {
         "php": "^5.5.9 || ^7.0",
-        "alchemy/zippy": "0.4.9",
+        "alchemy/zippy": "0.4.3",
         "composer/installers": "~1.0",
         "doctrine/annotations": "^1.2",
         "doctrine/collections": "^1.3",
