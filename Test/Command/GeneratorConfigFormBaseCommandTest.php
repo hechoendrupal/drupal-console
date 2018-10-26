@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorConfigFormBaseCommand;
+use Drupal\Console\Command\Generate\ConfigFormBaseCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\ConfigFormBaseDataProviderTrait;
 
@@ -34,7 +34,7 @@ class GeneratorConfigFormBaseCommandTest extends GenerateCommandTest
         $inputs,
         $routing
     ) {
-        $command = new GeneratorConfigFormBaseCommand($this->getHelperSet());
+        $command = new ConfigFormBaseCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -43,11 +43,10 @@ class GeneratorConfigFormBaseCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         =>   $module,
-              '--class-name'     =>   $class_name,
+              '--class'     =>   $class_name,
               '--form-id'        =>   $form_id,
               '--services'       =>   $services,
-              '--inputs'         =>   $inputs,
-              '--routing'        =>   $routing
+              '--inputs'         =>   $inputs
             ],
             ['interactive' => false]
         );

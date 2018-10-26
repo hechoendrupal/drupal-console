@@ -13,10 +13,10 @@ trait ServiceDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), 'Foo', false, []],
+          ['Foo', 'foo' . rand(), 'Foo', false, [],'default'],
         ];
     }
 }

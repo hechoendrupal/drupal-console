@@ -1,0 +1,16 @@
+{% block hook_theme %}
+
+/**
+ * Implements hook_theme().
+ */
+function {{ module }}_theme() {
+  $theme = [];
+{% include '/module/src/Entity/entity-content.theme.php.twig' with {'entity_name': entity_name, } %}
+  $theme['{{ entity_name }}_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
+    'file' => '{{ entity_name }}.page.inc',
+  ];
+  return $theme;
+}
+{% endblock %}

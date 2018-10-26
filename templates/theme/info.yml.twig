@@ -1,11 +1,15 @@
 name: {{ theme }}
 type: {{ type }}
-description: {{ description }}
+description: '{{ description }}'
 package: {{ package }}
 core: {{ core }}
 libraries:
   - {{ machine_name }}/{{ global_library }}
-
+{% if libraries %}
+{% for library in libraries %}
+  - {{ machine_name }}/{{ library.library_name }}
+{% endfor %}
+{% endif %} 
 base theme: {{ base_theme }}
 {% if base_theme == 'classy' %}
 #Using Classy as a base theme https://www.drupal.org/theme-guide/8/classy

@@ -1,11 +1,8 @@
-name: {{ module }}
+name: '{{ module }}'
 type: {{ type }}
-description: {{ description }}
+description: '{{ description }}'
 core: {{ core }}
-package: {{ package }}
-{% if feature %}
-features: true
-{% endif %}
+package: '{{ package }}'
 {% if dependencies %}
 dependencies:
 {% for dependency in dependencies %}

@@ -15,10 +15,45 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
-class EditCommand extends ContainerAwareCommand
+class EditCommand extends Command
 {
+    /**
+     * @var ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var CachedStorage
+     */
+    protected $configStorage;
+
+    /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
+     * EditCommand constructor.
+     *
+     * @param ConfigFactory        $configFactory
+     * @param CachedStorage        $configStorage
+     * @param ConfigurationManager $configurationManager
+     */
+    public function __construct(
+        ConfigFactory $configFactory,
+        CachedStorage $configStorage,
+        ConfigurationManager $configurationManager
+    ) {
+        $this->configFactory = $configFactory;
+        $this->configStorage = $configStorage;
+        $this->configurationManager = $configurationManager;
+        parent::__construct();
+    }
     /**
      * {@inheritdoc}
      */
@@ -36,7 +71,8 @@ class EditCommand extends ContainerAwareCommand
                 'editor',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.config.edit.arguments.editor')
-            );
+            )
+            ->setAliases(['ced']);
     }
 
     /**
@@ -46,23 +82,31 @@ class EditCommand extends ContainerAwareCommand
     {
         $configName = $input->getArgument('config-name');
         $editor = $input->getArgument('editor');
-        $config = $this->getConfigFactory()->getEditable($configName);
-        $configSystem = $this->getConfigFactory()->get('system.file');
-        $temporalyDirectory = $configSystem->get('path.temporary') ?: '/tmp';
-        $configFile = $temporalyDirectory.'/config-edit/'.$configName.'.yml';
+        $config = $this->configFactory->getEditable($configName);
+        $configSystem = $this->configFactory->get('system.file');
+        $temporaryDirectory = $configSystem->get('path.temporary') ?: '/tmp';
+        $configFile = $temporaryDirectory.'/config-edit/'.$configName.'.yml';
         $ymlFile = new Parser();
         $fileSystem = new Filesystem();
 
+        if (!$configName) {
+            $this->getIo()->error($this->trans('commands.config.edit.messages.no-config'));
+
+            return 1;
+        }
+
         try {
-            $fileSystem->mkdir($temporalyDirectory);
+            $fileSystem->mkdir($temporaryDirectory);
             $fileSystem->dumpFile($configFile, $this->getYamlConfig($configName));
         } catch (IOExceptionInterface $e) {
-            throw new \Exception($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
+            $this->getIo()->error($this->trans('commands.config.edit.messages.no-directory').' '.$e->getPath());
+
+            return 1;
         }
         if (!$editor) {
             $editor = $this->getEditor();
         }
-        $processBuilder = new ProcessBuilder(array($editor, $configFile));
+        $processBuilder = new ProcessBuilder([$editor, $configFile]);
         $process = $processBuilder->getProcess();
         $process->setTty('true');
         $process->run();
@@ -73,8 +117,26 @@ class EditCommand extends ContainerAwareCommand
             $config->save();
             $fileSystem->remove($configFile);
         }
+
         if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+            $this->getIo()->error($process->getErrorOutput());
+            return 1;
+        }
+
+        return 0;
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $configName = $input->getArgument('config-name');
+        if (!$configName) {
+            $configNames = $this->configFactory->listAll();
+            $configName = $this->getIo()->choice(
+                $this->trans('commands.config.edit.messages.choose-configuration'),
+                $configNames
+            );
+
+            $input->setArgument('config-name', $configName);
         }
     }
 
@@ -85,9 +147,8 @@ class EditCommand extends ContainerAwareCommand
      */
     protected function getYamlConfig($config_name)
     {
-        $configStorage = $this->getConfigStorage();
-        if ($configStorage->exists($config_name)) {
-            $configuration = $configStorage->read($config_name);
+        if ($this->configStorage->exists($config_name)) {
+            $configuration = $this->configStorage->read($config_name);
             $configurationEncoded = Yaml::encode($configuration);
         }
 
@@ -99,15 +160,14 @@ class EditCommand extends ContainerAwareCommand
      */
     protected function getEditor()
     {
-        $app = $this->getApplication();
-        $config = $app->getConfig();
-        $editor = $config->get('application.editor', 'vi');
+        $config = $this->configurationManager->getConfiguration();
+        $editor = $config->get('application.editor', '');
 
         if ($editor != '') {
             return trim($editor);
         }
 
-        $processBuilder = new ProcessBuilder(array('bash'));
+        $processBuilder = new ProcessBuilder(['bash']);
         $process = $processBuilder->getProcess();
         $process->setCommandLine('echo ${EDITOR:-${VISUAL:-vi}}');
         $process->run();

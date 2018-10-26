@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginTypeAnnotationCommand;
+use Drupal\Console\Command\Generate\PluginTypeAnnotationCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginTypeYamlDataProviderTrait;
 
@@ -30,7 +30,7 @@ class GeneratorPluginTypeAnnotationCommandTest extends GenerateCommandTest
         $machine_name,
         $label
     ) {
-        $command = new GeneratorPluginTypeAnnotationCommand($this->getHelperSet());
+        $command = new PluginTypeAnnotationCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -39,7 +39,7 @@ class GeneratorPluginTypeAnnotationCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'            => $module,
-              '--class-name'        => $class_name,
+              '--class'        => $class_name,
               '--machine-name'      => $machine_name,
               '--label'             => $label
             ],

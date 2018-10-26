@@ -9,13 +9,40 @@ namespace Drupal\Console\Command\Config;
 
 use Drupal\Core\Archiver\ArchiveTar;
 use Drupal\Component\Serialization\Yaml;
-use Symfony\Component\Console\Input\InputArgument;
+use Drupal\Core\Config\ConfigManagerInterface;
+use Drupal\Core\Config\StorageInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Command\Command;
+use Symfony\Component\Filesystem\Filesystem;
+use Drupal\Core\Config\ConfigManager;
 
-class ExportCommand extends ContainerAwareCommand
+class ExportCommand extends Command
 {
+    /**
+     * @var ConfigManager
+     */
+    protected $configManager;
+
+    /**
+     * @var StorageInterface
+     */
+    protected $storage;
+
+    /**
+     * ExportCommand constructor.
+     *
+     * @param ConfigManagerInterface $configManager
+     * @param StorageInterface       $storage
+     */
+    public function __construct(ConfigManagerInterface $configManager, StorageInterface $storage)
+    {
+        parent::__construct();
+        $this->configManager = $configManager;
+        $this->storage = $storage;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -24,11 +51,29 @@ class ExportCommand extends ContainerAwareCommand
         $this
             ->setName('config:export')
             ->setDescription($this->trans('commands.config.export.description'))
-            ->addArgument(
+            ->addOption(
                 'directory',
-                InputArgument::OPTIONAL,
-                $this->trans('commands.config.export.arguments.directory')
-            );
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.export.options.directory')
+            )
+            ->addOption(
+                'tar',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.options.tar')
+            )->addOption(
+                'remove-uuid',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.options.remove-uuid')
+            )->addOption(
+                'remove-config-hash',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.options.remove-config-hash')
+            )
+            ->setAliases(['ce']);
     }
 
     /**
@@ -36,59 +81,100 @@ class ExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $application = $this->getApplication()->getConfig();
-        $messageHelper = $this->getMessageHelper();
-        $directory = $input->getArgument('directory');
+        $directory = $input->getOption('directory');
+        $tar = $input->getOption('tar');
+        $removeUuid = $input->getOption('remove-uuid');
+        $removeHash = $input->getOption('remove-config-hash');
 
         if (!$directory) {
-            $configFactory = $this->getConfigFactory();
-            $directory = $application->get('application.temp')?:
-              $configFactory->get('system.file')->get('path.temporary');
+            $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
         }
 
-        if (!is_dir($directory)) {
-            mkdir($directory, 0777, true);
+        $fileSystem = new Filesystem();
+        try {
+            $fileSystem->mkdir($directory);
+        } catch (IOExceptionInterface $e) {
+            $this->getIo()->error(
+                sprintf(
+                    $this->trans('commands.config.export.messages.error'),
+                    $e->getPath()
+                )
+            );
         }
 
-        $config_export_file = $directory.'/config.tar.gz';
+        // Remove previous yaml files before creating new ones
+        array_map('unlink', glob($directory . '/*'));
 
-        file_unmanaged_delete($config_export_file);
+        if ($tar) {
+            $dateTime = new \DateTime();
+
+            $archiveFile = sprintf(
+                '%s/config-%s.tar.gz',
+                $directory,
+                $dateTime->format('Y-m-d-H-i-s')
+            );
+            $archiveTar = new ArchiveTar($archiveFile, 'gz');
+        }
 
         try {
-            $archiver = new ArchiveTar($config_export_file, 'gz');
-
-            $this->configManager = $this->getConfigManager();
             // Get raw configuration data without overrides.
             foreach ($this->configManager->getConfigFactory()->listAll() as $name) {
+                $configName = "$name.yml";
                 $configData = $this->configManager->getConfigFactory()->get($name)->getRawData();
-                unset($configData['uuid']);
-                $archiver->addString(
-                    "$name.yml",
-                    Yaml::encode($configData)
-                );
-            }
-
-            $this->targetStorage = $this->getConfigStorage();
-            // Get all override data from the remaining collections.
-            foreach ($this->targetStorage->getAllCollectionNames() as $collection) {
-                $collection_storage = $this->targetStorage->createCollection($collection);
-                foreach ($collection_storage->listAll() as $name) {
-                    $configData = $collection_storage->read($name);
+                if ($removeUuid) {
                     unset($configData['uuid']);
-                    $archiver->addString(
-                        str_replace('.', '/', $collection)."/$name.yml",
-                        Yaml::encode($configData)
-                    );
+                }
+                if ($removeHash) {
+                    unset($configData['_core']['default_config_hash']);
+                    if (empty($configData['_core'])) {
+                        unset($configData['_core']);
+                    }
+                }
+                $ymlData = Yaml::encode($configData);
+
+                if ($tar) {
+                    $archiveTar->addString($configName, $ymlData);
+                } else {
+                    file_put_contents("$directory/$configName", $ymlData);
+                }
+            }
+            // Get all override data from the remaining collections.
+            foreach ($this->storage->getAllCollectionNames() as $collection) {
+                $collection_storage = $this->storage->createCollection($collection);
+                $collection_path = str_replace('.', '/', $collection);
+                if (!$tar) {
+                    mkdir("$directory/$collection_path", 0755, true);
+                }
+                foreach ($collection_storage->listAll() as $name) {
+                    $configName = "$collection_path/$name.yml";
+                    $configData = $collection_storage->read($name);
+                    if ($removeUuid) {
+                        unset($configData['uuid']);
+                    }
+                    if ($removeHash) {
+                        unset($configData['_core']['default_config_hash']);
+                        if (empty($configData['_core'])) {
+                            unset($configData['_core']);
+                        }
+                    }
+
+                    $ymlData = Yaml::encode($configData);
+                    if ($tar) {
+                        $archiveTar->addString($configName, $ymlData);
+                    } else {
+                        file_put_contents("$directory/$configName", $ymlData);
+                    }
                 }
             }
         } catch (\Exception $e) {
-            $output->writeln('[+] <error>'.$e->getMessage().'</error>');
-
-            return;
+            $this->getIo()->error($e->getMessage());
         }
 
-        $messageHelper->addSuccessMessage(
-            sprintf($this->trans('commands.config.export.messages.directory'), $config_export_file)
+        $this->getIo()->info(
+            sprintf(
+                $this->trans('commands.config.export.messages.directory'),
+                $directory
+            )
         );
     }
 }

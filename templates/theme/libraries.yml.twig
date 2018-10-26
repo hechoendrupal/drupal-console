@@ -1,0 +1,16 @@
+{{ global_library }}:
+   version: 1.0
+   css:
+    theme:
+      #css/your_style_sheet.css : {}
+   js:
+     #js/your_js.js : {}
+{% for library in libraries %}
+{{ library.library_name }}:
+  version: {{ library.library_version }}
+   css:
+    theme:
+      #js/your_js.js : {}
+   js:
+     #js/your_js.js : {}
+{% endfor %}

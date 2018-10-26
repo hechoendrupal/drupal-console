@@ -1,6 +1,0 @@
-description: 'प्रमाणन प्रदाता उत्पन्न करें'
-help: '<info>generate:authentication:provider</info> कमाण्ड आपको एक नया प्रमाणन प्रदाता उत्पन्न करने में मदद करता है।'
-options:
-    class-name: 'प्रमाणन प्रदाता क्लास'
-    provider-id: 'प्रदाता क्रमांक'
-module: common.options.module

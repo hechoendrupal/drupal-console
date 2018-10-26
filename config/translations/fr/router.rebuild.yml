@@ -1,6 +1,0 @@
-description: 'Reconstruire les routes de l''application'
-arguments:
-    route-name: 'Noms des routes'
-messages:
-    rebuilding: 'Reconstruction des routes en cours, veuillez patienter'
-    completed: 'Reconstruction des routes terminée.'

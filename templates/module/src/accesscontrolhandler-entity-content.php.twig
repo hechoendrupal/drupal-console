@@ -27,10 +27,13 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
    * {@inheritdoc}
    */
   protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
-
+    /** @var \Drupal\{{ module }}\Entity\{{ entity_class }}Interface $entity */
     switch ($operation) {
       case 'view':
-        return AccessResult::allowedIfHasPermission($account, 'view {{ label|lower }} entities');
+        if (!$entity->isPublished()) {
+          return AccessResult::allowedIfHasPermission($account, 'view unpublished {{ label|lower }} entities');
+        }
+        return AccessResult::allowedIfHasPermission($account, 'view published {{ label|lower }} entities');
 
       case 'update':
         return AccessResult::allowedIfHasPermission($account, 'edit {{ label|lower }} entities');
@@ -39,7 +42,8 @@ class {{ entity_class }}AccessControlHandler extends EntityAccessControlHandler 
         return AccessResult::allowedIfHasPermission($account, 'delete {{ label|lower }} entities');
     }
 
-    return AccessResult::allowed();
+    // Unknown operation, no opinion.
+    return AccessResult::neutral();
   }
 
   /**

@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{module_name}}\Plugin\rest\resource\{{module_name}}.
+\Drupal\{{module_name}}\Plugin\rest\resource\{{class_name}}.
 {% endblock %}
 
 {% block namespace_class %}
@@ -10,12 +10,12 @@ namespace Drupal\{{module_name}}\Plugin\rest\resource;
 
 {% block use_class %}
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Psr\Log\LoggerInterface;
 {% endblock %}
 
 {% block class_declaration %}
@@ -39,12 +39,12 @@ class {{ class_name }} extends ResourceBase {% endblock %}
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
-
 {% endblock %}
 
 {% block class_construct %}
+
   /**
-   * Constructs a Drupal\rest\Plugin\ResourceBase object.
+   * Constructs a new {{ class_name }} object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -70,10 +70,10 @@ class {{ class_name }} extends ResourceBase {% endblock %}
 
     $this->currentUser = $current_user;
   }
-
 {% endblock %}
 
 {% block class_create %}
+
   /**
    * {@inheritdoc}
    */
@@ -83,35 +83,36 @@ class {{ class_name }} extends ResourceBase {% endblock %}
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('rest'),
+      $container->get('logger.factory')->get('{{module_name}}'),
       $container->get('current_user')
     );
   }
 {% endblock %}
+
 {% block class_methods %}
-{% for state in plugin_states %}
+{% for state, state_settings in plugin_states %}
+
   /**
    * Responds to {{ state }} requests.
    *
-   * Returns a list of bundles for specified entity.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
+   *
+   * @return \Drupal\rest\{{ state_settings.response_class }}
+   *   The HTTP response object.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function {{ state|lower }}() {
+  public function {{ state|lower }}(EntityInterface $entity) {
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
-
-    /*
-    if(!$this->currentUser->hasPermission($permission)) {
-        throw new AccessDeniedHttpException();
+    if (!$this->currentUser->hasPermission('access content')) {
+      throw new AccessDeniedHttpException();
     }
-    */
 
-    // Throw an exception if it is required.
-    // throw new HttpException(t('Throw an exception if it is required.'));
-    return new ResourceResponse("Implement REST State {{ state }}!");
+    return new {{ state_settings.response_class }}({{ (state == 'DELETE') ? 'NULL' : '$entity' }}, {{ state_settings.http_code }});
   }
 {% endfor %}
 {% endblock %}

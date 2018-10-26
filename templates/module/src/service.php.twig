@@ -5,19 +5,16 @@
 {% endblock %}
 
 {% block namespace_class %}
-namespace Drupal\{{module}};
-{% endblock %}
+namespace Drupal\{{module}};{% endblock %}
 
 {% block class_declaration %}
 /**
  * Class {{ class }}.
- *
- * @package Drupal\{{module}}
  */
-class {{ class }}{% if(interface is defined and interface) %} implements {{ class }}Interface{% endif %} {% endblock %}
+class {{ class }}{% if(interface is defined and interface) %} implements {{ interface }}{% endif %} {% endblock %}
 {% block class_construct %}
   /**
-   * Constructor.
+   * Constructs a new {{ class }} object.
    */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}

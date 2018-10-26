@@ -1,0 +1,11 @@
+services:
+  console.cron_execute:
+    class: Drupal\Console\Command\Cron\ExecuteCommand
+    arguments: ['@module_handler', '@lock', '@state']
+    tags:
+      - { name: drupal.command }
+  console.cron_release:
+    class: Drupal\Console\Command\Cron\ReleaseCommand
+    arguments: ['@lock','@console.chain_queue']
+    tags:
+      - { name: drupal.command }

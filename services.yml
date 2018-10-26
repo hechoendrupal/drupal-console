@@ -1,0 +1,40 @@
+services:
+  console.root:
+    class: SplString
+  console.cache_key:
+    class: SplString
+  console.validator:
+    class: Drupal\Console\Utils\Validator
+    arguments: ['@console.extension_manager', '@console.translator_manager']
+  console.drupal_api:
+    class: Drupal\Console\Utils\DrupalApi
+    arguments: ['@app.root', '@entity_type.manager', '@http_client']
+  console.create_node_data:
+    class: Drupal\Console\Utils\Create\NodeData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api']
+  console.create_comment_data:
+    class: Drupal\Console\Utils\Create\CommentData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api']
+  console.create_term_data:
+    class: Drupal\Console\Utils\Create\TermData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api']
+  console.create_user_data:
+    class: Drupal\Console\Utils\Create\UserData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api']
+  console.create_role_data:
+    class: Drupal\Console\Utils\Create\RoleData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api']
+  console.create_vocabulary_data:
+    class: Drupal\Console\Utils\Create\VocabularyData
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api']
+  console.annotation_command_reader:
+    class: Drupal\Console\Annotations\DrupalCommandAnnotationReader
+  console.annotation_validator:
+    class: Drupal\Console\Utils\AnnotationValidator
+    arguments: ['@console.annotation_command_reader', '@console.extension_manager']
+  # Commands
+  console.generate_composer:
+    class: Drupal\Console\Command\ComposerizeCommand
+    tags:
+       - { name: drupal.command }
+

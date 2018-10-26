@@ -10,10 +10,10 @@ namespace Drupal\Console\Command\Database;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
-use Drupal\Console\Command\Database\ConnectTrait;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Command\Shared\ConnectTrait;
 
-class ConnectCommand extends ContainerAwareCommand
+class ConnectCommand extends Command
 {
     use ConnectTrait;
 
@@ -26,11 +26,19 @@ class ConnectCommand extends ContainerAwareCommand
             ->setName('database:connect')
             ->setDescription($this->trans('commands.database.connect.description'))
             ->addArgument(
-                'database',
+                'key',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.connect.arguments.database')
+                $this->trans('commands.database.connect.arguments.key'),
+                'default'
             )
-            ->setHelp($this->trans('commands.database.connect.help'));
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.connect.arguments.target'),
+                'default'
+            )
+            ->setHelp($this->trans('commands.database.connect.help'))
+            ->setAliases(['dbco']);
     }
 
     /**
@@ -38,17 +46,27 @@ class ConnectCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = $this->getMessageHelper();
-        $database = $input->getArgument('database');
+        $key = $input->getArgument('key');
+        $target = $input->getArgument('target');
+        $databaseConnection = $this->resolveConnection($key, $target);
 
-        $connection = $this->resolveConnection($message, $database, $output);
+        $connection = sprintf(
+            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+            $databaseConnection['driver'],
+            $databaseConnection['database'],
+            $databaseConnection['username'],
+            $databaseConnection['password'],
+            $databaseConnection['host'],
+            $databaseConnection['port']
+        );
 
-        $message->showMessage(
-            $output,
+        $this->getIo()->commentBlock(
             sprintf(
                 $this->trans('commands.database.connect.messages.connection'),
                 $connection
             )
         );
+
+        return 0;
     }
 }

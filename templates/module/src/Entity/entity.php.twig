@@ -9,8 +9,11 @@ namespace Drupal\{{ module }}\Entity;
 {% endblock %}
 
 {% block use_class %}
+{% if bundle_of %}
+use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+{% else %}
 use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\{{ module }}\{{ entity_class }}Interface;
+{% endif %}
 {% endblock %}
 
 {% block class_declaration %}
@@ -21,29 +24,37 @@ use Drupal\{{ module }}\{{ entity_class }}Interface;
  *   id = "{{ entity_name }}",
  *   label = @Translation("{{ label }}"),
  *   handlers = {
+ *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\{{ module }}\{{ entity_class }}ListBuilder",
  *     "form" = {
  *       "add" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
  *       "edit" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
  *       "delete" = "Drupal\{{ module }}\Form\{{ entity_class }}DeleteForm"
- *     }
+ *     },
+ *     "route_provider" = {
+ *       "html" = "Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider",
+ *     },
  *   },
  *   config_prefix = "{{ entity_name }}",
  *   admin_permission = "administer site configuration",
+{% if bundle_of %}
+ *   bundle_of = "{{ bundle_of }}",
+{% endif %}
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",
  *     "uuid" = "uuid"
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
- *     "edit-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
- *     "delete-form" = "/admin/structure/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
- *     "collection" = "/admin/structure/visibility_group"
+ *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
+ *     "add-form" = "{{ base_path }}/{{ entity_name }}/add",
+ *     "edit-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/edit",
+ *     "delete-form" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}/delete",
+ *     "collection" = "{{ base_path }}/{{ entity_name }}"
  *   }
  * )
  */
-class {{ entity_class }} extends ConfigEntityBase implements {{ entity_class }}Interface {% endblock %}
+class {{ entity_class }} extends {% if bundle_of %}ConfigEntityBundleBase{% else %}ConfigEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
 {% block class_methods %}
   /**
    * The {{ label }} ID.

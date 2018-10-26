@@ -1,0 +1,6 @@
+services:
+  console.test_run:
+    class: Drupal\Console\Command\Test\RunCommand
+    arguments: ['@app.root', '@?test_discovery', '@module_handler', '@date.formatter']
+    tags:
+      - { name: drupal.command }

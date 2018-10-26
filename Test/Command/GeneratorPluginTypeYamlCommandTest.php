@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginTypeYamlCommand;
+use Drupal\Console\Command\Generate\PluginTypeYamlCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginTypeYamlDataProviderTrait;
 
@@ -30,7 +30,7 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
         $plugin_name,
         $plugin_file_name
     ) {
-        $command = new GeneratorPluginTypeYamlCommand($this->getHelperSet());
+        $command = new PluginTypeYamlCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -39,7 +39,7 @@ class GeneratorPluginTypeYamlCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'            => $module,
-              '--class-name'        => $plugin_class,
+              '--class'        => $plugin_class,
               '--plugin-name'       => $plugin_name,
               '--plugin-file-name'  => $plugin_file_name
             ],

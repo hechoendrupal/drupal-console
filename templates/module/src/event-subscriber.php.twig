@@ -16,18 +16,18 @@ use Symfony\Component\EventDispatcher\Event;
 {% block class_declaration %}
 /**
  * Class {{ class }}.
- *
- * @package Drupal\{{module}}
  */
 class {{ class }} implements EventSubscriberInterface {% endblock %}
 
 {% block class_construct %}
+
   /**
-   * Constructor.
+   * Constructs a new {{ class }} object.
    */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
 {{ serviceClassInitialization(services) }}
   }
+
 {% endblock %}
 
 {% block class_methods %}
@@ -35,10 +35,10 @@ class {{ class }} implements EventSubscriberInterface {% endblock %}
    * {@inheritdoc}
    */
   static function getSubscribedEvents() {
-
 {% for event_name, callback in events %}
     $events['{{ event_name }}'] = ['{{ callback }}'];
 {% endfor %}
+
     return $events;
   }
 
@@ -50,7 +50,7 @@ class {{ class }} implements EventSubscriberInterface {% endblock %}
    * @param GetResponseEvent $event
    */
   public function {{ callback }}(Event $event) {
-    drupal_set_message('Event {{ event_name }} thrown by Subscriber in module {{ module }}.', 'status', TRUE);
+    \Drupal::messenger()->addMessage('Event {{ event_name }} thrown by Subscriber in module {{ module }}.', 'status', TRUE);
   }
 {% endfor %}
 {% endblock %}

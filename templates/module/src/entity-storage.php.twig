@@ -1,0 +1,71 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\{{ entity_class }}Storage.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
+use Drupal\Core\Session\AccountInterface;
+{% if is_translatable %}
+use Drupal\Core\Language\LanguageInterface;
+{% endif %}
+use Drupal\{{ module }}\Entity\{{ entity_class }}Interface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Defines the storage handler class for {{ label }} entities.
+ *
+ * This extends the base storage class, adding required special handling for
+ * {{ label }} entities.
+ *
+ * @ingroup {{ module }}
+ */
+class {{ entity_class }}Storage extends SqlContentEntityStorage implements {{ entity_class }}StorageInterface {% endblock %}
+
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function revisionIds({{ entity_class }}Interface $entity) {
+    return $this->database->query(
+      'SELECT vid FROM {{ '{'~entity_name~'_revision}' }} WHERE id=:id ORDER BY vid',
+      [':id' => $entity->id()]
+    )->fetchCol();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function userRevisionIds(AccountInterface $account) {
+    return $this->database->query(
+      'SELECT vid FROM {{ '{'~entity_name~'_field_revision}' }} WHERE uid = :uid ORDER BY vid',
+      [':uid' => $account->id()]
+    )->fetchCol();
+  }
+{% if is_translatable %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public function countDefaultLanguageRevisions({{ entity_class }}Interface $entity) {
+    return $this->database->query('SELECT COUNT(*) FROM {{ '{'~entity_name~'_field_revision}' }} WHERE id = :id AND default_langcode = 1', [':id' => $entity->id()])
+      ->fetchField();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function clearRevisionsLanguage(LanguageInterface $language) {
+    return $this->database->update('{{ entity_name }}_revision')
+      ->fields(['langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED])
+      ->condition('langcode', $language->getId())
+      ->execute();
+  }
+{% endif %}
+{% endblock %}

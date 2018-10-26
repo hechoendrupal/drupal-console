@@ -2,11 +2,13 @@
 
 namespace Drupal\Console\Test;
 
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
-use Drupal\Console\Helper\DialogHelper;
 use Drupal\Console\Helper\TwigRendererHelper;
 use Drupal\Console\Helper\HelperTrait;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Drupal\Console\Helper\ContainerHelper;
 
 abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -21,10 +23,10 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 
     protected function setup()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
     }
 
-    public function setUpTemporalDirectory()
+    public function setUpTemporaryDirectory()
     {
         $this->dir = sys_get_temp_dir() . "/modules";
     }
@@ -32,9 +34,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     public function getHelperSet($input = null)
     {
         if (!$this->helperSet) {
-            $dialog = new DialogHelper();
-            $dialog->setInputStream($this->getInputStream($input));
-
             $stringHelper = $this->getMockBuilder('Drupal\Console\Helper\StringHelper')
                 ->disableOriginalConstructor()
                 ->setMethods(['createMachineName'])
@@ -54,12 +53,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 ->will($this->returnArgument(0));
 
             $translator = $this->getTranslatorHelper();
-
-            $message = $this
-                ->getMockBuilder('Drupal\Console\Helper\MessageHelper')
-                ->disableOriginalConstructor()
-                ->setMethods(['showMessages', 'showMessage'])
-                ->getMock();
 
             $chain = $this
                 ->getMockBuilder('Drupal\Console\Helper\ChainCommandHelper')
@@ -82,18 +75,21 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
                 ->method('getModulePath')
                 ->will($this->returnValue($this->dir));
 
+            $consoleRoot = __DIR__.'/../';
+            $container = new ContainerBuilder();
+            $loader = new YamlFileLoader($container, new FileLocator($consoleRoot));
+            $loader->load('services.yml');
+
             $this->helperSet = new HelperSet(
                 [
-                    'formatter' => new FormatterHelper(),
                     'renderer' => new TwigRendererHelper(),
-                    'dialog' => $dialog,
                     'string' => $stringHelper,
                     'validator' => $validator,
                     'translator' => $translator,
                     'site' => $siteHelper,
-                    'message' => $message,
                     'chain' => $chain,
                     'drupal' => $drupal,
+                    'container' => new ContainerHelper($container),
                 ]
             );
         }

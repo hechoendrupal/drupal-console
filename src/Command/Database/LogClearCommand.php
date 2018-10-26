@@ -11,11 +11,31 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Logger\RfcLogLevel;
 
-class LogClearCommand extends ContainerAwareCommand
+class LogClearCommand extends Command
 {
+    /**
+     * @var Connection
+     */
+    protected $database;
+
+    /**
+     * LogClearCommand constructor.
+     *
+     * @param Connection $database
+     */
+    public function __construct(Connection $database)
+    {
+        $this->database = $database;
+        parent::__construct();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -28,119 +48,121 @@ class LogClearCommand extends ContainerAwareCommand
             )
             ->addOption(
                 'type',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.log.clear.options.type')
             )
             ->addOption(
                 'severity',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.log.clear.options.severity')
             )
             ->addOption(
                 'user-id',
-                '',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.log.clear.options.user-id')
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $event_id = $input->getArgument('event-id');
-        $event_type = $input->getOption('type');
-        $event_severity = $input->getOption('severity');
-        $user_id = $input->getOption('user-id');
-
-        if ($event_id) {
-            $this->clearEvent($output, $event_id);
-        } else {
-            $this->clearEvents($event_type, $event_severity, $user_id, $output);
-        }
+            )
+            ->setAliases(['dblc']);
     }
 
     /**
-     * @param $output
-     * @param $event_id
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $eventId = $input->getArgument('event-id');
+        $eventType = $input->getOption('type');
+        $eventSeverity = $input->getOption('severity');
+        $userId = $input->getOption('user-id');
+
+        if ($eventId) {
+            $this->clearEvent($eventId);
+        } else {
+            $this->clearEvents($eventType, $eventSeverity, $userId);
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param $eventId
      * @return bool
      */
-    private function clearEvent($output, $event_id)
+    private function clearEvent($eventId)
     {
-        $connection = $this->getDatabase();
-
-        $result = $connection->delete('watchdog')->condition('wid', $event_id)->execute();
+        $result = $this->database->delete('watchdog')->condition('wid', $eventId)->execute();
 
         if (!$result) {
-            $output->writeln(
-                '[+] <error>'.sprintf(
+            $this->getIo()->error(
+                sprintf(
                     $this->trans('commands.database.log.clear.messages.not-found'),
-                    $event_id
-                ).'</error>'
+                    $eventId
+                )
             );
 
             return false;
-        } else {
-            $output->writeln(
-                '[+] <info>'.sprintf(
-                    $this->trans('commands.database.log.clear.messages.event-deleted'),
-                    $event_id
-                ).'</info>'
-            );
-
-            return true;
         }
+
+        $this->getIo()->success(
+            sprintf(
+                $this->trans('commands.database.log.clear.messages.event-deleted'),
+                $eventId
+            )
+        );
+
+        return true;
     }
 
-    protected function clearEvents($event_type, $event_severity, $user_id,  $output)
+    /**
+     * @param $eventType
+     * @param $eventSeverity
+     * @param $userId
+     * @return bool
+     */
+    protected function clearEvents($eventType, $eventSeverity, $userId)
     {
-        $table = $this->getTableHelper();
-        $table->setlayout($table::LAYOUT_COMPACT);
-
-        $connection = $this->getDatabase();
         $severity = RfcLogLevel::getLevels();
+        $query = $this->database->delete('watchdog');
 
-        $query = $connection->delete('watchdog');
-
-        if (!empty($event_type)) {
-            $query->condition('type', $event_type);
+        if ($eventType) {
+            $query->condition('type', $eventType);
         }
 
-        if (!empty($event_severity) && in_array($event_severity, $severity)) {
-            $query->condition('severity', array_search($event_severity, $severity));
-        } elseif (!empty($event_severity)) {
-            $output->writeln(
-                '[-] <error>' .
-                sprintf(
-                    $this->trans('commands.database.log.clear.messages.invalid-severity'),
-                    $event_severity
-                )
-                . '</error>'
-            );
+        if ($eventSeverity) {
+            if (!in_array($eventSeverity, $severity)) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.database.log.clear.messages.invalid-severity'),
+                        $eventSeverity
+                    )
+                );
+
+                return false;
+            }
+
+            $query->condition('severity', array_search($eventSeverity, $severity));
         }
 
-        if (!empty($user_id)) {
-            $query->condition('uid', $user_id);
+        if ($userId) {
+            $query->condition('uid', $userId);
         }
 
         $result = $query->execute();
 
         if (!$result) {
-            $output->writeln(
-                '[+] <error>'.
+            $this->getIo()->error(
                 $this->trans('commands.database.log.clear.messages.clear-error')
-                .'</error>'
             );
 
             return false;
-        } else {
-            $output->writeln(
-                '[+] <info>'.
-                $this->trans('commands.database.log.clear.messages.clear-sucess')
-                .'</info>'
-            );
-
-            return true;
         }
+
+        $this->getIo()->success(
+            $this->trans('commands.database.log.clear.messages.clear-sucess')
+        );
+
+        return true;
     }
 }

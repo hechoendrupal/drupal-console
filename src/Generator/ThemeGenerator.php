@@ -7,24 +7,42 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Extension\Manager;
+
 /**
  *
  */
 class ThemeGenerator extends Generator
 {
-    public function generate(
-        $theme,
-        $machine_name,
-        $dir,
-        $description,
-        $core,
-        $package,
-        $base_theme,
-        $global_library,
-        $regions,
-        $breakpoints
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
+    /**
+     * AuthenticationProviderGenerator constructor.
+     *
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
     ) {
-        $dir .= '/' . $machine_name;
+        $this->extensionManager = $extensionManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
+    {
+        $dir = $parameters['dir'];
+        $breakpoints = $parameters['breakpoints'];
+        $libraries = $parameters['libraries'];
+        $machine_name = $parameters['machine_name'];
+        $parameters['type'] = 'theme';
+
+        $dir = ($dir == '/' ? '': $dir) . '/' . $machine_name;
         if (file_exists($dir)) {
             if (!is_dir($dir)) {
                 throw new \RuntimeException(
@@ -35,7 +53,7 @@ class ThemeGenerator extends Generator
                 );
             }
             $files = scandir($dir);
-            if ($files != array('.', '..')) {
+            if ($files != ['.', '..']) {
                 throw new \RuntimeException(
                     sprintf(
                         'Unable to generate the bundle as the target directory "%s" is not empty.',
@@ -53,35 +71,32 @@ class ThemeGenerator extends Generator
             }
         }
 
-        $parameters = array(
-        'theme' => $theme,
-        'machine_name' => $machine_name,
-        'type' => 'theme',
-        'core' => $core,
-        'description' => $description,
-        'package' => $package,
-        'base_theme' => $base_theme,
-        'global_library' => $global_library,
-        'regions' => $regions,
-        'breakpoints' => $breakpoints,
-        );
+        $themePath = $dir . '/' . $machine_name;
 
         $this->renderFile(
             'theme/info.yml.twig',
-            $dir . '/' . $machine_name . '.info.yml',
+            $themePath . '.info.yml',
             $parameters
         );
 
         $this->renderFile(
             'theme/theme.twig',
-            $dir . '/' . $machine_name . '.theme',
+            $themePath . '.theme',
             $parameters
         );
+
+        if ($libraries) {
+            $this->renderFile(
+                'theme/libraries.yml.twig',
+                $themePath . '.libraries.yml',
+                $parameters
+            );
+        }
 
         if ($breakpoints) {
             $this->renderFile(
                 'theme/breakpoints.yml.twig',
-                $dir . '/' . $machine_name . '.breakpoints.yml',
+                $themePath . '.breakpoints.yml',
                 $parameters
             );
         }

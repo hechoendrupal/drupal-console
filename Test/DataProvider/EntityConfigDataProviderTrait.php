@@ -13,10 +13,10 @@ trait EntityConfigDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
-          ['Foo', 'foo' . rand(), 'Bar', 'bar'],
+          ['Foo', 'foo' . rand(), 'Bar', '', 'bar', 'admin/structure'],
         ];
     }
 }

@@ -2,11 +2,12 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Drupal Console](#drupal-console)
-  - [Supported Drupal version](#supported-drupal-version)
-  - [Drupal Console documentation](#drupal-console-documentation)
-  - [Installing Drupal Console](#installing-drupal-console)
-  - [Using Drupal Console](#using-drupal-console)
+  - [Drupal Console](#drupal-console)
+  - [Required PHP version](#required-php-version)
+  - [Drupal Console documentation](#documentation)
+  - [Download Drupal Console](#download)
+  - [Run Drupal Console](#run)
+  - [Contributors](#contributors)
   - [Supporting organizations](#supporting-organizations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -15,51 +16,58 @@ Drupal Console
 =============================================
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hechoendrupal/DrupalConsole)
-[![Build Status](https://travis-ci.org/hechoendrupal/DrupalConsole.svg?branch=master)](https://travis-ci.org/hechoendrupal/DrupalConsole)
+[![Build Status](https://travis-ci.org/hechoendrupal/drupal-console.svg?branch=master)](https://travis-ci.org/hechoendrupal/drupal-console)
 [![Latest Stable Version](https://poser.pugx.org/drupal/console/v/stable.svg)](https://packagist.org/packages/drupal/console)
 [![Latest Unstable Version](https://poser.pugx.org/drupal/console/v/unstable.svg)](https://packagist.org/packages/drupal/console)
+[![Software License](https://img.shields.io/badge/license-GPL%202.0+-blue.svg)](https://packagist.org/packages/drupal/console)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90/mini.png)](https://insight.sensiolabs.com/projects/d0f089ff-a6e9-4ba4-b353-cb68173c7d90)
 
-The Drupal Console is a suite of tools that you run on a command line interface (CLI)
-to generate boilerplate code and interact with a Drupal 8 installation.
+The Drupal CLI. A tool to generate boilerplate code, interact with and debug Drupal.
 
-## Change Log
-All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases) 
+## Latest Version
+Details of the latest version can be found on the Drupal Console project page under https://drupalconsole.com/.
 
-## Supported Drupal version
-The Drupal 8 supported version is [Drupal 8 RC-2](http://ftp.drupal.org/files/projects/drupal-8.0.0-rc2.tar.gz).
+## Releases Page
+All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases)
 
-## Drupal Console documentation
-You can read or download the Drupal Console documentation at [bit.ly/console-book](http://bit.ly/console-book).
+## Documentation
+The most up-to-date documentation can be found at [http://docs.drupalconsole.com/](http://docs.drupalconsole.com/).
 
-## Drupal Console support
+More information about using this project at the [official documentation](http://docs.drupalconsole.com/en/using/project.html).
+
+## Required PHP Version
+PHP 5.5.9 or higher is required to use the Drupal Console application.
+
+## Download 
+
+[Install Drupal Console Using Composer](https://docs.drupalconsole.com/en/getting/composer.html)
+
+[Install Drupal Console Launcher](https://docs.drupalconsole.com/en/getting/launcher.html)
+
+[Installing Drupal Console on Windows](https://docs.drupalconsole.com/en/getting/windows.html)
+
+## Run
+Using the DrupalConsole Launcher
+```
+drupal
+``` 
+
+We highly recommend you to install the global executable, but if is not installed, you can run Drupal Console depending on your installation by executing:
+
+```
+vendor/bin/drupal
+# or
+vendor/drupal/console/bin/drupal
+# or
+bin/drupal
+```
+
+## Drupal Console Support
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
-## Installing Drupal Console
-```
-# Run this in your terminal to get the latest Console version:
-curl -LSs http://drupalconsole.com/installer | php
-
-# Or if you don't have curl:
-php -r "readfile('http://drupalconsole.com/installer');" | php
-
-# You can place this file anywhere you wish.
-# If you put it in your PATH, you can access it globally.
-# For example: move console.phar and rename it, 'drupal':
-mv console.phar /usr/local/bin/drupal
-
-# Show all available commands.
-drupal list
-
-# Copy configuration files.
-drupal init
-
-# Generate a module.
-drupal generate:module
-```
-
-## Using Drupal Console
-![image](http://drupalconsole.com/assets/img/console-global.gif)
+## Contribute to Drupal Console
+* [Getting the project](https://docs.drupalconsole.com/en/contributing/getting-the-project.html)
+* [Running the project](https://docs.drupalconsole.com/en/contributing/running-the-project.html)
 
 ## Enabling Autocomplete
 ```
@@ -67,7 +75,7 @@ drupal generate:module
 drupal init
 
 # Bash: Bash support depends on the http://bash-completion.alioth.debian.org/
-# project which can be installed with your package manager of choice. Then add 
+# project which can be installed with your package manager of choice. Then add
 # this line to your shell configuration file.
 source "$HOME/.console/console.rc" 2>/dev/null
 
@@ -78,7 +86,16 @@ source "$HOME/.console/console.rc" 2>/dev/null
 ln -s ~/.console/drupal.fish ~/.config/fish/completions/drupal.fish
 ```
 
-## Supporting organizations
-[![FFW](https://www.drupal.org/files/ffw-logo.png)](https://ffwagency.com)  
-[![Indava](https://www.drupal.org/files/indava-logo.png)](http://www.indava.com/)  
+## Contributors
+
+[Full list of contributors](https://drupalconsole.com/contributors)
+
+## Supporting Organizations
+
+[![weKnow](https://www.drupal.org/files/weKnow-logo_5.png)](http://weknowinc.com)
+
 [![Anexus](https://www.drupal.org/files/anexus-logo.png)](http://www.anexusit.com/)
+
+[All supporting organizations](https://drupalconsole.com/supporting-organizations)
+
+> Drupal is a registered trademark of Dries Buytaert.

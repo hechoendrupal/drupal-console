@@ -1,4 +1,0 @@
-description: 'Lista modulelor ce implementează un cron'
-messages:
-    module-list: 'Module ce implementează o metodă din cron'
-    module: 'Modul'

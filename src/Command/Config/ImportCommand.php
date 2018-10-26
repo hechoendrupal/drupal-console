@@ -6,16 +6,44 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Core\Archiver\ArchiveTar;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Parser;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigManager;
+use Drupal\Core\Config\ConfigImporterException;
+use Drupal\Core\Config\ConfigImporter;
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Config\StorageComparerInterface;
 
-class ImportCommand extends ContainerAwareCommand
+class ImportCommand extends Command
 {
+    /**
+     * @var CachedStorage
+     */
+    protected $configStorage;
+
+    /**
+     * @var ConfigManager
+     */
+    protected $configManager;
+
+    /**
+     * ImportCommand constructor.
+     *
+     * @param CachedStorage $configStorage
+     * @param ConfigManager $configManager
+     */
+    public function __construct(
+        CachedStorage $configStorage,
+        ConfigManager $configManager
+    ) {
+        $this->configStorage = $configStorage;
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -24,16 +52,31 @@ class ImportCommand extends ContainerAwareCommand
         $this
             ->setName('config:import')
             ->setDescription($this->trans('commands.config.import.description'))
-            ->addArgument(
-                'config-file', InputArgument::REQUIRED,
-                $this->trans('commands.config.import.arguments.config-file')
+            ->addOption(
+                'file',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.import.options.file')
             )
             ->addOption(
-                'copy-only',
-                '',
+                'directory',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.import.options.directory')
+            )
+            ->addOption(
+                'remove-files',
+                null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.config.import.arguments.copy-only')
-            );
+                $this->trans('commands.config.import.options.remove-files')
+            )
+            ->addOption(
+                'skip-uuid',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.import.options.skip-uuid')
+            )
+            ->setAliases(['ci']);
     }
 
     /**
@@ -41,51 +84,78 @@ class ImportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $config_file = $input->getArgument('config-file');
-        $copy_only = $input->getOption('copy-only');
+        $directory = $input->getOption('directory');
+        $skipUuid = $input->getOption('skip-uuid');
 
-        try {
-            $files = array();
-            $archiver = new ArchiveTar($config_file, 'gz');
+        if ($directory) {
+            $configSyncDir = $directory;
+        } else {
+            $configSyncDir = config_get_config_directory(
+                CONFIG_SYNC_DIRECTORY
+            );
+        }
 
-            $output->writeln($this->trans('commands.config.import.messages.config_files_imported'));
-            foreach ($archiver->listContent() as $file) {
-                $pathinfo = pathinfo($file['filename']);
-                $files[$pathinfo['filename']] = $file['filename'];
-                $output->writeln('[-] <info>' .  $file['filename'] . '</info>');
-            }
+        $source_storage = new FileStorage($configSyncDir);
 
-            $config_staging_dir = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+        $storageComparer = '\Drupal\Core\Config\StorageComparer';
+        if ($skipUuid) {
+            $storageComparer = '\Drupal\Console\Override\StorageComparer';
+        }
 
+        $storage_comparer = new $storageComparer(
+            $source_storage,
+            $this->configStorage,
+            $this->configManager
+        );
+
+        if (!$storage_comparer->createChangelist()->hasChanges()) {
+            $this->getIo()->success($this->trans('commands.config.import.messages.nothing-to-do'));
+        }
+
+        if ($this->configImport($storage_comparer)) {
+            $this->getIo()->success($this->trans('commands.config.import.messages.imported'));
+        } else {
+            return 1;
+        }
+    }
+
+
+    private function configImport(StorageComparerInterface $storage_comparer)
+    {
+        $config_importer = new ConfigImporter(
+            $storage_comparer,
+            \Drupal::service('event_dispatcher'),
+            \Drupal::service('config.manager'),
+            \Drupal::lock(),
+            \Drupal::service('config.typed'),
+            \Drupal::moduleHandler(),
+            \Drupal::service('module_installer'),
+            \Drupal::service('theme_handler'),
+            \Drupal::service('string_translation')
+        );
+
+        if ($config_importer->alreadyImporting()) {
+            $this->getIo()->success($this->trans('commands.config.import.messages.already-imported'));
+        } else {
             try {
-                $archiver->extract($config_staging_dir . '/');
+                $this->getIo()->info($this->trans('commands.config.import.messages.importing'));
+                $config_importer->import();
+                return true;
+            } catch (ConfigImporterException $e) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.site.import.local.messages.error-writing'),
+                        implode("\n", $config_importer->getErrors())
+                    )
+                );
             } catch (\Exception $e) {
-                $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
-                return;
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.site.import.local.messages.error-writing'),
+                        $e->getMessage()
+                    )
+                );
             }
-
-            if ($copy_only) {
-                $output->writeln(sprintf($this->trans('commands.config.import.messages.copied'), CONFIG_SYNC_DIRECTORY));
-            } else {
-                foreach ($files as $cofig_name => $filename) {
-                    $config = $this->getConfigFactory()->getEditable($cofig_name);
-                    $parser = new Parser();
-                    $config_value = $parser->parse(file_get_contents($config_staging_dir . '/' . $filename));
-                    $config->setData($config_value);
-
-                    try {
-                        $config->save();
-                    } catch (\Exception $e) {
-                        $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
-                        return;
-                    }
-                }
-
-                $output->writeln(sprintf($this->trans('commands.config.import.messages.imported'), CONFIG_SYNC_DIRECTORY));
-            }
-        } catch (\Exception $e) {
-            $output->writeln('[+] <error>' . $e->getMessage() . '</error>');
-            return;
         }
     }
 }

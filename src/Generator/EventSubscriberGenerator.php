@@ -7,43 +7,52 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Extension\Manager;
+
 class EventSubscriberGenerator extends Generator
 {
     /**
-     * Generator Service.
-     *
-     * @param string $module    Module name
-     * @param string $name      Service name
-     * @param string $class     Class name
-     * @param string $interface If TRUE an interface for this service is generated
-     * @param array  $services  List of services
+     * @var Manager
      */
-    public function generate($module, $name, $class, $events, $services)
+    protected $extensionManager;
+
+    /**
+     * AuthenticationProviderGenerator constructor.
+     *
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module' => $module,
-          'name' => $name,
-          'class' => $class,
-          'events' => $events,
-          'services' => $services,
-          'tags' => array('name' => 'event_subscriber'),
-          'file_exists' => file_exists($this->getSite()->getModulePath($module).'/'.$module.'.services.yml'),
-        ];
+        $module = $parameters['module'];
+        $class = $parameters['class'];
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $modulePath = $moduleInstance->getPath() . '/' . $module;
+        $parameters = array_merge($parameters,
+            [
+          'class_path' => sprintf('Drupal\%s\EventSubscriber\%s', $module, $class),
+          'tags' => ['name' => 'event_subscriber'],
+          'file_exists' => file_exists($modulePath . '.services.yml'),
+        ]);
 
         $this->renderFile(
             'module/src/event-subscriber.php.twig',
-            $this->getSite()->getSourcePath($module).'/EventSubscriber/'.$class.'.php',
+            $moduleInstance->getSourcePath() . '/EventSubscriber/' . $class . '.php',
             $parameters
         );
 
-        // Fixed module path to be used in services
-        $parameters['module'] = sprintf(
-            '%s\EventSubscriber',
-            $module
-        );
         $this->renderFile(
             'module/services.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.services.yml',
+            $modulePath . '.services.yml',
             $parameters,
             FILE_APPEND
         );

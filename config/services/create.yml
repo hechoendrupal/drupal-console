@@ -1,0 +1,31 @@
+services:
+  console.create_nodes:
+    class: Drupal\Console\Command\Create\NodesCommand
+    arguments: ['@console.drupal_api', '@console.create_node_data']
+    tags:
+      - { name: drupal.command }
+  console.create_comments:
+    class: Drupal\Console\Command\Create\CommentsCommand
+    arguments: ['@console.create_comment_data']
+    tags:
+      - { name: drupal.command }
+  console.create_terms:
+    class: Drupal\Console\Command\Create\TermsCommand
+    arguments: ['@console.drupal_api', '@console.create_term_data']
+    tags:
+      - { name: drupal.command }
+  console.create_users:
+    class: Drupal\Console\Command\Create\UsersCommand
+    arguments: ['@console.drupal_api', '@console.create_user_data']
+    tags:
+      - { name: drupal.command }
+  console.create_vocabularies:
+    class: Drupal\Console\Command\Create\VocabulariesCommand
+    arguments: ['@console.create_vocabulary_data']
+    tags:
+      - { name: drupal.command }
+  console.create_roles:
+    class: Drupal\Console\Command\Create\RolesCommand
+    arguments: ['@console.create_role_data']
+    tags:
+      - { name: drupal.command }

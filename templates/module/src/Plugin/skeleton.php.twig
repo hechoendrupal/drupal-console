@@ -1,0 +1,98 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\{{ plugin }}\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\{{ plugin }};
+{% endblock %}
+
+{% block use_class %}
+{% if pluginInterface is not empty %}
+use {{ pluginInterface }};
+{% endif %}
+
+{% if services is not empty %}
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endif %}
+{% endblock %}
+
+{% block class_declaration %}
+{% if pluginAnnotation is not empty %}
+/**
+ * @{{ plugin_annotation }}(
+{% for property in pluginAnnotationProperties %}
+{% if property.name == 'id' %}
+ *  id = "{{- plugin_id }}",
+{% elseif property.type == "\\Drupal\\Core\\Annotation\\Translation" %}
+ *  {{ property.name }} = @Translation("{{property.description}}"),
+{% else %}
+ *  {{ property.name }} = "{{ property.type }}",
+{% endif %}
+{% endfor %}
+ * )
+ */
+{% endif %}
+class {{class_name}} implements {% if plugin_interface is not empty %} {{ plugin_interface }} {% endif %}{% if services is not empty %}, ContainerFactoryPluginInterface {% endif %}{% endblock %}
+{% block class_construct %}
+{% if services is not empty %}
+  /**
+   * Constructs a new {{class_name}} object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param string $plugin_definition
+   *   The plugin implementation definition.
+   */
+  public function __construct(
+        array $configuration,
+        $plugin_id,
+        $plugin_definition,
+        {{ servicesAsParameters(services)|join(', \n\t') }}
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+{{ serviceClassInitialization(services) }}
+  }
+{% endif %}
+{% endblock %}
+{% block class_create %}
+{% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+{{ serviceClassInjection(services) }}
+    );
+  }
+{% endif %}
+{% endblock %}
+{% block class_methods %}
+
+    /**
+    * {@inheritdoc}
+    */
+    public function build() {
+    $build = [];
+
+    // Implement your logic
+
+    return $build;
+    }
+
+  {% for method in pluginInterfaceMethods %}
+    /**
+      * {@inheritdoc}
+      */
+      {{ method.declaration }} {
+        // {{ method.description }}
+      }
+  {% endfor %}
+{% endblock %}

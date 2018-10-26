@@ -1,6 +1,0 @@
-description: 'ड्रश को कंसोल से चलाएं।'
-help: 'बेहतर अनुभव के लिए इंटरैक्टिव विधि उपयोग करें --shell।'
-arguments:
-    args: 'Drush तर्क।'
-messages:
-    not_found: 'Drush कमाण्ड नहीं मिला।'

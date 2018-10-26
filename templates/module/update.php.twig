@@ -1,0 +1,12 @@
+{% block file_methods %}
+{% if not file_exists %}
+{% include 'module/php_tag.php.twig' %}
+{% endif %}
+/**
+ * Implements hook_update_N() on Module {{ module }} Update # {{ update_number }}.
+ */
+function {{ module }}_update_{{ update_number }}(&$sandbox) {
+    \Drupal::messenger()->addMessage('Module {{ module }} Update # {{ update_number }} () was executed successfully.');
+}
+
+{% endblock %}

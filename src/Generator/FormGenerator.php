@@ -7,38 +7,93 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Utils\StringConverter;
+
 class FormGenerator extends Generator
 {
     /**
-     * @param  $module
-     * @param  $class_name
-     * @param  $services
-     * @param  $inputs
-     * @param  $form_id
-     * @param  $update_routing
+     * @var Manager
      */
-    public function generate($module, $class_name, $form_id, $services, $inputs, $update_routing)
+    protected $extensionManager;
+
+    /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
+     * AuthenticationProviderGenerator constructor.
+     *
+     * @param Manager         $extensionManager
+     * @param StringConverter $stringConverter
+     */
+    public function __construct(
+        Manager $extensionManager,
+        StringConverter $stringConverter
+    ) {
+        $this->extensionManager = $extensionManager;
+        $this->stringConverter = $stringConverter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
     {
-        $class_name_short = substr($class_name, -4) == 'Form' ? str_replace('Form', '', $class_name) : $class_name;
-        $parameters = array(
-          'class_name' => $class_name,
-          'services' => $services,
-          'inputs' => $inputs,
-          'module_name' => $module,
-          'form_id' => $form_id,
-          'class_name_short' => strtolower($class_name_short),
+        $class_name = $parameters['class_name'];
+        $form_type = $parameters['form_type'];
+        $module = $parameters['module_name'];
+        $config_file = $parameters['config_file'];
+        $menu_link_gen = $parameters['menu_link_gen'];
+
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $moduleDir = $moduleInstance->getPath();
+        $modulePath = $moduleDir . '/' . $module;
+
+        $class_name_short = strtolower(
+            $this->stringConverter->removeSuffix($class_name)
+        );
+
+        $parameters = array_merge($parameters, [
+          'class_name_short' => $class_name_short
+        ]);
+
+        if ($form_type == 'ConfigFormBase') {
+            $template = 'module/src/Form/form-config.php.twig';
+            $parameters['config_form'] = true;
+        } else {
+            $template = 'module/src/Form/form.php.twig';
+            $parameters['config_form'] = false;
+        }
+
+        $this->renderFile(
+            'module/routing-form.yml.twig',
+          $modulePath . '.routing.yml',
+            $parameters,
+            FILE_APPEND
         );
 
         $this->renderFile(
-            'module/src/Form/form.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$class_name.'.php',
+            $template,
+            $moduleInstance->getFormPath() . '/' . $class_name . '.php',
             $parameters
         );
-
-        if ($update_routing) {
+        
+        // Render defaults YML file.
+        if ($config_file == true) {
             $this->renderFile(
-                'module/routing-form.yml.twig',
-                $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
+                'module/config/install/field.default.yml.twig',
+              $moduleDir . '/config/install/' . $module . '.' . $class_name_short . '.yml',
+                $parameters
+            );
+        }
+
+        if ($menu_link_gen == true) {
+            $this->renderFile(
+                'module/links.menu.yml.twig',
+              $modulePath . '.links.menu.yml',
                 $parameters,
                 FILE_APPEND
             );

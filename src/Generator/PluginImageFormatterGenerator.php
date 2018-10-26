@@ -7,28 +7,39 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Extension\Manager;
+
 class PluginImageFormatterGenerator extends Generator
 {
+
     /**
-     * Generator Plugin Image Formatter.
-     *
-     * @param string $module     Module name
-     * @param string $class_name Plugin Class name
-     * @param string $label      Plugin label
-     * @param string $plugin_id  Plugin id
+     * @var Manager
      */
-    public function generate($module, $class_name, $label, $plugin_id)
+    protected $extensionManager;
+
+    /**
+     * PluginImageFormatterGenerator constructor.
+     *
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'class_name' => $class_name,
-            'label' => $label,
-            'plugin_id' => $plugin_id,
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
 
         $this->renderFile(
             'module/src/Plugin/Field/FieldFormatter/imageformatter.php.twig',
-            $this->getSite()->getPluginPath($module, 'Field/FieldFormatter') . '/' . $class_name . '.php',
+            $this->extensionManager->getPluginPath($module, 'Field/FieldFormatter') . '/' . $class_name . '.php',
             $parameters
         );
     }

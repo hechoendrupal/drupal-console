@@ -2,83 +2,102 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Generator\EntityGenerator.
+ * Contains \Drupal\Console\Generator\EntityConfigGenerator.
  */
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Extension\Manager;
+
 class EntityConfigGenerator extends Generator
 {
     /**
-     * Generator Entity.
-     *
-     * @param string $module       Module name
-     * @param string $entity_name  Entity machine name
-     * @param string $entity_class Entity class name
-     * @param string $label        Entity label
+     * @var Manager
      */
-    public function generate($module, $entity_name, $entity_class, $label)
+    protected $extensionManager;
+
+    /**
+     * EntityConfigGenerator constructor.
+     *
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module' => $module,
-          'entity_name' => $entity_name,
-          'entity_class' => $entity_class,
-          'label' => $label,
-        ];
+        $module = $parameters['module'];
+        $entity_name = $parameters['entity_name'];
+        $entity_class = $parameters['entity_class'];
+
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $moduleDir = $moduleInstance->getPath();
+        $modulePath = $moduleDir . '/' . $module;
+        $moduleSourcePath = $moduleInstance->getSourcePath() . '/' . $entity_class;
+        $moduleFormPath = $moduleInstance->getFormPath() . '/' . $entity_class;
+        $moduleEntityPath = $moduleInstance->getEntityPath() . '/' . $entity_class;
+
         $this->renderFile(
             'module/config/schema/entity.schema.yml.twig',
-            $this->getSite()->getModulePath($module).'/config/schema/'.$entity_name.'.schema.yml',
+            $moduleDir . '/config/schema/' . $entity_name . '.schema.yml',
             $parameters
         );
 
         $this->renderFile(
-            'module/routing-entity.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.routing.yml',
-            $parameters,
-            FILE_APPEND
-        );
-
-        $this->renderFile(
             'module/links.menu-entity-config.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.links.menu.yml',
+            $modulePath . '.links.menu.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/links.action-entity.yml.twig',
-            $this->getSite()->getModulePath($module).'/'.$module.'.links.action.yml',
+            $modulePath . '.links.action.yml',
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
-            'module/src/interface-entity.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'Interface.php',
+            'module/src/Entity/interface-entity.php.twig',
+            $moduleEntityPath . 'Interface.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/entity.php.twig',
-            $this->getSite()->getEntityPath($module).'/'.$entity_class.'.php',
+            $moduleEntityPath . '.php',
+            $parameters
+        );
+
+        $this->renderFile(
+            'module/src/entity-route-provider.php.twig',
+            $moduleSourcePath . 'HtmlRouteProvider.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Form/entity.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$entity_class.'Form.php',
+            $moduleFormPath . 'Form.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Form/entity-delete.php.twig',
-            $this->getSite()->getFormPath($module).'/'.$entity_class.'DeleteForm.php',
+            $moduleFormPath . 'DeleteForm.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/entity-listbuilder.php.twig',
-            $this->getSite()->getSourcePath($module).'/'.$entity_class.'ListBuilder.php',
+            $moduleSourcePath . 'ListBuilder.php',
             $parameters
         );
     }

@@ -13,10 +13,10 @@ trait ControllerDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         $routes = [
-          ['title' => 'Foo Controller', 'method' => 'index', 'route' => 'index']
+          ['title' => 'Foo Controller', 'name' => 'custom.default_controller_hello', 'method' => 'index', 'path' => '/hello/{name}']
         ];
 
         return [

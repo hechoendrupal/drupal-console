@@ -1,7 +1,7 @@
 {% extends "base/class.php.twig" %}
 
 {% block file_path %}
-\Drupal\{{ module }}\{{ plugin_class }}Manager.
+\Drupal\{{ module }}\{{ class_name }}Manager.
 {% endblock %}
 
 {% block namespace_class %}
@@ -21,21 +21,21 @@ use Drupal\Core\Plugin\Discovery\YamlDiscovery;
 /**
  * Provides the default {{ plugin_name }} manager.
  */
-class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugin_class }}ManagerInterface {% endblock %}
+class {{ class_name }}Manager extends DefaultPluginManager implements {{ class_name }}ManagerInterface {% endblock %}
 {% block class_methods %}
   /**
    * Provides default values for all {{ plugin_name }} plugins.
    *
    * @var array
    */
-  protected $defaults = array(
+  protected $defaults = [
     // Add required and optional plugin properties.
     'id' => '',
     'label' => '',
-  );
+  ];
 
   /**
-   * Constructs a {{ plugin_class }}Manager object.
+   * Constructs a new {{ class_name }}Manager object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
@@ -45,7 +45,7 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugi
   public function __construct(ModuleHandlerInterface $module_handler, CacheBackendInterface $cache_backend) {
     // Add more services as required.
     $this->moduleHandler = $module_handler;
-    $this->setCacheBackend($cache_backend, '{{ plugin_name }}', array('{{ plugin_name }}'));
+    $this->setCacheBackend($cache_backend, '{{ plugin_name }}', ['{{ plugin_name }}']);
   }
 
   /**
@@ -72,5 +72,5 @@ class {{ plugin_class }}Manager extends DefaultPluginManager implements {{ plugi
     }
   }
 
-  // Add other methods here as defined in the {{ plugin_class }}ManagerInterface.
+  // Add other methods here as defined in the {{ class_name }}ManagerInterface.
 {% endblock %}

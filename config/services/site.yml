@@ -1,0 +1,26 @@
+services:
+  console.site_import_local:
+    class: Drupal\Console\Command\Site\ImportLocalCommand
+    arguments: ['@app.root','@console.configuration_manager']
+    tags:
+      - { name: drupal.command }
+  console.site_maintenance:
+    class: Drupal\Console\Command\Site\MaintenanceCommand
+    arguments: ['@state', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }
+  console.site_mode:
+    class: Drupal\Console\Command\Site\ModeCommand
+    arguments: ['@config.factory', '@console.configuration_manager', '@app.root', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }
+  console.site_statistics:
+    class: Drupal\Console\Command\Site\StatisticsCommand
+    arguments: ['@console.drupal_api', '@entity.query', '@console.extension_manager', '@module_handler']
+    tags:
+      - { name: drupal.command }
+  console.site_status:
+    class: Drupal\Console\Command\Site\StatusCommand
+    arguments: ['@?system.manager', '@settings', '@config.factory', '@theme_handler', '@app.root']
+    tags:
+      - { name: drupal.command }

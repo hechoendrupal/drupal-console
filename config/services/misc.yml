@@ -1,0 +1,15 @@
+services:
+  console.devel_dumper:
+    class: Drupal\Console\Command\DevelDumperCommand
+    arguments: ['@?plugin.manager.devel_dumper']
+    tags:
+      - { name: drupal.command }
+  console.shell:
+    class: Drupal\Console\Command\ShellCommand
+    tags:
+      - { name: drupal.command }
+  console.snippet:
+    class: Drupal\Console\Command\SnippetCommand
+    arguments: ['@console.root', '@app.root']
+    tags:
+      - { name: drupal.command }

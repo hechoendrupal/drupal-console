@@ -1,3 +1,0 @@
-description: 'Affiche la configuration actuelle.'
-arguments:
-    config-name: 'Nom de la configuration.'

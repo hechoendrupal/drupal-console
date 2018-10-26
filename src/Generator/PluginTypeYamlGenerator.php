@@ -7,48 +7,64 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Extension\Manager;
+
 class PluginTypeYamlGenerator extends Generator
 {
     /**
-     * Generator for Plugin type with Yaml discovery.
-     *
-     * @param $module
-     * @param $plugin_class
-     * @param $plugin_name
-     * @param $plugin_file_name
+     * @var Manager
      */
-    public function generate($module, $plugin_class, $plugin_name, $plugin_file_name)
+    protected $extensionManager;
+
+    /**
+     * PluginTypeYamlGenerator constructor.
+     *
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'plugin_class' => $plugin_class,
-            'plugin_name' => $plugin_name,
-            'plugin_file_name' => $plugin_file_name,
-            'file_exists' => file_exists($this->getSite()->getModulePath($module) . '/' . $module . '.services.yml'),
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
+        $plugin_file_name = $parameters['plugin_file_name'];
+
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $modulePath = $moduleInstance->getPath() . '/' . $module;
+        $moduleSourcePlugin = $moduleInstance->getSourcePath() . '/' . $class_name;
+        $moduleServiceYaml = $modulePath . '.services.yml';
+        $parameters['file_exists'] = file_exists($moduleServiceYaml);
 
         $this->renderFile(
             'module/src/yaml-plugin-manager.php.twig',
-            $this->getSite()->getSourcePath($module) . '/' . $plugin_class . 'Manager.php',
+            $moduleSourcePlugin . 'Manager.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/yaml-plugin-manager-interface.php.twig',
-            $this->getSite()->getSourcePath($module) . '/' . $plugin_class . 'ManagerInterface.php',
+            $moduleSourcePlugin . 'ManagerInterface.php',
             $parameters
         );
 
         $this->renderFile(
             'module/plugin-yaml-services.yml.twig',
-            $this->getSite()->getModulePath($module) . '/' . $module . '.services.yml',
+            $moduleServiceYaml,
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/plugin.yml.twig',
-            $this->getSite()->getModulePath($module) . '/' . $module . '.' . $plugin_file_name . '.yml',
+            $modulePath . '.' . $plugin_file_name . '.yml',
             $parameters
         );
     }

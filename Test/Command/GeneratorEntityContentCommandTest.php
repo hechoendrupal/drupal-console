@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorEntityContentCommand;
+use Drupal\Console\Command\Generate\EntityContentCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\EntityContentDataProviderTrait;
 
@@ -21,6 +21,7 @@ class GeneratorEntityContentCommandTest extends GenerateCommandTest
      * @param $entity_name
      * @param $entity_class
      * @param $label
+     * @param $base_path
      *
      * @dataProvider commandData
      */
@@ -28,9 +29,10 @@ class GeneratorEntityContentCommandTest extends GenerateCommandTest
         $module,
         $entity_name,
         $entity_class,
-        $label
+        $label,
+        $base_path
     ) {
-        $command = new GeneratorEntityContentCommand($this->getHelperSet());
+        $command = new EntityContentCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -41,7 +43,8 @@ class GeneratorEntityContentCommandTest extends GenerateCommandTest
               '--module'         => $module,
               '--entity-name'    => $entity_name,
               '--entity-class'   => $entity_class,
-              '--label'          => $label
+              '--label'          => $label,
+              '--base-path'      => $base_path,
             ],
             ['interactive' => false]
         );

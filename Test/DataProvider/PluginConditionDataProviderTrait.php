@@ -13,7 +13,7 @@ trait PluginConditionDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
           ['Foo',  'foo' . rand(), 'foo', 'bar-id', 'foo-context-id', 'foo-context-label', false]

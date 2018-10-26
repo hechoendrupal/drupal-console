@@ -1,4 +1,8 @@
+# deprecation-detector
+/.rules
+
 # Composer
+composer.lock
 /vendor
 /bin/phpunit
 /bin/jsonlint
@@ -8,14 +12,29 @@
 /bin/pdepend
 /bin/php-cs-fixer
 /bin/phpmd
+/bin/php-parse
+/bin/psysh
+PATCHES.txt
+
+# Develop
+autoload.local.php
 
 # Binaries
 /box.phar
 /console.phar
+/drupal.phar
+/drupal.phar.version
 
 # Test
 /phpunit.xml
 
 # Drupal
 /core
+/nbproject/
 
+# drupal/console-extend-plugin generated files
+extend.console.*.yml
+*-console.services.yml
+
+#PhpStorm
+.idea/*

@@ -6,15 +6,46 @@
  */
 namespace Drupal\Console\Command\Config;
 
-use Symfony\Component\Console\Input\InputArgument;
+use Drupal\config\StorageReplaceDataWrapper;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Config\ConfigImporter;
+use Drupal\Core\Config\ConfigImporterException;
+use Drupal\Core\Config\ConfigManager;
+use Drupal\Core\Config\StorageComparer;
+use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Parser;
-use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Command\ContainerAwareCommand;
+use Webmozart\PathUtil\Path;
 
-class ImportSingleCommand extends ContainerAwareCommand
+class ImportSingleCommand extends Command
 {
+    /**
+     * @var CachedStorage
+     */
+    protected $configStorage;
+
+    /**
+     * @var ConfigManager
+     */
+    protected $configManager;
+
+    /**
+     * ImportSingleCommand constructor.
+     *
+     * @param CachedStorage $configStorage
+     * @param ConfigManager $configManager
+     */
+    public function __construct(
+        CachedStorage $configStorage,
+        ConfigManager $configManager
+    ) {
+        $this->configStorage = $configStorage;
+        $this->configManager = $configManager;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -22,15 +53,19 @@ class ImportSingleCommand extends ContainerAwareCommand
     {
         $this
             ->setName('config:import:single')
-            ->setDescription($this->trans('commands.config.import-single.description'))
-            ->addArgument(
-                'config-name', InputArgument::REQUIRED,
-                $this->trans('commands.config.import-single.arguments.config-name')
+            ->setDescription($this->trans('commands.config.import.single.description'))
+            ->addOption(
+                'file',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.config.import.single.options.file')
+            )->addOption(
+                'directory',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.config.import.arguments.directory')
             )
-            ->addArgument(
-                'input-file', InputArgument::OPTIONAL,
-                $this->trans('commands.config.import-single.arguments.input-file')
-            );
+            ->setAliases(['cis']);
     }
 
     /**
@@ -38,43 +73,139 @@ class ImportSingleCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $configName = $input->getArgument('config-name');
-        $fileName = $input->getArgument('input-file');
-        $config = $this->getConfigFactory()->getEditable($configName);
-        $ymlFile = new Parser();
+        $file = $input->getOption('file');
+        $directory = $input->getOption('directory');
 
-        if (!empty($fileName) && file_exists($fileName)) {
-            $value = $ymlFile->parse(file_get_contents($fileName));
-        } else {
-            $value = $ymlFile->parse(stream_get_contents(fopen("php://stdin", "r")));
+        if (!$file) {
+            $this->getIo()->error($this->trans('commands.config.import.single..message.missing-file'));
+
+            return 1;
         }
 
-        if (empty($value)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "<error>%s</error>",
-                    $this->trans('commands.config.import-single.messages.empty-value')
-                )
+        if ($directory) {
+            $directory = Path::canonicalize($directory);
+        }
+
+        $names = [];
+        try {
+            $source_storage = new StorageReplaceDataWrapper(
+                $this->configStorage
             );
-        }
 
-        $config->setData($value);
-        $config->save();
+            foreach ($file as $fileItem) {
+                $configFile = $fileItem;
+                if ($directory) {
+                    $configFile = Path::canonicalize($directory) . '/' . $fileItem;
+                }
+
+                if (file_exists($configFile)) {
+                    $name = Path::getFilenameWithoutExtension($configFile);
+                    $ymlFile = new Parser();
+                    $value = $ymlFile->parse(file_get_contents($configFile));
+                    $source_storage->delete($name);
+                    $source_storage->write($name, $value);
+                    $names[] = $name;
+                    continue;
+                }
+
+                $this->getIo()->error($this->trans('commands.config.import.single.messages.empty-value'));
+                return 1;
+            }
+
+            $storageComparer = new StorageComparer(
+                $source_storage,
+                $this->configStorage,
+                $this->configManager
+            );
+
+            if ($this->configImport($storageComparer)) {
+                $this->getIo()->success(
+                    sprintf(
+                        $this->trans(
+                            'commands.config.import.single.messages.success'
+                        ),
+                        implode(',', $names)
+                    )
+                );
+            }
+        } catch (\Exception $e) {
+            $this->getIo()->error($e->getMessage());
+
+            return 1;
+        }
+    }
+
+    private function configImport(StorageComparer $storageComparer)
+    {
+        $configImporter = new ConfigImporter(
+            $storageComparer,
+            \Drupal::service('event_dispatcher'),
+            \Drupal::service('config.manager'),
+            \Drupal::lock(),
+            \Drupal::service('config.typed'),
+            \Drupal::moduleHandler(),
+            \Drupal::service('module_installer'),
+            \Drupal::service('theme_handler'),
+            \Drupal::service('string_translation')
+        );
+
+        if ($configImporter->alreadyImporting()) {
+            $this->getIo()->success($this->trans('commands.config.import.messages.already-imported'));
+        } else {
+            try {
+                if ($configImporter->validate()) {
+                    $sync_steps = $configImporter->initialize();
+
+                    foreach ($sync_steps as $step) {
+                        $context = [];
+                        do {
+                            $configImporter->doSyncStep($step, $context);
+                        } while ($context['finished'] < 1);
+                    }
+
+                    return true;
+                }
+            } catch (ConfigImporterException $e) {
+                $message = $this->trans('commands.config.import.messages.import-fail') . "\n";
+                $message .= implode("\n", $configImporter->getErrors());
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.site.import.local.messages.error-writing'),
+                        $message
+                    )
+                );
+            } catch (\Exception $e) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.site.import.local.messages.error-writing'),
+                        $e->getMessage()
+                    )
+                );
+            }
+        }
     }
 
     /**
-     * @param $config_name String
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    protected function getYamlConfig($config_name)
+    protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $configStorage = $this->getConfigStorage();
-        if ($configStorage->exists($config_name)) {
-            $configuration = $configStorage->read($config_name);
-            $configurationEncoded = Yaml::encode($configuration);
-        }
+        $file = $input->getOption('file');
+        $directory = $input->getOption('directory');
 
-        return $configurationEncoded;
+        if (!$file) {
+            $file = $this->getIo()->ask(
+                $this->trans('commands.config.import.single.questions.file')
+            );
+            $input->setOption('file', [$file]);
+
+            if (!$directory && !Path::isAbsolute($file)) {
+                $directory = $this->getIo()->ask(
+                    $this->trans('commands.config.import.single.questions.directory')
+                );
+
+                $input->setOption('directory', $directory);
+            }
+        }
     }
 }

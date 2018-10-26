@@ -1,0 +1,128 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Entity\{{ entity_class }}Interface.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Entity;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\ContentEntityInterface;
+{% if revisionable %}
+use Drupal\Core\Entity\RevisionLogInterface;
+{% endif %}
+use Drupal\Core\Entity\EntityChangedInterface;
+use Drupal\user\EntityOwnerInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides an interface for defining {{ label }} entities.
+ *
+ * @ingroup {{module}}
+ */
+interface {{ entity_class }}Interface extends ContentEntityInterface{% if revisionable %}, RevisionLogInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
+{% block class_methods %}
+  // Add get/set methods for your configuration properties here.
+
+  /**
+   * Gets the {{ label }} name.
+   *
+   * @return string
+   *   Name of the {{ label }}.
+   */
+  public function getName();
+
+  /**
+   * Sets the {{ label }} name.
+   *
+   * @param string $name
+   *   The {{ label }} name.
+   *
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+  public function setName($name);
+
+  /**
+   * Gets the {{ label }} creation timestamp.
+   *
+   * @return int
+   *   Creation timestamp of the {{ label }}.
+   */
+  public function getCreatedTime();
+
+  /**
+   * Sets the {{ label }} creation timestamp.
+   *
+   * @param int $timestamp
+   *   The {{ label }} creation timestamp.
+   *
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+  public function setCreatedTime($timestamp);
+
+  /**
+   * Returns the {{ label }} published status indicator.
+   *
+   * Unpublished {{ label }} are only visible to restricted users.
+   *
+   * @return bool
+   *   TRUE if the {{ label }} is published.
+   */
+  public function isPublished();
+
+  /**
+   * Sets the published status of a {{ label }}.
+   *
+   * @param bool $published
+   *   TRUE to set this {{ label }} to published, FALSE to set it to unpublished.
+   *
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+  public function setPublished($published);
+{% if revisionable %}
+
+  /**
+   * Gets the {{ label }} revision creation timestamp.
+   *
+   * @return int
+   *   The UNIX timestamp of when this revision was created.
+   */
+  public function getRevisionCreationTime();
+
+  /**
+   * Sets the {{ label }} revision creation timestamp.
+   *
+   * @param int $timestamp
+   *   The UNIX timestamp of when this revision was created.
+   *
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+  public function setRevisionCreationTime($timestamp);
+
+  /**
+   * Gets the {{ label }} revision author.
+   *
+   * @return \Drupal\user\UserInterface
+   *   The user entity for the revision author.
+   */
+  public function getRevisionUser();
+
+  /**
+   * Sets the {{ label }} revision author.
+   *
+   * @param int $uid
+   *   The user ID of the revision author.
+   *
+   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
+   *   The called {{ label }} entity.
+   */
+  public function setRevisionUserId($uid);
+{% endif %}
+{% endblock %}

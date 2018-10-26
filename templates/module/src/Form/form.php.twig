@@ -9,10 +9,9 @@ namespace Drupal\{{module_name}}\Form;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 {% if services is not empty %}
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
@@ -20,17 +19,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
- *
- * @package Drupal\{{module_name}}\Form
  */
-class {{ class_name }} extends ConfigFormBase {% endblock %}
+class {{ class_name }} extends FormBase {% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
+  /**
+   * Constructs a new {{ class_name }} object.
+   */
   public function __construct(
-    ConfigFactoryInterface $config_factory,
     {{ servicesAsParameters(services)|join(',\n    ') }}
   ) {
-    parent::__construct($config_factory);
 {{ serviceClassInitialization(services) }}
   }
 
@@ -41,7 +39,6 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
 {% if services is not empty %}
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('config.factory'),
 {{ serviceClassInjection(services) }}
     );
   }
@@ -54,15 +51,6 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
-    return [
-      '{{module_name}}.{{class_name_short}}'
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getFormId() {
     return '{{form_id}}';
   }
@@ -71,28 +59,40 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('{{module_name}}.{{class_name_short}}');
 {% for input in inputs %}
-    $form['{{ input.name }}'] = array(
+{% if input.fieldset is defined and input.fieldset|length %}
+    $form['{{ input.fieldset }}']['{{ input.name }}'] = [
+{% else %}
+    $form['{{ input.name }}'] = [
+{% endif %}
       '#type' => '{{ input.type }}',
-      '#title' => $this->t('{{ input.label }}'),
-      '#description' => $this->t('{{ input.description }}'),
-{% if input.options|length %}
+      '#title' => $this->t('{{ input.label|e }}'),
+{% if input.description is defined and input.description|length %}
+      '#description' => $this->t('{{ input.description|e }}'),
+{% endif %}
+{% if input.options is defined and input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
-{% if input.maxlength|length %}
+{% if input.maxlength is defined and input.maxlength|length %}
       '#maxlength' => {{ input.maxlength }},
 {% endif %}
-{% if input.size|length %}
+{% if input.size is defined and input.size|length %}
       '#size' => {{ input.size }},
 {% endif %}
-{% if input.type != 'password_confirm' %}
-      '#default_value' => $config->get('{{ input.name }}'),
+{% if input.default_value is defined and input.default_value|length %}
+      '#default_value' => {{ input.default_value }},
 {% endif %}
-    );
+{% if input.weight is defined and input.weight|length %}
+      '#weight' => '{{ input.weight }}',
+{% endif %}
+    ];
 {% endfor %}
+    $form['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Submit'),
+    ];
 
-    return parent::buildForm($form, $form_state);
+    return $form;
   }
 
   /**
@@ -106,12 +106,10 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
+    // Display result.
+    foreach ($form_state->getValues() as $key => $value) {
+      \Drupal::messenger()->addMessage($key . ': ' . $value);
+    }
 
-    $this->config('{{module_name}}.{{class_name_short}}')
-{% for input in inputs %}
-      ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
-{% endfor %}
-      ->save();
   }
 {% endblock %}

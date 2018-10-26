@@ -13,7 +13,7 @@ trait CommandDataProviderTrait
      */
     public function commandData()
     {
-        $this->setUpTemporalDirectory();
+        $this->setUpTemporaryDirectory();
 
         return [
             ['command_' . rand(), 'command:default', 'CommandDefault', false],

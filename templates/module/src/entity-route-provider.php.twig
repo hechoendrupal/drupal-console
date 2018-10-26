@@ -1,0 +1,36 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
+use Symfony\Component\Routing\Route;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides routes for {{ label }} entities.
+ *
+ * @see Drupal\Core\Entity\Routing\AdminHtmlRouteProvider
+ * @see Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider
+ */
+class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getRoutes(EntityTypeInterface $entity_type) {
+    $collection = parent::getRoutes($entity_type);
+
+    // Provide your custom entity routes here.
+
+    return $collection;
+  }
+{% endblock %}

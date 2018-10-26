@@ -6,7 +6,7 @@
 
 namespace Drupal\Console\Test\Command;
 
-use Drupal\Console\Command\GeneratorPluginImageEffectCommand;
+use Drupal\Console\Command\Generate\PluginImageEffectCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Drupal\Console\Test\DataProvider\PluginImageEffectDataProviderTrait;
 
@@ -32,7 +32,7 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
         $plugin_id,
         $description
     ) {
-        $command = new GeneratorPluginImageEffectCommand($this->getHelperSet());
+        $command = new PluginImageEffectCommand($this->getHelperSet());
         $command->setHelperSet($this->getHelperSet());
         $command->setGenerator($this->getGenerator());
 
@@ -41,7 +41,7 @@ class GeneratorPluginImageEffectCommandTest extends GenerateCommandTest
         $code = $commandTester->execute(
             [
               '--module'         => $module,
-              '--class-name'     => $class_name,
+              '--class'     => $class_name,
               '--label'          => $plugin_label,
               '--plugin-id'      => $plugin_id,
               '--description'    => $description

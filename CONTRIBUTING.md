@@ -35,11 +35,12 @@ A brief statement describing why the issue was filed.
 - Why are we doing this? Above all, a summary should explain why a change is needed, in a few short sentences.
 
 ### How to reproduce
-Include steps related how to reproduce. 
+Include steps related how to reproduce.
 
 **Details to include:**
-- Drupal version (you can obtain this by running `drupal site:status`).  
-- Console version (you can obtain this by running `drupal --version`).
+- Drupal version (you can obtain this by running `drupal site:status`).
+- Console version (you can obtain this by running `composer show | grep drupal/console`).
+- Console Launcher version (you can obtain this by running outside of a drupal site `drupal --version`).
 - Steps to reproduce
 - Include screen-shot or video whenever necessary.
 
@@ -53,10 +54,10 @@ A brief description of the proposed fix.
 - Known workarounds.
 
 ### Minimum Requirements
-This project requires Drupal 8 Beta15.
+This project requires Drupal 8.
 
 ### Support
-**Do not open issue for support question, only features and bugs.** For question please visit our [ DrupalConsole Gitter room](https://gitter.im/hechoendrupal/DrupalConsole).
+**Do not open issue for support question, only features and bugs.** For question please visit our [DrupalConsole Gitter room](https://gitter.im/hechoendrupal/DrupalConsole).
 
 ### Documentation
 There's been some amazing Drupal Community work done around DrupalConsole. Many of your questions can be answered in our [DrupalConsole Book](https://www.gitbook.com/book/hechoendrupal/drupal-console/details).

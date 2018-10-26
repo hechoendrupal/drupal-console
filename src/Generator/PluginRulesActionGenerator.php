@@ -7,39 +7,45 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Extension\Manager;
+
 class PluginRulesActionGenerator extends Generator
 {
     /**
-     * Generator Plugin RulesAction.
-     *
-     * @param $module
-     * @param $class_name
-     * @param $label
-     * @param $plugin_id
-     * @param $category
-     * @param $context
+     * @var Manager
      */
-    public function generate($module, $class_name, $label, $plugin_id, $category, $context, $type)
+    protected $extensionManager;
+
+    /**
+     * PluginRulesActionGenerator constructor.
+     *
+     * @param Manager $extensionManager
+     */
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module' => $module,
-          'class_name' => $class_name,
-          'label' => $label,
-          'plugin_id' => $plugin_id,
-          'category' => $category,
-          'context' => $context,
-          'type' => $type,
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
+        $plugin_id = $parameters['plugin_id'];
 
         $this->renderFile(
             'module/src/Plugin/Action/rulesaction.php.twig',
-            $this->getSite()->getPluginPath($module, 'Action').'/'.$class_name.'.php',
+            $this->extensionManager->getPluginPath($module, 'Action') . '/' . $class_name . '.php',
             $parameters
         );
 
         $this->renderFile(
             'module/system.action.action.yml.twig',
-            $this->getSite()->getModulePath($module).'/config/install/system.action.'.$plugin_id.'.yml',
+            $this->extensionManager->getModule($module)->getPath() . '/config/install/system.action.' . $plugin_id . '.yml',
             $parameters
         );
     }

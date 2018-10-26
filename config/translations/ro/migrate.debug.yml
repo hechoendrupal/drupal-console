@@ -1,8 +1,0 @@
-description: 'Afisează Migraţiile curente accesibile'
-arguments:
-    tag: 'Migrate tag'
-messages:
-    id: 'ID-ul migraţiei'
-    description: Descrierea
-    no-migrations: "There aren't migrations available try to execute command: migrate:setup:migrations"
-    tags: Tags

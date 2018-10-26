@@ -9,7 +9,7 @@ namespace Drupal\{{ module }}\Plugin\Field\FieldFormatter;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
@@ -28,7 +28,7 @@ use Drupal\Core\Form\FormStateInterface;
  *   }
 {% else %}
 
- *   @todo: At least one field_types annotation array entry is necessary to display this formatter in the UI.
+ *   At least one field_types annotation array entry is necessary to display this formatter in the UI.
  *   ex. field_types = { "field_type" }
 {% endif %}
  * )
@@ -39,18 +39,18 @@ class {{ class_name }} extends FormatterBase {% endblock %}
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return array(
+    return [
       // Implement default settings.
-    ) + parent::defaultSettings();
+    ] + parent::defaultSettings();
   }
 
   /**
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    return array(
+    return [
       // Implement settings form.
-    ) + parent::settingsForm($form, $form_state);
+    ] + parent::settingsForm($form, $form_state);
   }
 
   /**
@@ -88,6 +88,6 @@ class {{ class_name }} extends FormatterBase {% endblock %}
   protected function viewValue(FieldItemInterface $item) {
     // The text value has no text format assigned to it, so the user input
     // should equal the output, including newlines.
-    return nl2br(SafeMarkup::checkPlain($item->value));
+    return nl2br(Html::escape($item->value));
   }
 {% endblock %}

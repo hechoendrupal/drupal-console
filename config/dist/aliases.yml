@@ -1,6 +1,0 @@
-application:
-  aliases:
-    commands:
-      cache:
-        rebuild:
-            - cr

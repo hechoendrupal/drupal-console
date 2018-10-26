@@ -7,30 +7,33 @@
 
 namespace Drupal\Console\Generator;
 
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Extension\Manager;
+
 class PluginFieldFormatterGenerator extends Generator
 {
     /**
-     * Generator Plugin Field Formatter.
+     * PluginFieldFormatterGenerator constructor.
      *
-     * @param string $module     Module name
-     * @param string $class_name Plugin Class name
-     * @param string $label      Plugin label
-     * @param string $plugin_id  Plugin id
-     * @param string $field_type Field type this formatter supports
+     * @param Manager $extensionManager
      */
-    public function generate($module, $class_name, $label, $plugin_id, $field_type)
+    public function __construct(
+        Manager $extensionManager
+    ) {
+        $this->extensionManager = $extensionManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'class_name' => $class_name,
-            'label' => $label,
-            'plugin_id' => $plugin_id,
-            'field_type' => $field_type,
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
 
         $this->renderFile(
             'module/src/Plugin/Field/FieldFormatter/fieldformatter.php.twig',
-            $this->getSite()->getPluginPath($module, 'Field/FieldFormatter') . '/' . $class_name . '.php',
+            $this->extensionManager->getPluginPath($module, 'Field/FieldFormatter') . '/' . $class_name . '.php',
             $parameters
         );
     }

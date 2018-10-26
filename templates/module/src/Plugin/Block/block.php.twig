@@ -28,13 +28,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("{{label}}"),
  * )
  */
-class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}
-{% endblock %}
-
+class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}{% endblock %}
 {% block class_construct %}
 {% if services is not empty %}
   /**
-   * Construct.
+   * Constructs a new {{class_name}} object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -44,18 +42,16 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    *   The plugin implementation definition.
    */
   public function __construct(
-        array $configuration,
-        $plugin_id,
-        $plugin_definition,
-        {{ servicesAsParameters(services)|join(', \n\t') }}
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    {{ servicesAsParameters(services)|join(', \n\t') }}
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 {{ serviceClassInitialization(services) }}
   }
-
 {% endif %}
 {% endblock %}
-
 {% block class_create %}
 {% if services is not empty %}
   /**
@@ -69,36 +65,48 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {{ serviceClassInjection(services) }}
     );
   }
-
 {% endif %}
 {% endblock %}
-
 {% block class_methods %}
-
 {% if inputs %}
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+{% for input in inputs %}
+      {% if input.default_value is defined and input.default_value|length %}
+      '{{ input.name }}' => {{ input.default_value }},
+      {% endif %}
+{% endfor %}
+    ] + parent::defaultConfiguration();
+  }
+
   /**
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
 {% for input in inputs %}
-    $form['{{ input.name }}'] = array(
+    $form['{{ input.name }}'] = [
       '#type' => '{{ input.type }}',
-      '#title' => $this->t('{{ input.label }}'),
-      '#description' => $this->t('{{ input.description }}'),
-{% if input.options|length %}
+      '#title' => $this->t('{{ input.label|escape }}'),
+{% if input.description is defined and input.description is not empty %}
+    '#description' => $this->t('{{ input.description|e }}'),
+{% endif %}
+{% if input.options is defined and input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
-      '#default_value' => isset($this->configuration['{{ input.name }}']) ? $this->configuration['{{ input.name }}'] : '{{ input.default_value }}',
-{% if input.maxlength|length %}
+      '#default_value' => $this->configuration['{{ input.name }}'],
+{% if input.maxlength is defined and input.maxlength|length %}
       '#maxlength' => {{ input.maxlength }},
 {% endif %}
-{% if input.size|length %}
+{% if input.size is defined and input.size|length %}
       '#size' => {{ input.size }},
 {% endif %}
-{% if input.weight|length %}
+{% if input.weight is defined and input.weight|length %}
       '#weight' => '{{ input.weight }}',
 {% endif %}
-    );
+    ];
 {% endfor %}
 
     return $form;
@@ -112,8 +120,8 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
     $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}');
 {% endfor %}
   }
-{% endif %}
 
+{% endif %}
   /**
    * {@inheritdoc}
    */
