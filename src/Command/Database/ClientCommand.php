@@ -47,7 +47,7 @@ class ClientCommand extends Command
         $databaseConnection = $this->resolveConnection($database);
 
         $connection = sprintf(
-            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+            '%s --database=%s --user=%s --password=%s --host=%s --port=%s',
             $databaseConnection['driver'],
             $databaseConnection['database'],
             $databaseConnection['username'],
