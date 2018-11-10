@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Site;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
