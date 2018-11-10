@@ -293,22 +293,6 @@ class InstallCommand extends ContainerAwareCommand
                 $dbPrefix = $this->dbPrefixQuestion();
                 $input->setOption('db-prefix', $dbPrefix);
             }
-        } else {
-            $input->setOption('db-type', $database['default']['driver']);
-            $input->setOption('db-host', $database['default']['host']);
-            $input->setOption('db-name', $database['default']['database']);
-            $input->setOption('db-user', $database['default']['username']);
-            $input->setOption('db-pass', $database['default']['password']);
-            $input->setOption('db-port', $database['default']['port']);
-            $input->setOption('db-prefix', $database['default']['prefix']['default']);
-            $this->getIo()->info(
-                sprintf(
-                    $this->trans('commands.site.install.messages.using-current-database'),
-                    $database['default']['driver'],
-                    $database['default']['database'],
-                    $database['default']['username']
-                )
-            );
         }
 
         // --site-name option
@@ -381,7 +365,31 @@ class InstallCommand extends ContainerAwareCommand
             $_SERVER['HTTP_HOST'] = $uri;
         }
 
-        // Database options
+        $database = Database::getConnectionInfo();
+
+        // If a database connection is already defined we must use that.
+        if (!empty($database['default'])) {
+          $input->setOption('db-type', $database['default']['driver']);
+          $input->setOption('db-host', $database['default']['host']);
+          $input->setOption('db-name', $database['default']['database']);
+          $input->setOption('db-user', $database['default']['username']);
+          $input->setOption('db-pass', $database['default']['password']);
+          $input->setOption('db-port', $database['default']['port']);
+          $input->setOption('db-prefix', $database['default']['prefix']['default']);
+          if ($database['default']['driver'] === 'sqlite' && file_exists($database['default']['database'])) {
+            $input->setOption('db-file', $database['default']['database']);
+          }
+          $this->getIo()->info(
+            sprintf(
+              $this->trans('commands.site.install.messages.using-current-database'),
+              $database['default']['driver'],
+              $database['default']['database'],
+              $database['default']['username']
+            )
+          );
+        }
+
+        // Database option defaults.
         $dbType = $input->getOption('db-type')?:'mysql';
         $dbFile = $input->getOption('db-file');
         $dbHost = $input->getOption('db-host')?:'127.0.0.1';
@@ -401,10 +409,12 @@ class InstallCommand extends ContainerAwareCommand
               'namespace' => $databases[$dbType]['namespace'],
               'driver' => $dbType,
             ];
-
-            if ($force) {
-                $fs = new Filesystem();
-                $fs->remove($dbFile);
+            if ($force && Database::isActiveConnection()) {
+              $tables = Database::getConnection()->query('SELECT name FROM sqlite_master WHERE type = "table" AND name NOT LIKE "sqlite_%";')
+                ->fetchAllAssoc('name');
+              foreach (array_keys($tables) as $table) {
+                Database::getConnection()->schema()->dropTable($table);
+              }
             }
         } else {
             $database = [
