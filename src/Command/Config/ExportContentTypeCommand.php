@@ -84,7 +84,7 @@ class ExportContentTypeCommand extends Command
             )->addOption(
                 'optional-config',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.content.type.options.optional-config')
             )->addOption(
                 'remove-uuid',
@@ -164,7 +164,8 @@ class ExportContentTypeCommand extends Command
         $removeHash = $input->getOption('remove-config-hash');
 
         $contentTypeDefinition = $this->entityTypeManager->getDefinition('node_type');
-        $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
+        $contentTypeName = "{$contentTypeDefinition->getConfigPrefix()}.{$contentType}";
+
 
         $contentTypeNameConfig = $this->getConfiguration($contentTypeName, $removeUuid, $removeHash);
 
@@ -174,66 +175,48 @@ class ExportContentTypeCommand extends Command
 
         $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];
 
-        $this->getFields($contentType, $optionalConfig, $removeUuid, $removeHash);
+        $this->getFields($input);
 
-        $this->getFormDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
+        $this->getFormDisplays($input);
 
-        $this->getViewDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
+        $this->getViewDisplays($input);
 
         $this->exportConfigToModule($module, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
     }
 
-    protected function getFields($contentType, $optional = false, $removeUuid = false, $removeHash = false)
+    protected function getFields($input)
     {
-        $fields_definition = $this->entityTypeManager->getDefinition('field_config');
-
-        $fields_storage = $this->entityTypeManager->getStorage('field_config');
-        foreach ($fields_storage->loadMultiple() as $field) {
-            $field_name = $fields_definition->getConfigPrefix() . '.' . $field->id();
-            $field_name_config = $this->getConfiguration($field_name, $removeUuid, $removeHash);
-
-            // Only select fields related with content type
-            if ($field_name_config['bundle'] == $contentType) {
-                $this->configExport[$field_name] = ['data' => $field_name_config, 'optional' => $optional];
-                // Include dependencies in export files
-                if ($dependencies = $this->fetchDependencies($field_name_config, 'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
-                }
-            }
-        }
+        $this->extractConfig('field_config', $input);
     }
 
-    protected function getFormDisplays($contentType, $optional = false, $removeUuid = false, $removeHash = false)
+    protected function getFormDisplays($input)
     {
-        $form_display_definition = $this->entityTypeManager->getDefinition('entity_form_display');
-        $form_display_storage = $this->entityTypeManager->getStorage('entity_form_display');
-        foreach ($form_display_storage->loadMultiple() as $form_display) {
-            $form_display_name = $form_display_definition->getConfigPrefix() . '.' . $form_display->id();
-            $form_display_name_config = $this->getConfiguration($form_display_name, $removeUuid, $removeHash);
-            // Only select fields related with content type
-            if ($form_display_name_config['bundle'] == $contentType) {
-                $this->configExport[$form_display_name] = ['data' => $form_display_name_config, 'optional' => $optional];
-                // Include dependencies in export files
-                if ($dependencies = $this->fetchDependencies($form_display_name_config, 'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
-                }
-            }
-        }
+        $this->extractConfig('entity_form_display', $input);
     }
 
-    protected function getViewDisplays($contentType, $optional = false, $removeUuid = false, $removeHash = false)
+    protected function getViewDisplays($input)
     {
-        $view_display_definition = $this->entityTypeManager->getDefinition('entity_view_display');
-        $view_display_storage = $this->entityTypeManager->getStorage('entity_view_display');
-        foreach ($view_display_storage->loadMultiple() as $view_display) {
-            $view_display_name = $view_display_definition->getConfigPrefix() . '.' . $view_display->id();
-            $view_display_name_config = $this->getConfiguration($view_display_name, $removeUuid, $removeHash);
-            // Only select fields related with content type
-            if ($view_display_name_config['bundle'] == $contentType) {
-                $this->configExport[$view_display_name] = ['data' => $view_display_name_config, 'optional' => $optional];
+        $this->extractConfig('entity_view_display', $input);
+    }
+
+    protected function extractConfig($name, $input)
+    {
+        $contentType = $input->getArgument('content-type');
+        $optionalConfig = $input->getOption('optional-config');
+        $removeUuid = $input->getOption('remove-uuid');
+        $removeHash = $input->getOption('remove-config-hash');
+
+        $definition = $this->entityTypeManager->getDefinition($name);
+        $storage = $this->entityTypeManager->getStorage($name);
+        foreach ($storage->loadMultiple() as $entity) {
+            $configName = "{$definition->getConfigPrefix()}.{$entity->id()}";
+            $config = $this->getConfiguration($configName, $removeUuid, $removeHash);
+            // Only select items related to content type.
+            if ($config['bundle'] == $contentType) {
+                $this->configExport[$configName] = ['data' => $config, 'optional' => $optionalConfig];
                 // Include dependencies in export files
-                if ($dependencies = $this->fetchDependencies($view_display_name_config, 'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                if ($dependencies = $this->fetchDependencies($config, 'config')) {
+                    $this->resolveDependencies($dependencies, $optionalConfig, $removeUuid, $removeHash);
                 }
             }
         }

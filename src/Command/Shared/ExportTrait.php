@@ -127,11 +127,11 @@ trait ExportTrait
         return null;
     }
 
-    protected function resolveDependencies($dependencies, $optional = false)
+    protected function resolveDependencies($dependencies, $optional = false, $uuid = false, $hash = false)
     {
         foreach ($dependencies as $dependency) {
             if (!array_key_exists($dependency, $this->configExport)) {
-                $this->configExport[$dependency] = ['data' => $this->getConfiguration($dependency), 'optional' => $optional];
+                $this->configExport[$dependency] = ['data' => $this->getConfiguration($dependency, $uuid, $hash), 'optional' => $optional];
                 if ($dependencies = $this->fetchDependencies($this->configExport[$dependency], 'config')) {
                     $this->resolveDependencies($dependencies, $optional);
                 }
