@@ -125,6 +125,9 @@ class ExecuteCommand extends Command
         drupal_load_updates();
         update_fix_compatibility();
 
+        $atStartMaintenanceMode = $this->state->get('system.maintenance_mode', false);
+        $currentMaintenanceMode = $atStartMaintenanceMode;
+
         $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
         $dependencyMap = [];
@@ -151,42 +154,49 @@ class ExecuteCommand extends Command
                     )
                 );
             }
+        } else {
 
-            return 0;
+            if (!$currentMaintenanceMode) {
+                $this->getIo()->info($this->trans('commands.site.maintenance.description'));
+                $this->state->set('system.maintenance_mode', true);
+                $currentMaintenanceMode = true;
+            }
+
+            try {
+                $this->runUpdates(
+                    $updates
+                );
+            } catch (\Exception $e) {
+                watchdog_exception('update', $e);
+                $this->getIo()->error($e->getMessage());
+                return 1;
+            }
         }
+        
 
-        $maintenanceMode = $this->state->get('system.maintenance_mode', false);
-
-        if (!$maintenanceMode) {
-            $this->getIo()->info($this->trans('commands.site.maintenance.description'));
-            $this->state->set('system.maintenance_mode', true);
-        }
-
-        try {
-            $this->runUpdates(
-                $updates
-            );
-
-            // Post Updates are only safe to run after all schemas have been updated.
-            if (!$this->getUpdates()) {
+        // Post Updates are only safe to run after all schemas have been updated.
+        if (!$this->getUpdates()) {
+            $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
+            
+            if(!empty($postUpdates)) {
+                if (!$currentMaintenanceMode) {
+                    $this->getIo()->info($this->trans('commands.site.maintenance.description'));
+                    $this->state->set('system.maintenance_mode', true);
+                    $currentMaintenanceMode = true;
+                }
+                
                 $this->runPostUpdates();
             }
-        } catch (\Exception $e) {
-            watchdog_exception('update', $e);
-            $this->getIo()->error($e->getMessage());
-            return 1;
-        }
-
-        if (!$maintenanceMode) {
-            $this->state->set('system.maintenance_mode', false);
-            $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
-        }
-
-        if (!$this->getUpdates()) {
+            
             $this->chainQueue->addCommand('update:entities');
         }
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+        
+        if ($currentMaintenanceMode !== $atStartMaintenanceMode) {
+            $this->state->set('system.maintenance_mode', $atStartMaintenanceMode);
+            $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
+        }
 
         return 0;
     }
@@ -271,9 +281,8 @@ class ExecuteCommand extends Command
     /**
      * @return bool
      */
-    private function runPostUpdates()
+    private function runPostUpdates($postUpdates)
     {
-        $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
         foreach ($postUpdates as $module => $updates) {
             foreach ($updates['pending'] as $updateName => $update) {
                 $this->getIo()->info(
