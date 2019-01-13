@@ -185,7 +185,7 @@ class ExecuteCommand extends Command
                     $currentMaintenanceMode = true;
                 }
                 
-                $this->runPostUpdates();
+                $this->runPostUpdates($postUpdates);
             }
             
             $this->chainQueue->addCommand('update:entities');
