@@ -14,6 +14,7 @@ use Drupal\Console\Utils\Validator;
 use Drupal\Console\Extension\Manager;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityTypeRepositoryInterface;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -40,6 +41,11 @@ class ExportEntityCommand extends Command {
    */
   protected $extensionManager;
 
+  /**
+   * @var EntityTypeRepositoryInterface
+   */
+  protected $entityTypeRepository;
+
   protected $configExport;
 
   /**
@@ -54,17 +60,20 @@ class ExportEntityCommand extends Command {
    * @param CachedStorage $configStorage
    * @param Manager $extensionManager
    * @param Validator $validator
+   * @param EntityTypeRepositoryInterface $entityTypeRepository
    */
   public function __construct(
     EntityTypeManagerInterface $entityTypeManager,
     CachedStorage $configStorage,
     Manager $extensionManager,
-    Validator $validator
+    Validator $validator,
+    EntityTypeRepositoryInterface  $entityTypeRepository
   ) {
     $this->entityTypeManager = $entityTypeManager;
     $this->configStorage = $configStorage;
     $this->extensionManager = $extensionManager;
     $this->validator = $validator;
+    $this->entityTypeRepository = $entityTypeRepository;
     parent::__construct();
   }
 
@@ -114,16 +123,13 @@ class ExportEntityCommand extends Command {
     // --module option
     $this->getModuleOption();
 
+    $entity_types = $this->entityTypeRepository->getEntityTypeLabels(true);
     // --content-type argument
     $entityType = $input->getArgument('entity-type');
     if (!$entityType) {
       $entityType = $this->getIo()->choice(
         $this->trans('commands.config.export.entity.questions.content-type'),
-        [
-          'node_type' => 'Content type',
-          'taxonomy_vocabulary' => 'Vocabulary',
-          'paragraphs_type' => 'Paragraphs type',
-        ]
+        $entity_types['Configuration']
       );
     }
     $input->setArgument('entity-type', $entityType);

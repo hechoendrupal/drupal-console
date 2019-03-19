@@ -26,7 +26,7 @@ services:
       - { name: drupal.command }
   console.config_export_entity:
       class: Drupal\Console\Command\Config\ExportEntityCommand
-      arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator']
+      arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator', '@entity_type.repository']
       tags:
         - { name: drupal.command }
   console.config_export_single:
