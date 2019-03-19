@@ -124,6 +124,7 @@ class ExportEntityCommand extends Command {
     $this->getModuleOption();
 
     $entity_types = $this->entityTypeRepository->getEntityTypeLabels(true);
+    ksort($entity_types['Configuration']);
     // --content-type argument
     $entityType = $input->getArgument('entity-type');
     if (!$entityType) {
