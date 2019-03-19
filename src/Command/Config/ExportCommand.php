@@ -103,7 +103,9 @@ class ExportCommand extends Command
         }
 
         // Remove previous yaml files before creating new ones
-        array_map('unlink', glob($directory . '/*'));
+        foreach (glob($directory . '/*') as $item) {
+            $fileSystem->remove($item);
+        }
 
         if ($tar) {
             $dateTime = new \DateTime();
@@ -143,7 +145,7 @@ class ExportCommand extends Command
                 $collection_storage = $this->storage->createCollection($collection);
                 $collection_path = str_replace('.', '/', $collection);
                 if (!$tar) {
-                    mkdir("$directory/$collection_path", 0755, true);
+                    $fileSystem->mkdir("$directory/$collection_path", 0755);
                 }
                 foreach ($collection_storage->listAll() as $name) {
                     $configName = "$collection_path/$name.yml";
