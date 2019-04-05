@@ -80,7 +80,7 @@ class {{ class_name }} extends FormBase {% endblock %}
       '#size' => {{ input.size }},
 {% endif %}
 {% if input.default_value is defined and input.default_value|length %}
-      '#default_value' => {{ input.default_value }},
+      '#default_value' => '{{ input.default_value }}',
 {% endif %}
 {% if input.weight is defined and input.weight|length %}
       '#weight' => '{{ input.weight }}',
