@@ -77,7 +77,7 @@ class DatabaseTableCommand extends Command
         $databaseConnection = $this->resolveConnection($database);
         if ($table) {
             $result = $this->database
-                ->query('DESCRIBE '. $table .';')
+                ->query('DESCRIBE ' . $table . ';')
                 ->fetchAll();
             if (!$result) {
                 throw new \Exception(
