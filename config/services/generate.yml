@@ -129,6 +129,9 @@ services:
     arguments: ['@console.extension_manager', '@console.plugin_rules_action_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_rules_condition:
+      class: Drupal\Console\Command\Generate\PluginRulesConditionCommand
+      arguments: ['@console.extension_manager', '@console.plugin_rules_condition_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
   console.generate_plugin_rules_dataprocessor:
       class: Drupal\Console\Command\Generate\PluginRulesDataprocessorCommand
       arguments: ['@console.extension_manager', '@console.plugin_rules_dataprocessor_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
