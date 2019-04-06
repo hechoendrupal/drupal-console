@@ -27,8 +27,8 @@ services:
     tags:
       - { name: drupal.command }
   console.dotenv_init:
-    class: \Drupal\Console\Command\Dotenv\InitCommand
-    arguments: ['@console.drupal_finder', '@console.dotenv_init_generator']
+    class: \Drupal\Console\Command\DotenvInitCommand
+    arguments: ['@console.dotenv_init_generator']
     tags:
       - { name: drupal.command }
   console.dotenv_debug:
@@ -36,9 +36,18 @@ services:
     arguments: ['@console.drupal_finder']
     tags:
       - { name: drupal.command}
+  console.docker_init:
+    class: \Drupal\Console\Command\DockerInitCommand
+    arguments: ['@console.docker_init_generator']
+    tags:
+      - { name: drupal.command }
   # Generators
   console.dotenv_init_generator:
     class: Drupal\Console\Generator\DotenvInitGenerator
+    tags:
+      - { name: drupal.generator }
+  console.docker_init_generator:
+    class: Drupal\Console\Generator\DockerInitGenerator
     tags:
       - { name: drupal.generator }
   # Drupal services

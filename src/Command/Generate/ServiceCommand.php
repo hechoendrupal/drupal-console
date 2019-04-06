@@ -145,7 +145,7 @@ class ServiceCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $name = $input->getOption('name');
         $class = $this->validator->validateClassName($input->getOption('class'));
         $interface = $input->getOption('interface');
@@ -171,6 +171,7 @@ class ServiceCommand extends ContainerAwareCommand
             'name' => $name,
             'class' => $class,
             'interface' => $interface,
+            'interface_name' => $interface_name,
             'services' => $build_services,
             'path_service' => $path_service,
         ]);

@@ -182,11 +182,13 @@ class EntityContentGenerator extends Generator
                 $moduleFormPath . 'RevisionDeleteForm.php',
                 $parameters
             );
-            $this->renderFile(
-                'module/src/Entity/Form/entity-content-revision-revert-translation.php.twig',
-                $moduleFormPath . 'RevisionRevertTranslationForm.php',
-                $parameters
-            );
+            if ($is_translatable) {
+                $this->renderFile(
+                    'module/src/Entity/Form/entity-content-revision-revert-translation.php.twig',
+                    $moduleFormPath . 'RevisionRevertTranslationForm.php',
+                    $parameters
+                );
+            }
             $this->renderFile(
                 'module/src/Entity/Form/entity-content-revision-revert.php.twig',
                 $moduleFormPath . 'RevisionRevertForm.php',

@@ -225,6 +225,14 @@ class Drupal implements DrupalInterface
             $container = $this->bootDrupalConsoleCore();
             $container->set('class_loader', $this->autoload);
 
+            $container->get('console.renderer')
+                ->setSkeletonDirs(
+                    [
+                        $this->drupalFinder->getComposerRoot().DRUPAL_CONSOLE.'/templates/',
+                        $this->drupalFinder->getComposerRoot().DRUPAL_CONSOLE_CORE.'/templates/'
+                    ]
+                );
+
             $notifyErrorCodes = [
                 0,
                 1045,

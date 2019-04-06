@@ -86,8 +86,7 @@ trait ModuleTrait
      *
      * @return mixed|string
      *   Module name.
-     * @throws \Exception
-     *   When module is not found.
+
      */
     public function getModuleOption()
     {
@@ -98,19 +97,35 @@ trait ModuleTrait
             $module = $this->moduleQuestion();
             $input->setOption('module', $module);
         } else {
-            $missing_modules = $this->validator->getMissingModules([$module]);
-            if ($missing_modules) {
-                throw new \Exception(
-                    sprintf(
-                        $this->trans(
-                            'commands.module.download.messages.no-releases'
-                        ),
-                        $module
-                    )
-                );
-            }
+            $this->validateModule($module);
         }
 
+        return $module;
+    }
+
+    /**
+     * Validate module.
+     *
+     * @param string $module
+     *   Module name.
+     * @return string
+     *   Module name.
+     *
+     * @throws \Exception
+     *   When module is not found.
+     */
+    public function validateModule($module) {
+        $missing_modules = $this->validator->getMissingModules([$module]);
+        if ($missing_modules) {
+            throw new \Exception(
+                sprintf(
+                    $this->trans(
+                        'commands.module.download.messages.no-releases'
+                    ),
+                    $module
+                )
+            );
+        }
         return $module;
     }
 }

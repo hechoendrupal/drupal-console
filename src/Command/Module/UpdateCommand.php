@@ -112,20 +112,20 @@ class UpdateCommand extends Command
         }
 
         if (count($modules) > 1) {
-            $modules = " drupal/" . implode(" drupal/", $modules);
+            $modules = ' drupal/' . implode(' drupal/', $modules);
         } else {
-            $modules = " drupal/" . current($modules);
+            $modules = ' drupal/' . current($modules);
         }
 
         if ($composer) {
             // Register composer repository
-            $command = "composer config repositories.drupal composer https://packages.drupal.org/8";
+            $command = 'composer config repositories.drupal composer https://packages.drupal.org/8';
             $this->shellProcess->exec($command, $this->root);
 
             $command = 'composer update ' . $modules . ' --optimize-autoloader --prefer-dist --no-dev --root-reqs ';
 
             if ($simulate) {
-                $command .= " --dry-run";
+                $command .= ' --dry-run';
             }
 
             if ($this->shellProcess->exec($command, $this->root)) {

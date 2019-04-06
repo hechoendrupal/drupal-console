@@ -144,7 +144,7 @@ class ExportViewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $viewId = $input->getArgument('view-id');
         $optionalConfig = $input->getOption('optional-config');
         $includeModuleDependencies = $input->getOption('include-module-dependencies');

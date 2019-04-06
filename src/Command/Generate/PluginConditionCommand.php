@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Core\Entity\EntityTypeRepository;
+use Drupal\Core\Entity\EntityTypeRepositoryInterface;
 use Drupal\Console\Generator\PluginConditionGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
@@ -59,18 +59,18 @@ class PluginConditionCommand extends Command
     /**
      * PluginConditionCommand constructor.
      *
-     * @param Manager                  $extensionManager
-     * @param PluginConditionGenerator $generator
-     * @param ChainQueue               $chainQueue
-     * @param EntityTypeRepository     $entitytyperepository
-     * @param StringConverter          $stringConverter
-     * @param Validator                $validator
+     * @param Manager                       $extensionManager
+     * @param PluginConditionGenerator      $generator
+     * @param ChainQueue                    $chainQueue
+     * @param EntityTypeRepositoryInterface $entitytyperepository
+     * @param StringConverter               $stringConverter
+     * @param Validator                     $validator
      */
     public function __construct(
         Manager $extensionManager,
         PluginConditionGenerator $generator,
         ChainQueue $chainQueue,
-        EntityTypeRepository $entitytyperepository,
+        EntityTypeRepositoryInterface $entitytyperepository,
         StringConverter $stringConverter,
         Validator $validator
     ) {
@@ -144,7 +144,7 @@ class PluginConditionCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');

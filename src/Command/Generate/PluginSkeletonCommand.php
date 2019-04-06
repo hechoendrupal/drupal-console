@@ -133,7 +133,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
 
         $pluginId = $input->getOption('plugin-id');
         $plugin = ucfirst($this->stringConverter->underscoreToCamelCase($pluginId));

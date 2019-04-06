@@ -80,7 +80,7 @@ class {{ class_name }} extends FormBase {% endblock %}
       '#size' => {{ input.size }},
 {% endif %}
 {% if input.default_value is defined and input.default_value|length %}
-      '#default_value' => {{ input.default_value }},
+      '#default_value' => '{{ input.default_value }}',
 {% endif %}
 {% if input.weight is defined and input.weight|length %}
       '#weight' => '{{ input.weight }}',
@@ -108,7 +108,7 @@ class {{ class_name }} extends FormBase {% endblock %}
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Display result.
     foreach ($form_state->getValues() as $key => $value) {
-      drupal_set_message($key . ': ' . $value);
+      \Drupal::messenger()->addMessage($key . ': ' . $value);
     }
 
   }

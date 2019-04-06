@@ -114,6 +114,11 @@ services:
     arguments: [ '@console.plugin_migrate_process_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter', '@console.validator']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_migrate_data_parser:
+    class: Drupal\Console\Command\Generate\PluginMigrateDataParserCommand
+    arguments: [ '@console.plugin_migrate_data_parser_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter', '@console.validator']
+    tags:
+       - { name: drupal.command }
   console.generate_plugin_rest_resource:
     class: Drupal\Console\Command\Generate\PluginRestResourceCommand
     arguments: ['@console.extension_manager', '@console.plugin_rest_resource_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
@@ -127,6 +132,9 @@ services:
   console.generate_plugin_rules_condition:
       class: Drupal\Console\Command\Generate\PluginRulesConditionCommand
       arguments: ['@console.extension_manager', '@console.plugin_rules_condition_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+  console.generate_plugin_rules_dataprocessor:
+      class: Drupal\Console\Command\Generate\PluginRulesDataprocessorCommand
+      arguments: ['@console.extension_manager', '@console.plugin_rules_dataprocessor_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
       tags:
          - { name: drupal.command }
   console.generate_plugin_skeleton:
@@ -217,5 +225,10 @@ services:
   console.generate_js_test:
     class: Drupal\Console\Command\Generate\JsTestCommand
     arguments: ['@console.extension_manager', '@console.js_test_generator', '@console.validator']
+    tags:
+       - { name: drupal.command }
+  console.generate_plugin_validation_constraint:
+    class: Drupal\Console\Command\Generate\PluginValidationConstraintCommand
+    arguments: ['@console.extension_manager', '@console.validation_constraint_generator','@console.string_converter',  '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
