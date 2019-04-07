@@ -108,7 +108,8 @@ class ExecuteCommand extends Command
                 $this->trans('commands.update.execute.options.update-n'),
                 '9000'
             )
-            ->setAliases(['upex']);
+            ->setAliases(['upex'])
+            ->enableMaintenance();
     }
 
     /**
@@ -124,9 +125,6 @@ class ExecuteCommand extends Command
 
         drupal_load_updates();
         update_fix_compatibility();
-
-        $atStartMaintenanceMode = $this->state->get('system.maintenance_mode', false);
-        $currentMaintenanceMode = $atStartMaintenanceMode;
 
         $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
@@ -155,13 +153,6 @@ class ExecuteCommand extends Command
                 );
             }
         } else {
-
-            if (!$currentMaintenanceMode) {
-                $this->getIo()->info($this->trans('commands.site.maintenance.description'));
-                $this->state->set('system.maintenance_mode', true);
-                $currentMaintenanceMode = true;
-            }
-
             try {
                 $this->runUpdates(
                     $updates
@@ -176,27 +167,12 @@ class ExecuteCommand extends Command
 
         // Post Updates are only safe to run after all schemas have been updated.
         if (!$this->getUpdates()) {
-            $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
-            
-            if(!empty($postUpdates)) {
-                if (!$currentMaintenanceMode) {
-                    $this->getIo()->info($this->trans('commands.site.maintenance.description'));
-                    $this->state->set('system.maintenance_mode', true);
-                    $currentMaintenanceMode = true;
-                }
-                
-                $this->runPostUpdates($postUpdates);
-            }
+            $this->runPostUpdates($postUpdates);
             
             $this->chainQueue->addCommand('update:entities');
         }
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
-        
-        if ($currentMaintenanceMode !== $atStartMaintenanceMode) {
-            $this->state->set('system.maintenance_mode', $atStartMaintenanceMode);
-            $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
-        }
 
         return 0;
     }
@@ -281,8 +257,10 @@ class ExecuteCommand extends Command
     /**
      * @return bool
      */
-    private function runPostUpdates($postUpdates)
+    private function runPostUpdates()
     {
+        $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
+        
         foreach ($postUpdates as $module => $updates) {
             foreach ($updates['pending'] as $updateName => $update) {
                 $this->getIo()->info(
