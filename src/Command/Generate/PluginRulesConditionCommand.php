@@ -15,18 +15,18 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Generator\PluginRulesActionGenerator;
+use Drupal\Console\Generator\PluginRulesConditionGenerator;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class PluginRulesActionCommand
+ * Class PluginRulesConditionCommand
  *
  * @package Drupal\Console\Command\Generate
  */
-class PluginRulesActionCommand extends Command
+class PluginRulesConditionCommand extends Command
 {
 
     use ArrayInputTrait;
@@ -40,7 +40,7 @@ class PluginRulesActionCommand extends Command
     protected $extensionManager;
 
     /**
-     * @var PluginRulesActionGenerator
+     * @var PluginRulesConditionGenerator
      */
     protected $generator;
 
@@ -61,17 +61,17 @@ class PluginRulesActionCommand extends Command
 
 
     /**
-     * PluginRulesActionCommand constructor.
+     * PluginRulesConditionCommand constructor.
      *
      * @param Manager $extensionManager
-     * @param PluginRulesActionGenerator $generator
+     * @param PluginRulesConditionGenerator $generator
      * @param StringConverter $stringConverter
      * @param Validator $validator
      * @param ChainQueue $chainQueue
      */
     public function __construct(
       Manager $extensionManager,
-      PluginRulesActionGenerator $generator,
+      PluginRulesConditionGenerator $generator,
       StringConverter $stringConverter,
       Validator $validator,
       ChainQueue $chainQueue
@@ -87,9 +87,9 @@ class PluginRulesActionCommand extends Command
     protected function configure()
     {
         $this
-          ->setName('generate:plugin:rules:action')
-          ->setDescription($this->trans('commands.generate.plugin.rules.action.description'))
-          ->setHelp($this->trans('commands.generate.plugin.rules.action.help'))
+          ->setName('generate:plugin:rules:condition')
+          ->setDescription($this->trans('commands.generate.plugin.rules.condition.description'))
+          ->setHelp($this->trans('commands.generate.plugin.rules.condition.help'))
           ->addOption(
             'module',
             null,
@@ -100,33 +100,33 @@ class PluginRulesActionCommand extends Command
             'class',
             null,
             InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.rules.action.options.class')
+            $this->trans('commands.generate.plugin.rules.condition.options.class')
           )
           ->addOption(
             'label',
             null,
             InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.rules.action.options.label')
+            $this->trans('commands.generate.plugin.rules.condition.options.label')
           )
           ->addOption(
             'plugin-id',
             null,
             InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.rules.action.options.plugin-id')
+            $this->trans('commands.generate.plugin.rules.condition.options.plugin-id')
           )
           ->addOption(
             'category',
             null,
             InputOption::VALUE_OPTIONAL,
-            $this->trans('commands.generate.plugin.rules.action.options.category')
+            $this->trans('commands.generate.plugin.rules.condition.options.category')
           )
           ->addOption(
             'context',
             null,
             InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-            $this->trans('commands.generate.plugin.rules.action.options.context')
+            $this->trans('commands.generate.plugin.rules.condition.options.context')
           )
-          ->setAliases(['gpra']);
+          ->setAliases(['gprc']);
     }
 
     /**
@@ -139,7 +139,7 @@ class PluginRulesActionCommand extends Command
             return 1;
         }
 
-        $module = $this->validateModule($input->getOption('module'));
+        $module = $input->getOption('module');
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
@@ -176,8 +176,8 @@ class PluginRulesActionCommand extends Command
         $class_name = $input->getOption('class');
         if (!$class_name) {
             $class_name = $this->getIo()->ask(
-              $this->trans('commands.generate.plugin.rules.action.options.class'),
-              'DefaultAction',
+              $this->trans('commands.generate.plugin.rules.condition.options.class'),
+              'DefaultCondition',
               function ($class_name) {
                   return $this->validator->validateClassName($class_name);
               }
@@ -189,7 +189,7 @@ class PluginRulesActionCommand extends Command
         $label = $input->getOption('label');
         if (!$label) {
             $label = $this->getIo()->ask(
-              $this->trans('commands.generate.plugin.rules.action.options.label'),
+              $this->trans('commands.generate.plugin.rules.condition.options.label'),
               $this->stringConverter->camelCaseToHuman($class_name)
             );
             $input->setOption('label', $label);
@@ -199,7 +199,7 @@ class PluginRulesActionCommand extends Command
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
             $plugin_id = $this->getIo()->ask(
-              $this->trans('commands.generate.plugin.rules.action.options.plugin-id'),
+              $this->trans('commands.generate.plugin.rules.condition.options.plugin-id'),
               $this->stringConverter->camelCaseToUnderscore($class_name)
             );
             $input->setOption('plugin-id', $plugin_id);
@@ -209,7 +209,7 @@ class PluginRulesActionCommand extends Command
         $category = $input->getOption('category');
         if (!$category) {
             $category = $this->getIo()->ask(
-              $this->trans('commands.generate.plugin.rules.action.options.category'),
+              $this->trans('commands.generate.plugin.rules.condition.options.category'),
               $this->stringConverter->camelCaseToUnderscore($class_name)
             );
             $input->setOption('category', $category);
@@ -221,26 +221,26 @@ class PluginRulesActionCommand extends Command
 
             $context = [];
             if ($this->getIo()->confirm(
-              $this->trans('commands.generate.plugin.rules.action.questions.context'),
+              $this->trans('commands.generate.plugin.rules.condition.questions.context'),
               true
             )) {
                 while (true) {
                     $this->getIo()->newLine();
 
                     $input_name = $this->getIo()->ask(
-                      $this->trans('commands.generate.plugin.rules.action.questions.context-name')
+                      $this->trans('commands.generate.plugin.rules.condition.questions.context-name')
                     );
 
                     $input_type = $this->getIo()->ask(
-                      $this->trans('commands.generate.plugin.rules.action.questions.context-type')
+                      $this->trans('commands.generate.plugin.rules.condition.questions.context-type')
                     );
 
                     $input_label = $this->getIo()->ask(
-                      $this->trans('commands.generate.plugin.rules.action.questions.context-label')
+                      $this->trans('commands.generate.plugin.rules.condition.questions.context-label')
                     );
 
                     $input_description = $this->getIo()->ask(
-                      $this->trans('commands.generate.plugin.rules.action.questions.context-description')
+                      $this->trans('commands.generate.plugin.rules.condition.questions.context-description')
                     );
 
                     array_push(
@@ -255,7 +255,7 @@ class PluginRulesActionCommand extends Command
 
                     $this->getIo()->newLine();
                     if (!$this->getIo()->confirm(
-                      $this->trans('commands.generate.plugin.rules.action.questions.another-context'),
+                      $this->trans('commands.generate.plugin.rules.condition.questions.another-context'),
                       true
                     )) {
                         break;
