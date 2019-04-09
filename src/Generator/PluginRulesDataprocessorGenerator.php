@@ -10,7 +10,7 @@ namespace Drupal\Console\Generator;
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
-class PluginRulesActionGenerator extends Generator
+class PluginRulesDataprocessorGenerator extends Generator
 {
     /**
      * @var Manager
@@ -18,12 +18,12 @@ class PluginRulesActionGenerator extends Generator
     protected $extensionManager;
 
     /**
-     * PluginRulesActionGenerator constructor.
+     * PluginRulesDataprocessorGenerator constructor.
      *
      * @param Manager $extensionManager
      */
     public function __construct(
-        Manager $extensionManager
+      Manager $extensionManager
     ) {
         $this->extensionManager = $extensionManager;
     }
@@ -37,9 +37,9 @@ class PluginRulesActionGenerator extends Generator
         $class_name = $parameters['class_name'];
 
         $this->renderFile(
-            'module/src/Plugin/RulesAction/rulesaction.php.twig',
-            $this->extensionManager->getPluginPath($module, 'RulesAction') . '/' . $class_name . '.php',
-            $parameters
+          'module/src/Plugin/RulesDataProcessor/rulesdataprocessor.php.twig',
+          $this->extensionManager->getPluginPath($module, 'RulesDataProcessor') . '/' . $class_name . '.php',
+          $parameters
         );
     }
 }
