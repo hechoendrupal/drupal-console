@@ -128,7 +128,6 @@ class ExportContentTypeCommand extends Command
         }
         $input->setOption('optional-config', $optionalConfig);
 
-
         if (!$input->getOption('remove-uuid')) {
             $removeUuid = $this->getIo()->confirm(
                 $this->trans('commands.config.export.content.type.questions.remove-uuid'),
@@ -167,5 +166,4 @@ class ExportContentTypeCommand extends Command
             ]
         );
     }
-
 }
