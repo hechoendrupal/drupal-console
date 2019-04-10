@@ -231,6 +231,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.composer_generator:
+      class: Drupal\Console\Generator\ComposerGenerator
+      arguments: ['@console.extension_manager']
+      tags:
+        - { name: drupal.generator }
   console.validation_constraint_generator:
     class: Drupal\Console\Generator\PluginValidationConstraintGenerator
     arguments: ['@console.extension_manager']
