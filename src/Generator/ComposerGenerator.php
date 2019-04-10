@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Generator\PluginBlockGenerator.
+ * Contains \Drupal\Console\Generator\ComposerGenerator.
  */
 
 namespace Drupal\Console\Generator;
@@ -10,20 +10,26 @@ namespace Drupal\Console\Generator;
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
-class PluginRulesActionGenerator extends Generator
+/**
+ * Class ComposerGenerator
+ *
+ * @package Drupal\Console\Generator
+ */
+class ComposerGenerator extends Generator
 {
+
     /**
      * @var Manager
      */
     protected $extensionManager;
 
     /**
-     * PluginRulesActionGenerator constructor.
+     * AjaxCommandGenerator constructor.
      *
      * @param Manager $extensionManager
      */
     public function __construct(
-        Manager $extensionManager
+      Manager $extensionManager
     ) {
         $this->extensionManager = $extensionManager;
     }
@@ -33,13 +39,13 @@ class PluginRulesActionGenerator extends Generator
      */
     public function generate(array $parameters)
     {
-        $module = $parameters['module'];
-        $class_name = $parameters['class_name'];
-
+        $machineName = $parameters['machine_name'];
         $this->renderFile(
-            'module/src/Plugin/RulesAction/rulesaction.php.twig',
-            $this->extensionManager->getPluginPath($module, 'RulesAction') . '/' . $class_name . '.php',
-            $parameters
+          'module/composer.json.twig',
+          $this->extensionManager->getModule($machineName)
+            ->getPath() . '/composer.json',
+          $parameters
         );
     }
+
 }

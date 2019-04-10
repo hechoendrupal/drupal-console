@@ -224,9 +224,6 @@ class PluginBlockCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $theme = $this->configFactory->get('system.theme')->get('default');
-        $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
-
         // --module option
         $this->getModuleOption();
 
@@ -265,10 +262,17 @@ class PluginBlockCommand extends Command
 
         // --theme-region option
         $themeRegion = $input->getOption('theme-region');
+
         if (!$themeRegion) {
+            $theme = $this->configFactory->get('system.theme')->get('default');
+            $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
+            $themeRegionOptions = [];
+            foreach ($themeRegions as $key => $region) {
+                $themeRegionOptions[$key] = $region->render();
+            }
             $themeRegion = $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.plugin.block.questions.theme-region'),
-                array_values($themeRegions),
+                $themeRegionOptions,
                 '',
                 true
             );

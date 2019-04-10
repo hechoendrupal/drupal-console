@@ -160,7 +160,7 @@ class InstallCommand extends Command
 
                 $processBuilder = new ProcessBuilder([]);
                 $processBuilder->setWorkingDirectory($this->appRoot);
-                $processBuilder->setArguments(explode(" ", $command));
+                $processBuilder->setArguments(explode(' ', $command));
                 $process = $processBuilder->getProcess();
                 $process->setTty('true');
                 $process->run();

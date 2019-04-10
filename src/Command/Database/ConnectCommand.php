@@ -50,20 +50,10 @@ class ConnectCommand extends Command
         $target = $input->getArgument('target');
         $databaseConnection = $this->resolveConnection($key, $target);
 
-        $connection = sprintf(
-            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
-            $databaseConnection['driver'],
-            $databaseConnection['database'],
-            $databaseConnection['username'],
-            $databaseConnection['password'],
-            $databaseConnection['host'],
-            $databaseConnection['port']
-        );
-
         $this->getIo()->commentBlock(
             sprintf(
                 $this->trans('commands.database.connect.messages.connection'),
-                $connection
+                escapeshellcmd($this->getConnectionString($databaseConnection))
             )
         );
 

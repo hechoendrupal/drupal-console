@@ -10,7 +10,7 @@ namespace Drupal\Console\Generator;
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
-class PluginRulesActionGenerator extends Generator
+class PluginRulesConditionGenerator extends Generator
 {
     /**
      * @var Manager
@@ -18,7 +18,7 @@ class PluginRulesActionGenerator extends Generator
     protected $extensionManager;
 
     /**
-     * PluginRulesActionGenerator constructor.
+     * PluginRulesConditionGenerator constructor.
      *
      * @param Manager $extensionManager
      */
@@ -37,8 +37,8 @@ class PluginRulesActionGenerator extends Generator
         $class_name = $parameters['class_name'];
 
         $this->renderFile(
-            'module/src/Plugin/RulesAction/rulesaction.php.twig',
-            $this->extensionManager->getPluginPath($module, 'RulesAction') . '/' . $class_name . '.php',
+            'module/src/Plugin/Condition/rulescondition.php.twig',
+            $this->extensionManager->getPluginPath($module, 'Condition') . '/' . $class_name . '.php',
             $parameters
         );
     }

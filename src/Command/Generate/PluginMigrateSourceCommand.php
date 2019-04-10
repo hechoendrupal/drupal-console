@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Generate\PluginBlockCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginMigrateSourceCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -24,8 +24,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PluginMigrateSourceCommand extends Command
 {
-    use ModuleTrait;
+    use ArrayInputTrait;
     use ConfirmationTrait;
+    use ModuleTrait;
 
     /**
      * @var ConfigFactory
@@ -68,7 +69,7 @@ class PluginMigrateSourceCommand extends Command
     protected $elementInfoManager;
 
     /**
-     * PluginBlockCommand constructor.
+     * PluginMigrateSourceCommand constructor.
      *
      * @param ConfigFactory               $configFactory
      * @param ChainQueue                  $chainQueue
@@ -167,6 +168,11 @@ class PluginMigrateSourceCommand extends Command
         $alias = $input->getOption('alias');
         $group_by = $input->getOption('group-by');
         $fields = $input->getOption('fields');
+        $no_interaction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($no_interaction) {
+            $fields = $this->explodeInlineArray($fields);
+        }
 
         $this->generator->generate([
           'module' => $module,
