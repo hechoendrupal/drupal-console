@@ -7,11 +7,13 @@
 
 namespace Drupal\Console\Command\Generate;
 
+
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Command\Shared\ArrayInputTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Generator\PluginMigrateSourceGenerator;
 use Drupal\Console\Utils\Validator;
