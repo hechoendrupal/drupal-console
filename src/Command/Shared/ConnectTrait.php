@@ -66,4 +66,28 @@ trait ConnectTrait
 
         return null;
     }
+
+    public function getConnectionString($databaseConnection) {
+        return sprintf(
+          '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+          $databaseConnection['driver'],
+          $databaseConnection['database'],
+          $databaseConnection['username'],
+          $databaseConnection['password'],
+          $databaseConnection['host'],
+          $databaseConnection['port']
+        );
+    }
+
+    public function escapeConnection($databaseConnection) {
+        $settings = [
+          'driver', 'database', 'username', 'password', 'host', 'port'
+        ];
+
+        foreach ($settings as $setting) {
+            $databaseConnection[$setting] = escapeshellcmd($databaseConnection[$setting]);
+        }
+
+        return $databaseConnection;
+    }
 }

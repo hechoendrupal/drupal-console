@@ -81,13 +81,16 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundles = $this->drupalApi->getBundles();
-        foreach ($bundles as $bundleType => $bundleName) {
-            $key = sprintf(
-                $this->trans('commands.site.statistics.messages.node-type'),
-                $bundleName
-            );
-            $statistics[$key] = $this->getNodeTypeCount($bundleType);
+        if ($this->moduleHandler->moduleExists('node'))
+        {
+            $bundles = $this->drupalApi->getBundles();
+            foreach ($bundles as $bundleType => $bundleName) {
+                $key = sprintf(
+                    $this->trans('commands.site.statistics.messages.node-type'),
+                    $bundleName
+                );
+                $statistics[$key] = $this->getNodeTypeCount($bundleType);
+            }
         }
         $statistics[$this->trans('commands.site.statistics.messages.comments')] = $this->getCommentCount();
         $statistics[$this->trans('commands.site.statistics.messages.vocabulary')] = $this->getTaxonomyVocabularyCount();
@@ -136,6 +139,10 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getTaxonomyVocabularyCount()
     {
+        if (!$this->moduleHandler->moduleExists('taxonomy')) {
+            return 0;
+        }
+
         $entityQuery = $this->entityQuery->get('taxonomy_vocabulary')->count();
         $vocabularies = $entityQuery->execute();
 
@@ -147,6 +154,10 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getTaxonomyTermCount()
     {
+        if (!$this->moduleHandler->moduleExists('taxonomy')) {
+            return 0;
+        }
+
         $entityQuery = $this->entityQuery->get('taxonomy_term')->count();
         $terms = $entityQuery->execute();
 
@@ -158,6 +169,10 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getFileCount()
     {
+        if (!$this->moduleHandler->moduleExists('file')) {
+            return 0;
+        }
+
         $entityQuery = $this->entityQuery->get('file')->count();
         $files = $entityQuery->execute();
 
@@ -169,6 +184,10 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getUserCount()
     {
+        if (!$this->moduleHandler->moduleExists('user')) {
+            return 0;
+        }
+
         $entityQuery = $this->entityQuery->get('user')->count();
         $users = $entityQuery->execute();
 
@@ -206,6 +225,10 @@ class StatisticsCommand extends ContainerAwareCommand
      */
     private function getViewCount($status = true, $tag = 'default')
     {
+        if (!$this->moduleHandler->moduleExists('views')) {
+            return 0;
+        }
+
         $entityQuery = $this->entityQuery->get('view')->condition('tag', 'default', '<>')->count();
         $views = $entityQuery->execute();
 
@@ -233,3 +256,4 @@ class StatisticsCommand extends ContainerAwareCommand
         $this->getIo()->table($tableHeader, $tableRows);
     }
 }
+

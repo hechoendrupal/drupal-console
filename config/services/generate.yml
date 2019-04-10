@@ -129,6 +129,14 @@ services:
     arguments: ['@console.extension_manager', '@console.plugin_rules_action_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_rules_condition:
+      class: Drupal\Console\Command\Generate\PluginRulesConditionCommand
+      arguments: ['@console.extension_manager', '@console.plugin_rules_condition_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+  console.generate_plugin_rules_dataprocessor:
+      class: Drupal\Console\Command\Generate\PluginRulesDataprocessorCommand
+      arguments: ['@console.extension_manager', '@console.plugin_rules_dataprocessor_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+      tags:
+         - { name: drupal.command }
   console.generate_plugin_skeleton:
     class: Drupal\Console\Command\Generate\PluginSkeletonCommand
     arguments: ['@console.extension_manager', '@console.plugin_skeleton_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
@@ -144,6 +152,11 @@ services:
     arguments: ['@console.extension_manager', '@console.plugin_views_field_generator', '@console.site','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_queue:
+    class: Drupal\Console\Command\Generate\PluginQueueWorkerCommand
+    arguments: ['@console.plugin_queue_generator','@console.validator','@console.string_converter','@console.chain_queue']
+    tags:
+      - { name: drupal.command }
   console.generate_post_update:
     class: Drupal\Console\Command\Generate\PostUpdateCommand
     arguments: ['@console.extension_manager', '@console.post_update_generator', '@console.site', '@console.validator','@console.chain_queue']
