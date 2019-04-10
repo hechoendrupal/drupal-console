@@ -8,24 +8,24 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Shared\ArrayInputTrait;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginBlockGenerator;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\Validator;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Generator\PluginBlockGenerator;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class PluginBlockCommand extends ContainerAwareCommand
+class PluginBlockCommand extends Command
 {
     use ArrayInputTrait;
     use ServicesTrait;

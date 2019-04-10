@@ -7,16 +7,16 @@
 
 namespace Drupal\Console\Command\Theme;
 
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Utils\DrupalApi;
+use GuzzleHttp\Client;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Command\Shared\ProjectDownloadTrait;
-use Drupal\Console\Utils\DrupalApi;
-use GuzzleHttp\Client;
 
-class DownloadCommand extends Command
+class DownloadCommand extends ContainerAwareCommand
 {
     use ProjectDownloadTrait;
 

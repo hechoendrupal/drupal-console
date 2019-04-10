@@ -7,10 +7,9 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Command\Shared\ArrayInputTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
@@ -23,7 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PluginMigrateSourceCommand extends ContainerAwareCommand
+class PluginMigrateSourceCommand extends Command
 {
     use ArrayInputTrait;
     use ConfirmationTrait;
