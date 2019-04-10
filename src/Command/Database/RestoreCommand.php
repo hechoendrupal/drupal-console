@@ -77,7 +77,7 @@ class RestoreCommand extends Command
         $learning = $input->getOption('learning');
 
         $databaseConnection = $this->escapeConnection($this->resolveConnection($database, $target));
-        if (!$file) {
+        if (!$file || !file_exists($file)) {
             $this->getIo()->error(
                 $this->trans('commands.database.restore.messages.no-file')
             );
