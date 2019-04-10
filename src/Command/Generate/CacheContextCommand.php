@@ -120,7 +120,7 @@ class CacheContextCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $cache_context = $input->getOption('cache-context');
         $class = $this->validator->validateClassName($input->getOption('class'));
         $services = $input->getOption('services');

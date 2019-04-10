@@ -60,6 +60,11 @@ class ModuleGenerator extends Generator
 
         $parameters['type'] = 'module';
 
+        // Escape single quotes in long parameter strings.
+        foreach(['description', 'module'] as $param) {
+            $parameters[$param] = str_replace("'", "''", $parameters[$param]);
+        }
+
         $this->renderFile(
             'module/info.yml.twig',
             $moduleDirectory . '/' . $machineName . '.info.yml',

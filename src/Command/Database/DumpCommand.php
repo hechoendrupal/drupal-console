@@ -55,6 +55,12 @@ class DumpCommand extends Command
                 $this->trans('commands.database.dump.arguments.database'),
                 'default'
             )
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.dump.arguments.target'),
+                'default'
+            )
             ->addOption(
                 'file',
                 null,
@@ -77,11 +83,12 @@ class DumpCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $database = $input->getArgument('database');
+        $target = $input->getArgument('target');
         $file = $input->getOption('file');
         $learning = $input->getOption('learning');
         $gz = $input->getOption('gz');
 
-        $databaseConnection = $this->resolveConnection($database);
+        $databaseConnection = $this->escapeConnection($this->resolveConnection($database, $target));
 
         if (!$file) {
             $date = new \DateTime();
@@ -125,7 +132,7 @@ class DumpCommand extends Command
             $resultFile = $file;
             if ($gz) {
                 if (substr($file, -3) != '.gz') {
-                    $resultFile = $file . ".gz";
+                    $resultFile = $file . '.gz';
                 }
                 file_put_contents(
                     $resultFile,

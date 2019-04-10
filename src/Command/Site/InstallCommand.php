@@ -287,9 +287,9 @@ class InstallCommand extends ContainerAwareCommand
                 }
             }
 
-            // --db-prefix
+            // --db-prefix option
             $dbPrefix = $input->getOption('db-prefix');
-            if (!$dbPrefix) {
+            if ($dbPrefix === null) {
                 $dbPrefix = $this->dbPrefixQuestion();
                 $input->setOption('db-prefix', $dbPrefix);
             }

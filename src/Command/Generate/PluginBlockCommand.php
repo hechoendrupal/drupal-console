@@ -167,7 +167,7 @@ class PluginBlockCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
@@ -224,9 +224,6 @@ class PluginBlockCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $theme = $this->configFactory->get('system.theme')->get('default');
-        $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
-
         // --module option
         $this->getModuleOption();
 
@@ -265,10 +262,17 @@ class PluginBlockCommand extends ContainerAwareCommand
 
         // --theme-region option
         $themeRegion = $input->getOption('theme-region');
+
         if (!$themeRegion) {
+            $theme = $this->configFactory->get('system.theme')->get('default');
+            $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
+            $themeRegionOptions = [];
+            foreach ($themeRegions as $key => $region) {
+                $themeRegionOptions[$key] = $region->render();
+            }
             $themeRegion = $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.plugin.block.questions.theme-region'),
-                array_values($themeRegions),
+                $themeRegionOptions,
                 '',
                 true
             );
