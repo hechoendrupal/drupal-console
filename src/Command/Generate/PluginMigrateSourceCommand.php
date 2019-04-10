@@ -2,30 +2,32 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Generate\PluginBlockCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginMigrateSourceCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginMigrateSourceGenerator;
-use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\Validator;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Generator\PluginMigrateSourceGenerator;
+use Drupal\Console\Utils\Validator;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class PluginMigrateSourceCommand extends ContainerAwareCommand
 {
-    use ModuleTrait;
+    use ArrayInputTrait;
     use ConfirmationTrait;
+    use ModuleTrait;
 
     /**
      * @var ConfigFactory
@@ -68,7 +70,7 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
     protected $elementInfoManager;
 
     /**
-     * PluginBlockCommand constructor.
+     * PluginMigrateSourceCommand constructor.
      *
      * @param ConfigFactory               $configFactory
      * @param ChainQueue                  $chainQueue
@@ -167,6 +169,11 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
         $alias = $input->getOption('alias');
         $group_by = $input->getOption('group-by');
         $fields = $input->getOption('fields');
+        $no_interaction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($no_interaction) {
+            $fields = $this->explodeInlineArray($fields);
+        }
 
         $this->generator->generate([
           'module' => $module,
