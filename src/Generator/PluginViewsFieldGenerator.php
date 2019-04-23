@@ -34,18 +34,22 @@ class PluginViewsFieldGenerator extends Generator
     public function generate(array $parameters)
     {
         $module = $parameters['module'];
-        $class_name = $parameters['class_name'];
+        $fields = $parameters['fields'];
 
         $this->renderFile(
             'module/module.views.inc.twig',
             $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.views.inc',
-            $parameters
+            $parameters,
+            FILE_APPEND
         );
 
-        $this->renderFile(
-            'module/src/Plugin/Views/field/field.php.twig',
-            $this->extensionManager->getPluginPath($module, 'views/field') . '/' . $class_name . '.php',
-            $parameters
-        );
+        foreach ($fields as $field) {
+            $field['module'] = $module;
+            $this->renderFile(
+                'module/src/Plugin/Views/field/field.php.twig',
+                $this->extensionManager->getPluginPath($module, 'views/field') . '/' . $field['class_name'] . '.php',
+                $field
+            );
+        }
     }
 }

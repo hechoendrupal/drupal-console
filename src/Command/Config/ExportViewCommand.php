@@ -144,7 +144,7 @@ class ExportViewCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $viewId = $input->getArgument('view-id');
         $optionalConfig = $input->getOption('optional-config');
         $includeModuleDependencies = $input->getOption('include-module-dependencies');
@@ -153,6 +153,15 @@ class ExportViewCommand extends Command
         $viewTypeName = $viewTypeDefinition->getConfigPrefix() . '.' . $viewId;
 
         $viewNameConfig = $this->getConfiguration($viewTypeName);
+        if (empty($viewNameConfig)) {
+            $this->getIo()->error(
+              sprintf(
+                $this->trans('commands.config.export.view.messages.wrong-view'),
+                $viewId
+              )
+            );
+            return 0;
+        }
 
         $this->configExport[$viewTypeName] = ['data' => $viewNameConfig, 'optional' => $optionalConfig];
 
@@ -168,6 +177,6 @@ class ExportViewCommand extends Command
             }
         }
 
-        $this->exportConfigToModule($module, $this->trans('commands.views.export.messages.view-exported'));
+        $this->exportConfigToModule($module, $this->trans('commands.config.export.view.messages.view-exported'));
     }
 }

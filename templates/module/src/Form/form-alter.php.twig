@@ -12,7 +12,7 @@ use Drupal\Core\Form\FormStateInterface;
 {% endif %}
  */
 function {{ module }}_form_{{ form_id }}_alter(&$form, FormStateInterface $form_state) {
-    drupal_set_message('{{ module }}_form_{{ form_id }}_alter() executed.');
+    \Drupal::messenger()->addMessage('{{ module }}_form_{{ form_id }}_alter() executed.');
 {% else %}
 /**
  * Implements hook_form_alter() on behalf of {{ module }}.module.
@@ -20,7 +20,7 @@ function {{ module }}_form_{{ form_id }}_alter(&$form, FormStateInterface $form_
 function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_id) {
     // Change form id here
     if ($form_id == 'form_test_alter_form') {
-        drupal_set_message('form_test_form_alter() executed.');
+        \Drupal::messenger()->addMessage('form_test_form_alter() executed.');
 {% endif %}
 
 {%- if metadata.unset -%}

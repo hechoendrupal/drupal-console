@@ -49,6 +49,12 @@ class RestoreCommand extends Command
                 $this->trans('commands.database.restore.arguments.database'),
                 'default'
             )
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.restore.arguments.target'),
+                'default'
+            )
             ->addOption(
                 'file',
                 null,
@@ -56,7 +62,8 @@ class RestoreCommand extends Command
                 $this->trans('commands.database.restore.options.file')
             )
             ->setHelp($this->trans('commands.database.restore.help'))
-            ->setAliases(['dbr']);
+            ->setAliases(['dbr'])
+            ->enableMaintenance();
     }
 
     /**
@@ -65,41 +72,43 @@ class RestoreCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $database = $input->getArgument('database');
+        $target = $input->getArgument('target');
         $file = $input->getOption('file');
         $learning = $input->getOption('learning');
 
-        $databaseConnection = $this->resolveConnection($database);
-
-        if (!$file) {
+        $databaseConnection = $this->escapeConnection($this->resolveConnection($database, $target));
+        if (!$file || !file_exists($file)) {
             $this->getIo()->error(
                 $this->trans('commands.database.restore.messages.no-file')
             );
             return 1;
         }
         if (strpos($file, '.sql.gz') !== false) {
-            $catCommand = "gunzip -c %s | ";
+            $catCommand = 'gunzip -c %s | ';
         } else {
-            $catCommand = "cat %s | ";
+            $catCommand = 'cat %s | ';
         }
+
+        $command = NULL;
         if ($databaseConnection['driver'] == 'mysql') {
             $command = sprintf(
-                $catCommand . 'mysql --user=%s --password=%s --host=%s --port=%s %s',
-                $file,
-                $databaseConnection['username'],
-                $databaseConnection['password'],
-                $databaseConnection['host'],
-                $databaseConnection['port'],
-                $databaseConnection['database']
+              $catCommand . 'mysql --user=%s --password=%s --host=%s --port=%s %s',
+              $file,
+              $databaseConnection['username'],
+              $databaseConnection['password'],
+              $databaseConnection['host'],
+              $databaseConnection['port'],
+              $databaseConnection['database']
             );
         } elseif ($databaseConnection['driver'] == 'pgsql') {
             $command = sprintf(
-                'PGPASSWORD="%s" ' . $catCommand . 'psql -w -U %s -h %s -p %s -d %s',
-                $file,
-                $databaseConnection['password'],
-                $databaseConnection['username'],
-                $databaseConnection['host'],
-                $databaseConnection['port'],
-                $databaseConnection['database']
+              $catCommand . 'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s',
+              $file,
+              $databaseConnection['password'],
+              $databaseConnection['username'],
+              $databaseConnection['host'],
+              $databaseConnection['port'],
+              $databaseConnection['database']
             );
         }
 

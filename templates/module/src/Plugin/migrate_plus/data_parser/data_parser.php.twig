@@ -1,0 +1,39 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\migrate_plus\data_parser\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\migrate_plus\data_parser;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\migrate_plus\DataParserPluginBase;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+* Provides a '{{class_name}}' data parser plugin.
+*
+* @DataParser(
+*  id = "{{plugin_id}}"
+*  title = @Translation("{{plugin_title}}")
+* )
+*/
+class {{class_name}} extends DataParserPluginBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  protected function openSourceUrl($url) {
+    // Plugin logic goes here.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function fetchNextRow() {
+    // Plugin logic goes here.
+  }
+{% endblock %}

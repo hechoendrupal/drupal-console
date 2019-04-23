@@ -107,7 +107,7 @@ class PluginTypeYamlCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_name = $input->getOption('plugin-name');
         $plugin_file_name = $input->getOption('plugin-file-name');

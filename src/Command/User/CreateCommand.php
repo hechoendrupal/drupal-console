@@ -184,7 +184,7 @@ class CreateCommand extends Command
 
         $roles = $input->getOption('roles');
         if (!$roles) {
-            $systemRoles = $this->drupalApi->getRoles(false, false, false);
+            $systemRoles = $this->drupalApi->getRoles(true, true, false);
             $roles = $this->getIo()->choice(
                 $this->trans('commands.user.create.questions.roles'),
                 array_values($systemRoles),

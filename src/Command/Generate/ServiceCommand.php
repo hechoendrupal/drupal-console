@@ -121,6 +121,12 @@ class ServiceCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.service.options.interface-name')
             )
             ->addOption(
+                'logger-channel',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.service.options.logger-channel')
+            )
+            ->addOption(
                 'services',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
@@ -145,11 +151,12 @@ class ServiceCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $name = $input->getOption('name');
         $class = $this->validator->validateClassName($input->getOption('class'));
         $interface = $input->getOption('interface');
         $interface_name = $input->getOption('interface-name');
+        $logger_channel = $input->getOption('logger-channel');
         $services = $input->getOption('services');
         $path_service = $input->getOption('path-service');
 
@@ -171,6 +178,8 @@ class ServiceCommand extends ContainerAwareCommand
             'name' => $name,
             'class' => $class,
             'interface' => $interface,
+            'interface_name' => $interface_name,
+            'logger_channel' => $logger_channel,
             'services' => $build_services,
             'path_service' => $path_service,
         ]);
@@ -228,6 +237,16 @@ class ServiceCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.service.questions.interface-name')
             );
             $input->setOption('interface-name', $interface_name);
+        }
+
+        // --logger-channel option
+        $logger_channel = $input->getOption('logger-channel');
+        if (!$logger_channel) {
+          $logger_channel = $this->getIo()->confirm(
+            $this->trans('commands.generate.service.questions.logger-channel'),
+            true
+          );
+          $input->setOption('logger-channel', $logger_channel);
         }
 
         // --services option
