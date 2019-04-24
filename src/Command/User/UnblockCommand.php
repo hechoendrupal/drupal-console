@@ -70,9 +70,9 @@ class UnblockCommand extends UserBase
         }
 
         if (!$userEntity->isBlocked()) {
-          $this->getIo()->error(
+          $this->getIo()->warning(
             sprintf(
-              $this->trans('commands.user.unblock.errors.unblocked-user'),
+              $this->trans('commands.user.unblock.warnings.unblocked-user'),
               $user
             )
           );
