@@ -108,7 +108,8 @@ class ExecuteCommand extends Command
                 $this->trans('commands.update.execute.options.update-n'),
                 '9000'
             )
-            ->setAliases(['upex']);
+            ->setAliases(['upex'])
+            ->enableMaintenance();
     }
 
     /**
@@ -151,38 +152,23 @@ class ExecuteCommand extends Command
                     )
                 );
             }
-
-            return 0;
-        }
-
-        $maintenanceMode = $this->state->get('system.maintenance_mode', false);
-
-        if (!$maintenanceMode) {
-            $this->getIo()->info($this->trans('commands.site.maintenance.description'));
-            $this->state->set('system.maintenance_mode', true);
-        }
-
-        try {
-            $this->runUpdates(
-                $updates
-            );
-
-            // Post Updates are only safe to run after all schemas have been updated.
-            if (!$this->getUpdates()) {
-                $this->runPostUpdates();
+        } else {
+            try {
+                $this->runUpdates(
+                    $updates
+                );
+            } catch (\Exception $e) {
+                watchdog_exception('update', $e);
+                $this->getIo()->error($e->getMessage());
+                return 1;
             }
-        } catch (\Exception $e) {
-            watchdog_exception('update', $e);
-            $this->getIo()->error($e->getMessage());
-            return 1;
         }
+        
 
-        if (!$maintenanceMode) {
-            $this->state->set('system.maintenance_mode', false);
-            $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
-        }
-
+        // Post Updates are only safe to run after all schemas have been updated.
         if (!$this->getUpdates()) {
+            $this->runPostUpdates($postUpdates);
+            
             $this->chainQueue->addCommand('update:entities');
         }
 
@@ -274,6 +260,7 @@ class ExecuteCommand extends Command
     private function runPostUpdates()
     {
         $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
+        
         foreach ($postUpdates as $module => $updates) {
             foreach ($updates['pending'] as $updateName => $update) {
                 $this->getIo()->info(
