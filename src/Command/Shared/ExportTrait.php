@@ -133,7 +133,7 @@ trait ExportTrait
 
     protected function exportModuleDependencies($io, $module, $dependencies)
     {
-        $module = $this->extensionManager->getModule($module);
+        $module = $this->extensionManager->getExtension('module', $module);
         $info_yaml = $module->info;
 
         if (empty($info_yaml['dependencies'])) {
