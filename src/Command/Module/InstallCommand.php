@@ -15,10 +15,9 @@ use Symfony\Component\Process\ProcessBuilder;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\Validator;
-use Drupal\Core\ProxyClass\Extension\ModuleInstaller;
+use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Console\Utils\DrupalApi;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -82,7 +81,7 @@ class InstallCommand extends Command
     public function __construct(
         Site $site,
         Validator $validator,
-        ModuleInstaller $moduleInstaller,
+        ModuleInstallerInterface $moduleInstaller,
         DrupalApi $drupalApi,
         Manager $extensionManager,
         $appRoot,
@@ -131,11 +130,9 @@ class InstallCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $module = $input->getArgument('module');
         if (!$module) {
-            $module = $this->modulesQuestion($io);
+            $module = $this->modulesQuestion();
             $input->setArgument('module', $module);
         }
     }
@@ -145,8 +142,6 @@ class InstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $module = $input->getArgument('module');
         $latest = $input->getOption('latest');
         $composer = $input->getOption('composer');
@@ -154,7 +149,7 @@ class InstallCommand extends Command
         $this->site->loadLegacyFile('/core/includes/bootstrap.inc');
 
         // check module's requirements
-        $this->moduleRequirement($module, $io);
+        $this->moduleRequirement($module);
 
         if ($composer) {
             foreach ($module as $moduleItem) {
@@ -165,20 +160,20 @@ class InstallCommand extends Command
 
                 $processBuilder = new ProcessBuilder([]);
                 $processBuilder->setWorkingDirectory($this->appRoot);
-                $processBuilder->setArguments(explode(" ", $command));
+                $processBuilder->setArguments(explode(' ', $command));
                 $process = $processBuilder->getProcess();
                 $process->setTty('true');
                 $process->run();
 
                 if ($process->isSuccessful()) {
-                    $io->info(
+                    $this->getIo()->info(
                         sprintf(
                             $this->trans('commands.module.install.messages.download-with-composer'),
                             $moduleItem
                         )
                     );
                 } else {
-                    $io->error(
+                    $this->getIo()->error(
                         sprintf(
                             $this->trans('commands.module.install.messages.not-installed-with-composer'),
                             $moduleItem
@@ -190,7 +185,7 @@ class InstallCommand extends Command
 
             $unInstalledModules = $module;
         } else {
-            $resultList = $this->downloadModules($io, $module, $latest);
+            $resultList = $this->downloadModules($module, $latest);
 
             $invalidModules = $resultList['invalid'];
             $unInstalledModules = $resultList['uninstalled'];
@@ -198,7 +193,7 @@ class InstallCommand extends Command
             if ($invalidModules) {
                 foreach ($invalidModules as $invalidModule) {
                     unset($module[array_search($invalidModule, $module)]);
-                    $io->error(
+                    $this->getIo()->error(
                         sprintf(
                             $this->trans('commands.module.install.messages.invalid-name'),
                             $invalidModule
@@ -208,14 +203,14 @@ class InstallCommand extends Command
             }
 
             if (!$unInstalledModules) {
-                $io->warning($this->trans('commands.module.install.messages.nothing'));
+                $this->getIo()->warning($this->trans('commands.module.install.messages.nothing'));
 
                 return 0;
             }
         }
 
         try {
-            $io->comment(
+            $this->getIo()->comment(
                 sprintf(
                     $this->trans('commands.module.install.messages.installing'),
                     implode(', ', $unInstalledModules)
@@ -225,19 +220,49 @@ class InstallCommand extends Command
             drupal_static_reset('system_rebuild_module_data');
 
             $this->moduleInstaller->install($unInstalledModules, true);
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.module.install.messages.success'),
                     implode(', ', $unInstalledModules)
                 )
             );
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
 
             return 1;
         }
 
         $this->site->removeCachedServicesFile();
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+    }
+
+    /**
+     * Verify that install requirements for a list of modules are met.
+     *
+     * @param string[]    $module
+     *   List of modules to verify.
+     *
+     * @throws \Exception
+     *   When one or more requirements are not met.
+     */
+    public function moduleRequirement(array $module)
+    {
+        // TODO: Module dependencies should also be checked
+        // for unmet requirements recursively.
+        $fail = false;
+        foreach ($module as $module_name) {
+            module_load_install($module_name);
+            if ($requirements = \Drupal::moduleHandler()->invoke($module_name, 'requirements', ['install'])) {
+                foreach ($requirements as $requirement) {
+                    if (isset($requirement['severity']) && $requirement['severity'] == REQUIREMENT_ERROR) {
+                        $this->getIo()->info("Module '{$module_name}' cannot be installed: {$requirement['title']} | {$requirement['value']}");
+                        $fail = true;
+                    }
+                }
+            }
+        }
+        if ($fail) {
+            throw new \Exception('Some module install requirements are not met.');
+        }
     }
 }

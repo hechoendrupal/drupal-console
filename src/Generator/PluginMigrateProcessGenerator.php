@@ -29,23 +29,16 @@ class PluginMigrateProcessGenerator extends Generator
     }
 
     /**
-     * Generate Migrate Source plugin code.
-     *
-     * @param $module
-     * @param $class_name
-     * @param $plugin_id
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $plugin_id)
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module' => $module,
-          'class_name' => $class_name,
-          'plugin_id' => $plugin_id,
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
 
         $this->renderFile(
             'module/src/Plugin/migrate/process/process.php.twig',
-            $this->extensionManager->getPluginPath($module, 'migrate').'/process/'.$class_name.'.php',
+            $this->extensionManager->getPluginPath($module, 'migrate') . '/process/' . $class_name . '.php',
             $parameters
         );
     }

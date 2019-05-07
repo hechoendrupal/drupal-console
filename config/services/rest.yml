@@ -10,7 +10,6 @@ services:
       - '@?plugin.manager.rest'
       - '@authentication_collector'
       - '@config.factory'
-      - "@=container.hasParameter('serializer.formats') ? parameter('serializer.formats') : []"
       - '@entity.manager'
     tags:
       - { name: drupal.command }

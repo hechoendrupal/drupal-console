@@ -13,6 +13,7 @@ use Drupal\field\FieldConfigInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Console\Utils\DrupalApi;
 
 /**
  * Class ContentNode
@@ -21,20 +22,33 @@ use Drupal\Core\Datetime\DateFormatterInterface;
  */
 abstract class Base
 {
-    /* @var EntityTypeManagerInterface */
+    /**
+     * @var EntityTypeManagerInterface
+     */
     protected $entityTypeManager = null;
 
-    /* @var EntityFieldManagerInterface */
+    /**
+     * @var EntityFieldManagerInterface
+     */
     protected $entityFieldManager = null;
 
-    /* @var DateFormatterInterface */
+    /**
+     * @var DateFormatterInterface
+     */
     protected $dateFormatter = null;
 
     /* @var array */
     protected $users = [];
 
-    /* @var Random $random */
+    /**
+     * @var Random $random
+     */
     protected $random = null;
+
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
 
     /**
      * ContentNode constructor.
@@ -42,15 +56,18 @@ abstract class Base
      * @param EntityTypeManagerInterface  $entityTypeManager
      * @param EntityFieldManagerInterface $entityFieldManager
      * @param DateFormatterInterface      $dateFormatter
+     * @param DrupalApi                   $drupalApi
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
         EntityFieldManagerInterface $entityFieldManager,
-        DateFormatterInterface $dateFormatter
+        DateFormatterInterface $dateFormatter,
+        DrupalApi $drupalApi = null
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->entityFieldManager = $entityFieldManager;
         $this->dateFormatter = $dateFormatter;
+        $this->drupalApi = $drupalApi;
     }
 
     /**
@@ -82,8 +99,7 @@ abstract class Base
         /* @var \Drupal\field\FieldConfigInterface[] $fields */
         foreach ($fields as $field) {
             $fieldName = $field->getFieldStorageDefinition()->getName();
-            $cardinality = $field->getFieldStorageDefinition()->getCardinality(
-            );
+            $cardinality = $field->getFieldStorageDefinition()->getCardinality();
             if ($cardinality == FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED) {
                 $cardinality = rand(1, 5);
             }

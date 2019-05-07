@@ -19,7 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\ProcessBuilder;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class QueryCommand extends Command
 {
@@ -44,6 +43,12 @@ class QueryCommand extends Command
                 $this->trans('commands.database.query.arguments.database'),
                 'default'
             )
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.connect.arguments.target'),
+                'default'
+            )
             ->addOption('quick', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.quick'))
             ->addOption('debug', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.debug'))
             ->addOption('html', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.html'))
@@ -61,13 +66,12 @@ class QueryCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $query = $input->getArgument('query');
         $database = $input->getArgument('database');
+        $target = $input->getArgument('target');
         $learning = $input->getOption('learning');
 
-        $databaseConnection = $this->resolveConnection($io, $database);
+        $databaseConnection = $this->resolveConnection($database, $target);
 
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
@@ -82,31 +86,31 @@ class QueryCommand extends Command
         $args = explode(' ', $connection);
         $args[] = sprintf('--execute=%s', $query);
 
-        $opts = ["quick", "debug", "html", "xml", "raw", "vertical", "batch"];
+        $opts = ['quick', 'debug', 'html', 'xml', 'raw', 'vertical', 'batch'];
         array_walk(
             $opts, function ($opt) use ($input, &$args) {
                 if ($input->getOption($opt)) {
                     switch ($opt) {
-                    case "quick":
-                        $args[] = "--quick";
+                    case 'quick':
+                        $args[] = '--quick';
                         break;
-                    case "debug":
-                        $args[] = "-T";
+                    case 'debug':
+                        $args[] = '-T';
                         break;
-                    case "html":
-                        $args[] = "-H";
+                    case 'html':
+                        $args[] = '-H';
                         break;
-                    case "xml":
-                        $args[] = "-X";
+                    case 'xml':
+                        $args[] = '-X';
                         break;
-                    case "raw":
-                        $args[] = "--raw";
+                    case 'raw':
+                        $args[] = '--raw';
                         break;
-                    case "vertical":
-                        $args[] = "-E";
+                    case 'vertical':
+                        $args[] = '-E';
                         break;
-                    case "batch":
-                        $args[] = "--batch";
+                    case 'batch':
+                        $args[] = '--batch';
                         break;
                     }
                 }
@@ -114,12 +118,12 @@ class QueryCommand extends Command
         );
 
         if ($learning) {
-            $io->commentBlock(
-                implode(" ", $args)
+            $this->getIo()->commentBlock(
+                implode(' ', $args)
             );
         }
 
-        $processBuilder = new ProcessBuilder([]);
+        $processBuilder = new ProcessBuilder();
         $processBuilder->setArguments($args);
         $process = $processBuilder->getProcess();
         $process->setTty('true');

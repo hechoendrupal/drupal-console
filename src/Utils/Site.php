@@ -103,7 +103,7 @@ class Site
             if (file_exists($driver_folder->getRealpath() . '/Install/Tasks.php')) {
                 $driver  = $driver_folder->getBasename();
                 $installer = db_installer_object($driver);
-                // Verify is database is installable
+                // Verify if database is installable
                 if ($installer->installable()) {
                     $reflection = new \ReflectionClass($installer);
                     $install_namespace = $reflection->getNamespaceName();
@@ -206,10 +206,14 @@ class Site
     {
         if (!$this->cacheServicesFile) {
             $configFactory = \Drupal::configFactory();
-            $siteId = $configFactory->get('system.site')->get('uuid');
+            $siteId = $configFactory->get('system.site')
+                ->get('uuid');
 
-            $this->cacheServicesFile = \Drupal::service('console.root') .
-                DRUPAL_CONSOLE . $siteId . '-console.services.yml';
+            $directory = \Drupal::service('stream_wrapper.temporary')
+                ->getDirectoryPath();
+
+            $this->cacheServicesFile = $directory . '/' . $siteId .
+                '-console.services.yml';
         }
 
         return $this->cacheServicesFile;

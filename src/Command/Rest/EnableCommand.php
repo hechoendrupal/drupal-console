@@ -10,10 +10,9 @@ namespace Drupal\Console\Command\Rest;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\rest\RestResourceConfigInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 use Drupal\Core\Authentication\AuthenticationCollector;
@@ -26,7 +25,7 @@ use Drupal\Core\Entity\EntityManager;
  *     extensionType = "module"
  * )
  */
-class EnableCommand extends Command
+class EnableCommand extends ContainerAwareCommand
 {
     use RestTrait;
 
@@ -46,44 +45,34 @@ class EnableCommand extends Command
     protected $configFactory;
 
     /**
-     * The available serialization formats.
-     *
-     * @var array
-     */
-    protected $formats;
-
-    /**
      * The entity manager.
      *
-     * @var \Drupal\Core\Entity\EntityManagerInterface
+     * @var EntityManager
      */
     protected $entityManager;
 
     /**
      * EnableCommand constructor.
      *
-     * @param ResourcePluginManager                      $pluginManagerRest
-     * @param AuthenticationCollector                    $authenticationCollector
-     * @param ConfigFactory                              $configFactory
-     * @param array                                      $formats
-     *   The available serialization formats.
-     * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
+     * @param ResourcePluginManager   $pluginManagerRest
+     * @param AuthenticationCollector $authenticationCollector
+     * @param ConfigFactory           $configFactory
+     * @param EntityManager           $entity_manager
      *   The entity manager.
      */
     public function __construct(
         ResourcePluginManager $pluginManagerRest,
         AuthenticationCollector $authenticationCollector,
         ConfigFactory $configFactory,
-        array $formats,
         EntityManager $entity_manager
     ) {
         $this->pluginManagerRest = $pluginManagerRest;
         $this->authenticationCollector = $authenticationCollector;
         $this->configFactory = $configFactory;
-        $this->formats = $formats;
         $this->entityManager = $entity_manager;
         parent::__construct();
     }
+
 
     protected function configure()
     {
@@ -100,8 +89,6 @@ class EnableCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
         $rest_resources_ids = array_merge(
@@ -109,7 +96,7 @@ class EnableCommand extends Command
             array_keys($rest_resources['disabled'])
         );
         if (!$resource_id) {
-            $resource_id = $io->choiceNoList(
+            $resource_id = $this->getIo()->choiceNoList(
                 $this->trans('commands.rest.enable.arguments.resource-id'),
                 $rest_resources_ids
             );
@@ -126,33 +113,34 @@ class EnableCommand extends Command
         $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
 
         $methods = $plugin->availableMethods();
-        $method = $io->choice(
+        $method = $this->getIo()->choice(
             $this->trans('commands.rest.enable.arguments.methods'),
             $methods
         );
-        $io->writeln(
+        $this->getIo()->writeln(
             $this->trans('commands.rest.enable.messages.selected-method') . ' ' . $method
         );
 
-        $format = $io->choice(
+        $format = $this->getIo()->choice(
             $this->trans('commands.rest.enable.arguments.formats'),
-            $this->formats
+            $this->container->getParameter('serializer.formats')
         );
-        $io->writeln(
+
+        $this->getIo()->writeln(
             $this->trans('commands.rest.enable.messages.selected-format') . ' ' . $format
         );
 
         // Get Authentication Provider and generate the question
         $authenticationProviders = $this->authenticationCollector->getSortedProviders();
 
-        $authenticationProvidersSelected = $io->choice(
+        $authenticationProvidersSelected = $this->getIo()->choice(
             $this->trans('commands.rest.enable.messages.authentication-providers'),
             array_keys($authenticationProviders),
             0,
             true
         );
 
-        $io->writeln(
+        $this->getIo()->writeln(
             $this->trans('commands.rest.enable.messages.selected-authentication-providers') . ' ' . implode(
                 ', ',
                 $authenticationProvidersSelected
@@ -178,7 +166,7 @@ class EnableCommand extends Command
         $config->set('configuration', $configuration);
         $config->save();
         $message = sprintf($this->trans('commands.rest.enable.messages.success'), $resource_id);
-        $io->info($message);
+        $this->getIo()->info($message);
         return true;
     }
 }

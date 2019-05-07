@@ -7,17 +7,16 @@
 
 namespace Drupal\Console\Command\Theme;
 
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Utils\DrupalApi;
+use GuzzleHttp\Client;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ProjectDownloadTrait;
-use Drupal\Console\Utils\DrupalApi;
-use GuzzleHttp\Client;
 
-class DownloadCommand extends Command
+class DownloadCommand extends ContainerAwareCommand
 {
     use ProjectDownloadTrait;
 
@@ -87,8 +86,6 @@ class DownloadCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $theme = $input->getArgument('theme');
         $version = $input->getArgument('version');
         $composer = $input->getOption('composer');
@@ -107,7 +104,7 @@ class DownloadCommand extends Command
                 true
             );
         } else {
-            $this->downloadProject($io, $theme, $version, 'theme');
+            $this->downloadProject($theme, $version, 'theme');
         }
     }
 
@@ -116,14 +113,12 @@ class DownloadCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $theme = $input->getArgument('theme');
         $version = $input->getArgument('version');
         $composer = $input->getOption('composer');
 
         if (!$version && !$composer) {
-            $version = $this->releasesQuestion($io, $theme);
+            $version = $this->releasesQuestion($theme);
             $input->setArgument('version', $version);
         }
     }

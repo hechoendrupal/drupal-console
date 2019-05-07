@@ -29,34 +29,27 @@ class PluginViewsFieldGenerator extends Generator
     }
 
     /**
-     * Generator Plugin Field Formatter.
-     *
-     * @param string $module     Module name
-     * @param string $class_name Plugin Class name
-     * @param string $label      Plugin label
-     * @param string $plugin_id  Plugin id
-     * @param string $field_type Field type this formatter supports
+     * {@inheritdoc}
      */
-    public function generate($module, $class_machine_name, $class_name, $title, $description)
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'class_machine_name' => $class_machine_name,
-            'class_name' => $class_name,
-            'title' => $title,
-            'description' => $description,
-        ];
+        $module = $parameters['module'];
+        $fields = $parameters['fields'];
 
         $this->renderFile(
             'module/module.views.inc.twig',
             $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.views.inc',
-            $parameters
+            $parameters,
+            FILE_APPEND
         );
 
-        $this->renderFile(
-            'module/src/Plugin/Views/field/field.php.twig',
-            $this->extensionManager->getPluginPath($module, 'views/field') . '/' . $class_name . '.php',
-            $parameters
-        );
+        foreach ($fields as $field) {
+            $field['module'] = $module;
+            $this->renderFile(
+                'module/src/Plugin/Views/field/field.php.twig',
+                $this->extensionManager->getPluginPath($module, 'views/field') . '/' . $field['class_name'] . '.php',
+                $field
+            );
+        }
     }
 }

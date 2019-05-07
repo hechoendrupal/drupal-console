@@ -1,0 +1,51 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\RulesAction\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\RulesAction;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\rules\Core\RulesActionBase;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' action.
+ *
+ * @RulesAction(
+ *  id = "{{plugin_id}}",
+ *  label = @Translation("{{label}}"),
+ *  category = @Translation("{{category}}"),
+{% if context %}
+ *  context = {
+{% for item in context %}
+ *     "{{ item.name }}" = @ContextDefinition("{{ item.type }}",
+ *       label = @Translation("{{ item.label }}"),
+ *       description = @Translation("{{ item.description }}")
+ *     ),
+{% endfor %}
+ *  }
+{% endif %}
+ * )
+ */
+class {{class_name}} extends RulesActionBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function doExecute($object = NULL) {
+    // Insert code here.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function autoSaveContext() {
+      // Insert code here.
+      return [];
+  }
+{% endblock %}

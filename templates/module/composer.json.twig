@@ -1,14 +1,56 @@
 {
-  "name": "drupal/{{ machine_name }}",
-  "type": "drupal-{{ type }}",
-  "description": "{{ description }}",
-  "keywords": ["Drupal"],
-  "license": "GPL-2.0+",
-  "homepage": "https://www.drupal.org/project/{{ machine_name }}",
-  "minimum-stability": "dev",
-  "support": {
-    "issues": "https://www.drupal.org/project/issues/{{ machine_name }}",
-    "source": "http://cgit.drupalcode.org/{{ machine_name }}"
-  },
-  "require": { }
+    "name": "{{ machine_name }}",
+    "type": "{{ type }}",
+    "description": "{{ description }}",
+{% if keywords is defined and keywords is not empty %}
+    "keywords": [
+{% for keyword in keywords %}
+        "{{ keyword }}"{% if not loop.last %},{% endif %}
+
+{% endfor %}
+    ],
+{% endif %}
+{% if lincense is defined and lincense is not empty %}
+    "license": "{{ license }}",
+{% endif %}
+{% if homepage is defined and homepage is not empty %}
+    "homepage": "{{ homepage }}",
+{% endif %}
+{% if minimum_stability is defined and minimum_stability is not empty %}
+    "minimum-stability": "{{ minimum_stability }}",
+{% endif %}
+{% if authors is defined and authors is not empty %}
+    "authors": [
+{% for author in authors %}
+        {
+{% if author.name is defined and author.name is not empty %}
+            "name" : "{{ author.name }}",
+{% endif %}
+{% if author.email is defined and author.email is not empty %}
+            "email" : "{{ author.email }}",
+{% endif %}
+{% if author.homepage is defined and author.homepage is not empty %}
+            "homepage" : "{{ author.homepage }}",
+{% endif %}
+{% if author.role is defined and author.role is not empty %}
+            "role" : "{{ author.role }}"
+{% endif %}
+        }{% if not loop.last %},{% endif %}
+{% endfor %}
+    ],
+{% endif %}
+{% if support_items is defined and support_items is not empty %}
+    "support": {
+{% for support in support_items %}
+        "{{ support.channel }}": "{{ support.url }}",
+{% endfor %}
+    },
+{% endif %}
+{% if required_items is defined and required_items is not empty %}
+    "require": {
+{% for required_item in required_items %}
+        "{{ required_item.name }}": "{{ required_item.version }}",
+{% endfor %}
+    }
+{% endif %}
 }

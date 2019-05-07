@@ -12,6 +12,12 @@ use Drupal\Console\Extension\Manager;
 
 class PluginFieldTypeGenerator extends Generator
 {
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
     /**
      * PluginFieldTypeGenerator constructor.
      *
@@ -24,27 +30,12 @@ class PluginFieldTypeGenerator extends Generator
     }
 
     /**
-     * Generator Plugin Field Type.
-     *
-     * @param string $module            Module name
-     * @param string $class_name        Plugin Class name
-     * @param string $label             Plugin label
-     * @param string $plugin_id         Plugin id
-     * @param string $description       Plugin description
-     * @param string $default_widget    Default widget this field type used supports
-     * @param string $default_formatter Default formatter this field type used supports
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $label, $plugin_id, $description, $default_widget, $default_formatter)
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'class_name' => $class_name,
-            'label' => $label,
-            'plugin_id' => $plugin_id,
-            'description' => $description,
-            'default_widget' => $default_widget,
-            'default_formatter' => $default_formatter,
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
 
         $this->renderFile(
             'module/src/Plugin/Field/FieldType/fieldtype.php.twig',

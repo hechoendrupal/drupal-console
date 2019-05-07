@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ConnectCommand extends Command
 {
@@ -27,9 +26,15 @@ class ConnectCommand extends Command
             ->setName('database:connect')
             ->setDescription($this->trans('commands.database.connect.description'))
             ->addArgument(
-                'database',
+                'key',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.database.connect.arguments.database'),
+                $this->trans('commands.database.connect.arguments.key'),
+                'default'
+            )
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.connect.arguments.target'),
                 'default'
             )
             ->setHelp($this->trans('commands.database.connect.help'))
@@ -41,25 +46,14 @@ class ConnectCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
+        $key = $input->getArgument('key');
+        $target = $input->getArgument('target');
+        $databaseConnection = $this->resolveConnection($key, $target);
 
-        $database = $input->getArgument('database');
-        $databaseConnection = $this->resolveConnection($io, $database);
-
-        $connection = sprintf(
-            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
-            $databaseConnection['driver'],
-            $databaseConnection['database'],
-            $databaseConnection['username'],
-            $databaseConnection['password'],
-            $databaseConnection['host'],
-            $databaseConnection['port']
-        );
-
-        $io->commentBlock(
+        $this->getIo()->commentBlock(
             sprintf(
                 $this->trans('commands.database.connect.messages.connection'),
-                $connection
+                escapeshellcmd($this->getConnectionString($databaseConnection))
             )
         );
 

@@ -2,31 +2,33 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Generate\PluginBlockCommand.
+ * Contains \Drupal\Console\Command\Generate\PluginMigrateSourceCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginMigrateSourceGenerator;
+
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Generator\PluginMigrateSourceGenerator;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class PluginMigrateSourceCommand extends ContainerAwareCommand
+class PluginMigrateSourceCommand extends Command
 {
-    use ModuleTrait;
+    use ArrayInputTrait;
     use ConfirmationTrait;
+    use ModuleTrait;
 
     /**
      * @var ConfigFactory
@@ -69,7 +71,7 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
     protected $elementInfoManager;
 
     /**
-     * PluginBlockCommand constructor.
+     * PluginMigrateSourceCommand constructor.
      *
      * @param ConfigFactory               $configFactory
      * @param ChainQueue                  $chainQueue
@@ -156,49 +158,45 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
-        $module = $input->getOption('module');
-        $class_name = $input->getOption('class');
+        $module = $this->validateModule($input->getOption('module'));
+        $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_id = $input->getOption('plugin-id');
         $table = $input->getOption('table');
         $alias = $input->getOption('alias');
         $group_by = $input->getOption('group-by');
         $fields = $input->getOption('fields');
+        $no_interaction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($no_interaction) {
+            $fields = $this->explodeInlineArray($fields);
+        }
 
-        $this->generator
-            ->generate(
-                $module,
-                $class_name,
-                $plugin_id,
-                $table,
-                $alias,
-                $group_by,
-                $fields
-            );
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'plugin_id' => $plugin_id,
+          'table' => $table,
+          'alias' => $alias,
+          'group_by' => $group_by,
+          'fields' => $fields,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        // 'module-name' option.
+        $module = $this->getModuleOption();
 
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.migrate.source.questions.class'),
                 ucfirst($this->stringConverter->underscoreToCamelCase($module)),
                 function ($class) {
@@ -210,7 +208,7 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
 
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
-            $pluginId = $io->ask(
+            $pluginId = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.migrate.source.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
@@ -219,7 +217,7 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
 
         $table = $input->getOption('table');
         if (!$table) {
-            $table = $io->ask(
+            $table = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.migrate.source.questions.table'),
                 ''
             );
@@ -228,7 +226,7 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
 
         $alias = $input->getOption('alias');
         if (!$alias) {
-            $alias = $io->ask(
+            $alias = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.migrate.source.questions.alias'),
                 substr($table, 0, 1)
             );
@@ -237,7 +235,7 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
 
         $groupBy = $input->getOption('group-by');
         if ($groupBy == '') {
-            $groupBy = $io->ask(
+            $groupBy = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.migrate.source.questions.group-by'),
                 false
             );
@@ -248,14 +246,14 @@ class PluginMigrateSourceCommand extends ContainerAwareCommand
         if (!$fields) {
             $fields = [];
             while (true) {
-                $id = $io->ask(
+                $id = $this->getIo()->ask(
                     $this->trans('commands.generate.plugin.migrate.source.questions.id'),
                     false
                 );
                 if (!$id) {
                     break;
                 }
-                $description = $io->ask(
+                $description = $this->getIo()->ask(
                     $this->trans('commands.generate.plugin.migrate.source.questions.description'),
                     $id
                 );

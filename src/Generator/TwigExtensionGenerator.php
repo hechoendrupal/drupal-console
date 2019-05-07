@@ -34,35 +34,28 @@ class TwigExtensionGenerator extends Generator
     }
 
     /**
-   * Generator Service.
-   *
-   * @param string $module   Module name
-   * @param string $name     Service name
-   * @param string $class    Class name
-   * @param array  $services List of services
-   */
-    public function generate($module, $name, $class, $services)
+     * {@inheritdoc}
+     */
+    public function generate(array $parameters)
     {
-        $parameters = [
-        'module' => $module,
-        'name' => $name,
-        'class' => $class,
-        'class_path' => sprintf('Drupal\%s\TwigExtension\%s', $module, $class),
-        'services' => $services,
-        'tags' => ['name' => 'twig.extension'],
-        'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
-        ];
+        $module = $parameters['module'];
+        $class = $parameters['class'];
+        $modulePath = $this->extensionManager->getModule($module)->getPath();
+        $moduleServiceYaml = $modulePath . '/' . $module . '.services.yml';
+        $parameters['class_path'] = sprintf('Drupal\%s\TwigExtension\%s', $module, $class);
+        $parameters['tags'] = ['name' => 'twig.extension'];
+        $parameters['file_exists'] = file_exists($moduleServiceYaml);
 
         $this->renderFile(
             'module/services.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml',
+            $moduleServiceYaml,
             $parameters,
             FILE_APPEND
         );
 
         $this->renderFile(
             'module/src/TwigExtension/twig-extension.php.twig',
-            $this->extensionManager->getModule($module)->getPath() .'/src/TwigExtension/'.$class.'.php',
+            $modulePath . '/src/TwigExtension/' . $class . '.php',
             $parameters
         );
     }
