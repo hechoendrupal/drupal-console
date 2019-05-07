@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\FeatureTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Core\Command\Command;
 
@@ -40,7 +39,6 @@ class FeaturesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $bundle= $input->getArgument('bundle');
 
         $tableHeader = [
@@ -53,12 +51,12 @@ class FeaturesCommand extends Command
 
         $tableRows = [];
 
-        $features = $this->getFeatureList($io, $bundle);
+        $features = $this->getFeatureList($bundle);
 
         foreach ($features as $feature) {
             $tableRows[] = [$feature['bundle_name'],$feature['name'], $feature['machine_name'], $feature['status'],$feature['state']];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 }

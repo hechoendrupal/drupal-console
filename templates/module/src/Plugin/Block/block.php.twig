@@ -42,10 +42,10 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    *   The plugin implementation definition.
    */
   public function __construct(
-        array $configuration,
-        $plugin_id,
-        $plugin_definition,
-        {{ servicesAsParameters(services)|join(', \n\t') }}
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    {{ servicesAsParameters(services)|join(', \n\t') }}
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 {{ serviceClassInitialization(services) }}
@@ -69,18 +69,18 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% endblock %}
 {% block class_methods %}
 {% if inputs %}
-
   /**
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
     return [
-    {% for input in inputs %}
-     '{{ input.name }}' => {{ input.default_code }},
-    {% endfor %}
+{% for input in inputs %}
+      {% if input.default_value is defined and input.default_value|length %}
+      '{{ input.name }}' => {{ input.default_value }},
+      {% endif %}
+{% endfor %}
     ] + parent::defaultConfiguration();
-
- }
+  }
 
   /**
    * {@inheritdoc}
@@ -89,19 +89,21 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% for input in inputs %}
     $form['{{ input.name }}'] = [
       '#type' => '{{ input.type }}',
-      '#title' => $this->t('{{ input.label }}'),
-      '#description' => $this->t('{{ input.description }}'),
-{% if input.options|length %}
+      '#title' => $this->t('{{ input.label|escape }}'),
+{% if input.description is defined and input.description is not empty %}
+    '#description' => $this->t('{{ input.description|e }}'),
+{% endif %}
+{% if input.options is defined and input.options|length %}
       '#options' => {{ input.options }},
 {% endif %}
-      '#default_value' => $this->configuration['{{ input.name  }}'],
-{% if input.maxlength|length %}
+      '#default_value' => $this->configuration['{{ input.name }}'],
+{% if input.maxlength is defined and input.maxlength|length %}
       '#maxlength' => {{ input.maxlength }},
 {% endif %}
-{% if input.size|length %}
+{% if input.size is defined and input.size|length %}
       '#size' => {{ input.size }},
 {% endif %}
-{% if input.weight|length %}
+{% if input.weight is defined and input.weight|length %}
       '#weight' => '{{ input.weight }}',
 {% endif %}
     ];

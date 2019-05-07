@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class StylesFlushCommand extends Command
 {
@@ -48,7 +47,6 @@ class StylesFlushCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $styles = $input->getArgument('styles');
         if (!$styles) {
             $imageStyle = $this->entityTypeManager->getStorage('image_style');
@@ -58,7 +56,7 @@ class StylesFlushCommand extends Command
                 $styleNames[] = $style->get('name');
             }
 
-            $styles = $io->choice(
+            $styles = $this->getIo()->choice(
                 $this->trans('commands.image.styles.flush.questions.image-style'),
                 $styleNames,
                 null,
@@ -74,7 +72,6 @@ class StylesFlushCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $styles = $input->getArgument('styles');
         $result = 0;
 
@@ -91,7 +88,7 @@ class StylesFlushCommand extends Command
 
         foreach ($styles as $style) {
             try {
-                $io->info(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.image.styles.flush.messages.executing-flush'),
                         $style
@@ -100,12 +97,12 @@ class StylesFlushCommand extends Command
                 $imageStyle->load($style)->flush();
             } catch (\Exception $e) {
                 watchdog_exception('image', $e);
-                $io->error($e->getMessage());
+                $this->getIo()->error($e->getMessage());
                 $result = 1;
             }
         }
 
-        $io->success($this->trans('commands.image.styles.flush.messages.success'));
+        $this->getIo()->success($this->trans('commands.image.styles.flush.messages.success'));
 
         return $result;
     }

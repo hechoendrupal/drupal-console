@@ -28,28 +28,17 @@ class FormAlterGenerator extends Generator
         $this->extensionManager = $extensionManager;
     }
 
-    /**
-     * Generator Plugin Block.
-     *
-     * @param $module
-     * @param $form_id
-     * @param $inputs
-     * @param $metadata
-     */
-    public function generate($module, $form_id, $inputs, $metadata)
+  /**
+   * {@inheritdoc}
+   */
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module' => $module,
-          'form_id' => $form_id,
-          'inputs' => $inputs,
-          'metadata' => $metadata
-        ];
-
+        $module = $parameters['module'];
         $module_path =  $this->extensionManager->getModule($module)->getPath();
 
         $this->renderFile(
             'module/src/Form/form-alter.php.twig',
-            $module_path .'/'.$module.'.module',
+            $module_path . '/' . $module . '.module',
             $parameters,
             FILE_APPEND
         );

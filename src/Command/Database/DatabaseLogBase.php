@@ -20,7 +20,6 @@ use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\Html;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DatabaseLogBase
@@ -134,12 +133,11 @@ abstract class DatabaseLogBase extends Command
     }
 
     /**
-     * @param DrupalStyle $io
      * @param null        $offset
      * @param int         $range
      * @return bool|\Drupal\Core\Database\Query\SelectInterface
      */
-    protected function makeQuery(DrupalStyle $io, $offset = null, $range = 1000)
+    protected function makeQuery($offset = null, $range = 1000)
     {
         $query = $this->database->select('watchdog', 'w');
         $query->fields(
@@ -161,7 +159,7 @@ abstract class DatabaseLogBase extends Command
 
         if ($this->eventSeverity) {
             if (!in_array($this->eventSeverity, $this->severityList)) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('database.log.common.messages.invalid-severity'),
                         $this->eventSeverity
@@ -199,12 +197,12 @@ abstract class DatabaseLogBase extends Command
     protected function createTableHeader()
     {
         return [
-        $this->trans('commands.database.log.common.messages.event-id'),
-        $this->trans('commands.database.log.common.messages.type'),
-        $this->trans('commands.database.log.common.messages.date'),
-        $this->trans('commands.database.log.common.messages.message'),
-        $this->trans('commands.database.log.common.messages.user'),
-        $this->trans('commands.database.log.common.messages.severity'),
+            $this->trans('commands.database.log.common.messages.event-id'),
+            $this->trans('commands.database.log.common.messages.type'),
+            $this->trans('commands.database.log.common.messages.date'),
+            $this->trans('commands.database.log.common.messages.message'),
+            $this->trans('commands.database.log.common.messages.user'),
+            $this->trans('commands.database.log.common.messages.severity'),
         ];
     }
 
@@ -218,7 +216,13 @@ abstract class DatabaseLogBase extends Command
         /**
          * @var User $user
          */
-        $user = $this->userStorage->load($dblog->uid);
+        if ($user = $this->userStorage->load($dblog->uid)) {
+            $user_id = $user->id();
+            $user_name = $user->getUsername();
+        } else {
+            $user_id = $dblog->uid;
+            $user_name = $this->trans('commands.database.log.common.messages.user-deleted');
+        }
 
         return [
             $dblog->wid,
@@ -230,7 +234,7 @@ abstract class DatabaseLogBase extends Command
                 true,
                 true
             ),
-            $user->getUsername() . ' (' . $user->id() . ')',
+            $user_name . ' (' . $user_id . ')',
             $this->severityList[$dblog->severity]->render(),
         ];
     }

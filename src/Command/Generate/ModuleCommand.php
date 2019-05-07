@@ -7,17 +7,17 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\ModuleGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\DrupalApi;
+use Webmozart\PathUtil\Path;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class ModuleCommand extends Command
 {
@@ -53,6 +53,10 @@ class ModuleCommand extends Command
      */
     protected $twigtemplate;
 
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
 
     /**
      * ModuleCommand constructor.
@@ -62,6 +66,7 @@ class ModuleCommand extends Command
      * @param $appRoot
      * @param StringConverter $stringConverter
      * @param DrupalApi       $drupalApi
+     * @param ChainQueue      $chainQueue
      * @param $twigtemplate
      */
     public function __construct(
@@ -70,6 +75,7 @@ class ModuleCommand extends Command
         $appRoot,
         StringConverter $stringConverter,
         DrupalApi $drupalApi,
+        ChainQueue $chainQueue,
         $twigtemplate = null
     ) {
         $this->generator = $generator;
@@ -77,6 +83,7 @@ class ModuleCommand extends Command
         $this->appRoot = $appRoot;
         $this->stringConverter = $stringConverter;
         $this->drupalApi = $drupalApi;
+        $this->chainQueue = $chainQueue;
         $this->twigtemplate = $twigtemplate;
         parent::__construct();
     }
@@ -171,17 +178,18 @@ class ModuleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-        $yes = $input->hasOption('yes')?$input->getOption('yes'):false;
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io, $yes)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
         $module = $this->validator->validateModuleName($input->getOption('module'));
 
-        $modulePath = $this->appRoot . $input->getOption('module-path');
+        // Get the profile path and define a profile path if it is null
+        // Check that it is an absolute path or otherwise create an absolute path using appRoot
+        $modulePath = $input->getOption('module-path');
+        $modulePath = $modulePath == null ? 'modules/custom' : $modulePath;
+        $modulePath = Path::isAbsolute($modulePath) ? $modulePath : Path::makeAbsolute($modulePath, $this->appRoot);
         $modulePath = $this->validator->validateModulePath($modulePath, true);
 
         $machineName = $this->validator->validateMachineName($input->getOption('machine-name'));
@@ -194,25 +202,47 @@ class ModuleCommand extends Command
         $dependencies = $this->validator->validateExtensions(
             $input->getOption('dependencies'),
             'module',
-            $io
+            $this->getIo()
         );
         $test = $input->getOption('test');
         $twigTemplate = $input->getOption('twigtemplate');
 
-        $this->generator->generate(
-            $module,
-            $machineName,
-            $modulePath,
-            $description,
-            $core,
-            $package,
-            $moduleFile,
-            $featuresBundle,
-            $composer,
-            $dependencies,
-            $test,
-            $twigTemplate
-        );
+        $this->generator->generate([
+            'module' => $module,
+            'machine_name' => $machineName,
+            'module_path' => $modulePath,
+            'description' => $description,
+            'core' => $core,
+            'package' => $package,
+            'module_file' => $moduleFile,
+            'features_bundle' => $featuresBundle,
+            'composer' => $composer,
+            'dependencies' => $dependencies,
+            'test' => $test,
+            'twig_template' => $twigTemplate,
+        ]);
+
+        if ($composer) {
+            $this->chainQueue
+              ->addCommand(
+                'generate:composer', [
+                '--module' => $machineName,
+                '--name' => 'drupal/' . $machineName,
+                '--type' => 'drupal-module',
+                '--description' => $description,
+                '--keywords' => 'Drupal',
+                '--license' => 'GPL-2.0+',
+                '--homepage' => 'https://www.drupal.org/project/' . $machineName,
+                '--minimum-stability' => 'dev',
+                '--support' => [
+                  '"channel":"issues", "url":"https://www.drupal.org/project/issues/' . $machineName . '"',
+                  '"channel":"source", "url":"http://cgit.drupalcode.org/' . $machineName . '"',
+                ],
+                '--no-interaction' => 'yes',
+              ],
+                false
+              );
+        }
 
         return 0;
     }
@@ -222,8 +252,6 @@ class ModuleCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $validator = $this->validator;
 
         try {
@@ -232,13 +260,13 @@ class ModuleCommand extends Command
                   $input->getOption('module')
               ) : null;
         } catch (\Exception $error) {
-            $io->error($error->getMessage());
+            $this->getIo()->error($error->getMessage());
 
             return 1;
         }
 
         if (!$module) {
-            $module = $io->ask(
+            $module = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.module'),
                 null,
                 function ($module) use ($validator) {
@@ -250,15 +278,15 @@ class ModuleCommand extends Command
 
         try {
             $machineName = $input->getOption('machine-name') ?
-              $this->validator->validateModuleName(
+                $validator->validateModuleName(
                   $input->getOption('machine-name')
               ) : null;
         } catch (\Exception $error) {
-            $io->error($error->getMessage());
+            $this->getIo()->error($error->getMessage());
         }
 
         if (!$machineName) {
-            $machineName = $io->ask(
+            $machineName = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.machine-name'),
                 $this->stringConverter->createMachineName($module),
                 function ($machine_name) use ($validator) {
@@ -270,13 +298,12 @@ class ModuleCommand extends Command
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
-            $drupalRoot = $this->appRoot;
-            $modulePath = $io->ask(
+            $modulePath = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.module-path'),
-                '/modules/custom',
-                function ($modulePath) use ($drupalRoot, $machineName) {
-                    $modulePath = ($modulePath[0] != '/' ? '/' : '').$modulePath;
-                    $fullPath = $drupalRoot.$modulePath.'/'.$machineName;
+                'modules/custom',
+                function ($modulePath) use ($machineName) {
+                    $fullPath = Path::isAbsolute($modulePath) ? $modulePath : Path::makeAbsolute($modulePath, $this->appRoot);
+                    $fullPath = $fullPath.'/'.$machineName;
                     if (file_exists($fullPath)) {
                         throw new \InvalidArgumentException(
                             sprintf(
@@ -294,7 +321,7 @@ class ModuleCommand extends Command
 
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $io->ask(
+            $description = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.description'),
                 $this->trans('commands.generate.module.suggestions.my-awesome-module')
             );
@@ -303,7 +330,7 @@ class ModuleCommand extends Command
 
         $package = $input->getOption('package');
         if (!$package) {
-            $package = $io->ask(
+            $package = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.package'),
                 'Custom'
             );
@@ -312,7 +339,7 @@ class ModuleCommand extends Command
 
         $core = $input->getOption('core');
         if (!$core) {
-            $core = $io->ask(
+            $core = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.core'), '8.x',
                 function ($core) {
                     // Only allow 8.x and higher as core version.
@@ -333,7 +360,7 @@ class ModuleCommand extends Command
 
         $moduleFile = $input->getOption('module-file');
         if (!$moduleFile) {
-            $moduleFile = $io->confirm(
+            $moduleFile = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.module-file'),
                 true
             );
@@ -342,12 +369,12 @@ class ModuleCommand extends Command
 
         $featuresBundle = $input->getOption('features-bundle');
         if (!$featuresBundle) {
-            $featuresSupport = $io->confirm(
+            $featuresSupport = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.features-support'),
                 false
             );
             if ($featuresSupport) {
-                $featuresBundle = $io->ask(
+                $featuresBundle = $this->getIo()->ask(
                     $this->trans('commands.generate.module.questions.features-bundle'),
                     'default'
                 );
@@ -357,7 +384,7 @@ class ModuleCommand extends Command
 
         $composer = $input->getOption('composer');
         if (!$composer) {
-            $composer = $io->confirm(
+            $composer = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.composer'),
                 true
             );
@@ -366,12 +393,12 @@ class ModuleCommand extends Command
 
         $dependencies = $input->getOption('dependencies');
         if (!$dependencies) {
-            $addDependencies = $io->confirm(
+            $addDependencies = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.dependencies'),
                 false
             );
             if ($addDependencies) {
-                $dependencies = $io->ask(
+                $dependencies = $this->getIo()->ask(
                     $this->trans('commands.generate.module.options.dependencies')
                 );
             }
@@ -380,7 +407,7 @@ class ModuleCommand extends Command
 
         $test = $input->getOption('test');
         if (!$test) {
-            $test = $io->confirm(
+            $test = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.test'),
                 true
             );
@@ -389,19 +416,11 @@ class ModuleCommand extends Command
 
         $twigtemplate = $input->getOption('twigtemplate');
         if (!$twigtemplate) {
-            $twigtemplate = $io->confirm(
+            $twigtemplate = $this->getIo()->confirm(
                 $this->trans('commands.generate.module.questions.twigtemplate'),
                 true
             );
             $input->setOption('twigtemplate', $twigtemplate);
         }
-    }
-
-    /**
-     * @return ModuleGenerator
-     */
-    protected function createGenerator()
-    {
-        return new ModuleGenerator();
     }
 }

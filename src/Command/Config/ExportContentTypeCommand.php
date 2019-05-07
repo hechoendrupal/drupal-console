@@ -8,21 +8,24 @@
 namespace Drupal\Console\Command\Config;
 
 use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
 
 class ExportContentTypeCommand extends Command
 {
     use ModuleTrait;
-    use ExportTrait;
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
 
     /**
      * @var EntityTypeManagerInterface
@@ -30,32 +33,32 @@ class ExportContentTypeCommand extends Command
     protected $entityTypeManager;
 
     /**
-     * @var CachedStorage
+     * @var Validator
      */
-    protected $configStorage;
+    protected $validator;
 
     /**
-     * @var Manager
+     * @var ChainQueue
      */
-    protected $extensionManager;
-
-    protected $configExport;
+    protected $chainQueue;
 
     /**
      * ExportContentTypeCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param CachedStorage              $configStorage
-     * @param Manager                    $extensionManager
+     * @param Validator $validator
+     * @param ChainQueue $chainQueue
      */
     public function __construct(
+        Manager $extensionManager,
         EntityTypeManagerInterface $entityTypeManager,
-        CachedStorage $configStorage,
-        Manager $extensionManager
+        Validator $validator,
+        ChainQueue $chainQueue
     ) {
-        $this->entityTypeManager = $entityTypeManager;
-        $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;
+        $this->entityTypeManager = $entityTypeManager;
+        $this->validator = $validator;
+        $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
@@ -75,8 +78,18 @@ class ExportContentTypeCommand extends Command
             )->addOption(
                 'optional-config',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.content.type.options.optional-config')
+            )->addOption(
+                'remove-uuid',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.content.type.options.remove-uuid')
+            )->addOption(
+                'remove-config-hash',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.content.type.options.remove-config-hash')
             )
             ->setAliases(['cect']);
 
@@ -88,26 +101,18 @@ class ExportContentTypeCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-        }
-        $input->setOption('module', $module);
+        $this->getModuleOption();
 
         // --content-type argument
         $contentType = $input->getArgument('content-type');
         if (!$contentType) {
             $bundles_entities = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
-            $bundles = [];
             foreach ($bundles_entities as $entity) {
                 $bundles[$entity->id()] = $entity->label();
             }
 
-            $contentType = $io->choice(
+            $contentType = $this->getIo()->choice(
                 $this->trans('commands.config.export.content.type.questions.content-type'),
                 $bundles
             );
@@ -116,12 +121,27 @@ class ExportContentTypeCommand extends Command
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
-            $optionalConfig = $io->confirm(
+            $optionalConfig = $this->getIo()->confirm(
                 $this->trans('commands.config.export.content.type.questions.optional-config'),
                 true
             );
         }
         $input->setOption('optional-config', $optionalConfig);
+
+        if (!$input->getOption('remove-uuid')) {
+            $removeUuid = $this->getIo()->confirm(
+                $this->trans('commands.config.export.content.type.questions.remove-uuid'),
+                true
+            );
+            $input->setOption('remove-uuid', $removeUuid);
+        }
+        if (!$input->getOption('remove-config-hash')) {
+            $removeHash = $this->getIo()->confirm(
+                $this->trans('commands.config.export.content.type.questions.remove-config-hash'),
+                true
+            );
+            $input->setOption('remove-config-hash', $removeHash);
+        }
     }
 
     /**
@@ -129,80 +149,21 @@ class ExportContentTypeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $contentType = $input->getArgument('content-type');
         $optionalConfig = $input->getOption('optional-config');
+        $removeUuid = $input->getOption('remove-uuid');
+        $removeHash = $input->getOption('remove-config-hash');
 
-        $contentTypeDefinition = $this->entityTypeManager->getDefinition('node_type');
-        $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
-
-        $contentTypeNameConfig = $this->getConfiguration($contentTypeName);
-
-        $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];
-
-        $this->getFields($contentType, $optionalConfig);
-
-        $this->getFormDisplays($contentType, $optionalConfig);
-
-        $this->getViewDisplays($contentType, $optionalConfig);
-
-        $this->exportConfigToModule($module, $io, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
-    }
-
-    protected function getFields($contentType, $optional = false)
-    {
-        $fields_definition = $this->entityTypeManager->getDefinition('field_config');
-
-        $fields_storage = $this->entityTypeManager->getStorage('field_config');
-        foreach ($fields_storage->loadMultiple() as $field) {
-            $field_name = $fields_definition->getConfigPrefix() . '.' . $field->id();
-            $field_name_config = $this->getConfiguration($field_name);
-            // Only select fields related with content type
-            if ($field_name_config['bundle'] == $contentType) {
-                $this->configExport[$field_name] = ['data' => $field_name_config, 'optional' => $optional];
-                // Include dependencies in export files
-                if ($dependencies = $this->fetchDependencies($field_name_config, 'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
-                }
-            }
-        }
-    }
-
-    protected function getFormDisplays($contentType, $optional = false)
-    {
-        $form_display_definition = $this->entityTypeManager->getDefinition('entity_form_display');
-        $form_display_storage = $this->entityTypeManager->getStorage('entity_form_display');
-        foreach ($form_display_storage->loadMultiple() as $form_display) {
-            $form_display_name = $form_display_definition->getConfigPrefix() . '.' . $form_display->id();
-            $form_display_name_config = $this->getConfiguration($form_display_name);
-            // Only select fields related with content type
-            if ($form_display_name_config['bundle'] == $contentType) {
-                $this->configExport[$form_display_name] = ['data' => $form_display_name_config, 'optional' => $optional];
-                // Include dependencies in export files
-                if ($dependencies = $this->fetchDependencies($form_display_name_config, 'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
-                }
-            }
-        }
-    }
-
-    protected function getViewDisplays($contentType, $optional = false)
-    {
-        $view_display_definition = $this->entityTypeManager->getDefinition('entity_view_display');
-        $view_display_storage = $this->entityTypeManager->getStorage('entity_view_display');
-        foreach ($view_display_storage->loadMultiple() as $view_display) {
-            $view_display_name = $view_display_definition->getConfigPrefix() . '.' . $view_display->id();
-            $view_display_name_config = $this->getConfiguration($view_display_name);
-            // Only select fields related with content type
-            if ($view_display_name_config['bundle'] == $contentType) {
-                $this->configExport[$view_display_name] = ['data' => $view_display_name_config, 'optional' => $optional];
-                // Include dependencies in export files
-                if ($dependencies = $this->fetchDependencies($view_display_name_config, 'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
-                }
-            }
-        }
+        $this->chainQueue->addCommand(
+            'config:export:entity', [
+                'entity-type' => 'node_type',
+                'bundle' => $contentType,
+                '--module' => $module,
+                '--optional-config' => $optionalConfig,
+                '--remove-uuid' => $removeUuid,
+                '--remove-config-hash' => $removeHash
+            ]
+        );
     }
 }

@@ -10,14 +10,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Core\Entity\EntityTypeRepository;
+use Drupal\Core\Entity\EntityTypeRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class EntityCommand extends Command
 {
     /**
-     * @var EntityTypeRepository
+     * @var EntityTypeRepositoryInterface
      */
     protected $entityTypeRepository;
 
@@ -29,11 +28,11 @@ class EntityCommand extends Command
     /**
      * EntityCommand constructor.
      *
-     * @param EntityTypeRepository       $entityTypeRepository
-     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param EntityTypeRepositoryInterface $entityTypeRepository
+     * @param EntityTypeManagerInterface    $entityTypeManager
      */
     public function __construct(
-        EntityTypeRepository $entityTypeRepository,
+        EntityTypeRepositoryInterface $entityTypeRepository,
         EntityTypeManagerInterface $entityTypeManager
     ) {
         $this->entityTypeRepository = $entityTypeRepository;
@@ -60,8 +59,6 @@ class EntityCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $entityType = $input->getArgument('entity-type');
 
         $tableHeader = [
@@ -88,6 +85,6 @@ class EntityCommand extends Command
             }
         }
 
-        $io->table($tableHeader, array_values($tableRows));
+        $this->getIo()->table($tableHeader, array_values($tableRows));
     }
 }

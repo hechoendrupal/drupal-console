@@ -29,16 +29,14 @@ class PluginBlockGenerator extends Generator
     }
 
     /**
-     * Generator Plugin Block.
-     *
-     * @param $module
-     * @param $class_name
-     * @param $label
-     * @param $plugin_id
-     * @param $services
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $label, $plugin_id, $services, $inputs)
+    public function generate(array $parameters)
     {
+        $inputs = $parameters['inputs'];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
+
         // Consider the type when determining a default value. Figure out what
         // the code looks like for the default value tht we need to generate.
         foreach ($inputs as &$input) {
@@ -71,18 +69,9 @@ class PluginBlockGenerator extends Generator
             $input['default_code'] = $default_code;
         }
 
-        $parameters = [
-          'module' => $module,
-          'class_name' => $class_name,
-          'label' => $label,
-          'plugin_id' => $plugin_id,
-          'services' => $services,
-          'inputs' => $inputs,
-        ];
-
         $this->renderFile(
             'module/src/Plugin/Block/block.php.twig',
-            $this->extensionManager->getPluginPath($module, 'Block').'/'.$class_name.'.php',
+            $this->extensionManager->getPluginPath($module, 'Block') . '/' . $class_name . '.php',
             $parameters
         );
     }

@@ -33,6 +33,15 @@ class Extension extends BaseExtension
         return $this->getSourcePath($fullPath) . '/Controller';
     }
 
+     /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getAjaxPath($fullPath = false)
+    {
+        return $this->getSourcePath($fullPath) . '/Ajax';
+    }
+
     /**
      * @param bool $fullPath
      * @return string
@@ -101,6 +110,15 @@ class Extension extends BaseExtension
      * @param bool $fullPath
      * @return string
      */
+    public function getGeneratorDirectory($fullPath=false)
+    {
+        return $this->getSourcePath($fullPath) . '/Generator/';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
     public function getEntityPath($fullPath = false)
     {
         return $this->getSourcePath($fullPath) . '/Entity';
@@ -113,5 +131,33 @@ class Extension extends BaseExtension
     public function getTemplatePath($fullPath = false)
     {
         return $this->getPath($fullPath) . '/templates';
+    }
+
+    /**
+     * @param string $testType
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getTestsPath($testType, $fullPath = false)
+    {
+        return $this->getPath($fullPath) . '/tests/' . $testType;
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getTestsSourcePath($fullPath = false)
+    {
+        return $this->getTestsPath($fullPath) . '/src';
+    }
+
+    /**
+     * @param bool $fullPath
+     * @return string
+     */
+    public function getJsTestsPath($fullPath = false)
+    {
+        return $this->getTestsSourcePath($fullPath) . '/FunctionalJavascript';
     }
 }

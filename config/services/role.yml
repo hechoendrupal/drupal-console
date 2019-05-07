@@ -1,0 +1,11 @@
+services:
+  console.role_new:
+    class: Drupal\Console\Command\Role\NewCommand
+    arguments: ['@database', '@entity_type.manager', '@date.formatter', '@console.drupal_api', '@console.validator', '@console.string_converter']
+    tags:
+      - { name: drupal.command }
+  console.role_delete:
+    class: Drupal\Console\Command\Role\DeleteCommand
+    arguments: ['@database', '@entity_type.manager', '@date.formatter', '@console.drupal_api', '@console.validator']
+    tags:
+      - { name: drupal.command }

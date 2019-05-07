@@ -29,32 +29,20 @@ class PluginSkeletonGenerator extends Generator
     }
 
     /**
-     * Generator Post Update Name function.
-     *
-     * @param $module
-     * @param $pluginId
-     * @param $plugin
-     * @param $className
-     * @param $pluginMetaData
-     * @param $services
+     * {@inheritdoc}
      */
-    public function generate($module, $pluginId, $plugin, $className, $pluginMetaData, $services)
+    public function generate(array $parameters)
     {
-        $module_path =  $this->extensionManager->getModule($module)->getPath();
+        $className = $parameters['class_name'];
+        $module = $parameters['module'];
+        $pluginMetaData = $parameters['plugin_metadata'];
 
-        $parameters = [
-            'module' => $module,
-            'plugin_id' => $pluginId,
-            'plugin' => $plugin,
-            'class_name' => $className,
-            'services' => $services,
-            'plugin_annotation' => array_pop(explode('\\', $pluginMetaData['pluginAnnotation'])),
-            'plugin_interface' => array_pop(explode('\\', $pluginMetaData['pluginInterface']))
-            ];
+        $parameters['plugin_annotation'] = array_pop(explode('\\', $pluginMetaData['pluginAnnotation']));
+        $parameters['plugin_interface'] = array_pop(explode('\\', $pluginMetaData['pluginInterface']));
 
         $this->renderFile(
             'module/src/Plugin/skeleton.php.twig',
-            $module_path .'/src/'. $pluginMetaData['subdir'] . '/' . $className .'.php',
+            $this->extensionManager->getModule($module)->getPath() . '/src/' . $pluginMetaData['subdir'] . '/' . $className . '.php',
             array_merge($parameters, $pluginMetaData)
         );
     }

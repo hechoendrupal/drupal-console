@@ -24,3 +24,8 @@ services:
     arguments: ['@console.create_vocabulary_data']
     tags:
       - { name: drupal.command }
+  console.create_roles:
+    class: Drupal\Console\Command\Create\RolesCommand
+    arguments: ['@console.create_role_data']
+    tags:
+      - { name: drupal.command }

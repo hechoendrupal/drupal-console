@@ -12,11 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigManager;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigImporterException;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\FileStorage;
-use Drupal\Core\Config\StorageComparer;
+use Drupal\Core\Config\StorageComparerInterface;
 
 class ImportCommand extends Command
 {
@@ -71,6 +70,12 @@ class ImportCommand extends Command
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.import.options.remove-files')
             )
+            ->addOption(
+                'skip-uuid',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.import.options.skip-uuid')
+            )
             ->setAliases(['ci']);
     }
 
@@ -79,8 +84,8 @@ class ImportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $directory = $input->getOption('directory');
+        $skipUuid = $input->getOption('skip-uuid');
 
         if ($directory) {
             $configSyncDir = $directory;
@@ -92,21 +97,30 @@ class ImportCommand extends Command
 
         $source_storage = new FileStorage($configSyncDir);
 
-        $storage_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);
-
-        if (!$storage_comparer->createChangelist()->hasChanges()) {
-            $io->success($this->trans('commands.config.import.messages.nothing-to-do'));
+        $storageComparer = '\Drupal\Core\Config\StorageComparer';
+        if ($skipUuid) {
+            $storageComparer = '\Drupal\Console\Override\StorageComparer';
         }
 
-        if ($this->configImport($io, $storage_comparer)) {
-            $io->success($this->trans('commands.config.import.messages.imported'));
+        $storage_comparer = new $storageComparer(
+            $source_storage,
+            $this->configStorage,
+            $this->configManager
+        );
+
+        if (!$storage_comparer->createChangelist()->hasChanges()) {
+            $this->getIo()->success($this->trans('commands.config.import.messages.nothing-to-do'));
+        }
+
+        if ($this->configImport($storage_comparer)) {
+            $this->getIo()->success($this->trans('commands.config.import.messages.imported'));
         } else {
             return 1;
         }
     }
 
 
-    private function configImport(DrupalStyle $io, StorageComparer $storage_comparer)
+    private function configImport(StorageComparerInterface $storage_comparer)
     {
         $config_importer = new ConfigImporter(
             $storage_comparer,
@@ -121,23 +135,21 @@ class ImportCommand extends Command
         );
 
         if ($config_importer->alreadyImporting()) {
-            $io->success($this->trans('commands.config.import.messages.already-imported'));
+            $this->getIo()->success($this->trans('commands.config.import.messages.already-imported'));
         } else {
             try {
-                $io->info($this->trans('commands.config.import.messages.importing'));
+                $this->getIo()->info($this->trans('commands.config.import.messages.importing'));
                 $config_importer->import();
                 return true;
             } catch (ConfigImporterException $e) {
-                $message = $this->trans('commands.config.import.messages.import-fail') . "\n";
-                $message .= implode("\n", $config_importer->getErrors());
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.site.import.local.messages.error-writing'),
-                        $message
+                        implode("\n", $config_importer->getErrors())
                     )
                 );
             } catch (\Exception $e) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.site.import.local.messages.error-writing'),
                         $e->getMessage()

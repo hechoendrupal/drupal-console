@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +16,6 @@ use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Generator\ServiceGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
@@ -32,19 +32,24 @@ class ServiceCommand extends ContainerAwareCommand
     use ConfirmationTrait;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
- * @var ServiceGenerator
-*/
+     * @var ServiceGenerator
+     */
     protected $generator;
 
     /**
      * @var StringConverter
      */
     protected $stringConverter;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
 
     /**
      * @var ChainQueue
@@ -57,17 +62,20 @@ class ServiceCommand extends ContainerAwareCommand
      * @param Manager          $extensionManager
      * @param ServiceGenerator $generator
      * @param StringConverter  $stringConverter
+     * @param Validator        $validator
      * @param ChainQueue       $chainQueue
      */
     public function __construct(
         Manager $extensionManager,
         ServiceGenerator $generator,
         StringConverter $stringConverter,
+        Validator $validator,
         ChainQueue $chainQueue
     ) {
         $this->extensionManager = $extensionManager;
         $this->generator = $generator;
         $this->stringConverter = $stringConverter;
+        $this->validator = $validator;
         $this->chainQueue = $chainQueue;
         parent::__construct();
     }
@@ -113,6 +121,12 @@ class ServiceCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.service.options.interface-name')
             )
             ->addOption(
+                'logger-channel',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.service.options.logger-channel')
+            )
+            ->addOption(
                 'services',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
@@ -132,18 +146,17 @@ class ServiceCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $name = $input->getOption('name');
-        $class = $input->getOption('class');
+        $class = $this->validator->validateClassName($input->getOption('class'));
         $interface = $input->getOption('interface');
         $interface_name = $input->getOption('interface-name');
+        $logger_channel = $input->getOption('logger-channel');
         $services = $input->getOption('services');
         $path_service = $input->getOption('path-service');
 
@@ -160,7 +173,16 @@ class ServiceCommand extends ContainerAwareCommand
 
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
-        $this->generator->generate($module, $name, $class, $interface, $interface_name, $build_services, $path_service);
+        $this->generator->generate([
+            'module' => $module,
+            'name' => $name,
+            'class' => $class,
+            'interface' => $interface,
+            'interface_name' => $interface_name,
+            'logger_channel' => $logger_channel,
+            'services' => $build_services,
+            'path_service' => $path_service,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
 
@@ -172,20 +194,13 @@ class ServiceCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $module = $this->getModuleOption();
 
         //--name option
         $name = $input->getOption('name');
         if (!$name) {
-            $name = $io->ask(
+            $name = $this->getIo()->ask(
                 $this->trans('commands.generate.service.questions.service-name'),
                 $module.'.default'
             );
@@ -195,9 +210,12 @@ class ServiceCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.service.questions.class'),
-                'DefaultService'
+                'DefaultService',
+                function ($class) {
+                    return $this->validator->validateClassName($class);
+                }
             );
             $input->setOption('class', $class);
         }
@@ -205,7 +223,7 @@ class ServiceCommand extends ContainerAwareCommand
         // --interface option
         $interface = $input->getOption('interface');
         if (!$interface) {
-            $interface = $io->confirm(
+            $interface = $this->getIo()->confirm(
                 $this->trans('commands.generate.service.questions.interface'),
                 true
             );
@@ -215,24 +233,34 @@ class ServiceCommand extends ContainerAwareCommand
         // --interface_name option
         $interface_name = $input->getOption('interface-name');
         if ($interface && !$interface_name) {
-            $interface_name = $io->askEmpty(
+            $interface_name = $this->getIo()->askEmpty(
                 $this->trans('commands.generate.service.questions.interface-name')
             );
             $input->setOption('interface-name', $interface_name);
+        }
+
+        // --logger-channel option
+        $logger_channel = $input->getOption('logger-channel');
+        if (!$logger_channel) {
+          $logger_channel = $this->getIo()->confirm(
+            $this->trans('commands.generate.service.questions.logger-channel'),
+            true
+          );
+          $input->setOption('logger-channel', $logger_channel);
         }
 
         // --services option
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
 
         // --path_service option
         $path_service = $input->getOption('path-service');
         if (!$path_service) {
-            $path_service = $io->ask(
+            $path_service = $this->getIo()->ask(
                 $this->trans('commands.generate.service.questions.path-service'),
                 '/modules/custom/' . $module . '/src/'
             );

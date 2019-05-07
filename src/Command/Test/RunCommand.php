@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Utility\Timer;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\simpletest\TestDiscovery;
 use Drupal\Core\Datetime\DateFormatter;
@@ -102,8 +101,6 @@ class RunCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         //Registers namespaces for disabled modules.
         $this->test_discovery->registerTestNamespaces();
 
@@ -113,7 +110,7 @@ class RunCommand extends Command
         $url = $input->getOption('url');
 
         if (!$url) {
-            $io->error($this->trans('commands.test.run.messages.url-required'));
+            $this->getIo()->error($this->trans('commands.test.run.messages.url-required'));
             return null;
         }
 
@@ -125,11 +122,11 @@ class RunCommand extends Command
           ->execute();
 
         if (is_subclass_of($testClass, 'PHPUnit_Framework_TestCase')) {
-            $io->info($this->trans('commands.test.run.messages.phpunit-pending'));
+            $this->getIo()->info($this->trans('commands.test.run.messages.phpunit-pending'));
             return null;
         } else {
             if (!class_exists($testClass)) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.test.run.messages.invalid-class'),
                         $testClass
@@ -140,26 +137,26 @@ class RunCommand extends Command
             }
 
             $test = new $testClass($testId);
-            $io->info($this->trans('commands.test.run.messages.starting-test'));
+            $this->getIo()->info($this->trans('commands.test.run.messages.starting-test'));
             Timer::start('run-tests');
 
             $test->run($testMethods);
 
             $end = Timer::stop('run-tests');
 
-            $io->simple(
+            $this->getIo()->simple(
                 $this->trans('commands.test.run.messages.test-duration') . ': ' .  $this->dateFormatter->formatInterval($end['time'] / 1000)
             );
-            $io->simple(
+            $this->getIo()->simple(
                 $this->trans('commands.test.run.messages.test-pass') . ': ' . $test->results['#pass']
             );
-            $io->commentBlock(
+            $this->getIo()->commentBlock(
                 $this->trans('commands.test.run.messages.test-fail') . ': ' . $test->results['#fail']
             );
-            $io->commentBlock(
+            $this->getIo()->commentBlock(
                 $this->trans('commands.test.run.messages.test-exception') . ': ' . $test->results['#exception']
             );
-            $io->simple(
+            $this->getIo()->simple(
                 $this->trans('commands.test.run.messages.test-debug') . ': ' . $test->results['#debug']
             );
 
@@ -168,9 +165,9 @@ class RunCommand extends Command
                 [$test->results]
             );
 
-            $io->newLine();
-            $io->info($this->trans('commands.test.run.messages.test-summary'));
-            $io->newLine();
+            $this->getIo()->newLine();
+            $this->getIo()->info($this->trans('commands.test.run.messages.test-summary'));
+            $this->getIo()->newLine();
 
             $currentClass = null;
             $currentGroup = null;
@@ -181,7 +178,7 @@ class RunCommand extends Command
             foreach ($messages as $message) {
                 if ($currentClass === null || $currentClass != $message->test_class) {
                     $currentClass = $message->test_class;
-                    $io->comment($message->test_class);
+                    $this->getIo()->comment($message->test_class);
                 }
 
                 if ($currentGroup === null || $currentGroup != $message->message_group) {
@@ -191,27 +188,27 @@ class RunCommand extends Command
                 if ($currentStatus === null || $currentStatus != $message->status) {
                     $currentStatus =  $message->status;
                     if ($message->status == 'fail') {
-                        $io->error($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
-                        $io->newLine();
+                        $this->getIo()->error($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
+                        $this->getIo()->newLine();
                     } else {
-                        $io->info($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
-                        $io->newLine();
+                        $this->getIo()->info($this->trans('commands.test.run.messages.group') . ':' . $message->message_group . ' ' . $this->trans('commands.test.run.messages.status') . ':' . $message->status);
+                        $this->getIo()->newLine();
                     }
                 }
 
-                $io->simple(
+                $this->getIo()->simple(
                     $this->trans('commands.test.run.messages.file') . ': ' . str_replace($this->appRoot, '', $message->file)
                 );
-                $io->simple(
+                $this->getIo()->simple(
                     $this->trans('commands.test.run.messages.method') . ': ' . $message->function
                 );
-                $io->simple(
+                $this->getIo()->simple(
                     $this->trans('commands.test.run.messages.line') . ': ' . $message->line
                 );
-                $io->simple(
+                $this->getIo()->simple(
                     $this->trans('commands.test.run.messages.message') . ': ' . $message->message
                 );
-                $io->newLine();
+                $this->getIo()->newLine();
             }
             return null;
         }

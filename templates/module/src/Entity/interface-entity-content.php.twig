@@ -9,13 +9,12 @@ namespace Drupal\{{module}}\Entity;
 {% endblock %}
 
 {% block use_class %}
+use Drupal\Core\Entity\ContentEntityInterface;
 {% if revisionable %}
 use Drupal\Core\Entity\RevisionLogInterface;
-use Drupal\Core\Entity\RevisionableInterface;
-{% else %}
-use Drupal\Core\Entity\ContentEntityInterface;
 {% endif %}
 use Drupal\Core\Entity\EntityChangedInterface;
+use Drupal\Core\Entity\EntityPublishedInterface;
 use Drupal\user\EntityOwnerInterface;
 {% endblock %}
 
@@ -25,7 +24,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup {{module}}
  */
-interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableInterface, RevisionLogInterface{% else %} ContentEntityInterface{% endif %}, EntityChangedInterface, EntityOwnerInterface {% endblock %}
+interface {{ entity_class }}Interface extends ContentEntityInterface{% if revisionable %}, RevisionLogInterface{% endif %}, EntityChangedInterface, EntityPublishedInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
   // Add get/set methods for your configuration properties here.
 
@@ -67,26 +66,6 @@ interface {{ entity_class }}Interface extends {% if revisionable %}RevisionableI
    */
   public function setCreatedTime($timestamp);
 
-  /**
-   * Returns the {{ label }} published status indicator.
-   *
-   * Unpublished {{ label }} are only visible to restricted users.
-   *
-   * @return bool
-   *   TRUE if the {{ label }} is published.
-   */
-  public function isPublished();
-
-  /**
-   * Sets the published status of a {{ label }}.
-   *
-   * @param bool $published
-   *   TRUE to set this {{ label }} to published, FALSE to set it to unpublished.
-   *
-   * @return \Drupal\{{ module }}\Entity\{{ entity_class }}Interface
-   *   The called {{ label }} entity.
-   */
-  public function setPublished($published);
 {% if revisionable %}
 
   /**

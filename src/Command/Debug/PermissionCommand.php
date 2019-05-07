@@ -2,23 +2,22 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\PermissionDebugCommand.
+ * Contains \Drupal\Console\Command\PermissionCommand.
  */
 
 namespace Drupal\Console\Command\Debug;
 
+use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
  *
  * @package Drupal\Console\Command\Debug
  */
-class PermissionCommand extends ContainerAwareCommand
+class PermissionCommand extends Command
 {
     /**
      * {@inheritdoc}
@@ -40,8 +39,6 @@ class PermissionCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $role = $input->getArgument('role');
         // No role specified, show a list of ALL permissions.
         if (!$role) {
@@ -61,7 +58,7 @@ class PermissionCommand extends ContainerAwareCommand
             }
 
             ksort($tableRows);
-            $io->table($tableHeader, array_values($tableRows));
+            $this->getIo()->table($tableHeader, array_values($tableRows));
 
             return true;
         } else {
@@ -74,7 +71,7 @@ class PermissionCommand extends ContainerAwareCommand
             $roles = user_roles();
             if (empty($roles[$role])) {
                 $message = sprintf($this->trans('commands.debug.permission.messages.role-error'), $role);
-                $io->error($message);
+                $this->getIo()->error($message);
                 return true;
             }
             $user_permission = $roles[$role]->getPermissions();
@@ -87,7 +84,7 @@ class PermissionCommand extends ContainerAwareCommand
                 }
             }
             ksort($tableRows);
-            $io->table($tableHeader, array_values($tableRows));
+            $this->getIo()->table($tableHeader, array_values($tableRows));
             return true;
         }
     }

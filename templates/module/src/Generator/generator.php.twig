@@ -1,0 +1,38 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{extension}}\Generator\{{ class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{extension}}\Generator;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Console\Core\Generator\Generator;
+use Drupal\Console\Core\Generator\GeneratorInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Class {{ class_name }}
+ *
+ * @package Drupal\Console\Generator
+ */
+class {{ class_name }} extends Generator implements GeneratorInterface
+{% endblock %}
+
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function generate(array $parameters)
+  {
+//    Example how to render a twig template using the renderFile method
+//    $this->renderFile(
+//      'path/to/file.php.twig',
+//      'path/to/file.php',
+//      $parameters
+//    );
+  }
+{% endblock %}

@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Config\ConfigManager;
 
 class ExportCommand extends Command
@@ -82,8 +81,6 @@ class ExportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
         $removeUuid = $input->getOption('remove-uuid');
@@ -97,7 +94,7 @@ class ExportCommand extends Command
         try {
             $fileSystem->mkdir($directory);
         } catch (IOExceptionInterface $e) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.config.export.messages.error'),
                     $e->getPath()
@@ -106,7 +103,9 @@ class ExportCommand extends Command
         }
 
         // Remove previous yaml files before creating new ones
-        array_map('unlink', glob($directory . '/*'));
+        foreach (glob($directory . '/*') as $item) {
+            $fileSystem->remove($item);
+        }
 
         if ($tar) {
             $dateTime = new \DateTime();
@@ -129,6 +128,9 @@ class ExportCommand extends Command
                 }
                 if ($removeHash) {
                     unset($configData['_core']['default_config_hash']);
+                    if (empty($configData['_core'])) {
+                        unset($configData['_core']);
+                    }
                 }
                 $ymlData = Yaml::encode($configData);
 
@@ -141,14 +143,21 @@ class ExportCommand extends Command
             // Get all override data from the remaining collections.
             foreach ($this->storage->getAllCollectionNames() as $collection) {
                 $collection_storage = $this->storage->createCollection($collection);
+                $collection_path = str_replace('.', '/', $collection);
+                if (!$tar) {
+                    $fileSystem->mkdir("$directory/$collection_path", 0755);
+                }
                 foreach ($collection_storage->listAll() as $name) {
-                    $configName = str_replace('.', '/', $collection) . "/$name.yml";
+                    $configName = "$collection_path/$name.yml";
                     $configData = $collection_storage->read($name);
                     if ($removeUuid) {
                         unset($configData['uuid']);
                     }
                     if ($removeHash) {
                         unset($configData['_core']['default_config_hash']);
+                        if (empty($configData['_core'])) {
+                            unset($configData['_core']);
+                        }
                     }
 
                     $ymlData = Yaml::encode($configData);
@@ -160,10 +169,10 @@ class ExportCommand extends Command
                 }
             }
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
         }
 
-        $io->info(
+        $this->getIo()->info(
             sprintf(
                 $this->trans('commands.config.export.messages.directory'),
                 $directory

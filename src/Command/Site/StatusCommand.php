@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\system\SystemManager;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Config\ConfigFactory;
@@ -77,7 +76,7 @@ class StatusCommand extends ContainerAwareCommand
      * @param $appRoot
      */
     public function __construct(
-        SystemManager $systemManager,
+        SystemManager $systemManager = null,
         Settings $settings,
         ConfigFactory $configFactory,
         ThemeHandler $themeHandler,
@@ -117,8 +116,6 @@ class StatusCommand extends ContainerAwareCommand
         // Make sure all modules are loaded.
         $this->container->get('module_handler')->loadAll();
 
-        $io = new DrupalStyle($input, $output);
-
         $systemData = $this->getSystemData();
         $connectionData = $this->getConnectionData();
         $themeInfo = $this->getThemeData();
@@ -134,7 +131,7 @@ class StatusCommand extends ContainerAwareCommand
         $format = $input->getOption('format');
 
         if ('table' === $format) {
-            $this->showDataAsTable($io, $siteData);
+            $this->showDataAsTable($siteData);
         }
 
         if ('json' === $format) {
@@ -158,8 +155,10 @@ class StatusCommand extends ContainerAwareCommand
                 $title = $requirement['title'];
             }
 
-            $systemData['system'][$title] = strip_tags($requirement['value']);
+            $value = empty($requirement['description']) ? $requirement['value'] : $requirement['value'] . ' (' . $requirement['description'] . ')';
+            $systemData['system'][strip_tags($title)] = strip_tags($value); ;
         }
+
 
         if ($this->settings) {
             try {
@@ -180,11 +179,11 @@ class StatusCommand extends ContainerAwareCommand
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
-            if ("password" == $connectionInfoKey) {
+            if ('password' == $connectionInfoKey) {
                 continue;
             }
 
-            $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
+            $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
         }
 
@@ -194,7 +193,7 @@ class StatusCommand extends ContainerAwareCommand
             $connectionInfo['default']['username'],
             $connectionInfo['default']['password'],
             $connectionInfo['default']['host'],
-            $connectionInfo['default']['port'] ? ':'.$connectionInfo['default']['port'] : '',
+            $connectionInfo['default']['port'] ? ':' . $connectionInfo['default']['port'] : '',
             $connectionInfo['default']['database']
         );
 
@@ -207,8 +206,8 @@ class StatusCommand extends ContainerAwareCommand
 
         return [
           'theme' => [
-            'theme_default' => $config->get('default'),
-            'theme_admin' => $config->get('admin'),
+            $this->trans('commands.site.status.messages.theme-default') => $config->get('default'),
+            $this->trans('commands.site.status.messages.theme-admin') => $config->get('admin'),
           ],
         ];
     }
@@ -244,22 +243,22 @@ class StatusCommand extends ContainerAwareCommand
         ];
     }
 
-    protected function showDataAsTable(DrupalStyle $io, $siteData)
+    protected function showDataAsTable($siteData)
     {
         if (empty($siteData)) {
             return [];
         }
-        $io->newLine();
+        $this->getIo()->newLine();
         foreach ($this->groups as $group) {
             $tableRows = [];
             $groupData = $siteData[$group];
-            $io->comment($this->trans('commands.site.status.messages.'.$group));
+            $this->getIo()->comment($this->trans('commands.site.status.messages.'.$group));
 
             foreach ($groupData as $key => $item) {
                 $tableRows[] = [$key, $item];
             }
 
-            $io->table([], $tableRows, 'compact');
+            $this->getIo()->table([], $tableRows, 'compact');
         }
     }
 }

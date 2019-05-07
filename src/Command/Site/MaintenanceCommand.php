@@ -7,15 +7,14 @@
 
 namespace Drupal\Console\Command\Site;
 
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Core\State\StateInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Core\State\StateInterface;
-use Drupal\Console\Core\Utils\ChainQueue;
 
-class MaintenanceCommand extends ContainerAwareCommand
+class MaintenanceCommand extends Command
 {
     /**
      * @var StateInterface
@@ -58,8 +57,6 @@ class MaintenanceCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $mode = $input->getArgument('mode');
         $stateName = 'system.maintenance_mode';
         $modeMessage = null;
@@ -69,7 +66,7 @@ class MaintenanceCommand extends ContainerAwareCommand
             $this->state->set($stateName, true);
             $modeMessage = 'commands.site.maintenance.messages.maintenance-on';
         }
-        if ('OFF' === strtoupper($mode)) {
+        else if ('OFF' === strtoupper($mode)) {
             $this->state->set($stateName, false);
             $modeMessage = 'commands.site.maintenance.messages.maintenance-off';
         }
@@ -79,7 +76,7 @@ class MaintenanceCommand extends ContainerAwareCommand
             $cacheRebuild = false;
         }
 
-        $io->info($this->trans($modeMessage));
+        $this->getIo()->info($this->trans($modeMessage));
 
         if ($cacheRebuild) {
             $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
