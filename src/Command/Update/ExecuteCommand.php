@@ -132,6 +132,7 @@ class ExecuteCommand extends Command
         $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
         $dependencyMap = [];
+        $allowUpdate = false;
         foreach ($updates as $function => $update) {
             $dependencyMap[$function] = !empty($update['reverse_paths']) ? array_keys($update['reverse_paths']) : [];
         }
@@ -158,10 +159,18 @@ class ExecuteCommand extends Command
             $this->getIo()->info('');
         } else {
             $this->showUpdateTable($updates, $this->trans('commands.update.execute.messages.pending-updates'));
+
+            $allowUpdate = $this->getIo()->confirm(
+                $this->trans('commands.update.execute.questions.update'),
+                true
+            );
+
             try {
-                $this->runUpdates(
-                    $updates
-                );
+                if($allowUpdate) {
+                    $this->runUpdates(
+                        $updates
+                    );
+                }
             } catch (\Exception $e) {
                 watchdog_exception('update', $e);
                 $this->getIo()->error($e->getMessage());
@@ -172,7 +181,7 @@ class ExecuteCommand extends Command
         // Post Updates are only safe to run after all schemas have been updated.
         $postUpdates = $this->runPostUpdates();
 
-        if($postUpdates || $this->getUpdates()) {
+        if($postUpdates || $allowUpdate) {
             $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
         }
 
