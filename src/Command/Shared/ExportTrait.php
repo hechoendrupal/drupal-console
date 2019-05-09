@@ -146,7 +146,7 @@ trait ExportTrait
     protected function exportModuleDependencies($module, $dependencies)
     {
         $module = $this->extensionManager->getModule($module);
-        $info_yaml = $module->info;
+        $info_yaml = Yaml::decode(file_get_contents($module->getPathname(), true));
 
         if (empty($info_yaml['dependencies'])) {
             $info_yaml['dependencies'] = $dependencies;
