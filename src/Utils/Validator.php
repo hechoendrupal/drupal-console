@@ -16,6 +16,7 @@ class Validator
     const REGEX_COMMAND_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+Command$/';
     const REGEX_CONTROLLER_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+Controller$/';
     const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
+    const REGEX_DEPENDENCY_NAME = '/^[a-z0-9_:]+$/';
     // This REGEX remove spaces between words
     const REGEX_REMOVE_SPACES = '/[\\s+]/';
     // Max length to 32
@@ -177,7 +178,7 @@ class Validator
         $list = explode(',', $this->removeSpaces($list));
         foreach ($list as $key => $module) {
             if (!empty($module)) {
-                if (preg_match(self::REGEX_MACHINE_NAME, $module)) {
+                if (preg_match(self::REGEX_DEPENDENCY_NAME, $module)) {
                     $list_checked['success'][] = $module;
                 } else {
                     $list_checked['fail'][] = $module;
