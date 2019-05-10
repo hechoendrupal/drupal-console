@@ -174,6 +174,8 @@ class PluginSkeletonCommand extends ContainerAwareCommand
             'class_name' => $className,
             'services' => $buildServices,
             'plugin_metadata' => $pluginMetaData,
+            'id' => $this->stringConverter->camelCaseToUnderscore($className),
+            'label' => $this->stringConverter->camelCaseToHuman($className)
         ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
