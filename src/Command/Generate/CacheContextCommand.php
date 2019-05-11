@@ -7,20 +7,20 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Generator\CacheContextGenerator;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Generator\CacheContextGenerator;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Core\Utils\StringConverter;
 
-class CacheContextCommand extends ContainerAwareCommand
+class CacheContextCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;

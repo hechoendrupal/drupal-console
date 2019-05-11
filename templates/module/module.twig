@@ -16,7 +16,9 @@ function {{machine_name}}_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.{{ machine_name }}':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
+{% if description %}
       $output .= '<p>' . t('{{ description|escape }}') . '</p>';
+{% endif %}
       return $output;
 
     default:

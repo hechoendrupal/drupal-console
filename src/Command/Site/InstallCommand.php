@@ -493,6 +493,12 @@ class InstallCommand extends ContainerAwareCommand
     }
 
     protected function runInstaller($database, $uri) {
+
+        if(!Database::isActiveConnection() && !is_null(Database::getConnectionInfo())) {
+            $this->getIo()->error($this->trans('commands.site.install.messages.connection-failed'));
+            return 1;
+        }
+
         $input = $this->getIo()->getInput();
         $this->site->loadLegacyFile('/core/includes/install.core.inc');
 
