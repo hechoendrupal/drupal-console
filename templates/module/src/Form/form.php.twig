@@ -117,6 +117,5 @@ class {{ class_name }} extends FormBase {% endblock %}
     foreach ($form_state->getValues() as $key => $value) {
       \Drupal::messenger()->addMessage($key . ': ' . $value);
     }
-
   }
 {% endblock %}

@@ -51,6 +51,7 @@ interface {{ entity_class }}StorageInterface extends ContentEntityStorageInterfa
    */
   public function userRevisionIds(AccountInterface $account);
 {% if is_translatable %}
+
   /**
    * Counts the number of revisions in the default language.
    *
