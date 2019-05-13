@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ArrayInputTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
@@ -24,6 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ControllerCommand extends Command
 {
+    use ArrayInputTrait;
     use ModuleTrait;
     use ServicesTrait;
     use ConfirmationTrait;
@@ -140,9 +142,12 @@ class ControllerCommand extends Command
         $routes = $input->getOption('routes');
         $test = $input->getOption('test');
         $services = $input->getOption('services');
+        $noInteraction = $input->getOption('no-interaction');
 
-        $routes = $this->inlineValueAsArray($routes);
-        $input->setOption('routes', $routes);
+        // Parse nested data.
+        if ($noInteraction) {
+            $routes = $this->explodeInlineArray($routes);
+        }
 
         // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $build_services = $this->buildServices($services);
@@ -279,6 +284,8 @@ class ControllerCommand extends Command
                 ];
             }
             $input->setOption('routes', $routes);
+        } else {
+            $input->setOption('routes', $this->explodeInlineArray($routes));
         }
 
         // --test option

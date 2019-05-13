@@ -37,6 +37,11 @@ trait ArrayInputTrait
                     $parameters[$key] = $value;
                 }
             }
+
+            // Remove options data if type isn't in the list of allowed types
+            if($parameters['options'] && !in_array($parameters['type'], ['checkboxes', 'radios', 'select'])){
+                $parameters['options'] = [];
+            }
             $inputs[] = $parameters;
         }
 

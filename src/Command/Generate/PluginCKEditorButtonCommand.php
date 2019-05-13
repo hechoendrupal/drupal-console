@@ -187,42 +187,47 @@ class PluginCKEditorButtonCommand extends Command
             $input->setOption('plugin-id', $plugin_id);
         }
 
-        $buttons = [];
-        while (true) {
-            $this->getIo()->newLine(2);
-            $this->getIo()->comment($this->trans('commands.generate.plugin.ckeditorbutton.options.button-properties'));
-            // --button-name option
-            $buttonName = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-name'),
-                $this->stringConverter->anyCaseToUcFirst($label)
-            );
+        // --inputs option
+        $buttons = $input->getOption('buttons');
+        if (!$buttons) {
+            while (true) {
+                $this->getIo()->newLine(2);
+                $this->getIo()->comment($this->trans('commands.generate.plugin.ckeditorbutton.options.button-properties'));
+                // --button-name option
+                $buttonName = $this->getIo()->ask(
+                    $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-name'),
+                    $this->stringConverter->anyCaseToUcFirst($label)
+                );
 
-            $buttonLabel = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-label'),
-                $label
-            );
+                $buttonLabel = $this->getIo()->ask(
+                    $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-label'),
+                    $label
+                );
 
-            $buttonIcon = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-icon-path'),
-                drupal_get_path('module', $module) . '/js/plugins/' . $plugin_id . '/images/icon.png'
-            );
+                $buttonIcon = $this->getIo()->ask(
+                    $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-icon-path'),
+                    drupal_get_path('module', $module) . '/js/plugins/' . $plugin_id . '/images/icon.png'
+                );
 
-            array_push(
-                $buttons,
-                [
-                    'name' => $buttonName,
-                    'label' => $buttonLabel,
-                    'icon' => $buttonIcon,
-                ]
-            );
+                array_push(
+                    $buttons,
+                    [
+                        'name' => $buttonName,
+                        'label' => $buttonLabel,
+                        'icon' => $buttonIcon,
+                    ]
+                );
 
-            if (!$this->getIo()->confirm(
-                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-add'),
-                true
-            )
-            ) {
-                break;
+                if (!$this->getIo()->confirm(
+                    $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-add'),
+                    true
+                )
+                ) {
+                    break;
+                }
             }
+        } else {
+            $buttons= $this->explodeInlineArray($buttons);
         }
         $input->setOption('buttons', $buttons);
     }

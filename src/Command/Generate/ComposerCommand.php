@@ -276,6 +276,8 @@ class ComposerCommand extends Command
                 $this->getIo()->newLine(2);
                 $input->setOption('authors', $authorItems);
             }
+        } else {
+            $input->setOption('authors', $this->explodeInlineArray($authors));
         }
 
         // --support option
@@ -326,6 +328,8 @@ class ComposerCommand extends Command
                 $this->getIo()->newLine(2);
                 $input->setOption('support', $supportItems);
             }
+        } else {
+            $input->setOption('support', $this->explodeInlineArray($support));
         }
 
         // --required option
@@ -363,6 +367,8 @@ class ComposerCommand extends Command
                 }
                 $input->setOption('required', $requiredItems);
             }
+        } else {
+            $input->setOption('required', $this->explodeInlineArray($required));
         }
     }
 

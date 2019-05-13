@@ -262,7 +262,9 @@ class PluginMigrateSourceCommand extends Command
                     'description' => $description,
                 ];
             }
-            $input->setOption('fields', $fields);
+        } else {
+            $fields = $this->explodeInlineArray($fields);
         }
+        $input->setOption('fields', $fields);
     }
 }
