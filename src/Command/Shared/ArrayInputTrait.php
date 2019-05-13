@@ -26,7 +26,7 @@ trait ArrayInputTrait
     {
         $inputs = [];
         foreach ($inlineInputs as $inlineInput) {
-            $explodeInput = explode(',', $inlineInput);
+            $explodeInput = explode('|', $inlineInput);
             $parameters = [];
             foreach ($explodeInput as $inlineParameter) {
                 $inlineParameter = trim($inlineParameter);
