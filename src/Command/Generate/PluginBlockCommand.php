@@ -8,22 +8,22 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Shared\ArrayInputTrait;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginBlockGenerator;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\Validator;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Generator\PluginBlockGenerator;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class PluginBlockCommand extends ContainerAwareCommand
 {
@@ -224,9 +224,6 @@ class PluginBlockCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $theme = $this->configFactory->get('system.theme')->get('default');
-        $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
-
         // --module option
         $this->getModuleOption();
 
@@ -265,10 +262,17 @@ class PluginBlockCommand extends ContainerAwareCommand
 
         // --theme-region option
         $themeRegion = $input->getOption('theme-region');
+
         if (!$themeRegion) {
+            $theme = $this->configFactory->get('system.theme')->get('default');
+            $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
+            $themeRegionOptions = [];
+            foreach ($themeRegions as $key => $region) {
+                $themeRegionOptions[$key] = $region->render();
+            }
             $themeRegion = $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.plugin.block.questions.theme-region'),
-                array_values($themeRegions),
+                $themeRegionOptions,
                 '',
                 true
             );

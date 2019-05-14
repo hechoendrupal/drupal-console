@@ -155,8 +155,10 @@ class StatusCommand extends ContainerAwareCommand
                 $title = $requirement['title'];
             }
 
-            $systemData['system'][$title] = strip_tags($requirement['value']);
+            $value = empty($requirement['description']) ? $requirement['value'] : $requirement['value'] . ' (' . $requirement['description'] . ')';
+            $systemData['system'][strip_tags($title)] = strip_tags($value); ;
         }
+
 
         if ($this->settings) {
             try {
@@ -177,11 +179,11 @@ class StatusCommand extends ContainerAwareCommand
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
-            if ("password" == $connectionInfoKey) {
+            if ('password' == $connectionInfoKey) {
                 continue;
             }
 
-            $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
+            $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
         }
 
@@ -191,7 +193,7 @@ class StatusCommand extends ContainerAwareCommand
             $connectionInfo['default']['username'],
             $connectionInfo['default']['password'],
             $connectionInfo['default']['host'],
-            $connectionInfo['default']['port'] ? ':'.$connectionInfo['default']['port'] : '',
+            $connectionInfo['default']['port'] ? ':' . $connectionInfo['default']['port'] : '',
             $connectionInfo['default']['database']
         );
 
@@ -204,8 +206,8 @@ class StatusCommand extends ContainerAwareCommand
 
         return [
           'theme' => [
-            $this->trans('commands.site.status.messages.theme_default') => $config->get('default'),
-            $this->trans('commands.site.status.messages.theme_admin') => $config->get('admin'),
+            $this->trans('commands.site.status.messages.theme-default') => $config->get('default'),
+            $this->trans('commands.site.status.messages.theme-admin') => $config->get('admin'),
           ],
         ];
     }

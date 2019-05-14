@@ -7,19 +7,19 @@
 
 namespace Drupal\Console\Command\Module;
 
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Site;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Extension\ModuleInstallerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Command\Shared\ProjectDownloadTrait;
-use Drupal\Console\Utils\Site;
-use Drupal\Core\Extension\ModuleInstallerInterface;
-use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Core\Config\ConfigFactoryInterface;
 
-class UninstallCommand extends Command
+class UninstallCommand extends ContainerAwareCommand
 {
     use ProjectDownloadTrait;
 
