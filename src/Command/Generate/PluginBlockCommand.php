@@ -125,10 +125,10 @@ class PluginBlockCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.plugin.block.options.class')
             )
             ->addOption(
-                'label',
+                'plugin-label',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.block.options.label')
+                $this->trans('commands.generate.plugin.block.options.plugin-label')
             )
             ->addOption(
                 'plugin-id',
@@ -169,7 +169,7 @@ class PluginBlockCommand extends ContainerAwareCommand
 
         $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
-        $label = $input->getOption('label');
+        $plugin_label = $input->getOption('plugin-label');
         $plugin_id = $input->getOption('plugin-id');
         $services = $input->getOption('services');
         $theme_region = $input->getOption('theme-region');
@@ -200,7 +200,7 @@ class PluginBlockCommand extends ContainerAwareCommand
         $this->generator->generate([
           'module' => $module,
           'class_name' => $class_name,
-          'label' => $label,
+          'label' => $plugin_label,
           'plugin_id' => $plugin_id,
           'services' => $build_services,
           'inputs' => $inputs,
@@ -240,14 +240,14 @@ class PluginBlockCommand extends ContainerAwareCommand
             $input->setOption('class', $class);
         }
 
-        // --label option
-        $label = $input->getOption('label');
-        if (!$label) {
-            $label = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.block.questions.label'),
+        // --plugin-label option
+        $plugin_label = $input->getOption('plugin-label');
+        if (!$plugin_label) {
+            $plugin_label = $this->getIo()->ask(
+                $this->trans('commands.generate.plugin.block.questions.plugin-label'),
                 $this->stringConverter->camelCaseToHuman($class)
             );
-            $input->setOption('label', $label);
+            $input->setOption('plugin-label', $plugin_label);
         }
 
         // --plugin-id option
