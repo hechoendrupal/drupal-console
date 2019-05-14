@@ -11,7 +11,7 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ExtensionTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Generator\CommandGenerator;
 use Drupal\Console\Extension\Manager;
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CommandCommand extends Command
+class CommandCommand extends ContainerAwareCommand
 {
     use ConfirmationTrait;
     use ServicesTrait;
