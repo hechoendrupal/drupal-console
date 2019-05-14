@@ -225,7 +225,7 @@ class DownloadCommand extends Command
                 }
 
                 // Register composer repository
-                $command = "composer config repositories.drupal composer https://packages.drupal.org/8";
+                $command = 'composer config repositories.drupal composer https://packages.drupal.org/8';
                 $this->shellProcess->exec($command, $this->root);
 
                 $command = sprintf(

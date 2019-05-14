@@ -177,7 +177,10 @@ class NodesCommand extends Command
             $input->setOption('language', $language);
         } else {
             // If 'language' module is not enabled.
-            $input->setOption('language', LanguageInterface::LANGCODE_NOT_SPECIFIED);
+            $input->setOption(
+                'language',
+                \Drupal::languageManager()->getDefaultLanguage()->getId()
+            );
         }
     }
 

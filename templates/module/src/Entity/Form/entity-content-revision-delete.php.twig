@@ -64,9 +64,9 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    $entity_manager = $container->get('entity.manager');
+    $entity_type_manager = $container->get('entity_type.manager');
     return new static(
-      $entity_manager->getStorage('{{ entity_name }}'),
+      $entity_type_manager->getStorage('{{ entity_name }}'),
       $container->get('database')
     );
   }
@@ -82,7 +82,9 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return t('Are you sure you want to delete the revision from %revision-date?', ['%revision-date' => format_date($this->revision->getRevisionCreationTime())]);
+    return $this->t('Are you sure you want to delete the revision from %revision-date?', [
+      '%revision-date' => format_date($this->revision->getRevisionCreationTime()),
+    ]);
   }
 
   /**
@@ -96,7 +98,7 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    * {@inheritdoc}
    */
   public function getConfirmText() {
-    return t('Delete');
+    return $this->t('Delete');
   }
 
   /**
@@ -116,7 +118,7 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
     $this->{{ entity_class }}Storage->deleteRevision($this->revision->getRevisionId());
 
     $this->logger('content')->notice('{{ label }}: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    drupal_set_message(t('Revision from %revision-date of {{ label }} %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
+    $this->messenger()->addMessage(t('Revision from %revision-date of {{ label }} %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
     $form_state->setRedirect(
       'entity.{{ entity_name }}.canonical',
        ['{{ entity_name }}' => $this->revision->id()]

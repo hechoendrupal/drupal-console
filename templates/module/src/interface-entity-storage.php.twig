@@ -11,7 +11,9 @@ namespace Drupal\{{ module }};
 {% block use_class %}
 use Drupal\Core\Entity\ContentEntityStorageInterface;
 use Drupal\Core\Session\AccountInterface;
+{% if is_translatable %}
 use Drupal\Core\Language\LanguageInterface;
+{% endif %}
 use Drupal\{{ module }}\Entity\{{ entity_class }}Interface;
 {% endblock %}
 
@@ -48,6 +50,7 @@ interface {{ entity_class }}StorageInterface extends ContentEntityStorageInterfa
    *   {{ label }} revision IDs (in ascending order).
    */
   public function userRevisionIds(AccountInterface $account);
+{% if is_translatable %}
 
   /**
    * Counts the number of revisions in the default language.
@@ -67,4 +70,5 @@ interface {{ entity_class }}StorageInterface extends ContentEntityStorageInterfa
    *   The language object.
    */
   public function clearRevisionsLanguage(LanguageInterface $language);
+{% endif %}
 {% endblock %}

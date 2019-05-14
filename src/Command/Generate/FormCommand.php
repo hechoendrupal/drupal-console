@@ -8,22 +8,22 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Shared\ArrayInputTrait;
+use Drupal\Console\Command\Shared\FormTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\MenuTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Generator\FormGenerator;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\TranslatorManager;
 use Drupal\Console\Utils\Validator;
+use Drupal\Core\Render\ElementInfoManager;
+use Drupal\Core\Routing\RouteProviderInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\MenuTrait;
-use Drupal\Console\Command\Shared\FormTrait;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\FormGenerator;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Core\Render\ElementInfoManager;
-use Drupal\Core\Routing\RouteProviderInterface;
 
 abstract class FormCommand extends ContainerAwareCommand
 {
@@ -205,7 +205,7 @@ abstract class FormCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $services = $input->getOption('services');
         $path = $input->getOption('path');
         $config_file = $input->getOption('config-file');
@@ -306,7 +306,6 @@ abstract class FormCommand extends ContainerAwareCommand
         $path = $input->getOption('path');
         if (!$path) {
             if ($this->formType == 'ConfigFormBase') {
-                $form_path = '/admin/config/{{ module_name }}/{{ class_name_short }}';
                 $form_path = sprintf(
                     '/admin/config/%s/%s',
                     $module,

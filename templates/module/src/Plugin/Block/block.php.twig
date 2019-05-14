@@ -117,7 +117,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
 {% for input in inputs %}
-    $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}');
+    $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}'){% if input.type == 'text_format' %}['value']{% endif %};
 {% endfor %}
   }
 
@@ -128,7 +128,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
   public function build() {
     $build = [];
 {% for input in inputs %}
-    $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+    $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}']. '</p>';
 {% else %}
     $build['{{plugin_id}}']['#markup'] = 'Implement {{class_name}}.';
 {% endfor %}
