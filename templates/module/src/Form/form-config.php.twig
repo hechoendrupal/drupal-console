@@ -115,7 +115,7 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
 
     $this->config('{{module_name}}.{{class_name_short}}')
 {% for input in inputs %}
-      ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'))
+      ->set('{{ input.name }}', $form_state->getValue('{{ input.name }}'){% if input.type == 'text_format' %}['value']{% endif %})
 {% endfor %}
       ->save();
   }
