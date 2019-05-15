@@ -112,7 +112,7 @@ class EnableCommand extends ContainerAwareCommand
 
         $methods = $plugin->availableMethods();
         $method = $this->getIo()->choice(
-            $this->trans('commands.rest.enable.arguments.methods'),
+            $this->trans('commands.rest.enable.messages.methods'),
             $methods
         );
         $this->getIo()->writeln(
@@ -120,12 +120,12 @@ class EnableCommand extends ContainerAwareCommand
         );
 
         $format = $this->getIo()->choice(
-            $this->trans('commands.rest.enable.arguments.formats'),
+            $this->trans('commands.rest.enable.messages.formats'),
             $this->container->getParameter('serializer.formats')
         );
 
         $this->getIo()->writeln(
-            $this->trans('commands.rest.enable.messages.selected-format') . ' ' . $format
+            $this->trans('commands.rest.enable.messages.selected-formats') . ' ' . $format
         );
 
         // Get Authentication Provider and generate the question
