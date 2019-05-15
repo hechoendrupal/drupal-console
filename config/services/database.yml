@@ -1,19 +1,6 @@
 services:
-  console.database_add:
-    class: Drupal\Console\Command\Database\AddCommand
-    arguments: ['@console.database_settings_generator']
-    tags:
-      - { name: drupal.command }
   console.database_client:
     class: Drupal\Console\Command\Database\ClientCommand
-    tags:
-      - { name: drupal.command }
-  console.database_query:
-    class: Drupal\Console\Command\Database\QueryCommand
-    tags:
-      - { name: drupal.command }
-  console.database_connect:
-    class: Drupal\Console\Command\Database\ConnectCommand
     tags:
       - { name: drupal.command }
   console.database_drop:
