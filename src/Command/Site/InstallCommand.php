@@ -78,17 +78,16 @@ class InstallCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.site.install.arguments.profile')
             )
+            ->addArgument(
+                'db-url',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.site.install.arguments.db-url')
+            )
             ->addOption(
                 'langcode',
                 null,
                 InputOption::VALUE_REQUIRED,
                 $this->trans('commands.site.install.arguments.langcode')
-            )
-            ->addOption(
-                'db-url',
-                null,
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.site.install.arguments.db-url')
             )
             ->addOption(
                 'db-type',
@@ -229,8 +228,8 @@ class InstallCommand extends ContainerAwareCommand
         $database = Database::getConnectionInfo();
         if (empty($database['default'])) {
 
-            // --db-url option
-            $db_url = $input->getOption('db-url');
+            // --db-url argument
+            $db_url = $input->getArgument('db-url');
             $valuesFromUrl = parse_url($db_url);
 
             $input->setOption('db-prefix', '');
@@ -248,8 +247,8 @@ class InstallCommand extends ContainerAwareCommand
                         $dbType = $dbIndex;
                     }
                 }
+                $input->setOption('db-type', $dbType);
             }
-            $input->setOption('db-type', $dbType);
 
             if ($dbType === 'sqlite') {
                 $valuesFromUrl = explode('//', $db_url);
@@ -267,37 +266,36 @@ class InstallCommand extends ContainerAwareCommand
                 $dbHost = $db_url?$valuesFromUrl['host']:$input->getOption('db-host');
                 if (!$dbHost) {
                     $dbHost = $this->dbHostQuestion();
+                    $input->setOption('db-host', $dbHost);
                 }
-                $input->setOption('db-host', $dbHost);
 
                 // --db-name option
                 $dbName = $db_url?ltrim($valuesFromUrl['path'], "/"):$input->getOption('db-name');
                 if (!$dbName) {
                     $dbName = $this->dbNameQuestion();
+                    $input->setOption('db-name', $dbName);
                 }
-                $input->setOption('db-name', $dbName);
 
                 // --db-user option
                 $dbUser = $db_url?$valuesFromUrl['user']:$input->getOption('db-user');
                 if (!$dbUser) {
                     $dbUser = $this->dbUserQuestion();
+                    $input->setOption('db-user', $dbUser);
                 }
-                $input->setOption('db-user', $dbUser);
-
 
                 // --db-pass option
                 $dbPass = $db_url?$valuesFromUrl['pass']:$input->getOption('db-pass');
                 if (!$dbPass) {
                     $dbPass = $this->dbPassQuestion();
+                    $input->setOption('db-pass', $dbPass);
                 }
-                $input->setOption('db-pass', $dbPass);
 
                 // --db-port prefix
                 $dbPort = $db_url?$valuesFromUrl['port']:$input->getOption('db-port');
                 if (!$dbPort) {
                     $dbPort = $this->dbPortQuestion();
+                    $input->setOption('db-port', $dbPort);
                 }
-                $input->setOption('db-port', $dbPort);
             }
 
             // --db-prefix
@@ -407,19 +405,25 @@ class InstallCommand extends ContainerAwareCommand
         $force = $input->getOption('force');
 
         //Check if there is a url to db connection
-        $db_url = $input->getOption('db-url');
+        $db_url = $input->getArgument('db-url');
         if ($db_url) {
             $valuesFromUrl = parse_url($db_url);
             $dbType = $valuesFromUrl['scheme'];
-            if($dbType === 'sqlite'){
-                $valuesFromUrl = explode('//', $db_url);
-                $dbFile = $valuesFromUrl[1];
-            } else {
-                $dbHost = $valuesFromUrl['host'];
-                $dbName = ltrim($valuesFromUrl['path'], "/");
-                $dbUser = $valuesFromUrl['user'];
-                $dbPass = $valuesFromUrl['pass'];
+            if($this->validateUrlConnection($valuesFromUrl)){
+                $this->getIo()->error($this->trans('commands.site.install.messages.invalid-db-url'));
+                return 1;
             }
+
+            if($dbType === 'sqlite'){
+                $this->getIo()->error($this->trans('commands.site.install.messages.invalid-url-driver'));
+                return 1;
+            }
+
+            $dbHost = $valuesFromUrl['host'];
+            $dbName = ltrim($valuesFromUrl['path'], "/");
+            $dbUser = $valuesFromUrl['user'];
+            $dbPass = $valuesFromUrl['pass'];
+            $dbPort = $valuesFromUrl['port']?:$dbPort;
         }
 
         $databases = $this->site->getDatabaseTypes();
@@ -585,5 +589,12 @@ class InstallCommand extends ContainerAwareCommand
         $this->getIo()->success($this->trans('commands.site.install.messages.installed'));
 
         return 0;
+    }
+
+    private function validateUrlConnection($url) {
+        if($url['host'] && $url['path'] && $url['user'] && $url['pass']) {
+            return 0;
+        }
+        return 1;
     }
 }
