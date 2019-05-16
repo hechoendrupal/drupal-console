@@ -9,7 +9,6 @@ namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -30,7 +29,6 @@ class PluginRulesDataprocessorCommand extends Command
 
     use ConfirmationTrait;
     use ModuleTrait;
-    use ServicesTrait;
 
     /**
      * @var Manager

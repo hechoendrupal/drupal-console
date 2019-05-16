@@ -11,6 +11,24 @@ services:
     arguments: ['@app.root', '@console.configuration_manager']
     tags:
       - { name: drupal.command }
+  console.database_add:
+    class: Drupal\Console\Command\Database\AddCommand
+    arguments: ['@console.database_settings_generator']
+    tags:
+      - { name: drupal.command }
+  console.database_query:
+    class: Drupal\Console\Command\Database\QueryCommand
+    tags:
+      - { name: drupal.command }
+  console.database_connect:
+    class: Drupal\Console\Command\Database\ConnectCommand
+    tags:
+      - { name: drupal.command }
+  console.database_restore:
+    class: Drupal\Console\Command\Database\RestoreCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }
   console.site_install:
     class: Drupal\Console\Command\Site\InstallCommand
     arguments: ['@console.extension_manager', '@console.site', '@console.configuration_manager', '@app.root']
@@ -18,7 +36,7 @@ services:
       - { name: drupal.command }
   console.multisite_new:
     class: Drupal\Console\Command\Multisite\NewCommand
-    arguments: ['@app.root']
+    arguments: ['@app.root', '@console.validator']
     tags:
       - { name: drupal.command }
   console.multisite_update:
@@ -48,6 +66,10 @@ services:
       - { name: drupal.generator }
   console.docker_init_generator:
     class: Drupal\Console\Generator\DockerInitGenerator
+    tags:
+      - { name: drupal.generator }
+  console.database_settings_generator:
+    class: Drupal\Console\Generator\DatabaseSettingsGenerator
     tags:
       - { name: drupal.generator }
   # Drupal services

@@ -26,7 +26,9 @@ use Drupal\user\EntityOwnerInterface;
  */
 interface {{ entity_class }}Interface extends ContentEntityInterface{% if revisionable %}, RevisionLogInterface{% endif %}, EntityChangedInterface, EntityPublishedInterface, EntityOwnerInterface {% endblock %}
 {% block class_methods %}
-  // Add get/set methods for your configuration properties here.
+  /**
+   * Add get/set methods for your configuration properties here.
+   */
 
   /**
    * Gets the {{ label }} name.
@@ -67,7 +69,6 @@ interface {{ entity_class }}Interface extends ContentEntityInterface{% if revisi
   public function setCreatedTime($timestamp);
 
 {% if revisionable %}
-
   /**
    * Gets the {{ label }} revision creation timestamp.
    *
