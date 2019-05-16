@@ -162,7 +162,7 @@ class NewCommand extends Command
             throw new FileNotFoundException($this->trans('commands.multisite.new.errors.sites-missing'));
         }
 
-        $sites_file_contents .= "\n\$sites['$this->directory'] = '$this->directory';";
+        $sites_file_contents .= "\n\$sites['$uri'] = '$this->directory';";
 
         try {
             $this->fs->dumpFile($this->appRoot . '/sites/sites.php', $sites_file_contents);
