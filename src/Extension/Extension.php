@@ -134,12 +134,13 @@ class Extension extends BaseExtension
     }
 
     /**
+     * @param string $testType
      * @param bool $fullPath
      * @return string
      */
-    public function getTestsPath($fullPath = false)
+    public function getTestsPath($testType, $fullPath = false)
     {
-        return $this->getPath($fullPath) . '/tests';
+        return $this->getPath($fullPath) . '/tests/' . $testType;
     }
 
     /**

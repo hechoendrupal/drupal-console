@@ -7,20 +7,20 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Generator\ControllerGenerator;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Command\Shared\InputTrait;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\Routing\RouteProviderInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Generator\ControllerGenerator;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Core\Routing\RouteProviderInterface;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Core\Command\Shared\InputTrait;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\Validator;
 
 class ControllerCommand extends ContainerAwareCommand
 {
