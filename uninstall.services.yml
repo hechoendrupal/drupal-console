@@ -36,7 +36,7 @@ services:
       - { name: drupal.command }
   console.multisite_new:
     class: Drupal\Console\Command\Multisite\NewCommand
-    arguments: ['@app.root']
+    arguments: ['@app.root', '@console.validator']
     tags:
       - { name: drupal.command }
   console.multisite_update:
