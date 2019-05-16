@@ -61,7 +61,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $this->getIo()->writeln('- ' . $configFile);
+            $this->getIo()->writeln("- $configFile");
 
             // Create directory if doesn't exist
             if (!file_exists($directory)) {
@@ -104,7 +104,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $this->getIo()->info('- ' . $configFile);
+            $this->getIo()->writeln("- $configFile");
 
             // Create directory if doesn't exist
             if (!file_exists($configDirectory)) {
@@ -165,11 +165,11 @@ trait ExportTrait
 
             foreach ($dependencies as $dependency) {
                 $this->getIo()->info(
-                    '   [-] ' . $dependency
+                    "   [-] $dependency"
                 );
             }
         } else {
-            $this->getIo()->error($this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getApplication()->getSite()->getModuleInfoFile($module));
+            $this->getIo()->error("{$this->trans('commands.site.mode.messages.error-writing-file')}: {$this->getApplication()->getSite()->getModuleInfoFile($module)}");
 
             return [];
         }
@@ -186,7 +186,7 @@ trait ExportTrait
 
         $fields_storage = $this->entityTypeManager->getStorage('field_config');
         foreach ($fields_storage->loadMultiple() as $field) {
-            $field_name = $fields_definition->getConfigPrefix() . '.' . $field->id();
+            $field_name = "{$fields_definition->getConfigPrefix()}.{$field->id()}";
             $field_name_config = $this->getConfiguration($field_name, $removeUuid,
                 $removeHash);
 
@@ -218,7 +218,7 @@ trait ExportTrait
         $form_display_definition = $this->entityTypeManager->getDefinition('entity_form_display');
         $form_display_storage = $this->entityTypeManager->getStorage('entity_form_display');
         foreach ($form_display_storage->loadMultiple() as $form_display) {
-            $form_display_name = $form_display_definition->getConfigPrefix() . '.' . $form_display->id();
+            $form_display_name = "{$form_display_definition->getConfigPrefix()}.{$form_display->id()}";
             $form_display_name_config = $this->getConfiguration($form_display_name,
                 $removeUuid, $removeHash);
 
@@ -247,7 +247,7 @@ trait ExportTrait
         $view_display_definition = $this->entityTypeManager->getDefinition('entity_view_display');
         $view_display_storage = $this->entityTypeManager->getStorage('entity_view_display');
         foreach ($view_display_storage->loadMultiple() as $view_display) {
-            $view_display_name = $view_display_definition->getConfigPrefix() . '.' . $view_display->id();
+            $view_display_name = "{$view_display_definition->getConfigPrefix()}.{$view_display->id()}";
             $view_display_name_config = $this->getConfiguration($view_display_name,
                 $removeUuid, $removeHash);
             // Only select fields related with content type

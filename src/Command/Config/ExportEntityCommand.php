@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Command\Config\ExportContentTypeCommand.
+ * Contains \Drupal\Console\Command\Config\ExportEntityCommand.
  */
 
 namespace Drupal\Console\Command\Config;
@@ -25,6 +25,8 @@ class ExportEntityCommand extends Command {
 
   use ModuleTrait;
   use ExportTrait;
+
+  const ALL = '-all-';
 
   /**
    * @var EntityTypeManagerInterface
@@ -93,7 +95,7 @@ class ExportEntityCommand extends Command {
       )
       ->addArgument(
         'bundle',
-        InputArgument::REQUIRED,
+        InputArgument::REQUIRED | InputArgument::IS_ARRAY,
         $this->trans('commands.config.export.entity.arguments.bundle')
       )->addOption(
         'optional-config',
@@ -132,24 +134,33 @@ class ExportEntityCommand extends Command {
         $this->trans('commands.config.export.entity.questions.content-type'),
         $entity_types['Configuration']
       );
+
+      $input->setArgument('entity-type', $entityType);
     }
-    $input->setArgument('entity-type', $entityType);
 
     // --bundle argument
     $bundle = $input->getArgument('bundle');
     if (!$bundle) {
       $bundles_entities = $this->entityTypeManager->getStorage($entityType)
         ->loadMultiple();
+      $bundles = [ExportEntityCommand::ALL => $this->trans('commands.config.export.entity.questions.all')];
+      $bundles_ids = [];
       foreach ($bundles_entities as $entity) {
         $bundles[$entity->id()] = $entity->label();
+        $bundles_ids[] = $entity->id();
       }
 
       $bundle = $this->getIo()->choice(
         $this->trans('commands.config.export.entity.questions.bundle'),
         $bundles
       );
+
+      if ($bundle == ExportEntityCommand::ALL) {
+        $input->setArgument('bundle', $bundles_ids);
+      } else {
+        $input->setArgument('bundle', [$bundle]);
+      }
     }
-    $input->setArgument('bundle', $bundle);
 
     $optionalConfig = $input->getOption('optional-config');
     if (!$optionalConfig) {
@@ -157,9 +168,9 @@ class ExportEntityCommand extends Command {
         $this->trans('commands.config.export.entity.questions.optional-config'),
         TRUE
       );
-    }
-    $input->setOption('optional-config', $optionalConfig);
 
+      $input->setOption('optional-config', $optionalConfig);
+    }
 
     if (!$input->getOption('remove-uuid')) {
       $removeUuid = $this->getIo()->confirm(
@@ -168,6 +179,7 @@ class ExportEntityCommand extends Command {
       );
       $input->setOption('remove-uuid', $removeUuid);
     }
+
     if (!$input->getOption('remove-config-hash')) {
       $removeHash = $this->getIo()->confirm(
         $this->trans('commands.config.export.entity.questions.remove-config-hash'),
@@ -183,36 +195,41 @@ class ExportEntityCommand extends Command {
   protected function execute(InputInterface $input, OutputInterface $output) {
     $module = $this->validateModule($input->getOption('module'));
     $entityType = $input->getArgument('entity-type');
-    $bundle = $input->getArgument('bundle');
+    $bundles = $input->getArgument('bundle');
     $optionalConfig = $input->getOption('optional-config');
     $removeUuid = $input->getOption('remove-uuid');
     $removeHash = $input->getOption('remove-config-hash');
 
-    $bundleDefinition = $this->entityTypeManager->getDefinition($entityType);
-    $bundleName = $bundleDefinition->getConfigPrefix() . '.' . $bundle;
+    foreach ($bundles as $bundle) {
+      $bundleDefinition = $this->entityTypeManager->getDefinition($entityType);
+      $bundleName = "{$bundleDefinition->getConfigPrefix()}.{$bundle}";
 
-    $bundleNameConfig = $this->getConfiguration($bundleName,
-      $removeUuid, $removeHash);
+      $bundleNameConfig = $this->getConfiguration($bundleName,
+        $removeUuid, $removeHash);
 
-    if (empty($bundleNameConfig)) {
-      throw new InvalidOptionException(sprintf('The bundle %s does not exist.',
-        $bundle));
+      if (empty($bundleNameConfig)) {
+        throw new InvalidOptionException(sprintf('The bundle %s does not exist.',
+          $bundle));
+      }
+
+      $this->configExport[$bundleName] = [
+        'data' => $bundleNameConfig,
+        'optional' => $optionalConfig,
+      ];
+
+      $this->getFields($bundle, $optionalConfig, $removeUuid, $removeHash);
+
+      $this->getFormDisplays($bundle, $optionalConfig, $removeUuid,
+        $removeHash);
+
+      $this->getViewDisplays($bundle, $optionalConfig, $removeUuid,
+        $removeHash);
+
+      $this->exportConfigToModule($module,
+        sprintf(
+          $this->trans('commands.config.export.entity.messages.bundle-exported'),
+          $bundle
+        ));
     }
-
-    $this->configExport[$bundleName] = [
-      'data' => $bundleNameConfig,
-      'optional' => $optionalConfig,
-    ];
-
-    $this->getFields($bundle, $optionalConfig, $removeUuid, $removeHash);
-
-    $this->getFormDisplays($bundle, $optionalConfig, $removeUuid,
-      $removeHash);
-
-    $this->getViewDisplays($bundle, $optionalConfig, $removeUuid,
-      $removeHash);
-
-    $this->exportConfigToModule($module,
-      $this->trans('commands.config.export.entity.messages.content-type-exported'));
   }
 }
