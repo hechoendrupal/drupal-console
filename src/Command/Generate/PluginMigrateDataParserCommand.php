@@ -7,19 +7,19 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Generator\PluginMigrateDataParserGenerator;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginMigrateDataParserGenerator;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Core\Utils\ChainQueue;
 
-class PluginMigrateDataParserCommand extends ContainerAwareCommand
+class PluginMigrateDataParserCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;

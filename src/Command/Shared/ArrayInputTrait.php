@@ -30,7 +30,7 @@ trait ArrayInputTrait
             $parameters = [];
             foreach ($explodeInput as $inlineParameter) {
                 $inlineParameter = trim($inlineParameter);
-                list($key, $value) = explode(':', $inlineParameter);
+                list($key, $value) = explode('":"', $inlineParameter);
                 $key = rtrim(ltrim($key, '"'), '"');
                 $value = rtrim(ltrim($value, '"'), '"');
                 if (!empty($value)) {
