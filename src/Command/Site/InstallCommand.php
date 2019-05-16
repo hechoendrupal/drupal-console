@@ -391,6 +391,7 @@ class InstallCommand extends ContainerAwareCommand
             $input->setOption('db-prefix', $database['default']['prefix']['default']);
 
             if ($database['default']['driver'] === 'sqlite' && file_exists($database['default']['database'])) {
+                $input->setOption('db-type', $database['default']['driver']);
                 $input->setOption('db-file', $database['default']['database']);
                 $input->setArgument('db-url', '');
             }
