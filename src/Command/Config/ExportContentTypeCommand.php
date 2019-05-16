@@ -9,15 +9,15 @@ namespace Drupal\Console\Command\Config;
 
 use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Extension\Manager;
 
 use Drupal\Core\Config\CachedStorage;
 
@@ -106,6 +106,12 @@ class ExportContentTypeCommand extends Command
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.content.type.options.remove-config-hash')
             )
+            ->addOption(
+              'include-module-dependencies',
+              null,
+              InputOption::VALUE_OPTIONAL,
+              $this->trans('commands.config.export.content.type.options.include-module-dependencies')
+            )
             ->setAliases(['cect']);
 
         $this->configExport = [];
@@ -168,6 +174,15 @@ class ExportContentTypeCommand extends Command
             );
             $input->setOption('remove-config-hash', $removeHash);
         }
+
+        $includeModuleDependencies = $input->getOption('include-module-dependencies');
+        if (!$includeModuleDependencies) {
+          $includeModuleDependencies = $this->getIo()->confirm(
+            $this->trans('commands.config.export.content.type.questions.include-module-dependencies'),
+            true
+          );
+          $input->setOption('include-module-dependencies', $includeModuleDependencies);
+        }
     }
 
     /**
@@ -180,6 +195,7 @@ class ExportContentTypeCommand extends Command
         $optionalConfig = $input->getOption('optional-config');
         $removeUuid = $input->getOption('remove-uuid');
         $removeHash = $input->getOption('remove-config-hash');
+        $includeModuleDependencies = $input->getOption('include-module-dependencies');
 
         $this->chainQueue->addCommand(
           'config:export:entity', [
@@ -188,7 +204,8 @@ class ExportContentTypeCommand extends Command
             '--module' => $module,
             '--optional-config' => $optionalConfig,
             '--remove-uuid' => $removeUuid,
-            '--remove-config-hash' => $removeHash
+            '--remove-config-hash' => $removeHash,
+            '--include-module-dependencies' => $includeModuleDependencies
           ]
         );
     }

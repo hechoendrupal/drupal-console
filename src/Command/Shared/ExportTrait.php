@@ -137,7 +137,7 @@ trait ExportTrait
                 ];
 
                 if ($dependencies = $this->fetchDependencies($this->configExport[$dependency], 'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                    $this->resolveDependencies($dependencies, $optional, $uuid, $hash);
                 }
             }
         }
@@ -199,7 +199,7 @@ trait ExportTrait
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($field_name_config,
                     'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                    $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
                 }
             }
         }
@@ -232,7 +232,7 @@ trait ExportTrait
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($form_display_name_config,
                     'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                    $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
                 }
             }
         }
@@ -259,7 +259,7 @@ trait ExportTrait
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($view_display_name_config,
                     'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                    $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
                 }
             }
         }

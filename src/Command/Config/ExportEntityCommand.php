@@ -113,6 +113,12 @@ class ExportEntityCommand extends Command {
         InputOption::VALUE_NONE,
         $this->trans('commands.config.export.entity.options.remove-config-hash')
       )
+      ->addOption(
+        'include-module-dependencies',
+        null,
+        InputOption::VALUE_OPTIONAL,
+        $this->trans('commands.config.export.entity.options.include-module-dependencies')
+      )
       ->setAliases(['cee']);
 
     $this->configExport = [];
@@ -187,6 +193,15 @@ class ExportEntityCommand extends Command {
       );
       $input->setOption('remove-config-hash', $removeHash);
     }
+
+    $includeModuleDependencies = $input->getOption('include-module-dependencies');
+    if (!$includeModuleDependencies) {
+      $includeModuleDependencies = $this->getIo()->confirm(
+        $this->trans('commands.config.export.entity.questions.include-module-dependencies'),
+        true
+      );
+      $input->setOption('include-module-dependencies', $includeModuleDependencies);
+    }
   }
 
   /**
@@ -199,6 +214,7 @@ class ExportEntityCommand extends Command {
     $optionalConfig = $input->getOption('optional-config');
     $removeUuid = $input->getOption('remove-uuid');
     $removeHash = $input->getOption('remove-config-hash');
+    $includeModuleDependencies = $input->getOption('include-module-dependencies');
 
     foreach ($bundles as $bundle) {
       $bundleDefinition = $this->entityTypeManager->getDefinition($entityType);
@@ -224,6 +240,13 @@ class ExportEntityCommand extends Command {
 
       $this->getViewDisplays($bundle, $optionalConfig, $removeUuid,
         $removeHash);
+
+      // Include module dependencies in export files if export is not optional
+      if ($includeModuleDependencies) {
+        if ($dependencies = $this->fetchDependencies($bundleNameConfig, 'module')) {
+          $this->exportModuleDependencies($module, $dependencies);
+        }
+      }
 
       $this->exportConfigToModule($module,
         sprintf(
