@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Debug;
 
+use Drupal\Console\Command\Shared\UpdateTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
@@ -15,6 +16,8 @@ use Drupal\Console\Utils\Site;
 
 class UpdateCommand extends Command
 {
+    use UpdateTrait;
+
     /**
      * @var Site
      */
@@ -65,16 +68,17 @@ class UpdateCommand extends Command
         $requirements = update_check_requirements();
         $severity = drupal_requirements_severity($requirements);
         $updates = update_get_update_list();
+        $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
 
         $this->getIo()->newLine();
 
         if ($severity == REQUIREMENT_ERROR || ($severity == REQUIREMENT_WARNING)) {
             $this->populateRequirements($requirements);
-        } elseif (empty($updates)) {
+        } elseif (empty($updates) && empty($postUpdates)) {
             $this->getIo()->info($this->trans('commands.debug.update.messages.no-updates'));
         } else {
-            $this->populateUpdate($updates);
-            $this->populatePostUpdate();
+            $this->showUpdateTable($updates, $this->trans('commands.debug.update.messages.module-list'));
+            $this->showPostUpdateTable($postUpdates, $this->trans('commands.debug.update.messages.module-list-post-update'));
         }
     }
 
@@ -108,56 +112,6 @@ class UpdateCommand extends Command
             }
         }
 
-        $this->getIo()->table($tableHeader, $tableRows);
-    }
-
-    /**
-     * @param $updates
-     */
-    private function populateUpdate($updates)
-    {
-        $this->getIo()->info($this->trans('commands.debug.update.messages.module-list'));
-        $tableHeader = [
-          $this->trans('commands.debug.update.messages.module'),
-          $this->trans('commands.debug.update.messages.update-n'),
-          $this->trans('commands.debug.update.messages.description')
-        ];
-        $tableRows = [];
-        foreach ($updates as $module => $module_updates) {
-            foreach ($module_updates['pending'] as $update_n => $update) {
-                list(, $description) = explode($update_n . " - ", $update);
-                $tableRows[] = [
-                  $module,
-                  $update_n,
-                  trim($description),
-                ];
-            }
-        }
-        $this->getIo()->table($tableHeader, $tableRows);
-    }
-
-    private function populatePostUpdate()
-    {
-        $this->getIo()->info(
-            $this->trans('commands.debug.update.messages.module-list-post-update')
-        );
-        $tableHeader = [
-          $this->trans('commands.debug.update.messages.module'),
-          $this->trans('commands.debug.update.messages.post-update'),
-          $this->trans('commands.debug.update.messages.description')
-        ];
-
-        $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
-        $tableRows = [];
-        foreach ($postUpdates as $module => $module_updates) {
-            foreach ($module_updates['pending'] as $postUpdateFunction => $message) {
-                $tableRows[] = [
-                  $module,
-                  $postUpdateFunction,
-                  $message,
-                ];
-            }
-        }
         $this->getIo()->table($tableHeader, $tableRows);
     }
 }

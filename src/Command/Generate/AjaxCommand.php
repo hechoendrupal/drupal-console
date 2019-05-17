@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\Console\Command\Generate\ControllerCommand.
+ * Contains Drupal\Console\Command\Generate\AjaxCommand.
  */
 
 namespace Drupal\Console\Command\Generate;
@@ -14,8 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Generator\AjaxCommandGenerator;
 use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\Validator;
 
 /**
  * Class AjaxCommand

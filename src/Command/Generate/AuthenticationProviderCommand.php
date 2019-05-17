@@ -7,12 +7,9 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Utils\Validator;
 use Drupal\Console\Command\ModuleAwareCommand;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Extension\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,23 +19,12 @@ class AuthenticationProviderCommand extends ModuleAwareCommand
     use ServicesTrait;
 
     /**
-     * @var StringConverter
-     */
-    protected $stringConverter;
-
-    /**
      * AuthenticationProviderCommand constructor.
      *
-     * @param Manager                         $extensionManager
      * @param AuthenticationProviderGenerator $generator
-     * @param StringConverter                 $stringConverter
-     * @param Validator                       $validator
      */
-    public function __construct(
-        AuthenticationProviderGenerator $generator,
-        StringConverter $stringConverter
-    ) {
-        $this->stringConverter = $stringConverter;
+    public function __construct(AuthenticationProviderGenerator $generator)
+    {
         parent::__construct($generator);
     }
 
@@ -89,7 +75,7 @@ class AuthenticationProviderCommand extends ModuleAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $stringUtils = $this->stringConverter;
+        $stringUtils = $this->stringConverter();
 
         // --module option
         $this->getModuleOption();

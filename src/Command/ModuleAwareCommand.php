@@ -38,6 +38,11 @@ abstract class ModuleAwareCommand extends ContainerAwareCommand
     protected $generator;
 
     /**
+     * @var StringConverter
+     */
+    protected $stringConverter;
+
+    /**
      * ModuleAwareCommand constructor.
      *
      * @param GeneratorInterface $generator
@@ -45,6 +50,19 @@ abstract class ModuleAwareCommand extends ContainerAwareCommand
     public function __construct(GeneratorInterface $generator) {
         $this->generator = $generator;
         parent::__construct();
+    }
+
+    /**
+     * Retrieves string converter.
+     *
+     * @return Manager
+     *   String converter.
+     */
+    protected function stringConverter() {
+      if (!isset($this->stringConverter)) {
+        $this->stringConverter = $this->container->get('console.string_converter');
+      }
+      return $this->stringConverter;
     }
 
     /**
@@ -120,7 +138,6 @@ abstract class ModuleAwareCommand extends ContainerAwareCommand
      *
      * @return mixed|string
      *   Module name.
-
      */
     public function getModuleOption()
     {

@@ -64,8 +64,8 @@ class EntitiesCommand extends Command
         $this
             ->setName('update:entities')
             ->setDescription($this->trans('commands.update.entities.description'))
+            ->enableMaintenance()
             ->setAliases(['upe']);
-        ;
     }
 
     /**
@@ -73,11 +73,6 @@ class EntitiesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //$state = $this->getDrupalService('state');
-        $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-on'));
-        $this->getIo()->info($this->trans('commands.update.entities.messages.start'));
-        $this->state->set('system.maintenance_mode', true);
-
         try {
             $this->entityDefinitionUpdateManager->applyUpdates();
             /* @var EntityStorageException $e */
@@ -88,9 +83,7 @@ class EntitiesCommand extends Command
             $this->getIo()->error(strtr('%type: @message in %function (line %line of %file).', $variables));
         }
 
-        $this->state->set('system.maintenance_mode', false);
         $this->getIo()->info($this->trans('commands.update.entities.messages.end'));
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
-        $this->getIo()->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
     }
 }

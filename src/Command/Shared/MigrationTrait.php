@@ -9,7 +9,6 @@ namespace Drupal\Console\Command\Shared;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Database\Database;
-use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Class MigrationTrait

@@ -118,7 +118,7 @@ class EntityContentGenerator extends Generator
 
         $this->renderFile(
             'module/src/Entity/interface-entity-content.php.twig',
-            $moduleEntityPath . 'Interface.php',
+            $moduleSourcePath . 'Interface.php',
             $parameters
         );
 
