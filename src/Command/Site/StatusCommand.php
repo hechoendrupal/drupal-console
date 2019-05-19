@@ -176,10 +176,12 @@ class StatusCommand extends ContainerAwareCommand
     protected function getConnectionData()
     {
         $connectionInfo = Database::getConnectionInfo();
+        $has_password = FALSE;
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
             if ('password' == $connectionInfoKey) {
+                $has_password = TRUE;
                 continue;
             }
 
@@ -187,15 +189,9 @@ class StatusCommand extends ContainerAwareCommand
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
         }
 
-        $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = sprintf(
-            '%s//%s:%s@%s%s/%s',
-            $connectionInfo['default']['driver'],
-            $connectionInfo['default']['username'],
-            $connectionInfo['default']['password'],
-            $connectionInfo['default']['host'],
-            $connectionInfo['default']['port'] ? ':' . $connectionInfo['default']['port'] : '',
-            $connectionInfo['default']['database']
-        );
+        $connection_url = Database::getConnectionInfoAsUrl();
+        $displayable_url = $has_password ? preg_replace('/(?<=:)([^@:]+)(?=@[^@]+$)/', '********', $connection_url, 1) : $connection_url;
+        $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = $displayable_url;
 
         return $connectionData;
     }
