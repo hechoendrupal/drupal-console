@@ -34,3 +34,8 @@ services:
     arguments: ['@database', '@entity_type.manager', '@date.formatter', '@console.drupal_api']
     tags:
       - { name: drupal.command }
+  console.user_unblock:
+    class: Drupal\Console\Command\User\UnblockCommand
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: drupal.command }

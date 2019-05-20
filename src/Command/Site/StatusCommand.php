@@ -155,8 +155,10 @@ class StatusCommand extends ContainerAwareCommand
                 $title = $requirement['title'];
             }
 
-            $systemData['system'][$title] = strip_tags($requirement['value']);
+            $value = empty($requirement['description']) ? $requirement['value'] : $requirement['value'] . ' (' . $requirement['description'] . ')';
+            $systemData['system'][strip_tags($title)] = strip_tags($value); ;
         }
+
 
         if ($this->settings) {
             try {
@@ -174,26 +176,22 @@ class StatusCommand extends ContainerAwareCommand
     protected function getConnectionData()
     {
         $connectionInfo = Database::getConnectionInfo();
+        $has_password = FALSE;
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
-            if ("password" == $connectionInfoKey) {
+            if ('password' == $connectionInfoKey) {
+                $has_password = TRUE;
                 continue;
             }
 
-            $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
+            $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
             $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
         }
 
-        $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = sprintf(
-            '%s//%s:%s@%s%s/%s',
-            $connectionInfo['default']['driver'],
-            $connectionInfo['default']['username'],
-            $connectionInfo['default']['password'],
-            $connectionInfo['default']['host'],
-            $connectionInfo['default']['port'] ? ':'.$connectionInfo['default']['port'] : '',
-            $connectionInfo['default']['database']
-        );
+        $connection_url = Database::getConnectionInfoAsUrl();
+        $displayable_url = $has_password ? preg_replace('/(?<=:)([^@:]+)(?=@[^@]+$)/', '********', $connection_url, 1) : $connection_url;
+        $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = $displayable_url;
 
         return $connectionData;
     }
@@ -204,8 +202,8 @@ class StatusCommand extends ContainerAwareCommand
 
         return [
           'theme' => [
-            $this->trans('commands.site.status.messages.theme_default') => $config->get('default'),
-            $this->trans('commands.site.status.messages.theme_admin') => $config->get('admin'),
+            $this->trans('commands.site.status.messages.theme-default') => $config->get('default'),
+            $this->trans('commands.site.status.messages.theme-admin') => $config->get('admin'),
           ],
         ];
     }

@@ -17,6 +17,7 @@ use Drupal\Console\Utils\Validator;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\DrupalApi;
 use Webmozart\PathUtil\Path;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class ModuleCommand extends Command
 {
@@ -52,6 +53,10 @@ class ModuleCommand extends Command
      */
     protected $twigtemplate;
 
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
 
     /**
      * ModuleCommand constructor.
@@ -61,6 +66,7 @@ class ModuleCommand extends Command
      * @param $appRoot
      * @param StringConverter $stringConverter
      * @param DrupalApi       $drupalApi
+     * @param ChainQueue      $chainQueue
      * @param $twigtemplate
      */
     public function __construct(
@@ -69,6 +75,7 @@ class ModuleCommand extends Command
         $appRoot,
         StringConverter $stringConverter,
         DrupalApi $drupalApi,
+        ChainQueue $chainQueue,
         $twigtemplate = null
     ) {
         $this->generator = $generator;
@@ -76,6 +83,7 @@ class ModuleCommand extends Command
         $this->appRoot = $appRoot;
         $this->stringConverter = $stringConverter;
         $this->drupalApi = $drupalApi;
+        $this->chainQueue = $chainQueue;
         $this->twigtemplate = $twigtemplate;
         parent::__construct();
     }
@@ -211,8 +219,30 @@ class ModuleCommand extends Command
             'composer' => $composer,
             'dependencies' => $dependencies,
             'test' => $test,
-            'twigTemplate' => $twigTemplate,
+            'twig_template' => $twigTemplate,
         ]);
+
+        if ($composer) {
+            $this->chainQueue
+              ->addCommand(
+                'generate:composer', [
+                '--module' => $machineName,
+                '--name' => 'drupal/' . $machineName,
+                '--type' => 'drupal-module',
+                '--description' => $description,
+                '--keywords' => 'Drupal',
+                '--license' => 'GPL-2.0+',
+                '--homepage' => 'https://www.drupal.org/project/' . $machineName,
+                '--minimum-stability' => 'dev',
+                '--support' => [
+                  '"channel":"issues", "url":"https://www.drupal.org/project/issues/' . $machineName . '"',
+                  '"channel":"source", "url":"http://cgit.drupalcode.org/' . $machineName . '"',
+                ],
+                '--no-interaction' => 'yes',
+              ],
+                false
+              );
+        }
 
         return 0;
     }
@@ -248,7 +278,7 @@ class ModuleCommand extends Command
 
         try {
             $machineName = $input->getOption('machine-name') ?
-              $this->validator->validateModuleName(
+                $validator->validateModuleName(
                   $input->getOption('machine-name')
               ) : null;
         } catch (\Exception $error) {

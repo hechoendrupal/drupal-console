@@ -16,8 +16,8 @@ use Drupal\rest\RestResourceConfigInterface;
 use Drupal\Console\Command\Shared\RestTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 use Drupal\Core\Authentication\AuthenticationCollector;
-use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * @DrupalCommand(
@@ -30,6 +30,11 @@ class EnableCommand extends ContainerAwareCommand
     use RestTrait;
 
     /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
      * @var ResourcePluginManager $pluginManagerRest
      */
     protected $pluginManagerRest;
@@ -38,11 +43,6 @@ class EnableCommand extends ContainerAwareCommand
      * @var AuthenticationCollector $authenticationCollector
      */
     protected $authenticationCollector;
-
-    /**
-     * @var ConfigFactory
-     */
-    protected $configFactory;
 
     /**
      * The entity manager.
@@ -54,21 +54,21 @@ class EnableCommand extends ContainerAwareCommand
     /**
      * EnableCommand constructor.
      *
-     * @param ResourcePluginManager   $pluginManagerRest
-     * @param AuthenticationCollector $authenticationCollector
-     * @param ConfigFactory           $configFactory
-     * @param EntityManager           $entity_manager
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param ResourcePluginManager      $pluginManagerRest
+     * @param AuthenticationCollector    $authenticationCollector
+     * @param EntityManager              $entity_manager
      *   The entity manager.
      */
     public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
         ResourcePluginManager $pluginManagerRest,
         AuthenticationCollector $authenticationCollector,
-        ConfigFactory $configFactory,
         EntityManager $entity_manager
     ) {
+        $this->entityTypeManager = $entityTypeManager;
         $this->pluginManagerRest = $pluginManagerRest;
         $this->authenticationCollector = $authenticationCollector;
-        $this->configFactory = $configFactory;
         $this->entityManager = $entity_manager;
         parent::__construct();
     }
@@ -82,7 +82,7 @@ class EnableCommand extends ContainerAwareCommand
             ->addArgument(
                 'resource-id',
                 InputArgument::OPTIONAL,
-                $this->trans('commands.rest.debug.arguments.resource-id')
+                $this->trans('commands.rest.enable.arguments.resource-id')
             )
             ->setAliases(['ree']);
     }
@@ -91,10 +91,8 @@ class EnableCommand extends ContainerAwareCommand
     {
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
-        $rest_resources_ids = array_merge(
-            array_keys($rest_resources['enabled']),
-            array_keys($rest_resources['disabled'])
-        );
+        $rest_resources_ids = array_keys($rest_resources['disabled']);
+
         if (!$resource_id) {
             $resource_id = $this->getIo()->choiceNoList(
                 $this->trans('commands.rest.enable.arguments.resource-id'),
@@ -114,7 +112,7 @@ class EnableCommand extends ContainerAwareCommand
 
         $methods = $plugin->availableMethods();
         $method = $this->getIo()->choice(
-            $this->trans('commands.rest.enable.arguments.methods'),
+            $this->trans('commands.rest.enable.messages.methods'),
             $methods
         );
         $this->getIo()->writeln(
@@ -122,12 +120,12 @@ class EnableCommand extends ContainerAwareCommand
         );
 
         $format = $this->getIo()->choice(
-            $this->trans('commands.rest.enable.arguments.formats'),
+            $this->trans('commands.rest.enable.messages.formats'),
             $this->container->getParameter('serializer.formats')
         );
 
         $this->getIo()->writeln(
-            $this->trans('commands.rest.enable.messages.selected-format') . ' ' . $format
+            $this->trans('commands.rest.enable.messages.selected-formats') . ' ' . $format
         );
 
         // Get Authentication Provider and generate the question

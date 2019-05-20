@@ -89,7 +89,7 @@ class UsersCommand extends Command
     {
         $rids = $input->getArgument('roles');
         if (!$rids) {
-            $roles = $this->drupalApi->getRoles();
+            $roles = $this->drupalApi->getRoles(true, true);
             $rids = $this->getIo()->choice(
                 $this->trans('commands.create.users.questions.roles'),
                 array_values($roles),
@@ -153,7 +153,7 @@ class UsersCommand extends Command
             $roles = $this->drupalApi->getRoles();
         }
 
-        $users = $this->createUserData->create(
+        $result = $this->createUserData->create(
             $roles,
             $limit,
             $password,
@@ -167,15 +167,26 @@ class UsersCommand extends Command
           $this->trans('commands.create.users.messages.created'),
         ];
 
-        if ($users['success']) {
-            $this->getIo()->table($tableHeader, $users['success']);
+        if ($result['success']) {
+            $this->getIo()->table($tableHeader, $result['success']);
 
             $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.create.users.messages.created-users'),
-                    $limit
+                    count($result['success'])
                 )
             );
+        }
+
+        if (isset($result['error'])) {
+            foreach ($result['error'] as $error) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.create.users.messages.error'),
+                        $error
+                    )
+                );
+            }
         }
 
         return 0;

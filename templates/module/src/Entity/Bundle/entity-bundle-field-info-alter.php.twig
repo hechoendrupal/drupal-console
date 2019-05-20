@@ -1,0 +1,20 @@
+
+{% block use_class %}
+use Drupal\Core\Entity\EntityTypeInterface;
+{% endblock %}
+
+/**
+ * Implements hook_entity_bundle_field_info_alter().
+ */
+function {{module}}_entity_bundle_field_info_alter(&$fields, EntityTypeInterface $entity_type, $bundle) {
+{% if bundle %}
+  if ($bundle === '{{ bundle }}') {
+{% endif %}
+    if (isset($fields['{{ field_id }}'])) {
+      // Use the ID as defined in the annotation of the constraint definition.
+      $fields['{{ field_id }}']->addConstraint('{{ plugin_id }}', []);
+    }
+{% if bundle %}
+  }
+{% endif %}
+}

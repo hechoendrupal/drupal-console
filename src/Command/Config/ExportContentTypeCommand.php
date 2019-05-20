@@ -7,18 +7,19 @@
 
 namespace Drupal\Console\Command\Config;
 
+use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Utils\Validator;
-use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
+
+use Drupal\Core\Config\CachedStorage;
 
 class ExportContentTypeCommand extends Command
 {
@@ -26,21 +27,14 @@ class ExportContentTypeCommand extends Command
     use ExportTrait;
 
     /**
-     * @var EntityTypeManagerInterface
-     */
-    protected $entityTypeManager;
-
-    /**
-     * @var CachedStorage
-     */
-    protected $configStorage;
-
-    /**
      * @var Manager
      */
     protected $extensionManager;
 
-    protected $configExport;
+    /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
 
     /**
      * @var Validator
@@ -48,23 +42,36 @@ class ExportContentTypeCommand extends Command
     protected $validator;
 
     /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
+     * @var CachedStorage
+     */
+    protected $configStorage;
+
+    /**
      * ExportContentTypeCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param CachedStorage              $configStorage
-     * @param Manager                    $extensionManager
-     * @param Validator                  $validator
+     * @param Validator $validator
+     * @param ChainQueue $chainQueue
+     * @param CachedStorage $configStorage,
      */
     public function __construct(
-        EntityTypeManagerInterface $entityTypeManager,
-        CachedStorage $configStorage,
         Manager $extensionManager,
-        Validator $validator
+        EntityTypeManagerInterface $entityTypeManager,
+        Validator $validator,
+        ChainQueue $chainQueue,
+        CachedStorage $configStorage
+
     ) {
-        $this->entityTypeManager = $entityTypeManager;
-        $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;
+        $this->entityTypeManager = $entityTypeManager;
         $this->validator = $validator;
+        $this->chainQueue = $chainQueue;
+        $this->configStorage = $configStorage;
         parent::__construct();
     }
 
@@ -84,7 +91,7 @@ class ExportContentTypeCommand extends Command
             )->addOption(
                 'optional-config',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.content.type.options.optional-config')
             )->addOption(
                 'remove-uuid',
@@ -112,19 +119,30 @@ class ExportContentTypeCommand extends Command
 
         // --content-type argument
         $contentType = $input->getArgument('content-type');
-        if (!$contentType) {
+
+        if (!$contentType || $contentType == 'all') {
             $bundles_entities = $this->entityTypeManager->getStorage('node_type')->loadMultiple();
-            $bundles = [];
+            $bundles = ['all' => $this->trans('commands.config.export.content.type.questions.all')];
+            $bundles_ids = [];
+
             foreach ($bundles_entities as $entity) {
                 $bundles[$entity->id()] = $entity->label();
+                $bundles_ids[] = $entity->id();
             }
 
-            $contentType = $this->getIo()->choice(
-                $this->trans('commands.config.export.content.type.questions.content-type'),
-                $bundles
-            );
+            if (!$contentType) {
+              $contentType = $this->getIo()->choice(
+                  $this->trans('commands.config.export.content.type.questions.content-type'),
+                  $bundles
+              );
+            }
         }
-        $input->setArgument('content-type', $contentType);
+
+        if ($contentType == 'all') {
+          $input->setArgument('content-type', $bundles_ids);
+        }else{
+          $input->setArgument('content-type', [$contentType]);
+        }
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
@@ -134,7 +152,6 @@ class ExportContentTypeCommand extends Command
             );
         }
         $input->setOption('optional-config', $optionalConfig);
-
 
         if (!$input->getOption('remove-uuid')) {
             $removeUuid = $this->getIo()->confirm(
@@ -158,29 +175,31 @@ class ExportContentTypeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $input->getOption('module');
-        $contentType = $input->getArgument('content-type');
+        $contentTypes = $input->getArgument('content-type');
         $optionalConfig = $input->getOption('optional-config');
         $removeUuid = $input->getOption('remove-uuid');
         $removeHash = $input->getOption('remove-config-hash');
 
-        $contentTypeDefinition = $this->entityTypeManager->getDefinition('node_type');
-        $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
+        foreach ($contentTypes as $contentType) {
+            $contentTypeDefinition = $this->entityTypeManager->getDefinition('node_type');
+            $contentTypeName = $contentTypeDefinition->getConfigPrefix() . '.' . $contentType;
 
-        $contentTypeNameConfig = $this->getConfiguration($contentTypeName, $removeUuid, $removeHash);
+            $contentTypeNameConfig = $this->getConfiguration($contentTypeName, $removeUuid, $removeHash);
 
-        if (empty($contentTypeNameConfig)) {
-            throw new InvalidOptionException(sprintf('The content type %s does not exist.', $contentType));
+            if (empty($contentTypeNameConfig)) {
+                throw new InvalidOptionException(sprintf('The content type %s does not exist.', $contentType));
+            }
+
+            $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];
+
+            $this->getFields($contentType, $optionalConfig, $removeUuid, $removeHash);
+
+            $this->getFormDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
+
+            $this->getViewDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
+
+            $this->exportConfigToModule($module, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
         }
-
-        $this->configExport[$contentTypeName] = ['data' => $contentTypeNameConfig, 'optional' => $optionalConfig];
-
-        $this->getFields($contentType, $optionalConfig, $removeUuid, $removeHash);
-
-        $this->getFormDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
-
-        $this->getViewDisplays($contentType, $optionalConfig, $removeUuid, $removeHash);
-
-        $this->exportConfigToModule($module, $this->trans('commands.config.export.content.type.messages.content-type-exported'));
     }
 
     protected function getFields($contentType, $optional = false, $removeUuid = false, $removeHash = false)

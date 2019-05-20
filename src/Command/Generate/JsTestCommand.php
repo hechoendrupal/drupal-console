@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Generate;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Generator\JsTestGenerator;
 use Drupal\Console\Utils\Validator;
@@ -22,7 +21,6 @@ class JsTestCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
      * @var Manager
@@ -91,7 +89,7 @@ class JsTestCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class = $this->validator->validateClassName($input->getOption('class'));
 
         $this->generator->generate([

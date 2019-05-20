@@ -1,8 +1,8 @@
 services:
   console.root:
     class: SplString
-  console.redbean:
-    class: RedBeanPHP\R
+  console.cache_key:
+    class: SplString
   console.validator:
     class: Drupal\Console\Utils\Validator
     arguments: ['@console.extension_manager', '@console.translator_manager']

@@ -80,7 +80,7 @@ class FormGenerator extends Generator
             $moduleInstance->getFormPath() . '/' . $class_name . '.php',
             $parameters
         );
-        
+
         // Render defaults YML file.
         if ($config_file == true) {
             $this->renderFile(

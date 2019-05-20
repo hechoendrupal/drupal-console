@@ -25,7 +25,7 @@ class Application extends BaseApplication
     /**
      * @var string
      */
-    const VERSION = '1.5.0';
+    const VERSION = '1.8.0';
 
     public function __construct(ContainerInterface $container)
     {
@@ -139,10 +139,9 @@ class Application extends BaseApplication
             }
         }
 
-        $this->container->set(
-            'console.invalid_commands',
-            $invalidCommands
-        );
+        $this->container
+            ->get('console.key_value_storage')
+            ->set('invalid_commands', $invalidCommands);
 
         return;
     }
