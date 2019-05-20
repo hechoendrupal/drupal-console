@@ -228,12 +228,17 @@ class InstallCommand extends ContainerAwareCommand
         if (empty($database['default'])) {
 
             // --db-url argument
-            $db_url = $input->getArgument('db-url');
-            $valuesFromUrl = parse_url($db_url);
+            if ($db_url = $input->getArgument('db-url')) {
+                try {
+                    $valuesFromUrl = Database::convertDbUrlToConnectionInfo($db_url, $this->appRoot);
+                } catch (Exception $e) {
+                    $this->getIo()->warning($e->getMessage());
+                    $db_url = null;
+                }
+            }
 
-            $input->setOption('db-prefix', '');
             // --db-type option
-            $dbType = $db_url?$valuesFromUrl['scheme']:$input->getOption('db-type');
+            $dbType = $db_url?$valuesFromUrl['driver']:$input->getOption('db-type');
             if (!$dbType) {
                 $databases = $this->site->getDatabaseTypes();
                 $dbType = $this->getIo()->choice(
@@ -251,7 +256,7 @@ class InstallCommand extends ContainerAwareCommand
 
             if ($dbType === 'sqlite') {
                 // --db-file option
-                $dbFile = $input->getOption('db-file');
+                $dbFile = $db_url?$valuesFromUrl['database']:$input->getOption('db-file');
                 if (!$dbFile) {
                     $dbFile = $this->getIo()->ask(
                         $this->trans('commands.migrate.execute.questions.db-file'),
@@ -264,41 +269,41 @@ class InstallCommand extends ContainerAwareCommand
                 $dbHost = $db_url?$valuesFromUrl['host']:$input->getOption('db-host');
                 if (!$dbHost) {
                     $dbHost = $this->dbHostQuestion();
-                    $input->setOption('db-host', $dbHost);
                 }
+                $input->setOption('db-host', $dbHost);
 
                 // --db-name option
-                $dbName = $db_url?ltrim($valuesFromUrl['path'], "/"):$input->getOption('db-name');
+                $dbName = $db_url?$valuesFromUrl['database']:$input->getOption('db-name');
                 if (!$dbName) {
                     $dbName = $this->dbNameQuestion();
-                    $input->setOption('db-name', $dbName);
                 }
+                $input->setOption('db-name', $dbName);
 
                 // --db-user option
-                $dbUser = $db_url?$valuesFromUrl['user']:$input->getOption('db-user');
+                $dbUser = $db_url && isset($valuesFromUrl['username'])?$valuesFromUrl['username']:$input->getOption('db-user');
                 if (!$dbUser) {
                     $dbUser = $this->dbUserQuestion();
-                    $input->setOption('db-user', $dbUser);
                 }
+                $input->setOption('db-user', $dbUser);
 
                 // --db-pass option
-                $dbPass = $db_url?$valuesFromUrl['pass']:$input->getOption('db-pass');
+                $dbPass = $db_url && isset($valuesFromUrl['password'])?$valuesFromUrl['password']:$input->getOption('db-pass');
                 if (!$dbPass) {
                     $dbPass = $this->dbPassQuestion();
-                    $input->setOption('db-pass', $dbPass);
                 }
+                $input->setOption('db-pass', $dbPass);
 
                 // --db-port prefix
-                $dbPort = $db_url?$valuesFromUrl['port']:$input->getOption('db-port');
+                $dbPort = $db_url && isset($valuesFromUrl['port'])?$valuesFromUrl['port']:$input->getOption('db-port');
                 if (!$dbPort) {
                     $dbPort = $this->dbPortQuestion();
-                    $input->setOption('db-port', $dbPort);
                 }
+                $input->setOption('db-port', $dbPort);
             }
 
             // --db-prefix option
-            $dbPrefix = $input->getOption('db-prefix');
-            if ($dbPrefix === null) {
+            $dbPrefix = $db_url && isset($valuesFromUrl['prefix']['default'])?$valuesFromUrl['prefix']['default']:$input->getOption('db-prefix');
+            if (!$dbPrefix) {
                 $dbPrefix = $this->dbPrefixQuestion();
             }
             $input->setOption('db-prefix', $dbPrefix);
