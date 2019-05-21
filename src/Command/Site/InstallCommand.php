@@ -226,8 +226,7 @@ class InstallCommand extends ContainerAwareCommand
         $is_database_info_set = false;
 
         // Use default database setting if is available
-        //$database = Database::getConnectionInfo();
-        $database = null;
+        $database = Database::getConnectionInfo();
         if (!empty($database['default'])) {
             $this->getIo()->info(
                 sprintf(
