@@ -9,6 +9,7 @@ namespace Drupal\Console\Command\Config;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\CachedStorage;
@@ -51,15 +52,17 @@ class OverrideCommand extends Command
                 InputArgument::REQUIRED,
                 $this->trans('commands.config.override.arguments.name')
             )
-            ->addArgument(
+            ->addOption(
                 'key',
-                InputArgument::REQUIRED,
-                $this->trans('commands.config.override.arguments.key')
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.config.override.options.key')
             )
-            ->addArgument(
+            ->addOption(
                 'value',
-                InputArgument::REQUIRED,
-                $this->trans('commands.config.override.arguments.value')
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.config.override.options.value')
             )
             ->setAliases(['co']);
     }
@@ -89,23 +92,29 @@ class OverrideCommand extends Command
             );
             $input->setArgument('name', $name);
         }
-        $key = $input->getArgument('key');
+        $key = $input->getOption('key');
         if (!$key) {
-            if ($this->configStorage->exists($name)) {
-                $configuration = $this->configStorage->read($name);
+            if (!$this->configStorage->exists($name)) {
+                $this->getIo()->newLine();
+                $this->getIo()->errorLite($this->trans('commands.config.override.messages.invalid-config-file'));
+                $this->getIo()->newLine();
+                return 0;
             }
-            $key = $this->getIo()->choiceNoList(
-                $this->trans('commands.config.override.questions.key'),
-                array_keys($configuration)
-            );
-            $input->setArgument('key', $key);
+
+            $configuration = $this->configStorage->read($name);
+            $input->setOption('key', $this->getKeysFromConfig($configuration));
         }
-        $value = $input->getArgument('value');
+        $value = $input->getOption('value');
         if (!$value) {
-            $value = $this->getIo()->ask(
-                $this->trans('commands.config.override.questions.value')
-            );
-            $input->setArgument('value', $value);
+            foreach ($input->getOption('key') as $name) {
+                $value[] = $this->getIo()->ask(
+                    sprintf(
+                        $this->trans('commands.config.override.questions.value'),
+                        $name
+                    )
+                );
+            }
+            $input->setOption('value', $value);
         }
     }
     /**
@@ -114,16 +123,24 @@ class OverrideCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configName = $input->getArgument('name');
-        $key = $input->getArgument('key');
-        $value = $input->getArgument('value');
+        $keys = $input->getOption('key');
+        $values = $input->getOption('value');
+
+        if(empty($keys)) {
+            return 1;
+        }
 
         $config = $this->configFactory->getEditable($configName);
 
-        $configurationOverrideResult = $this->overrideConfiguration(
-            $config,
-            $key,
-            $value
-        );
+        $configurationOverrideResult = [];
+        foreach ($keys as $index => $key) {
+          $result = $this->overrideConfiguration(
+              $config,
+              $key,
+              $values[$index]
+          );
+          $configurationOverrideResult = array_merge($configurationOverrideResult, $result);
+        }
 
         $config->save();
 
@@ -150,5 +167,29 @@ class OverrideCommand extends Command
         $config->set($key, $value);
 
         return $result;
+    }
+
+    /**
+     * Allow to search a specific key to override.
+     *
+     * @param $configuration
+     * @param null $key
+     *
+     * @return array
+     */
+    private function getKeysFromConfig($configuration, $key = null)
+    {
+        $choiceKey = $this->getIo()->choiceNoList(
+            $this->trans('commands.config.override.questions.key'),
+            array_keys($configuration)
+        );
+
+        $key = is_null($key) ? $choiceKey:$key.'.'.$choiceKey;
+
+        if(is_array($configuration[$choiceKey])){
+            return $this->getKeysFromConfig($configuration[$choiceKey], $key);
+        }
+
+        return [$key];
     }
 }
