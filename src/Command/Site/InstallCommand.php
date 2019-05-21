@@ -253,7 +253,7 @@ class InstallCommand extends ContainerAwareCommand
                     )
                 );
                 $is_database_info_set = true;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->getIo()->warning('Invalid --db-url argument: ' . $e->getMessage());
             }
         }
