@@ -388,108 +388,58 @@ class InstallCommand extends ContainerAwareCommand
             $_SERVER['HTTP_HOST'] = $uri;
         }
 
-        $database = Database::getConnectionInfo();
+        $database_install = null;
 
         // If a database connection is already defined we must use that.
+        $database = Database::getConnectionInfo();
         if (!empty($database['default'])) {
-            $dbUrl =  sprintf(
-                '%s://%s:%s@%s:%s/%s',
-                $database['default']['driver'],
-                $database['default']['username'],
-                $database['default']['password'],
-                $database['default']['host'],
-                $database['default']['port'],
-                $database['default']['database']
-            );
-            $input->setArgument('db-url', $dbUrl);
-            $input->setOption('db-prefix', $database['default']['prefix']['default']);
+            $database_install = $database['default'];
+        }
 
-            if ($database['default']['driver'] === 'sqlite' && file_exists($database['default']['database'])) {
-                $input->setOption('db-type', $database['default']['driver']);
-                $input->setOption('db-file', $database['default']['database']);
-                $input->setArgument('db-url', '');
+        // Use the --db-url argument if it is entered and valid
+        if (!$database_install && !empty($input->getArgument('db-url'))) {
+            try {
+                $database_install = Database::convertDbUrlToConnectionInfo($input->getArgument('db-url'), $this->appRoot);
+            } catch (\Exception $e) {
+                $this->getIo()->error('Invalid --db-url argument: ' . $e->getMessage());
+                return 1;
             }
-            $this->getIo()->info(
-                sprintf(
-                    $this->trans('commands.site.install.messages.using-current-database'),
-                    $database['default']['driver'],
-                    $database['default']['database'],
-                    $database['default']['username']
-                )
-            );
+        }
+
+        // Go for the options passed in if still not defined
+        if (!$database_install) {
+            $database_install = [
+                'database' => $input->getOption('db-name')?:'drupal_'.time(),
+                'username' => $input->getOption('db-user')?:'root',
+                'password' => $input->getOption('db-pass'),
+                'prefix' => $input->getOption('db-prefix'),
+                'port' => $input->getOption('db-port')?:'3306',
+                'host' => $input->getOption('db-host')?:'127.0.0.1',
+                'driver' => $input->getOption('db-type')?:'mysql',
+            ];
+
+            if ($database_install['driver'] === 'sqlite') {
+                $database_install['database'] = $input->getOption('db-file');
+                unset(
+                    $database_install['username'],
+                    $database_install['password'],
+                    $database_install['port'],
+                    $database_install['host'],
+                );
+            }
         }
 
         // Database option defaults.
-        $dbType = $input->getOption('db-type')?:'mysql';
-        $dbFile = $input->getOption('db-file');
-        $dbHost = $input->getOption('db-host')?:'127.0.0.1';
-        $dbName = $input->getOption('db-name')?:'drupal_'.time();
-        $dbUser = $input->getOption('db-user')?:'root';
-        $dbPass = $input->getOption('db-pass');
-        $dbPrefix = $input->getOption('db-prefix');
-        $dbPort = $input->getOption('db-port')?:'3306';
-        $force = $input->getOption('force');
-
-        //Check if there is a url to db connection
-        $db_url = $input->getArgument('db-url');
-        if ($db_url) {
-            $valuesFromUrl = parse_url($db_url);
-            $dbType = $valuesFromUrl['scheme'];
-            if($this->validateUrlConnection($valuesFromUrl)){
-                $this->getIo()->error($this->trans('commands.site.install.messages.invalid-db-url'));
-                return 1;
-            }
-
-            if($dbType === 'sqlite'){
-                $this->getIo()->error($this->trans('commands.site.install.messages.invalid-url-driver'));
-                return 1;
-            }
-
-            $dbHost = $valuesFromUrl['host'];
-            $dbName = ltrim($valuesFromUrl['path'], "/");
-            $dbUser = $valuesFromUrl['user'];
-            $dbPass = $valuesFromUrl['pass'];
-            $dbPort = $valuesFromUrl['port']?:$dbPort;
-
-            // Set null options if a db url is provided
-            $input->setOption('db-type', '');
-            $input->setOption('db-host', '');
-            $input->setOption('db-name', '');
-            $input->setOption('db-user', '');
-            $input->setOption('db-pass', '');
-            $input->setOption('db-port', '');
-        }
-
-        $databases = $this->site->getDatabaseTypes();
-
-        if ($dbType === 'sqlite') {
-            $database = [
-                'database' => $dbFile,
-                'prefix' => $dbPrefix,
-                'namespace' => $databases[$dbType]['namespace'],
-                'driver' => $dbType,
-            ];
-            if ($force && Database::isActiveConnection()) {
-                $tables = Database::getConnection()->query('SELECT name FROM sqlite_master WHERE type = "table" AND name NOT LIKE "sqlite_%";')
+        if ($input->getOption('force') && Database::isActiveConnection()) {
+            $connection = Database::getConnection();
+            if ($connection->driver() === 'sqlite') {
+                $tables = $connection->query('SELECT name FROM sqlite_master WHERE type = "table" AND name NOT LIKE "sqlite_%";')
                     ->fetchAllAssoc('name');
                 foreach (array_keys($tables) as $table) {
-                    Database::getConnection()->schema()->dropTable($table);
+                    $connection->schema()->dropTable($table);
                 }
-            }
-        } else {
-            $database = [
-                'database' => $dbName,
-                'username' => $dbUser,
-                'password' => $dbPass,
-                'prefix' => $dbPrefix,
-                'port' => $dbPort,
-                'host' => $dbHost,
-                'namespace' => $databases[$dbType]['namespace'],
-                'driver' => $dbType,
-            ];
-
-            if ($force && Database::isActiveConnection()) {
-                $schema = Database::getConnection()->schema();
+            } else {
+                $schema = $connection->schema();
                 $tables = $schema->findTables('%');
                 foreach ($tables as $table) {
                     $schema->dropTable($table);
@@ -500,7 +450,7 @@ class InstallCommand extends ContainerAwareCommand
         try {
             $drupalFinder = new DrupalFinder();
             $drupalFinder->locateRoot(getcwd());
-            $this->runInstaller($database, $uri);
+            $this->runInstaller($database_install, $uri);
 
             $autoload = $this->container->get('class_loader');
             $drupal = new Drupal(
@@ -633,10 +583,4 @@ class InstallCommand extends ContainerAwareCommand
         return 0;
     }
 
-    private function validateUrlConnection($url) {
-        if($url['host'] && $url['path'] && $url['user'] && $url['pass']) {
-            return 0;
-        }
-        return 1;
-    }
 }
