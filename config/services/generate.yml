@@ -1,7 +1,7 @@
 services:
   console.generate_module:
     class: Drupal\Console\Command\Generate\ModuleCommand
-    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api', '@console.chain_queue']
+    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api', '@console.chain_queue', '@console.site']
     tags:
        - { name: drupal.command }
   console.generate_modulefile:
