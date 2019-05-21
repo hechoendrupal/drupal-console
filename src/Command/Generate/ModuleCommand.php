@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Utils\Site;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -59,6 +60,12 @@ class ModuleCommand extends Command
     protected $chainQueue;
 
     /**
+     * @var Site
+     */
+    protected $site;
+
+
+    /**
      * ModuleCommand constructor.
      *
      * @param ModuleGenerator $generator
@@ -67,6 +74,7 @@ class ModuleCommand extends Command
      * @param StringConverter $stringConverter
      * @param DrupalApi       $drupalApi
      * @param ChainQueue      $chainQueue
+     * @param Site            $site
      * @param $twigtemplate
      */
     public function __construct(
@@ -76,6 +84,7 @@ class ModuleCommand extends Command
         StringConverter $stringConverter,
         DrupalApi $drupalApi,
         ChainQueue $chainQueue,
+        Site $site,
         $twigtemplate = null
     ) {
         $this->generator = $generator;
@@ -84,6 +93,7 @@ class ModuleCommand extends Command
         $this->stringConverter = $stringConverter;
         $this->drupalApi = $drupalApi;
         $this->chainQueue = $chainQueue;
+        $this->site = $site;
         $this->twigtemplate = $twigtemplate;
         parent::__construct();
     }
@@ -188,11 +198,18 @@ class ModuleCommand extends Command
         // Get the profile path and define a profile path if it is null
         // Check that it is an absolute path or otherwise create an absolute path using appRoot
         $modulePath = $input->getOption('module-path');
-        $modulePath = $modulePath == null ? 'modules/custom' : $modulePath;
+        if(is_null($modulePath)) {
+            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $defaultModulePath = 'modules/custom';
+            $modulePath = $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultModulePath : $defaultModulePath;
+        }
         $modulePath = Path::isAbsolute($modulePath) ? $modulePath : Path::makeAbsolute($modulePath, $this->appRoot);
         $modulePath = $this->validator->validateModulePath($modulePath, true);
 
-        $machineName = $this->validator->validateMachineName($input->getOption('machine-name'));
+        $machineName = $input->getOption('machine-name') ?
+            $this->validator->validateMachineName($input->getOption('machine-name'))
+            :$this->stringConverter->createMachineName($module);
+
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
@@ -298,9 +315,11 @@ class ModuleCommand extends Command
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
+            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $defaultModulePath = 'modules/custom';
             $modulePath = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.module-path'),
-                'modules/custom',
+                $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultModulePath : $defaultModulePath,
                 function ($modulePath) use ($machineName) {
                     $fullPath = Path::isAbsolute($modulePath) ? $modulePath : Path::makeAbsolute($modulePath, $this->appRoot);
                     $fullPath = $fullPath.'/'.$machineName;
