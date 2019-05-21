@@ -94,7 +94,7 @@ class OverrideCommand extends Command
         }
         $key = $input->getOption('key');
         if (!$key) {
-            if ($this->configStorage->exists($name)) {
+            if (!$this->configStorage->exists($name)) {
                 $this->getIo()->newLine();
                 $this->getIo()->errorLite($this->trans('commands.config.override.messages.invalid-config-file'));
                 $this->getIo()->newLine();
@@ -106,7 +106,7 @@ class OverrideCommand extends Command
         }
         $value = $input->getOption('value');
         if (!$value) {
-            foreach ($key as $name) {
+            foreach ($input->getOption('key') as $name) {
                 $value[] = $this->getIo()->ask(
                     sprintf(
                         $this->trans('commands.config.override.questions.value'),
