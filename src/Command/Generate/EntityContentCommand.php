@@ -95,6 +95,13 @@ class EntityContentCommand extends EntityCommand
             null,
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.revisionable')
+        );
+
+        $this->addOption(
+            'has-forms',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.has-forms')
         )
             ->setAliases(['geco']);
     }
@@ -129,6 +136,13 @@ class EntityContentCommand extends EntityCommand
             true
         );
         $input->setOption('revisionable', $revisionable);
+
+        // --has-forms option
+        $has_forms = $this->getIo()->confirm(
+            $this->trans('commands.generate.entity.content.questions.has-forms'),
+            true
+        );
+        $input->setOption('has-forms', $has_forms);
     }
 
     /**
@@ -146,6 +160,7 @@ class EntityContentCommand extends EntityCommand
         $bundle_entity_type = $has_bundles ? $entity_name . '_type' : null;
         $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
         $revisionable = $input->hasOption('revisionable') ? $input->getOption('revisionable') : false;
+        $has_forms = $input->hasOption('has-forms') ? $input->getOption('has-forms') : false;
 
         $generator = $this->generator;
 
@@ -162,6 +177,7 @@ class EntityContentCommand extends EntityCommand
             'base_path' => $base_path,
             'is_translatable' => $is_translatable,
             'revisionable' => $revisionable,
+            'has_forms' => $has_forms,
         ]);
 
         if ($has_bundles) {
