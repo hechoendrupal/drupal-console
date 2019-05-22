@@ -34,16 +34,6 @@ services:
     arguments: ['@console.extension_manager', '@console.site', '@console.configuration_manager', '@app.root']
     tags:
       - { name: drupal.command }
-  console.multisite_new:
-    class: Drupal\Console\Command\Multisite\NewCommand
-    arguments: ['@app.root', '@console.validator']
-    tags:
-      - { name: drupal.command }
-  console.multisite_update:
-    class: Drupal\Console\Command\Multisite\UpdateCommand
-    arguments: ['@app.root']
-    tags:
-      - { name: drupal.command }
   console.dotenv_init:
     class: \Drupal\Console\Command\DotenvInitCommand
     arguments: ['@console.dotenv_init_generator']
