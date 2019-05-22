@@ -116,6 +116,8 @@ trait ExportTrait
                 $yamlConfig
             );
         }
+
+        $this->configExport = [];
     }
 
     protected function fetchDependencies($config, $type = 'config')
@@ -203,8 +205,6 @@ trait ExportTrait
                 }
             }
         }
-
-
     }
 
     protected function getFormDisplays(
