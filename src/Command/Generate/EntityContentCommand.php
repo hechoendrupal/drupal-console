@@ -95,6 +95,13 @@ class EntityContentCommand extends EntityCommand
             null,
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.revisionable')
+        );
+
+        $this->addOption(
+            'has-forms',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.has-forms')
         )
             ->setAliases(['geco']);
     }
@@ -129,6 +136,13 @@ class EntityContentCommand extends EntityCommand
             true
         );
         $input->setOption('revisionable', $revisionable);
+
+        // --has-forms option
+        $has_forms = $this->getIo()->confirm(
+            $this->trans('commands.generate.entity.content.questions.has-forms'),
+            true
+        );
+        $input->setOption('has-forms', $has_forms);
     }
 
     /**
@@ -137,16 +151,20 @@ class EntityContentCommand extends EntityCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $module = $this->validateModule($input->getOption('module'));
-        $entity_class = $input->getOption('entity-class');
-        $entity_name = $this->validator->validateMachineName($input->getOption('entity-name'));
-        $label = $input->getOption('label');
-        $has_bundles = $input->getOption('has-bundles');
-        $base_path = $input->getOption('base-path');
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
+        $entity_class = $input->getOption('entity-class')?:'DefaultEntity';
+        $entity_name = $this->validator->validateMachineName($input->getOption('entity-name'))?:'default_entity';
+        $label = $input->getOption('label')?:'Default Entity';
+        $has_bundles = $input->getOption('has-bundles')?:false;
+        $base_path = $input->getOption('base-path')?:'/admin/structure';
+        $learning = $input->getOption('learning')?:false;
         $bundle_entity_type = $has_bundles ? $entity_name . '_type' : null;
-        $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
-        $revisionable = $input->hasOption('revisionable') ? $input->getOption('revisionable') : false;
+        $is_translatable = $input->getOption('is-translatable')? : true;
+        $revisionable = $input->getOption('revisionable')? :false;
+        $has_forms = $input->getOption('has-forms')?:true;
 
+        var_dump($input->hasOption('has-forms'));
+        var_dump($input->getOption('has-forms'));
+        var_dump($has_forms);
         $generator = $this->generator;
 
         $generator->setIo($this->getIo());
@@ -162,6 +180,7 @@ class EntityContentCommand extends EntityCommand
             'base_path' => $base_path,
             'is_translatable' => $is_translatable,
             'revisionable' => $revisionable,
+            'has_forms' => $has_forms,
         ]);
 
         if ($has_bundles) {

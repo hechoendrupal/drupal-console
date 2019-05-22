@@ -64,6 +64,7 @@ class EntityContentGenerator extends Generator
         $bundle_entity_type = $parameters['bundle_entity_type'];
         $is_translatable = $parameters['is_translatable'];
         $revisionable = $parameters['revisionable'];
+        $has_forms = $parameters['has_forms'];
 
         $moduleInstance = $this->extensionManager->getModule($module);
         $moduleDir = $moduleInstance->getPath();
@@ -77,27 +78,6 @@ class EntityContentGenerator extends Generator
         $this->renderFile(
             'module/permissions-entity-content.yml.twig',
             $modulePath . '.permissions.yml',
-            $parameters,
-            FILE_APPEND
-        );
-
-        $this->renderFile(
-            'module/links.menu-entity-content.yml.twig',
-            $modulePath . '.links.menu.yml',
-            $parameters,
-            FILE_APPEND
-        );
-
-        $this->renderFile(
-            'module/links.task-entity-content.yml.twig',
-            $modulePath . '.links.task.yml',
-            $parameters,
-            FILE_APPEND
-        );
-
-        $this->renderFile(
-            'module/links.action-entity-content.yml.twig',
-            $modulePath . '.links.action.yml',
             $parameters,
             FILE_APPEND
         );
@@ -118,19 +98,13 @@ class EntityContentGenerator extends Generator
 
         $this->renderFile(
             'module/src/Entity/interface-entity-content.php.twig',
-            $moduleSourcePath . 'Interface.php',
+            $moduleEntityPath . 'Interface.php',
             $parameters
         );
 
         $this->renderFile(
             'module/src/Entity/entity-content.php.twig',
             $moduleEntityPath . '.php',
-            $parameters
-        );
-
-        $this->renderFile(
-            'module/src/entity-content-route-provider.php.twig',
-            $moduleSourcePath . 'HtmlRouteProvider.php',
             $parameters
         );
 
@@ -146,54 +120,96 @@ class EntityContentGenerator extends Generator
             $parameters
         );
 
-        $this->renderFile(
-            'module/src/Entity/Form/entity-settings.php.twig',
-            $moduleFormPath . 'SettingsForm.php',
-            $parameters
-        );
-
-        $this->renderFile(
-            'module/src/Entity/Form/entity-content.php.twig',
-            $moduleFormPath . 'Form.php',
-            $parameters
-        );
-
-        $this->renderFile(
-            'module/src/Entity/Form/entity-content-delete.php.twig',
-            $moduleFormPath . 'DeleteForm.php',
-            $parameters
-        );
-
-        $this->renderFile(
-            'module/entity-content-page.php.twig',
-            $moduleDir . '/' . $entity_name . '.page.inc',
-            $parameters
-        );
-
-        $this->renderFile(
-            'module/templates/entity-html.twig',
-            $moduleTemplatePath . $entity_name . '.html.twig',
-            $parameters
-        );
-
-        if ($revisionable) {
+        if($has_forms) {
             $this->renderFile(
-                'module/src/Entity/Form/entity-content-revision-delete.php.twig',
-                $moduleFormPath . 'RevisionDeleteForm.php',
+                'module/src/entity-content-route-provider.php.twig',
+                $moduleSourcePath . 'HtmlRouteProvider.php',
                 $parameters
             );
-            if ($is_translatable) {
+
+            $this->renderFile(
+                'module/links.menu-entity-content.yml.twig',
+                $modulePath . '.links.menu.yml',
+                $parameters,
+                FILE_APPEND
+            );
+
+            $this->renderFile(
+                'module/links.task-entity-content.yml.twig',
+                $modulePath . '.links.task.yml',
+                $parameters,
+                FILE_APPEND
+            );
+
+            $this->renderFile(
+                'module/links.action-entity-content.yml.twig',
+                $modulePath . '.links.action.yml',
+                $parameters,
+                FILE_APPEND
+            );
+
+            $this->renderFile(
+                'module/src/Entity/Form/entity-settings.php.twig',
+                $moduleFormPath . 'SettingsForm.php',
+                $parameters
+            );
+
+            $this->renderFile(
+                'module/src/Entity/Form/entity-content.php.twig',
+                $moduleFormPath . 'Form.php',
+                $parameters
+            );
+
+
+            $this->renderFile(
+                'module/src/Entity/Form/entity-content-delete.php.twig',
+                $moduleFormPath . 'DeleteForm.php',
+                $parameters
+            );
+
+            $this->renderFile(
+                'module/templates/entity-html.twig',
+                $moduleTemplatePath . $entity_name . '.html.twig',
+                $parameters
+            );
+
+            $this->renderFile(
+                'module/entity-content-page.php.twig',
+                $moduleDir . '/' . $entity_name . '.page.inc',
+                $parameters
+            );
+        }
+
+
+        if ($revisionable) {
+            if ($has_forms) {
+                if ($is_translatable) {
+                    $this->renderFile(
+                        'module/src/Entity/Form/entity-content-revision-revert-translation.php.twig',
+                        $moduleFormPath . 'RevisionRevertTranslationForm.php',
+                        $parameters
+                    );
+                }
+
                 $this->renderFile(
-                    'module/src/Entity/Form/entity-content-revision-revert-translation.php.twig',
-                    $moduleFormPath . 'RevisionRevertTranslationForm.php',
+                    'module/src/Entity/Form/entity-content-revision-delete.php.twig',
+                    $moduleFormPath . 'RevisionDeleteForm.php',
+                    $parameters
+                );
+
+                $this->renderFile(
+                    'module/src/Entity/Form/entity-content-revision-revert.php.twig',
+                    $moduleFormPath . 'RevisionRevertForm.php',
+                    $parameters
+                );
+
+                $this->renderFile(
+                    'module/src/Controller/entity-controller.php.twig',
+                    $moduleInstance->getControllerPath()  . '/' . $entity_class . 'Controller.php',
                     $parameters
                 );
             }
-            $this->renderFile(
-                'module/src/Entity/Form/entity-content-revision-revert.php.twig',
-                $moduleFormPath . 'RevisionRevertForm.php',
-                $parameters
-            );
+
             $this->renderFile(
                 'module/src/entity-storage.php.twig',
                 $moduleSourcePath . 'Storage.php',
@@ -202,11 +218,6 @@ class EntityContentGenerator extends Generator
             $this->renderFile(
                 'module/src/interface-entity-storage.php.twig',
                 $moduleSourcePath . 'StorageInterface.php',
-                $parameters
-            );
-            $this->renderFile(
-                'module/src/Controller/entity-controller.php.twig',
-                $moduleInstance->getControllerPath()  . '/' . $entity_class . 'Controller.php',
                 $parameters
             );
         }
