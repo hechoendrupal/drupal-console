@@ -424,7 +424,7 @@ class InstallCommand extends ContainerAwareCommand
                     $database_install['username'],
                     $database_install['password'],
                     $database_install['port'],
-                    $database_install['host'],
+                    $database_install['host']
                 );
             }
         }
