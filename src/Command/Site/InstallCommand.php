@@ -279,9 +279,11 @@ class InstallCommand extends ContainerAwareCommand
             if ($dbType === 'sqlite') {
                 // --db-file option
                 if (!$input->getOption('db-file')) {
+                    $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+                    $uriPath = $this->site->multisiteMode($uri) ? $this->site->getMultisiteDir($uri) : 'default';
                     $dbFile = $this->getIo()->ask(
                         $this->trans('commands.migrate.execute.questions.db-file'),
-                        'sites/default/files/.ht.sqlite'
+                        'sites/'.$uriPath.'/files/.ht.sqlite'
                     );
                     $input->setOption('db-file', $dbFile);
                 }
@@ -419,7 +421,10 @@ class InstallCommand extends ContainerAwareCommand
             ];
 
             if ($database_install['driver'] === 'sqlite') {
-                $database_install['database'] = $input->getOption('db-file');
+                $uriPath = $this->site->multisiteMode($uri) ? $this->site->getMultisiteDir($uri) : 'default';
+                $dbFile = $input->getOption('db-file')?:'sites/'.$uriPath.'/files/.ht.sqlite';
+
+                $database_install['database'] = $dbFile;
                 unset(
                     $database_install['username'],
                     $database_install['password'],
