@@ -185,7 +185,7 @@ class InstallCommand extends ContainerAwareCommand
         $database = Database::getConnectionInfo();
         if (!empty($database['default'])  && Database::isActiveConnection() && !$input->getOption('force')) {
             $this->getIo()->error($this->trans('commands.site.install.messages.already-installed'));
-            return 1;
+            exit(1);
         }
 
         // --profile option
@@ -260,7 +260,7 @@ class InstallCommand extends ContainerAwareCommand
                 );
                 $is_database_info_set = true;
             } catch (\Exception $e) {
-                $this->getIo()->warning('Invalid --db-url argument: ' . $e->getMessage());
+                $this->getIo()->warning('Invalid db-url argument: ' . $e->getMessage());
             }
         }
 
@@ -268,7 +268,8 @@ class InstallCommand extends ContainerAwareCommand
         if (!$is_database_info_set) {
 
             // --db-type option
-            if (!$input->getOption('db-type')) {
+            $dbType = $input->getOption('db-type');
+            if (!$dbType) {
                 $databases = $this->site->getDatabaseTypes();
                 $dbType = $this->getIo()->choice(
                     $this->trans('commands.migrate.setup.questions.db-type'),
@@ -405,12 +406,12 @@ class InstallCommand extends ContainerAwareCommand
             $database_install = $database['default'];
         }
 
-        // Use the --db-url argument if it is entered and valid
+        // Use the db-url argument if it is entered and valid
         if (!$database_install && !empty($input->getArgument('db-url'))) {
             try {
                 $database_install = Database::convertDbUrlToConnectionInfo($input->getArgument('db-url'), $this->appRoot);
             } catch (\Exception $e) {
-                $this->getIo()->error('Invalid --db-url argument: ' . $e->getMessage());
+                $this->getIo()->error('Invalid db-url argument: ' . $e->getMessage());
                 return 1;
             }
         }
@@ -441,7 +442,7 @@ class InstallCommand extends ContainerAwareCommand
             }
         }
 
-        // Database option defaults.
+        // Cleanup an installed database.
         if ($input->getOption('force') && Database::isActiveConnection()) {
             $connection = Database::getConnection();
             if ($connection->driver() === 'sqlite') {
