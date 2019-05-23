@@ -582,7 +582,7 @@ class InstallCommand extends ContainerAwareCommand
             $this->getIo()->error($this->trans('commands.site.install.messages.already-installed'));
             return 1;
         } catch (\Exception $e) {
-            $this->getIo()->error(html_entity_decode(strip_tags($e->getMessage())));
+            $this->getIo()->error(html_entity_decode(strip_tags($e->getMessage()), ENT_QUOTES));
             return 1;
         }
 
