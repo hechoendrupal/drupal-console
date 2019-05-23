@@ -348,13 +348,24 @@ class ExecuteCommand extends Command
 
     private function executeUpdate($function, &$context)
     {
-        if (!$context || !array_key_exists('sandbox', $context)) {
-            $context['sandbox'] = [];
-        }
+        $context['sandbox'] = [];
+        do {
+            if (function_exists($function)) {
+                $return = $function($context['sandbox']);
 
-        if (function_exists($function)) {
-            $function($context['sandbox']);
-        }
+                if (is_string($return)) {
+                    $this->getIo()->info(
+                        "  ".$return
+                    );
+                }
+
+                if (isset($context['sandbox']['#finished']) && ($context['sandbox']['#finished'] < 1)) {
+                    $this->getIo()->info(
+                        '  Processed '.number_format($context['sandbox']['#finished'] * 100, 2).'%'
+                    );
+                }
+            }
+        } while (isset($context['sandbox']['#finished']) && ($context['sandbox']['#finished'] < 1));
 
         return true;
     }
