@@ -165,7 +165,15 @@ class StatusCommand extends ContainerAwareCommand
             } elseif (is_string($requirement['description'])) {
                 $description = strip_tags($requirement['description']);
             } elseif (is_array($requirement['description'])) {
-                $description = strip_tags(implode(' | ', $requirement['description']));
+                $tmp = [];
+                foreach ($requirement['description'] as $item) {
+                    if ($item instanceof \Drupal\Core\StringTranslation\TranslatableMarkup) {
+                        $tmp[] = strip_tags($item->render());
+                    } elseif (is_string($item)) {
+                        $tmp[] = strip_tags($item);
+                    }
+                }
+                $description = strip_tags(implode(' | ', $tmp));
             }
             $value .= $description ? ' (' . $description . ')' : '';
             $systemData['system'][strip_tags($title)] = $value;
