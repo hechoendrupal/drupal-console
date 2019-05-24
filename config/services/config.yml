@@ -36,7 +36,7 @@ services:
       - { name: drupal.command }
   console.config_export_view:
     class: Drupal\Console\Command\Config\ExportViewCommand
-    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator']
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator', '@console.chain_queue']
     tags:
       - { name: drupal.command }
   console.config_import:

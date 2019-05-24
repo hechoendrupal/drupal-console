@@ -133,10 +133,10 @@ class ExecuteCommand extends Command
         $updates = update_resolve_dependencies($start);
         $dependencyMap = [];
         $allowUpdate = false;
+
         foreach ($updates as $function => $update) {
             $dependencyMap[$function] = !empty($update['reverse_paths']) ? array_keys($update['reverse_paths']) : [];
         }
-
         if (!$this->checkUpdates($start, $updates)) {
             if ($this->module === 'all') {
                 $this->getIo()->info(
@@ -158,19 +158,34 @@ class ExecuteCommand extends Command
             }
             $this->getIo()->info('');
         } else {
-            $this->showUpdateTable($updates, $this->trans('commands.update.execute.messages.pending-updates'));
+            $updateList = update_get_update_list();
+            $this->showUpdateTable($this->module === 'all' ?  $updateList: $updateList[$this->module], $this->trans('commands.update.execute.messages.pending-updates'));
 
             $allowUpdate = $this->getIo()->confirm(
                 $this->trans('commands.update.execute.questions.update'),
                 true
             );
+        }
 
+        // Handle Post update to execute
+        $allowPostUpdate = false;
+        if(!$postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation()) {
+            $this->getIo()->info(
+                $this->trans('commands.update.execute.messages.no-pending-post-updates')
+            );
+        } else {
+            $this->showPostUpdateTable($postUpdates, $this->trans('commands.update.execute.messages.pending-post-updates'));
+            $allowPostUpdate = $this->getIo()->confirm(
+                $this->trans('commands.update.execute.questions.post-update'),
+                true
+            );
+        }
+
+        if($allowUpdate) {
             try {
-                if($allowUpdate) {
-                    $this->runUpdates(
-                        $updates
-                    );
-                }
+                $this->runUpdates(
+                    $updates
+                );
             } catch (\Exception $e) {
                 watchdog_exception('update', $e);
                 $this->getIo()->error($e->getMessage());
@@ -178,10 +193,11 @@ class ExecuteCommand extends Command
             }
         }
 
-        // Post Updates are only safe to run after all schemas have been updated.
-        $postUpdates = $this->runPostUpdates();
+        if($allowPostUpdate) {
+            $this->runPostUpdates($postUpdates);
+        }
 
-        if($postUpdates || $allowUpdate) {
+        if($allowPostUpdate || $allowUpdate) {
             $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
         }
 
@@ -266,25 +282,12 @@ class ExecuteCommand extends Command
     }
 
     /**
+     * @param array $postUpdates
      * @return bool
      */
-    private function runPostUpdates()
+    private function runPostUpdates($postUpdates)
     {
-        if(!$postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation()) {
-            $this->getIo()->info(
-                $this->trans('commands.update.execute.messages.no-pending-post-updates')
-            );
-            return 0;
-        }
-
-        $this->showPostUpdateTable($postUpdates, $this->trans('commands.update.execute.messages.pending-post-updates'));
-
-        $allowPostUpdate = $this->getIo()->confirm(
-            $this->trans('commands.update.execute.questions.post-update'),
-            true
-        );
-
-        if(!$allowPostUpdate) {
+        if(!$postUpdates) {
             return 0;
         }
 
@@ -314,7 +317,7 @@ class ExecuteCommand extends Command
 
         $this->chainQueue->addCommand('update:entities');
 
-        return true;
+        return 1;
     }
 
     protected function getUpdates($module = null)
@@ -338,7 +341,6 @@ class ExecuteCommand extends Command
     {
         $start = [];
         $updates = update_get_update_list();
-
         foreach ($updates as $module => $update) {
             $start[$module] = $update['start'];
         }
@@ -348,13 +350,24 @@ class ExecuteCommand extends Command
 
     private function executeUpdate($function, &$context)
     {
-        if (!$context || !array_key_exists('sandbox', $context)) {
-            $context['sandbox'] = [];
-        }
+        $context['sandbox'] = [];
+        do {
+            if (function_exists($function)) {
+                $return = $function($context['sandbox']);
 
-        if (function_exists($function)) {
-            $function($context['sandbox']);
-        }
+                if (is_string($return)) {
+                    $this->getIo()->info(
+                        "  ".$return
+                    );
+                }
+
+                if (isset($context['sandbox']['#finished']) && ($context['sandbox']['#finished'] < 1)) {
+                    $this->getIo()->info(
+                        '  Processed '.number_format($context['sandbox']['#finished'] * 100, 2).'%'
+                    );
+                }
+            }
+        } while (isset($context['sandbox']['#finished']) && ($context['sandbox']['#finished'] < 1));
 
         return true;
     }

@@ -16,6 +16,7 @@ use Drupal\system\SystemManager;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  *  This command provides a report of the current drupal installation.
@@ -149,14 +150,37 @@ class StatusCommand extends ContainerAwareCommand
         $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
-            if ($requirement['title'] instanceof \Drupal\Core\StringTranslation\TranslatableMarkup) {
+            if ($requirement['title'] instanceof TranslatableMarkup) {
                 $title = $requirement['title']->render();
             } else {
                 $title = $requirement['title'];
             }
 
-            $value = empty($requirement['description']) ? $requirement['value'] : $requirement['value'] . ' (' . $requirement['description'] . ')';
-            $systemData['system'][strip_tags($title)] = strip_tags($value); ;
+            $value = !empty($requirement['value']) ? strip_tags($requirement['value']) : '';
+
+            if ($this->getIo()->isVerbose()) {
+                $description = !empty($requirement['description']) ? $requirement['description'] : '';
+                if (empty($requirement['description'])) {
+                    $description = null;
+                } elseif ($requirement['description'] instanceof TranslatableMarkup) {
+                    $description = strip_tags($requirement['description']->render());
+                } elseif (is_string($requirement['description'])) {
+                    $description = strip_tags($requirement['description']);
+                } elseif (is_array($requirement['description'])) {
+                    $tmp = [];
+                    foreach ($requirement['description'] as $item) {
+                        if ($item instanceof TranslatableMarkup) {
+                            $tmp[] = strip_tags($item->render());
+                        } elseif (is_string($item)) {
+                            $tmp[] = strip_tags($item);
+                        }
+                    }
+                    $description = strip_tags(implode(' | ', $tmp));
+                }
+                $value .= $description ? ' (' . $description . ')' : '';
+            }
+
+            $systemData['system'][strip_tags($title)] = $value;
         }
 
 
@@ -185,8 +209,10 @@ class StatusCommand extends ContainerAwareCommand
                 continue;
             }
 
-            $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
-            $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+            if (!empty($connectionInfo['default'][$connectionInfoKey])) {
+                $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
+                $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+            }
         }
 
         $connection_url = Database::getConnectionInfoAsUrl();
