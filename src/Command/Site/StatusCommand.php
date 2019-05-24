@@ -158,7 +158,14 @@ class StatusCommand extends ContainerAwareCommand
 //            $value = empty($requirement['description']) ? $requirement['value'] : $requirement['value'] . ' (' . $requirement['description'] . ')';
             $value = !empty($requirement['value']) ? strip_tags($requirement['value']) : '';
             $description = !empty($requirement['description']) ? $requirement['description'] : '';
-            $value .= $description;
+            if (empty($requirement['description'])) {
+                $description = null;
+            } elseif (is_string($requirement['description'])) {
+                $description = strip_tags($requirement['description']);
+            } elseif (is_array($requirement['description'])) {
+                $description = strip_tags(implode(' | ', $requirement['description']));
+            }
+            $value .= $description ? ' (' . $description . ')' : '';
             $systemData['system'][strip_tags($title)] = $value;
         }
 
