@@ -156,7 +156,7 @@ class StatusCommand extends ContainerAwareCommand
                 $title = $requirement['title'];
             }
 
-dump($requirement)
+dump($requirement);
             $value = $requirement['severity'] . ' ' . !empty($requirement['value']) ? strip_tags($requirement['value']) : '';
 
             if ($this->getIo()->isVerbose()) {
