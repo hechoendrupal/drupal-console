@@ -155,7 +155,8 @@ class StatusCommand extends ContainerAwareCommand
                 $title = $requirement['title'];
             }
 
-            $value = empty($requirement['description']) ? $requirement['value'] : $requirement['value'] . ' (' . $requirement['description'] . ')';
+//            $value = empty($requirement['description']) ? $requirement['value'] : $requirement['value'] . ' (' . $requirement['description'] . ')';
+            $value = !empty($requirement['description']) ? $requirement['description'] : '';
             $systemData['system'][strip_tags($title)] = strip_tags($value); ;
         }
 
@@ -185,8 +186,10 @@ class StatusCommand extends ContainerAwareCommand
                 continue;
             }
 
-            $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
-            $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+            if (!empty($connectionInfo['default'][$connectionInfoKey])) {
+                $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
+                $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+            }
         }
 
         $connection_url = Database::getConnectionInfoAsUrl();
