@@ -17,7 +17,6 @@ use Drupal\Core\Site\Settings;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\Drupal\system\SystemManager;
 
 /**
  *  This command provides a report of the current drupal installation.
