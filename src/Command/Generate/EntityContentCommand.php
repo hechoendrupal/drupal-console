@@ -162,9 +162,6 @@ class EntityContentCommand extends EntityCommand
         $revisionable = $input->getOption('revisionable')? :false;
         $has_forms = $input->getOption('has-forms')?:true;
 
-        var_dump($input->hasOption('has-forms'));
-        var_dump($input->getOption('has-forms'));
-        var_dump($has_forms);
         $generator = $this->generator;
 
         $generator->setIo($this->getIo());
