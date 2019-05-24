@@ -164,7 +164,7 @@ class StatusCommand extends ContainerAwareCommand
                         break;
 
                     case SystemManager::REQUIREMENT_WARNING:
-                        $value = "<warning>$value</warning>";
+                        $value = "<comment>$value</comment>";
                         break;
 
                 }
