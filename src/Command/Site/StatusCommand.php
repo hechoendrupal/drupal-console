@@ -17,6 +17,7 @@ use Drupal\Core\Site\Settings;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Drupal\system\SystemManager;
 
 /**
  *  This command provides a report of the current drupal installation.
@@ -157,7 +158,18 @@ class StatusCommand extends ContainerAwareCommand
             }
 
             $value = !empty($requirement['value']) ? strip_tags($requirement['value']) : '';
-            $value .= isset($requirement['severity']) ? (string) $requirement['severity'] : '';
+            if (isset($requirement['severity'])) {
+                switch ($requirement['severity']) {
+                    case SystemManager::REQUIREMENT_ERROR:
+                        $value = "<error>$value</error>";
+                        break;
+
+                    case SystemManager::REQUIREMENT_WARNING:
+                        $value = "<warning>$value</warning>";
+                        break;
+
+                }
+            }
 
             if ($this->getIo()->isVerbose()) {
                 $description = !empty($requirement['description']) ? $requirement['description'] : '';
