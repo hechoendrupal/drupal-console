@@ -160,6 +160,8 @@ class StatusCommand extends ContainerAwareCommand
             $description = !empty($requirement['description']) ? $requirement['description'] : '';
             if (empty($requirement['description'])) {
                 $description = null;
+            } elseif ($requirement['description'] instanceof \Drupal\Core\StringTranslation\TranslatableMarkup) {
+                $description = strip_tags($requirement['description']->render());
             } elseif (is_string($requirement['description'])) {
                 $description = strip_tags($requirement['description']);
             } elseif (is_array($requirement['description'])) {
