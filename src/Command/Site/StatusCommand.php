@@ -156,7 +156,7 @@ class StatusCommand extends ContainerAwareCommand
                 $title = $requirement['title'];
             }
 
-            $value = !empty($requirement['value']) ? strip_tags($requirement['value']) : '';
+            $value = $requirement['severity'] . ' ' . !empty($requirement['value']) ? strip_tags($requirement['value']) : '';
 
             if ($this->getIo()->isVerbose()) {
                 $description = !empty($requirement['description']) ? $requirement['description'] : '';
@@ -167,6 +167,7 @@ class StatusCommand extends ContainerAwareCommand
                 } elseif (is_string($requirement['description'])) {
                     $description = strip_tags($requirement['description']);
                 } elseif (is_array($requirement['description'])) {
+dump($requirement['description']);
                     $tmp = [];
                     foreach ($requirement['description'] as $item) {
                         if ($item instanceof TranslatableMarkup) {
