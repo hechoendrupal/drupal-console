@@ -43,6 +43,20 @@ class StatusCommand extends ContainerAwareCommand
     ];
 
     /**
+     * A list of system requirements to be skipped from output.
+     *
+     * @var array
+     */
+    protected $systemDataSkipList = [
+      // The PHP memory limit in CLI is different from the one available to the
+      // web server. Skip to avoid confusion.
+      'php_memory_limit',
+      // The web server cannot be determined in CLI since Drupal takes it from
+      // the $_SERVER variable in HTTP requests.
+      'webserver',
+    ];
+
+    /**
      * @var SystemManager
      */
     protected $systemManager;
@@ -150,6 +164,10 @@ class StatusCommand extends ContainerAwareCommand
         $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
+            if (in_array($key, $this->systemDataSkipList)) {
+                continue;
+            }
+
             if ($requirement['title'] instanceof TranslatableMarkup) {
                 $title = $requirement['title']->render();
             } else {
