@@ -16,6 +16,7 @@ use Drupal\system\SystemManager;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
@@ -82,26 +83,34 @@ class StatusCommand extends ContainerAwareCommand
     protected $appRoot;
 
     /**
+     * @var RendererInterface
+     */
+    protected $renderer;
+
+    /**
      * DebugCommand constructor.
      *
-     * @param SystemManager $systemManager
-     * @param Settings      $settings
-     * @param ConfigFactory $configFactory
-     * @param ThemeHandler  $themeHandler
+     * @param SystemManager     $systemManager
+     * @param Settings          $settings
+     * @param ConfigFactory     $configFactory
+     * @param ThemeHandler      $themeHandler
      * @param $appRoot
+     * @param RendererInterface $renderer
      */
     public function __construct(
         SystemManager $systemManager = null,
         Settings $settings,
         ConfigFactory $configFactory,
         ThemeHandler $themeHandler,
-        $appRoot
+        $appRoot,
+        RendererInterface $renderer
     ) {
         $this->systemManager = $systemManager;
         $this->settings = $settings;
         $this->configFactory = $configFactory;
         $this->themeHandler = $themeHandler;
         $this->appRoot = $appRoot;
+        $this->renderer = $renderer;
         parent::__construct();
     }
 
@@ -197,7 +206,7 @@ class StatusCommand extends ContainerAwareCommand
                 } elseif (is_string($requirement['description'])) {
                     $description = strip_tags($requirement['description']);
                 } elseif (is_array($requirement['description'])) {
-                    $description = null;
+                    $description = $this->renderer->renderPlain($requirement['description']);
                 }
                 $value .= $description ? ' (' . $description . ')' : '';
             }
