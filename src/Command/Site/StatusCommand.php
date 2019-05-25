@@ -206,7 +206,7 @@ class StatusCommand extends ContainerAwareCommand
                 } elseif (is_string($requirement['description'])) {
                     $description = strip_tags($requirement['description']);
                 } elseif (is_array($requirement['description'])) {
-                    $description = $this->renderer->renderPlain($requirement['description']);
+                    $description = strip_tags($this->renderer->renderPlain($requirement['description']));
                 }
                 $value .= $description ? ' (' . $description . ')' : '';
             }
