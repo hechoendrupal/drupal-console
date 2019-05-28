@@ -198,15 +198,13 @@ class StatusCommand extends ContainerAwareCommand
             }
 
             if ($this->getIo()->isVerbose()) {
-                $description = !empty($requirement['description']) ? $requirement['description'] : '';
-                if (empty($requirement['description'])) {
-                    $description = null;
-                } elseif ($requirement['description'] instanceof TranslatableMarkup) {
-                    $description = strip_tags($requirement['description']->render());
-                } elseif (is_string($requirement['description'])) {
-                    $description = strip_tags($requirement['description']);
-                } elseif (is_array($requirement['description'])) {
-                    $description = strip_tags($this->renderer->renderPlain($requirement['description']));
+                $description = !empty($requirement['description']) ? $requirement['description'] : null;
+                if ($description instanceof TranslatableMarkup) {
+                    $description = strip_tags($description->render());
+                if (is_string($description)) {
+                    $description = strip_tags($description);
+                if (is_array($description)) {
+                    $description = strip_tags($this->renderer->renderPlain($description));
                 }
                 $value .= $description ? ' (' . $description . ')' : '';
             }
