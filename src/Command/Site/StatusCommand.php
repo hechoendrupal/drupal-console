@@ -206,7 +206,7 @@ class StatusCommand extends ContainerAwareCommand
                 if (is_array($description)) {
                     $description = Html2Text::convert($this->renderer->renderPlain($description));
                 }
-                $value .= $description ? ' (' . $description . ')' : '';
+                $value .= $description ? "\n" . $description : '';
             }
 
             $systemData['system'][strip_tags($title)] = $value;
