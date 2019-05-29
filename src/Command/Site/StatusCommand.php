@@ -18,6 +18,7 @@ use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Soundasleep\Html2Text;
 
 /**
  *  This command provides a report of the current drupal installation.
@@ -200,12 +201,12 @@ class StatusCommand extends ContainerAwareCommand
             if ($this->getIo()->isVerbose()) {
                 $description = !empty($requirement['description']) ? $requirement['description'] : null;
                 if ($description instanceof TranslatableMarkup) {
-                    $description = $description->render();
+                    $description = Html2Text::convert($description->render());
                 }
                 if (is_array($description)) {
-                    $description = $this->renderer->renderPlain($description);
+                    $description = Html2Text::convert($this->renderer->renderPlain($description));
                 }
-                $value .= $description ? ' (' . strip_tags($description) . ')' : '';
+                $value .= $description ? ' (' . $description . ')' : '';
             }
 
             $systemData['system'][strip_tags($title)] = $value;
