@@ -132,6 +132,23 @@ class Validator
         }
     }
 
+    public function validateControllerClassExists($class_name, $module_name)
+    {
+        $class_exists = $this->extensionManager->getModule($module_name)->getControllerPath() . '/' . $class_name . '.php';
+
+        if (!$class_exists) {
+            return $class_name;
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Controller file with the name "%s.php" is already exist. Enter a different controller class name',
+                    $class_name,
+                    $module_name
+                )
+            );
+        }
+    }
+
     public function validateMachineName($machine_name)
     {
         if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
