@@ -16,14 +16,13 @@ use Drupal\Console\Core\Command\ContainerAwareCommand;
 {% else %}
 use Drupal\Console\Core\Command\Command;
 {% endif %}
-use Drupal\Console\Annotations\DrupalCommand;
 {% endblock %}
 
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
  *
- * @DrupalCommand (
+ * Drupal\Console\Annotations\DrupalCommand (
  *     extension="{{extension}}",
  *     extensionType="{{ extension_type }}"
  * )
@@ -39,6 +38,7 @@ class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% e
 {{ serviceClassInitialization(services) }}
     parent::__construct();
   }
+
 {% endif %}
 {% endblock %}
 
@@ -53,9 +53,9 @@ class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% e
   }
 
 {% if initialize %}
- /**
-  * {@inheritdoc}
-  */
+  /**
+   * {@inheritdoc}
+   */
   protected function initialize(InputInterface $input, OutputInterface $output) {
     parent::initialize($input, $output);
     $this->getIo()->info('initialize');
@@ -63,9 +63,9 @@ class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% e
 
 {% endif %}
 {% if interact %}
- /**
-  * {@inheritdoc}
-  */
+  /**
+   * {@inheritdoc}
+   */
   protected function interact(InputInterface $input, OutputInterface $output) {
     $this->getIo()->info('interact');
   }
@@ -81,5 +81,4 @@ class {{ class_name }} extends {% if container_aware %}ContainerAwareCommand{% e
     $this->generator->generate([]);
 {% endif %}
   }
-
-{%- endblock -%}
+{% endblock %}
