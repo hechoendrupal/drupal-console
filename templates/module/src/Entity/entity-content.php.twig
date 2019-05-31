@@ -56,7 +56,7 @@ use Drupal\user\UserInterface;
  *     "route_provider" = {
  *       "html" = "Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider",
  *     },
- {% endif %}
+{% endif %}
  *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessControlHandler",
  *   },
  *   base_table = "{{ entity_name }}",
@@ -84,7 +84,7 @@ use Drupal\user\UserInterface;
  *     "published" = "status",
  *   },
 {% if has_forms %}
-    *   links = {
+ *   links = {
  *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
 {% if bundle_entity_type %}
  *     "add-page" = "{{ base_path }}/{{ entity_name }}/add",
