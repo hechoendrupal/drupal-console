@@ -63,7 +63,7 @@ class ImportSingleCommand extends Command
                 'directory',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.import.arguments.directory')
+                $this->trans('commands.config.import.options.directory')
             )
             ->setAliases(['cis']);
     }

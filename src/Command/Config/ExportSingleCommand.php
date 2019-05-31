@@ -103,7 +103,7 @@ class ExportSingleCommand extends Command
                 'directory',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.export.arguments.directory')
+                $this->trans('commands.config.export.options.directory')
             )->addOption(
                 'module',
                 null,
