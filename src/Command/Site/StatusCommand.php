@@ -197,6 +197,7 @@ class StatusCommand extends ContainerAwareCommand
 
                 }
             }
+            $systemData['system'][strip_tags($title)]['value'] = $value;
 
             if ($this->getIo()->isVerbose()) {
                 $description = !empty($requirement['description']) ? $requirement['description'] : null;
@@ -206,10 +207,8 @@ class StatusCommand extends ContainerAwareCommand
                 if (is_array($description)) {
                     $description = Html2Text::convert($this->renderer->renderPlain($description));
                 }
-                $value .= $description ? "\n" . $description : '';
+                $systemData['system'][strip_tags($title)]['description'] = $description;
             }
-
-            $systemData['system'][strip_tags($title)] = $value;
         }
 
 
@@ -306,7 +305,12 @@ class StatusCommand extends ContainerAwareCommand
             $this->getIo()->comment($this->trans('commands.site.status.messages.'.$group));
 
             foreach ($groupData as $key => $item) {
-                $tableRows[] = [$key, $item];
+                if ($groupData === 'system') {
+                    $tableRows[] = [$key, $item['value']];
+                    $tableRows[] = [$item['description']];
+                } else {
+                    $tableRows[] = [$key, $item];
+                }
             }
 
             $this->getIo()->table([], $tableRows, 'compact');
