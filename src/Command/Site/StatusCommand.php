@@ -317,7 +317,7 @@ class StatusCommand extends ContainerAwareCommand
                     $tableRows[] = [$key, $item];
                 }
             }
-            $this->getIo()->table([], $tableRows, 'compact')
+            $this->getIo()->table([], $tableRows, 'compact');
         }
     }
 }
