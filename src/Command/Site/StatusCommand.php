@@ -308,7 +308,7 @@ class StatusCommand extends ContainerAwareCommand
             foreach ($groupData as $key => $item) {
                 if ($group === 'system') {
                     if (isset($item['description'])) {
-                        $tableRows[] = [$key, $item['value'] . "\n" . $item['description']];
+                        $tableRows[] = [$key, $item['value'] . "\n" . wordwrap($item['description'], 60, "\n", true)];
                     } else {
                         $tableRows[] = [$key, $item['value']];
                     }
