@@ -307,23 +307,21 @@ class StatusCommand extends ContainerAwareCommand
 
             foreach ($groupData as $key => $item) {
                 if ($group === 'system') {
-//dump([$key, $item]);
                     $tableRows[] = [$key, $item['value']];
                     if (isset($item['description'])) {
-                        $tableRows[] = ['', $item['description']];
+                        $tableRows[] = [$key, $item['value'] . "\n" . $item['description']];
+                    } else {
+                        $tableRows[] = [$key, $item['value']];
                     }
                 } else {
                     $tableRows[] = [$key, $item];
                 }
             }
-//dump($tableRows);
             $table = new Table($this->getIo());
             $table
                 ->setHeaders([])
-                ->setRows($tableRows)
-                ->setColumnWidths([20, 60]);
+                ->setRows($tableRows);
             $table->render();
-            //$this->getIo()->table([], $tableRows, 'compact');
         }
     }
 }
