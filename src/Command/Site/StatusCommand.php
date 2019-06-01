@@ -316,14 +316,8 @@ class StatusCommand extends ContainerAwareCommand
                 } else {
                     $tableRows[] = [$key, $item];
                 }
-                $tableRows[] = new TableSeparator();
             }
-            array_pop($tableRows);
-            $table = new Table($this->getIo());
-            $table
-                ->setHeaders([])
-                ->setRows($tableRows);
-            $table->render();
+            $this->getIo()->table([], $tableRows, 'compact')
         }
     }
 }
