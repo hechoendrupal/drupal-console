@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Site;
 
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -218,8 +219,8 @@ class StatusCommand extends ContainerAwareCommand
             } catch (\Exception $e) {
                 $hashSalt = '';
             }
-            $systemData['system'][$this->trans('commands.site.status.messages.hash-salt')] = $hashSalt;
-            $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
+            $systemData['system'][$this->trans('commands.site.status.messages.hash-salt')]['value'] = $hashSalt;
+            $systemData['system'][$this->trans('commands.site.status.messages.console')]['value'] = $this->getApplication()->getVersion();
         }
 
         return $systemData;
@@ -316,7 +317,13 @@ class StatusCommand extends ContainerAwareCommand
                 }
             }
 //dump($tableRows);
-            $this->getIo()->table([], $tableRows, 'compact');
+            $table = new Table($this->getIo()->getOutput());
+            $table
+                ->setHeaders([])
+                ->setRows($tableRows)
+                ->setColumnWidths([20, 60]);
+            $table->render();
+            //$this->getIo()->table([], $tableRows, 'compact');
         }
     }
 }
