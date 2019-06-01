@@ -305,8 +305,8 @@ class StatusCommand extends ContainerAwareCommand
             $this->getIo()->comment($this->trans('commands.site.status.messages.'.$group));
 
             foreach ($groupData as $key => $item) {
-                if ($groupData === 'system') {
-dump([$key, $item]);
+                if ($group === 'system') {
+//dump([$key, $item]);
                     $tableRows[] = [$key, $item['value']];
                     if (isset($item['description'])) {
                         $tableRows[] = [$item['description']];
@@ -315,7 +315,7 @@ dump([$key, $item]);
                     $tableRows[] = [$key, $item];
                 }
             }
-dump($tableRows);
+//dump($tableRows);
             $this->getIo()->table([], $tableRows, 'compact');
         }
     }
