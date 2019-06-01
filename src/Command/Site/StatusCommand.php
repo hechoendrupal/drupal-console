@@ -306,6 +306,7 @@ class StatusCommand extends ContainerAwareCommand
 
             foreach ($groupData as $key => $item) {
                 if ($groupData === 'system') {
+dump([$key, $item]);
                     $tableRows[] = [$key, $item['value']];
                     if (isset($item['description'])) {
                         $tableRows[] = [$item['description']];
@@ -314,7 +315,7 @@ class StatusCommand extends ContainerAwareCommand
                     $tableRows[] = [$key, $item];
                 }
             }
-
+dump($tableRows);
             $this->getIo()->table([], $tableRows, 'compact');
         }
     }
