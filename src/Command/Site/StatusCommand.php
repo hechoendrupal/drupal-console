@@ -317,7 +317,7 @@ class StatusCommand extends ContainerAwareCommand
                 }
             }
 //dump($tableRows);
-            $table = new Table($this->getIo()->getOutput());
+            $table = new Table($this->getIo());
             $table
                 ->setHeaders([])
                 ->setRows($tableRows)
