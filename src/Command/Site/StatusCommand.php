@@ -310,7 +310,7 @@ class StatusCommand extends ContainerAwareCommand
 //dump([$key, $item]);
                     $tableRows[] = [$key, $item['value']];
                     if (isset($item['description'])) {
-                        $tableRows[] = [$item['description']];
+                        $tableRows[] = ['', $item['description']];
                     }
                 } else {
                     $tableRows[] = [$key, $item];
