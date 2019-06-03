@@ -15,24 +15,22 @@ use Drupal\Console\Core\Generator\GeneratorInterface;
 
 {% block class_declaration %}
 /**
- * Class {{ class_name }}
+ * Class {{ class_name }}.
  *
  * @package Drupal\Console\Generator
  */
-class {{ class_name }} extends Generator implements GeneratorInterface
-{% endblock %}
+class {{ class_name }} extends Generator implements GeneratorInterface {% endblock %}
 
 {% block class_methods %}
   /**
    * {@inheritdoc}
    */
-  public function generate(array $parameters)
-  {
-//    Example how to render a twig template using the renderFile method
-//    $this->renderFile(
-//      'path/to/file.php.twig',
-//      'path/to/file.php',
-//      $parameters
-//    );
+  public function generate(array $parameters) {
+    // Example how to render a twig template using the renderFile method
+    // $this->renderFile(
+    // 'path/to/file.php.twig',
+    // 'path/to/file.php',
+    // $parameters
+    // );.
   }
 {% endblock %}
