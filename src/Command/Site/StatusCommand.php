@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Utils\HtmlConverter;
 use Drupal\Core\Database\Database;
 use Drupal\system\SystemManager;
 use Drupal\Core\Site\Settings;
@@ -88,6 +89,11 @@ class StatusCommand extends ContainerAwareCommand
     protected $renderer;
 
     /**
+     * @var HtmlConverter
+     */
+    protected $htmlConverter;
+
+    /**
      * DebugCommand constructor.
      *
      * @param SystemManager     $systemManager
@@ -96,6 +102,7 @@ class StatusCommand extends ContainerAwareCommand
      * @param ThemeHandler      $themeHandler
      * @param $appRoot
      * @param RendererInterface $renderer
+     * @param HtmlConverter     $htmlConverter
      */
     public function __construct(
         SystemManager $systemManager = null,
@@ -103,7 +110,8 @@ class StatusCommand extends ContainerAwareCommand
         ConfigFactory $configFactory,
         ThemeHandler $themeHandler,
         $appRoot,
-        RendererInterface $renderer
+        RendererInterface $renderer,
+        HtmlConverter $htmlConverter
     ) {
         $this->systemManager = $systemManager;
         $this->settings = $settings;
@@ -111,6 +119,7 @@ class StatusCommand extends ContainerAwareCommand
         $this->themeHandler = $themeHandler;
         $this->appRoot = $appRoot;
         $this->renderer = $renderer;
+        $this->htmlConverter = $htmlConverter;
         parent::__construct();
     }
 
@@ -177,40 +186,35 @@ class StatusCommand extends ContainerAwareCommand
                 continue;
             }
 
+            // Title.
             if ($requirement['title'] instanceof TranslatableMarkup) {
                 $title = $requirement['title']->render();
             } else {
                 $title = $requirement['title'];
             }
+            $title = strip_tags($title);
 
+            // Value.
             $value = !empty($requirement['value']) ? strip_tags($requirement['value']) : '';
+            $systemData['system'][$title]['value'] = $value;
+
+            // Severity.
             if (isset($requirement['severity'])) {
-                switch ($requirement['severity']) {
-                    case SystemManager::REQUIREMENT_ERROR:
-                        $value = "<error>$value</error>";
-                        break;
-
-                    case SystemManager::REQUIREMENT_WARNING:
-                        $value = "<comment>$value</comment>";
-                        break;
-
-                }
+                $systemData['system'][$title]['severity'] = $requirement['severity'];
             }
 
-            if ($this->getIo()->isVerbose()) {
-                $description = !empty($requirement['description']) ? $requirement['description'] : null;
+            // Detailed description, when verbose (-v) mode is on.
+            if ($this->getIo()->isVerbose() && !empty($requirement['description'])) {
+                $description = $requirement['description'];
                 if ($description instanceof TranslatableMarkup) {
-                    $description = $description->render();
+                    $description = $this->htmlConverter->html2text($description->render(), ['width' => 75]);
                 }
                 if (is_array($description)) {
-                    $description = $this->renderer->renderPlain($description);
+                    $description = $this->htmlConverter->html2text($this->renderer->renderPlain($description), ['width' => 75]);
                 }
-                $value .= $description ? ' (' . strip_tags($description) . ')' : '';
+                $systemData['system'][$title]['description'] = $description;
             }
-
-            $systemData['system'][strip_tags($title)] = $value;
         }
-
 
         if ($this->settings) {
             try {
@@ -218,8 +222,8 @@ class StatusCommand extends ContainerAwareCommand
             } catch (\Exception $e) {
                 $hashSalt = '';
             }
-            $systemData['system'][$this->trans('commands.site.status.messages.hash-salt')] = $hashSalt;
-            $systemData['system'][$this->trans('commands.site.status.messages.console')] = $this->getApplication()->getVersion();
+            $systemData['system'][$this->trans('commands.site.status.messages.hash-salt')]['value'] = $hashSalt;
+            $systemData['system'][$this->trans('commands.site.status.messages.console')]['value'] = $this->getApplication()->getVersion();
         }
 
         return $systemData;
@@ -232,14 +236,14 @@ class StatusCommand extends ContainerAwareCommand
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
-            if ('password' == $connectionInfoKey) {
-                $has_password = TRUE;
-                continue;
-            }
-
             if (!empty($connectionInfo['default'][$connectionInfoKey])) {
                 $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
-                $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+                if ('password' == $connectionInfoKey) {
+                    $has_password = TRUE;
+                    $connectionData['database'][$connectionKey] = '********';
+                } else {
+                    $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+                }
             }
         }
 
@@ -303,11 +307,33 @@ class StatusCommand extends ContainerAwareCommand
             $tableRows = [];
             $groupData = $siteData[$group];
             $this->getIo()->comment($this->trans('commands.site.status.messages.'.$group));
-
             foreach ($groupData as $key => $item) {
-                $tableRows[] = [$key, $item];
-            }
+                if ($group === 'system') {
+                    if (isset($item['severity'])) {
+                        switch ($item['severity']) {
+                            case SystemManager::REQUIREMENT_ERROR:
+                                $value = "<error>{$item['value']}</error>";
+                                break;
 
+                            case SystemManager::REQUIREMENT_WARNING:
+                                $value = "<comment>{$item['value']}</comment>";
+                                break;
+
+                            default:
+                                $value = $item['value'];
+                        }
+                    } else {
+                        $value = $item['value'];
+                    }
+                    if (isset($item['description'])) {
+                        $tableRows[] = [$key, $value . "\n" . $item['description']];
+                    } else {
+                        $tableRows[] = [$key, $value];
+                    }
+                } else {
+                    $tableRows[] = [$key, $item];
+                }
+            }
             $this->getIo()->table([], $tableRows, 'compact');
         }
     }

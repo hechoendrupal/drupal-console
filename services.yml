@@ -9,6 +9,8 @@ services:
   console.drupal_api:
     class: Drupal\Console\Utils\DrupalApi
     arguments: ['@app.root', '@entity_type.manager', '@http_client']
+  console.html_converter:
+    class: Drupal\Console\Utils\HtmlConverter
   console.create_node_data:
     class: Drupal\Console\Utils\Create\NodeData
     arguments: ['@entity_type.manager', '@entity_field.manager', '@date.formatter', '@console.drupal_api']

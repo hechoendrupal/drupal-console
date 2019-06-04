@@ -19,6 +19,7 @@ use Drupal\Console\Command\Shared\DatabaseTrait;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Bootstrap\Drupal;
+use Drupal\Console\Utils\HtmlConverter;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\DrupalFinder;
 
@@ -583,7 +584,7 @@ class InstallCommand extends ContainerAwareCommand
             $this->getIo()->error($this->trans('commands.site.install.messages.already-installed'));
             return 1;
         } catch (\Exception $e) {
-            $this->getIo()->error(html_entity_decode(strip_tags($e->getMessage()), ENT_QUOTES));
+            $this->getIo()->error((new HtmlConverter())->html2text($e->getMessage(), ['width' => 100]));
             return 1;
         }
 
