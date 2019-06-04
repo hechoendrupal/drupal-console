@@ -39,5 +39,3 @@ services:
     class: Drupal\Console\Command\ComposerizeCommand
     tags:
        - { name: drupal.command }
-  console.html_converter:
-    class: Drupal\Console\Utils\Html2Text
