@@ -40,10 +40,10 @@ class {{ class }} implements EventSubscriberInterface {% endblock %}
 
     return $events;
   }
-
 {% for event_name, callback in events %}
+
   /**
-   * This method is called whenever the {{ event_name }} event is dispatched.
+   * This method is called when the {{ event_name }} is dispatched.
    *
    * @param \Symfony\Component\EventDispatcher\Event $event
    *   The dispatched event.
