@@ -56,7 +56,7 @@ class AddCommand extends Command
             ->addOption(
                 'password',
                 null,
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.add.options.password')
             )
             ->addOption(
@@ -122,9 +122,8 @@ class AddCommand extends Command
         $input->setOption('username', $username);
         $password = $input->getOption('password');
         if (!$password) {
-            $password = $this->getIo()->ask(
-                $this->trans('commands.database.add.questions.password'),
-                ''
+            $password = $this->getIo()->askHiddenEmpty(
+                $this->trans('commands.migrate.execute.questions.db-pass')
             );
         }
         $input->setOption('password', $password);

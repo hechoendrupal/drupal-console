@@ -9,7 +9,7 @@ namespace Drupal\Console\Command\Generate;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package Drupal\Console\Command\Generate
  */
-class TwigExtensionCommand extends Command
+class TwigExtensionCommand extends ContainerAwareCommand
 {
     use ModuleTrait;
     use ServicesTrait;

@@ -12,7 +12,7 @@ use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Generator\PluginBlockGenerator;
@@ -25,7 +25,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PluginBlockCommand extends Command
+class PluginBlockCommand extends ContainerAwareCommand
 {
     use ArrayInputTrait;
     use ServicesTrait;
@@ -125,10 +125,10 @@ class PluginBlockCommand extends Command
                 $this->trans('commands.generate.plugin.block.options.class')
             )
             ->addOption(
-                'label',
+                'plugin-label',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.block.options.label')
+                $this->trans('commands.generate.plugin.block.options.plugin-label')
             )
             ->addOption(
                 'plugin-id',
@@ -169,7 +169,7 @@ class PluginBlockCommand extends Command
 
         $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
-        $label = $input->getOption('label');
+        $plugin_label = $input->getOption('plugin-label');
         $plugin_id = $input->getOption('plugin-id');
         $services = $input->getOption('services');
         $theme_region = $input->getOption('theme-region');
@@ -200,7 +200,7 @@ class PluginBlockCommand extends Command
         $this->generator->generate([
           'module' => $module,
           'class_name' => $class_name,
-          'label' => $label,
+          'label' => $plugin_label,
           'plugin_id' => $plugin_id,
           'services' => $build_services,
           'inputs' => $inputs,
@@ -240,14 +240,14 @@ class PluginBlockCommand extends Command
             $input->setOption('class', $class);
         }
 
-        // --label option
-        $label = $input->getOption('label');
-        if (!$label) {
-            $label = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.block.questions.label'),
+        // --plugin-label option
+        $plugin_label = $input->getOption('plugin-label');
+        if (!$plugin_label) {
+            $plugin_label = $this->getIo()->ask(
+                $this->trans('commands.generate.plugin.block.questions.plugin-label'),
                 $this->stringConverter->camelCaseToHuman($class)
             );
-            $input->setOption('label', $label);
+            $input->setOption('plugin-label', $plugin_label);
         }
 
         // --plugin-id option

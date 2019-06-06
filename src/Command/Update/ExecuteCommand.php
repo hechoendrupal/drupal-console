@@ -7,6 +7,7 @@
 
 namespace Drupal\Console\Command\Update;
 
+use Drupal\Console\Command\Shared\UpdateTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,6 +21,8 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
+    use UpdateTrait;
+
     /**
      * @var Site
      */
@@ -129,13 +132,14 @@ class ExecuteCommand extends Command
         $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
         $dependencyMap = [];
+        $allowUpdate = false;
+
         foreach ($updates as $function => $update) {
             $dependencyMap[$function] = !empty($update['reverse_paths']) ? array_keys($update['reverse_paths']) : [];
         }
-
         if (!$this->checkUpdates($start, $updates)) {
             if ($this->module === 'all') {
-                $this->getIo()->warning(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans(
                             'commands.update.execute.messages.no-pending-updates'
@@ -143,7 +147,7 @@ class ExecuteCommand extends Command
                     )
                 );
             } else {
-                $this->getIo()->warning(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans(
                             'commands.update.execute.messages.no-module-updates'
@@ -152,7 +156,32 @@ class ExecuteCommand extends Command
                     )
                 );
             }
+            $this->getIo()->info('');
         } else {
+            $updateList = update_get_update_list();
+            $this->showUpdateTable($this->module === 'all' ?  $updateList: $updateList[$this->module], $this->trans('commands.update.execute.messages.pending-updates'));
+
+            $allowUpdate = $this->getIo()->confirm(
+                $this->trans('commands.update.execute.questions.update'),
+                true
+            );
+        }
+
+        // Handle Post update to execute
+        $allowPostUpdate = false;
+        if(!$postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation()) {
+            $this->getIo()->info(
+                $this->trans('commands.update.execute.messages.no-pending-post-updates')
+            );
+        } else {
+            $this->showPostUpdateTable($postUpdates, $this->trans('commands.update.execute.messages.pending-post-updates'));
+            $allowPostUpdate = $this->getIo()->confirm(
+                $this->trans('commands.update.execute.questions.post-update'),
+                true
+            );
+        }
+
+        if($allowUpdate) {
             try {
                 $this->runUpdates(
                     $updates
@@ -163,16 +192,14 @@ class ExecuteCommand extends Command
                 return 1;
             }
         }
-        
 
-        // Post Updates are only safe to run after all schemas have been updated.
-        if (!$this->getUpdates()) {
+        if($allowPostUpdate) {
             $this->runPostUpdates($postUpdates);
-            
-            $this->chainQueue->addCommand('update:entities');
         }
 
-        $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+        if($allowPostUpdate || $allowUpdate) {
+            $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+        }
 
         return 0;
     }
@@ -255,17 +282,20 @@ class ExecuteCommand extends Command
     }
 
     /**
+     * @param array $postUpdates
      * @return bool
      */
-    private function runPostUpdates()
+    private function runPostUpdates($postUpdates)
     {
-        $postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation();
-        
+        if(!$postUpdates) {
+            return 0;
+        }
+
         foreach ($postUpdates as $module => $updates) {
             foreach ($updates['pending'] as $updateName => $update) {
                 $this->getIo()->info(
                     sprintf(
-                        $this->trans('commands.update.execute.messages.executing-update'),
+                        $this->trans('commands.update.execute.messages.executing-post-update'),
                         $updateName,
                         $module
                     )
@@ -285,7 +315,9 @@ class ExecuteCommand extends Command
             }
         }
 
-        return true;
+        $this->chainQueue->addCommand('update:entities');
+
+        return 1;
     }
 
     protected function getUpdates($module = null)
@@ -318,13 +350,24 @@ class ExecuteCommand extends Command
 
     private function executeUpdate($function, &$context)
     {
-        if (!$context || !array_key_exists('sandbox', $context)) {
-            $context['sandbox'] = [];
-        }
+        $context['sandbox'] = [];
+        do {
+            if (function_exists($function)) {
+                $return = $function($context['sandbox']);
 
-        if (function_exists($function)) {
-            $function($context['sandbox']);
-        }
+                if (is_string($return)) {
+                    $this->getIo()->info(
+                        "  ".$return
+                    );
+                }
+
+                if (isset($context['sandbox']['#finished']) && ($context['sandbox']['#finished'] < 1)) {
+                    $this->getIo()->info(
+                        '  Processed '.number_format($context['sandbox']['#finished'] * 100, 2).'%'
+                    );
+                }
+            }
+        } while (isset($context['sandbox']['#finished']) && ($context['sandbox']['#finished'] < 1));
 
         return true;
     }

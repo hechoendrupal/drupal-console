@@ -83,7 +83,7 @@ class UninstallCommand extends ContainerAwareCommand
             ->addArgument(
                 'module',
                 InputArgument::IS_ARRAY,
-                $this->trans('commands.module.uninstall.questions.module')
+                $this->trans('commands.module.uninstall.arguments.module')
             )
             ->addOption(
                 'force',

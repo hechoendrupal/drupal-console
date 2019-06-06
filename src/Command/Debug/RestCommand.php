@@ -15,6 +15,7 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Command\Shared\RestTrait;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * @DrupalCommand(
@@ -27,6 +28,11 @@ class RestCommand extends Command
     use RestTrait;
 
     /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
      * @var ResourcePluginManager $pluginManagerRest
      */
     protected $pluginManagerRest;
@@ -34,10 +40,14 @@ class RestCommand extends Command
     /**
      * RestCommand constructor.
      *
-     * @param ResourcePluginManager $pluginManagerRest
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param ResourcePluginManager      $pluginManagerRest
      */
-    public function __construct(ResourcePluginManager $pluginManagerRest)
-    {
+    public function __construct(
+        EntityTypeManagerInterface $entityTypeManager,
+        ResourcePluginManager $pluginManagerRest
+    ) {
+        $this->entityTypeManager = $entityTypeManager;
         $this->pluginManagerRest = $pluginManagerRest;
         parent::__construct();
     }

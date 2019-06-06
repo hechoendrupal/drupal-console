@@ -1,15 +1,15 @@
 services:
   console.rest_disable:
     class: Drupal\Console\Command\Rest\DisableCommand
-    arguments: ['@config.factory', '@?plugin.manager.rest']
+    arguments: ['@entity_type.manager', '@?plugin.manager.rest']
     tags:
       - { name: drupal.command }
   console.rest_enable:
     class: Drupal\Console\Command\Rest\EnableCommand
     arguments:
+      - '@entity_type.manager'
       - '@?plugin.manager.rest'
       - '@authentication_collector'
-      - '@config.factory'
       - '@entity.manager'
     tags:
       - { name: drupal.command }

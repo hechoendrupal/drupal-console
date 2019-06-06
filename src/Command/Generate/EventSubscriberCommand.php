@@ -11,7 +11,7 @@ use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\EventsTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Extension\Manager;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class EventSubscriberCommand extends Command
+class EventSubscriberCommand extends ContainerAwareCommand
 {
     use EventsTrait;
     use ServicesTrait;

@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 {% block class_declaration %}
 /**
- * Provides a form for reverting a {{ label }} revision for a single translation.
+ * Provides a form for reverting a {{ label }} revision for a single trans.
  *
  * @ingroup {{module}}
  */
@@ -60,7 +60,7 @@ class {{ entity_class }}RevisionRevertTranslationForm extends {{ entity_class }}
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.manager')->getStorage('{{ entity_name }}'),
+      $container->get('entity_type.manager')->getStorage('{{ entity_name }}'),
       $container->get('date.formatter'),
       $container->get('language_manager')
     );
@@ -77,7 +77,10 @@ class {{ entity_class }}RevisionRevertTranslationForm extends {{ entity_class }}
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return t('Are you sure you want to revert @language translation to the revision from %revision-date?', ['@language' => $this->languageManager->getLanguageName($this->langcode), '%revision-date' => $this->dateFormatter->format($this->revision->getRevisionCreationTime())]);
+    return $this->t('Are you sure you want to revert @language translation to the revision from %revision-date?', [
+      '@language' => $this->languageManager->getLanguageName($this->langcode),
+      '%revision-date' => $this->dateFormatter->format($this->revision->getRevisionCreationTime()),
+    ]);
   }
 
   /**

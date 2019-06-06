@@ -201,11 +201,6 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
-  console.database_settings_generator:
-    class: Drupal\Console\Generator\DatabaseSettingsGenerator
-    arguments: ['@kernel']
-    tags:
-      - { name: drupal.generator }
   console.entitycontent_generator:
     class: Drupal\Console\Generator\EntityContentGenerator
     arguments: ['@console.extension_manager', '@console.site', '@console.renderer']

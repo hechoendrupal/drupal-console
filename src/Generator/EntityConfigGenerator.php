@@ -67,7 +67,7 @@ class EntityConfigGenerator extends Generator
 
         $this->renderFile(
             'module/src/Entity/interface-entity.php.twig',
-            $moduleSourcePath . 'Interface.php',
+            $moduleEntityPath . 'Interface.php',
             $parameters
         );
 

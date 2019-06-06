@@ -188,11 +188,18 @@ class ThemeCommand extends Command
         // Get the profile path and define a profile path if it is null
         // Check that it is an absolute path or otherwise create an absolute path using appRoot
         $theme_path = $input->getOption('theme-path');
-        $theme_path = $theme_path == null ? 'themes/custom' : $theme_path;
+        if(is_null($theme_path)) {
+            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $defaultThemePath = 'themes/custom';
+            $theme_path = $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultThemePath : $defaultThemePath;
+        }
         $theme_path = Path::isAbsolute($theme_path) ? $theme_path : Path::makeAbsolute($theme_path, $this->appRoot);
         $theme_path = $this->validator->validateModulePath($theme_path, true);
 
-        $machine_name = $this->validator->validateMachineName($input->getOption('machine-name'));
+        $machine_name = $input->getOption('machine-name') ?
+            $this->validator->validateMachineName($input->getOption('machine-name'))
+            :$this->stringConverter->createMachineName($theme);
+
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
@@ -274,10 +281,12 @@ class ThemeCommand extends Command
 
         $theme_path = $input->getOption('theme-path');
         if (!$theme_path) {
+            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $defaultThemePath = 'themes/custom';
             $theme_path = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.theme-path'),
-                'themes/custom',
-                function ($theme_path) use ($machine_name) {
+                $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultThemePath : $defaultThemePath,
+                 function ($theme_path) use ($machine_name) {
                     $fullPath = Path::isAbsolute($theme_path) ? $theme_path : Path::makeAbsolute($theme_path, $this->appRoot);
                     $fullPath = $fullPath.'/'.$machine_name;
                     if (file_exists($fullPath)) {

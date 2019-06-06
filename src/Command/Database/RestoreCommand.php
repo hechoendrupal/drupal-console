@@ -83,55 +83,79 @@ class RestoreCommand extends Command
             );
             return 1;
         }
+
         if (strpos($file, '.sql.gz') !== false) {
             $catCommand = 'gunzip -c %s | ';
         } else {
             $catCommand = 'cat %s | ';
         }
 
-        $command = NULL;
+        $commands = array();
         if ($databaseConnection['driver'] == 'mysql') {
-            $command = sprintf(
-              $catCommand . 'mysql --user=%s --password=%s --host=%s --port=%s %s',
-              $file,
-              $databaseConnection['username'],
-              $databaseConnection['password'],
-              $databaseConnection['host'],
-              $databaseConnection['port'],
-              $databaseConnection['database']
+          // Drop database first.
+          $commands[] = sprintf(
+            'mysql --user=%s --password=%s --host=%s --port=%s -e"DROP DATABASE IF EXISTS %s"',
+            $databaseConnection['username'],
+            $databaseConnection['password'],
+            $databaseConnection['host'],
+            $databaseConnection['port'],
+            $databaseConnection['database']
+          );
+
+          // Recreate database.
+          $commands[] = sprintf(
+            'mysql --user=%s --password=%s --host=%s --port=%s -e"CREATE DATABASE %s"',
+            $databaseConnection['username'],
+            $databaseConnection['password'],
+            $databaseConnection['host'],
+            $databaseConnection['port'],
+            $databaseConnection['database']
+          );
+
+          // Import dump.
+          $commands[] = sprintf(
+                $catCommand . 'mysql --user=%s --password=%s --host=%s --port=%s %s',
+                $file,
+                $databaseConnection['username'],
+                $databaseConnection['password'],
+                $databaseConnection['host'],
+                $databaseConnection['port'],
+                $databaseConnection['database']
             );
         } elseif ($databaseConnection['driver'] == 'pgsql') {
-            $command = sprintf(
-              $catCommand . 'PGPASSWORD="%s" psql -w -U %s -h %s -p %s -d %s',
-              $file,
-              $databaseConnection['password'],
-              $databaseConnection['username'],
-              $databaseConnection['host'],
-              $databaseConnection['port'],
-              $databaseConnection['database']
+            $commands[] = sprintf(
+                'PGPASSWORD="%s" ' . $catCommand . 'psql -w -U %s -h %s -p %s -d %s',
+                $file,
+                $databaseConnection['password'],
+                $databaseConnection['username'],
+                $databaseConnection['host'],
+                $databaseConnection['port'],
+                $databaseConnection['database']
             );
         }
 
-        if ($learning) {
-            $this->getIo()->commentBlock($command);
-        }
+        foreach ($commands as $command) {
+            if ($learning) {
+              $this->getIo()->commentBlock($command);
+            }
 
-        $processBuilder = new ProcessBuilder(['-v']);
-        $process = $processBuilder->getProcess();
-        $process->setWorkingDirectory($this->appRoot);
-        $process->setTty($input->isInteractive());
-        $process->setCommandLine($command);
-        $process->run();
+            $processBuilder = new ProcessBuilder(['-v']);
+            $process = $processBuilder->getProcess();
+            $process->setWorkingDirectory($this->appRoot);
+            $process->setTty($input->isInteractive());
+            $process->setCommandLine($command);
+            $process->run();
 
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException($process->getErrorOutput());
+            if (!$process->isSuccessful()) {
+              throw new \RuntimeException($process->getErrorOutput());
+            }
         }
 
         $this->getIo()->success(
             sprintf(
-                '%s %s',
-                $this->trans('commands.database.restore.messages.success'),
-                $file
+              '%s %s',
+              $this->trans('commands.database.restore.messages.success'),
+              $file
             )
         );
 
