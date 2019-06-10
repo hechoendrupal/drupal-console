@@ -191,7 +191,6 @@ trait ExportTrait
             $field_name = "{$fields_definition->getConfigPrefix()}.{$field->id()}";
             $field_name_config = $this->getConfiguration($field_name, $removeUuid,
                 $removeHash);
-
             // Only select fields related with content type
             if ($field_name_config['bundle'] == $bundle) {
                 $this->configExport[$field_name] = [
@@ -202,6 +201,42 @@ trait ExportTrait
                 if ($dependencies = $this->fetchDependencies($field_name_config,
                     'config')) {
                     $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
+                }
+            }
+        }
+    }
+
+    protected function getBasefieldOverrideFields(
+        $bundle = null,
+        $optional = false,
+        $removeUuid = false,
+        $removeHash = false,
+        $collection = ''
+    ) {
+        $collection_storage = $this->storage->createCollection($collection);
+        foreach ($collection_storage->listAll() as $name) {
+            if(strpos($name, "core.base_field_override.node") !== false) {
+                $configData = $collection_storage->read($name);
+                if ($removeUuid) {
+                    unset($configData['uuid']);
+                }
+                if ($removeHash) {
+                    unset($configData['_core']['default_config_hash']);
+                    if (empty($configData['_core'])) {
+                        unset($configData['_core']);
+                    }
+                }
+
+                if ($configData['bundle'] == $bundle) {
+                    $this->configExport["$name.yml"] = [
+                        'data' => $configData,
+                        'optional' => $optional,
+                    ];
+                    // Include dependencies in export files
+                    if ($dependencies = $this->fetchDependencies($configData,
+                        'config')) {
+                        $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
+                    }
                 }
             }
         }
