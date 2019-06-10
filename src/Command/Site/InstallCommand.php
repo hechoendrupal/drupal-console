@@ -463,7 +463,9 @@ class InstallCommand extends ContainerAwareCommand
         try {
             $drupalFinder = new DrupalFinder();
             $drupalFinder->locateRoot(getcwd());
-            $this->runInstaller($database_install, $uri);
+            if (($exitCode = $this->runInstaller($database_install, $uri)) !== 0) {
+                return $exitCode;
+            }
 
             $autoload = $this->container->get('class_loader');
             $drupal = new Drupal(
