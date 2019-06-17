@@ -15,6 +15,7 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
 use Drupal\Console\Core\Utils\ShellProcess;
 use Drupal\Core\Database\Connection;
+use Symfony\Component\Process\Process;
 
 class DumpCommand extends Command
 {
@@ -82,10 +83,10 @@ class DumpCommand extends Command
                 $this->trans('commands.database.dump.options.gz')
             )
             ->addOption(
-              'exclude-cache',
-              null,
-              InputOption::VALUE_NONE,
-              $this->trans('commands.database.dump.options.exclude.cache')
+                'exclude-cache',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.dump.options.exclude.cache')
             )
             ->setHelp($this->trans('commands.database.dump.help'))
             ->setAliases(['dbdu']);
@@ -140,97 +141,106 @@ class DumpCommand extends Command
 
         $command = null;
 
-      if ($databaseConnection['driver'] == 'mysql') {
-          $command = sprintf(
-              'mysqldump --user="%s" --password="%s" --host="%s" --port="%s" "%s" > "%s"',
-              $databaseConnection['username'],
-              $databaseConnection['password'],
-              $databaseConnection['host'],
-              $databaseConnection['port'],
-              $databaseConnection['database'],
-              $file
-          );
+        if ($databaseConnection['driver'] == 'mysql') {
+            $command = sprintf(
+                "mysqldump --user='%s' --password='%s' --host='%s' --port='%s' '%s' > '%s'",
+                $databaseConnection['username'],
+                $databaseConnection['password'],
+                $databaseConnection['host'],
+                $databaseConnection['port'],
+                $databaseConnection['database'],
+                $file
+            );
 
-          if ($excludeCache) {
-              $ignoreTable = '';
-              foreach ($excludeTables as $table) {
-                  $ignoreTable .= "--ignore-table=\"{$table}\" ";
-              }
+            if ($excludeCache) {
+                $ignoreTable = '';
+                foreach ($excludeTables as $table) {
+                    $ignoreTable .= "--ignore-table=\"{$table}\" ";
+                }
 
-              $command = sprintf(
-                  'mysqldump --user="%s" --password="%s" --host="%s" --port="%s" %s "%s"> "%s"',
-                  $databaseConnection['username'],
-                  $databaseConnection['password'],
-                  $databaseConnection['host'],
-                  $databaseConnection['port'],
-                  $ignoreTable,
-                  $databaseConnection['database'],
-                  $file
-              );
+                $command = sprintf(
+                    "mysqldump --user='%s' --password='%s' --host='%s' --port='%s' %s '%s'> '%s'",
+                    $databaseConnection['username'],
+                    $databaseConnection['password'],
+                    $databaseConnection['host'],
+                    $databaseConnection['port'],
+                    $ignoreTable,
+                    $databaseConnection['database'],
+                    $file
+                );
 
-          }
+            }
         } elseif ($databaseConnection['driver'] == 'pgsql') {
-          $command = sprintf(
-              'PGPASSWORD="%s" pg_dumpall -w -U "%s" -h "%s" -p "%s" -l "%s" -f "%s"',
-              $databaseConnection['password'],
-              $databaseConnection['username'],
-              $databaseConnection['host'],
-              $databaseConnection['port'],
-              $databaseConnection['database'],
-              $file
-          );
+            $command = sprintf(
+                "PGPASSWORD='%s' pg_dumpall -w -U '%s' -h '%s' -p '%s' -l '%s' -f '%s'",
+                $databaseConnection['password'],
+                $databaseConnection['username'],
+                $databaseConnection['host'],
+                $databaseConnection['port'],
+                $databaseConnection['database'],
+                $file
+            );
 
-          if ($excludeCache) {
-              $ignoreTable = '';
-              foreach ($excludeTables as $table) {
-                  $ignoreTable .= "-T \"{$table}\" ";
-              }
+            if ($excludeCache) {
+                $ignoreTable = '';
+                foreach ($excludeTables as $table) {
+                    $ignoreTable .= "-T \"{$table}\" ";
+                }
 
-              $command = sprintf(
-                  'PGPASSWORD="%s" pg_dump -w -U "%s" -h "%s" -p "%s" -f "%s" %s-d "%s"',
-                  $databaseConnection['password'],
-                  $databaseConnection['username'],
-                  $databaseConnection['host'],
-                  $databaseConnection['port'],
-                  $file,
-                  $ignoreTable,
-                  $databaseConnection['database']
-              );
-          }
+                $command = sprintf(
+                    "PGPASSWORD='%s' pg_dump -w -U '%s' -h '%s' -p '%s' -f '%s' %s-d '%s'",
+                    $databaseConnection['password'],
+                    $databaseConnection['username'],
+                    $databaseConnection['host'],
+                    $databaseConnection['port'],
+                    $file,
+                    $ignoreTable,
+                    $databaseConnection['database']
+                );
+            }
         }
 
         if ($learning) {
             $this->getIo()->commentBlock($command);
         }
 
-        if ($this->shellProcess->exec($command, $this->appRoot)) {
-            $resultFile = $file;
-            if ($gz) {
-                if (substr($file, -3) != '.gz') {
-                    $resultFile = $file . '.gz';
-                }
-                file_put_contents(
-                    $resultFile,
-                    gzencode(
-                        file_get_contents(
-                            $file
+        try {
+            $process = new Process($command);
+            $process->setTimeout(null);
+            $process->setWorkingDirectory($this->appRoot);
+            $process->run();
+
+            if($process->isSuccessful()) {
+                $resultFile = $file;
+                if ($gz) {
+                    if (substr($file, -3) != '.gz') {
+                        $resultFile = $file . '.gz';
+                    }
+                    file_put_contents(
+                        $resultFile,
+                        gzencode(
+                            file_get_contents(
+                                $file
+                            )
                         )
+                    );
+                    if ($resultFile != $file) {
+                        unlink($file);
+                    }
+                }
+
+                $this->getIo()->success(
+                    sprintf(
+                        '%s %s',
+                        $this->trans('commands.database.dump.messages.success'),
+                        $resultFile
                     )
                 );
-                if ($resultFile != $file) {
-                    unlink($file);
-                }
             }
 
-            $this->getIo()->success(
-                sprintf(
-                    '%s %s',
-                    $this->trans('commands.database.dump.messages.success'),
-                    $resultFile
-                )
-            );
+            return 0;
+        } catch (\Exception $e) {
+            return 1;
         }
-
-        return 0;
     }
 }

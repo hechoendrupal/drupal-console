@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
 
@@ -94,7 +94,7 @@ class RestoreCommand extends Command
         if ($databaseConnection['driver'] == 'mysql') {
           // Drop database first.
           $commands[] = sprintf(
-            'mysql --user=%s --password=%s --host=%s --port=%s -e"DROP DATABASE IF EXISTS %s"',
+            "mysql --user='%s' --password='%s' --host='%s' --port='%s' -e'DROP DATABASE IF EXISTS %s'",
             $databaseConnection['username'],
             $databaseConnection['password'],
             $databaseConnection['host'],
@@ -104,7 +104,7 @@ class RestoreCommand extends Command
 
           // Recreate database.
           $commands[] = sprintf(
-            'mysql --user=%s --password=%s --host=%s --port=%s -e"CREATE DATABASE %s"',
+            "mysql --user='%s' --password='%s' --host='%s' --port='%s' -e'CREATE DATABASE %s'",
             $databaseConnection['username'],
             $databaseConnection['password'],
             $databaseConnection['host'],
@@ -114,7 +114,7 @@ class RestoreCommand extends Command
 
           // Import dump.
           $commands[] = sprintf(
-                $catCommand . 'mysql --user=%s --password=%s --host=%s --port=%s %s',
+                $catCommand . "mysql --user='%s' --password='%s' --host='%s' --port='%s' %s",
                 $file,
                 $databaseConnection['username'],
                 $databaseConnection['password'],
@@ -124,7 +124,7 @@ class RestoreCommand extends Command
             );
         } elseif ($databaseConnection['driver'] == 'pgsql') {
             $commands[] = sprintf(
-                'PGPASSWORD="%s" ' . $catCommand . 'psql -w -U %s -h %s -p %s -d %s',
+                "PGPASSWORD='%s' " . $catCommand . "psql -w -U '%s' -h '%s' -p '%s' -d '%s'",
                 $file,
                 $databaseConnection['password'],
                 $databaseConnection['username'],
@@ -139,11 +139,10 @@ class RestoreCommand extends Command
               $this->getIo()->commentBlock($command);
             }
 
-            $processBuilder = new ProcessBuilder(['-v']);
-            $process = $processBuilder->getProcess();
+            $process = new Process($command);
+            $process->setTimeout(null);
             $process->setWorkingDirectory($this->appRoot);
             $process->setTty($input->isInteractive());
-            $process->setCommandLine($command);
             $process->run();
 
             if (!$process->isSuccessful()) {

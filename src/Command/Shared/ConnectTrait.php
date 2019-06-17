@@ -75,7 +75,7 @@ trait ConnectTrait
         ];
 
         foreach ($settings as $setting) {
-            $databaseConnection[$setting] = escapeshellcmd($databaseConnection[$setting]);
+            $databaseConnection[$setting] = $databaseConnection[$setting];
         }
 
         return $databaseConnection;
