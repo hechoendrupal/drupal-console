@@ -24,7 +24,6 @@ class {{ class_name }} extends FormBase {% endblock %}
 
 {% block class_construct %}
 {% if services is not empty %}
-
   /**
    * Constructs a new {{ class_name }} object.
    */
@@ -47,11 +46,11 @@ class {{ class_name }} extends FormBase {% endblock %}
 {{ serviceClassInjection(services) }}
     );
   }
+
 {% endif %}
 {% endblock %}
 
 {% block class_methods %}
-
   /**
    * {@inheritdoc}
    */
