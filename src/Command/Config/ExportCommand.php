@@ -56,12 +56,6 @@ class ExportCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.options.directory')
-            )
-            ->addOption(
-                'tar',
-                null,
-                InputOption::VALUE_NONE,
-                $this->trans('commands.config.export.options.tar')
             )->addOption(
                 'remove-uuid',
                 null,
@@ -72,8 +66,27 @@ class ExportCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.config.export.options.remove-config-hash')
+            )->addOption(
+                'tar',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.config.export.options.tar')
             )
             ->setAliases(['ce']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        if (!$input->getOption('directory')) {
+            $directory = $this->getIo()->ask(
+                $this->trans('commands.config.export.questions.directory'),
+                config_get_config_directory(CONFIG_SYNC_DIRECTORY)
+            );
+            $input->setOption('directory', $directory);
+        }
     }
 
     /**
