@@ -9,7 +9,9 @@ namespace Drupal\{{ module }}\Entity;
 {% endblock %}
 
 {% block use_class %}
+{% if has_owner %}
 use Drupal\Core\Entity\EntityStorageInterface;
+{% endif %}
 use Drupal\Core\Field\BaseFieldDefinition;
 {% if revisionable %}
 use Drupal\Core\Entity\RevisionableContentEntityBase;
@@ -20,7 +22,9 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityPublishedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+{% if has_owner %}
 use Drupal\user\UserInterface;
+{% endif %}
 {% endblock %}
 
 {% block class_declaration %}
@@ -79,7 +83,9 @@ use Drupal\user\UserInterface;
 {% endif %}
  *     "label" = "name",
  *     "uuid" = "uuid",
+{% if has_owner %}
  *     "uid" = "user_id",
+{% endif %}
  *     "langcode" = "langcode",
  *     "published" = "status",
  *   },
@@ -124,6 +130,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
 {% endblock %}
 
 {% block class_methods %}
+{% if has_owner %}
 
   /**
    * {@inheritdoc}
@@ -134,6 +141,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       'user_id' => \Drupal::currentUser()->id(),
     ];
   }
+{% endif %}
 {% if revisionable %}
 
   /**
@@ -157,8 +165,8 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
    */
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
-
 {% if is_translatable %}
+
     foreach (array_keys($this->getTranslationLanguages()) as $langcode) {
       $translation = $this->getTranslation($langcode);
 
@@ -206,6 +214,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
     $this->set('created', $timestamp);
     return $this;
   }
+{% if has_owner %}
 
   /**
    * {@inheritdoc}
@@ -236,6 +245,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
     $this->set('user_id', $account->id());
     return $this;
   }
+{% endif %}
 
   /**
    * {@inheritdoc}
@@ -245,6 +255,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
 
     // Add the published field.
     $fields += static::publishedBaseFieldDefinitions($entity_type);
+{% if has_owner %}
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
@@ -272,6 +283,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+{% endif %}
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
