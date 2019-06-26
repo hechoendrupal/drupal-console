@@ -35,6 +35,11 @@ class FormAlterGenerator extends Generator
     {
         $module = $parameters['module'];
         $module_path =  $this->extensionManager->getModule($module)->getPath();
+        $moduleFilePath =  $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.module';
+
+        $parameters = array_merge($parameters, [
+            'file_exists' => file_exists($moduleFilePath),
+        ]);
 
         $this->renderFile(
             'module/src/Form/form-alter.php.twig',

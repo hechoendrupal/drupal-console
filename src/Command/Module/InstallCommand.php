@@ -120,7 +120,7 @@ class InstallCommand extends Command
                 'composer',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.module.uninstall.options.composer')
+                $this->trans('commands.module.install.options.composer')
             )
             ->setAliases(['moi']);
     }

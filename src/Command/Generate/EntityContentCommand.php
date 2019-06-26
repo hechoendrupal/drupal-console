@@ -102,8 +102,14 @@ class EntityContentCommand extends EntityCommand
             null,
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.has-forms')
-        )
-            ->setAliases(['geco']);
+        );
+
+        $this->addOption(
+            'has-owner',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.has-owner')
+        )->setAliases(['geco']);
     }
 
     /**
@@ -143,6 +149,13 @@ class EntityContentCommand extends EntityCommand
             true
         );
         $input->setOption('has-forms', $has_forms);
+
+        // --has-owner option
+        $has_owner = $this->getIo()->confirm(
+            $this->trans('commands.generate.entity.content.questions.has-owner'),
+            true
+        );
+        $input->setOption('has-owner', $has_owner);
     }
 
     /**
@@ -158,9 +171,10 @@ class EntityContentCommand extends EntityCommand
         $base_path = $input->getOption('base-path')?:'/admin/structure';
         $learning = $input->getOption('learning')?:false;
         $bundle_entity_type = $has_bundles ? $entity_name . '_type' : null;
-        $is_translatable = $input->getOption('is-translatable')? : true;
-        $revisionable = $input->getOption('revisionable')? :false;
-        $has_forms = $input->getOption('has-forms')?:true;
+        $is_translatable = $input->getOption('is-translatable');
+        $revisionable = $input->getOption('revisionable');
+        $has_forms = $input->getOption('has-forms');
+        $has_owner = $input->getOption('has-owner');
 
         $generator = $this->generator;
 
@@ -178,6 +192,7 @@ class EntityContentCommand extends EntityCommand
             'is_translatable' => $is_translatable,
             'revisionable' => $revisionable,
             'has_forms' => $has_forms,
+            'has_owner' => $has_owner,
         ]);
 
         if ($has_bundles) {
@@ -187,7 +202,8 @@ class EntityContentCommand extends EntityCommand
                 '--entity-class' => $entity_class . 'Type',
                 '--entity-name' => $entity_name . '_type',
                 '--label' => $label . ' type',
-                '--bundle-of' => $entity_name
+                '--bundle-of' => $entity_name,
+                '--no-interaction'
                 ]
             );
         }
