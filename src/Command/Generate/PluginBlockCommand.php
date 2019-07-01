@@ -154,6 +154,12 @@ class PluginBlockCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             )
+            ->addOption(
+                'twigtemplate',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.plugin.block.options.twigtemplate')
+            )
             ->setAliases(['gpb']);
     }
 
@@ -175,6 +181,8 @@ class PluginBlockCommand extends ContainerAwareCommand
         $theme_region = $input->getOption('theme-region');
         $inputs = $input->getOption('inputs');
         $noInteraction = $input->getOption('no-interaction');
+        $twigTemplate = $input->getOption('twigtemplate');
+
         // Parse nested data.
         if ($noInteraction) {
             $inputs = $this->explodeInlineArray($inputs);
@@ -204,8 +212,8 @@ class PluginBlockCommand extends ContainerAwareCommand
           'plugin_id' => $plugin_id,
           'services' => $build_services,
           'inputs' => $inputs,
+          'twig_template' => $twigTemplate,
         ]);
-
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
@@ -297,5 +305,14 @@ class PluginBlockCommand extends ContainerAwareCommand
             $inputs = $this->explodeInlineArray($inputs);
         }
         $input->setOption('inputs', $inputs);
+
+        $twigtemplate = $input->getOption('twigtemplate');
+        if (!$twigtemplate) {
+            $twigtemplate = $this->getIo()->confirm(
+                $this->trans('commands.generate.plugin.block.questions.twigtemplate'),
+                false
+            );
+            $input->setOption('twigtemplate', $twigtemplate);
+        }
     }
 }
