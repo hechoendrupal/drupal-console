@@ -1,0 +1,18 @@
+{{ '{#' }}
+/**
+* @file
+* Default theme implementation to display a block.
+*
+* @see template_preprocess_block()
+*
+* @ingroup themeable
+*/
+{{ '#}' }}
+{{ "{% set classes = [
+    'clear-both',
+] %}" }}
+<div{{ '{{' }} attributes.addClass(classes) {{ '}}' }}>
+    {{ '{% for content in value %}' }}
+        {{ '<p>{{value}}</p>' }}
+    {{ '{% endfor %}' }}
+</div>
