@@ -311,7 +311,9 @@ class Manager
             $extension->getPathname(),
             $extension->getExtensionFilename()
         );
-        $consoleExtension->unserialize($extension->serialize());
+
+        $consoleExtension->loadFromParentObj($extension);
+        $consoleExtension->setRoot($this->appRoot);
 
         return $consoleExtension;
     }
