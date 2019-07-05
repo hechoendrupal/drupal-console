@@ -131,13 +131,9 @@ class ExecuteCommand extends Command
 
         $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
-        $dependencyMap = [];
         $allowUpdate = false;
         $assumeYes = $input->getOption('yes');
 
-        foreach ($updates as $function => $update) {
-            $dependencyMap[$function] = !empty($update['reverse_paths']) ? array_keys($update['reverse_paths']) : [];
-        }
         if (!$this->checkUpdates($start, $updates)) {
             if ($this->module === 'all') {
                 $this->getIo()->info(
