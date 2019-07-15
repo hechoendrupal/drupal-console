@@ -26,7 +26,7 @@ regions:
   {{ region.region_machine_name }}: {{ region.region_name }}
 {% endfor %}
 {% endif %}
-{% if base_theme_regions_hidden %}
+{% if base_theme_regions_hidden is defined and base_theme_regions_hidden is not null %}
 
 regions_hidden:
 {% for default_regions_hidden in base_theme_regions_hidden %}
