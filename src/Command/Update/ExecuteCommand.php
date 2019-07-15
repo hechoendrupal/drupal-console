@@ -131,12 +131,9 @@ class ExecuteCommand extends Command
 
         $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
-        $dependencyMap = [];
         $allowUpdate = false;
+        $assumeYes = $input->getOption('yes');
 
-        foreach ($updates as $function => $update) {
-            $dependencyMap[$function] = !empty($update['reverse_paths']) ? array_keys($update['reverse_paths']) : [];
-        }
         if (!$this->checkUpdates($start, $updates)) {
             if ($this->module === 'all') {
                 $this->getIo()->info(
@@ -161,7 +158,7 @@ class ExecuteCommand extends Command
             $updateList = update_get_update_list();
             $this->showUpdateTable($this->module === 'all' ?  $updateList: $updateList[$this->module], $this->trans('commands.update.execute.messages.pending-updates'));
 
-            $allowUpdate = $this->getIo()->confirm(
+            $allowUpdate = $assumeYes || $this->getIo()->confirm(
                 $this->trans('commands.update.execute.questions.update'),
                 true
             );
@@ -175,7 +172,7 @@ class ExecuteCommand extends Command
             );
         } else {
             $this->showPostUpdateTable($postUpdates, $this->trans('commands.update.execute.messages.pending-post-updates'));
-            $allowPostUpdate = $this->getIo()->confirm(
+            $allowPostUpdate = $assumeYes || $this->getIo()->confirm(
                 $this->trans('commands.update.execute.questions.post-update'),
                 true
             );
