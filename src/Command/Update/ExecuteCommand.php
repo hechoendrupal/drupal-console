@@ -158,7 +158,7 @@ class ExecuteCommand extends Command
             $updateList = update_get_update_list();
             $this->showUpdateTable($this->module === 'all' ?  $updateList: $updateList[$this->module], $this->trans('commands.update.execute.messages.pending-updates'));
 
-            $allowUpdate = $assumeYes || $this->$this->getIo()->confirm(
+            $allowUpdate = $assumeYes || $this->getIo()->confirm(
                 $this->trans('commands.update.execute.questions.update'),
                 true
             );
