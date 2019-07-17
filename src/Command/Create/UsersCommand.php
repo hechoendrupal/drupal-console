@@ -131,7 +131,7 @@ class UsersCommand extends Command
             $timeRanges = $this->getTimeRange();
 
             $timeRange = $this->getIo()->choice(
-                $this->trans('commands.create.nodes.questions.time-range'),
+                $this->trans('commands.create.users.questions.time-range'),
                 array_values($timeRanges)
             );
 

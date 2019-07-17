@@ -32,9 +32,3 @@ services:
   console.annotation_validator:
     class: Drupal\Console\Utils\AnnotationValidator
     arguments: ['@console.annotation_command_reader', '@console.extension_manager']
-  # Commands
-  console.generate_composer:
-    class: Drupal\Console\Command\ComposerizeCommand
-    tags:
-       - { name: drupal.command }
-

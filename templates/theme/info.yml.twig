@@ -14,10 +14,22 @@ base theme: {{ base_theme }}
 {% if base_theme == 'classy' %}
 #Using Classy as a base theme https://www.drupal.org/theme-guide/8/classy
 {% endif %}
+{% if regions or base_theme_regions is iterable %}
 
-{% if regions %}
 regions:
+{% if base_theme_regions is iterable %}
+{% for key, default_regions in base_theme_regions %}
+  {{ key }}: {{ default_regions }}
+{% endfor %}
+{% endif %}
 {% for region in regions %}
   {{ region.region_machine_name }}: {{ region.region_name }}
+{% endfor %}
+{% endif %}
+{% if base_theme_regions_hidden is defined and base_theme_regions_hidden is not null %}
+
+regions_hidden:
+{% for default_regions_hidden in base_theme_regions_hidden %}
+  - {{ default_regions_hidden }}
 {% endfor %}
 {% endif %}
