@@ -135,10 +135,17 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    */
   public function build() {
     $build = [];
+{% if twig_template is defined %}
+    $build['#theme'] = '{{ plugin_id }}';
+{% endif %}
 {% for input in inputs %}
-    $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% if twig_template is defined %}
+    $build['#conten'][] = $this->configuration['{{ input.name }}'];
 {% else %}
-    $build['{{plugin_id}}']['#markup'] = 'Implement {{class_name}}.';
+    $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% endif %}
+{% else %}
+     $build['{{plugin_id}}']['#markup'] = 'Implement {{class_name}}.';
 {% endfor %}
 
     return $build;

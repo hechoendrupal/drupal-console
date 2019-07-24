@@ -9,6 +9,7 @@ namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
+use Drupal\Component\Serialization\Yaml;
 
 /**
  *
@@ -69,6 +70,12 @@ class ThemeGenerator extends Generator
                     )
                 );
             }
+        }
+
+        if($parameters['base_theme_regions'] && $parameters['base_theme']) {
+            $defaultRegions = Yaml::decode(file_get_contents($parameters['base_theme_path']));
+            $parameters['base_theme_regions'] = $defaultRegions['regions'];
+            $parameters['base_theme_regions_hidden'] = $defaultRegions['regions_hidden'];
         }
 
         $themePath = $dir . '/' . $machine_name;
