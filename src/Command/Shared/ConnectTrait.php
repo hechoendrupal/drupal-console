@@ -11,7 +11,7 @@ use Drupal\Core\Database\Database;
 
 trait ConnectTrait
 {
-    protected $supportedDrivers = ['mysql', 'pgsql'];
+    protected $supportedDrivers = ['mysql', 'pgsql', 'sqlite'];
 
     public function resolveConnection($key = 'default', $target = 'default')
     {
@@ -75,7 +75,7 @@ trait ConnectTrait
         ];
 
         foreach ($settings as $setting) {
-            $databaseConnection[$setting] = escapeshellcmd($databaseConnection[$setting]);
+            $databaseConnection[$setting] = $databaseConnection[$setting];
         }
 
         return $databaseConnection;

@@ -49,6 +49,11 @@ services:
     arguments: ['@console.docker_init_generator']
     tags:
       - { name: drupal.command }
+  console.composer_update_debug:
+    class: Drupal\Console\Command\Debug\UpdateComposerCommand
+    arguments: ['@console.drupal_finder']
+    tags:
+      - { name: drupal.command }
   # Generators
   console.dotenv_init_generator:
     class: Drupal\Console\Generator\DotenvInitGenerator

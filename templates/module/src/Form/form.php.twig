@@ -24,7 +24,6 @@ class {{ class_name }} extends FormBase {% endblock %}
 
 {% block class_construct %}
 {% if services is not empty %}
-
   /**
    * Constructs a new {{ class_name }} object.
    */
@@ -47,11 +46,11 @@ class {{ class_name }} extends FormBase {% endblock %}
 {{ serviceClassInjection(services) }}
     );
   }
+
 {% endif %}
 {% endblock %}
 
 {% block class_methods %}
-
   /**
    * {@inheritdoc}
    */
@@ -115,7 +114,7 @@ class {{ class_name }} extends FormBase {% endblock %}
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Display result.
     foreach ($form_state->getValues() as $key => $value) {
-      \Drupal::messenger()->addMessage($key . ': ' . $value{% if input.type == 'text_format' %}['value']{% endif %});
+      \Drupal::messenger()->addMessage($key . ': ' . ($key === 'text_format'?$value['value']:$value));
     }
   }
 {% endblock %}
