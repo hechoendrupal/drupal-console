@@ -1,8 +1,4 @@
 services:
-  console.database_client:
-    class: Drupal\Console\Command\Database\ClientCommand
-    tags:
-      - { name: drupal.command }
   console.database_drop:
     class: Drupal\Console\Command\Database\DropCommand
     tags:
