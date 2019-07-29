@@ -84,13 +84,15 @@ class ModuleCommand extends Command
 
         $status = strtolower($input->getOption('status'));
         $type = strtolower($input->getOption('type'));
-        $modules = strtolower($input->getArgument('module'));
+        $modules = $input->getArgument('module');
 
         if ($modules) {
             $config = $this->configurationManager->getConfiguration();
             $repo = $config->get('application.composer.repositories.default');
 
-            foreach ($modules as $module) {
+            foreach ($modules as $moduleRaw) {
+                $module = strtolower($moduleRaw);
+                
                 $url = sprintf(
                     '%s/packages/drupal/%s.json',
                     $config->get('application.composer.packages.default'),
