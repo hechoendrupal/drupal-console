@@ -37,10 +37,19 @@ class PluginFieldWidgetGenerator extends Generator
         $module = $parameters['module'];
         $class_name = $parameters['class_name'];
 
+        $moduleInstance = $this->extensionManager->getModule($module);
+
         $this->renderFile(
             'module/src/Plugin/Field/FieldWidget/fieldwidget.php.twig',
             $this->extensionManager->getPluginPath($module, 'Field/FieldWidget') . '/' . $class_name . '.php',
             $parameters
+        );
+
+        $this->renderFile(
+            'module/schema.yml.twig',
+            $moduleInstance->getPath() . '/' . $module . '.schema.yml',
+            $parameters,
+            FILE_APPEND
         );
     }
 }
