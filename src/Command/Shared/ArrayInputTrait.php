@@ -26,7 +26,7 @@ trait ArrayInputTrait
     {
         $inputs = [];
         foreach ($inlineInputs as $inlineInput) {
-            $explodeInput = explode(',', $inlineInput);
+            $explodeInput = explode('|', $inlineInput);
             $parameters = [];
             foreach ($explodeInput as $inlineParameter) {
                 $inlineParameter = trim($inlineParameter);
@@ -36,6 +36,11 @@ trait ArrayInputTrait
                 if (!empty($value)) {
                     $parameters[$key] = $value;
                 }
+            }
+
+            // Remove options data if type isn't in the list of allowed types
+            if($parameters['options'] && !in_array($parameters['type'], ['checkboxes', 'radios', 'select'])){
+                $parameters['options'] = [];
             }
             $inputs[] = $parameters;
         }
