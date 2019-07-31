@@ -192,9 +192,15 @@ class Manager
             $name = $extension->getName();
 
             $isInstalled = false;
-            if (property_exists($extension, 'status')) {
-                $isInstalled = ($extension->status)?true:false;
+            if ($type == 'profile') {
+              $isInstalled =  \Drupal::installProfile() == $name;
             }
+            else {
+              if (property_exists($extension, 'status')) {
+                $isInstalled = ($extension->status) ? TRUE : FALSE;
+              }
+            }
+
             if (!$showInstalled && $isInstalled) {
                 continue;
             }
