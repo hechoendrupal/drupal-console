@@ -73,12 +73,7 @@ class DownloadCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 $this->trans('commands.theme.download.arguments.version')
             )
-            ->addOption(
-                'composer',
-                null,
-                InputOption::VALUE_NONE,
-                $this->trans('commands.theme.download.options.composer')
-            )->setAliases(['thd']);
+            ->setAliases(['thd']);
     }
 
     /**
@@ -88,24 +83,14 @@ class DownloadCommand extends ContainerAwareCommand
     {
         $theme = $input->getArgument('theme');
         $version = $input->getArgument('version');
-        $composer = $input->getOption('composer');
 
-        if ($composer) {
-            if (!is_array($theme)) {
-                $theme = [$theme];
-            }
-            $this->get('chain_queue')->addCommand(
-                'module:download',
-                [
-                'module' => $theme,
-                '--composer' => true
-                ],
-                true,
-                true
-            );
-        } else {
-            $this->downloadProject($theme, $version, 'theme');
+        if(!$version) {
+            return 1;
         }
+
+        $this->downloadProject($theme, $version, 'theme');
+
+        return 1;
     }
 
     /**
@@ -115,9 +100,8 @@ class DownloadCommand extends ContainerAwareCommand
     {
         $theme = $input->getArgument('theme');
         $version = $input->getArgument('version');
-        $composer = $input->getOption('composer');
 
-        if (!$version && !$composer) {
+        if (!$version) {
             $version = $this->releasesQuestion($theme);
             $input->setArgument('version', $version);
         }
