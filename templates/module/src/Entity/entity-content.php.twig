@@ -9,7 +9,7 @@ namespace Drupal\{{ module }}\Entity;
 {% endblock %}
 
 {% block use_class %}
-{% if has_owner %}
+{% if has_owner or revisionable%}
 use Drupal\Core\Entity\EntityStorageInterface;
 {% endif %}
 use Drupal\Core\Field\BaseFieldDefinition;
