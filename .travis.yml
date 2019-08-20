@@ -50,7 +50,8 @@ before_install:
   - ls $DRUPAL_PATH/vendor/drupal/console
   - rm -rf $DRUPAL_PATH/vendor/drupal/console
   - mkdir -p $DRUPAL_PATH/vendor/drupal/console
-  - cp -r $HOME/build/mondrake/drupal-console $DRUPAL_PATH/vendor/drupal/console
+  - cp -r $HOME/build/mondrake/drupal-console $DRUPAL_PATH/vendor/drupal
+  - mv $DRUPAL_PATH/vendor/drupal/drupal-console $DRUPAL_PATH/vendor/drupal/console
   - ls $DRUPAL_PATH/vendor/drupal
   - ls $DRUPAL_PATH/vendor/drupal/console
 
