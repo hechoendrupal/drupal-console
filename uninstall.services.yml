@@ -11,6 +11,10 @@ services:
     arguments: ['@app.root', '@console.configuration_manager']
     tags:
       - { name: drupal.command }
+  console.database_client:
+    class: Drupal\Console\Command\Database\ClientCommand
+    tags:
+      - { name: drupal.command }
   console.database_add:
     class: Drupal\Console\Command\Database\AddCommand
     arguments: ['@console.database_settings_generator']
