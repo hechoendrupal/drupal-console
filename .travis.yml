@@ -50,14 +50,14 @@ before_script:
   - composer require "drupal/console:dev-master" --no-progress --no-suggest
 
   # Replace vendor/console with cloned one.
-  #- ls $DRUPAL_PATH/vendor/drupal
-  #- ls $DRUPAL_PATH/vendor/drupal/console
-  #- rm -rf $DRUPAL_PATH/vendor/drupal/console
-  #- mkdir -p $DRUPAL_PATH/vendor/drupal/console
-  #- cp -r $HOME/build/mondrake/drupal-console $DRUPAL_PATH/vendor/drupal
+  - ls $DRUPAL_PATH/vendor/drupal
+  - rm -rf $DRUPAL_PATH/vendor/drupal/console
+  - ls $DRUPAL_PATH/vendor/drupal
+  - mkdir -p $DRUPAL_PATH/vendor/drupal/console
+  - ls $DRUPAL_PATH/vendor/drupal
+  - cp -r $HOME/build/mondrake/drupal-console/* $DRUPAL_PATH/vendor/drupal/console
   #- mv $DRUPAL_PATH/vendor/drupal/drupal-console $DRUPAL_PATH/vendor/drupal/console
-  #- ls $DRUPAL_PATH/vendor/drupal
-  #- ls $DRUPAL_PATH/vendor/drupal/console
+  - ls $DRUPAL_PATH/vendor/drupal/console
 
   - drupal server 127.0.0.1:8080 &
   - sleep 4s
