@@ -9,12 +9,15 @@ php:
   - 7.1
   - 7.2
   - 7.3
-  - hhvm
+  - 7.4snapshot
 
 matrix:
+  include:
+    - php: 5.5.9
+      dist: trusty
   fast_finish: true
   allow_failures:
-    - php: hhvm
+    - php: 7.4snapshot
 
 env:
   global:
