@@ -47,7 +47,7 @@ before_script:
   - git clone --depth=50 --branch=$DRUPAL_BRANCH http://git.drupal.org/project/drupal.git $DRUPAL_PATH
   - cd $DRUPAL_PATH
   - composer install --no-dev --no-progress --no-suggest
-  - composer require "drupal/console:dev-master" --no-dev --no-progress --no-suggest
+  - composer require "drupal/console:dev-master" --update-no-dev --no-progress --no-suggest
 
   # Replace vendor/console with cloned one.
   - rm -rf $DRUPAL_PATH/vendor/drupal/console
