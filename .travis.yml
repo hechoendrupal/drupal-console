@@ -32,7 +32,7 @@ env:
     #- SYMFONY_DEPRECATIONS_HELPER=disabled
 
 before_script:
-  - sudo apt-get upgrade sqlite3
+  - sudo apt-get install sqlite3=3.11
   - phpenv config-rm xdebug.ini || true
   # This fixes a fail when install Drupal.
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
