@@ -46,8 +46,8 @@ before_script:
       if [[ "$TRAVIS_PHP_VERSION" == "5.5.9" ]] || [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then
         export DRUPAL_BRANCH="8.6.x"
         # PHP 5.5.9 on TravisCI has a Sqlite version that fails
-        # minimum requirements, so install on MySql instead.
-        export SIMPLETEST_DB="mysql://root:@$HOST_ADDR/drudbal#drupalconsole"
+        # minimum requirements, so we install on MySql instead.
+        export SIMPLETEST_DB="mysql://root:localhost/drupal_travis_db#drupalconsole"
       else
         export DRUPAL_BRANCH="8.8.x"
         export SIMPLETEST_DB="sqlite://localhost/sites/default/files/.ht.sqlite#drupalconsole"
