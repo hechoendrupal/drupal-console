@@ -39,12 +39,22 @@ before_install:
   # This fixes a fail when install Drupal.
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
-  - git clone http://git.drupal.org/project/drupal.git $DRUPAL_PATH
+  - git clone --depth=50 http://git.drupal.org/project/drupal.git $DRUPAL_PATH
   - cd $DRUPAL_PATH
   - git checkout 8.8.x
   - composer install --no-progress --no-suggest
   - composer require "drupal/console:dev-master" --no-progress --no-suggest
-#  - composer install --no-dev
+
+  # Replace vendor/console with cloned one.
+  - ls $DRUPAL_PATH/vendor/drupal
+  - ls $DRUPAL_PATH/vendor/drupal/console
+  - rm -rf $DRUPAL_PATH/vendor/drupal/console
+  - mkdir -p $DRUPAL_PATH/vendor/drupal/console
+  - cp -r $HOME/build/mondrake/drupal-console $DRUPAL_PATH/vendor/drupal/console
+  - ls $DRUPAL_PATH/vendor/drupal
+  - ls $DRUPAL_PATH/vendor/drupal/console
+
+  #  - composer install --no-dev
 #  - curl -LSs https://box-project.github.io/box2/installer.php | php
 #  - composer global require drupal/coder:~8.1
 
@@ -57,6 +67,7 @@ script:
 #  - php drupal.phar site:new drupal8.dev --latest --no-interaction
 #  - cd drupal8.dev
 #  - php ../drupal.phar site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
+  - drupal site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
 #  - php ../drupal.phar chain --file=$PROJECT_DIR/config/dist/chain/sample.yml
 #  - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
 
