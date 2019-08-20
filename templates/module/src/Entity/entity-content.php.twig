@@ -9,12 +9,12 @@ namespace Drupal\{{ module }}\Entity;
 {% endblock %}
 
 {% block use_class %}
-{% if has_owner %}
+{% if has_owner or revisionable%}
 use Drupal\Core\Entity\EntityStorageInterface;
 {% endif %}
 use Drupal\Core\Field\BaseFieldDefinition;
 {% if revisionable %}
-use Drupal\Core\Entity\RevisionableContentEntityBase;
+use Drupal\Core\Entity\EditorialContentEntityBase
 use Drupal\Core\Entity\RevisionableInterface;
 {% else %}
 use Drupal\Core\Entity\ContentEntityBase;
@@ -122,7 +122,7 @@ use Drupal\user\UserInterface;
 {% endif %}
  * )
  */
-class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityBase{% else %}ContentEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
+class {{ entity_class }} extends {% if revisionable %}EditorialContentEntityBase{% else %}ContentEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
 
 {% block use_trait %}
   use EntityChangedTrait;
