@@ -10,13 +10,15 @@ php:
   - 7.3
   - 7.4snapshot
 
+services:
+  - mysql
+
 matrix:
   include:
     - php: 5.5.9
       dist: trusty
   fast_finish: true
   allow_failures:
-    - php: 5.5.9
     - php: 7.4snapshot
 
 env:
@@ -26,23 +28,29 @@ env:
     - PATH="$PATH:$DRUPAL_PATH/vendor/bin:$HOME/.composer/vendor/bin"
 
     # Testing environment variables.
-    - SIMPLETEST_DB=sqlite://localhost/sites/default/files/.ht.sqlite
     - SIMPLETEST_BASE_URL=http://127.0.0.1:8080
 
     # Suppress deprecation handling.
     #- SYMFONY_DEPRECATIONS_HELPER=disabled
 
+mysql:
+  database: drupal_travis_db
+  username: root
+  encoding: utf8
+
 before_script:
   - phpenv config-rm xdebug.ini || true
-  # This fixes a fail when install Drupal.
-  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
   # Set variables.
   - |
       if [[ "$TRAVIS_PHP_VERSION" == "5.5.9" ]] || [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then
         export DRUPAL_BRANCH="8.6.x"
+        # PHP 5.5.9 on TravisCI has a Sqlite version that fails
+        # minimum requirements, so install on MySql instead.
+        export SIMPLETEST_DB="mysql://root:@$HOST_ADDR/drudbal#drupalconsole"
       else
         export DRUPAL_BRANCH="8.8.x"
+        export SIMPLETEST_DB="sqlite://localhost/sites/default/files/.ht.sqlite#drupalconsole"
       fi
 
   - git clone --depth=50 --branch=$DRUPAL_BRANCH http://git.drupal.org/project/drupal.git $DRUPAL_PATH
