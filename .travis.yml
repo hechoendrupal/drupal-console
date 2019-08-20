@@ -3,17 +3,17 @@ sudo: false
 language: php
 
 php:
-  - 5.6
-  - 7.0
+  #- 5.6
+  #- 7.0
   - 7.1
-  - 7.2
-  - 7.3
-  - 7.4snapshot
+  #- 7.2
+  #- 7.3
+  #- 7.4snapshot
 
 matrix:
-  include:
-    - php: 5.5.9
-      dist: trusty
+#  include:
+#    - php: 5.5.9
+#      dist: trusty
   fast_finish: true
   allow_failures:
     - php: 7.4snapshot
@@ -22,12 +22,29 @@ env:
   global:
     - PROJECT_DIR=/home/project
 
-before_script:
+    # Drupal paths.
+    - DRUPAL_STAGING_DIR="$HOME/drupal_staging"
+    - DRUPAL_PATH="$HOME/drupal8"
+    - PATH="$PATH:$DRUPAL_PATH/vendor/bin:$HOME/.composer/vendor/bin"
+
+    # Testing environment variables.
+    - SIMPLETEST_DB=mysql://root:@127.0.0.1/drupal_travis_db
+    - SIMPLETEST_BASE_URL=http://127.0.0.1:8080
+
+    # Suppress deprecation handling.
+    #- SYMFONY_DEPRECATIONS_HELPER=disabled
+
+before_install:
   - phpenv config-rm xdebug.ini || true
   # This fixes a fail when install Drupal.
   - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - composer self-update
-  - composer install --no-dev
+
+  - git clone http://git.drupal.org/project/drupal.git $DRUPAL_PATH
+  - cd $DRUPAL_PATH
+  - git checkout 8.8.x
+  - composer install --no-progress --no-suggest
+  - composer require "drupal/console:dev-master" --no-progress --no-suggest
+#  - composer install --no-dev
 #  - curl -LSs https://box-project.github.io/box2/installer.php | php
 #  - composer global require drupal/coder:~8.1
 
