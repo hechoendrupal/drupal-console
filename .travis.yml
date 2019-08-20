@@ -4,16 +4,16 @@ language: php
 
 php:
   - 5.6
-  #- 7.0
+  - 7.0
   - 7.1
-  #- 7.2
-  #- 7.3
-  #- 7.4snapshot
+  - 7.2
+  - 7.3
+  - 7.4snapshot
 
 matrix:
-#  include:
-#    - php: 5.5.9
-#      dist: trusty
+  include:
+    - php: 5.5.9
+      dist: trusty
   fast_finish: true
   allow_failures:
     - php: 7.4snapshot
@@ -50,14 +50,9 @@ before_script:
   - composer require "drupal/console:dev-master" --no-progress --no-suggest
 
   # Replace vendor/console with cloned one.
-  - ls $DRUPAL_PATH/vendor/drupal
   - rm -rf $DRUPAL_PATH/vendor/drupal/console
-  - ls $DRUPAL_PATH/vendor/drupal
   - mkdir -p $DRUPAL_PATH/vendor/drupal/console
-  - ls $DRUPAL_PATH/vendor/drupal
   - cp -r $HOME/build/mondrake/drupal-console/* $DRUPAL_PATH/vendor/drupal/console
-  #- mv $DRUPAL_PATH/vendor/drupal/drupal-console $DRUPAL_PATH/vendor/drupal/console
-  - ls $DRUPAL_PATH/vendor/drupal/console
 
   - drupal server 127.0.0.1:8080 &
   - sleep 4s
@@ -65,8 +60,8 @@ before_script:
 script:
   - drupal site:install standard $SIMPLETEST_DB --langcode=en --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
   - drupal site:status
-  - cd $DRUPAL_PATH/vendor/drupal/console
-  - ../../phpunit/phpunit/phpunit
+#  - cd $DRUPAL_PATH/vendor/drupal/console
+#  - ../../phpunit/phpunit/phpunit
 #  - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
 
 notifications:
