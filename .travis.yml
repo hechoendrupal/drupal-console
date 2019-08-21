@@ -68,7 +68,7 @@ before_script:
   #- composer clearcache
   #- rm $DRUPAL_PATH/composer.lock
   #- rm -rf $DRUPAL_PATH/vendor/drupal/coder
-  #- composer install --no-progress --no-suggest
+  ##- composer install --no-progress --no-suggest
   - composer remove "drupal/console" --no-progress --no-suggest
   - cd $TRAVIS_BUILD_DIR
   - git checkout -b ancillary-branch
