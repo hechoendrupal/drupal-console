@@ -239,6 +239,7 @@ class StatusCommand extends ContainerAwareCommand
             if (!empty($connectionInfo['default'][$connectionInfoKey])) {
                 $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
                 if ('password' == $connectionInfoKey) {
+                    // Password is special case has it has to be obfuscated.
                     $has_password = TRUE;
                     $connectionData['database'][$connectionKey] = '********';
                 } else {
