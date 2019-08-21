@@ -59,17 +59,22 @@ before_script:
   #- composer require "html2text/html2text:^4" --no-progress --no-suggest
 
   # Replace vendor/drupal/console with the one just being built from GitHub.
-  - rm -rf $DRUPAL_PATH/vendor/drupal/console
-  - mkdir -p $DRUPAL_PATH/vendor/drupal/console
-  - cp -r $TRAVIS_BUILD_DIR/* $DRUPAL_PATH/vendor/drupal/console
+  #- rm -rf $DRUPAL_PATH/vendor/drupal/console
+  #- mkdir -p $DRUPAL_PATH/vendor/drupal/console
+  #- cp -r $TRAVIS_BUILD_DIR/* $DRUPAL_PATH/vendor/drupal/console
   # Update drupal/console dependencies in case they have been changed in the
   # current build.
-  - cat $DRUPAL_PATH/vendor/drupal/console/composer.json
-  - composer clearcache
-  - rm $DRUPAL_PATH/composer.lock
-  - rm -rf $DRUPAL_PATH/vendor/drupal/coder
-  - composer install --no-progress --no-suggest
-
+  #- cat $DRUPAL_PATH/vendor/drupal/console/composer.json
+  #- composer clearcache
+  #- rm $DRUPAL_PATH/composer.lock
+  #- rm -rf $DRUPAL_PATH/vendor/drupal/coder
+  #- composer install --no-progress --no-suggest
+  - composer remove "drupal/console" --no-progress --no-suggest
+  - cd $TRAVIS_BUILD_DIR
+  - git checkout -b ancillary-branch
+  - composer config repositories.ancillary '{"type": "path", "url": "$TRAVIS_BUILD_DIR", "options": {"symlink": false}}'
+  - composer require drupal/sophron 'dev-ancillary-branch'
+  
 script:
   # Install Drupal site via drupal/console and show site status.
   - drupal site:install standard $SIMPLETEST_DB --langcode=en --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
