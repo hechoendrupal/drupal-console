@@ -64,8 +64,9 @@ before_script:
   - cp -r $TRAVIS_BUILD_DIR/* $DRUPAL_PATH/vendor/drupal/console
   # Update drupal/console dependencies in case they have been changed in the
   # current build.
+  - composer clearcache
   - rm $DRUPAL_PATH/composer.lock
-  - composer update drupal/console --with-dependencies
+  - composer install
 
 script:
   # Install Drupal site via drupal/console and show site status.
