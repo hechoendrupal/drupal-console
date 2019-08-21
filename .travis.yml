@@ -72,7 +72,8 @@ before_script:
   - composer remove "drupal/console" --no-progress --no-suggest
   - cd $TRAVIS_BUILD_DIR
   - git checkout -b ancillary-branch
-  - composer config repositories.ancillary '{\"type\": \"path\", \"url\": \"$TRAVIS_BUILD_DIR\", \"options\": {\"symlink\": false}}'
+  - |
+      composer config repositories.ancillary '{"type": "path", "url": "$TRAVIS_BUILD_DIR", "options": {"symlink": false}}'
   - composer require drupal/sophron 'dev-ancillary-branch'
   
 script:
