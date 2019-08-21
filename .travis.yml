@@ -56,6 +56,7 @@ before_script:
   - cd $DRUPAL_PATH
   - composer install --no-progress --no-suggest
   - composer require "drupal/console:dev-master" --no-progress --no-suggest
+  - composer require "html2text/html2text:^4" --no-progress --no-suggest
 
   # Replace vendor/drupal/console with the one just being built from GitHub.
   - rm -rf $DRUPAL_PATH/vendor/drupal/console
@@ -63,7 +64,7 @@ before_script:
   - cp -r $TRAVIS_BUILD_DIR/* $DRUPAL_PATH/vendor/drupal/console
   # Update drupal/console dependencies in case they have been changed in the
   # current build.
-  - composer update drupal/console --with-all-dependencies
+  #- composer update drupal/console --with-all-dependencies
 
 script:
   # Install Drupal site via drupal/console and show site status.
