@@ -64,6 +64,7 @@ before_script:
   - cp -r $TRAVIS_BUILD_DIR/* $DRUPAL_PATH/vendor/drupal/console
   # Update drupal/console dependencies in case they have been changed in the
   # current build.
+  - cat $DRUPAL_PATH/vendor/drupal/console/composer.json
   - composer clearcache
   - rm $DRUPAL_PATH/composer.lock
   - rm -rf $DRUPAL_PATH/vendor/drupal/coder
