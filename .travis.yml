@@ -57,12 +57,13 @@ before_script:
   - git clone --depth=50 --branch=$DRUPAL_BRANCH http://git.drupal.org/project/drupal.git $DRUPAL_PATH
   - cd $DRUPAL_PATH
   - composer install --no-dev --no-progress --no-suggest
-  - composer require "drupal/console:dev-master" --update-no-dev --no-progress --no-suggest
+  - composer require "drupal/console:dev-master" --no-progress --no-suggest
 
-  # Replace vendor/console with cloned one.
+  # Replace vendor/drupal/console with the one just being built from GitHub.
   - rm -rf $DRUPAL_PATH/vendor/drupal/console
   - mkdir -p $DRUPAL_PATH/vendor/drupal/console
-  - cp -r $HOME/build/mondrake/drupal-console/* $DRUPAL_PATH/vendor/drupal/console
+  - cp -r $TRAVIS_BUILD_DIR/* $DRUPAL_PATH/vendor/drupal/console
+  - composer update drupal/console 
 
   - drupal server 127.0.0.1:8080 &
   - sleep 4s
