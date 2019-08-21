@@ -50,32 +50,18 @@ before_script:
         export SIMPLETEST_DB="sqlite://localhost/sites/default/files/.ht.sqlite#drupalconsole"
       fi
 
-  # Get Drupal via git, and install it via Composer. Then, require
-  # latest drupal/console at its master branch via Composer.
+  # Get Drupal via git, and install it via Composer.
   - git clone --depth=50 --branch=$DRUPAL_BRANCH http://git.drupal.org/project/drupal.git $DRUPAL_PATH
   - cd $DRUPAL_PATH
   - composer install --no-progress --no-suggest
-  #- composer require "drupal/console:dev-master" --no-progress --no-suggest
-  #- composer require "html2text/html2text:^4" --no-progress --no-suggest
 
-  # Replace vendor/drupal/console with the one just being built from GitHub.
-  #- rm -rf $DRUPAL_PATH/vendor/drupal/console
-  #- mkdir -p $DRUPAL_PATH/vendor/drupal/console
-  #- cp -r $TRAVIS_BUILD_DIR/* $DRUPAL_PATH/vendor/drupal/console
-  # Update drupal/console dependencies in case they have been changed in the
-  # current build.
-  #- cat $DRUPAL_PATH/vendor/drupal/console/composer.json
-  #- composer clearcache
-  #- rm $DRUPAL_PATH/composer.lock
-  #- rm -rf $DRUPAL_PATH/vendor/drupal/coder
-  ###- composer install --no-progress --no-suggest
-  #- composer remove "drupal/console" --no-progress
+  # Require drupal/console from the source just cloned from GitHub.
   - cd $TRAVIS_BUILD_DIR
-  - git checkout -b ancillary-branch
+  - git checkout -b travisci-run-branch
   - cd $DRUPAL_PATH
   - |
-      composer config repositories.ancillary '{"type": "path", "url": "$TRAVIS_BUILD_DIR", "options": {"symlink": false}}'
-  - composer require "drupal/console:dev-ancillary-branch"
+      composer config repositories.travisci-run '{"type": "path", "url": "$TRAVIS_BUILD_DIR", "options": {"symlink": false}}'
+  - composer require "drupal/console:dev-travisci-run-branch"
   
 script:
   # Install Drupal site via drupal/console and show site status.
