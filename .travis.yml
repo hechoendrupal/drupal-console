@@ -69,12 +69,12 @@ before_script:
   #- rm $DRUPAL_PATH/composer.lock
   #- rm -rf $DRUPAL_PATH/vendor/drupal/coder
   ###- composer install --no-progress --no-suggest
-  - composer remove "drupal/console" --no-progress --no-suggest
+  - composer remove "drupal/console" --no-progress
   - cd $TRAVIS_BUILD_DIR
   - git checkout -b ancillary-branch
   - |
       composer config repositories.ancillary '{"type": "path", "url": "$TRAVIS_BUILD_DIR", "options": {"symlink": false}}'
-  - composer require drupal/sophron 'dev-ancillary-branch'
+  - composer require drupal/console 'dev-ancillary-branch'
   
 script:
   # Install Drupal site via drupal/console and show site status.
