@@ -51,7 +51,7 @@ before_script:
       fi
 
   # Get Drupal via git, and install it via Composer.
-  - git clone --depth=50 --branch=$DRUPAL_BRANCH http://git.drupal.org/project/drupal.git $DRUPAL_PATH
+  - git clone --depth=5 --branch=$DRUPAL_BRANCH http://git.drupal.org/project/drupal.git $DRUPAL_PATH
   - cd $DRUPAL_PATH
   - composer install --no-progress --no-suggest
 
