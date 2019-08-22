@@ -65,6 +65,7 @@ class EntityContentGenerator extends Generator
         $is_translatable = $parameters['is_translatable'];
         $revisionable = $parameters['revisionable'];
         $has_forms = $parameters['has_forms'];
+        $has_bundle_permissions = $parameters['has_bundle_permissions'];
 
         $moduleInstance = $this->extensionManager->getModule($module);
         $moduleDir = $moduleInstance->getPath();
