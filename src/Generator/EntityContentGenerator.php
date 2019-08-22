@@ -83,6 +83,14 @@ class EntityContentGenerator extends Generator
             FILE_APPEND
         );
 
+        if ($has_bundle_permissions) {
+            $this->renderFile(
+            'module/src/entity-content-bundle-permissions.php.twig',
+            $moduleSourcePath . 'Permissions.php',
+            $parameters
+          );
+        }
+
         $this->renderFile(
             'module/src/accesscontrolhandler-entity-content.php.twig',
             $moduleSourcePath . 'AccessControlHandler.php',

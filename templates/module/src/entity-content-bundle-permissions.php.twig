@@ -1,0 +1,90 @@
+
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+  \Drupal\{{ module }}\Entity\{{ entity_class }}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }};
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\{{ module }}\Entity\{{ entity_class }}Type;
+
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides dynamic permissions for {{ label }} of different types.
+ *
+ * @ingroup {{ module }}
+ *
+ */
+class {{ entity_class }}Permissions{% endblock %}
+
+{% block class_methods %}
+  use StringTranslationTrait;
+
+  /**
+   * Returns an array of node type permissions.
+   *
+   * @return array
+   *   The {{ entity_class }} by bundle permissions.
+   *   @see \Drupal\user\PermissionHandlerInterface::getPermissions()
+   */
+  public function generatePermissions() {
+    $perms = [];
+
+    foreach ({{ entity_class }}Type::loadMultiple() as $type) {
+      $perms += $this->buildPermissions($type);
+    }
+
+    return $perms;
+  }
+
+  /**
+   * Returns a list of node permissions for a given node type.
+   *
+   * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Type $type
+   *   The {{ entity_class }} type.
+   *
+   * @return array
+   *   An associative array of permission names and descriptions.
+   */
+  protected function buildPermissions({{ entity_class}}Type $type) {
+    $type_id = $type->id();
+    $type_params = ['%type_name' => $type->label()];
+
+    return [
+      "create $type_id content" => [
+        'title' => $this->t('%type_name: Create new content', $type_params),
+      ],
+      "edit own $type_id content" => [
+        'title' => $this->t('%type_name: Edit own content', $type_params),
+      ],
+      "edit any $type_id content" => [
+        'title' => $this->t('%type_name: Edit any content', $type_params),
+      ],
+      "delete own $type_id content" => [
+        'title' => $this->t('%type_name: Delete own content', $type_params),
+      ],
+        "delete any $type_id content" => [
+        'title' => $this->t('%type_name: Delete any content', $type_params),
+      ],
+      "view $type_id revisions" => [
+        'title' => $this->t('%type_name: View revisions', $type_params),
+        'description' => t('To view a revision, you also need permission to view the content item.'),
+      ],
+      "revert $type_id revisions" => [
+        'title' => $this->t('%type_name: Revert revisions', $type_params),
+        'description' => t('To revert a revision, you also need permission to edit the content item.'),
+      ],
+      "delete $type_id revisions" => [
+        'title' => $this->t('%type_name: Delete revisions', $type_params),
+        'description' => $this->t('To delete a revision, you also need permission to delete the content item.'),
+      ],
+    ];
+  }
+{% endblock %}
