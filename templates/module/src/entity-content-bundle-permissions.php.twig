@@ -58,33 +58,35 @@ class {{ entity_class }}Permissions{% endblock %}
     $type_params = ['%type_name' => $type->label()];
 
     return [
-      "create $type_id content" => [
-        'title' => $this->t('%type_name: Create new content', $type_params),
+      "$type_id create entities" => [
+        'title' => $this->t('Create new %type_name entities', $type_params),
       ],
-      "edit own $type_id content" => [
-        'title' => $this->t('%type_name: Edit own content', $type_params),
+      "$type_id edit own entities" => [
+        'title' => $this->t('Edit own %type_name entities', $type_params),
       ],
-      "edit any $type_id content" => [
-        'title' => $this->t('%type_name: Edit any content', $type_params),
+      "$type_id edit any entities" => [
+        'title' => $this->t('Edit any %type_name entities', $type_params),
       ],
-      "delete own $type_id content" => [
-        'title' => $this->t('%type_name: Delete own content', $type_params),
+      "$type_id delete own entities" => [
+        'title' => $this->t('Delete own %type_name entities', $type_params),
       ],
-        "delete any $type_id content" => [
-        'title' => $this->t('%type_name: Delete any content', $type_params),
+      "$type_id delete any entities" => [
+        'title' => $this->t('Delete any %type_name entities', $type_params),
       ],
-      "view $type_id revisions" => [
-        'title' => $this->t('%type_name: View revisions', $type_params),
-        'description' => t('To view a revision, you also need permission to view the content item.'),
+{% if revisionable %}
+      "$type_id view revisions" => [
+        'title' => $this->t('View %type_name revisions', $type_params),
+        'description' => t('To view a revision, you also need permission to view the entity item.'),
       ],
-      "revert $type_id revisions" => [
-        'title' => $this->t('%type_name: Revert revisions', $type_params),
-        'description' => t('To revert a revision, you also need permission to edit the content item.'),
+      "$type_id revert revisions" => [
+        'title' => $this->t('Revert %type_name revisions', $type_params),
+        'description' => t('To revert a revision, you also need permission to edit the entity item.'),
       ],
-      "delete $type_id revisions" => [
-        'title' => $this->t('%type_name: Delete revisions', $type_params),
-        'description' => $this->t('To delete a revision, you also need permission to delete the content item.'),
+      "$type_id delete revisions" => [
+        'title' => $this->t('Delete %type_name revisions', $type_params),
+        'description' => $this->t('To delete a revision, you also need permission to delete the entity item.'),
       ],
+{% endif %}
     ];
   }
 {% endblock %}
