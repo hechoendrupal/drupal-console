@@ -3,12 +3,12 @@ sudo: false
 language: php
 
 php:
-  - 5.6
-  - 7.0
-  - 7.1
+  #- 5.6
+  #- 7.0
+  #- 7.1
   - 7.2
-  - 7.3
-  - 7.4snapshot
+  #- 7.3
+  #- 7.4snapshot
 
 services:
   - mysql
@@ -67,6 +67,7 @@ script:
   # Install Drupal site via drupal/console and show site status.
   - drupal site:install standard $SIMPLETEST_DB --langcode=en --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
   - drupal site:status -v
+  - drupal sqlq 'select * from drupalconsolenode'
 #  - cd $DRUPAL_PATH/vendor/drupal/console
 #  - ../../phpunit/phpunit/phpunit
 #  - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
