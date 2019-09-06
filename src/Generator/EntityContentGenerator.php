@@ -65,6 +65,7 @@ class EntityContentGenerator extends Generator
         $is_translatable = $parameters['is_translatable'];
         $revisionable = $parameters['revisionable'];
         $has_forms = $parameters['has_forms'];
+        $has_bundle_permissions = $parameters['has_bundle_permissions'];
 
         $moduleInstance = $this->extensionManager->getModule($module);
         $moduleDir = $moduleInstance->getPath();
@@ -81,6 +82,14 @@ class EntityContentGenerator extends Generator
             $parameters,
             FILE_APPEND
         );
+
+        if ($has_bundle_permissions) {
+            $this->renderFile(
+            'module/src/entity-content-bundle-permissions.php.twig',
+            $moduleSourcePath . 'Permissions.php',
+            $parameters
+          );
+        }
 
         $this->renderFile(
             'module/src/accesscontrolhandler-entity-content.php.twig',
