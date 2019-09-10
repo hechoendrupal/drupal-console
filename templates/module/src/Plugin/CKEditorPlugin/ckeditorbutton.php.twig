@@ -9,7 +9,9 @@ namespace Drupal\{{ module }}\Plugin\CKEditorPlugin;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\ckeditor\CKEditorPluginBase;
+use Drupal\ckeditor\CKEditorPluginInterface;
+use Drupal\ckeditor\CKEditorPluginButtonsInterface;
+use Drupal\Component\Plugin\PluginBase;
 use Drupal\editor\Entity\Editor;
 {% endblock %}
 
@@ -23,10 +25,11 @@ use Drupal\editor\Entity\Editor;
  *
  * @CKEditorPlugin(
  *   id = "{{ plugin_id }}",
- *   label = @Translation("{{ label }}")
+ *   label = @Translation("{{ label }}"),
+ *   module = "ckeditor"
  * )
  */
-class {{ class_name }} extends CKEditorPluginBase {% endblock %}
+class {{ class_name }} extends PluginBase implements CKEditorPluginInterface, CKEditorPluginButtonsInterface {% endblock %}
 {% block class_methods %}
 
   /**
@@ -55,6 +58,8 @@ class {{ class_name }} extends CKEditorPluginBase {% endblock %}
   public function getFile() {
     // Make sure that the path to the plugin.js matches the file structure of
     // the CKEditor plugin you are implementing.
+    // En case javascript error "was no found path plugin" try next script
+    // return drupal_get_path('module', 'ckeditor') . '/js/plugins/drupalimagecaption/plugin.js'; // 
     return drupal_get_path('module', '{{ module }}') . '/js/plugins/{{ plugin_id }}/plugin.js';
   }
 
