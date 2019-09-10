@@ -7,19 +7,19 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Generator\PluginMigrateProcessGenerator;
 use Drupal\Console\Utils\Validator;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginMigrateProcessGenerator;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Core\Utils\ChainQueue;
 
-class PluginMigrateProcessCommand extends ContainerAwareCommand
+class PluginMigrateProcessCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;

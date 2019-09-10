@@ -16,15 +16,15 @@ function {{module}}_views_data() {
       '#global' => [],
     ];
 
-
-    $data['views']['{{ class_machine_name }}'] = [
-        'title' => t('{{ title }}'),
-        'help' => t('{{ description }}'),
+{% for field in fields %}
+    $data['views']['{{ field.class_machine_name }}'] = [
+        'title' => t('{{ field.title }}'),
+        'help' => t('{{ field.description }}'),
         'field' => [
-            'id' => '{{ class_machine_name }}',
+            'id' => '{{ field.class_machine_name }}',
         ],
     ];
-
+{% endfor %}
     return $data;
 }
 {% endblock %}

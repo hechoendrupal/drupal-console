@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Generator\FormAlterGenerator;
-use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
@@ -32,7 +31,6 @@ class FormAlterCommand extends Command
     use ArrayInputTrait;
     use FormTrait;
     use ModuleTrait;
-    use ServicesTrait;
 
     /**
      * @var Manager

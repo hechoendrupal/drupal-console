@@ -11,36 +11,26 @@ use Drupal\Core\Database\Database;
 
 trait ConnectTrait
 {
-    protected $supportedDrivers = ['mysql', 'pgsql'];
+    protected $supportedDrivers = ['mysql', 'pgsql', 'sqlite'];
 
     public function resolveConnection($key = 'default', $target = 'default')
     {
         $connectionInfo = Database::getConnectionInfo($key);
-        if (!$connectionInfo || !isset($connectionInfo[$target])) {
-            $this->getIo()->error(
-                sprintf(
-                    $this->trans('commands.database.connect.messages.database-not-found'),
-                    $key,
-                    $target
-                )
-            );
-
-            return null;
+        if (empty($connectionInfo[$target])) {
+            throw new \Exception(sprintf(
+                $this->trans('commands.database.connect.messages.database-not-found'),
+                $key,
+                $target
+            ));
+        }
+        else if (!in_array($connectionInfo[$target]['driver'], $this->supportedDrivers)) {
+            throw new \Exception(sprintf(
+                $this->trans('commands.database.connect.messages.database-not-supported'),
+                $connectionInfo[$target]['driver']
+            ));
         }
 
-        $databaseConnection = $connectionInfo[$target];
-        if (!in_array($databaseConnection['driver'], $this->supportedDrivers)) {
-            $this->getIo()->error(
-                sprintf(
-                    $this->trans('commands.database.connect.messages.database-not-supported'),
-                    $databaseConnection['driver']
-                )
-            );
-
-            return null;
-        }
-
-        return $databaseConnection;
+        return $connectionInfo[$target];
     }
 
     public function getRedBeanConnection($database = 'default')
@@ -85,7 +75,7 @@ trait ConnectTrait
         ];
 
         foreach ($settings as $setting) {
-            $databaseConnection[$setting] = escapeshellcmd($databaseConnection[$setting]);
+            $databaseConnection[$setting] = $databaseConnection[$setting];
         }
 
         return $databaseConnection;

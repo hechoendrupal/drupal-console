@@ -21,12 +21,12 @@ services:
       - { name: drupal.command }
   console.config_export_content_type:
     class: Drupal\Console\Command\Config\ExportContentTypeCommand
-    arguments: ['@console.extension_manager', '@entity_type.manager', '@console.validator', '@console.chain_queue']
+    arguments: ['@console.extension_manager', '@entity_type.manager', '@console.validator', '@console.chain_queue', '@config.storage']
     tags:
       - { name: drupal.command }
   console.config_export_entity:
       class: Drupal\Console\Command\Config\ExportEntityCommand
-      arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator', '@entity_type.repository']
+      arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator', '@entity_type.repository', '@config.storage']
       tags:
         - { name: drupal.command }
   console.config_export_single:
@@ -36,7 +36,7 @@ services:
       - { name: drupal.command }
   console.config_export_view:
     class: Drupal\Console\Command\Config\ExportViewCommand
-    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator']
+    arguments: ['@entity_type.manager', '@config.storage', '@console.extension_manager', '@console.validator', '@console.chain_queue']
     tags:
       - { name: drupal.command }
   console.config_import:

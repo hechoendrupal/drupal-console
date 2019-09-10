@@ -19,6 +19,7 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Webmozart\PathUtil\Path;
 
 /**
  * Class PluginRestResourceCommand
@@ -149,14 +150,16 @@ class PluginRestResourceCommand extends Command
             $prepared_plugin[$plugin_state] = $http_methods[$plugin_state];
         }
 
-        $this->generator->generate([
-            'module_name' => $module,
-            'class_name' => $class_name,
-            'plugin_label' => $plugin_label,
-            'plugin_id' => $plugin_id,
-            'plugin_url' => $plugin_url,
-            'plugin_states' => $prepared_plugin,
-        ]);
+        $this->generator->generate(
+            [
+                'module_name' => $module,
+                'class_name' => $class_name,
+                'plugin_label' => $plugin_label,
+                'plugin_id' => $plugin_id,
+                'plugin_url' => $plugin_url,
+                'plugin_states' => $prepared_plugin,
+            ]
+        );
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
@@ -205,8 +208,13 @@ class PluginRestResourceCommand extends Command
         $plugin_url = $input->getOption('plugin-url');
         if (!$plugin_url) {
             $plugin_url = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.rest.resource.questions.plugin-url')
+                $this->trans('commands.generate.plugin.rest.resource.questions.plugin-url'),
+                null,
+                function ($plugin_url) {
+                    return Path::isAbsolute($plugin_url) ? $plugin_url : '/'.$plugin_url;
+                }
             );
+
             $input->setOption('plugin-url', $plugin_url);
         }
 
@@ -236,32 +244,39 @@ class PluginRestResourceCommand extends Command
     {
         return [
             'GET' => [
-              'http_code' => 200,
-              'response_class' => 'ResourceResponse',
+                'http_code' => 200,
+                'response_class' => 'ResourceResponse',
+                'uri_paths' => 'canonical',
             ],
             'PUT' => [
-              'http_code' => 201,
-              'response_class' => 'ModifiedResourceResponse',
+                'http_code' => 201,
+                'response_class' => 'ModifiedResourceResponse',
+                'uri_paths' => 'canonical',
             ],
             'POST' => [
-              'http_code' => 200,
-              'response_class' => 'ModifiedResourceResponse',
+                'http_code' => 200,
+                'response_class' => 'ModifiedResourceResponse',
+                'uri_paths' => 'create',
             ],
             'PATCH' => [
-              'http_code' => 204,
-              'response_class' => 'ModifiedResourceResponse',
+                'http_code' => 204,
+                'response_class' => 'ModifiedResourceResponse',
+                'uri_paths' => 'canonical',
             ],
             'DELETE' => [
-              'http_code' => 204,
-              'response_class' => 'ModifiedResourceResponse',
+                'http_code' => 204,
+                'response_class' => 'ModifiedResourceResponse',
+                'uri_type' => 'canonical',
             ],
             'HEAD' => [
-              'http_code' => 200,
-              'response_class' => 'ResourceResponse',
+                'http_code' => 200,
+                'response_class' => 'ResourceResponse',
+                'uri_type' => 'canonical',
             ],
             'OPTIONS' => [
-              'http_code' => 200,
-              'response_class' => 'ResourceResponse',
+                'http_code' => 200,
+                'response_class' => 'ResourceResponse',
+                'uri_type' => 'canonical',
             ],
         ];
     }

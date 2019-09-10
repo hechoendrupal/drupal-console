@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Generate;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Command\Shared\ContainerAwareCommandTrait;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Generator\JsTestGenerator;
 use Drupal\Console\Utils\Validator;
@@ -22,7 +21,6 @@ class JsTestCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
-    use ContainerAwareCommandTrait;
 
     /**
      * @var Manager

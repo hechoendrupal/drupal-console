@@ -131,7 +131,7 @@ class DrupalApi
      *
      * @return array
      */
-    public function getRoles($reset=false, $authenticated=false, $anonymous=false)
+    public function getRoles($reset = false, $authenticated = false, $anonymous = false)
     {
         if ($reset || !$this->roles) {
             $roles = $this->entityTypeManager->getStorage('user_role')->loadMultiple();
@@ -230,86 +230,6 @@ class DrupalApi
         $this->httpClient->get($url, ['sink' => $destination]);
 
         return file_exists($destination);
-    }
-
-    /**
-     * Gets Drupal modules releases from Packagist API.
-     *
-     * @param string $module
-     * @param int    $limit
-     * @param bool   $unstable
-     *
-     * @return array
-     */
-    public function getPackagistModuleReleases($module, $limit = 10, $unstable = true)
-    {
-        if (!trim($module)) {
-            return [];
-        }
-
-        return $this->getComposerReleases(
-            sprintf(
-                'http://packagist.drupal-composer.org/packages/drupal/%s.json',
-                trim($module)
-            ),
-            $limit,
-            $unstable
-        );
-    }
-
-    /**
-     * Gets Drupal releases from Packagist API.
-     *
-     * @param string $url
-     * @param int    $limit
-     * @param bool   $unstable
-     *
-     * @return array
-     */
-    private function getComposerReleases($url, $limit = 10, $unstable = false)
-    {
-        if (!$url) {
-            return [];
-        }
-
-        $packagistResponse = $this->httpClient->getUrlAsString($url);
-
-        if ($packagistResponse->getStatusCode() != 200) {
-            throw new \Exception('Invalid path.');
-        }
-
-        try {
-            $packagistJson = json_decode(
-                $packagistResponse->getBody()->getContents()
-            );
-        } catch (\Exception $e) {
-            return [];
-        }
-
-        $versions = array_keys((array)$packagistJson->package->versions);
-
-        // Remove Drupal 7 versions
-        $i = 0;
-        foreach ($versions as $version) {
-            if (0 === strpos($version, "7.") || 0 === strpos($version, "dev-7.")) {
-                unset($versions[$i]);
-            }
-            $i++;
-        }
-
-        if (!$unstable) {
-            foreach ($versions as $key => $version) {
-                if (strpos($version, "-")) {
-                    unset($versions[$key]);
-                }
-            }
-        }
-
-        if (is_array($versions)) {
-            return array_slice($versions, 0, $limit);
-        }
-
-        return [];
     }
 
     /**

@@ -11,7 +11,6 @@ use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Generator\AuthenticationProviderGenerator;
@@ -21,7 +20,6 @@ use Drupal\Console\Extension\Manager;
 
 class AuthenticationProviderCommand extends Command
 {
-    use ServicesTrait;
     use ModuleTrait;
     use ConfirmationTrait;
 

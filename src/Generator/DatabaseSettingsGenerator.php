@@ -8,37 +8,30 @@
 namespace Drupal\Console\Generator;
 
 use Drupal\Console\Core\Generator\Generator;
-use Drupal\Core\DrupalKernelInterface;
 
 class DatabaseSettingsGenerator extends Generator
 {
     /**
-     * @var DrupalKernelInterface
-     */
-    protected $kernel;
-
-    /**
      * DatabaseSettingsGenerator constructor.
-     *
-     * @param DrupalKernelInterface $kernel
      */
-    public function __construct(
-        DrupalKernelInterface $kernel
-    ) {
-        $this->kernel = $kernel;
-    }
+    public function __construct() {}
 
     /**
      * {@inheritdoc}
      */
     public function generate(array $parameters)
     {
-        $settingsFile = $this->kernel->getSitePath() . '/settings.php';
+        $uri = parse_url($parameters['uri'], PHP_URL_HOST);
+        $settingsFile = 'sites/'.$uri.'/settings.php';
         if (!is_writable($settingsFile)) {
             return false;
         }
+        $template = 'database/add.php.twig';
+        if ($parameters['default']) {
+            $template = 'database/add-default.php.twig';
+        }
         return $this->renderFile(
-            'database/add.php.twig',
+            $template,
             $settingsFile,
             $parameters,
             FILE_APPEND

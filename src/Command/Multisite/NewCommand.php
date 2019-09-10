@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Multisite;
 
 use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,13 +27,20 @@ class NewCommand extends Command
     protected $appRoot;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
      * DebugCommand constructor.
      *
      * @param $appRoot
+     * @param Validator $validator
      */
-    public function __construct($appRoot)
+    public function __construct($appRoot, Validator $validator)
     {
         $this->appRoot = $appRoot;
+        $this->validator = $validator;
         parent::__construct();
     }
 
@@ -80,6 +88,7 @@ class NewCommand extends Command
     {
         $this->fs = new Filesystem();
         $this->directory = $input->getArgument('directory');
+        $uri = $this->validator->validateUriName($input->getArgument('uri'));
 
         if (!$this->directory) {
             $this->getIo()->error($this->trans('commands.multisite.new.errors.subdir-empty'));
@@ -117,7 +126,6 @@ class NewCommand extends Command
             return 1;
         }
 
-        $uri = $input->getArgument('uri');
         try {
             $this->addToSitesFile($uri);
         } catch (\Exception $e) {
@@ -154,7 +162,7 @@ class NewCommand extends Command
             throw new FileNotFoundException($this->trans('commands.multisite.new.errors.sites-missing'));
         }
 
-        $sites_file_contents .= "\n\$sites['$this->directory'] = '$this->directory';";
+        $sites_file_contents .= "\n\$sites['$uri'] = '$this->directory';";
 
         try {
             $this->fs->dumpFile($this->appRoot . '/sites/sites.php', $sites_file_contents);

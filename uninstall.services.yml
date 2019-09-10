@@ -11,19 +11,31 @@ services:
     arguments: ['@app.root', '@console.configuration_manager']
     tags:
       - { name: drupal.command }
+  console.database_client:
+    class: Drupal\Console\Command\Database\ClientCommand
+    tags:
+      - { name: drupal.command }
+  console.database_add:
+    class: Drupal\Console\Command\Database\AddCommand
+    arguments: ['@console.database_settings_generator']
+    tags:
+      - { name: drupal.command }
+  console.database_query:
+    class: Drupal\Console\Command\Database\QueryCommand
+    tags:
+      - { name: drupal.command }
+  console.database_connect:
+    class: Drupal\Console\Command\Database\ConnectCommand
+    tags:
+      - { name: drupal.command }
+  console.database_restore:
+    class: Drupal\Console\Command\Database\RestoreCommand
+    arguments: ['@app.root']
+    tags:
+      - { name: drupal.command }
   console.site_install:
     class: Drupal\Console\Command\Site\InstallCommand
     arguments: ['@console.extension_manager', '@console.site', '@console.configuration_manager', '@app.root']
-    tags:
-      - { name: drupal.command }
-  console.multisite_new:
-    class: Drupal\Console\Command\Multisite\NewCommand
-    arguments: ['@app.root']
-    tags:
-      - { name: drupal.command }
-  console.multisite_update:
-    class: Drupal\Console\Command\Multisite\UpdateCommand
-    arguments: ['@app.root']
     tags:
       - { name: drupal.command }
   console.dotenv_init:
@@ -41,6 +53,11 @@ services:
     arguments: ['@console.docker_init_generator']
     tags:
       - { name: drupal.command }
+  console.composer_update_debug:
+    class: Drupal\Console\Command\Debug\UpdateComposerCommand
+    arguments: ['@console.drupal_finder']
+    tags:
+      - { name: drupal.command }
   # Generators
   console.dotenv_init_generator:
     class: Drupal\Console\Generator\DotenvInitGenerator
@@ -48,6 +65,10 @@ services:
       - { name: drupal.generator }
   console.docker_init_generator:
     class: Drupal\Console\Generator\DockerInitGenerator
+    tags:
+      - { name: drupal.generator }
+  console.database_settings_generator:
+    class: Drupal\Console\Generator\DatabaseSettingsGenerator
     tags:
       - { name: drupal.generator }
   # Drupal services

@@ -13,6 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
 use Drupal\Console\Command\Shared\ConnectTrait;
+use Drupal\Core\Database\Database;
 
 /**
  * Class DropCommand
@@ -22,22 +23,6 @@ use Drupal\Console\Command\Shared\ConnectTrait;
 class DropCommand extends Command
 {
     use ConnectTrait;
-
-    /**
-     * @var Connection
-     */
-    protected $database;
-
-    /**
-     * DropCommand constructor.
-     *
-     * @param Connection $database
-     */
-    public function __construct(Connection $database)
-    {
-        $this->database = $database;
-        parent::__construct();
-    }
 
     /**
      * {@inheritdoc}
@@ -53,6 +38,12 @@ class DropCommand extends Command
                 $this->trans('commands.database.drop.arguments.database'),
                 'default'
             )
+            ->addArgument(
+              'target',
+              InputArgument::OPTIONAL,
+              $this->trans('commands.database.drop.arguments.target'),
+              'default'
+            )
             ->setHelp($this->trans('commands.database.drop.help'))
             ->setAliases(['dbd']);
     }
@@ -63,9 +54,10 @@ class DropCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $database = $input->getArgument('database');
+        $target = $input->getArgument('target');
         $yes = $input->getOption('yes');
 
-        $databaseConnection = $this->resolveConnection($database);
+        $databaseConnection = $this->resolveConnection($database, $target);
 
         if (!$yes) {
             if (!$this->getIo()->confirm(
@@ -80,7 +72,8 @@ class DropCommand extends Command
             }
         }
 
-        $schema = $this->database->schema();
+        $connection = Database::getConnection($target, $database);
+        $schema = $connection->schema();
         $tables = $schema->findTables('%');
         $tableRows = [];
 
@@ -102,3 +95,4 @@ class DropCommand extends Command
         return 0;
     }
 }
+

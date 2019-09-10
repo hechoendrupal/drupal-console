@@ -39,6 +39,7 @@ class PluginSkeletonGenerator extends Generator
 
         $parameters['plugin_annotation'] = array_pop(explode('\\', $pluginMetaData['pluginAnnotation']));
         $parameters['plugin_interface'] = array_pop(explode('\\', $pluginMetaData['pluginInterface']));
+        $parameters['namespace'] =  str_replace('/', '\\', $pluginMetaData['subdir']);
 
         $this->renderFile(
             'module/src/Plugin/skeleton.php.twig',

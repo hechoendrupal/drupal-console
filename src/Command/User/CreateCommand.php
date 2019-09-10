@@ -108,6 +108,9 @@ class CreateCommand extends Command
         $username = $input->getArgument('username');
         $password = $input->getArgument('password');
         $roles = $input->getOption('roles');
+        if (is_string($roles)) {
+            $roles = explode(',', $roles);
+        }
         $email = $input->getOption('email');
         $status = $input->getOption('status');
 
@@ -184,7 +187,7 @@ class CreateCommand extends Command
 
         $roles = $input->getOption('roles');
         if (!$roles) {
-            $systemRoles = $this->drupalApi->getRoles(false, false, false);
+            $systemRoles = $this->drupalApi->getRoles(true, true, false);
             $roles = $this->getIo()->choice(
                 $this->trans('commands.user.create.questions.roles'),
                 array_values($systemRoles),

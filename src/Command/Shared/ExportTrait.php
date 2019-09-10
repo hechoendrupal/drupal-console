@@ -61,7 +61,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $this->getIo()->writeln('- ' . $configFile);
+            $this->getIo()->writeln("- $configFile");
 
             // Create directory if doesn't exist
             if (!file_exists($directory)) {
@@ -104,7 +104,7 @@ trait ExportTrait
                 $fileName
             );
 
-            $this->getIo()->info('- ' . $configFile);
+            $this->getIo()->writeln("- $configFile");
 
             // Create directory if doesn't exist
             if (!file_exists($configDirectory)) {
@@ -116,6 +116,8 @@ trait ExportTrait
                 $yamlConfig
             );
         }
+
+        $this->configExport = [];
     }
 
     protected function fetchDependencies($config, $type = 'config')
@@ -127,16 +129,17 @@ trait ExportTrait
         return null;
     }
 
-    protected function resolveDependencies($dependencies, $optional = false)
+    protected function resolveDependencies($dependencies, $optional = false, $uuid = false, $hash = false)
     {
         foreach ($dependencies as $dependency) {
             if (!array_key_exists($dependency, $this->configExport)) {
                 $this->configExport[$dependency] = [
-                    'data' => $this->getConfiguration($dependency),
+                    'data' => $this->getConfiguration($dependency, $uuid, $hash),
                     'optional' => $optional
                 ];
+
                 if ($dependencies = $this->fetchDependencies($this->configExport[$dependency], 'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                    $this->resolveDependencies($dependencies, $optional, $uuid, $hash);
                 }
             }
         }
@@ -145,7 +148,7 @@ trait ExportTrait
     protected function exportModuleDependencies($module, $dependencies)
     {
         $module = $this->extensionManager->getModule($module);
-        $info_yaml = $module->info;
+        $info_yaml = Yaml::decode(file_get_contents($module->getPathname(), true));
 
         if (empty($info_yaml['dependencies'])) {
             $info_yaml['dependencies'] = $dependencies;
@@ -164,11 +167,11 @@ trait ExportTrait
 
             foreach ($dependencies as $dependency) {
                 $this->getIo()->info(
-                    '   [-] ' . $dependency
+                    "   [-] $dependency"
                 );
             }
         } else {
-            $this->getIo()->error($this->trans('commands.site.mode.messages.error-writing-file') . ': ' . $this->getApplication()->getSite()->getModuleInfoFile($module));
+            $this->getIo()->error("{$this->trans('commands.site.mode.messages.error-writing-file')}: {$this->getApplication()->getSite()->getModuleInfoFile($module)}");
 
             return [];
         }
@@ -185,10 +188,9 @@ trait ExportTrait
 
         $fields_storage = $this->entityTypeManager->getStorage('field_config');
         foreach ($fields_storage->loadMultiple() as $field) {
-            $field_name = $fields_definition->getConfigPrefix() . '.' . $field->id();
+            $field_name = "{$fields_definition->getConfigPrefix()}.{$field->id()}";
             $field_name_config = $this->getConfiguration($field_name, $removeUuid,
                 $removeHash);
-
             // Only select fields related with content type
             if ($field_name_config['bundle'] == $bundle) {
                 $this->configExport[$field_name] = [
@@ -198,12 +200,46 @@ trait ExportTrait
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($field_name_config,
                     'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                    $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
                 }
             }
         }
+    }
 
+    protected function getBasefieldOverrideFields(
+        $bundle = null,
+        $optional = false,
+        $removeUuid = false,
+        $removeHash = false,
+        $collection = ''
+    ) {
+        $collection_storage = $this->storage->createCollection($collection);
+        foreach ($collection_storage->listAll() as $name) {
+            if(strpos($name, "core.base_field_override.node") !== false) {
+                $configData = $collection_storage->read($name);
+                if ($removeUuid) {
+                    unset($configData['uuid']);
+                }
+                if ($removeHash) {
+                    unset($configData['_core']['default_config_hash']);
+                    if (empty($configData['_core'])) {
+                        unset($configData['_core']);
+                    }
+                }
 
+                if ($configData['bundle'] == $bundle) {
+                    $this->configExport["$name.yml"] = [
+                        'data' => $configData,
+                        'optional' => $optional,
+                    ];
+                    // Include dependencies in export files
+                    if ($dependencies = $this->fetchDependencies($configData,
+                        'config')) {
+                        $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
+                    }
+                }
+            }
+        }
     }
 
     protected function getFormDisplays(
@@ -217,7 +253,7 @@ trait ExportTrait
         $form_display_definition = $this->entityTypeManager->getDefinition('entity_form_display');
         $form_display_storage = $this->entityTypeManager->getStorage('entity_form_display');
         foreach ($form_display_storage->loadMultiple() as $form_display) {
-            $form_display_name = $form_display_definition->getConfigPrefix() . '.' . $form_display->id();
+            $form_display_name = "{$form_display_definition->getConfigPrefix()}.{$form_display->id()}";
             $form_display_name_config = $this->getConfiguration($form_display_name,
                 $removeUuid, $removeHash);
 
@@ -231,7 +267,7 @@ trait ExportTrait
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($form_display_name_config,
                     'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                    $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
                 }
             }
         }
@@ -246,7 +282,7 @@ trait ExportTrait
         $view_display_definition = $this->entityTypeManager->getDefinition('entity_view_display');
         $view_display_storage = $this->entityTypeManager->getStorage('entity_view_display');
         foreach ($view_display_storage->loadMultiple() as $view_display) {
-            $view_display_name = $view_display_definition->getConfigPrefix() . '.' . $view_display->id();
+            $view_display_name = "{$view_display_definition->getConfigPrefix()}.{$view_display->id()}";
             $view_display_name_config = $this->getConfiguration($view_display_name,
                 $removeUuid, $removeHash);
             // Only select fields related with content type
@@ -258,7 +294,7 @@ trait ExportTrait
                 // Include dependencies in export files
                 if ($dependencies = $this->fetchDependencies($view_display_name_config,
                     'config')) {
-                    $this->resolveDependencies($dependencies, $optional);
+                    $this->resolveDependencies($dependencies, $optional, $removeUuid, $removeHash);
                 }
             }
         }

@@ -120,7 +120,7 @@ class InstallCommand extends Command
                 'composer',
                 null,
                 InputOption::VALUE_NONE,
-                $this->trans('commands.module.uninstall.options.composer')
+                $this->trans('commands.module.install.options.composer')
             )
             ->setAliases(['moi']);
     }
@@ -234,5 +234,85 @@ class InstallCommand extends Command
 
         $this->site->removeCachedServicesFile();
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
+    }
+
+    /**
+     * Verify that install requirements for a list of modules are met.
+     *
+     * @param string[]    $module
+     *   List of modules to verify.
+     *
+     * @throws \Exception
+     *   When one or more requirements are not met.
+     */
+    public function moduleRequirement(array $module)
+    {
+        $modules_data = system_rebuild_module_data();
+
+        // for unmet requirements recursively.
+        $fail = false;
+        foreach ($module as $module_name) {
+            module_load_install($module_name);
+            if ($requirements = \Drupal::moduleHandler()->invoke($module_name, 'requirements', ['install'])) {
+                foreach ($requirements as $requirement) {
+                    if (isset($requirement['severity']) && $requirement['severity'] == REQUIREMENT_ERROR) {
+                        $this->getIo()->errorLite("Module '{$module_name}' cannot be installed: {$requirement['title']} | {$requirement['value']}");
+                        $this->getIo()->newLine();
+                        $fail = true;
+                    }
+                }
+            }
+
+            $module_data = $modules_data[$module_name];
+
+            // Check the core compatibility.
+            if ($module_data->info['core'] != \Drupal::CORE_COMPATIBILITY) {
+                $versionCore = \Drupal::CORE_COMPATIBILITY;
+                $this->getIo()->errorLite("This version is not compatible with Drupal {$versionCore} and should be replaced.");
+                $this->getIo()->newLine();
+            }
+
+            // Ensure this module is compatible with the currently installed version of PHP.
+            if (version_compare(phpversion(), $module_data->info['php']) < 0) {
+                $required = $module_data->info['php'] . (substr_count($module_data->info['php'], '.') < 2 ? '.*' : '');
+                $phpversion = phpversion();
+                $this->getIo()->errorLite("This module requires PHP version {$required} and is incompatible with PHP version {$phpversion}.");
+                $this->getIo()->newLine();
+                $fail = true;
+            }
+
+            // If this module requires other modules, add them to the array.
+            foreach ($module_data->requires as $dependency => $version) {
+                // dependency exist.
+                if (!isset($modules_data[$dependency])) {
+                    $dependencyName = ucfirst($dependency);
+                    $this->getIo()->errorLite("{$dependencyName} missing.");
+                    $this->getIo()->newLine();
+                    $fail = true;
+                }
+
+                elseif (empty($modules_data[$dependency]->hidden)) {
+                    $name = $modules_data[$dependency]->info['name'];
+                    // dependency's version.
+                    if ($incompatible_version = drupal_check_incompatibility($version, str_replace(\Drupal::CORE_COMPATIBILITY . '-', '', $modules_data[$dependency]->info['version']))) {
+                        $dependencyName = $name . $incompatible_version;
+                        $dependencyVersion = $modules_data[$dependency]->info['version'];
+                        $this->getIo()->errorLite("{$dependencyName} incompatible with version {$dependencyVersion}.");
+                        $this->getIo()->newLine();
+                        $fail = true;
+                    }
+
+                    // version of Drupal core.
+                    elseif ($modules_data[$dependency]->info['core'] != \Drupal::CORE_COMPATIBILITY) {
+                        $this->getIo()->errorLite("{$name} incompatible with this version of Drupal core.");
+                        $this->getIo()->newLine();
+                        $fail = true;
+                    }
+                }
+            }
+        }
+        if ($fail) {
+            throw new \Exception('Some module install requirements are not met.');
+        }
     }
 }
