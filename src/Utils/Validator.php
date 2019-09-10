@@ -46,7 +46,12 @@ class Validator
 
     public function validateModuleName($module)
     {
-        if (!empty($module)) {
+        // @see https://www.drupal.org/docs/8/creating-custom-modules/naming-and-placing-your-drupal-8-module
+        $reserved_words = [
+            'src', 'lib', 'vendor', 'assets', 'css', 'files', 'images', 'js', 'misc', 'templates', 'includes',
+            'fixtures', 'Drupal',
+        ];
+        if (!empty($module) && preg_match('/^[a-z][a-z\d_]*$/', $module) === 1 && !in_array($module, $reserved_words)) {
             return $module;
         } else {
             throw new \InvalidArgumentException(sprintf('Module name "%s" is invalid.', $module));
