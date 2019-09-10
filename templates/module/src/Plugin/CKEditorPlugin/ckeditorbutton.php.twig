@@ -58,8 +58,6 @@ class {{ class_name }} extends PluginBase implements CKEditorPluginInterface, CK
   public function getFile() {
     // Make sure that the path to the plugin.js matches the file structure of
     // the CKEditor plugin you are implementing.
-    // En case javascript error "was no found path plugin" try next script
-    // return drupal_get_path('module', 'ckeditor') . '/js/plugins/drupalimagecaption/plugin.js'; // 
     return drupal_get_path('module', '{{ module }}') . '/js/plugins/{{ plugin_id }}/plugin.js';
   }
 
