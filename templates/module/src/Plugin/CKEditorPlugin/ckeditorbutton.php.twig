@@ -61,7 +61,7 @@ class {{ class_name }} extends CKEditorPluginBase {% endblock %}
   public function getFile() {
     // Make sure that the path to the plugin.js matches the file structure of
     // the CKEditor plugin you are implementing.
-    return drupal_get_path('module', '{{ module }}') . '/js/plugin/CKEditorPlugin/plugin.js';
+    return drupal_get_path('module', '{{ module }}') . '/js/Plugin/{{ plugin_id }}/plugin.js';
   }
 
   /**

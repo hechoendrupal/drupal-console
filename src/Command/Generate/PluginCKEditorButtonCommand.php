@@ -204,7 +204,7 @@ class PluginCKEditorButtonCommand extends Command
 
             $buttonIcon = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-icon-path'),
-                drupal_get_path('module', $module) . '/js/plugin/CKEditorPlugin/icons/'.$plugin_id.'.png'
+                drupal_get_path('module', $module) . '/js/plugin/'.$plugin_id.'/icons/'.$buttonName.'.png'
             );
 
             array_push(
