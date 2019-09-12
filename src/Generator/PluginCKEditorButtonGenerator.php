@@ -41,5 +41,10 @@ class PluginCKEditorButtonGenerator extends Generator
             $this->extensionManager->getPluginPath($module, 'CKEditorPlugin') . '/' . $class_name . '.php',
             $parameters
         );
+        $this->renderFile(
+            'module/src/Plugin/CKEditorPlugin/plugin.php.twig',
+             drupal_get_path('module', $module) . '/js/plugin/CKEditorPlugin/plugin.js',
+             $parameters
+        );
     }
 }

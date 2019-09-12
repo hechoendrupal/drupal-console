@@ -9,9 +9,7 @@ namespace Drupal\{{ module }}\Plugin\CKEditorPlugin;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\ckeditor\CKEditorPluginInterface;
-use Drupal\ckeditor\CKEditorPluginButtonsInterface;
-use Drupal\Component\Plugin\PluginBase;
+use Drupal\ckeditor\CKEditorPluginBase;
 use Drupal\editor\Entity\Editor;
 {% endblock %}
 
@@ -26,10 +24,10 @@ use Drupal\editor\Entity\Editor;
  * @CKEditorPlugin(
  *   id = "{{ plugin_id }}",
  *   label = @Translation("{{ label }}"),
- *   module = "ckeditor"
+ *   module = "{{ module }}"
  * )
  */
-class {{ class_name }} extends PluginBase implements CKEditorPluginInterface, CKEditorPluginButtonsInterface {% endblock %}
+class {{ class_name }} extends CKEditorPluginBase {% endblock %}
 {% block class_methods %}
 
   /**
@@ -51,6 +49,11 @@ class {{ class_name }} extends PluginBase implements CKEditorPluginInterface, CK
 {% endfor %}
     ];
   }
+  /**
+   * {@inheritdoc}
+   */
+  public function isEnabled(Editor $editor) {
+  }
 
   /**
    * {@inheritdoc}
@@ -58,7 +61,7 @@ class {{ class_name }} extends PluginBase implements CKEditorPluginInterface, CK
   public function getFile() {
     // Make sure that the path to the plugin.js matches the file structure of
     // the CKEditor plugin you are implementing.
-    return drupal_get_path('module', '{{ module }}') . '/js/plugins/{{ plugin_id }}/plugin.js';
+    return drupal_get_path('module', '{{ module }}') . '/js/plugin/CKEditorPlugin/plugin.js';
   }
 
   /**
