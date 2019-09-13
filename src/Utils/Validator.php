@@ -15,7 +15,7 @@ class Validator
     const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
     const REGEX_COMMAND_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+Command$/';
     const REGEX_CONTROLLER_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+Controller$/';
-    const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
+    const REGEX_MACHINE_NAME = '/^[a-z][a-z\d_]+$/';
     const REGEX_DEPENDENCY_NAME = '/^[a-z0-9_:]+$/';
     const REGEX_URI_NAME = '/^[a-z0-9_.]+$/';
     // This REGEX remove spaces between words
@@ -46,12 +46,7 @@ class Validator
 
     public function validateModuleName($module)
     {
-        // @see https://www.drupal.org/docs/8/creating-custom-modules/naming-and-placing-your-drupal-8-module
-        $reserved_words = [
-            'src', 'lib', 'vendor', 'assets', 'css', 'files', 'images', 'js', 'misc', 'templates', 'includes',
-            'fixtures', 'Drupal',
-        ];
-        if (!empty($module) && preg_match('/^[a-z][a-z\d_]*$/', $module) === 1 && !in_array($module, $reserved_words)) {
+        if (!empty($module)) {
             return $module;
         } else {
             throw new \InvalidArgumentException(sprintf('Module name "%s" is invalid.', $module));
@@ -139,7 +134,12 @@ class Validator
 
     public function validateMachineName($machine_name)
     {
-        if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
+        // @see https://www.drupal.org/docs/8/creating-custom-modules/naming-and-placing-your-drupal-8-module
+        $reserved_words = [
+            'src', 'lib', 'vendor', 'assets', 'css', 'files', 'images', 'js', 'misc', 'templates', 'includes',
+            'fixtures', 'Drupal',
+        ];
+        if (preg_match(self::REGEX_MACHINE_NAME, $machine_name) && !in_array($machine_name, $reserved_words)) {
             if (strlen($machine_name) > self::MAX_MACHINE_NAME) {
                 throw new \InvalidArgumentException(
                     sprintf(
