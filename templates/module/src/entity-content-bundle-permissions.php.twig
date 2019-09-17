@@ -11,7 +11,7 @@ namespace Drupal\{{ module }};
 
 {% block use_class %}
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\{{ module }}\Entity\{{ entity_class }}Type;
+use Drupal\{{ module }}\Entity\{{ entity_class }};
 
 {% endblock %}
 
@@ -37,7 +37,7 @@ class {{ entity_class }}Permissions{% endblock %}
   public function generatePermissions() {
     $perms = [];
 
-    foreach ({{ entity_class }}Type::loadMultiple() as $type) {
+    foreach ({{ entity_class }}::loadMultiple() as $type) {
       $perms += $this->buildPermissions($type);
     }
 
@@ -47,13 +47,13 @@ class {{ entity_class }}Permissions{% endblock %}
   /**
    * Returns a list of node permissions for a given node type.
    *
-   * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Type $type
+   * @param \Drupal\{{ module }}\Entity\{{ entity_class }} $type
    *   The {{ entity_class }} type.
    *
    * @return array
    *   An associative array of permission names and descriptions.
    */
-  protected function buildPermissions({{ entity_class}}Type $type) {
+  protected function buildPermissions({{ entity_class}} $type) {
     $type_id = $type->id();
     $type_params = ['%type_name' => $type->label()];
 
