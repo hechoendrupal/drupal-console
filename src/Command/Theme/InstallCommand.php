@@ -12,9 +12,23 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Config\UnmetDependenciesException;
+use Drupal\Console\Command\Shared\ProjectDownloadTrait;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\Extension\ModuleInstallerInterface;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Utils\ChainQueue;
 
 class InstallCommand extends ThemeBaseCommand
 {
+    use ProjectDownloadTrait;
+    use ModuleTrait;
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -88,7 +102,7 @@ class InstallCommand extends ThemeBaseCommand
             if (count($this->getUnavailableThemes()) > 1) {
                 $this->setErrorMessage('commands.theme.install.messages.themes-missing', $this->getUnavailableThemes());
             } else {
-                $this->setErrorMessage('commands.theme.install.messages.themes-missing', $this->getUnavailableThemes());
+                $resultList = $this->downloadThemes($theme, $default);
             }
         }
 
