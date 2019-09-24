@@ -162,9 +162,16 @@ trait ProjectDownloadTrait
             }
         }
         $this->themeHandler->install($themes);
-        return $this->setInfoMessage('commands.theme.install.messages.theme-success', $missingThemes);
+
+        $unInstalledThemes = $this->validator->getUninstalledThemes($themes);
         
+        if (!$unInstalledThemes) {
+            return 0;
+        }else{
+            return $this->setInfoMessage('commands.theme.install.messages.theme-success', $missingThemes);
+        }
     }
+
     protected function calculateDependencies($modules)
     {
         $this->site->loadLegacyFile('/core/modules/system/system.module');
