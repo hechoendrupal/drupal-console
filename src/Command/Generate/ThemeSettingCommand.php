@@ -22,6 +22,7 @@ use Drupal\Core\Extension\ThemeHandler;
 use Webmozart\PathUtil\Path;
 use Symfony\Component\Filesystem\Filesystem;
 
+
 /**
  * Class ThemeSettingCommand
  *
@@ -195,23 +196,16 @@ class ThemeSettingCommand extends Command
             $theme = $input->getOption('theme') ? $this->validator->validateModuleName($input->getOption('theme')) : null;
         } catch (\Exception $error) {
             $this->getIo()->error($error->getMessage());
-            return 1;
+            return 1;   
         }
         if (!$theme) {
-            $theme = $this->getIo()->ask(
+            $theme_list_manager = $this->extensionManager->discoverThemes();
+            $theme_list_manager->showInstalled()->showCore();
+            $theme_list = $theme_list_manager->getList();
+
+            $theme = $this->getIo()->choice(
                 $this->trans('commands.generate.theme.setting.questions.theme'),
-                '',
-                function ($theme) {         
-                    if ($this->extensionManager->getTheme($theme) == null) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                $this->trans('commands.generate.theme.setting.errors.theme'),
-                                $theme
-                            )
-                        );
-                    }
-                    return $theme;
-                }
+                array_keys($theme_list)
             );
             $input->setOption('theme', $theme);
         }
@@ -219,23 +213,7 @@ class ThemeSettingCommand extends Command
         // --theme-path option
         $theme_path = $input->getOption('theme-path');
         if (!$theme_path) {
-            $theme_path = $this->getIo()->ask(
-                $this->trans('commands.generate.theme.setting.questions.theme-path'),
-                '',
-                function ($theme_path) {
-                    $filesystem = new Filesystem();
-                    $theme_path = Path::isAbsolute($theme_path) ? $theme_path : Path::makeAbsolute($theme_path, $this->appRoot);
-                    if (!$filesystem->exists($theme_path)) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                $this->trans('commands.generate.theme.setting.errors.directory-notexists'),
-                                $theme_path
-                            )
-                        );
-                    } 
-                    return $theme_path;
-                }
-            );
+            $theme_path = $this->appRoot.'/'.$theme_list[$theme]->getPath();
             $input->setOption('theme-path', $theme_path);
         }
 
