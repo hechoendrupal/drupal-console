@@ -182,6 +182,11 @@ services:
     arguments: ['@console.extension_manager', '@console.theme_generator', '@console.validator', '@app.root', '@theme_handler', '@console.site', '@console.string_converter']
     tags:
        - { name: drupal.command }
+  console.generate_setting_theme:
+    class: Drupal\Console\Command\Generate\ThemeSettingCommand
+    arguments: ['@console.extension_manager', '@console.theme_setting_generator', '@console.validator', '@app.root', '@theme_handler', '@console.site', '@console.string_converter']
+    tags:
+       - { name: drupal.command }
   console.generate_twig_extension:
     class: Drupal\Console\Command\Generate\TwigExtensionCommand
     arguments: ['@console.extension_manager', '@console.twig_extension_generator', '@console.site', '@console.string_converter', '@console.validator', '@console.chain_queue']
