@@ -66,8 +66,9 @@ class ThemeSettingGenerator extends Generator
                 ],
             ];
             if ($filesystem->exists($file_path)) {
-                $arr_conf = Yaml::decode($file_path);
-                $data = array_merge_recursive($data, $arr_conf);
+                $data_cont = file_get_contents($file_path);
+                $arr_conf = Yaml::decode($data_cont);
+                $data = array_replace_recursive($arr_conf, $data);
             }
             try {
                 $filesystem->mkdir($dir.'/config');
