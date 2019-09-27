@@ -20,7 +20,9 @@ use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\Extension\ThemeHandler;
 use Webmozart\PathUtil\Path;
+use Drupal\Console\Command\Shared\ThemeTrait;
 use Symfony\Component\Filesystem\Filesystem;
+use Drupal\Console\Core\Style\DrupalStyle;
 
 
 /**
@@ -32,6 +34,7 @@ class ThemeSettingCommand extends Command
 {
     use ConfirmationTrait;
     use ArrayInputTrait;
+    use ThemeTrait;
 
     /**
      * @var Manager
@@ -150,6 +153,12 @@ class ThemeSettingCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.theme.setting.options.logo')
             )
+            ->addOption(
+                'merge-existing-file',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.generate.theme.setting.options.merge-existing-file')
+            )
             ->setAliases(['gts']);
     }
 
@@ -173,6 +182,8 @@ class ThemeSettingCommand extends Command
         $commentUserVerification = $input->getOption('comment-user-verification');
         $nodeUserPicture = $input->getOption('node-user-picture');
         $logo = $input->getOption('logo');
+        $mergeExistingFile = $input->getOption('merge-existing-file');
+        $this->generator->setIo($this->getIo());
         return $this->generator->generate( 
             [
             'theme' => $theme,
@@ -182,6 +193,7 @@ class ThemeSettingCommand extends Command
             'commentUserVerification' => $commentUserVerification,
             'nodeUserPicture' => $nodeUserPicture,
             'logo' => $logo,
+            'merge-existing-file' => (bool)$mergeExistingFile
             ]
         );
     }
@@ -199,15 +211,14 @@ class ThemeSettingCommand extends Command
             return 1;   
         }
         if (!$theme) {
-            $theme_list_manager = $this->extensionManager->discoverThemes();
-            $theme_list_manager->showInstalled()->showCore();
-            $theme_list = $theme_list_manager->getList();
-
-            $theme = $this->getIo()->choice(
-                $this->trans('commands.generate.theme.setting.questions.theme'),
-                array_keys($theme_list)
-            );
+            // @see Drupal\Console\Command\Shared\ThemeTrait::themeQuestion
+            $theme = $this->themeQuestion();
+            $theme_list = $this->extensionManager->discoverThemes()
+            ->showInstalled()
+            ->showNoCore()
+            ->getList();
             $input->setOption('theme', $theme);
+            
         }
 
         // --theme-path option
@@ -271,5 +282,31 @@ class ThemeSettingCommand extends Command
             );
             $input->setOption('logo', $logo);
         }
+
+        // --merge-existing-file
+        $mergeExistingFile = $input->getOption('merge-existing-file');
+        if (!$mergeExistingFile) {
+            $file_path = $theme_path.'/config/install/'.$theme.'.settings.yml';
+            $filesystem = new Filesystem();
+            if ($filesystem->exists($file_path)) {
+                $data_cont = file_get_contents($file_path);
+                if (strlen($data_cont)>0) {
+                    $mergeExistingFile = $this->getIo()->choice(
+                        $this->trans('commands.generate.theme.setting.questions.merge-existing-file'),
+                        ['true', 'false'],
+                        'true'
+                    );
+                    $input->setOption('merge-existing-file', $mergeExistingFile);
+                } else {
+                    $input->setOption('merge-existing-file', 'false');
+                }
+            } else {
+                $input->setOption('merge-existing-file', 'false');
+            }
+        } else {
+            $input->setOption('merge-existing-file', 'false');
+        }
+        $io = new DrupalStyle($input, $output);
+        
     }
 }
