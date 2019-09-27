@@ -146,30 +146,7 @@ class BlockTypeCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.generate.block.type.options.block-id')
             )
-            ->addOption(
-                'theme-region',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.block.type.options.theme-region')
-            )
-            ->addOption(
-                'inputs',
-                null,
-                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                $this->trans('commands.common.options.inputs')
-            )
-            ->addOption(
-                'services',
-                null,
-                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                $this->trans('commands.common.options.services')
-            )
-            ->addOption(
-                'twigtemplate',
-                null,
-                InputOption::VALUE_NONE,
-                $this->trans('commands.generate.block.type.options.twigtemplate')
-            )
+            
             ->setAliases(['gbt']);
     }
 
@@ -188,34 +165,6 @@ class BlockTypeCommand extends ContainerAwareCommand
         $block_label = $input->getOption('block-label');
         $block_description = $input->getOption('block-description');
         $block_id = $input->getOption('block-id');
-        $services = $input->getOption('services');
-        $theme_region = $input->getOption('theme-region');
-        $inputs = $input->getOption('inputs');
-        $noInteraction = $input->getOption('no-interaction');
-        $twigTemplate = $input->getOption('twigtemplate');
-        
-        // Parse nested data.
-        
-        if ($noInteraction) {
-            $inputs = $this->explodeInlineArray($inputs);
-        }
-        
-        $theme = $this->configFactory->get('system.theme')->get('default');
-        $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
-
-        if (!empty($theme_region) && !isset($themeRegions[$theme_region])) {
-            $this->getIo()->error(
-                sprintf(
-                    $this->trans('commands.generate.block.type.messages.invalid-theme-region'),
-                    $theme_region
-                )
-            );
-
-            return 1;
-        }
-
-        // @see use Drupal\Console\Command\Shared\ServicesTrait::buildServices
-        $build_services = $this->buildServices($services);
         
         $theme_region = true;
         
@@ -225,9 +174,6 @@ class BlockTypeCommand extends ContainerAwareCommand
           'label' => $block_label,
           'description' => $block_description,
           'block_id' => $block_id,
-          'services' => $build_services,
-          'inputs' => $inputs,
-          'twig_template' => $twigTemplate,
         ]);
         
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
@@ -237,6 +183,7 @@ class BlockTypeCommand extends ContainerAwareCommand
               'id' => $block_id,
               'label' => $block_label,
               'description' => $block_description,
+
             ]);
             $block_content_type->save();
 
@@ -248,7 +195,7 @@ class BlockTypeCommand extends ContainerAwareCommand
                 'format' => 'full_html',
                ],
             ]);
-            
+
             $block_content->save();
         }
     }
@@ -263,7 +210,7 @@ class BlockTypeCommand extends ContainerAwareCommand
         if (!$class) {
             $class = $this->getIo()->ask(
                 $this->trans('commands.generate.block.type.questions.class'),
-                'DefaultBlock',
+                'DefaultBlockContentType',
                 function ($class) {
                     return $this->validator->validateClassName($class);
                 }
@@ -298,52 +245,6 @@ class BlockTypeCommand extends ContainerAwareCommand
                 $this->stringConverter->camelCaseToUnderscore($class)
             );
             $input->setOption('block-description', $blockDesc);
-        }
-        // --theme-region option
-        $themeRegion = $input->getOption('theme-region');
-
-        if (!$themeRegion) {
-            $theme = $this->configFactory->get('system.theme')->get('default');
-            $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
-            $themeRegionOptions = [];
-            foreach ($themeRegions as $key => $region) {
-                $themeRegionOptions[$key] = $region->render();
-            }
-            $themeRegion = $this->getIo()->choiceNoList(
-                $this->trans('commands.generate.block.type.questions.theme-region'),
-                $themeRegionOptions,
-                '',
-                true
-            );
-            $themeRegion = array_search($themeRegion, $themeRegions);
-            $input->setOption('theme-region', $themeRegion);
-        }
-
-        // --services option
-        // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-        $services = $this->servicesQuestion();
-        $input->setOption('services', $services);
-
-        $output->writeln($this->trans('commands.generate.block.type.messages.inputs'));
-
-        // --inputs option
-        $inputs = $input->getOption('inputs');
-        if (!$inputs) {
-            // @see \Drupal\Console\Command\Shared\FormTrait::formQuestion
-            $inputs = $this->formQuestion();
-            $input->setOption('inputs', $inputs);
-        } else {
-            $inputs = $this->explodeInlineArray($inputs);
-        }
-        $input->setOption('inputs', $inputs);
-
-        $twigtemplate = $input->getOption('twigtemplate');
-        if (!$twigtemplate) {
-            $twigtemplate = $this->getIo()->confirm(
-                $this->trans('commands.generate.block.type.questions.twigtemplate'),
-                false
-            );
-            $input->setOption('twigtemplate', $twigtemplate);
         }
     }
 }
