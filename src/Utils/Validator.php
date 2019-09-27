@@ -453,4 +453,18 @@ class Validator
     public function validateRoleNotExistence($role, $roles) {
         return $this->validateRole($role, $roles, false);
     }
+
+    /**
+     * @param $themeList
+     * @return array
+     */
+    public function getMissingThemes($themeList)
+    {
+        $themes = $this->extensionManager->discoverThemes()
+            ->showInstalled()
+            ->showNoCore()
+            ->getList(true);
+
+        return array_diff($themeList, $themes);
+    }
 }
