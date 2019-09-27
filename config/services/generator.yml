@@ -191,6 +191,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.blocktype_generator:
+    class: Drupal\Console\Generator\BlockTypeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.command_generator:
     class: Drupal\Console\Generator\CommandGenerator
     arguments: ['@console.extension_manager', '@console.translator_manager']

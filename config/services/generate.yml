@@ -197,6 +197,11 @@ services:
     arguments: ['@config.factory', '@console.chain_queue', '@console.pluginblock_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
     tags:
        - { name: drupal.command }
+  console.generate_blocktype:
+    class: Drupal\Console\Command\Generate\BlockTypeCommand
+    arguments: ['@config.factory', '@console.chain_queue', '@console.blocktype_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
+    tags:
+       - { name: drupal.command }
   console.generate_command:
     class: Drupal\Console\Command\Generate\CommandCommand
     arguments: ['@console.command_generator', '@console.extension_manager', '@console.validator', '@console.string_converter', '@console.site']

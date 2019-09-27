@@ -1,0 +1,153 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\Block\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\Block;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Block\BlockBase;
+{% if inputs %}
+use Drupal\Core\Form\FormStateInterface;
+{% endif %}
+{% if services is not empty %}
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endif %}
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' block.
+ *
+ * @Block(
+ *  id = "{{block_id}}",
+ *  admin_label = @Translation("{{label}}"),
+ * )
+ */
+class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}{% endblock %}
+{% block class_construct %}
+{% if services is not empty %}
+  /**
+   * Constructs a new {{class_name}} object.
+   *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $block_id
+   *   The block_id for the block instance.
+   * @param string $_definition
+   *   The block implementation definition.
+{% if services is not empty %}
+{% for service in services %}
+   * @param \{{ service.class }} ${{service.machine_name}}
+   *   The {{service.short}} definition.
+{% endfor %}
+{% endif %}
+   */
+  public function __construct(
+    array $configuration,
+    $block_id,
+    $block_definition,
+    {{ servicesAsParameters(services)|join(',\n    ') }}
+  ) {
+    parent::__construct($configuration, $block_id, $block_definition);
+{{ serviceClassInitialization(services) }}
+  }
+{% endif %}
+{% endblock %}
+{% block class_create %}
+{% if services is not empty %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $block_id, $block_definition) {
+    return new static(
+      $configuration,
+      $block_id,
+      $block_definition,
+{{ serviceClassInjection(services) }}
+    );
+  }
+
+{% endif %}
+{% endblock %}
+{% block class_methods %}
+{% if inputs %}
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+{% for input in inputs %}
+{% if input.default_value is defined and input.default_value|length %}
+      '{{ input.name }}' => {{ input.default_value }},
+{% endif %}
+{% endfor %}
+    ] + parent::defaultConfiguration();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state) {
+{% for input in inputs %}
+    $form['{{ input.name }}'] = [
+      '#type' => '{{ input.type }}',
+      '#title' => $this->t('{{ input.label|escape }}'),
+{% if input.description is defined and input.description is not empty %}
+      '#description' => $this->t('{{ input.description|e }}'),
+{% endif %}
+{% if input.options is defined and input.options|length %}
+      '#options' => {{ input.options }},
+{% endif %}
+      '#default_value' => $this->configuration['{{ input.name }}'],
+{% if input.maxlength is defined and input.maxlength|length %}
+      '#maxlength' => {{ input.maxlength }},
+{% endif %}
+{% if input.size is defined and input.size|length %}
+      '#size' => {{ input.size }},
+{% endif %}
+{% if input.weight is defined and input.weight|length %}
+      '#weight' => '{{ input.weight }}',
+{% endif %}
+    ];
+{% endfor %}
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+{% for input in inputs %}
+    $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}'){% if input.type == 'text_format' %}['value']{% endif %};
+{% endfor %}
+  }
+
+{% endif %}
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    $build = [];
+{% if twig_template is defined %}
+    $build['#theme'] = '{{ block_id }}';
+{% endif %}
+{% for input in inputs %}
+{% if twig_template is defined %}
+    $build['#conten'][] = $this->configuration['{{ input.name }}'];
+{% else %}
+    $build['{{block_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% endif %}
+{% else %}
+     $build['{{block_id}}']['#markup'] = 'Implement {{class_name}}.';
+{% endfor %}
+
+    return $build;
+  }
+{% endblock %}
