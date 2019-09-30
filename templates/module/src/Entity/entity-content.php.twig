@@ -70,6 +70,7 @@ use Drupal\user\UserInterface;
 {% if revisionable %}
  *   revision_table = "{{ entity_name }}_revision",
  *   revision_data_table = "{{ entity_name }}_field_revision",
+ *   show_revision_ui = TRUE,
 {% endif %}
  *   translatable = {{ is_translatable ? 'TRUE' : 'FALSE' }},
 {% if has_bundle_permissions %}
