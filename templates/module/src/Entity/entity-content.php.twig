@@ -9,10 +9,12 @@ namespace Drupal\{{ module }}\Entity;
 {% endblock %}
 
 {% block use_class %}
+{% if has_owner or revisionable%}
 use Drupal\Core\Entity\EntityStorageInterface;
+{% endif %}
 use Drupal\Core\Field\BaseFieldDefinition;
 {% if revisionable %}
-use Drupal\Core\Entity\RevisionableContentEntityBase;
+use Drupal\Core\Entity\EditorialContentEntityBase;
 use Drupal\Core\Entity\RevisionableInterface;
 {% else %}
 use Drupal\Core\Entity\ContentEntityBase;
@@ -20,7 +22,9 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityPublishedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+{% if has_owner %}
 use Drupal\user\UserInterface;
+{% endif %}
 {% endblock %}
 
 {% block class_declaration %}
@@ -56,7 +60,7 @@ use Drupal\user\UserInterface;
  *     "route_provider" = {
  *       "html" = "Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider",
  *     },
- {% endif %}
+{% endif %}
  *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessControlHandler",
  *   },
  *   base_table = "{{ entity_name }}",
@@ -68,6 +72,9 @@ use Drupal\user\UserInterface;
  *   revision_data_table = "{{ entity_name }}_field_revision",
 {% endif %}
  *   translatable = {{ is_translatable ? 'TRUE' : 'FALSE' }},
+{% if has_bundle_permissions %}
+ *   permission_granularity = "bundle",
+{% endif %}
  *   admin_permission = "administer {{ label|lower }} entities",
  *   entity_keys = {
  *     "id" = "id",
@@ -79,12 +86,14 @@ use Drupal\user\UserInterface;
 {% endif %}
  *     "label" = "name",
  *     "uuid" = "uuid",
+{% if has_owner %}
  *     "uid" = "user_id",
+{% endif %}
  *     "langcode" = "langcode",
  *     "published" = "status",
  *   },
 {% if has_forms %}
-    *   links = {
+ *   links = {
  *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
 {% if bundle_entity_type %}
  *     "add-page" = "{{ base_path }}/{{ entity_name }}/add",
@@ -116,7 +125,7 @@ use Drupal\user\UserInterface;
 {% endif %}
  * )
  */
-class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityBase{% else %}ContentEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
+class {{ entity_class }} extends {% if revisionable %}EditorialContentEntityBase{% else %}ContentEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
 
 {% block use_trait %}
   use EntityChangedTrait;
@@ -124,6 +133,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
 {% endblock %}
 
 {% block class_methods %}
+{% if has_owner %}
 
   /**
    * {@inheritdoc}
@@ -134,6 +144,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       'user_id' => \Drupal::currentUser()->id(),
     ];
   }
+{% endif %}
 {% if revisionable %}
 
   /**
@@ -157,8 +168,8 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
    */
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
-
 {% if is_translatable %}
+
     foreach (array_keys($this->getTranslationLanguages()) as $langcode) {
       $translation = $this->getTranslation($langcode);
 
@@ -206,6 +217,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
     $this->set('created', $timestamp);
     return $this;
   }
+{% if has_owner %}
 
   /**
    * {@inheritdoc}
@@ -236,6 +248,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
     $this->set('user_id', $account->id());
     return $this;
   }
+{% endif %}
 
   /**
    * {@inheritdoc}
@@ -245,6 +258,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
 
     // Add the published field.
     $fields += static::publishedBaseFieldDefinitions($entity_type);
+{% if has_owner %}
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
@@ -272,6 +286,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+{% endif %}
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))

@@ -4,6 +4,7 @@ namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Extension\Manager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Generator\GeneratorInterface;
@@ -22,6 +23,11 @@ class PluginQueueWorkerCommand extends Command {
 
   use ModuleTrait;
   use ConfirmationTrait;
+
+  /**
+   * @var Manager
+   */
+  protected $extensionManager;
 
   /**
    * Drupal\Console\Core\Generator\GeneratorInterface definition.
@@ -55,6 +61,8 @@ class PluginQueueWorkerCommand extends Command {
   /**
    * PluginQueueWorkerCommand constructor.
    *
+   * @param Manager $extensionManager
+   *   Extension Manager.
    * @param \Drupal\Console\Core\Generator\GeneratorInterface $queue_generator
    *   Queue Generator.
    * @param \Drupal\Console\Utils\Validator $validator
@@ -65,11 +73,13 @@ class PluginQueueWorkerCommand extends Command {
    *   Chain queue.
    */
   public function __construct(
+    Manager $extensionManager,
     GeneratorInterface $queue_generator,
     Validator $validator,
     StringConverter $stringConverter,
     ChainQueue $chainQueue
   ) {
+    $this->extensionManager = $extensionManager;
     $this->generator = $queue_generator;
     $this->validator = $validator;
     $this->stringConverter = $stringConverter;

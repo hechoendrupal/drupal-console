@@ -154,7 +154,7 @@ services:
        - { name: drupal.command }
   console.generate_plugin_queue:
     class: Drupal\Console\Command\Generate\PluginQueueWorkerCommand
-    arguments: ['@console.plugin_queue_generator','@console.validator','@console.string_converter','@console.chain_queue']
+    arguments: ['@console.extension_manager', '@console.plugin_queue_generator','@console.validator','@console.string_converter','@console.chain_queue']
     tags:
       - { name: drupal.command }
   console.generate_post_update:
@@ -182,6 +182,11 @@ services:
     arguments: ['@console.extension_manager', '@console.theme_generator', '@console.validator', '@app.root', '@theme_handler', '@console.site', '@console.string_converter']
     tags:
        - { name: drupal.command }
+  console.generate_setting_theme:
+    class: Drupal\Console\Command\Generate\ThemeSettingCommand
+    arguments: ['@console.extension_manager', '@console.theme_setting_generator', '@console.validator', '@app.root', '@theme_handler', '@console.site', '@console.string_converter']
+    tags:
+       - { name: drupal.command }
   console.generate_twig_extension:
     class: Drupal\Console\Command\Generate\TwigExtensionCommand
     arguments: ['@console.extension_manager', '@console.twig_extension_generator', '@console.site', '@console.string_converter', '@console.validator', '@console.chain_queue']
@@ -195,6 +200,11 @@ services:
   console.generate_pluginblock:
     class: Drupal\Console\Command\Generate\PluginBlockCommand
     arguments: ['@config.factory', '@console.chain_queue', '@console.pluginblock_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
+    tags:
+       - { name: drupal.command }
+  console.generate_blocktype:
+    class: Drupal\Console\Command\Generate\BlockTypeCommand
+    arguments: ['@config.factory', '@console.chain_queue', '@console.blocktype_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
     tags:
        - { name: drupal.command }
   console.generate_command:

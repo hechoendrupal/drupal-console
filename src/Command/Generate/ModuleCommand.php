@@ -210,9 +210,9 @@ class ModuleCommand extends Command
             $this->validator->validateMachineName($input->getOption('machine-name'))
             :$this->stringConverter->createMachineName($module);
 
-        $description = $input->getOption('description');
-        $core = $input->getOption('core');
-        $package = $input->getOption('package');
+        $description = $input->getOption('description')?:$this->trans('commands.generate.module.suggestions.my-awesome-module');
+        $core = $input->getOption('core')?:'8.x';
+        $package = $input->getOption('package')?:'Custom';
         $moduleFile = $input->getOption('module-file');
         $featuresBundle = $input->getOption('features-bundle');
         $composer = $input->getOption('composer');

@@ -6,7 +6,7 @@ services:
       - { name: drupal.command }
   console.theme_install:
     class: Drupal\Console\Command\Theme\InstallCommand
-    arguments: ['@config.factory', '@theme_handler', '@console.chain_queue']
+    arguments: ['@config.factory', '@theme_handler', '@console.chain_queue', '@console.site', '@console.validator','@module_installer','@console.drupal_api','@console.extension_manager','@app.root']
     tags:
       - { name: drupal.command }
   console.theme_path:
@@ -16,6 +16,6 @@ services:
       - { name: drupal.command }
   console.theme_uninstall:
     class: Drupal\Console\Command\Theme\UninstallCommand
-    arguments: ['@config.factory', '@theme_handler', '@console.chain_queue']
+    arguments: ['@config.factory', '@theme_handler', '@console.chain_queue', '@console.site', '@console.validator','@module_installer','@console.drupal_api','@console.extension_manager','@app.root']
     tags:
       - { name: drupal.command }

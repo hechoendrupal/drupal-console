@@ -160,4 +160,24 @@ class Extension extends BaseExtension
     {
         return $this->getTestsSourcePath($fullPath) . '/FunctionalJavascript';
     }
+
+    /**
+     * @param BaseExtension $extension
+     */
+    function loadFromParentObj(BaseExtension $extension)
+    {
+        $objValues = get_object_vars($extension);
+        foreach($objValues AS $key => $value)
+        {
+            $this->$key = $value;
+        }
+    }
+
+    /**
+     * @param $root
+     */
+    function setRoot($root) {
+        $this->root = $root;
+    }
+
 }

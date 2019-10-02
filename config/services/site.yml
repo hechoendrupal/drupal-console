@@ -24,3 +24,8 @@ services:
     arguments: ['@?system.manager', '@settings', '@config.factory', '@theme_handler', '@app.root', '@renderer']
     tags:
       - { name: drupal.command }
+  console.service_override:
+    class: Drupal\Console\Command\Service\OverrideCommand
+    arguments: ['@app.root', '@console.chain_queue']
+    tags:
+      - { name: drupal.command }
