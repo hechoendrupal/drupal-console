@@ -108,6 +108,9 @@ class CreateCommand extends Command
         $username = $input->getArgument('username');
         $password = $input->getArgument('password');
         $roles = $input->getOption('roles');
+        if (is_string($roles)) {
+            $roles = explode(',', $roles);
+        }
         $email = $input->getOption('email');
         $status = $input->getOption('status');
 

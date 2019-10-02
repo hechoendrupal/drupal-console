@@ -14,7 +14,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 {% endif %}
 use Drupal\Core\Field\BaseFieldDefinition;
 {% if revisionable %}
-use Drupal\Core\Entity\EditorialContentEntityBase
+use Drupal\Core\Entity\EditorialContentEntityBase;
 use Drupal\Core\Entity\RevisionableInterface;
 {% else %}
 use Drupal\Core\Entity\ContentEntityBase;
@@ -72,6 +72,9 @@ use Drupal\user\UserInterface;
  *   revision_data_table = "{{ entity_name }}_field_revision",
 {% endif %}
  *   translatable = {{ is_translatable ? 'TRUE' : 'FALSE' }},
+{% if has_bundle_permissions %}
+ *   permission_granularity = "bundle",
+{% endif %}
  *   admin_permission = "administer {{ label|lower }} entities",
  *   entity_keys = {
  *     "id" = "id",

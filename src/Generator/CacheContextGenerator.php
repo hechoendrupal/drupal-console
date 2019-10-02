@@ -34,7 +34,7 @@ class CacheContextGenerator extends Generator
     public function generate(array $parameters)
     {
         $module = $parameters['module'];
-        $cache_context = $parameters['ache_context'];
+        $cache_context = $parameters['cache_context'];
         $class = $parameters['class'];
 
         $moduleInstance = $this->extensionManager->getModule($module);
