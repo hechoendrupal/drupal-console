@@ -241,3 +241,8 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.pluginderivative_generator:
+    class: Drupal\Console\Generator\PluginDerivativeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
