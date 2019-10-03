@@ -319,22 +319,6 @@ class Validator
      * @param $moduleList
      * @return array
      */
-    public function getMissingThemes($moduleList)
-    {
-        
-        $modules = $this->extensionManager->discoverThemes()
-            ->showInstalled()
-            ->showUninstalled()
-            ->showNoCore()
-            ->showCore()
-            ->getList(true);
-
-        return array_diff($moduleList, $modules);
-    }
-    /**
-     * @param $moduleList
-     * @return array
-     */
     public function getUninstalledModules($moduleList)
     {
         $modules = $this->extensionManager->discoverModules()
