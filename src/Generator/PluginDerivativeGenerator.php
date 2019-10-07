@@ -46,10 +46,10 @@ class PluginDerivativeGenerator extends Generator
             $parameters
         );
 
-        //
+        //derivative_block_derivative.php.twig
         $this->renderFile(
-            'module/src/Plugin/Derivative/block_derivative.php.twig',
-            $this->extensionManager->getPluginPath($module, 'Block') . '/' . $class_name . '.php',
+            'module/src/Plugin/Derivative/derivative_block_derivative.php.twig',
+            $this->extensionManager->getPluginPath($module, 'Derivative') . '/' . $class_name . '.php',
             $parameters
         );
         
