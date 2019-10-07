@@ -15,7 +15,6 @@ use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Generator\BlockTypeGenerator;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\Config\ConfigFactory;
@@ -24,10 +23,7 @@ use Drupal\Core\Render\ElementInfoManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\block_content\Entity\BlockContent;
-use Drupal\block\Entity\Block;
-use Drupal\block_content\BlockContentTypeInterface;
-use Drupal\block_content\Entity\BlockContentType;
+use Drupal\Console\Generator\PluginDerivativeGenerator;
 
 class PluginDerivativeCommand extends ContainerAwareCommand
 {
@@ -90,20 +86,26 @@ class PluginDerivativeCommand extends ContainerAwareCommand
      * @param ElementInfoManagerInterface $elementInfoManager
      */
     public function __construct(
-      ConfigFactory $configFactory,
-      ChainQueue $chainQueue,
-      EntityTypeManagerInterface $entityTypeManager,
-      Manager $extensionManager,
-      Validator $validator
-    )
-     {
-        $this->configFactory = $configFactory;
-        $this->chainQueue = $chainQueue;
-        $this->generator = $generator;
+        ConfigFactory $configFactory,
+        ChainQueue $chainQueue,
+        PluginDerivativeGenerator $generator,
+        EntityTypeManagerInterface $entityTypeManager,
+        Manager $extensionManager,
+        Validator $validator,
+        StringConverter $stringConverter
+    ) {
+        $this->configFactory    = $configFactory;
+        $this->chainQueue       = $chainQueue;
+        $this->generator        = $generator;
         $this->extensionManager = $extensionManager;
+        $this->validator        = $validator;
+        $this->stringConverter  = $stringConverter;
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -123,24 +125,23 @@ class PluginDerivativeCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.plugin.derivative.options.class')
             )
             ->addOption(
-                'block-label',
+                'block_label',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.derivative.options.plugin-label')
+                $this->trans('commands.generate.plugin.derivative.options.block_label')
             )
             ->addOption(
-                'block-description',
+                'block_description',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.derivative.options.plugin-description')
+                $this->trans('commands.generate.plugin.derivative.options.block_description')
             )
             ->addOption(
-                'block-id',
+                'block_id',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.derivative.options.block-id')
+                $this->trans('commands.generate.plugin.derivative.options.block_id')
             )
-            
             ->setAliases(['gpd']);
     }
 
@@ -156,44 +157,28 @@ class PluginDerivativeCommand extends ContainerAwareCommand
 
         $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
-        $block_label = $input->getOption('plugin-label');
-        $block_description = $input->getOption('plugin-description');
-        $block_id = $input->getOption('plugin-id');
+        $block_label = $input->getOption('block_label');
+        $block_description = $input->getOption('block_description');
+        $block_id = $input->getOption('block_id');
         
         $theme_region = true;
         
-        $this->generator->generate([
-          'module' => $module,
-          'class_name' => $class_name,
-          'label' => $block_label,
-          'description' => $block_description,
-          'block_id' => $block_id,
-        ]);
+        $this->generator->generate(
+            [
+            'module' => $module,
+            'class' => $class_name,
+            'block_label' => $block_label,
+            'block_description' => $block_description,
+            'block_id' => $block_id,
+            ]
+        );
         
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
-
-        if ($theme_region) {
-            $block_content_type = BlockContentType::create([
-              'id' => $block_id,
-              'label' => $block_label,
-              'description' => $block_description,
-
-            ]);
-            $block_content_type->save();
-
-            $block_content = BlockContent::create([
-              'info' => $block_label,
-              'type' => $block_id,
-              'body' => [
-              'value' => "<h1>Block's body</h1>",
-                'format' => 'full_html',
-               ],
-            ]);
-
-            $block_content->save();
-        }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         // --module option
@@ -204,7 +189,7 @@ class PluginDerivativeCommand extends ContainerAwareCommand
         if (!$class) {
             $class = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.derivative.questions.class'),
-                'DefaultPluginDerivative',
+                $this->trans('commands.generate.plugin.derivative.suggestions.class'),
                 function ($class) {
                     return $this->validator->validateClassName($class);
                 }
@@ -212,33 +197,33 @@ class PluginDerivativeCommand extends ContainerAwareCommand
             $input->setOption('class', $class);
         }
 
-        // --block-label option
-        $block_label = $input->getOption('plugin-label');
+        // --block_label option
+        $block_label = $input->getOption('block_label');
         if (!$block_label) {
             $block_label = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.derivative.questions.plugin-label'),
-                $this->stringConverter->camelCaseToHuman($class)
+                $this->trans('commands.generate.plugin.derivative.questions.block_label'),
+                $this->trans('commands.generate.plugin.derivative.suggestions.block_label')
             );
-            $input->setOption('plugin-label', $block_label);
+            $input->setOption('block_label', $block_label);
         }
 
-        // --block-id option
-        $blockId = $input->getOption('plugin-id');
+        // --block_id option
+        $blockId = $input->getOption('block_id');
         if (!$blockId) {
             $blockId = $this->getIo()->ask(
-                $this->trans('commands.generate.pligin.derivative.questions.plugin-id'),
-                $this->stringConverter->camelCaseToUnderscore($class)
+                $this->trans('commands.generate.plugin.derivative.questions.block_id'),
+                $this->stringConverter->camelCaseToUnderscore($blockId)
             );
-            $input->setOption('plugin-id', $blockId);
+            $input->setOption('block_id', $blockId);
         }
-        // --block-description option
-        $blockDesc = $input->getOption('plugin-description');
+        // --block_description option
+        $blockDesc = $input->getOption('block_description');
         if (!$blockDesc) {
             $blockDesc = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.derivative.questions.plugin-description'),
-                $this->stringConverter->camelCaseToUnderscore($class)
+                $this->trans('commands.generate.plugin.derivative.questions.block_description'),
+                $this->trans('commands.generate.plugin.derivative.suggestions.block_description')
             );
-            $input->setOption('plugin-description', $blockDesc);
+            $input->setOption('block_description', $blockDesc);
         }
     }
 }

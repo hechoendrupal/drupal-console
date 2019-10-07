@@ -33,18 +33,25 @@ class PluginDerivativeGenerator extends Generator
      */
     public function generate(array $parameters)
     {
-
-        //$module = $parameters['module'];
-        //$class_name = $parameters['class_name'];
-        //$blockId = $parameters['block_id'];
-        //$description = $parameters['block_description'];
-        //$parameters['machine_name'] = $blockId;
-        /*
+        $module = $parameters['module'];
+        $class_name = $parameters['class'];
+        $blockLabel = $parameters['block_label'];
+        $blockDescription = $parameters['block_description'];
+        $blockId = $parameters['block_id'];
+        
+        //block_derivative.php.twig
         $this->renderFile(
-            'module/src/Plugin/Block/blocktype.php.twig',
+            'module/src/Plugin/Block/block_derivative.php.twig',
             $this->extensionManager->getPluginPath($module, 'Block') . '/' . $class_name . '.php',
             $parameters
         );
-        */
+
+        //
+        $this->renderFile(
+            'module/src/Plugin/Block/block_derivative.php.twig',
+            $this->extensionManager->getPluginPath($module, 'Block') . '/' . $class_name . '.php',
+            $parameters
+        );
+        
     }
 }
