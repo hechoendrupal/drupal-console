@@ -18,7 +18,6 @@ use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -49,11 +48,6 @@ class PluginDerivativeCommand extends ContainerAwareCommand
     protected $generator;
 
     /**
-     * @var EntityTypeManagerInterface
-     */
-    protected $entityTypeManager;
-
-    /**
      * @var Manager
      */
     protected $extensionManager;
@@ -79,7 +73,6 @@ class PluginDerivativeCommand extends ContainerAwareCommand
      * @param ConfigFactory               $configFactory
      * @param ChainQueue                  $chainQueue
      * @param PluginDerivativeGenerator   $generator
-     * @param EntityTypeManagerInterface  $entityTypeManager
      * @param Manager                     $extensionManager
      * @param Validator                   $validator
      * @param StringConverter             $stringConverter
@@ -89,7 +82,6 @@ class PluginDerivativeCommand extends ContainerAwareCommand
         ConfigFactory $configFactory,
         ChainQueue $chainQueue,
         PluginDerivativeGenerator $generator,
-        EntityTypeManagerInterface $entityTypeManager,
         Manager $extensionManager,
         Validator $validator,
         StringConverter $stringConverter
