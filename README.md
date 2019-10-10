@@ -40,11 +40,11 @@ PHP 5.5.9 or higher is required to use the Drupal Console application.
 
 ## Download 
 
-[Install Drupal Console Using Composer](https://docs.drupalconsole.com/en/getting/composer.html)
+[Install Drupal Console Using Composer](https://drupalconsole.com/docs/en/getting/composer)
 
-[Install Drupal Console Launcher](https://docs.drupalconsole.com/en/getting/launcher.html)
+[Install Drupal Console Launcher](https://drupalconsole.com/docs/en/getting/launcher)
 
-[Installing Drupal Console on Windows](https://docs.drupalconsole.com/en/getting/windows.html)
+[Installing Drupal Console on Windows](https://drupalconsole.com/docs/en/getting/windows)
 
 ## Run
 Using the DrupalConsole Launcher

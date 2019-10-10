@@ -148,67 +148,100 @@ class InstallCommand extends Command
 
         $this->site->loadLegacyFile('/core/includes/bootstrap.inc');
 
-        // check module's requirements
-        $this->moduleRequirement($module);
-
+        // When --composer is specified, build a command to Composer require
+        // all the needed modules in one go. This will just download the
+        // modules from the composer endpoint, not do any 'installation', in
+        // Drupal terminology.
         if ($composer) {
-            foreach ($module as $moduleItem) {
-                $command = sprintf(
-                    'composer show drupal/%s ',
-                    $moduleItem
-                );
-
-                $processBuilder = new ProcessBuilder([]);
-                $processBuilder->setWorkingDirectory($this->appRoot);
-                $processBuilder->setArguments(explode(' ', $command));
-                $process = $processBuilder->getProcess();
-                $process->setTty('true');
-                $process->run();
-
-                if ($process->isSuccessful()) {
-                    $this->getIo()->info(
-                        sprintf(
-                            $this->trans('commands.module.install.messages.download-with-composer'),
-                            $moduleItem
-                        )
-                    );
+            $composer_package_list = [];
+            $module_list = [];
+            foreach ($module as $item) {
+                // Decompose each module item passed on the command line into
+                // Composer-ready elements.
+                $temp = explode('/', $item);
+                if (count($temp) === 1) {
+                    $package_namespace = 'drupal';
+                    $package = $temp[0];
                 } else {
-                    $this->getIo()->error(
-                        sprintf(
-                            $this->trans('commands.module.install.messages.not-installed-with-composer'),
-                            $moduleItem
-                        )
-                    );
-                    throw new \RuntimeException($process->getErrorOutput());
+                    $package_namespace = $temp[0];
+                    $package = $temp[1];
+                }
+                $temp = explode(':', $package);
+                if (count($temp) === 1) {
+                    $package_constraint = null;
+                } else {
+                    $package = $temp[0];
+                    $package_constraint = $temp[1];
+                }
+
+                // Add the Composer argument.
+                $temp = "$package_namespace/$package";
+                if (isset($package_constraint)) {
+                    $temp .= ':' . $package_constraint;
+                }
+                $composer_package_list[] = $temp;
+
+                // Add the module to the list of those to be Drupal-installed.
+                if ($package_namespace === 'drupal') {
+                    $module_list[] = $package;
                 }
             }
+            $module = $module_list;
 
-            $unInstalledModules = $module;
-        } else {
-            $resultList = $this->downloadModules($module, $latest);
+            // Run the Composer require command.
+            $command = array_merge(['composer', 'require'], $composer_package_list);
+            $this->getIo()->info('Executing... ' . implode(' ', $command));
+            $processBuilder = new ProcessBuilder([]);
+            $processBuilder->setWorkingDirectory($this->appRoot);
+            $processBuilder->setArguments($command);
+            $processBuilder->inheritEnvironmentVariables();
+            $process = $processBuilder->getProcess();
+            $process->setTty(true);
+            $process->run();
 
-            $invalidModules = $resultList['invalid'];
-            $unInstalledModules = $resultList['uninstalled'];
-
-            if ($invalidModules) {
-                foreach ($invalidModules as $invalidModule) {
-                    unset($module[array_search($invalidModule, $module)]);
-                    $this->getIo()->error(
-                        sprintf(
-                            $this->trans('commands.module.install.messages.invalid-name'),
-                            $invalidModule
-                        )
-                    );
-                }
-            }
-
-            if (!$unInstalledModules) {
-                $this->getIo()->warning($this->trans('commands.module.install.messages.nothing'));
-
-                return 0;
+            if ($process->isSuccessful()) {
+                $this->getIo()->info(
+                    sprintf(
+                        $this->trans('commands.module.install.messages.download-with-composer'),
+                        implode(', ', $composer_package_list)
+                    )
+                );
+            } else {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.module.install.messages.not-installed-with-composer'),
+                        implode(', ', $composer_package_list)
+                    )
+                );
+                throw new \RuntimeException($process->getErrorOutput());
             }
         }
 
+        // Build the list of modules to be installed, skipping those that are
+        // installed already.
+        $resultList = $this->downloadModules($module, $latest);
+        $invalidModules = $resultList['invalid'];
+        $unInstalledModules = $resultList['uninstalled'];
+
+        if ($invalidModules) {
+            foreach ($invalidModules as $invalidModule) {
+                unset($module[array_search($invalidModule, $module)]);
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.module.install.messages.invalid-name'),
+                        $invalidModule
+                    )
+                );
+            }
+        }
+
+        // If no modules need to be installed, warn and exit.
+        if (!$unInstalledModules) {
+            $this->getIo()->warning($this->trans('commands.module.install.messages.nothing'));
+            return 0;
+        }
+
+        // Install the needed modules.
         try {
             $this->getIo()->comment(
                 sprintf(
@@ -234,85 +267,5 @@ class InstallCommand extends Command
 
         $this->site->removeCachedServicesFile();
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
-    }
-
-    /**
-     * Verify that install requirements for a list of modules are met.
-     *
-     * @param string[]    $module
-     *   List of modules to verify.
-     *
-     * @throws \Exception
-     *   When one or more requirements are not met.
-     */
-    public function moduleRequirement(array $module)
-    {
-        $modules_data = system_rebuild_module_data();
-
-        // for unmet requirements recursively.
-        $fail = false;
-        foreach ($module as $module_name) {
-            module_load_install($module_name);
-            if ($requirements = \Drupal::moduleHandler()->invoke($module_name, 'requirements', ['install'])) {
-                foreach ($requirements as $requirement) {
-                    if (isset($requirement['severity']) && $requirement['severity'] == REQUIREMENT_ERROR) {
-                        $this->getIo()->errorLite("Module '{$module_name}' cannot be installed: {$requirement['title']} | {$requirement['value']}");
-                        $this->getIo()->newLine();
-                        $fail = true;
-                    }
-                }
-            }
-
-            $module_data = $modules_data[$module_name];
-
-            // Check the core compatibility.
-            if ($module_data->info['core'] != \Drupal::CORE_COMPATIBILITY) {
-                $versionCore = \Drupal::CORE_COMPATIBILITY;
-                $this->getIo()->errorLite("This version is not compatible with Drupal {$versionCore} and should be replaced.");
-                $this->getIo()->newLine();
-            }
-
-            // Ensure this module is compatible with the currently installed version of PHP.
-            if (version_compare(phpversion(), $module_data->info['php']) < 0) {
-                $required = $module_data->info['php'] . (substr_count($module_data->info['php'], '.') < 2 ? '.*' : '');
-                $phpversion = phpversion();
-                $this->getIo()->errorLite("This module requires PHP version {$required} and is incompatible with PHP version {$phpversion}.");
-                $this->getIo()->newLine();
-                $fail = true;
-            }
-
-            // If this module requires other modules, add them to the array.
-            foreach ($module_data->requires as $dependency => $version) {
-                // dependency exist.
-                if (!isset($modules_data[$dependency])) {
-                    $dependencyName = ucfirst($dependency);
-                    $this->getIo()->errorLite("{$dependencyName} missing.");
-                    $this->getIo()->newLine();
-                    $fail = true;
-                }
-
-                elseif (empty($modules_data[$dependency]->hidden)) {
-                    $name = $modules_data[$dependency]->info['name'];
-                    // dependency's version.
-                    if ($incompatible_version = drupal_check_incompatibility($version, str_replace(\Drupal::CORE_COMPATIBILITY . '-', '', $modules_data[$dependency]->info['version']))) {
-                        $dependencyName = $name . $incompatible_version;
-                        $dependencyVersion = $modules_data[$dependency]->info['version'];
-                        $this->getIo()->errorLite("{$dependencyName} incompatible with version {$dependencyVersion}.");
-                        $this->getIo()->newLine();
-                        $fail = true;
-                    }
-
-                    // version of Drupal core.
-                    elseif ($modules_data[$dependency]->info['core'] != \Drupal::CORE_COMPATIBILITY) {
-                        $this->getIo()->errorLite("{$name} incompatible with this version of Drupal core.");
-                        $this->getIo()->newLine();
-                        $fail = true;
-                    }
-                }
-            }
-        }
-        if ($fail) {
-            throw new \Exception('Some module install requirements are not met.');
-        }
     }
 }
