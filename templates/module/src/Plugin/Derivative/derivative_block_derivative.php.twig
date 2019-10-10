@@ -1,0 +1,75 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\Block\{{class}}.
+{% endblock %}
+
+{% block namespace_class %}
+/** 
+ * @file
+ * Contains \Drupal\{{module}}\Plugin\Derivative\{{class}}.php.
+ */
+namespace Drupal\{{module}}\Plugin\Derivative;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Component\Plugin\Derivative\DeriverBase;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides block plugin definitions.
+ *
+ * @see \Drupal\{{module}}\Plugin\Block\{{class}}
+ */
+class {{class}} extends DeriverBase implements ContainerDeriverInterface
+{% endblock %}
+{% block class_properties %}
+  /**
+   * The node storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
+  protected $nodeStorage;  
+{% endblock %}
+{% block class_construct %}
+  /**
+   * Creates a new NodeBlock.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $node_storage
+   *   The node storage.
+   */
+  public function __construct(EntityStorageInterface $node_storage) 
+  {
+    $this->nodeStorage = $node_storage;
+  }
+
+{% endblock %}
+{% block class_create %}
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, $base_plugin_id) 
+  {
+    return new static(
+      $container->get('entity.manager')->getStorage('node')
+    );
+  }
+{% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function getDerivativeDefinitions($base_plugin_definition) 
+  {
+    $nodes = $this->nodeStorage->loadByProperties(['type' => 'article']);
+    foreach ($nodes as $node) {
+      $this->derivatives[$node->id()] = $base_plugin_definition;
+      $this->derivatives[$node->id()]['admin_label'] = t('Node block: ') . $node->label();
+    }
+    return $this->derivatives;
+  }
+{% endblock %}

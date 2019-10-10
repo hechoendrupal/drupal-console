@@ -176,6 +176,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.theme_setting_generator:
+    class: Drupal\Console\Generator\ThemeSettingGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.twig_extension_generator:
     class: Drupal\Console\Generator\TwigExtensionGenerator
     arguments: ['@console.extension_manager']
@@ -188,6 +193,11 @@ services:
       - { name: drupal.generator }
   console.pluginblock_generator:
     class: Drupal\Console\Generator\PluginBlockGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.blocktype_generator:
+    class: Drupal\Console\Generator\BlockTypeGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
@@ -233,6 +243,11 @@ services:
         - { name: drupal.generator }
   console.validation_constraint_generator:
     class: Drupal\Console\Generator\PluginValidationConstraintGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.pluginderivative_generator:
+    class: Drupal\Console\Generator\PluginDerivativeGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }

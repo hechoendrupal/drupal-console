@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\Console\Generator\PluginCKEditodButtonGenerator.
+ * Contains \Drupal\Console\Generator\BlockTypeGenerator.
  */
 
 namespace Drupal\Console\Generator;
@@ -10,7 +10,7 @@ namespace Drupal\Console\Generator;
 use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
 
-class PluginCKEditorButtonGenerator extends Generator
+class BlockTypeGenerator extends Generator
 {
     /**
      * @var Manager
@@ -33,19 +33,18 @@ class PluginCKEditorButtonGenerator extends Generator
      */
     public function generate(array $parameters)
     {
-        $class_name = $parameters['class_name'];
+
         $module = $parameters['module'];
-        $plugin_id = $parameters['plugin_id'];
-        
+        $class_name = $parameters['class_name'];
+        $blockId = $parameters['block_id'];
+        $description = $parameters['block_description'];
+        $parameters['machine_name'] = $blockId;
+
         $this->renderFile(
-            'module/src/Plugin/CKEditorPlugin/ckeditorbutton.php.twig',
-            $this->extensionManager->getPluginPath($module, 'CKEditorPlugin') . '/' . $class_name . '.php',
+            'module/src/Plugin/Block/blocktype.php.twig',
+            $this->extensionManager->getPluginPath($module, 'Block') . '/' . $class_name . '.php',
             $parameters
         );
-        $this->renderFile(
-            'module/src/Plugin/CKEditorPlugin/plugin.php.twig',
-             drupal_get_path('module', $module) . '/js/Plugin/'. $plugin_id .'/plugin.js',
-             $parameters
-        );
+
     }
 }
