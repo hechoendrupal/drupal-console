@@ -12,7 +12,7 @@
     'clear-both',
 ] %}" }}
 <div{{ '{{' }} attributes.addClass(classes) {{ '}}' }}>
-    {{ '{% for content in value %}' }}
+    {{ '{% for value in content %}' }}
         {{ '<p>{{value}}</p>' }}
     {{ '{% endfor %}' }}
 </div>
