@@ -12,9 +12,11 @@ namespace Drupal\{{module_name}}\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 {% if services is not empty %}
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
+{% endblock %}
+
+{% block use_class_services %}
 {% endblock %}
 
 {% block class_declaration %}
@@ -22,21 +24,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Class {{ class_name }}.
  */
 class {{ class_name }} extends ConfigFormBase {% endblock %}
-{% block class_construct %}
-{% if services is not empty %}
-  /**
-   * Constructs a new {{ class_name }} object.
-   */
-  public function __construct(
-    ConfigFactoryInterface $config_factory,
-    {{ servicesAsParameters(services)|join(',\n    ') }}
-  ) {
-    parent::__construct($config_factory);
-{{ serviceClassInitialization(services) }}
-  }
-
-{% endif %}
-{% endblock %}
 
 {% block class_create %}
 {% if services is not empty %}
@@ -44,10 +31,9 @@ class {{ class_name }} extends ConfigFormBase {% endblock %}
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory'),
-{{ serviceClassInjection(services) }}
-    );
+    $instance = parent::create($container);
+{{ serviceClassInjectionNoOverride(services) }}
+    return $instance;
   }
 
 {% endif %}

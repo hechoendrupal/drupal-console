@@ -16,25 +16,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
 
+{% block use_class_services %}
+{% endblock %}
+
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
  */
 class {{ class_name }} extends FormBase {% endblock %}
-
-{% block class_construct %}
-{% if services is not empty %}
-  /**
-   * Constructs a new {{ class_name }} object.
-   */
-  public function __construct(
-    {{ servicesAsParameters(services)|join(',\n    ') }}
-  ) {
-{{ serviceClassInitialization(services) }}
-  }
-
-{% endif %}
-{% endblock %}
 
 {% block class_create %}
 {% if services is not empty %}
@@ -42,9 +31,9 @@ class {{ class_name }} extends FormBase {% endblock %}
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-{{ serviceClassInjection(services) }}
-    );
+    $instance = parent::create($container);
+{{ serviceClassInjectionNoOverride(services) }}
+    return $instance;
   }
 
 {% endif %}
