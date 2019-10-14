@@ -252,3 +252,8 @@ services:
     arguments: ['@console.extension_manager', '@console.validation_constraint_generator','@console.string_converter',  '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_pluginderivative:
+    class: Drupal\Console\Command\Generate\PluginDerivativeCommand
+    arguments: ['@config.factory', '@console.chain_queue', '@console.pluginderivative_generator', '@console.extension_manager', '@console.validator', '@console.string_converter']
+    tags:
+       - { name: drupal.command }

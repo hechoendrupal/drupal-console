@@ -45,9 +45,11 @@ before_script:
         # PHP 5.5.9 on TravisCI has a Sqlite version that fails
         # minimum requirements, so we install on MySql instead.
         export SIMPLETEST_DB="mysql://root:@localhost/drupal_travis_db#drupalconsole"
+        export IMAGEMAGICK_MODULE="drupal/imagemagick:^2"
       else
         export DRUPAL_BRANCH="8.8.x"
         export SIMPLETEST_DB="sqlite://localhost/sites/default/files/.ht.sqlite#drupalconsole"
+        export IMAGEMAGICK_MODULE="drupal/imagemagick:dev-3.x"
       fi
 
   # Get Drupal via git, and install it via Composer.
@@ -66,6 +68,9 @@ before_script:
 script:
   # Install Drupal site via drupal/console and show site status.
   - drupal site:install standard $SIMPLETEST_DB --langcode=en --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
+  - drupal module:install --composer token admin_toolbar "$IMAGEMAGICK_MODULE" --verbose --no-interaction
+  - drupal debug:module
+  - drupal config:override system.image --key=toolkit --value=imagemagick
   - drupal site:status -v
 #  - cd $DRUPAL_PATH/vendor/drupal/console
 #  - ../../phpunit/phpunit/phpunit
