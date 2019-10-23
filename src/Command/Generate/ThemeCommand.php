@@ -195,7 +195,7 @@ class ThemeCommand extends Command
         // Check that it is an absolute path or otherwise create an absolute path using appRoot
         $theme_path = $input->getOption('theme-path');
         if(is_null($theme_path)) {
-            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $uri = $this->site->getMultisiteName($input);
             $defaultThemePath = 'themes/custom';
             $theme_path = $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultThemePath : $defaultThemePath;
         }
@@ -291,7 +291,7 @@ class ThemeCommand extends Command
 
         $theme_path = $input->getOption('theme-path');
         if (!$theme_path) {
-            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $uri = $this->site->getMultisiteName($input);
             $defaultThemePath = 'themes/custom';
             $theme_path = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.theme-path'),
