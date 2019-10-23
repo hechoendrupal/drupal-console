@@ -170,13 +170,13 @@ class ThemeSettingCommand extends Command
         $theme = $this->validator->validateModuleName($input->getOption('theme'));
         $theme_path = $input->getOption('theme-path');
         if (is_null($theme_path)) {
-            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $uri = $this->site->getMultisiteName($input);
             $defaultThemePath = 'themes/custom';
             $theme_path = $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultThemePath : $defaultThemePath;
         }
         $theme_path = Path::isAbsolute($theme_path) ? $theme_path : Path::makeAbsolute($theme_path, $this->appRoot);
         $theme_path = $this->validator->validateModulePath($theme_path, true);
-        
+
         $favicon = $input->getOption('favicon');
         $commentUserPicture = $input->getOption('comment-user-picture');
         $commentUserVerification = $input->getOption('comment-user-verification');
