@@ -45,7 +45,7 @@
         "drupal/console-extend-plugin": "~0",
         "psy/psysh": "0.6.* || ~0.8",
         "symfony/css-selector": "~2.8|~3.0",
-        "symfony/dom-crawler": "~2.8|~3.0",
+        "symfony/dom-crawler": "~2.8|~3.0|~4.0",
         "symfony/http-foundation": "~2.8|~3.0"
     },
     "suggest": {
