@@ -46,7 +46,7 @@ class {{class_name}} implements {% if plugin_interface is not empty %}{{ plugin_
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
 {{ serviceClassInjectionNoOverride(services) }}
     return $instance;
   }

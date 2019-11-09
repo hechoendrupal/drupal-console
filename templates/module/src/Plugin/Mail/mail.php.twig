@@ -37,7 +37,7 @@ class {{class_name}} extends PhpMail {% if services is not empty %}implements Co
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
 {{ serviceClassInjectionNoOverride(services) }}
     return $instance;
   }

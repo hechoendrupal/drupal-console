@@ -57,7 +57,7 @@ class {{ class_name }} extends ImageFormatterBase implements ContainerFactoryPlu
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->currentUser = $container->get('current_user');
     $instance->linkGenerator = $container->get('link_generator');
     $instance->imageStyleStorage = $container->get('entity_type.manager')->getStorage('image_style');
