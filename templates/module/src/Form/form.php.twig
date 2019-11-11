@@ -16,25 +16,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
 
+{% block use_class_services %}
+{% endblock %}
+
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
  */
 class {{ class_name }} extends FormBase {% endblock %}
-
-{% block class_construct %}
-{% if services is not empty %}
-  /**
-   * Constructs a new {{ class_name }} object.
-   */
-  public function __construct(
-    {{ servicesAsParameters(services)|join(',\n    ') }}
-  ) {
-{{ serviceClassInitialization(services) }}
-  }
-
-{% endif %}
-{% endblock %}
 
 {% block class_create %}
 {% if services is not empty %}
@@ -42,9 +31,9 @@ class {{ class_name }} extends FormBase {% endblock %}
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-{{ serviceClassInjection(services) }}
-    );
+    $instance = parent::create($container);
+{{ serviceClassInjectionNoOverride(services) }}
+    return $instance;
   }
 
 {% endif %}
@@ -114,7 +103,11 @@ class {{ class_name }} extends FormBase {% endblock %}
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Display result.
     foreach ($form_state->getValues() as $key => $value) {
+{% if 'messenger' in services|keys %}
+      $this->messenger->addMessage($key . ': ' . ($key === 'text_format'?$value['value']:$value));
+{% else %}
       \Drupal::messenger()->addMessage($key . ': ' . ($key === 'text_format'?$value['value']:$value));
+{% endif %}
     }
   }
 {% endblock %}

@@ -128,6 +128,49 @@ trait ProjectDownloadTrait
 
         return $this->downloadModules($dependencies, $latest, $path, $resultList);
     }
+    
+    private function downloadThemes($themes, $latest, $path = null, $resultList = [])
+    {
+        if (!$resultList) {
+            $resultList = [
+              'invalid' => [],
+              'uninstalled' => [],
+              'dependencies' => []
+            ];
+        }
+        drupal_static_reset('system_rebuild_module_data');
+
+        $missingThemes = $this->validator->getMissingThemes($themes);
+
+        $invalidModules = [];
+        if ($missingThemes) {
+            $this->getIo()->info(
+                sprintf(
+                    $this->trans('commands.theme.install.messages.theme-missing'),
+                    implode(', ', $missingThemes)
+                )
+            );
+            foreach ($missingThemes as $missingTheme) {
+                $version = $this->releasesQuestion($missingTheme, $latest);
+                if ($version) {
+                    $this->downloadProject($missingTheme, $version, 'theme', $path);
+                } else {
+                    $invalidModules[] = $missingTheme;
+                    unset($themes[array_search($missingTheme, $themes)]);
+                }
+                $this->extensionManager->discoverModules();
+            }
+        }
+        $this->themeHandler->install($themes);
+
+        $unInstalledThemes = $this->validator->getUninstalledThemes($themes);
+        
+        if (!$unInstalledThemes) {
+            return 0;
+        }else{
+            return $this->setInfoMessage('commands.theme.install.messages.theme-success', $missingThemes);
+        }
+    }
 
     protected function calculateDependencies($modules)
     {
@@ -303,7 +346,7 @@ trait ProjectDownloadTrait
         case 'module':
             return 'modules/contrib';
         case 'theme':
-            return 'themes';
+            return 'themes/contrib';
         case 'profile':
             return 'profiles';
         case 'core':

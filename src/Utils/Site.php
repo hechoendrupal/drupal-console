@@ -180,6 +180,21 @@ class Site
     }
 
     /**
+    * @param InputInterface $input
+    * @return string
+    */
+    public function getMultisiteName($input)
+    {
+        $uri = $input->getParameterOption(['--uri', '-l'], 'default');
+
+        if ($uri && !preg_match('/^(http|https):\/\//', $uri)) {
+            $uri = sprintf('http://%s', $uri);
+        }
+
+        return  parse_url($uri, PHP_URL_HOST);
+    }
+
+    /**
      * @return boolean
      */
     public function multisiteMode($uri)

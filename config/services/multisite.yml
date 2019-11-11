@@ -6,6 +6,6 @@ services:
       - { name: drupal.command }
   console.multisite_update:
     class: Drupal\Console\Command\Multisite\UpdateCommand
-    arguments: ['@app.root']
+    arguments: ['@app.root', '@console.site']
     tags:
       - { name: drupal.command }

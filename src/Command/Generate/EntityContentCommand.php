@@ -167,11 +167,16 @@ class EntityContentCommand extends EntityCommand
         $input->setOption('has-owner', $has_owner);
 
         // --has-bundle-permissions
-        $has_bundle_permissions = $this->getIo()->confirm(
+        if($bundle_of){
+          $has_bundle_permissions = $this->getIo()->confirm(
             $this->trans('commands.generate.entity.content.questions.has-bundle-permissions'),
             true
-        );
-        $input->setOption('has-bundle-permissions', $has_bundle_permissions);
+          );
+          $input->setOption('has-bundle-permissions', $has_bundle_permissions);
+        }
+        else {
+          $input->setOption('has-bundle-permissions', false);
+        }
     }
 
     /**

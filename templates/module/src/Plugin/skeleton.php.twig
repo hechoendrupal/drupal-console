@@ -19,6 +19,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
 
+{% block use_class_services %}
+{% endblock %}
+
 {% block class_declaration %}
 {% if pluginAnnotation is not empty %}
 /**
@@ -36,44 +39,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 {% endif %}
 class {{class_name}} implements {% if plugin_interface is not empty %}{{ plugin_interface }}{% endif %}{% if services is not empty %}, ContainerFactoryPluginInterface {% endif %}{% endblock %}
-{% block class_construct %}
+
+{% block class_create %}
 {% if services is not empty %}
   /**
-   * Constructs a new {{class_name}} object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param string $plugin_definition
-   *   The plugin implementation definition.
+   * {@inheritdoc}
    */
-  public function __construct(
-        array $configuration,
-        $plugin_id,
-        $plugin_definition,
-        {{ servicesAsParameters(services)|join(', \n\t') }}
-  ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-{{ serviceClassInitialization(services) }}
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
+{{ serviceClassInjectionNoOverride(services) }}
+    return $instance;
   }
 {% endif %}
 {% endblock %}
-{% block class_create %}
-{% if services is not empty %}
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-        return new static(
-            $configuration,
-            $plugin_id,
-            $plugin_definition,
-            {{ serviceClassInjection(services) }}
-        );
-    }
-{% endif %}
-{% endblock %}
+
 {% block class_methods %}
 
     /**
