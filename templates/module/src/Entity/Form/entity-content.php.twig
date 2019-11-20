@@ -9,12 +9,8 @@ namespace Drupal\{{module}}\Form;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Entity\ContentEntityForm;
-use Drupal\Core\Entity\EntityRepositoryInterface;
-use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endblock %}
 
@@ -34,34 +30,13 @@ class {{ entity_class }}Form extends ContentEntityForm {% endblock %}
   protected $account;
 
   /**
-   * Constructs a new {{ entity_class }}Form.
-   *
-   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
-   *   The entity repository service.
-   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
-   *   The entity type bundle service.
-   * @param \Drupal\Component\Datetime\TimeInterface $time
-   *   The time service.
-   * @param \Drupal\Core\Session\AccountProxyInterface $account
-   *   The current user account.
-   */
-  public function __construct(EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL, TimeInterface $time = NULL, AccountProxyInterface $account) {
-    parent::__construct($entity_repository, $entity_type_bundle_info, $time);
-
-    $this->account = $account;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     // Instantiates this form class.
-    return new static(
-      $container->get('entity.repository'),
-      $container->get('entity_type.bundle.info'),
-      $container->get('datetime.time'),
-      $container->get('current_user')
-    );
+    $instance = parent::create($container);
+    $instance->account = $container->get('current_user');
+    return $instance;
   }
 
   /**

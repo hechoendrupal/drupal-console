@@ -19,6 +19,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
 
+{% block use_class_services %}
+{% endblock %}
+
 {% block class_declaration %}
 /**
  * Provides a '{{class_name}}' block.
@@ -29,48 +32,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}{% endblock %}
-{% block class_construct %}
-{% if services is not empty %}
-  /**
-   * Constructs a new {{class_name}} object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param string $plugin_definition
-   *   The plugin implementation definition.
-{% if services is not empty %}
-{% for service in services %}
-   * @param \{{ service.class }} ${{service.machine_name}}
-   *   The {{service.short}} definition.
-{% endfor %}
-{% endif %}
-   */
-  public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    {{ servicesAsParameters(services)|join(',\n    ') }}
-  ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-{{ serviceClassInitialization(services) }}
-  }
-{% endif %}
-{% endblock %}
+
 {% block class_create %}
 {% if services is not empty %}
-
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-{{ serviceClassInjection(services) }}
-    );
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
+{{ serviceClassInjectionNoOverride(services) }}
+    return $instance;
   }
 
 {% endif %}

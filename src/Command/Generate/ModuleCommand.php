@@ -199,7 +199,7 @@ class ModuleCommand extends Command
         // Check that it is an absolute path or otherwise create an absolute path using appRoot
         $modulePath = $input->getOption('module-path');
         if(is_null($modulePath)) {
-            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $uri = $this->site->getMultisiteName($input);
             $defaultModulePath = 'modules/custom';
             $modulePath = $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultModulePath : $defaultModulePath;
         }
@@ -315,7 +315,7 @@ class ModuleCommand extends Command
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
-            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $uri = $this->site->getMultisiteName($input);
             $defaultModulePath = 'modules/custom';
             $modulePath = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.module-path'),
