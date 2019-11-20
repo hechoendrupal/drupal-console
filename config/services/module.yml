@@ -6,12 +6,12 @@ services:
       - { name: drupal.command }
   console.module_download:
     class: Drupal\Console\Command\Module\DownloadCommand
-    arguments: ['@console.drupal_api', '@http_client', '@app.root', '@console.extension_manager', '@console.validator', '@console.site']
+    arguments: ['@console.shell_process', '@console.extension_manager', '@console.validator']
     tags:
       - { name: drupal.command }
   console.module_install:
     class: Drupal\Console\Command\Module\InstallCommand
-    arguments: ['@console.site', '@console.validator', '@module_installer', '@console.drupal_api', '@console.extension_manager', '@app.root', '@console.chain_queue']
+    arguments: ['@console.shell_process', '@console.site', '@console.validator', '@module_installer', '@console.chain_queue']
     tags:
       - { name: drupal.command }
   console.module_path:
@@ -26,6 +26,6 @@ services:
       - { name: drupal.command }
   console.module_update:
     class: Drupal\Console\Command\Module\UpdateCommand
-    arguments: ['@console.shell_process', '@console.root']
+    arguments: ['@console.shell_process', '@console.extension_manager', '@console.validator', '@console.site']
     tags:
       - { name: drupal.command }

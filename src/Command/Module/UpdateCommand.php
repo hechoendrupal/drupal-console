@@ -7,43 +7,64 @@
 
 namespace Drupal\Console\Command\Module;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
+use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\ShellProcess;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCommand extends Command
 {
     use ProjectDownloadTrait;
-
+    use ModuleTrait;
 
     /**
- * @var ShellProcess
-*/
+     * @var ShellProcess
+     */
     protected $shellProcess;
 
     /**
-     * @var string
+     * @var Manager
      */
-    protected $root;
+    protected $extensionManager;
+
+    /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
+     * @var Site
+     */
+    protected $site;
 
     /**
      * UpdateCommand constructor.
      *
      * @param ShellProcess $shellProcess
-     * @param $root
+     * @param Manager              $extensionManager
+     * @param Validator            $validator
+     * @param Site            $site
      */
     public function __construct(
         ShellProcess $shellProcess,
-        $root
+        Manager $extensionManager,
+        Validator $validator,
+        Site $site
     ) {
         $this->shellProcess = $shellProcess;
-        $this->root = $root;
+        $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
+        $this->site = $site;
         parent::__construct();
     }
+
     protected function configure()
     {
         $this
@@ -57,15 +78,24 @@ class UpdateCommand extends Command
             ->addOption(
                 'composer',
                 null,
-                InputOption::VALUE_NONE,
-                $this->trans('commands.module.update.options.composer')
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.module.update.options.composer'),
+                'yes'
             )
             ->addOption(
                 'simulate',
                 null,
                 InputOption::VALUE_NONE,
                 $this->trans('commands.module.update.options.simulate')
-            )->setAliases(['moup']);
+            )
+            ->addOption(
+                'run-updates',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.module.update.options.run-updates'),
+                'yes'
+            )
+            ->setAliases(['moup']);
     }
 
     /**
@@ -73,16 +103,7 @@ class UpdateCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $composer = $input->getOption('composer');
-        $module = $input->getArgument('module');
-
-        if (!$composer) {
-            $this->getIo()->error($this->trans('commands.module.update.messages.only-composer'));
-
-            return 1;
-        }
-
-        if (!$module) {
+        if (!$input->getArgument('module')) {
             $module = $this->modulesQuestion();
             $input->setArgument('module', $module);
         }
@@ -94,50 +115,105 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $modules = $input->getArgument('module');
-        $composer = $input->getOption('composer');
+        $composer = mb_strtolower($input->getOption('composer')[0]) !== 'n';
+        $runUpdates = mb_strtolower($input->getOption('run-updates')[0]) !== 'n';
         $simulate = $input->getOption('simulate');
-
-        if (!$composer) {
-            $this->getIo()->error($this->trans('commands.module.update.messages.only-composer'));
-
-            return 1;
-        }
 
         if (!$modules) {
             $this->getIo()->error(
-                $this->trans('commands.module.update.messages.missing-module')
+                $this->trans('commands.module.update.messages.no-module')
             );
-
             return 1;
         }
 
-        if (count($modules) > 1) {
-            $modules = ' drupal/' . implode(' drupal/', $modules);
-        } else {
-            $modules = ' drupal/' . current($modules);
-        }
+        // Fully qualify the modules required on the command line.
+        $requestedModules = $this->composerQualifyModuleNames($modules);
+        $missingModules = $this->validator->getMissingModules(array_keys($requestedModules));
+        $allCoreModules = $this->extensionManager->discoverModules()->showInstalled()->showUninstalled()->showCore()->getList(true);
+        $allInstalledModules = $this->extensionManager->discoverModules()->showInstalled()->showCore()->showNoCore()->getList(true);
 
+        // Unless --composer=no is specified, use Composer to update the
+        // modules.
         if ($composer) {
-            // Register composer repository
-            $command = 'composer config repositories.drupal composer https://packages.drupal.org/8';
-            $this->shellProcess->exec($command, $this->root);
-
-            $command = 'composer update ' . $modules . ' --optimize-autoloader --prefer-dist --no-dev --root-reqs ';
-
-            if ($simulate) {
-                $command .= ' --dry-run';
+            $modulesToDownload = [];
+            $modulesToUpdate = [];
+            $modulesToSkipMissing = [];
+            $modulesToSkipCore = [];
+            $packagesToComposerRequire = [];
+            $packagesToComposerUpdate = [];
+            foreach ($requestedModules as $drupalModuleName => $composerPackageName) {
+                // Skip if the module is missing.
+                if (in_array($drupalModuleName, $missingModules)) {
+                    $modulesToSkipMissing[] = $drupalModuleName;
+                    continue;
+                }
+                // Skip if the module is a core one.
+                if (in_array($drupalModuleName, $allCoreModules)) {
+                    $modulesToSkipCore[] = $drupalModuleName;
+                    continue;
+                }
+                $forUpdate = $this->getModuleComposerComponents($composerPackageName);
+                // Composer-require the module if a constraint is specified.
+                if ($forUpdate['constraint']) {
+                    $modulesToDownload[] = $drupalModuleName;
+                    $packagesToComposerRequire[] = $composerPackageName;
+                    $packagesToComposerUpdate[] = $forUpdate['namespace'] . '/' . $forUpdate['name'];
+                } else {
+                    $modulesToUpdate[] = $drupalModuleName;
+                    $packagesToComposerUpdate[] = $composerPackageName;
+                }
             }
 
-            if ($this->shellProcess->exec($command, $this->root)) {
-                $this->getIo()->success(
+            if ($modulesToSkipMissing) {
+                $this->getIo()->comment(
                     sprintf(
-                        $this->trans('commands.module.update.messages.composer'),
-                        trim($modules)
+                        $this->trans('commands.module.update.messages.missing'),
+                        implode(', ', $modulesToSkipMissing)
                     )
                 );
             }
+
+            if ($modulesToSkipCore) {
+                $this->getIo()->comment(
+                    sprintf(
+                        $this->trans('commands.module.update.messages.cannot-update-core'),
+                        implode(', ', $modulesToSkipCore)
+                    )
+                );
+            }
+
+            if ($packagesToComposerRequire) {
+                $this->getIo()->comment(
+                    sprintf(
+                        $this->trans('commands.module.update.messages.download-required'),
+                        implode(', ', $modulesToDownload)
+                    )
+                );
+                $this->composerRequirePackages($packagesToComposerRequire);
+            }
+
+            if ($packagesToComposerUpdate) {
+                $this->composerUpdatePackages($packagesToComposerUpdate, true, $simulate);
+            }
         }
 
-        return 0;
+        // Rebuild caches.
+        $this->site->removeCachedServicesFile();
+
+        // We cannot use ChainQueue here to process 'update:execute', since any
+        // update that requires accessing newly installed modules will fail
+        // given that Drupal core statically cached discovered module files
+        // prior to any Composer-require. So we run it as a separate process
+        // to allow re-discovering of any module added by Composer.
+        if ($runUpdates) {
+            $command = [$this->shellProcess->findExecutable('drupal'), 'update:execute'];
+            $isInteractive = $this->getIo()->getInput()->isInteractive();
+            if (!$isInteractive) {
+                $command[] = '--no-interaction';
+                $this->shellProcess->execTty($command, true);
+            } else {
+                $this->shellProcess->execTty($command);
+            }
+        }
     }
 }

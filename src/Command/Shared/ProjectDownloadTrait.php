@@ -12,6 +12,7 @@ use Drupal\Console\Zippy\FileStrategy\TarGzFileForWindowsStrategy;
 use Alchemy\Zippy\Zippy;
 use Alchemy\Zippy\Adapter\AdapterContainer;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * Class ProjectDownloadTrait
@@ -20,6 +21,13 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 trait ProjectDownloadTrait
 {
+    /**
+     * The fully qualified path to the Composer executable.
+     *
+     * @var string
+     */
+    private $composerExecutablePath;
+
     public function modulesQuestion()
     {
         $moduleList = [];
@@ -79,56 +87,6 @@ trait ProjectDownloadTrait
         return $moduleList;
     }
 
-    private function downloadModules($modules, $latest, $path = null, $resultList = [])
-    {
-        if (!$resultList) {
-            $resultList = [
-              'invalid' => [],
-              'uninstalled' => [],
-              'dependencies' => []
-            ];
-        }
-        drupal_static_reset('system_rebuild_module_data');
-
-        $missingModules = $this->validator->getMissingModules($modules);
-
-        $invalidModules = [];
-        if ($missingModules) {
-            $this->getIo()->info(
-                sprintf(
-                    $this->trans('commands.module.install.messages.getting-missing-modules'),
-                    implode(', ', $missingModules)
-                )
-            );
-            foreach ($missingModules as $missingModule) {
-                $version = $this->releasesQuestion($missingModule, $latest);
-                if ($version) {
-                    $this->downloadProject($missingModule, $version, 'module', $path);
-                } else {
-                    $invalidModules[] = $missingModule;
-                    unset($modules[array_search($missingModule, $modules)]);
-                }
-                $this->extensionManager->discoverModules();
-            }
-        }
-
-        $unInstalledModules = $this->validator->getUninstalledModules($modules);
-
-        $dependencies = $this->calculateDependencies($unInstalledModules);
-
-        $resultList = [
-          'invalid' => array_unique(array_merge($resultList['invalid'], $invalidModules)),
-          'uninstalled' => array_unique(array_merge($resultList['uninstalled'], $unInstalledModules)),
-          'dependencies' => array_unique(array_merge($resultList['dependencies'], $dependencies))
-        ];
-
-        if (!$dependencies) {
-            return $resultList;
-        }
-
-        return $this->downloadModules($dependencies, $latest, $path, $resultList);
-    }
-    
     private function downloadThemes($themes, $latest, $path = null, $resultList = [])
     {
         if (!$resultList) {
@@ -164,7 +122,7 @@ trait ProjectDownloadTrait
         $this->themeHandler->install($themes);
 
         $unInstalledThemes = $this->validator->getUninstalledThemes($themes);
-        
+
         if (!$unInstalledThemes) {
             return 0;
         }else{
@@ -372,5 +330,60 @@ trait ProjectDownloadTrait
                 return false;
             }
         }
+    }
+
+    /**
+     * Finds the Composer executable full path.
+     *
+     * @return string
+     */
+    private function getComposerExecutablePath()
+    {
+        if (!$this->composerExecutablePath) {
+            $this->composerExecutablePath = $this->shellProcess->findExecutable('composer');
+        }
+        return $this->composerExecutablePath;
+    }
+
+    /**
+     * Requires a list of packages through Composer.
+     *
+     * @param string[] $packages
+     *   A list of Drupal modules as Composer packages.
+     *
+     * @return bool
+     *   TRUE if the Composer process is successful, FALSE otherwise.
+     */
+    private function composerRequirePackages(array $packages)
+    {
+        $command = [$this->getComposerExecutablePath(), 'require'];
+        if (!$this->getIo()->getInput()->isInteractive()) {
+            $command[] = '--no-interaction';
+        }
+        return $this->shellProcess->execTty(array_merge($command, $packages), true);
+    }
+
+    /**
+     * Updates a list of packages through Composer.
+     *
+     * @param string[] $packages
+     *   A list of Drupal modules as Composer packages.
+     *
+     * @return bool
+     *   TRUE if the Composer process is successful, FALSE otherwise.
+     */
+    private function composerUpdatePackages(array $packages, $withDependencies = true, $dryRun = false)
+    {
+        $command = [$this->getComposerExecutablePath(), 'update'];
+        if ($withDependencies) {
+            $command[] = '--with-dependencies';
+        }
+        if ($dryRun) {
+            $command[] = '--dry-run';
+        }
+        if (!$this->getIo()->getInput()->isInteractive()) {
+            $command[] = '--no-interaction';
+        }
+        return $this->shellProcess->execTty(array_merge($command, $packages), true);
     }
 }

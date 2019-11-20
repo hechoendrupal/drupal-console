@@ -25,7 +25,6 @@ env:
   global:
     # Paths.
     - DRUPAL_PATH="$HOME/drupal8"
-    - PATH="$PATH:$DRUPAL_PATH/vendor/bin:$HOME/.composer/vendor/bin"
 
     # Suppress deprecation handling.
     #- SYMFONY_DEPRECATIONS_HELPER=disabled
@@ -34,6 +33,10 @@ mysql:
   database: drupal_travis_db
   username: root
   encoding: utf8
+
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 before_script:
   - phpenv config-rm xdebug.ini || true
@@ -45,11 +48,9 @@ before_script:
         # PHP 5.5.9 on TravisCI has a Sqlite version that fails
         # minimum requirements, so we install on MySql instead.
         export SIMPLETEST_DB="mysql://root:@localhost/drupal_travis_db#drupalconsole"
-        export IMAGEMAGICK_MODULE="drupal/imagemagick:^2"
       else
-        export DRUPAL_BRANCH="8.8.x"
+        export DRUPAL_BRANCH="8.9.x"
         export SIMPLETEST_DB="sqlite://localhost/sites/default/files/.ht.sqlite#drupalconsole"
-        export IMAGEMAGICK_MODULE="drupal/imagemagick:dev-3.x"
       fi
 
   # Get Drupal via git, and install it via Composer.
@@ -65,13 +66,27 @@ before_script:
       composer config repositories.travisci-run '{"type": "path", "url": "$TRAVIS_BUILD_DIR", "options": {"symlink": false}}'
   - composer require "drupal/console:dev-travisci-run-branch" --no-progress --no-suggest
 
+  ########################
+  # TEMPORARY FOR TESTING.
+  ########################
+  - rm -r $DRUPAL_PATH/vendor/drupal/console-en
+  - git clone --depth=5 --branch=module https://github.com/mondrake/drupal-console-en.git $DRUPAL_PATH/vendor/drupal/console-en
+  - rm -r $DRUPAL_PATH/vendor/drupal/console-core
+  - git clone --depth=5 --branch=dev-module1 https://github.com/mondrake/drupal-console-core.git $DRUPAL_PATH/vendor/drupal/console-core
+
 script:
   # Install Drupal site via drupal/console and show site status.
-  - drupal site:install standard $SIMPLETEST_DB --langcode=en --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
-  - drupal module:install --composer token admin_toolbar "$IMAGEMAGICK_MODULE" --verbose --no-interaction
-  - drupal debug:module
-  - drupal config:override system.image --key=toolkit --value=imagemagick
-  - drupal site:status -v
+  - cd $DRUPAL_PATH
+  - vendor/bin/drupal site:install minimal $SIMPLETEST_DB --langcode=en --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
+  - vendor/bin/drupal module:download pagerer --verbose --no-interaction
+  - vendor/bin/drupal module:install pagerer responsive_image --verbose --no-interaction
+  - vendor/bin/drupal module:install admin_toolbar:1.25 drupal/imagemagick:^2 --verbose --no-interaction
+  - |
+      if [[ "$TRAVIS_PHP_VERSION" != "5.5.9" ]] && [[ "$TRAVIS_PHP_VERSION" != "5.6" ]]; then
+        vendor/bin/drupal module:update pagerer:^2 file_mdm:^2 file_mdm_exif:^2 drupal/imagemagick:^3 --verbose --no-interaction
+      fi
+  - vendor/bin/drupal config:override system.image --key=toolkit --value=imagemagick
+  - vendor/bin/drupal site:status -v
 #  - cd $DRUPAL_PATH/vendor/drupal/console
 #  - ../../phpunit/phpunit/phpunit
 #  - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
