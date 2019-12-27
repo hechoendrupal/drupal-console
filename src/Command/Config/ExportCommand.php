@@ -107,7 +107,7 @@ class ExportCommand extends Command
 
         $fileSystem = new Filesystem();
         try {
-            $fileSystem->mkdir($drupal_root."/".$directory);
+            $fileSystem->mkdir($directory);
         } catch (IOExceptionInterface $e) {
             $this->getIo()->error(
                 sprintf(
