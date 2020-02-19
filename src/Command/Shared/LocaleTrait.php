@@ -65,6 +65,8 @@ trait LocaleTrait
         foreach ($status as $project_id => $project) {
             foreach ($project as $langcode => $project_info) {
                 $info = '';
+                $remote_age = '';
+                $local_age = '';
                 if ($project_info->type == LOCALE_TRANSLATION_LOCAL || $project_info->type == LOCALE_TRANSLATION_REMOTE) {
                     $local = isset($project_info->files[LOCALE_TRANSLATION_LOCAL]) ? $project_info->files[LOCALE_TRANSLATION_LOCAL] : null;
                     $remote = isset($project_info->files[LOCALE_TRANSLATION_REMOTE]) ? $project_info->files[LOCALE_TRANSLATION_REMOTE] : null;
@@ -79,8 +81,6 @@ trait LocaleTrait
                 } elseif ($project_info->type == LOCALE_TRANSLATION_CURRENT) {
                     $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
                 } else {
-                    $local_age = '';
-                    $remote_age = '';
                     $info = $this->createInfoString($project_info);
                 }
 
