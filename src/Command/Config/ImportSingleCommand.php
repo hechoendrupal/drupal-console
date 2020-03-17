@@ -102,8 +102,7 @@ class ImportSingleCommand extends Command
                     $name = Path::getFilenameWithoutExtension($configFile);
                     $ymlFile = new Parser();
                     $value = $ymlFile->parse(file_get_contents($configFile));
-                    $source_storage->delete($name);
-                    $source_storage->write($name, $value);
+                    $source_storage->replaceData($name, $value);
                     $names[] = $name;
                     continue;
                 }
