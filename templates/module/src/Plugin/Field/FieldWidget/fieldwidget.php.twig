@@ -12,6 +12,8 @@ namespace Drupal\{{ module }}\Plugin\Field\FieldWidget;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Field\Annotation\FieldWidget;
+use Drupal\Core\Annotation\Translation;
 {% endblock %}
 
 {% block class_declaration %}
@@ -20,7 +22,7 @@ use Drupal\Core\Form\FormStateInterface;
  *
  * @FieldWidget(
  *   id = "{{ plugin_id }}",
- *   module = "{{ module }}"
+ *   module = "{{ module }}",
  *   label = @Translation("{{ label }}"){% if field_type %},
  *   field_types = {
  *     "{{ field_type }}"
