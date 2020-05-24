@@ -1,5 +1,5 @@
 {
-    "name": "drupal/console",
+    "name": "for023/console",
     "description": "The Drupal CLI. A tool to generate boilerplate code, interact with and debug Drupal.",
     "keywords": ["Drupal", "Console", "Development", "Symfony"],
     "homepage": "http://drupalconsole.com/",
@@ -44,9 +44,9 @@
         "drupal/console-core": "1.9.4",
         "drupal/console-extend-plugin": "~0",
         "psy/psysh": "0.6.* || ~0.8",
-        "symfony/css-selector": "~2.8|~3.0",
-        "symfony/dom-crawler": "~2.8|~3.0",
-        "symfony/http-foundation": "~2.8|~3.0"
+        "symfony/css-selector": "~2.8|~3.0|~4.4",
+        "symfony/dom-crawler": "~2.8|~3.0|~4.4",
+        "symfony/http-foundation": "~2.8|~3.0|~4.4"
     },
     "suggest": {
         "symfony/thanks": "Thank your favorite PHP projects on GitHub using the CLI",
