@@ -47,8 +47,7 @@ class ComposerGenerator extends Generator
       }
       $this->renderFile(
         'module/composer.json.twig',
-        $this->extensionManager->getModule($machineName)
-          ->getPath() . '/composer.json',
+        $module->getPath() . '/composer.json',
         $parameters
       );
     }
