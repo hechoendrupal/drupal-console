@@ -37,7 +37,7 @@ class PluginValidationConstraintGenerator extends Generator
         $hook = $parameters['hook'];
         $pluginPath = $this->extensionManager->getPluginPath($module, 'Validation/Constraint') . '/' . $className;
 
-        // Generates Contraint class.
+        // Generates Constraint class.
         $this->renderFile(
             'module/src/Plugin/Validation/Constraint/constraint.php.twig',
             $pluginPath . '.php',

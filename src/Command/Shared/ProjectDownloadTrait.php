@@ -356,7 +356,7 @@ trait ProjectDownloadTrait
 
     /**
      * check if a modules repo is in composer.json
-     * check if the repo is setted and matchs the one in config.yml
+     * check if the repo is set and matches the one in config.yml
      *
      * @param  object $config
      * @return boolean

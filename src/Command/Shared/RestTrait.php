@@ -9,7 +9,7 @@ namespace Drupal\Console\Command\Shared;
 trait RestTrait
 {
     /**
-   * [geRest get a list of Rest Resouces].
+   * [geRest get a list of Rest Resources].
    *
    * @param bool $rest_status return Rest Resources by status
    *

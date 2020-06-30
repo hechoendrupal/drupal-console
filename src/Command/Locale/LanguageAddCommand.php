@@ -123,7 +123,7 @@ class LanguageAddCommand extends Command
     }
 
     /**
-     * Checks the existance of the languages in the system.
+     * Checks the existence of the languages in the system.
      *
      * @param array $languageArguments
      *   List of language arguments.
@@ -163,7 +163,7 @@ class LanguageAddCommand extends Command
      * Get list of missing languages.
      *
      * @return array
-     *   Missing languges.
+     *   Missing languages.
      */
     private function getMissingLangugaes()
     {

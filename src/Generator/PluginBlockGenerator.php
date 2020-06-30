@@ -42,7 +42,7 @@ class PluginBlockGenerator extends Generator
         $parameters['machine_name'] = $pluginId;
 
         // Consider the type when determining a default value. Figure out what
-        // the code looks like for the default value tht we need to generate.
+        // the code looks like for the default value that we need to generate.
         foreach ($inputs as &$input) {
             $default_code = '$this->t(\'\')';
             if ($input['default_value'] == '') {

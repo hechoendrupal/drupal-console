@@ -127,7 +127,7 @@ class DiffCommand extends Command
     }
 
     /**
-     * Ouputs a table of configuration changes.
+     * Outputs a table of configuration changes.
      *
      * @param array       $change_list
      *   The list of changes from the StorageComparer.
