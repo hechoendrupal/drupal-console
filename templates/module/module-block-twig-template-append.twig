@@ -1,0 +1,22 @@
+{% if file_exist == false %}
+<?php
+
+/**
+ * @file
+ * module file.
+ */
+{% endif %}
+
+/**
+ * Implements hook_theme().
+ */
+function {{module}}_theme() {
+  return [
+    '{{machine_name}}' => [
+      'variables' => [
+        'content' => NULL
+      ],
+      'render element' => 'children',
+    ],
+  ];
+}

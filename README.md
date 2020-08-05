@@ -31,20 +31,20 @@ Details of the latest version can be found on the Drupal Console project page un
 All notable changes to this project will be documented in the [releases page](https://github.com/hechoendrupal/DrupalConsole/releases)
 
 ## Documentation
-The most up-to-date documentation can be found at [http://docs.drupalconsole.com/](http://docs.drupalconsole.com/).
+The most up-to-date documentation can be found at [https://drupalconsole.com/docs/](https://drupalconsole.com/docs/).
 
-More information about using this project at the [official documentation](http://docs.drupalconsole.com/en/using/project.html).
+More information about using this project at the [official documentation](https://drupalconsole.com/docs/en/using/project).
 
 ## Required PHP Version
 PHP 5.5.9 or higher is required to use the Drupal Console application.
 
 ## Download 
 
-[Install Drupal Console Using Composer](https://docs.drupalconsole.com/en/getting/composer.html)
+[Install Drupal Console Using Composer](https://drupalconsole.com/docs/en/getting/composer)
 
-[Install Drupal Console Launcher](https://docs.drupalconsole.com/en/getting/launcher.html)
+[Install Drupal Console Launcher](https://drupalconsole.com/docs/en/getting/launcher)
 
-[Installing Drupal Console on Windows](https://docs.drupalconsole.com/en/getting/windows.html)
+[Installing Drupal Console on Windows](https://drupalconsole.com/docs/en/getting/windows)
 
 ## Run
 Using the DrupalConsole Launcher
@@ -66,8 +66,8 @@ bin/drupal
 You can ask for support at Drupal Console gitter chat room [http://bit.ly/console-support](http://bit.ly/console-support).
 
 ## Contribute to Drupal Console
-* [Getting the project](https://docs.drupalconsole.com/en/contributing/getting-the-project.html)
-* [Running the project](https://docs.drupalconsole.com/en/contributing/running-the-project.html)
+* [Getting the project](https://drupalconsole.com/docs/en/getting/project)
+* [Using the project](https://drupalconsole.com/docs/en/using/project)
 
 ## Enabling Autocomplete
 ```

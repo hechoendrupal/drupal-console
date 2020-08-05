@@ -1,3 +1,11 @@
+{% if not file_exists %}
+{% include 'module/php_tag.php.twig' %}
+
+/**
+ * @file
+ * Contains {{ module }} form alter.
+ */
+{% endif %}
 
 {% block use_class %}
 use Drupal\Core\Form\FormStateInterface;
@@ -12,52 +20,52 @@ use Drupal\Core\Form\FormStateInterface;
 {% endif %}
  */
 function {{ module }}_form_{{ form_id }}_alter(&$form, FormStateInterface $form_state) {
-    drupal_set_message('{{ module }}_form_{{ form_id }}_alter() executed.');
+    \Drupal::messenger()->addMessage('{{ module }}_form_{{ form_id }}_alter() executed.');
 {% else %}
 /**
- * Implements hook_form_alter() on behalf of {{ module }}.module.
+ * Implements hook_form_alter().
  */
 function {{ module }}_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-    // Change form id here
-    if ($form_id == 'form_test_alter_form') {
-        drupal_set_message('form_test_form_alter() executed.');
+  // Change form id here.
+  if ($form_id == 'form_test_alter_form') {
+    \Drupal::messenger()->addMessage('form_test_form_alter() executed.');
 {% endif %}
 
 {%- if metadata.unset -%}
 {% for field in metadata.unset %}
-        $form['{{ field }}']['#access'] = FALSE;
+    $form['{{ field }}']['#access'] = FALSE;
 {% endfor %}
 {% endif %}
 
 {% if inputs %}
 {% for input in inputs %}
-        $form['{{ input.name }}'] = [
-            '#type' => '{{ input.type }}',
-            '#title' => t('{{ input.label|e }}'),
-    {%- if input.description is defined and input.description is defined -%}
-            '#description' => t('{{ input.description|e }}'),
-    {% endif %}
-    {%- if input.options is defined and input.options|length -%}
-            '#options' => {{ input.options }},
-    {% endif %}
-    {%- if input.maxlength is defined and input.maxlength|length -%}
-            '#maxlength' => {{ input.maxlength }},
-    {% endif %}
-    {%- if input.size is defined and input.size|length -%}
-            '#size' => {{ input.size }},
-    {% endif %}
-    {%- if input.default_value is defined and input.default_value|length -%}
-            '#default_value' => '{{ input.default_value }}',
-    {% endif %}
-    {%- if input.weight is defined and input.weight|length -%}
-            '#weight' => '{{ input.weight }}',
-    {% endif %}
-        ];
+    $form['{{ input.name }}'] = [
+      '#type' => '{{ input.type }}',
+      '#title' => t('{{ input.label|e }}'),
+{% if input.description is defined and input.description is not empty %}
+      '#description' => t('{{ input.description|e }}'),
+{% endif %}
+{% if input.options is defined and input.options|length %}
+      '#options' => {{ input.options }},
+{% endif %}
+{% if input.maxlength is defined and input.maxlength|length %}
+      '#maxlength' => {{ input.maxlength }},
+{% endif %}
+{% if input.size is defined and input.size|length %}
+      '#size' => {{ input.size }},
+{% endif %}
+{% if input.default_value is defined and input.default_value|length %}
+      '#default_value' => '{{ input.default_value }}',
+{% endif %}
+{% if input.weight is defined and input.weight is not empty%}
+      '#weight' => '{{ input.weight }}',
+{% endif %}
+    ];
 
 {% endfor %}
 {% endif %}
 {% if form_id is empty %}
-    }
+  }
 {% endif %}
 }
 {% endblock %}

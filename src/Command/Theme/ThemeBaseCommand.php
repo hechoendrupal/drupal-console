@@ -12,7 +12,11 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\UnmetDependenciesException;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Console\Core\Utils\ChainQueue;
-
+use Drupal\Console\Utils\Site;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\Extension\ModuleInstallerInterface;
+use Drupal\Console\Utils\DrupalApi;
+use Drupal\Console\Extension\Manager;
 /**
  * Class ThemeBaseCommand
  *
@@ -34,12 +38,34 @@ class ThemeBaseCommand extends Command
      * @var ChainQueue
      */
     protected $chainQueue;
-
+    /**
+     * @var Site
+     */
+    protected $site;
+    /**
+     * @var Validator
+     */
+    protected $validator;
+     /**
+     * @var ModuleInstaller
+     */
+    protected $moduleInstaller;
+    /**
+     * @var DrupalApi
+     */
+    protected $drupalApi;
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+    /**
+     * @var string
+     */
+    protected $appRoot;
     /**
      * @var array
      */
     protected $themes;
-
     /**
      * @var array
      */
@@ -61,15 +87,32 @@ class ThemeBaseCommand extends Command
      * @param ConfigFactory $configFactory
      * @param ThemeHandler  $themeHandler
      * @param ChainQueue    $chainQueue
+     * @param Site          $site
+     * @param Validator     $validator
+     * @param ModuleInstaller $moduleInstaller
+     * @param DrupalApi       $drupalApi
+     * @param Manager         $extensionManager
+     * @param $appRoot
      */
     public function __construct(
         ConfigFactoryInterface $configFactory,
         ThemeHandlerInterface $themeHandler,
-        ChainQueue $chainQueue
+        ChainQueue $chainQueue,
+        Site $site,
+        Validator $validator,
+        ModuleInstallerInterface $moduleInstaller,
+        DrupalApi $drupalApi,
+        Manager $extensionManager, $appRoot
     ) {
         $this->configFactory = $configFactory;
         $this->themeHandler = $themeHandler;
         $this->chainQueue = $chainQueue;
+        $this->site = $site;
+        $this->validator = $validator;
+        $this->moduleInstaller = $moduleInstaller;
+        $this->drupalApi = $drupalApi;
+        $this->extensionManager = $extensionManager;
+        $this->appRoot = $appRoot;
         $this->themes = $this->themeHandler->rebuildThemeData();
         parent::__construct();
     }

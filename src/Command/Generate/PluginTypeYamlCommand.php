@@ -12,7 +12,6 @@ use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Extension\Manager;
@@ -25,7 +24,6 @@ use Drupal\Console\Core\Utils\StringConverter;
  */
 class PluginTypeYamlCommand extends Command
 {
-    use ServicesTrait;
     use ModuleTrait;
 
     /**
@@ -107,7 +105,7 @@ class PluginTypeYamlCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_name = $input->getOption('plugin-name');
         $plugin_file_name = $input->getOption('plugin-file-name');

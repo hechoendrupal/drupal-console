@@ -7,22 +7,24 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ArrayInputTrait;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Generator\PluginCKEditorButtonGenerator;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Generator\PluginCKEditorButtonGenerator;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\StringConverter;
 
 class PluginCKEditorButtonCommand extends Command
 {
-    use ModuleTrait;
+    use ArrayInputTrait;
     use ConfirmationTrait;
+    use ModuleTrait;
 
     /**
      * @var ChainQueue
@@ -31,13 +33,13 @@ class PluginCKEditorButtonCommand extends Command
 
 
     /**
- * @var PluginCKEditorButtonGenerator
-*/
+     * @var PluginCKEditorButtonGenerator
+     */
     protected $generator;
 
     /**
- * @var Manager
-*/
+     * @var Manager
+     */
     protected $extensionManager;
 
     /**
@@ -49,7 +51,6 @@ class PluginCKEditorButtonCommand extends Command
      * @var Validator
      */
     protected $validator;
-
 
     /**
      * PluginCKEditorButtonCommand constructor.
@@ -106,16 +107,10 @@ class PluginCKEditorButtonCommand extends Command
                 $this->trans('commands.generate.plugin.ckeditorbutton.options.plugin-id')
             )
             ->addOption(
-                'button-name',
+                'buttons',
                 null,
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.ckeditorbutton.options.button-name')
-            )
-            ->addOption(
-                'button-icon-path',
-                null,
-                InputOption::VALUE_REQUIRED,
-                $this->trans('commands.generate.plugin.ckeditorbutton.options.button-icon-path')
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                $this->trans('commands.generate.plugin.ckeditorbutton.options.buttons')
             )->setAliases(['gpc']);
     }
 
@@ -129,20 +124,24 @@ class PluginCKEditorButtonCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
-        $button_name = $input->getOption('button-name');
-        $button_icon_path = $input->getOption('button-icon-path');
+        $buttons = $input->getOption('buttons');
+
+        $noInteraction = $input->getOption('no-interaction');
+        // Parse nested data.
+        if ($noInteraction) {
+            $buttons = $this->explodeInlineArray($buttons);
+        }
 
         $this->generator->generate([
           'module' => $module,
           'class_name' => $class_name,
           'label' => $label,
           'plugin_id' => $plugin_id,
-          'button_name' => $button_name,
-          'button_icon_path' => $button_icon_path,
+          'buttons' => $buttons,
         ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
@@ -183,29 +182,48 @@ class PluginCKEditorButtonCommand extends Command
         if (!$plugin_id) {
             $plugin_id = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.ckeditorbutton.questions.plugin-id'),
-                $this->stringConverter->camelCaseToLowerCase($label)
+                $this->stringConverter->createMachineName($label)
             );
             $input->setOption('plugin-id', $plugin_id);
         }
 
-        // --button-name option
-        $button_name = $input->getOption('button-name');
-        if (!$button_name) {
-            $button_name = $this->getIo()->ask(
+        $buttons = [];
+        while (true) {
+            $this->getIo()->newLine(2);
+            $this->getIo()->comment($this->trans('commands.generate.plugin.ckeditorbutton.options.button-properties'));
+            // --button-name option
+            $buttonName = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-name'),
-                $this->stringConverter->anyCaseToUcFirst($plugin_id)
+                $this->stringConverter->anyCaseToUcFirst($label)
             );
-            $input->setOption('button-name', $button_name);
-        }
 
-        // --button-icon-path option
-        $button_icon_path = $input->getOption('button-icon-path');
-        if (!$button_icon_path) {
-            $button_icon_path = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-icon-path'),
-                drupal_get_path('module', $module) . '/js/plugins/' . $plugin_id . '/images/icon.png'
+            $buttonLabel = $this->getIo()->ask(
+                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-label'),
+                $label
             );
-            $input->setOption('button-icon-path', $button_icon_path);
+
+            $buttonIcon = $this->getIo()->ask(
+                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-icon-path'),
+                drupal_get_path('module', $module) . '/js/plugin/'.$plugin_id.'/icons/'.$buttonName.'.png'
+            );
+
+            array_push(
+                $buttons,
+                [
+                    'name' => $buttonName,
+                    'label' => $buttonLabel,
+                    'icon' => $buttonIcon,
+                ]
+            );
+
+            if (!$this->getIo()->confirm(
+                $this->trans('commands.generate.plugin.ckeditorbutton.questions.button-add'),
+                true
+            )
+            ) {
+                break;
+            }
         }
+        $input->setOption('buttons', $buttons);
     }
 }

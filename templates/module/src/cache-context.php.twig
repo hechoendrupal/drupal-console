@@ -15,8 +15,8 @@ use Drupal\Core\Cache\Context\CacheContextInterface;
 
 {% block class_declaration %}
 /**
-* Class {{ class }}.
-*/
+ * Class {{ class }}.
+ */
 class {{ class }} implements CacheContextInterface {% endblock %}
 
 {% block class_construct %}
@@ -25,29 +25,29 @@ class {{ class }} implements CacheContextInterface {% endblock %}
    * Constructs a new {{ class }} object.
    */
   public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
-  {{ serviceClassInitialization(services) }}
+{{ serviceClassInitialization(services) }}
   }
 
 {% endblock %}
 
 {% block class_methods %}
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public static function getLabel() {
-    drupal_set_message('Lable of cache context');
+    \Drupal::messenger()->addMessage('Lable of cache context');
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function getContext() {
     // Actual logic of context variation will lie here.
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function getCacheableMetadata() {
     return new CacheableMetadata();
   }

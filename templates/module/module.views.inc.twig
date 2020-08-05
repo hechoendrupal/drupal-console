@@ -4,16 +4,6 @@
 
 {% block extra_info %} * Provide a custom views field data that isn't tied to any other module.{% endblock %}
 
-{% block use_class %}
-use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
-use Drupal\Core\Render\Markup;
-use Drupal\field\FieldConfigInterface;
-use Drupal\field\FieldStorageConfigInterface;
-use Drupal\system\ActionConfigEntityInterface;
-{% endblock %}
-
 {% block file_methods %}
 /**
 * Implements hook_views_data().
@@ -26,15 +16,15 @@ function {{module}}_views_data() {
       '#global' => [],
     ];
 
-
-    $data['views']['{{ class_machine_name }}'] = [
-        'title' => t('{{ title }}'),
-        'help' => t('{{ description }}'),
+{% for field in fields %}
+    $data['views']['{{ field.class_machine_name }}'] = [
+        'title' => t('{{ field.title }}'),
+        'help' => t('{{ field.description }}'),
         'field' => [
-            'id' => '{{ class_machine_name }}',
+            'id' => '{{ field.class_machine_name }}',
         ],
     ];
-
+{% endfor %}
     return $data;
 }
 {% endblock %}

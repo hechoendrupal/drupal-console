@@ -9,17 +9,22 @@ namespace Drupal\{{ module }}\Entity;
 {% endblock %}
 
 {% block use_class %}
+{% if has_owner or revisionable%}
 use Drupal\Core\Entity\EntityStorageInterface;
+{% endif %}
 use Drupal\Core\Field\BaseFieldDefinition;
 {% if revisionable %}
-use Drupal\Core\Entity\RevisionableContentEntityBase;
+use Drupal\Core\Entity\EditorialContentEntityBase;
 use Drupal\Core\Entity\RevisionableInterface;
 {% else %}
 use Drupal\Core\Entity\ContentEntityBase;
 {% endif %}
 use Drupal\Core\Entity\EntityChangedTrait;
+use Drupal\Core\Entity\EntityPublishedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+{% if has_owner %}
 use Drupal\user\UserInterface;
+{% endif %}
 {% endblock %}
 
 {% block class_declaration %}
@@ -45,16 +50,18 @@ use Drupal\user\UserInterface;
  *     "translation" = "Drupal\{{ module }}\{{ entity_class }}TranslationHandler",
 {% endif %}
  *
+{% if has_forms %}
  *     "form" = {
  *       "default" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
  *       "add" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
  *       "edit" = "Drupal\{{ module }}\Form\{{ entity_class }}Form",
  *       "delete" = "Drupal\{{ module }}\Form\{{ entity_class }}DeleteForm",
  *     },
- *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessControlHandler",
  *     "route_provider" = {
  *       "html" = "Drupal\{{ module }}\{{ entity_class }}HtmlRouteProvider",
  *     },
+{% endif %}
+ *     "access" = "Drupal\{{ module }}\{{ entity_class }}AccessControlHandler",
  *   },
  *   base_table = "{{ entity_name }}",
 {% if is_translatable %}
@@ -64,8 +71,9 @@ use Drupal\user\UserInterface;
  *   revision_table = "{{ entity_name }}_revision",
  *   revision_data_table = "{{ entity_name }}_field_revision",
 {% endif %}
-{% if is_translatable %}
- *   translatable = TRUE,
+ *   translatable = {{ is_translatable ? 'TRUE' : 'FALSE' }},
+{% if has_bundle_permissions %}
+ *   permission_granularity = "bundle",
 {% endif %}
  *   admin_permission = "administer {{ label|lower }} entities",
  *   entity_keys = {
@@ -78,10 +86,13 @@ use Drupal\user\UserInterface;
 {% endif %}
  *     "label" = "name",
  *     "uuid" = "uuid",
+{% if has_owner %}
  *     "uid" = "user_id",
+{% endif %}
  *     "langcode" = "langcode",
- *     "status" = "status",
+ *     "published" = "status",
  *   },
+{% if has_forms %}
  *   links = {
  *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",
 {% if bundle_entity_type %}
@@ -103,21 +114,26 @@ use Drupal\user\UserInterface;
 {% endif %}
  *     "collection" = "{{ base_path }}/{{ entity_name }}",
  *   },
+{% endif %}
 {% if bundle_entity_type %}
  *   bundle_entity_type = "{{ bundle_entity_type }}",
  *   field_ui_base_route = "entity.{{ bundle_entity_type }}.edit_form"
 {% else %}
+{% if has_forms %}
  *   field_ui_base_route = "{{ entity_name }}.settings"
+{% endif %}
 {% endif %}
  * )
  */
-class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityBase{% else %}ContentEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
+class {{ entity_class }} extends {% if revisionable %}EditorialContentEntityBase{% else %}ContentEntityBase{% endif %} implements {{ entity_class }}Interface {% endblock %}
 
 {% block use_trait %}
   use EntityChangedTrait;
+  use EntityPublishedTrait;
 {% endblock %}
 
 {% block class_methods %}
+{% if has_owner %}
 
   /**
    * {@inheritdoc}
@@ -128,6 +144,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       'user_id' => \Drupal::currentUser()->id(),
     ];
   }
+{% endif %}
 {% if revisionable %}
 
   /**
@@ -151,6 +168,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
    */
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
+{% if is_translatable %}
 
     foreach (array_keys($this->getTranslationLanguages()) as $langcode) {
       $translation = $this->getTranslation($langcode);
@@ -160,9 +178,10 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
         $translation->setOwnerId(0);
       }
     }
+{% endif %}
 
-    // If no revision author has been set explicitly, make the {{ entity_name }} owner the
-    // revision author.
+    // If no revision author has been set explicitly,
+    // make the {{ entity_name }} owner the revision author.
     if (!$this->getRevisionUser()) {
       $this->setRevisionUserId($this->getOwnerId());
     }
@@ -198,6 +217,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
     $this->set('created', $timestamp);
     return $this;
   }
+{% if has_owner %}
 
   /**
    * {@inheritdoc}
@@ -228,21 +248,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
     $this->set('user_id', $account->id());
     return $this;
   }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isPublished() {
-    return (bool) $this->getEntityKey('status');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setPublished($published) {
-    $this->set('status', $published ? TRUE : FALSE);
-    return $this;
-  }
+{% endif %}
 
   /**
    * {@inheritdoc}
@@ -250,13 +256,19 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
+    // Add the published field.
+    $fields += static::publishedBaseFieldDefinitions($entity_type);
+{% if has_owner %}
+
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
       ->setDescription(t('The user ID of author of the {{ label }} entity.'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
+{% if is_translatable %}
       ->setTranslatable(TRUE)
+{% endif %}
       ->setDisplayOptions('view', [
         'label' => 'hidden',
         'type' => 'author',
@@ -274,6 +286,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
+{% endif %}
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
@@ -299,13 +312,7 @@ class {{ entity_class }} extends {% if revisionable %}RevisionableContentEntityB
       ->setDisplayConfigurable('view', TRUE)
       ->setRequired(TRUE);
 
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Publishing status'))
-      ->setDescription(t('A boolean indicating whether the {{ label }} is published.'))
-{% if revisionable %}
-      ->setRevisionable(TRUE)
-{% endif %}
-      ->setDefaultValue(TRUE)
+    $fields['status']->setDescription(t('A boolean indicating whether the {{ label }} is published.'))
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
         'weight' => -3,

@@ -88,6 +88,12 @@ class NodesCommand extends Command
                 $this->trans('commands.create.nodes.options.time-range')
             )
             ->addOption(
+                'revision',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.create.nodes.options.revision')
+            )
+            ->addOption(
                 'language',
                 null,
                 InputOption::VALUE_OPTIONAL,
@@ -151,6 +157,15 @@ class NodesCommand extends Command
             $input->setOption('time-range', array_search($timeRange, $timeRanges));
         }
 
+        $revision = is_null($input->getOption('revision'));
+        if (!$revision) {
+            $revision = $this->getIo()->confirm(
+                $this->trans('commands.create.nodes.questions.revision')
+            );
+
+            $input->setOption('revision', $revision);
+        }
+
         // Language module is enabled or not.
         $languageModuleEnabled = \Drupal::moduleHandler()
             ->moduleExists('language');
@@ -177,7 +192,10 @@ class NodesCommand extends Command
             $input->setOption('language', $language);
         } else {
             // If 'language' module is not enabled.
-            $input->setOption('language', LanguageInterface::LANGCODE_NOT_SPECIFIED);
+            $input->setOption(
+                'language',
+                \Drupal::languageManager()->getDefaultLanguage()->getId()
+            );
         }
     }
 
@@ -190,6 +208,7 @@ class NodesCommand extends Command
         $limit = $input->getOption('limit')?:25;
         $titleWords = $input->getOption('title-words')?:5;
         $timeRange = $input->getOption('time-range')?:31536000;
+        $revision = $input->getOption('revision');
         $available_types = array_keys($this->drupalApi->getBundles());
         $language = $input->getOption('language')?:'und';
 
@@ -208,6 +227,7 @@ class NodesCommand extends Command
             $limit,
             $titleWords,
             $timeRange,
+            $revision,
             $language
         );
 

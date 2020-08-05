@@ -15,9 +15,13 @@ class Validator
     const REGEX_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+$/';
     const REGEX_COMMAND_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+Command$/';
     const REGEX_CONTROLLER_CLASS_NAME = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]+Controller$/';
-    const REGEX_MACHINE_NAME = '/^[a-z0-9_]+$/';
+    const REGEX_MACHINE_NAME = '/^[a-z][a-z\d_]+$/';
+    const REGEX_DEPENDENCY_NAME = '/^[a-z0-9_:]+$/';
+    const REGEX_URI_NAME = '/^[a-z0-9_.]+$/';
     // This REGEX remove spaces between words
     const REGEX_REMOVE_SPACES = '/[\\s+]/';
+    // Max length to 32
+    const MAX_MACHINE_NAME = 32;
 
     protected $appRoot;
 
@@ -58,6 +62,20 @@ class Validator
                 sprintf(
                     'Class name "%s" is invalid, it must starts with a letter or underscore, followed by any number of letters, numbers, or underscores.',
                     $class_name
+                )
+            );
+        }
+    }
+
+    public function validateUriName($uri_name)
+    {
+        if (preg_match(self::REGEX_URI_NAME, $uri_name)) {
+            return $uri_name;
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Uri name "%s" is invalid, it must starts with a letter, followed by any number of letters, numbers, or underscores.',
+                    $uri_name
                 )
             );
         }
@@ -116,7 +134,21 @@ class Validator
 
     public function validateMachineName($machine_name)
     {
-        if (preg_match(self::REGEX_MACHINE_NAME, $machine_name)) {
+        // @see https://www.drupal.org/docs/8/creating-custom-modules/naming-and-placing-your-drupal-8-module
+        $reserved_words = [
+            'src', 'lib', 'vendor', 'assets', 'css', 'files', 'images', 'js', 'misc', 'templates', 'includes',
+            'fixtures', 'Drupal',
+        ];
+        if (preg_match(self::REGEX_MACHINE_NAME, $machine_name) && !in_array($machine_name, $reserved_words)) {
+            if (strlen($machine_name) > self::MAX_MACHINE_NAME) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Machine name "%s" is longer than %s symbols.',
+                        $machine_name,
+                        self::MAX_MACHINE_NAME
+                    )
+                );
+            }
             return $machine_name;
         } else {
             throw new \InvalidArgumentException(
@@ -166,7 +198,7 @@ class Validator
         $list = explode(',', $this->removeSpaces($list));
         foreach ($list as $key => $module) {
             if (!empty($module)) {
-                if (preg_match(self::REGEX_MACHINE_NAME, $module)) {
+                if (preg_match(self::REGEX_DEPENDENCY_NAME, $module)) {
                     $list_checked['success'][] = $module;
                 } else {
                     $list_checked['fail'][] = $module;
@@ -282,7 +314,7 @@ class Validator
 
         return array_diff($moduleList, $modules);
     }
-
+    
     /**
      * @param $moduleList
      * @return array
@@ -314,7 +346,7 @@ class Validator
             if (!empty($checked_extensions['no_extensions'])) {
                 $io->warning(
                     sprintf(
-                        $this->translatorManager->trans('validator.warnings.extension-unavailable'),
+                        $this->translatorManager->trans('commands.generate.module.warnings.module-unavailable'),
                         implode(', ', $checked_extensions['no_extensions'])
                     )
                 );
@@ -404,5 +436,19 @@ class Validator
      */
     public function validateRoleNotExistence($role, $roles) {
         return $this->validateRole($role, $roles, false);
+    }
+
+    /**
+     * @param $themeList
+     * @return array
+     */
+    public function getMissingThemes($themeList)
+    {
+        $themes = $this->extensionManager->discoverThemes()
+            ->showInstalled()
+            ->showNoCore()
+            ->getList(true);
+
+        return array_diff($themeList, $themes);
     }
 }

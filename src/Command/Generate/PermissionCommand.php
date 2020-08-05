@@ -93,7 +93,7 @@ class PermissionCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $permissions = $input->getOption('permissions');
         $learning = $input->hasOption('learning');
         $noInteraction = $input->getOption('no-interaction');

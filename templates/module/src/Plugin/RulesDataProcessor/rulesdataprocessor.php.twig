@@ -1,0 +1,34 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+Drupal\{{module}}\Plugin\RulesDataProcessor\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\RulesDataProcessor;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Plugin\PluginBase;
+use Drupal\rules\Context\DataProcessorInterface;
+use Drupal\rules\Engine\ExecutionStateInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' action.
+ *
+ * @RulesDataProcessor(
+ *   id = "{{plugin_id}}",
+ *   label = @Translation("{{label}}")
+ * )
+ */
+class {{class_name}} extends PluginBase implements DataProcessorInterface {% endblock %}
+{% block class_methods %}
+  /**
+    * {@inheritdoc}
+    */
+  public function process($value, ExecutionStateInterface $rules_state) {
+     // Insert code here.
+  }
+{% endblock %}

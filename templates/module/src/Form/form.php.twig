@@ -16,38 +16,30 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
 
+{% block use_class_services %}
+{% endblock %}
+
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
  */
 class {{ class_name }} extends FormBase {% endblock %}
-{% block class_construct %}
-{% if services is not empty %}
-  /**
-   * Constructs a new {{ class_name }} object.
-   */
-  public function __construct(
-    {{ servicesAsParameters(services)|join(',\n    ') }}
-  ) {
-{{ serviceClassInitialization(services) }}
-  }
-
-{% endif %}
-{% endblock %}
 
 {% block class_create %}
 {% if services is not empty %}
+  /**
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container) {
-    return new static(
-{{ serviceClassInjection(services) }}
-    );
+    $instance = parent::create($container);
+{{ serviceClassInjectionNoOverride(services) }}
+    return $instance;
   }
 
 {% endif %}
 {% endblock %}
 
 {% block class_methods %}
-
   /**
    * {@inheritdoc}
    */
@@ -80,7 +72,7 @@ class {{ class_name }} extends FormBase {% endblock %}
       '#size' => {{ input.size }},
 {% endif %}
 {% if input.default_value is defined and input.default_value|length %}
-      '#default_value' => {{ input.default_value }},
+      '#default_value' => '{{ input.default_value }}',
 {% endif %}
 {% if input.weight is defined and input.weight|length %}
       '#weight' => '{{ input.weight }}',
@@ -99,6 +91,9 @@ class {{ class_name }} extends FormBase {% endblock %}
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
+    foreach ($form_state->getValues() as $key => $value) {
+      // @TODO: Validate fields.
+    }
     parent::validateForm($form, $form_state);
   }
 
@@ -108,8 +103,11 @@ class {{ class_name }} extends FormBase {% endblock %}
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Display result.
     foreach ($form_state->getValues() as $key => $value) {
-      drupal_set_message($key . ': ' . $value);
+{% if 'messenger' in services|keys %}
+      $this->messenger->addMessage($key . ': ' . ($key === 'text_format'?$value['value']:$value));
+{% else %}
+      \Drupal::messenger()->addMessage($key . ': ' . ($key === 'text_format'?$value['value']:$value));
+{% endif %}
     }
-
   }
 {% endblock %}

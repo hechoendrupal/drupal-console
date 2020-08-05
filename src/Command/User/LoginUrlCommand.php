@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Url;
 
 /**
  * Class UserLoginCommand.
@@ -59,6 +60,7 @@ class LoginUrlCommand extends UserBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
         $user = $input->getArgument('user');
         $userEntity = $this->getUserEntity($user);
 
@@ -73,7 +75,31 @@ class LoginUrlCommand extends UserBase
             return 1;
         }
 
-        $url = user_pass_reset_url($userEntity) . '/login';
+        if($input->hasOption('uri')){
+          //validate if https is on uri
+          $regx = '/^https:.*/s';
+          if(preg_match($regx, $input->getOption('uri'))){
+              $timestamp = REQUEST_TIME;
+              $langcode = $userEntity->getPreferredLangcode();
+              $url = Url::fromRoute('user.reset',
+                  [
+                  'uid' => $userEntity->id(),
+                  'timestamp' => $timestamp,
+                  'hash' => user_pass_rehash($userEntity, $timestamp),
+                  ],
+                  [
+                  'absolute' => TRUE,
+                  'language' => \Drupal::languageManager()->getLanguage($langcode),
+                  'https' => TRUE,
+                  ]
+              )->toString();
+
+            } else{
+              $url = user_pass_reset_url($userEntity) . '/login';
+            }
+        } else{
+          $url = user_pass_reset_url($userEntity) . '/login';
+        }
         $this->getIo()->success(
             sprintf(
                 $this->trans('commands.user.login.url.messages.url'),

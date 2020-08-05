@@ -1,0 +1,73 @@
+version: "2.3"
+
+services:
+  mariadb:
+    image: wodby/mariadb:10.2-3.0.2
+    env_file: ./.env
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'true'
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - mysqldata:/var/lib/mysql
+      # Uncomment next line and place DDb dump.sql file(s) here
+      # - ./mariadb-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  php:
+    image: wodby/drupal-php:7.0-2.4.3
+    env_file: ./.env
+    environment:
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      DB_HOST: ${DATABASE_HOST}
+      DB_USER: ${DATABASE_USER}
+      DB_PASSWORD: ${DATABASE_PASSWORD}
+      DB_NAME: ${DATABASE_NAME}
+      DB_DRIVER: mysql
+    volumes:
+      - ./:${DRUPAL_ROOT}{{ volume_configuration }}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  nginx:
+    image: wodby/drupal-nginx:8-1.13-2.4.2
+    env_file: ./.env
+    depends_on:
+      - php
+    environment:
+      NGINX_STATIC_CONTENT_OPEN_FILE_CACHE: "off"
+      NGINX_ERROR_LOG_LEVEL: debug
+      NGINX_BACKEND_HOST: php
+      NGINX_SERVER_ROOT: ${SERVER_ROOT}
+    volumes:
+      - ./:${DRUPAL_ROOT}{{ volume_configuration }}
+    labels:
+      - 'traefik.backend=nginx'
+      - 'traefik.port=80'
+      - 'traefik.frontend.rule=Host:${HOST_NAME}'
+
+  mailhog:
+    image: mailhog/mailhog
+    env_file: ./.env
+    labels:
+      - 'traefik.backend=mailhog'
+      - 'traefik.port=8025'
+      - 'traefik.frontend.rule=Host:mailhog.${HOST_NAME}'
+
+  traefik:
+    image: traefik
+    env_file: ./.env
+    command: -c /dev/null --web --docker --logLevel=INFO
+    ports:
+      - '${HOST_PORT}:80'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  mysqldata:
+    driver: "local"

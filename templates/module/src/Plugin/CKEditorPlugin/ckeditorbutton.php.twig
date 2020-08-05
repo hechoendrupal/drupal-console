@@ -23,7 +23,8 @@ use Drupal\editor\Entity\Editor;
  *
  * @CKEditorPlugin(
  *   id = "{{ plugin_id }}",
- *   label = @Translation("{{ label }}")
+ *   label = @Translation("{{ label }}"),
+ *   module = "{{ module }}"
  * )
  */
 class {{ class_name }} extends CKEditorPluginBase {% endblock %}
@@ -40,11 +41,18 @@ class {{ class_name }} extends CKEditorPluginBase {% endblock %}
     // Make sure that the path to the image matches the file structure of
     // the CKEditor plugin you are implementing.
     return [
-      '{{ button_name }}' => [
-        'label' => t('{{ label }}'),
-        'image' => '{{ button_icon_path }}',
+{% for button in buttons %}
+      '{{ button.name }}' => [
+        'label' => t('{{ button.label }}'),
+        'image' => '{{ button.icon }}',
       ],
+{% endfor %}
     ];
+  }
+  /**
+   * {@inheritdoc}
+   */
+  public function isEnabled(Editor $editor) {
   }
 
   /**
@@ -53,7 +61,7 @@ class {{ class_name }} extends CKEditorPluginBase {% endblock %}
   public function getFile() {
     // Make sure that the path to the plugin.js matches the file structure of
     // the CKEditor plugin you are implementing.
-    return drupal_get_path('module', '{{ module }}') . '/js/plugins/{{ plugin_id }}/plugin.js';
+    return drupal_get_path('module', '{{ module }}') . '/js/Plugin/{{ plugin_id }}/plugin.js';
   }
 
   /**

@@ -35,11 +35,17 @@ class PluginCKEditorButtonGenerator extends Generator
     {
         $class_name = $parameters['class_name'];
         $module = $parameters['module'];
-
+        $plugin_id = $parameters['plugin_id'];
+        
         $this->renderFile(
             'module/src/Plugin/CKEditorPlugin/ckeditorbutton.php.twig',
             $this->extensionManager->getPluginPath($module, 'CKEditorPlugin') . '/' . $class_name . '.php',
             $parameters
+        );
+        $this->renderFile(
+            'module/src/Plugin/CKEditorPlugin/plugin.php.twig',
+             drupal_get_path('module', $module) . '/js/Plugin/'. $plugin_id .'/plugin.js',
+             $parameters
         );
     }
 }

@@ -19,6 +19,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
 
+{% block use_class_services %}
+{% endblock %}
+
 {% block class_declaration %}
 /**
  * Provides a '{{class_name}}' block.
@@ -29,42 +32,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class {{class_name}} extends BlockBase {% if services is not empty %}implements ContainerFactoryPluginInterface {% endif %}{% endblock %}
-{% block class_construct %}
-{% if services is not empty %}
-  /**
-   * Constructs a new {{class_name}} object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param string $plugin_definition
-   *   The plugin implementation definition.
-   */
-  public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    {{ servicesAsParameters(services)|join(', \n\t') }}
-  ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-{{ serviceClassInitialization(services) }}
-  }
-{% endif %}
-{% endblock %}
+
 {% block class_create %}
 {% if services is not empty %}
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-{{ serviceClassInjection(services) }}
-    );
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
+{{ serviceClassInjectionNoOverride(services) }}
+    return $instance;
   }
+
 {% endif %}
 {% endblock %}
 {% block class_methods %}
@@ -75,9 +54,9 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
   public function defaultConfiguration() {
     return [
 {% for input in inputs %}
-      {% if input.default_value is defined and input.default_value|length %}
+{% if input.default_value is defined and input.default_value|length %}
       '{{ input.name }}' => {{ input.default_value }},
-      {% endif %}
+{% endif %}
 {% endfor %}
     ] + parent::defaultConfiguration();
   }
@@ -91,7 +70,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
       '#type' => '{{ input.type }}',
       '#title' => $this->t('{{ input.label|escape }}'),
 {% if input.description is defined and input.description is not empty %}
-    '#description' => $this->t('{{ input.description|e }}'),
+      '#description' => $this->t('{{ input.description|e }}'),
 {% endif %}
 {% if input.options is defined and input.options|length %}
       '#options' => {{ input.options }},
@@ -117,7 +96,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
 {% for input in inputs %}
-    $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}');
+    $this->configuration['{{ input.name }}'] = $form_state->getValue('{{ input.name }}'){% if input.type == 'text_format' %}['value']{% endif %};
 {% endfor %}
   }
 
@@ -127,10 +106,17 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
    */
   public function build() {
     $build = [];
+{% if twig_template is defined %}
+    $build['#theme'] = '{{ plugin_id }}';
+{% endif %}
 {% for input in inputs %}
-    $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% if twig_template is defined %}
+    $build['#conten'][] = $this->configuration['{{ input.name }}'];
 {% else %}
-    $build['{{plugin_id}}']['#markup'] = 'Implement {{class_name}}.';
+    $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
+{% endif %}
+{% else %}
+     $build['{{plugin_id}}']['#markup'] = 'Implement {{class_name}}.';
 {% endfor %}
 
     return $build;

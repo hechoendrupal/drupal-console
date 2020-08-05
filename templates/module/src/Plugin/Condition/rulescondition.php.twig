@@ -1,0 +1,43 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\Condition\{{class_name}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\Condition;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\rules\Core\RulesConditionBase;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class_name}}' condition.
+ *
+ * @Condition(
+ *  id = "{{plugin_id}}",
+ *  label = @Translation("{{label}}"),
+ *  category = @Translation("{{category}}"),
+{% if context %}
+ *  context = {
+{% for item in context %}
+ *     "{{ item.name }}" = @ContextDefinition("{{ item.type }}",
+ *       label = @Translation("{{ item.label }}"),
+ *       description = @Translation("{{ item.description }}")
+ *     ),
+{% endfor %}
+ *  }
+{% endif %}
+ * )
+ */
+class {{class_name}} extends RulesConditionBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function doEvaluate($object = NULL) {
+    // Insert code here.
+  }
+{% endblock %}

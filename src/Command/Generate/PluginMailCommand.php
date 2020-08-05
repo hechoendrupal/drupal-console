@@ -7,18 +7,18 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Generator\PluginMailGenerator;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Generator\PluginMailGenerator;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Utils\Validator;
-use Drupal\Console\Core\Utils\ChainQueue;
 
 /**
  * Class PluginMailCommand
@@ -129,7 +129,7 @@ class PluginMailCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');

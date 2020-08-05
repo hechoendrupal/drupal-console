@@ -9,8 +9,6 @@ namespace Drupal\{{module}}\Form;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
@@ -25,7 +23,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %}
 {% block class_methods %}
-
   /**
    * The {{ label }} revision.
    *
@@ -38,7 +35,7 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
-  protected ${{ entity_class }}Storage;
+  protected ${{ entity_class[:1]|lower ~ entity_class[1:] }}Storage;
 
   /**
    * The database connection.
@@ -48,27 +45,13 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
   protected $connection;
 
   /**
-   * Constructs a new {{ entity_class }}RevisionDeleteForm.
-   *
-   * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
-   *   The entity storage.
-   * @param \Drupal\Core\Database\Connection $connection
-   *   The database connection.
-   */
-  public function __construct(EntityStorageInterface $entity_storage, Connection $connection) {
-    $this->{{ entity_class }}Storage = $entity_storage;
-    $this->connection = $connection;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    $entity_manager = $container->get('entity.manager');
-    return new static(
-      $entity_manager->getStorage('{{ entity_name }}'),
-      $container->get('database')
-    );
+    $instance = parent::create($container);
+    $instance->{{ entity_class[:1]|lower ~ entity_class[1:] }}Storage = $container->get('entity_type.manager')->getStorage('{{ entity_name }}');
+    $instance->connection = $container->get('database');
+    return $instance;
   }
 
   /**
@@ -82,7 +65,9 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return t('Are you sure you want to delete the revision from %revision-date?', ['%revision-date' => format_date($this->revision->getRevisionCreationTime())]);
+    return $this->t('Are you sure you want to delete the revision from %revision-date?', [
+      '%revision-date' => format_date($this->revision->getRevisionCreationTime()),
+    ]);
   }
 
   /**
@@ -96,7 +81,7 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    * {@inheritdoc}
    */
   public function getConfirmText() {
-    return t('Delete');
+    return $this->t('Delete');
   }
 
   /**
@@ -116,7 +101,7 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
     $this->{{ entity_class }}Storage->deleteRevision($this->revision->getRevisionId());
 
     $this->logger('content')->notice('{{ label }}: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    drupal_set_message(t('Revision from %revision-date of {{ label }} %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
+    $this->messenger()->addMessage(t('Revision from %revision-date of {{ label }} %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
     $form_state->setRedirect(
       'entity.{{ entity_name }}.canonical',
        ['{{ entity_name }}' => $this->revision->id()]

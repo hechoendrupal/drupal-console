@@ -76,9 +76,12 @@ class DatabaseTableCommand extends Command
         $table = $input->getArgument('table');
         $databaseConnection = $this->resolveConnection($database);
         if ($table) {
-            $result = $this->database
-                ->query('DESCRIBE '. $table .';')
-                ->fetchAll();
+
+            $result = $databaseConnection['driver'] == 'sqlite' ? $this->database->query('PRAGMA table_info('.$table.');') :
+                $this->database
+                    ->query('DESCRIBE ' . $table . ';')
+                    ->fetchAll();
+
             if (!$result) {
                 throw new \Exception(
                     sprintf(
@@ -96,8 +99,8 @@ class DatabaseTableCommand extends Command
             foreach ($result as $record) {
                 $column = json_decode(json_encode($record), true);
                 $tableRows[] = [
-                    'column' => $column['Field'],
-                    'type' => $column['Type'],
+                    'column' => $column[$databaseConnection['driver'] == 'sqlite' ? 'name': 'Field'],
+                    'type' => $column[$databaseConnection['driver'] == 'sqlite' ? 'type': 'Type'],
                 ];
             }
 
@@ -107,7 +110,9 @@ class DatabaseTableCommand extends Command
         }
 
         $schema = $this->database->schema();
-        $tables = $schema->findTables('%');
+
+        $tables = $databaseConnection['driver'] == 'sqlite' ? array_keys($this->database->query('SELECT name FROM sqlite_master WHERE type = "table" AND name NOT LIKE "sqlite_%";')
+            ->fetchAllAssoc('name')) : $schema->findTables('%');
 
         $this->getIo()->comment(
             sprintf(

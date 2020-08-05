@@ -14,6 +14,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Url;
 use Drupal\{{ module }}\Entity\{{ entity_class }}Interface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endblock %}
 {% block class_declaration %}
 /**
@@ -22,58 +23,90 @@ use Drupal\{{ module }}\Entity\{{ entity_class }}Interface;
  *  Returns responses for {{ label }} routes.
  */
 class {{ entity_class }}Controller extends ControllerBase implements ContainerInjectionInterface {% endblock %}
-
 {% block class_methods %}
   /**
-   * Displays a {{ label }}  revision.
+   * The date formatter.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatter
+   */
+  protected $dateFormatter;
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\Renderer
+   */
+  protected $renderer;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->dateFormatter = $container->get('date.formatter');
+    $instance->renderer = $container->get('renderer');
+    return $instance;
+  }
+
+  /**
+   * Displays a {{ label }} revision.
    *
    * @param int ${{ entity_name }}_revision
-   *   The {{ label }}  revision ID.
+   *   The {{ label }} revision ID.
    *
    * @return array
    *   An array suitable for drupal_render().
    */
   public function revisionShow(${{ entity_name }}_revision) {
-    ${{ entity_name }} = $this->entityManager()->getStorage('{{ entity_name }}')->loadRevision(${{ entity_name }}_revision);
-    $view_builder = $this->entityManager()->getViewBuilder('{{ entity_name }}');
+    ${{ entity_name }} = $this->entityTypeManager()->getStorage('{{ entity_name }}')
+      ->loadRevision(${{ entity_name }}_revision);
+    $view_builder = $this->entityTypeManager()->getViewBuilder('{{ entity_name }}');
 
     return $view_builder->view(${{ entity_name }});
   }
 
   /**
-   * Page title callback for a {{ label }}  revision.
+   * Page title callback for a {{ label }} revision.
    *
    * @param int ${{ entity_name }}_revision
-   *   The {{ label }}  revision ID.
+   *   The {{ label }} revision ID.
    *
    * @return string
    *   The page title.
    */
   public function revisionPageTitle(${{ entity_name }}_revision) {
-    ${{ entity_name }} = $this->entityManager()->getStorage('{{ entity_name }}')->loadRevision(${{ entity_name }}_revision);
-    return $this->t('Revision of %title from %date', ['%title' => ${{ entity_name }}->label(), '%date' => format_date(${{ entity_name }}->getRevisionCreationTime())]);
+    ${{ entity_name }} = $this->entityTypeManager()->getStorage('{{ entity_name }}')
+      ->loadRevision(${{ entity_name }}_revision);
+    return $this->t('Revision of %title from %date', [
+      '%title' => ${{ entity_name }}->label(),
+      '%date' => $this->dateFormatter->format(${{ entity_name }}->getRevisionCreationTime()),
+    ]);
   }
 
   /**
-   * Generates an overview table of older revisions of a {{ label }} .
+   * Generates an overview table of older revisions of a {{ label }}.
    *
    * @param \Drupal\{{ module }}\Entity\{{ entity_class }}Interface ${{ entity_name }}
-   *   A {{ label }}  object.
+   *   A {{ label }} object.
    *
    * @return array
    *   An array as expected by drupal_render().
    */
   public function revisionOverview({{ entity_class }}Interface ${{ entity_name }}) {
     $account = $this->currentUser();
+    ${{ entity_name }}_storage = $this->entityTypeManager()->getStorage('{{ entity_name }}');
+
+{% if is_translatable %}
     $langcode = ${{ entity_name }}->language()->getId();
     $langname = ${{ entity_name }}->language()->getName();
     $languages = ${{ entity_name }}->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
-    ${{ entity_name }}_storage = $this->entityManager()->getStorage('{{ entity_name }}');
-
     $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => ${{ entity_name }}->label()]) : $this->t('Revisions for %title', ['%title' => ${{ entity_name }}->label()]);
-    $header = [$this->t('Revision'), $this->t('Operations')];
+{% else %}
+    $build['#title'] = $this->t('Revisions for %title', ['%title' => ${{ entity_name }}->label()]);
+{% endif %}
 
+    $header = [$this->t('Revision'), $this->t('Operations')];
     $revert_permission = (($account->hasPermission("revert all {{ label|lower }} revisions") || $account->hasPermission('administer {{ label|lower }} entities')));
     $delete_permission = (($account->hasPermission("delete all {{ label|lower }} revisions") || $account->hasPermission('administer {{ label|lower }} entities')));
 
@@ -86,18 +119,23 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
     foreach (array_reverse($vids) as $vid) {
       /** @var \Drupal\{{ module }}\{{ entity_class }}Interface $revision */
       $revision = ${{ entity_name }}_storage->loadRevision($vid);
+{% if is_translatable %}
       // Only show revisions that are affected by the language that is being
       // displayed.
       if ($revision->hasTranslation($langcode) && $revision->getTranslation($langcode)->isRevisionTranslationAffected()) {
+{% endif %}
         $username = [
           '#theme' => 'username',
           '#account' => $revision->getRevisionUser(),
         ];
 
         // Use revision link to link to revisions that are not active.
-        $date = \Drupal::service('date.formatter')->format($revision->getRevisionCreationTime(), 'short');
+        $date = $this->dateFormatter->format($revision->getRevisionCreationTime(), 'short');
         if ($vid != ${{ entity_name }}->getRevisionId()) {
-          $link = $this->l($date, new Url('entity.{{ entity_name }}.revision', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]));
+          $link = $this->l($date, new Url('entity.{{ entity_name }}.revision', [
+            '{{ entity_name }}' => ${{ entity_name }}->id(),
+            '{{ entity_name }}_revision' => $vid,
+          ]));
         }
         else {
           $link = ${{ entity_name }}->link($date);
@@ -110,8 +148,11 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
             '#template' => '{{  '{% trans %}{{ date }} by {{ username }}{% endtrans %}{% if message %}<p class="revision-log">{{ message }}</p>{% endif %}' }}',
             '#context' => [
               'date' => $link,
-              'username' => \Drupal::service('renderer')->renderPlain($username),
-              'message' => ['#markup' => $revision->getRevisionLogMessage(), '#allowed_tags' => Xss::getHtmlTagList()],
+              'username' => $this->renderer->renderPlain($username),
+              'message' => [
+                '#markup' => $revision->getRevisionLogMessage(),
+                '#allowed_tags' => Xss::getHtmlTagList(),
+              ],
             ],
           ],
         ];
@@ -137,10 +178,20 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
               'title' => $this->t('Revert'),
 {% if is_translatable %}
               'url' => $has_translations ?
-              Url::fromRoute('entity.{{ entity_name }}.translation_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid, 'langcode' => $langcode]) :
-              Url::fromRoute('entity.{{ entity_name }}.revision_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              Url::fromRoute('entity.{{ entity_name }}.translation_revert', [
+                '{{ entity_name }}' => ${{ entity_name }}->id(),
+                '{{ entity_name }}_revision' => $vid,
+                'langcode' => $langcode,
+              ]) :
+              Url::fromRoute('entity.{{ entity_name }}.revision_revert', [
+                '{{ entity_name }}' => ${{ entity_name }}->id(),
+                '{{ entity_name }}_revision' => $vid,
+              ]),
 {%  else %}
-              'url' => Url::fromRoute('entity.{{ entity_name }}.revision_revert', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              'url' => Url::fromRoute('entity.{{ entity_name }}.revision_revert', [
+                '{{ entity_name }}' => ${{ entity_name }}->id(),
+                '{{ entity_name }}_revision' => $vid,
+              ]),
 {% endif %}
             ];
           }
@@ -148,7 +199,10 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
           if ($delete_permission) {
             $links['delete'] = [
               'title' => $this->t('Delete'),
-              'url' => Url::fromRoute('entity.{{ entity_name }}.revision_delete', ['{{ entity_name }}' => ${{ entity_name }}->id(), '{{ entity_name }}_revision' => $vid]),
+              'url' => Url::fromRoute('entity.{{ entity_name }}.revision_delete', [
+                '{{ entity_name }}' => ${{ entity_name }}->id(),
+                '{{ entity_name }}_revision' => $vid,
+              ]),
             ];
           }
 
@@ -161,7 +215,9 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
         }
 
         $rows[] = $row;
+{% if is_translatable %}
       }
+{% endif %}
     }
 
     $build['{{ entity_name }}_revisions_table'] = [

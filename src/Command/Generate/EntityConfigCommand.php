@@ -88,9 +88,9 @@ class EntityConfigCommand extends EntityCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $entity_class = $input->getOption('entity-class');
-        $entity_name = $input->getOption('entity-name');
+        $entity_name = $this->validator->validateMachineName($input->getOption('entity-name'));
         $label = $input->getOption('label');
         $bundle_of = $input->getOption('bundle-of');
         $base_path = $input->getOption('base-path');

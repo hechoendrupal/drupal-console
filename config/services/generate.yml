@@ -1,7 +1,7 @@
 services:
   console.generate_module:
     class: Drupal\Console\Command\Generate\ModuleCommand
-    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api']
+    arguments: ['@console.module_generator', '@console.validator', '@app.root', '@console.string_converter', '@console.drupal_api', '@console.chain_queue', '@console.site']
     tags:
        - { name: drupal.command }
   console.generate_modulefile:
@@ -114,6 +114,11 @@ services:
     arguments: [ '@console.plugin_migrate_process_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter', '@console.validator']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_migrate_data_parser:
+    class: Drupal\Console\Command\Generate\PluginMigrateDataParserCommand
+    arguments: [ '@console.plugin_migrate_data_parser_generator', '@console.chain_queue', '@console.extension_manager', '@console.string_converter', '@console.validator']
+    tags:
+       - { name: drupal.command }
   console.generate_plugin_rest_resource:
     class: Drupal\Console\Command\Generate\PluginRestResourceCommand
     arguments: ['@console.extension_manager', '@console.plugin_rest_resource_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
@@ -124,6 +129,14 @@ services:
     arguments: ['@console.extension_manager', '@console.plugin_rules_action_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_rules_condition:
+      class: Drupal\Console\Command\Generate\PluginRulesConditionCommand
+      arguments: ['@console.extension_manager', '@console.plugin_rules_condition_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+  console.generate_plugin_rules_dataprocessor:
+      class: Drupal\Console\Command\Generate\PluginRulesDataprocessorCommand
+      arguments: ['@console.extension_manager', '@console.plugin_rules_dataprocessor_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
+      tags:
+         - { name: drupal.command }
   console.generate_plugin_skeleton:
     class: Drupal\Console\Command\Generate\PluginSkeletonCommand
     arguments: ['@console.extension_manager', '@console.plugin_skeleton_generator','@console.string_converter', '@console.validator', '@console.chain_queue']
@@ -139,6 +152,11 @@ services:
     arguments: ['@console.extension_manager', '@console.plugin_views_field_generator', '@console.site','@console.string_converter', '@console.validator', '@console.chain_queue']
     tags:
        - { name: drupal.command }
+  console.generate_plugin_queue:
+    class: Drupal\Console\Command\Generate\PluginQueueWorkerCommand
+    arguments: ['@console.extension_manager', '@console.plugin_queue_generator','@console.validator','@console.string_converter','@console.chain_queue']
+    tags:
+      - { name: drupal.command }
   console.generate_post_update:
     class: Drupal\Console\Command\Generate\PostUpdateCommand
     arguments: ['@console.extension_manager', '@console.post_update_generator', '@console.site', '@console.validator','@console.chain_queue']
@@ -164,6 +182,11 @@ services:
     arguments: ['@console.extension_manager', '@console.theme_generator', '@console.validator', '@app.root', '@theme_handler', '@console.site', '@console.string_converter']
     tags:
        - { name: drupal.command }
+  console.generate_setting_theme:
+    class: Drupal\Console\Command\Generate\ThemeSettingCommand
+    arguments: ['@console.extension_manager', '@console.theme_setting_generator', '@console.validator', '@app.root', '@theme_handler', '@console.site', '@console.string_converter']
+    tags:
+       - { name: drupal.command }
   console.generate_twig_extension:
     class: Drupal\Console\Command\Generate\TwigExtensionCommand
     arguments: ['@console.extension_manager', '@console.twig_extension_generator', '@console.site', '@console.string_converter', '@console.validator', '@console.chain_queue']
@@ -177,6 +200,11 @@ services:
   console.generate_pluginblock:
     class: Drupal\Console\Command\Generate\PluginBlockCommand
     arguments: ['@config.factory', '@console.chain_queue', '@console.pluginblock_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
+    tags:
+       - { name: drupal.command }
+  console.generate_blocktype:
+    class: Drupal\Console\Command\Generate\BlockTypeCommand
+    arguments: ['@config.factory', '@console.chain_queue', '@console.blocktype_generator', '@entity_type.manager', '@console.extension_manager', '@console.validator', '@console.string_converter', '@plugin.manager.element_info']
     tags:
        - { name: drupal.command }
   console.generate_command:
@@ -212,5 +240,20 @@ services:
   console.generate_js_test:
     class: Drupal\Console\Command\Generate\JsTestCommand
     arguments: ['@console.extension_manager', '@console.js_test_generator', '@console.validator']
+    tags:
+       - { name: drupal.command }
+  console.generate_composer:
+      class: Drupal\Console\Command\Generate\ComposerCommand
+      arguments: ['@console.composer_generator', '@console.extension_manager', '@console.validator']
+      tags:
+         - { name: drupal.command }
+  console.generate_plugin_validation_constraint:
+    class: Drupal\Console\Command\Generate\PluginValidationConstraintCommand
+    arguments: ['@console.extension_manager', '@console.validation_constraint_generator','@console.string_converter',  '@console.validator', '@console.chain_queue']
+    tags:
+       - { name: drupal.command }
+  console.generate_pluginderivative:
+    class: Drupal\Console\Command\Generate\PluginDerivativeCommand
+    arguments: ['@config.factory', '@console.chain_queue', '@console.pluginderivative_generator', '@console.extension_manager', '@console.validator', '@console.string_converter']
     tags:
        - { name: drupal.command }

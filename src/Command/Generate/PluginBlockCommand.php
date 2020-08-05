@@ -8,22 +8,22 @@
 namespace Drupal\Console\Command\Generate;
 
 use Drupal\Console\Command\Shared\ArrayInputTrait;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginBlockGenerator;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Utils\Validator;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Generator\PluginBlockGenerator;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class PluginBlockCommand extends ContainerAwareCommand
 {
@@ -125,10 +125,10 @@ class PluginBlockCommand extends ContainerAwareCommand
                 $this->trans('commands.generate.plugin.block.options.class')
             )
             ->addOption(
-                'label',
+                'plugin-label',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.generate.plugin.block.options.label')
+                $this->trans('commands.generate.plugin.block.options.plugin-label')
             )
             ->addOption(
                 'plugin-id',
@@ -154,6 +154,12 @@ class PluginBlockCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
                 $this->trans('commands.common.options.services')
             )
+            ->addOption(
+                'twigtemplate',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.plugin.block.options.twigtemplate')
+            )
             ->setAliases(['gpb']);
     }
 
@@ -167,14 +173,16 @@ class PluginBlockCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
-        $label = $input->getOption('label');
+        $plugin_label = $input->getOption('plugin-label');
         $plugin_id = $input->getOption('plugin-id');
         $services = $input->getOption('services');
         $theme_region = $input->getOption('theme-region');
         $inputs = $input->getOption('inputs');
         $noInteraction = $input->getOption('no-interaction');
+        $twigTemplate = $input->getOption('twigtemplate');
+
         // Parse nested data.
         if ($noInteraction) {
             $inputs = $this->explodeInlineArray($inputs);
@@ -200,12 +208,12 @@ class PluginBlockCommand extends ContainerAwareCommand
         $this->generator->generate([
           'module' => $module,
           'class_name' => $class_name,
-          'label' => $label,
+          'label' => $plugin_label,
           'plugin_id' => $plugin_id,
           'services' => $build_services,
           'inputs' => $inputs,
+          'twig_template' => $twigTemplate,
         ]);
-
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
@@ -224,9 +232,6 @@ class PluginBlockCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $theme = $this->configFactory->get('system.theme')->get('default');
-        $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
-
         // --module option
         $this->getModuleOption();
 
@@ -243,14 +248,14 @@ class PluginBlockCommand extends ContainerAwareCommand
             $input->setOption('class', $class);
         }
 
-        // --label option
-        $label = $input->getOption('label');
-        if (!$label) {
-            $label = $this->getIo()->ask(
-                $this->trans('commands.generate.plugin.block.questions.label'),
+        // --plugin-label option
+        $plugin_label = $input->getOption('plugin-label');
+        if (!$plugin_label) {
+            $plugin_label = $this->getIo()->ask(
+                $this->trans('commands.generate.plugin.block.questions.plugin-label'),
                 $this->stringConverter->camelCaseToHuman($class)
             );
-            $input->setOption('label', $label);
+            $input->setOption('plugin-label', $plugin_label);
         }
 
         // --plugin-id option
@@ -265,10 +270,17 @@ class PluginBlockCommand extends ContainerAwareCommand
 
         // --theme-region option
         $themeRegion = $input->getOption('theme-region');
+
         if (!$themeRegion) {
+            $theme = $this->configFactory->get('system.theme')->get('default');
+            $themeRegions = \system_region_list($theme, REGIONS_VISIBLE);
+            $themeRegionOptions = [];
+            foreach ($themeRegions as $key => $region) {
+                $themeRegionOptions[$key] = $region->render();
+            }
             $themeRegion = $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.plugin.block.questions.theme-region'),
-                array_values($themeRegions),
+                $themeRegionOptions,
                 '',
                 true
             );
@@ -293,5 +305,14 @@ class PluginBlockCommand extends ContainerAwareCommand
             $inputs = $this->explodeInlineArray($inputs);
         }
         $input->setOption('inputs', $inputs);
+
+        $twigtemplate = $input->getOption('twigtemplate');
+        if (!$twigtemplate) {
+            $twigtemplate = $this->getIo()->confirm(
+                $this->trans('commands.generate.plugin.block.questions.twigtemplate'),
+                false
+            );
+            $input->setOption('twigtemplate', $twigtemplate);
+        }
     }
 }

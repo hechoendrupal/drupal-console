@@ -160,6 +160,12 @@ class ThemeCommand extends Command
                 $this->trans('commands.generate.theme.options.base-theme')
             )
             ->addOption(
+                'base-theme-regions',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.generate.theme.options.base-theme-regions')
+            )
+            ->addOption(
                 'regions',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
@@ -188,15 +194,23 @@ class ThemeCommand extends Command
         // Get the profile path and define a profile path if it is null
         // Check that it is an absolute path or otherwise create an absolute path using appRoot
         $theme_path = $input->getOption('theme-path');
-        $theme_path = $theme_path == null ? 'themes/custom' : $theme_path;
+        if(is_null($theme_path)) {
+            $uri = $this->site->getMultisiteName($input);
+            $defaultThemePath = 'themes/custom';
+            $theme_path = $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultThemePath : $defaultThemePath;
+        }
         $theme_path = Path::isAbsolute($theme_path) ? $theme_path : Path::makeAbsolute($theme_path, $this->appRoot);
         $theme_path = $this->validator->validateModulePath($theme_path, true);
 
-        $machine_name = $this->validator->validateMachineName($input->getOption('machine-name'));
+        $machine_name = $input->getOption('machine-name') ?
+            $this->validator->validateMachineName($input->getOption('machine-name'))
+            :$this->stringConverter->createMachineName($theme);
+
         $description = $input->getOption('description');
         $core = $input->getOption('core');
         $package = $input->getOption('package');
         $base_theme = $input->getOption('base-theme');
+        $base_theme_regions = $input->getOption('base-theme-regions');
         $global_library = $input->getOption('global-library');
         $libraries = $input->getOption('libraries');
         $regions = $input->getOption('regions');
@@ -210,6 +224,8 @@ class ThemeCommand extends Command
             $breakpoints = $this->explodeInlineArray($breakpoints);
         }
 
+        $base_theme_path = $this->extensionManager->getTheme($base_theme);
+
         $this->generator->generate([
             'theme' => $theme,
             'machine_name' => $machine_name,
@@ -218,6 +234,8 @@ class ThemeCommand extends Command
             'description' => $description,
             'package' => $package,
             'base_theme' => $base_theme,
+            'base_theme_path' => is_null($base_theme_path) ? false : $base_theme_path->getRealPath(),
+            'base_theme_regions' => $base_theme_regions,
             'global_library' => $global_library,
             'libraries' => $libraries,
             'regions' => $regions,
@@ -242,12 +260,11 @@ class ThemeCommand extends Command
         }
 
         if (!$theme) {
-            $validators = $this->validator;
             $theme = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.theme'),
                 '',
-                function ($theme) use ($validators) {
-                    return $validators->validateModuleName($theme);
+                function ($theme) {
+                    return $this->validator->validateModuleName($theme);
                 }
             );
             $input->setOption('theme', $theme);
@@ -265,8 +282,8 @@ class ThemeCommand extends Command
             $machine_name = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.machine-name'),
                 $this->stringConverter->createMachineName($theme),
-                function ($machine_name) use ($validators) {
-                    return $validators->validateMachineName($machine_name);
+                function ($machine_name) {
+                    return $this->validator->validateMachineName($machine_name);
                 }
             );
             $input->setOption('machine-name', $machine_name);
@@ -274,10 +291,12 @@ class ThemeCommand extends Command
 
         $theme_path = $input->getOption('theme-path');
         if (!$theme_path) {
+            $uri = $this->site->getMultisiteName($input);
+            $defaultThemePath = 'themes/custom';
             $theme_path = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.theme-path'),
-                'themes/custom',
-                function ($theme_path) use ($machine_name) {
+                $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultThemePath : $defaultThemePath,
+                 function ($theme_path) use ($machine_name) {
                     $fullPath = Path::isAbsolute($theme_path) ? $theme_path : Path::makeAbsolute($theme_path, $this->appRoot);
                     $fullPath = $fullPath.'/'.$machine_name;
                     if (file_exists($fullPath)) {

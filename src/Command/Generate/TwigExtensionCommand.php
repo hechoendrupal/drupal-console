@@ -6,19 +6,19 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Generator\TwigExtensionGenerator;
+use Drupal\Console\Utils\Site;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Utils\Site;
-use Drupal\Console\Core\Utils\StringConverter;
 
 /**
  * Class TwigExtensionCommand
@@ -133,7 +133,7 @@ class TwigExtensionCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $name = $input->getOption('name');
         $class = $this->validator->validateClassName($input->getOption('class'));
         $services = $input->getOption('services');

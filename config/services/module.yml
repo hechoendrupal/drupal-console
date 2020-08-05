@@ -6,7 +6,7 @@ services:
       - { name: drupal.command }
   console.module_download:
     class: Drupal\Console\Command\Module\DownloadCommand
-    arguments: ['@console.drupal_api', '@http_client',  '@app.root', '@console.extension_manager', '@console.validator', '@console.site', '@console.configuration_manager', '@console.shell_process', '@console.root']
+    arguments: ['@console.drupal_api', '@http_client', '@app.root', '@console.extension_manager', '@console.validator', '@console.site']
     tags:
       - { name: drupal.command }
   console.module_install:

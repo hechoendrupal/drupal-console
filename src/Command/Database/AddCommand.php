@@ -56,7 +56,7 @@ class AddCommand extends Command
             ->addOption(
                 'password',
                 null,
-                InputOption::VALUE_REQUIRED,
+                InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.add.options.password')
             )
             ->addOption(
@@ -82,6 +82,12 @@ class AddCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.database.add.options.driver')
+            )
+            ->addOption(
+                'default',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.query.options.default')
             )
             ->setHelp($this->trans('commands.database.add.help'))
             ->setAliases(['dba']);
@@ -122,9 +128,8 @@ class AddCommand extends Command
         $input->setOption('username', $username);
         $password = $input->getOption('password');
         if (!$password) {
-            $password = $this->getIo()->ask(
-                $this->trans('commands.database.add.questions.password'),
-                ''
+            $password = $this->getIo()->askHiddenEmpty(
+                $this->trans('commands.migrate.execute.questions.db-pass')
             );
         }
         $input->setOption('password', $password);

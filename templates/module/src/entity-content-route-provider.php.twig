@@ -80,7 +80,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
           '_title' => "{$entity_type->getLabel()} revisions",
           '_controller' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionOverview',
         ])
-        ->setRequirement('_permission', 'access {{ label|lower }} revisions')
+        ->setRequirement('_permission', 'view all {{ label|lower }} revisions')
         ->setOption('_admin_route', TRUE);
 
       return $route;
@@ -104,7 +104,7 @@ class {{ entity_class }}HtmlRouteProvider extends AdminHtmlRouteProvider {% endb
           '_controller' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionShow',
           '_title_callback' => '\Drupal\{{ module }}\Controller\{{ entity_class }}Controller::revisionPageTitle',
         ])
-        ->setRequirement('_permission', 'access {{ label|lower }} revisions')
+        ->setRequirement('_permission', 'view all {{ label|lower }} revisions')
         ->setOption('_admin_route', TRUE);
 
       return $route;

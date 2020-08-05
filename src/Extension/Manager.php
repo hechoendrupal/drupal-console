@@ -311,7 +311,9 @@ class Manager
             $extension->getPathname(),
             $extension->getExtensionFilename()
         );
-        $consoleExtension->unserialize($extension->serialize());
+
+        $consoleExtension->loadFromParentObj($extension);
+        $consoleExtension->setRoot($this->appRoot);
 
         return $consoleExtension;
     }
@@ -387,7 +389,7 @@ class Manager
             } else {
                 try {
                     $response = $this->httpClient->head('https://www.drupal.org/project/' . $extension);
-                    $header_link = explode(';', $response->getHeader('link'));
+                    $header_link = $response->getHeader('link');
                     if (empty($header_link[0])) {
                         $checkextensions['no_extensions'][] = $extension;
                     } else {

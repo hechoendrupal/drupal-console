@@ -1,8 +1,15 @@
 {% block file_methods %}
 {% if not file_exists %}
 {% include 'module/php_tag.php.twig' %}
+
+/**
+ * @file
+ * Main module help for the {{ machine_name }} module.
+ */
+
 {% endif %}
 use Drupal\Core\Routing\RouteMatchInterface;
+
 /**
  * Implements hook_help().
  */
@@ -18,5 +25,4 @@ function {{machine_name}}_help($route_name, RouteMatchInterface $route_match) {
     default:
   }
 }
-
 {% endblock %}

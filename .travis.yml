@@ -3,42 +3,77 @@ sudo: false
 language: php
 
 php:
-  - 5.5.9
   - 5.6
   - 7.0
   - 7.1
-  - hhvm
+  - 7.2
+  - 7.3
+  - 7.4snapshot
+
+services:
+  - mysql
 
 matrix:
+  include:
+    - php: 5.5.9
+      dist: trusty
   fast_finish: true
   allow_failures:
-    - php: hhvm
-    - php: 7.0
-    - php: 7.1
+    - php: 7.4snapshot
 
 env:
   global:
-    - PROJECT_DIR=/home/project
+    # Paths.
+    - DRUPAL_PATH="$HOME/drupal8"
+    - PATH="$PATH:$DRUPAL_PATH/vendor/bin:$HOME/.composer/vendor/bin"
+
+    # Suppress deprecation handling.
+    #- SYMFONY_DEPRECATIONS_HELPER=disabled
+
+mysql:
+  database: drupal_travis_db
+  username: root
+  encoding: utf8
 
 before_script:
-  - phpenv config-rm xdebug.ini
-  # This fixes a fail when install Drupal.
-  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - composer self-update
-  - composer install --no-dev
-#  - curl -LSs https://box-project.github.io/box2/installer.php | php
-#  - composer global require drupal/coder:~8.1
+  - phpenv config-rm xdebug.ini || true
+
+  # Set variables.
+  - |
+      if [[ "$TRAVIS_PHP_VERSION" == "5.5.9" ]] || [[ "$TRAVIS_PHP_VERSION" == "5.6" ]]; then
+        export DRUPAL_BRANCH="8.6.x"
+        # PHP 5.5.9 on TravisCI has a Sqlite version that fails
+        # minimum requirements, so we install on MySql instead.
+        export SIMPLETEST_DB="mysql://root:@localhost/drupal_travis_db#drupalconsole"
+        export IMAGEMAGICK_MODULE="drupal/imagemagick:^2"
+      else
+        export DRUPAL_BRANCH="8.8.x"
+        export SIMPLETEST_DB="sqlite://localhost/sites/default/files/.ht.sqlite#drupalconsole"
+        export IMAGEMAGICK_MODULE="drupal/imagemagick:dev-3.x"
+      fi
+
+  # Get Drupal via git, and install it via Composer.
+  - git clone --depth=5 --branch=$DRUPAL_BRANCH http://git.drupal.org/project/drupal.git $DRUPAL_PATH
+  - cd $DRUPAL_PATH
+  - composer install --no-progress --no-suggest
+
+  # Require drupal/console from the source just cloned from GitHub.
+  - cd $TRAVIS_BUILD_DIR
+  - git checkout -b travisci-run-branch
+  - cd $DRUPAL_PATH
+  - |
+      composer config repositories.travisci-run '{"type": "path", "url": "$TRAVIS_BUILD_DIR", "options": {"symlink": false}}'
+  - composer require "drupal/console:dev-travisci-run-branch" --no-progress --no-suggest
 
 script:
-  - if [ -n "${TRAVIS_BUILD_DIR+1}" ]; then PROJECT_DIR=$TRAVIS_BUILD_DIR; fi
-#  - phpunit
-#  - php box.phar build
-#  - php drupal.phar init
-#  - php drupal.phar check
-#  - php drupal.phar site:new drupal8.dev --latest --no-interaction
-#  - cd drupal8.dev
-#  - php ../drupal.phar site:install standard --langcode=en --db-type=sqlite --db-file=sites/default/files/.ht.sqlite --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
-#  - php ../drupal.phar chain --file=$PROJECT_DIR/config/dist/chain/sample.yml
+  # Install Drupal site via drupal/console and show site status.
+  - drupal site:install standard $SIMPLETEST_DB --langcode=en --site-name="Drupal 8 Site Install" --site-mail=admin@example.com --account-name=admin --account-mail=admin@example.com --account-pass=admin --no-interaction
+  - drupal module:install --composer token admin_toolbar "$IMAGEMAGICK_MODULE" --verbose --no-interaction
+  - drupal debug:module
+  - drupal config:override system.image --key=toolkit --value=imagemagick
+  - drupal site:status -v
+#  - cd $DRUPAL_PATH/vendor/drupal/console
+#  - ../../phpunit/phpunit/phpunit
 #  - ~/.composer/vendor/bin/phpcs --warning-severity=0 --standard=~/.composer/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml $PROJECT_DIR/drupal8.dev/modules/custom/example
 
 notifications:

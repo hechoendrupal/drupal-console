@@ -35,17 +35,10 @@ class PluginRulesActionGenerator extends Generator
     {
         $module = $parameters['module'];
         $class_name = $parameters['class_name'];
-        $plugin_id = $parameters['plugin_id'];
 
         $this->renderFile(
-            'module/src/Plugin/Action/rulesaction.php.twig',
-            $this->extensionManager->getPluginPath($module, 'Action') . '/' . $class_name . '.php',
-            $parameters
-        );
-
-        $this->renderFile(
-            'module/system.action.action.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() . '/config/install/system.action.' . $plugin_id . '.yml',
+            'module/src/Plugin/RulesAction/rulesaction.php.twig',
+            $this->extensionManager->getPluginPath($module, 'RulesAction') . '/' . $class_name . '.php',
             $parameters
         );
     }

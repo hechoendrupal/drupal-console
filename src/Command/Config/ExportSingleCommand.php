@@ -103,7 +103,7 @@ class ExportSingleCommand extends Command
                 'directory',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                $this->trans('commands.config.export.arguments.directory')
+                $this->trans('commands.config.export.options.directory')
             )->addOption(
                 'module',
                 null,
@@ -260,7 +260,7 @@ class ExportSingleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $directory = $input->getOption('directory');
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $name = $input->getOption('name');
         $optional = $input->getOption('optional');
         $removeUuid = $input->getOption('remove-uuid');
@@ -304,8 +304,8 @@ class ExportSingleCommand extends Command
                 return 0;
             }
 
+            $directory = $directory_copy = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
             if (!is_dir($directory)) {
-                $directory = $directory_copy = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
                 if ($value) {
                     $directory = $directory_copy .'/' . str_replace('.', '/', $value);
                 }

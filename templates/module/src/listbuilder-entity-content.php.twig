@@ -21,8 +21,8 @@ use Drupal\Core\Link;
  * @ingroup {{ module }}
  */
 class {{ entity_class }}ListBuilder extends EntityListBuilder {% endblock %}
-{% block class_methods %}
 
+{% block class_methods %}
   /**
    * {@inheritdoc}
    */
@@ -36,7 +36,7 @@ class {{ entity_class }}ListBuilder extends EntityListBuilder {% endblock %}
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\{{module}}\Entity\{{ entity_class }} */
+    /* @var \Drupal\{{module}}\Entity\{{ entity_class }} $entity */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),

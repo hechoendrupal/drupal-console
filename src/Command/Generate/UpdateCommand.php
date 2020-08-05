@@ -107,7 +107,7 @@ class UpdateCommand extends Command
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $updateNumber = $input->getOption('update-n');
 
         $lastUpdateSchema = $this->getLastUpdate($module);

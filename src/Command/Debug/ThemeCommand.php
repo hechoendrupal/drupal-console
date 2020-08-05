@@ -78,8 +78,10 @@ class ThemeCommand extends Command
         foreach ($themes as $themeId => $theme) {
             $status = $this->getThemeStatus($theme);
             $tableRows[] = [
-                $themeId, $theme->info['name'],
-                $status, $theme->info['version'],
+                $themeId,
+                $theme->info['name'],
+                $status,
+                (isset($theme->info['version'])) ? $theme->info['version'] : '',
             ];
         }
 

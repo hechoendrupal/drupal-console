@@ -58,13 +58,13 @@ class {{ entity_class }}Form extends EntityForm {% endblock %}
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label {{ label }}.', [
+        $this->messenger()->addMessage($this->t('Created the %label {{ label }}.', [
           '%label' => ${{ entity_name | machine_name }}->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label {{ label }}.', [
+        $this->messenger()->addMessage($this->t('Saved the %label {{ label }}.', [
           '%label' => ${{ entity_name | machine_name }}->label(),
         ]));
     }

@@ -7,18 +7,18 @@
 
 namespace Drupal\Console\Command\Generate;
 
-use Drupal\Console\Generator\PluginSkeletonGenerator;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Generator\PluginSkeletonGenerator;
 use Drupal\Console\Utils\Validator;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class PluginSkeletonCommand
@@ -133,7 +133,7 @@ class PluginSkeletonCommand extends ContainerAwareCommand
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
 
         $pluginId = $input->getOption('plugin-id');
         $plugin = ucfirst($this->stringConverter->underscoreToCamelCase($pluginId));
@@ -174,6 +174,8 @@ class PluginSkeletonCommand extends ContainerAwareCommand
             'class_name' => $className,
             'services' => $buildServices,
             'plugin_metadata' => $pluginMetaData,
+            'id' => $this->stringConverter->camelCaseToUnderscore($className),
+            'label' => $this->stringConverter->camelCaseToHuman($className)
         ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);

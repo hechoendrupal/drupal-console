@@ -1,0 +1,93 @@
+{% extends "base/class.php.twig" %}
+
+{% block file_path %}
+\Drupal\{{module}}\Plugin\Block\{{class}}.
+{% endblock %}
+
+{% block namespace_class %}
+namespace Drupal\{{module}}\Plugin\Block;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\block\BlockBase;
+use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityViewBuilderInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Provides a '{{class}}' block.
+ *
+ * @Block(
+ *   id = "{{block_id}}",
+ *   admin_label = @Translation("{{block_label}}"),
+ *   category = @Translation("{{block_description}}"),
+ *   deriver = "Drupal\{{module}}\Plugin\Derivative\{{class}}"
+ * )
+ */
+
+class {{class}} extends BlockBase
+{% endblock %}
+  {% block class_properties %}
+  /**
+   * @var EntityViewBuilderInterface.
+   */
+  private $_viewBuilder;
+
+  /**
+   * @var NodeInterface.
+   */
+  private $_node;
+{% endblock %}
+{% block class_construct %}
+
+  /**
+   * Creates a {{class}} instance.
+   *
+   * @param array $configuration
+   * @param string $plugin_id
+   * @param mixed $plugin_definition
+   * @param EntityManagerInterface $entity_manager
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityManagerInterface $entity_manager)
+  {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    $this->viewBuilder = $entity_manager->getViewBuilder('node');
+    $this->nodeStorage = $entity_manager->getStorage('node');
+    $this->node = $entity_manager->getStorage('node')->load($this->getDerivativeId());
+  }
+{% endblock %}
+{% block class_create %}
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
+  {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity.manager')
+    );
+  }
+
+{% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+
+  public function build()
+  {
+    if (!$this->node instanceof NodeInterface) {
+      return;
+    }
+    $build = $this->viewBuilder->view($this->node, 'full');
+    return $build;
+  }
+{% endblock %}

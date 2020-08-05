@@ -111,6 +111,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.plugin_migrate_data_parser_generator:
+    class: Drupal\Console\Generator\PluginMigrateDataParserGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.plugin_rest_resource_generator:
     class: Drupal\Console\Generator\PluginRestResourceGenerator
     arguments: ['@console.extension_manager']
@@ -118,6 +123,16 @@ services:
       - { name: drupal.generator }
   console.plugin_rules_action_generator:
     class: Drupal\Console\Generator\PluginRulesActionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_rules_condition_generator:
+    class: Drupal\Console\Generator\PluginRulesConditionGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.plugin_rules_dataprocessor_generator:
+    class: Drupal\Console\Generator\PluginRulesDataprocessorGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
@@ -141,6 +156,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.plugin_queue_generator:
+    class: Drupal\Console\Generator\PluginQueueWorkerGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.route_subscriber_generator:
     class: Drupal\Console\Generator\RouteSubscriberGenerator
     arguments: ['@console.extension_manager']
@@ -153,6 +173,11 @@ services:
       - { name: drupal.generator }
   console.theme_generator:
     class: Drupal\Console\Generator\ThemeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.theme_setting_generator:
+    class: Drupal\Console\Generator\ThemeSettingGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
@@ -171,6 +196,11 @@ services:
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }
+  console.blocktype_generator:
+    class: Drupal\Console\Generator\BlockTypeGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
   console.command_generator:
     class: Drupal\Console\Generator\CommandGenerator
     arguments: ['@console.extension_manager', '@console.translator_manager']
@@ -179,11 +209,6 @@ services:
   console.command_ckeditorbutton:
     class: Drupal\Console\Generator\PluginCKEditorButtonGenerator
     arguments: ['@console.extension_manager']
-    tags:
-      - { name: drupal.generator }
-  console.database_settings_generator:
-    class: Drupal\Console\Generator\DatabaseSettingsGenerator
-    arguments: ['@kernel']
     tags:
       - { name: drupal.generator }
   console.entitycontent_generator:
@@ -208,6 +233,21 @@ services:
       - { name: drupal.generator }
   console.js_test_generator:
     class: Drupal\Console\Generator\JsTestGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.composer_generator:
+      class: Drupal\Console\Generator\ComposerGenerator
+      arguments: ['@console.extension_manager']
+      tags:
+        - { name: drupal.generator }
+  console.validation_constraint_generator:
+    class: Drupal\Console\Generator\PluginValidationConstraintGenerator
+    arguments: ['@console.extension_manager']
+    tags:
+      - { name: drupal.generator }
+  console.pluginderivative_generator:
+    class: Drupal\Console\Generator\PluginDerivativeGenerator
     arguments: ['@console.extension_manager']
     tags:
       - { name: drupal.generator }

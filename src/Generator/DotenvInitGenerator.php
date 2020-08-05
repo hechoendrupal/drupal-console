@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\Console\Generator\DotenvInitGenerator.
- */
 namespace Drupal\Console\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,28 +17,32 @@ class DotenvInitGenerator extends Generator
      */
     public function generate(array $parameters)
     {
-        $io = $parameters['io'];
-        $envParameters = $parameters['env_parameters'];
-        $consoleRoot = $parameters['console_root '];
         $fs = new Filesystem();
-        $envFile = $consoleRoot . '/.env';
 
-        if ($fs->exists($envFile)) {
-            $fs->rename(
-                $envFile,
-                $envFile.'.original',
-                true
-            );
+        // Update settings.php File
+        $settingsFile = $this->drupalFinder
+                ->getDrupalRoot() . '/sites/default/settings.php';
+        $settingsFileContent = file_get_contents($settingsFile);
 
-            $io->success('File .env.original created.');
-        }
-
-        $this->renderFile(
-            '.env.dist.twig',
-            $consoleRoot . '/.env',
-            $envParameters
+        $settingsTwigContent = $this->renderer->render(
+            'files/settings.php.twig',
+            $parameters
         );
 
-        $io->success("File .env created.");
+        file_put_contents(
+            $settingsFile,
+            $settingsFileContent .
+            $settingsTwigContent
+        );
+
+        $fs->chmod($settingsFile, 0666);
+
+        // Create .env File
+        $envFile = $this->drupalFinder->getComposerRoot() . '/.env';
+        $this->renderFile(
+            'files/.env.dist.twig',
+            $envFile,
+            $parameters
+        );
     }
 }

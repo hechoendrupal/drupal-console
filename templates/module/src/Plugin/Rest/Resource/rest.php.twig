@@ -9,11 +9,9 @@ namespace Drupal\{{module_name}}\Plugin\rest\resource;
 {% endblock %}
 
 {% block use_class %}
-use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 {% endblock %}
@@ -26,7 +24,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *   id = "{{ plugin_id }}",
  *   label = @Translation("{{ plugin_label }}"),
  *   uri_paths = {
- *     "canonical" = "/{{ plugin_url }}"
+{% for state_settings in plugin_states %}
+ *     "{{ state_settings.uri_paths }}" = "{{ plugin_url }}"
+{% endfor %}
  *   }
  * )
  */
@@ -41,78 +41,42 @@ class {{ class_name }} extends ResourceBase {% endblock %}
   protected $currentUser;
 {% endblock %}
 
-{% block class_construct %}
-
-  /**
-   * Constructs a new {{ class_name }} object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   A current user instance.
-   */
-  public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    array $serializer_formats,
-    LoggerInterface $logger,
-    AccountProxyInterface $current_user) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-
-    $this->currentUser = $current_user;
-  }
-{% endblock %}
-
 {% block class_create %}
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('{{module_name}}'),
-      $container->get('current_user')
-    );
+    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
+    $instance->logger = $container->get('logger.factory')->get('{{module_name}}');
+    $instance->currentUser = $container->get('current_user');
+    return $instance;
   }
 {% endblock %}
 
 {% block class_methods %}
 {% for state, state_settings in plugin_states %}
 
-  /**
-   * Responds to {{ state }} requests.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
-   *
-   * @return \Drupal\rest\{{ state_settings.response_class }}
-   *   The HTTP response object.
-   *
-   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-   *   Throws exception expected.
-   */
-  public function {{ state|lower }}(EntityInterface $entity) {
+    /**
+     * Responds to {{ state }} requests.
+     *
+     * @param string $payload
+     *
+     * @return \Drupal\rest\{{ state_settings.response_class }}
+     *   The HTTP response object.
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     *   Throws exception expected.
+     */
+    public function {{ state|lower }}($payload) {
 
-    // You must to implement the logic of your REST Resource here.
-    // Use current user after pass authentication to validate access.
-    if (!$this->currentUser->hasPermission('access content')) {
-      throw new AccessDeniedHttpException();
+        // You must to implement the logic of your REST Resource here.
+        // Use current user after pass authentication to validate access.
+        if (!$this->currentUser->hasPermission('access content')) {
+            throw new AccessDeniedHttpException();
+        }
+
+        return new {{ state_settings.response_class }}({{ (state == 'DELETE') ? 'NULL' : '$payload' }}, {{ state_settings.http_code }});
     }
-
-    return new {{ state_settings.response_class }}({{ (state == 'DELETE') ? 'NULL' : '$entity' }}, {{ state_settings.http_code }});
-  }
 {% endfor %}
 {% endblock %}

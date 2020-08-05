@@ -1,7 +1,12 @@
-{% if name is defined %}
 {% if not file_exists %}
 services:
 {% endif %}
+{% if logger_channel is defined %}
+  logger.channel.{{ module }}:
+    parent: logger.channel_base
+    arguments: ['{{ module }}']
+{% endif %}
+{% if name is defined %}
   {{ name | lower }}:
     class: {{ class_path }}
 {% if services is defined %}
