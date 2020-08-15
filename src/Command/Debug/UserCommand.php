@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Utils\DrupalApi;
 
 /**
@@ -28,11 +27,6 @@ class UserCommand extends Command
     protected $entityTypeManager;
 
     /**
-     * @var QueryFactory
-     */
-    protected $entityQuery;
-
-    /**
      * @var DrupalApi
      */
     protected $drupalApi;
@@ -41,16 +35,13 @@ class UserCommand extends Command
      * DebugCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param QueryFactory               $entityQuery
      * @param DrupalApi                  $drupalApi
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
-        QueryFactory $entityQuery,
         DrupalApi $drupalApi
     ) {
         $this->entityTypeManager = $entityTypeManager;
-        $this->entityQuery = $entityQuery;
         $this->drupalApi = $drupalApi;
         parent::__construct();
     }
@@ -110,7 +101,7 @@ class UserCommand extends Command
         $userStorage = $this->entityTypeManager->getStorage('user');
         $systemRoles = $this->drupalApi->getRoles();
 
-        $query = $this->entityQuery->get('user');
+        $query = $this->entityTypeManager->getStorage('user')->getQuery();
         $query->condition('uid', 0, '>');
         $query->sort('uid');
 

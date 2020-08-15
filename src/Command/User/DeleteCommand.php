@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Console\Utils\DrupalApi;
 
 /**
@@ -22,11 +21,6 @@ use Drupal\Console\Utils\DrupalApi;
 class DeleteCommand extends UserBase
 {
     /**
-     * @var QueryFactory
-     */
-    protected $entityQuery;
-
-    /**
      * @var DrupalApi
      */
     protected $drupalApi;
@@ -35,15 +29,12 @@ class DeleteCommand extends UserBase
      * DeleteCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param QueryFactory               $entityQuery
      * @param DrupalApi                  $drupalApi
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
-        QueryFactory $entityQuery,
         DrupalApi $drupalApi
     ) {
-        $this->entityQuery = $entityQuery;
         $this->drupalApi = $drupalApi;
         parent::__construct($entityTypeManager);
     }
@@ -152,9 +143,8 @@ class DeleteCommand extends UserBase
         if ($roles) {
             $roles = is_array($roles)?$roles:[$roles];
 
-            $query = $this->entityQuery
-                ->get('user')
-                ->condition('roles', array_values($roles), 'IN')
+            $query = $this->entityTypeManager->getStorage('user')->getQuery();
+            $query->condition('roles', array_values($roles), 'IN')
                 ->condition('uid', 1, '>');
             $results = $query->execute();
 

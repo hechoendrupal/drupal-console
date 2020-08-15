@@ -5,6 +5,7 @@ namespace Drupal\Console\Extension;
 use Drupal\Console\Utils\Site;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use  Drupal\Core\Extension\ModuleExtensionList;
 
 /**
  * Class ExtensionManager
@@ -44,20 +45,28 @@ class Manager
     private $extension = null;
 
     /**
+     * @var Drupal\Core\Extension\ModuleExtensionList
+     */
+    private $extensionList;
+
+    /**
      * ExtensionManager constructor.
      *
      * @param Site   $site
      * @param Client $httpClient
      * @param string $appRoot
+     * @param ModuleExtensionList $extensionList
      */
     public function __construct(
         Site $site,
         Client $httpClient,
-        $appRoot
+        $appRoot,
+        ModuleExtensionList $extensionList
     ) {
         $this->site = $site;
         $this->httpClient = $httpClient;
         $this->appRoot = $appRoot;
+        $this->extensionList = $extensionList;
         $this->initialize();
     }
 
@@ -223,7 +232,7 @@ class Manager
     {
         if ($type === 'module') {
             $this->site->loadLegacyFile('/core/modules/system/system.module');
-            system_rebuild_module_data();
+            $this->extensionList->reset()->getList();
         }
 
         if ($type === 'theme') {
