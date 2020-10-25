@@ -45,28 +45,20 @@ class Manager
     private $extension = null;
 
     /**
-     * @var Drupal\Core\Extension\ModuleExtensionList
-     */
-    private $extensionList;
-
-    /**
      * ExtensionManager constructor.
      *
      * @param Site   $site
      * @param Client $httpClient
      * @param string $appRoot
-     * @param ModuleExtensionList $extensionList
      */
     public function __construct(
         Site $site,
         Client $httpClient,
-        $appRoot,
-        ModuleExtensionList $extensionList
+        $appRoot
     ) {
         $this->site = $site;
         $this->httpClient = $httpClient;
         $this->appRoot = $appRoot;
-        $this->extensionList = $extensionList;
         $this->initialize();
     }
 
@@ -232,7 +224,8 @@ class Manager
     {
         if ($type === 'module') {
             $this->site->loadLegacyFile('/core/modules/system/system.module');
-            $this->extensionList->reset()->getList();
+            $extensionList = \Drupal::service('extension.list.module');
+            $extensionList->reset()->getList();
         }
 
         if ($type === 'theme') {
