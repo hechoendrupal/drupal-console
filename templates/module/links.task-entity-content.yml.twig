@@ -5,6 +5,12 @@
   route_name: {{ entity_name }}.settings
   title: 'Settings'
   base_route: {{ entity_name }}.settings
+{% else %}
+entity.{{ entity_name }}_type.edit_form:
+  route_name: entity.{{ entity_name }}_type.edit_form
+  base_route: entity.{{ entity_name }}_type.edit_form
+  title: 'Edit'
+  weight: 0
 {% endif %}
 
 entity.{{ entity_name }}.canonical:
