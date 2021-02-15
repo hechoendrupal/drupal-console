@@ -51,6 +51,22 @@ class TranslatorManager extends TranslatorManagerBase
     }
 
     /**
+     * @param $profile
+     */
+    private function addResourceTranslationsByProfile($profile)
+    {
+        // No "profile handler" service exists yet, so we have to get
+        // paths the old fashioned way.
+        if (\Drupal::installProfile() != $profile) {
+            return;
+        }
+        $extensionPath = drupal_get_path('profile', $profile);
+        $this->addResourceTranslationsByExtensionPath(
+            $extensionPath
+        );
+    }
+
+    /**
      * @param $module
      */
     private function addResourceTranslationsByModule($module)
@@ -99,6 +115,10 @@ class TranslatorManager extends TranslatorManagerBase
         }
 
         $this->extensions[] = $extension;
+        if ($type == 'profile') {
+            $this->addResourceTranslationsByProfile($extension);
+            return;
+        }
         if ($type == 'module') {
             $this->addResourceTranslationsByModule($extension);
             return;
