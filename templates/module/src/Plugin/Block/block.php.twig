@@ -55,7 +55,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
     return [
 {% for input in inputs %}
 {% if input.default_value is defined and input.default_value|length %}
-      '{{ input.name }}' => {{ input.default_value }},
+      '{{ input.name }}' => $this->('{{ input.default_value }}'),
 {% endif %}
 {% endfor %}
     ] + parent::defaultConfiguration();
@@ -111,7 +111,7 @@ class {{class_name}} extends BlockBase {% if services is not empty %}implements 
 {% endif %}
 {% for input in inputs %}
 {% if twig_template is defined %}
-    $build['#conten'][] = $this->configuration['{{ input.name }}'];
+    $build['#content'][] = $this->configuration['{{ input.name }}'];
 {% else %}
     $build['{{plugin_id}}_{{ input.name }}']['#markup'] = '<p>' . $this->configuration['{{ input.name }}'] . '</p>';
 {% endif %}
