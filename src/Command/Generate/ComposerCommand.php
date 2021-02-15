@@ -71,6 +71,12 @@ class ComposerCommand extends Command
             $this->trans('commands.common.options.module')
           )
           ->addOption(
+            'package-path',
+            null,
+            InputOption::VALUE_OPTIONAL,
+            $this->trans('commands.generate.composer.options.package-path')
+          )
+          ->addOption(
             'name',
             null,
             InputOption::VALUE_REQUIRED,
@@ -377,6 +383,7 @@ class ComposerCommand extends Command
         }
 
         $module = $input->getOption('module');
+        $packagePath = $input->getOption('package-path');
         $name = $input->getOption('name');
         $type = $input->getOption('type');
         $description = $input->getOption('description');
@@ -398,6 +405,7 @@ class ComposerCommand extends Command
 
         $this->generator->generate([
           'machine_name' => $module,
+          'package_path' => $packagePath,
           'name' => $name,
           'type' => $type,
           'description' => $description,
