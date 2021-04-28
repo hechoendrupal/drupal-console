@@ -146,7 +146,8 @@ class ImportSingleCommand extends Command
             \Drupal::moduleHandler(),
             \Drupal::service('module_installer'),
             \Drupal::service('theme_handler'),
-            \Drupal::service('string_translation')
+            \Drupal::service('string_translation'),
+            \Drupal::service('extension.list.module')
         );
 
         if ($configImporter->alreadyImporting()) {
