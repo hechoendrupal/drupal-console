@@ -39,7 +39,7 @@ class DrupalServiceModifier implements ServiceModifierInterface
      * @param ConfigurationInterface $configuration
      */
     public function __construct(
-        $root = null,
+        $root,
         $serviceTag,
         $generatorTag,
         $configuration
