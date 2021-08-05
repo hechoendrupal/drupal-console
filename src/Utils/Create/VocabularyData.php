@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Utils\Create;
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
@@ -40,7 +39,7 @@ class VocabularyData extends Base
                     [
                         'name' => $this->getRandom()->sentences(mt_rand(1, $nameWords), true),
                         'description' => $this->getRandom()->sentences(mt_rand(1, $nameWords)),
-                        'vid' => Unicode::strtolower($this->getRandom()->name()),
+                        'vid' => mb_strtolower($this->getRandom()->name()),
                         'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
                         'weight' => mt_rand(0, 10),
                     ]
