@@ -16,6 +16,7 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Utils\Validator;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Site\Settings;
 use Drupal\Console\Command\Shared\ExportTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Extension\Manager;
@@ -304,7 +305,7 @@ class ExportSingleCommand extends Command
                 return 0;
             }
 
-            $directory = $directory_copy = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+            $directory = $directory_copy = Settings::get('config_sync_directory');
             if (!is_dir($directory)) {
                 if ($value) {
                     $directory = $directory_copy .'/' . str_replace('.', '/', $value);

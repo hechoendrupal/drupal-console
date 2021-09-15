@@ -16,6 +16,7 @@ use Drupal\Core\Config\ConfigImporterException;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Config\StorageComparerInterface;
+use Drupal\Core\Site\Settings;
 
 class ImportCommand extends Command
 {
@@ -87,7 +88,7 @@ class ImportCommand extends Command
         if (!$input->getOption('directory')) {
             $directory = $this->getIo()->ask(
                 $this->trans('commands.config.import.questions.directory'),
-                config_get_config_directory(CONFIG_SYNC_DIRECTORY)
+                Settings::get('config_sync_directory')
         );
             $input->setOption('directory', $directory);
         }
