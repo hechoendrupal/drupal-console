@@ -127,7 +127,6 @@ class ExecuteCommand extends Command
         $this->site->loadLegacyFile('/core/includes/update.inc');
 
         drupal_load_updates();
-        update_fix_compatibility();
 
         $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
