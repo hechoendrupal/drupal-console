@@ -45,7 +45,7 @@ class NodeData extends Base
                     [
                         'nid' => null,
                         'type' => $contentType,
-                        'created' => REQUEST_TIME - mt_rand(0, $timeRange),
+                        'created' => \Drupal::time()->getRequestTime() - mt_rand(0, $timeRange),
                         'uid' => $this->getUserID(),
                         'title' => $this->getRandom()->sentences(mt_rand(1, $titleWords), true),
                         'revision' => mt_rand(0, 1),
@@ -90,7 +90,7 @@ class NodeData extends Base
         $node->setTitle($this->getRandom()->sentences(mt_rand(1, 5), true));
         $node->setNewRevision(TRUE);
         $node->revision_log = "Revision number $count was created";
-        $node->setRevisionCreationTime(REQUEST_TIME);
+        $node->setRevisionCreationTime(\Drupal::time()->getRequestTime());
         $node->save();
     }
 }

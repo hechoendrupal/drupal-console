@@ -79,7 +79,7 @@ class LoginUrlCommand extends UserBase
           //validate if https is on uri
           $regx = '/^https:.*/s';
           if(preg_match($regx, $input->getOption('uri'))){
-              $timestamp = REQUEST_TIME;
+              $timestamp = \Drupal::time()->getRequestTime();
               $langcode = $userEntity->getPreferredLangcode();
               $url = Url::fromRoute('user.reset',
                   [
