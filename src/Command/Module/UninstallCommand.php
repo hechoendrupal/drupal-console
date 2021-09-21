@@ -175,7 +175,7 @@ class UninstallCommand extends ContainerAwareCommand
                 // to core yet so we need to check if it exists.
                 $profiles = \Drupal::service('profile_handler')->getProfileInheritance();
             } else {
-                $profiles[drupal_get_profile()] = [];
+                $profiles[\Drupal::installProfile()] = [];
             }
 
             $dependencies = [];
