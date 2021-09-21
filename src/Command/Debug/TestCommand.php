@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\simpletest\TestDiscovery;
+use Drupal\Core\Test\TestDiscovery;
 
 /**
  * @DrupalCommand(

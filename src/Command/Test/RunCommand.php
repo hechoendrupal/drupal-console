@@ -15,7 +15,7 @@ use Drupal\Component\Utility\Timer;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\simpletest\TestDiscovery;
+use Drupal\Core\Test\TestDiscovery;
 use Drupal\Core\Datetime\DateFormatter;
 
 /**
