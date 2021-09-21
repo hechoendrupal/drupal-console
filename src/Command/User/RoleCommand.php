@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Utils\DrupalApi;
+use Drupal\user\Entity\User;
 
 /**
  * Class DebugCommand
@@ -79,7 +80,7 @@ class RoleCommand extends Command
         $systemRoles = $this->drupalApi->getRoles();
 
         if (is_numeric($user)) {
-            $userObject = user_load($user);
+            $userObject = User::load($user);
         } else {
             $userObject = user_load_by_name($user);
         }
