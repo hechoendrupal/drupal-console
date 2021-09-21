@@ -125,7 +125,7 @@ class DotenvInitCommand extends GenerateCommand
         include_once $this->drupalFinder->getDrupalRoot() . '/core/includes/install.inc';
 
         $settings['config_directories'] = [
-            CONFIG_SYNC_DIRECTORY => (object) [
+            \Drupal\Core\Site\Settings::get('config_sync_directory') => (object) [
                 'value' => Path::makeRelative(
                     $this->drupalFinder->getComposerRoot() . '/config/sync',
                     $this->drupalFinder->getDrupalRoot()

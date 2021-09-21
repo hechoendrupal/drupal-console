@@ -90,7 +90,7 @@ class DiffCommand extends Command
             $directory = $this->getIo()->choice(
                 $this->trans('commands.config.diff.questions.directories'),
                 $config_directories,
-                CONFIG_SYNC_DIRECTORY
+                \Drupal\Core\Site\Settings::get('config_sync_directory')
             );
 
             $input->setArgument('directory', $config_directories[$directory]);
@@ -103,7 +103,7 @@ class DiffCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         global $config_directories;
-        $directory = $input->getArgument('directory') ?: CONFIG_SYNC_DIRECTORY;
+        $directory = $input->getArgument('directory') ?: \Drupal\Core\Site\Settings::get('config_sync_directory');
         if (array_key_exists($directory, $config_directories)) {
             $directory = $config_directories[$directory];
         }

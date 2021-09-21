@@ -304,7 +304,7 @@ class ExportSingleCommand extends Command
                 return 0;
             }
 
-            $directory = $directory_copy = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+            $directory = $directory_copy = config_get_config_directory(\Drupal\Core\Site\Settings::get('config_sync_directory'));
             if (!is_dir($directory)) {
                 if ($value) {
                     $directory = $directory_copy .'/' . str_replace('.', '/', $value);
