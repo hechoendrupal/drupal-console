@@ -96,7 +96,7 @@ class EnableCommand extends ContainerAwareCommand
         $input->setArgument('resource-id', $resource_id);
 
         // Calculate states available by resource and generate the question.
-        $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
+        $plugin = $this->pluginManagerRest->createInstance($resource_id);
 
         $methods = $plugin->availableMethods();
         $method = $this->getIo()->choice(
