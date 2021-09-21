@@ -68,8 +68,8 @@ trait LocaleTrait
                 if ($project_info->type == LOCALE_TRANSLATION_LOCAL || $project_info->type == LOCALE_TRANSLATION_REMOTE) {
                     $local = isset($project_info->files[LOCALE_TRANSLATION_LOCAL]) ? $project_info->files[LOCALE_TRANSLATION_LOCAL] : null;
                     $remote = isset($project_info->files[LOCALE_TRANSLATION_REMOTE]) ? $project_info->files[LOCALE_TRANSLATION_REMOTE] : null;
-                    $local_age = $local->timestamp? format_date($local->timestamp, 'html_date'): '';
-                    $remote_age = $remote->timestamp? format_date($remote->timestamp, 'html_date'): '';
+                    $local_age = $local->timestamp? \Drupal::service('date.formatter')->format($local->timestamp, 'html_date'): '';
+                    $remote_age = $remote->timestamp? \Drupal::service('date.formatter')->format($remote->timestamp, 'html_date'): '';
 
                     if ($local_age >= $remote_age) {
                         $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
