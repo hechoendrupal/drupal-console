@@ -83,7 +83,7 @@ class ExportCommand extends Command
         if (!$input->getOption('directory')) {
             $directory = $this->getIo()->ask(
                 $this->trans('commands.config.export.questions.directory'),
-                config_get_config_directory(\Drupal\Core\Site\Settings::get('config_sync_directory'))
+                \Drupal\Core\Site\Settings::get('config_sync_directory')
             );
             $input->setOption('directory', $directory);
         }
@@ -102,7 +102,7 @@ class ExportCommand extends Command
         $drupal_root = $this->drupalFinder->getComposerRoot();
 
         if (!$directory) {
-            $directory = config_get_config_directory(\Drupal\Core\Site\Settings::get('config_sync_directory'));
+            $directory = \Drupal\Core\Site\Settings::get('config_sync_directory') ;
         }
 
         $fileSystem = new Filesystem();

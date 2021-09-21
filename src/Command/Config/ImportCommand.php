@@ -87,7 +87,7 @@ class ImportCommand extends Command
         if (!$input->getOption('directory')) {
             $directory = $this->getIo()->ask(
                 $this->trans('commands.config.import.questions.directory'),
-                config_get_config_directory(\Drupal\Core\Site\Settings::get('config_sync_directory'))
+                \Drupal\Core\Site\Settings::get('config_sync_directory')
         );
             $input->setOption('directory', $directory);
         }
