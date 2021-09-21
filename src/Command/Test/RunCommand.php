@@ -117,7 +117,7 @@ class RunCommand extends Command
         $this->setEnvironment($url);
 
         // Create simpletest test id
-        $testId = db_insert('simpletest_test_id')
+        $testId =  Database::getConnection()->insert('simpletest_test_id')
           ->useDefaults(['test_id'])
           ->execute();
 
