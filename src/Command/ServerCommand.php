@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Drupal\Console\Core\Command\Command;
-use \Drupal\Console\Core\Utils\ConfigurationManager;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 /**
  * Class ServerCommand

@@ -8,6 +8,7 @@ namespace Drupal\Console\Command\Config;
 
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Config\StorageComparer;
+use Drupal\Core\Site\Settings;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -81,33 +82,10 @@ class DiffCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        global $config_directories;
-
-        $directory = $input->getArgument('directory');
-        if (!$directory) {
-            $directory = $this->getIo()->choice(
-                $this->trans('commands.config.diff.questions.directories'),
-                $config_directories,
-                CONFIG_SYNC_DIRECTORY
-            );
-
-            $input->setArgument('directory', $config_directories[$directory]);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        global $config_directories;
-        $directory = $input->getArgument('directory') ?: CONFIG_SYNC_DIRECTORY;
-        if (array_key_exists($directory, $config_directories)) {
-            $directory = $config_directories[$directory];
-        }
-        $source_storage = new FileStorage($directory);
+        $config_directory = Settings::get('config_sync_directory');
+        $source_storage = new FileStorage($config_directory);
 
         if ($input->getOption('reverse')) {
             $config_comparer = new StorageComparer($source_storage, $this->configStorage, $this->configManager);

@@ -21,7 +21,7 @@ services:
       - { name: drupal.command }
   console.module_uninstall:
     class: Drupal\Console\Command\Module\UninstallCommand
-    arguments: ['@console.site','@module_installer', '@console.chain_queue', '@config.factory', '@console.extension_manager']
+    arguments: ['@console.site','@module_installer', '@console.chain_queue', '@config.factory', '@console.extension_manager', '@extension.list.module']
     tags:
       - { name: drupal.command }
   console.module_update:

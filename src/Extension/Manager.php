@@ -5,7 +5,9 @@ namespace Drupal\Console\Extension;
 use Drupal\Console\Utils\Site;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use  Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Extension\ThemeHandler;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Class ExtensionManager
@@ -50,23 +52,39 @@ class Manager
     private $extensionList;
 
     /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+    /**
      * ExtensionManager constructor.
      *
      * @param Site   $site
      * @param Client $httpClient
      * @param string $appRoot
      * @param ModuleExtensionList $extensionList
+     * @param ModuleHandlerInterface $moduleHandler
+     * @param ThemeHandler  $themeHandler
      */
     public function __construct(
         Site $site,
         Client $httpClient,
         $appRoot,
-        ModuleExtensionList $extensionList
+        ModuleExtensionList $extensionList,
+        ModuleHandlerInterface $moduleHandler,
+        ThemeHandler $themeHandler
     ) {
         $this->site = $site;
         $this->httpClient = $httpClient;
         $this->appRoot = $appRoot;
         $this->extensionList = $extensionList;
+        $this->moduleHandler = $moduleHandler;
+        $this->themeHandler = $themeHandler;
         $this->initialize();
     }
 
@@ -200,8 +218,8 @@ class Manager
         foreach ($this->extensions[$type] as $extension) {
             $name = $extension->getName();
 
-            $isInstalled = false;
-            if (property_exists($extension, 'status')) {
+            $isInstalled = $type=='module' && $this->moduleHandler->moduleExists($name);
+            if (!$isInstalled && property_exists($extension, 'status')) {
                 $isInstalled = ($extension->status)?true:false;
             }
             if (!$showInstalled && $isInstalled) {
@@ -236,8 +254,7 @@ class Manager
         }
 
         if ($type === 'theme') {
-            $themeHandler = \Drupal::service('theme_handler');
-            $themeHandler->rebuildThemeData();
+            $this->themeHandler->rebuildThemeData();
         }
 
         /*
