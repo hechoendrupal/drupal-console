@@ -28,6 +28,11 @@ class ModuleCommand extends Command
     protected $site;
 
     /**
+     * @var Site
+     */
+    protected $module;
+
+    /**
      * ChainDebugCommand constructor.
      *
      * @param ConfigurationManager $configurationManager

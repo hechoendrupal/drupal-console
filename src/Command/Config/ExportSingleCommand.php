@@ -8,6 +8,7 @@
 namespace Drupal\Console\Command\Config;
 
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Site\Settings;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -304,7 +305,7 @@ class ExportSingleCommand extends Command
                 return 0;
             }
 
-            $directory = $directory_copy = \Drupal\Core\Site\Settings::get('config_sync_directory') ;
+            $directory = $directory_copy = Settings::get('config_sync_directory') ;
             if (!is_dir($directory)) {
                 if ($value) {
                     $directory = $directory_copy .'/' . str_replace('.', '/', $value);

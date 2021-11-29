@@ -6,6 +6,7 @@
 
 namespace Drupal\Console\Command\Config;
 
+use Drupal\Core\Site\Settings;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -87,7 +88,7 @@ class ImportCommand extends Command
         if (!$input->getOption('directory')) {
             $directory = $this->getIo()->ask(
                 $this->trans('commands.config.import.questions.directory'),
-                \Drupal\Core\Site\Settings::get('config_sync_directory')
+                Settings::get('config_sync_directory')
         );
             $input->setOption('directory', $directory);
         }
