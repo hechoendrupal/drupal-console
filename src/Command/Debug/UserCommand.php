@@ -157,7 +157,7 @@ class UserCommand extends Command
             $status = $user->isActive()?$this->trans('commands.common.status.enabled'):$this->trans('commands.common.status.disabled');
             $tableRows[] = [
                 $userId,
-                $user->getUsername(),
+                $user->getAccountName(),
                 implode(', ', $userRoles),
                 $status
             ];

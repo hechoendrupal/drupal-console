@@ -126,7 +126,7 @@ class DeleteCommand extends UserBase
                 $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.user.delete.messages.user-deleted'),
-                        $userEntity->getUsername()
+                        $userEntity->getAccountName()
                     )
                 );
 
@@ -161,9 +161,9 @@ class DeleteCommand extends UserBase
             foreach ($users as $user => $userEntity) {
                 try {
                     $userEntity->delete();
-                    $tableRows['success'][] = [$user, $userEntity->getUsername()];
+                    $tableRows['success'][] = [$user, $userEntity->getAccountName()];
                 } catch (\Exception $e) {
-                    $tableRows['error'][] = [$user, $userEntity->getUsername()];
+                    $tableRows['error'][] = [$user, $userEntity->getAccountName()];
                     $this->getIo()->error($e->getMessage());
 
                     return 1;

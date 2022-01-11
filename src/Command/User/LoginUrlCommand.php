@@ -103,7 +103,7 @@ class LoginUrlCommand extends UserBase
         $this->getIo()->success(
             sprintf(
                 $this->trans('commands.user.login.url.messages.url'),
-                $userEntity->getUsername()
+                $userEntity->getAccountName()
             )
         );
 
