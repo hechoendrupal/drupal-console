@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Drupal\Component\Serialization\Yaml;
@@ -106,8 +106,7 @@ class EditCommand extends Command
         if (!$editor) {
             $editor = $this->getEditor();
         }
-        $processBuilder = new ProcessBuilder([$editor, $configFile]);
-        $process = $processBuilder->getProcess();
+        $process = new Process([$editor, $configFile]);
         $process->setTty('true');
         $process->run();
 
@@ -167,9 +166,7 @@ class EditCommand extends Command
             return trim($editor);
         }
 
-        $processBuilder = new ProcessBuilder(['bash']);
-        $process = $processBuilder->getProcess();
-        $process->setCommandLine('echo ${EDITOR:-${VISUAL:-vi}}');
+        $process = new Process(['bash', 'echo', '${EDITOR:-${VISUAL:-vi}}']);
         $process->run();
         $editor = $process->getOutput();
         $process->stop();

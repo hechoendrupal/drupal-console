@@ -10,7 +10,7 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Core\Utils\ConfigurationManager;
@@ -78,10 +78,8 @@ class ServerCommand extends Command
         $router = $this->configurationManager
             ->getVendorCoreDirectory() . 'router.php';
 
-        $processBuilder = new ProcessBuilder([$binary, '-S', $address, $router]);
-        $processBuilder->setTimeout(null);
-        $processBuilder->setWorkingDirectory($this->appRoot);
-        $process = $processBuilder->getProcess();
+        $process = new Process([$binary, '-S', $address, $router]);
+        $process->setWorkingDirectory($this->appRoot);
 
         $this->getIo()->success(
             sprintf(

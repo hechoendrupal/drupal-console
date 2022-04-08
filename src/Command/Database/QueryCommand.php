@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
 
@@ -123,9 +123,7 @@ class QueryCommand extends Command
             );
         }
 
-        $processBuilder = new ProcessBuilder();
-        $processBuilder->setArguments($args);
-        $process = $processBuilder->getProcess();
+        $process = new Process($args);
         $process->setTty('true');
         $process->run();
 

@@ -10,7 +10,7 @@ namespace Drupal\Console\Command\Database;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
 
@@ -63,9 +63,8 @@ class ClientCommand extends Command
             );
         }
 
-        $processBuilder = new ProcessBuilder([]);
-        $processBuilder->setArguments(explode(' ', $connection));
-        $process = $processBuilder->getProcess();
+        $arguments = explode(' ', $connection);
+        $process = new Process($arguments);
         $process->setTty('true');
         $process->run();
 

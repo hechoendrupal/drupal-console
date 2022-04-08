@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
@@ -189,13 +189,10 @@ class InstallCommand extends Command
             $module = $module_list;
 
             // Run the Composer require command.
-            $command = array_merge(['composer', 'require'], $composer_package_list);
-            $this->getIo()->info('Executing... ' . implode(' ', $command));
-            $processBuilder = new ProcessBuilder([]);
-            $processBuilder->setWorkingDirectory($this->appRoot);
-            $processBuilder->setArguments($command);
-            $processBuilder->inheritEnvironmentVariables();
-            $process = $processBuilder->getProcess();
+            $arguments = array_merge(['composer', 'require'], $composer_package_list);
+            $this->getIo()->info('Executing... ' . implode(' ', $arguments));
+            $process = new Process($arguments);
+            $process->setWorkingDirectory($this->appRoot);
             $process->setTty(true);
             $process->run();
 
