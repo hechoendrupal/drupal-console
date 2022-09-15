@@ -40,10 +40,13 @@ class ComposerGenerator extends Generator
     public function generate(array $parameters)
     {
         $machineName = $parameters['machine_name'];
+        $composerPath = !is_null($parameters['package_path']) ?
+          $parameters['package_path'] . '/' . $machineName . '/composer.json' :
+          $this->extensionManager->getModule($machineName)
+            ->getPath() . '/composer.json';
         $this->renderFile(
           'module/composer.json.twig',
-          $this->extensionManager->getModule($machineName)
-            ->getPath() . '/composer.json',
+          $composerPath,
           $parameters
         );
     }
