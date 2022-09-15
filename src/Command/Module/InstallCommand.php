@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ProjectDownloadTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
@@ -29,6 +29,7 @@ use Drupal\Console\Core\Utils\ChainQueue;
  */
 class InstallCommand extends Command
 {
+
     use ProjectDownloadTrait;
     use ModuleTrait;
 
@@ -70,13 +71,13 @@ class InstallCommand extends Command
     /**
      * InstallCommand constructor.
      *
-     * @param Site            $site
-     * @param Validator       $validator
-     * @param ModuleInstaller $moduleInstaller
-     * @param DrupalApi       $drupalApi
-     * @param Manager         $extensionManager
-     * @param $appRoot
-     * @param ChainQueue      $chainQueue
+     * @param  Site             $site
+     * @param  Validator        $validator
+     * @param  ModuleInstaller  $moduleInstaller
+     * @param  DrupalApi        $drupalApi
+     * @param  Manager          $extensionManager
+     * @param                   $appRoot
+     * @param  ChainQueue       $chainQueue
      */
     public function __construct(
         Site $site,
@@ -87,13 +88,13 @@ class InstallCommand extends Command
         $appRoot,
         ChainQueue $chainQueue
     ) {
-        $this->site = $site;
-        $this->validator = $validator;
-        $this->moduleInstaller = $moduleInstaller;
-        $this->drupalApi = $drupalApi;
+        $this->site             = $site;
+        $this->validator        = $validator;
+        $this->moduleInstaller  = $moduleInstaller;
+        $this->drupalApi        = $drupalApi;
         $this->extensionManager = $extensionManager;
-        $this->appRoot = $appRoot;
-        $this->chainQueue = $chainQueue;
+        $this->appRoot          = $appRoot;
+        $this->chainQueue       = $chainQueue;
         parent::__construct();
     }
 
@@ -104,7 +105,9 @@ class InstallCommand extends Command
     {
         $this
             ->setName('module:install')
-            ->setDescription($this->trans('commands.module.install.description'))
+            ->setDescription(
+                $this->trans('commands.module.install.description')
+            )
             ->addArgument(
                 'module',
                 InputArgument::IS_ARRAY,
@@ -142,8 +145,8 @@ class InstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getArgument('module');
-        $latest = $input->getOption('latest');
+        $module   = $input->getArgument('module');
+        $latest   = $input->getOption('latest');
         $composer = $input->getOption('composer');
 
         $this->site->loadLegacyFile('/core/includes/bootstrap.inc');
@@ -154,23 +157,23 @@ class InstallCommand extends Command
         // Drupal terminology.
         if ($composer) {
             $composer_package_list = [];
-            $module_list = [];
+            $module_list           = [];
             foreach ($module as $item) {
                 // Decompose each module item passed on the command line into
                 // Composer-ready elements.
                 $temp = explode('/', $item);
                 if (count($temp) === 1) {
                     $package_namespace = 'drupal';
-                    $package = $temp[0];
+                    $package           = $temp[0];
                 } else {
                     $package_namespace = $temp[0];
-                    $package = $temp[1];
+                    $package           = $temp[1];
                 }
                 $temp = explode(':', $package);
                 if (count($temp) === 1) {
                     $package_constraint = null;
                 } else {
-                    $package = $temp[0];
+                    $package            = $temp[0];
                     $package_constraint = $temp[1];
                 }
 
@@ -189,27 +192,31 @@ class InstallCommand extends Command
             $module = $module_list;
 
             // Run the Composer require command.
-            $command = array_merge(['composer', 'require'], $composer_package_list);
+            $command = array_merge(['composer', 'require'],
+                $composer_package_list);
             $this->getIo()->info('Executing... ' . implode(' ', $command));
-            $processBuilder = new ProcessBuilder([]);
-            $processBuilder->setWorkingDirectory($this->appRoot);
-            $processBuilder->setArguments($command);
-            $processBuilder->inheritEnvironmentVariables();
-            $process = $processBuilder->getProcess();
+
+            $process = new Process($command);
+            $process->setWorkingDirectory($this->appRoot);
+            $process->inheritEnvironmentVariables();
             $process->setTty(true);
             $process->run();
 
             if ($process->isSuccessful()) {
                 $this->getIo()->info(
                     sprintf(
-                        $this->trans('commands.module.install.messages.download-with-composer'),
+                        $this->trans(
+                            'commands.module.install.messages.download-with-composer'
+                        ),
                         implode(', ', $composer_package_list)
                     )
                 );
             } else {
                 $this->getIo()->error(
                     sprintf(
-                        $this->trans('commands.module.install.messages.not-installed-with-composer'),
+                        $this->trans(
+                            'commands.module.install.messages.not-installed-with-composer'
+                        ),
                         implode(', ', $composer_package_list)
                     )
                 );
@@ -219,8 +226,8 @@ class InstallCommand extends Command
 
         // Build the list of modules to be installed, skipping those that are
         // installed already.
-        $resultList = $this->downloadModules($module, $latest);
-        $invalidModules = $resultList['invalid'];
+        $resultList         = $this->downloadModules($module, $latest);
+        $invalidModules     = $resultList['invalid'];
         $unInstalledModules = $resultList['uninstalled'];
 
         if ($invalidModules) {
@@ -228,7 +235,9 @@ class InstallCommand extends Command
                 unset($module[array_search($invalidModule, $module)]);
                 $this->getIo()->error(
                     sprintf(
-                        $this->trans('commands.module.install.messages.invalid-name'),
+                        $this->trans(
+                            'commands.module.install.messages.invalid-name'
+                        ),
                         $invalidModule
                     )
                 );
@@ -237,7 +246,10 @@ class InstallCommand extends Command
 
         // If no modules need to be installed, warn and exit.
         if (!$unInstalledModules) {
-            $this->getIo()->warning($this->trans('commands.module.install.messages.nothing'));
+            $this->getIo()->warning(
+                $this->trans('commands.module.install.messages.nothing')
+            );
+
             return 0;
         }
 
@@ -268,4 +280,5 @@ class InstallCommand extends Command
         $this->site->removeCachedServicesFile();
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
+
 }
