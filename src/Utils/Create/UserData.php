@@ -62,7 +62,7 @@ class UserData extends Base
 
                 $users['success'][] = [
                     'user-id' => $user->id(),
-                    'username' => $user->getUsername(),
+                    'username' => $user->getAccountName(),
                     'roles' => implode(', ', $userRoles),
                     'created' => $this->dateFormatter->format(
                         $user->getCreatedTime(),
