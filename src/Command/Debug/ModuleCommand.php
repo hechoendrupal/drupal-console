@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\ConfigurationManager;
+use Drupal\Core\Extension\ModuleExtensionList;
 
 class ModuleCommand extends Command
 {
@@ -28,17 +29,30 @@ class ModuleCommand extends Command
     protected $site;
 
     /**
+     * @var Site
+     */
+    protected $module;
+
+    /**
+     * @var Drupal\Core\Extension\ModuleExtensionList
+     */
+    protected $extensionList;
+
+    /**
      * ChainDebugCommand constructor.
      *
      * @param ConfigurationManager $configurationManager
      * @param Site                 $site
+     * @param ModuleExtensionList  $extensionList
      */
     public function __construct(
         ConfigurationManager $configurationManager,
-        Site $site
+        Site $site,
+        ModuleExtensionList $extensionList
     ) {
         $this->configurationManager = $configurationManager;
         $this->site = $site;
+        $this->extensionList = $extensionList;
         parent::__construct();
     }
 
@@ -117,7 +131,7 @@ class ModuleCommand extends Command
     private function getModules($status, $type, $modules) {
 
         $result = [];
-        $modulesData = system_rebuild_module_data();
+        $modulesData = $this->extensionList->reset()->getList();
 
         if(!$modules) {
             $modules = array_keys($modulesData) ;

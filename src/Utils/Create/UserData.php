@@ -47,7 +47,7 @@ class UserData extends Base
                         'pass' => $password?:$this->getRandom()->word(mt_rand(8, 16)),
                         'status' => mt_rand(0, 1),
                         'roles' => $roles[array_rand($roles)],
-                        'created' => REQUEST_TIME - mt_rand(0, $timeRange),
+                        'created' => \Drupal::time()->getRequestTime() - mt_rand(0, $timeRange),
                     ]
                 );
 
@@ -62,7 +62,7 @@ class UserData extends Base
 
                 $users['success'][] = [
                     'user-id' => $user->id(),
-                    'username' => $user->getUsername(),
+                    'username' => $user->getAccountName(),
                     'roles' => implode(', ', $userRoles),
                     'created' => $this->dateFormatter->format(
                         $user->getCreatedTime(),

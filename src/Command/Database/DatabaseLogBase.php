@@ -218,7 +218,7 @@ abstract class DatabaseLogBase extends Command
          */
         if ($user = $this->userStorage->load($dblog->uid)) {
             $user_id = $user->id();
-            $user_name = $user->getUsername();
+            $user_name = $user->getAccountName();
         } else {
             $user_id = $dblog->uid;
             $user_name = $this->trans('commands.database.log.common.messages.user-deleted');

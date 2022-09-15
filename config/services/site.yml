@@ -16,7 +16,7 @@ services:
       - { name: drupal.command }
   console.site_statistics:
     class: Drupal\Console\Command\Site\StatisticsCommand
-    arguments: ['@console.drupal_api', '@entity.query', '@console.extension_manager', '@module_handler']
+    arguments: ['@console.drupal_api', '@entity_type.manager', '@console.extension_manager', '@module_handler']
     tags:
       - { name: drupal.command }
   console.site_status:

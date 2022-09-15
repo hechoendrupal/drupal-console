@@ -42,7 +42,7 @@ class {{ class_name }} extends ConditionPluginBase {% endblock %}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     // Sort all modules by their names.
-    $modules = system_rebuild_module_data();
+    $modules = \Drupal::service('extension.list.module')->getList();
     uasort($modules, 'system_sort_modules_by_info_name');
 
     $options = [NULL => t('Select a module')];
@@ -88,7 +88,7 @@ class {{ class_name }} extends ConditionPluginBase {% endblock %}
     }
 
     $module = $this->configuration['module'];
-    $modules = system_rebuild_module_data();
+    $modules = \Drupal::service('extension.list.module')->getList();
 
     return $modules[$module]->status;
   }
@@ -98,7 +98,7 @@ class {{ class_name }} extends ConditionPluginBase {% endblock %}
    */
   public function summary() {
     $module = $this->getContextValue('module');
-    $modules = system_rebuild_module_data();
+    $modules = \Drupal::service('extension.list.module')->getList();
 
     $status = ($modules[$module]->status)?t('enabled'):t('disabled');
 

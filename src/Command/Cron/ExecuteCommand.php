@@ -108,7 +108,7 @@ class ExecuteCommand extends Command
             }
         }
 
-        $this->state->set('system.cron_last', REQUEST_TIME);
+        $this->state->set('system.cron_last', \Drupal::time()->getRequestTime());
         $this->lock->release('cron');
 
         $this->getIo()->success($this->trans('commands.cron.execute.messages.success'));

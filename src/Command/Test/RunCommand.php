@@ -15,7 +15,7 @@ use Drupal\Component\Utility\Timer;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\simpletest\TestDiscovery;
+use Drupal\Core\Test\TestDiscovery;
 use Drupal\Core\Datetime\DateFormatter;
 
 /**
@@ -117,7 +117,7 @@ class RunCommand extends Command
         $this->setEnvironment($url);
 
         // Create simpletest test id
-        $testId = db_insert('simpletest_test_id')
+        $testId =  Database::getConnection()->insert('simpletest_test_id')
           ->useDefaults(['test_id'])
           ->execute();
 

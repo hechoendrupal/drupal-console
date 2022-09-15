@@ -130,7 +130,7 @@ class CommentsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $nodeId = $input->getArgument('node-id')?:1;
-        $node = \Drupal\node\Entity\Node::load($nodeId);
+        $node = Node::load($nodeId);
         if (empty($node)) {
             throw new \InvalidArgumentException(
                 $this->trans(

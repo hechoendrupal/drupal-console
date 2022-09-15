@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\State\StateInterface;
-use Drupal\Core\Extension\ModuleHandler;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Update\UpdateRegistry;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
@@ -34,7 +34,7 @@ class ExecuteCommand extends Command
     protected $state;
 
     /**
-     * @var ModuleHandler
+     * @var ModuleHandlerInterface
      */
     protected $moduleHandler;
 
@@ -69,7 +69,7 @@ class ExecuteCommand extends Command
      *
      * @param Site           $site
      * @param StateInterface $state
-     * @param ModuleHandler  $moduleHandler
+     * @param ModuleHandlerInterface  $moduleHandler
      * @param UpdateRegistry $postUpdateRegistry
      * @param Manager        $extensionManager
      * @param ChainQueue     $chainQueue
@@ -77,7 +77,7 @@ class ExecuteCommand extends Command
     public function __construct(
         Site $site,
         StateInterface $state,
-        ModuleHandler $moduleHandler,
+        ModuleHandlerInterface $moduleHandler,
         UpdateRegistry $postUpdateRegistry,
         Manager $extensionManager,
         ChainQueue $chainQueue
@@ -127,7 +127,6 @@ class ExecuteCommand extends Command
         $this->site->loadLegacyFile('/core/includes/update.inc');
 
         drupal_load_updates();
-        update_fix_compatibility();
 
         $start = $this->getUpdates($this->module!=='all'?$this->module:null);
         $updates = update_resolve_dependencies($start);
