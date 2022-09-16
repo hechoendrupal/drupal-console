@@ -47,11 +47,6 @@ class Manager
     private $extension = null;
 
     /**
-     * @var Drupal\Core\Extension\ModuleExtensionList
-     */
-    private $extensionList;
-
-    /**
      * @var ModuleHandlerInterface
      */
     protected $moduleHandler;
@@ -67,7 +62,6 @@ class Manager
      * @param Site   $site
      * @param Client $httpClient
      * @param string $appRoot
-     * @param ModuleExtensionList $extensionList
      * @param ModuleHandlerInterface $moduleHandler
      * @param ThemeHandler  $themeHandler
      */
@@ -75,14 +69,12 @@ class Manager
         Site $site,
         Client $httpClient,
         $appRoot,
-        ModuleExtensionList $extensionList,
         ModuleHandlerInterface $moduleHandler,
         ThemeHandler $themeHandler
     ) {
         $this->site = $site;
         $this->httpClient = $httpClient;
         $this->appRoot = $appRoot;
-        $this->extensionList = $extensionList;
         $this->moduleHandler = $moduleHandler;
         $this->themeHandler = $themeHandler;
         $this->initialize();
@@ -250,7 +242,8 @@ class Manager
     {
         if ($type === 'module') {
             $this->site->loadLegacyFile('/core/modules/system/system.module');
-            $this->extensionList->reset()->getList();
+            $extensionList = \Drupal::service('extension.list.module');
+            $extensionList->reset()->getList();
         }
 
         if ($type === 'theme') {
