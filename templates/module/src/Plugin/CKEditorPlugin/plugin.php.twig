@@ -5,7 +5,7 @@
 * @preserve
 **/
 {% for button in buttons %}
-CKEDITOR.plugins.add('{{ pligins_id }}', {
+CKEDITOR.plugins.add('{{ plugin_id }}', {
     init: function( editor ) {
         if ( editor.ui.addButton ) {
             editor.ui.addButton( '{{ button.name }}', {
