@@ -11,12 +11,14 @@ use Drupal\Core\Archiver\ArchiveTar;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\ConfigManagerInterface;
 use Drupal\Core\Config\StorageInterface;
+use Drupal\Core\Site\Settings;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Core\Config\ConfigManager;
+use Webmozart\PathUtil\Path;
 
 class ExportCommand extends Command
 {
@@ -83,7 +85,7 @@ class ExportCommand extends Command
         if (!$input->getOption('directory')) {
             $directory = $this->getIo()->ask(
                 $this->trans('commands.config.export.questions.directory'),
-                config_get_config_directory(CONFIG_SYNC_DIRECTORY)
+                Settings::get('config_sync_directory')
             );
             $input->setOption('directory', $directory);
         }
@@ -94,20 +96,22 @@ class ExportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $drupal_root = $this->drupalFinder->getComposerRoot();
-        $directory = $drupal_root.'/'.$input->getOption('directory');
+        $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
         $removeUuid = $input->getOption('remove-uuid');
         $removeHash = $input->getOption('remove-config-hash');
-        $drupal_root = $this->drupalFinder->getComposerRoot();
 
         if (!$directory) {
-            $directory = config_get_config_directory(CONFIG_SYNC_DIRECTORY);
+            $directory = Settings::get('config_sync_directory') ;
+        }
+        if (!Path::isAbsolute($directory)) {
+            $drupal_root = $this->drupalFinder->getDrupalRoot();
+            $directory = $drupal_root . "/" . $directory;
         }
 
         $fileSystem = new Filesystem();
         try {
-            $fileSystem->mkdir($drupal_root."/".$directory);
+            $fileSystem->mkdir($directory);
         } catch (IOExceptionInterface $e) {
             $this->getIo()->error(
                 sprintf(

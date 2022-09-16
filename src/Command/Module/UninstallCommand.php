@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Core\Extension\ModuleExtensionList;
 
 class UninstallCommand extends ContainerAwareCommand
 {
@@ -49,6 +50,11 @@ class UninstallCommand extends ContainerAwareCommand
     protected $extensionManager;
 
     /**
+     * @var Drupal\Core\Extension\ModuleExtensionList
+     */
+    protected $extensionList;
+
+    /**
      * InstallCommand constructor.
      *
      * @param Site            $site
@@ -56,19 +62,22 @@ class UninstallCommand extends ContainerAwareCommand
      * @param ChainQueue      $chainQueue
      * @param ConfigFactory   $configFactory
      * @param Manager         $extensionManager
+     * @param ModuleExtensionList  $extensionList
      */
     public function __construct(
         Site $site,
         ModuleInstallerInterface $moduleInstaller,
         ChainQueue $chainQueue,
         ConfigFactoryInterface $configFactory,
-        Manager $extensionManager
+        Manager $extensionManager,
+        ModuleExtensionList $extensionList
     ) {
         $this->site = $site;
         $this->moduleInstaller = $moduleInstaller;
         $this->chainQueue = $chainQueue;
         $this->configFactory = $configFactory;
         $this->extensionManager = $extensionManager;
+        $this->extensionList = $extensionList;
         parent::__construct();
     }
 
@@ -124,7 +133,7 @@ class UninstallCommand extends ContainerAwareCommand
         $coreExtension = $this->configFactory->getEditable('core.extension');
 
         // Get info about modules available
-        $moduleData = system_rebuild_module_data();
+        $moduleData = $this->extensionList->reset()->getList();
         $moduleList = array_combine($module, $module);
 
         if ($composer) {
@@ -175,7 +184,7 @@ class UninstallCommand extends ContainerAwareCommand
                 // to core yet so we need to check if it exists.
                 $profiles = \Drupal::service('profile_handler')->getProfileInheritance();
             } else {
-                $profiles[drupal_get_profile()] = [];
+                $profiles[\Drupal::installProfile()] = [];
             }
 
             $dependencies = [];

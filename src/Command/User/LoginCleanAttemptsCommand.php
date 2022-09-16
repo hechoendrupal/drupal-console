@@ -107,7 +107,7 @@ class LoginCleanAttemptsCommand extends UserBase
         $this->getIo()->success(
             sprintf(
                 $this->trans('commands.user.login.clear.attempts.messages.successful'),
-                $userEntity->getUsername()
+                $userEntity->getAccountName()
             )
         );
     }

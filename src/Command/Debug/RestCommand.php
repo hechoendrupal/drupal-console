@@ -89,7 +89,7 @@ class RestCommand extends Command
     {
         $config = $this->getRestDrupalConfig();
 
-        $plugin = $this->pluginManagerRest->getInstance(['id' => $resource_id]);
+        $plugin = $this->pluginManagerRest->createInstance($resource_id);
 
         if (empty($plugin)) {
             $this->getIo()->error(

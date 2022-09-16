@@ -235,7 +235,7 @@ class CreateCommand extends Command
                 'pass' => $password?:user_password(),
                 'status' => $status,
                 'roles' => $roles,
-                'created' => REQUEST_TIME,
+                'created' => \Drupal::time()->getRequestTime(),
             ]
         );
 
@@ -246,7 +246,7 @@ class CreateCommand extends Command
 
             $result['success'] = [
                 'user-id' => $user->id(),
-                'username' => $user->getUsername(),
+                'username' => $user->getAccountName(),
                 'password' => $password,
                 'email' => $user->getEmail(),
                 'roles' => implode(', ', $roles),

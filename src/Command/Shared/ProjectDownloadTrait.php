@@ -128,7 +128,7 @@ trait ProjectDownloadTrait
 
         return $this->downloadModules($dependencies, $latest, $path, $resultList);
     }
-    
+
     private function downloadThemes($themes, $latest, $path = null, $resultList = [])
     {
         if (!$resultList) {
@@ -164,7 +164,7 @@ trait ProjectDownloadTrait
         $this->themeHandler->install($themes);
 
         $unInstalledThemes = $this->validator->getUninstalledThemes($themes);
-        
+
         if (!$unInstalledThemes) {
             return 0;
         }else{
@@ -175,7 +175,7 @@ trait ProjectDownloadTrait
     protected function calculateDependencies($modules)
     {
         $this->site->loadLegacyFile('/core/modules/system/system.module');
-        $moduleList = system_rebuild_module_data();
+        $moduleList = \Drupal::service('extension.list.module')->reset()->getList();
 
         $dependencies = [];
 

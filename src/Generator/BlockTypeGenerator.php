@@ -37,7 +37,7 @@ class BlockTypeGenerator extends Generator
         $module = $parameters['module'];
         $class_name = $parameters['class_name'];
         $blockId = $parameters['block_id'];
-        $description = $parameters['block_description'];
+        $description = $parameters['description'];
         $parameters['machine_name'] = $blockId;
 
         $this->renderFile(

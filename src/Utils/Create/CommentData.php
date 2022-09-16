@@ -41,7 +41,7 @@ class CommentData extends Base
                         'entity_id' => $nid,
                         'entity_type' => 'node',
                         'field_name' => 'comment',
-                        'created' => REQUEST_TIME - mt_rand(0, $timeRange),
+                        'created' => \Drupal::time()->getRequestTime() - mt_rand(0, $timeRange),
                         'uid' => $this->getUserID(),
                         'status' => true,
                         'subject' => $this->getRandom()->sentences(mt_rand(1, $titleWords), true),

@@ -62,14 +62,16 @@ trait LocaleTrait
     {
         $status_report = [];
         $status = locale_translation_get_status();
-        foreach ($status as $project_id => $project) {
+        $date_formatter = \Drupal::service('date.formatter');
+        $date_format = 'html_date';
+        foreach ($status as $project) {
             foreach ($project as $langcode => $project_info) {
                 $info = '';
                 if ($project_info->type == LOCALE_TRANSLATION_LOCAL || $project_info->type == LOCALE_TRANSLATION_REMOTE) {
                     $local = isset($project_info->files[LOCALE_TRANSLATION_LOCAL]) ? $project_info->files[LOCALE_TRANSLATION_LOCAL] : null;
                     $remote = isset($project_info->files[LOCALE_TRANSLATION_REMOTE]) ? $project_info->files[LOCALE_TRANSLATION_REMOTE] : null;
-                    $local_age = $local->timestamp? format_date($local->timestamp, 'html_date'): '';
-                    $remote_age = $remote->timestamp? format_date($remote->timestamp, 'html_date'): '';
+                    $local_age = $local->timestamp? $date_formatter->format($local->timestamp, $date_format): '';
+                    $remote_age = $remote->timestamp? $date_formatter->format($remote->timestamp, $date_format): '';
 
                     if ($local_age >= $remote_age) {
                         $info = $this->trans('commands.locale.translation.status.messages.translation-project-updated');
@@ -84,7 +86,7 @@ trait LocaleTrait
                     $info = $this->createInfoString($project_info);
                 }
 
-                $status_report[$langcode][] = [$project_info->name, $project_info->version, $local_age, $remote_age ,$info ];
+                $status_report[$langcode][] = [$project_info->name, $project_info->version, $local_age, $remote_age, $info ];
             }
         }
 

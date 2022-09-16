@@ -63,7 +63,6 @@ class UpdateCommand extends Command
         $this->site->loadLegacyFile('/core/includes/install.inc');
 
         drupal_load_updates();
-        update_fix_compatibility();
 
         $requirements = update_check_requirements();
         $severity = drupal_requirements_severity($requirements);
