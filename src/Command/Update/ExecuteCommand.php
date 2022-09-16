@@ -21,6 +21,7 @@ use Drupal\Console\Core\Utils\ChainQueue;
 
 class ExecuteCommand extends Command
 {
+
     use UpdateTrait;
 
     /**
@@ -67,12 +68,12 @@ class ExecuteCommand extends Command
     /**
      * EntitiesCommand constructor.
      *
-     * @param Site           $site
-     * @param StateInterface $state
-     * @param ModuleHandlerInterface  $moduleHandler
-     * @param UpdateRegistry $postUpdateRegistry
-     * @param Manager        $extensionManager
-     * @param ChainQueue     $chainQueue
+     * @param  Site                    $site
+     * @param  StateInterface          $state
+     * @param  ModuleHandlerInterface  $moduleHandler
+     * @param  UpdateRegistry          $postUpdateRegistry
+     * @param  Manager                 $extensionManager
+     * @param  ChainQueue              $chainQueue
      */
     public function __construct(
         Site $site,
@@ -82,12 +83,12 @@ class ExecuteCommand extends Command
         Manager $extensionManager,
         ChainQueue $chainQueue
     ) {
-        $this->site = $site;
-        $this->state = $state;
-        $this->moduleHandler = $moduleHandler;
+        $this->site               = $site;
+        $this->state              = $state;
+        $this->moduleHandler      = $moduleHandler;
         $this->postUpdateRegistry = $postUpdateRegistry;
-        $this->extensionManager = $extensionManager;
-        $this->chainQueue = $chainQueue;
+        $this->extensionManager   = $extensionManager;
+        $this->chainQueue         = $chainQueue;
         parent::__construct();
     }
 
@@ -98,7 +99,9 @@ class ExecuteCommand extends Command
     {
         $this
             ->setName('update:execute')
-            ->setDescription($this->trans('commands.update.execute.description'))
+            ->setDescription(
+                $this->trans('commands.update.execute.description')
+            )
             ->addArgument(
                 'module',
                 InputArgument::OPTIONAL,
@@ -120,7 +123,7 @@ class ExecuteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->module = $input->getArgument('module');
+        $this->module   = $input->getArgument('module');
         $this->update_n = (int)$input->getArgument('update-n');
 
         $this->site->loadLegacyFile('/core/includes/install.inc');
@@ -128,10 +131,12 @@ class ExecuteCommand extends Command
 
         drupal_load_updates();
 
-        $start = $this->getUpdates($this->module!=='all'?$this->module:null);
-        $updates = update_resolve_dependencies($start);
+        $start       = $this->getUpdates(
+            $this->module !== 'all' ? $this->module : null
+        );
+        $updates     = update_resolve_dependencies($start);
         $allowUpdate = false;
-        $assumeYes = $input->getOption('yes');
+        $assumeYes   = $input->getOption('yes');
 
         if (!$this->checkUpdates($start, $updates)) {
             if ($this->module === 'all') {
@@ -155,29 +160,46 @@ class ExecuteCommand extends Command
             $this->getIo()->info('');
         } else {
             $updateList = update_get_update_list();
-            $this->showUpdateTable($this->module === 'all' ?  $updateList: $updateList[$this->module], $this->trans('commands.update.execute.messages.pending-updates'));
-
-            $allowUpdate = $assumeYes || $this->getIo()->confirm(
-                $this->trans('commands.update.execute.questions.update'),
-                true
+            $this->showUpdateTable(
+                $this->module === 'all' ? $updateList
+                    : $updateList[$this->module],
+                $this->trans('commands.update.execute.messages.pending-updates')
             );
+
+            $allowUpdate = $assumeYes
+                || $this->getIo()->confirm(
+                    $this->trans('commands.update.execute.questions.update'),
+                    true
+                );
         }
 
         // Handle Post update to execute
         $allowPostUpdate = false;
-        if(!$postUpdates = $this->postUpdateRegistry->getPendingUpdateInformation()) {
+        if (!$postUpdates
+            = $this->postUpdateRegistry->getPendingUpdateInformation()
+        ) {
             $this->getIo()->info(
-                $this->trans('commands.update.execute.messages.no-pending-post-updates')
+                $this->trans(
+                    'commands.update.execute.messages.no-pending-post-updates'
+                )
             );
         } else {
-            $this->showPostUpdateTable($postUpdates, $this->trans('commands.update.execute.messages.pending-post-updates'));
-            $allowPostUpdate = $assumeYes || $this->getIo()->confirm(
-                $this->trans('commands.update.execute.questions.post-update'),
-                true
+            $this->showPostUpdateTable(
+                $postUpdates,
+                $this->trans(
+                    'commands.update.execute.messages.pending-post-updates'
+                )
             );
+            $allowPostUpdate = $assumeYes
+                || $this->getIo()->confirm(
+                    $this->trans(
+                        'commands.update.execute.questions.post-update'
+                    ),
+                    true
+                );
         }
 
-        if($allowUpdate) {
+        if ($allowUpdate) {
             try {
                 $this->runUpdates(
                     $updates
@@ -185,15 +207,16 @@ class ExecuteCommand extends Command
             } catch (\Exception $e) {
                 watchdog_exception('update', $e);
                 $this->getIo()->error($e->getMessage());
+
                 return 1;
             }
         }
 
-        if($allowPostUpdate) {
+        if ($allowPostUpdate) {
             $this->runPostUpdates($postUpdates);
         }
 
-        if($allowPostUpdate || $allowUpdate) {
+        if ($allowPostUpdate || $allowUpdate) {
             $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
         }
 
@@ -201,8 +224,8 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param array $start
-     * @param array $updates
+     * @param  array  $start
+     * @param  array  $updates
      *
      * @return bool true if the selected module/update number exists.
      */
@@ -216,8 +239,8 @@ class ExecuteCommand extends Command
 
         if ($this->module !== 'all') {
             $module = $this->module;
-            $hooks = array_keys($updates);
-            $hooks = array_map(
+            $hooks  = array_keys($updates);
+            $hooks  = array_map(
                 function ($v) use ($module) {
                     return (int)str_replace(
                         $module.'_update_',
@@ -237,13 +260,15 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param array       $updates
+     * @param  array  $updates
      */
     private function runUpdates(
         array $updates
     ) {
         $this->getIo()->info(
-            $this->trans('commands.update.execute.messages.executing-required-previous-updates')
+            $this->trans(
+                'commands.update.execute.messages.executing-required-previous-updates'
+            )
         );
 
         foreach ($updates as $function => $update) {
@@ -251,13 +276,17 @@ class ExecuteCommand extends Command
                 continue;
             }
 
-            if ($this->module !== 'all' && $update['number'] > $this->update_n) {
+            if ($this->module !== 'all'
+                && $update['number'] > $this->update_n
+            ) {
                 break;
             }
 
             $this->getIo()->comment(
                 sprintf(
-                    $this->trans('commands.update.execute.messages.executing-update'),
+                    $this->trans(
+                        'commands.update.execute.messages.executing-update'
+                    ),
                     $update['number'],
                     $update['module']
                 )
@@ -278,12 +307,13 @@ class ExecuteCommand extends Command
     }
 
     /**
-     * @param array $postUpdates
+     * @param  array  $postUpdates
+     *
      * @return bool
      */
     private function runPostUpdates($postUpdates)
     {
-        if(!$postUpdates) {
+        if (!$postUpdates) {
             return 0;
         }
 
@@ -291,7 +321,9 @@ class ExecuteCommand extends Command
             foreach ($updates['pending'] as $updateName => $update) {
                 $this->getIo()->info(
                     sprintf(
-                        $this->trans('commands.update.execute.messages.executing-post-update'),
+                        $this->trans(
+                            'commands.update.execute.messages.executing-post-update'
+                        ),
                         $updateName,
                         $module
                     )
@@ -322,7 +354,7 @@ class ExecuteCommand extends Command
         if ($module) {
             if (isset($start[$module])) {
                 $start = [
-                    $module => $start[$module]
+                    $module => $start[$module],
                 ];
             } else {
                 $start = [];
@@ -335,7 +367,7 @@ class ExecuteCommand extends Command
     // Copy of protected \Drupal\system\Controller\DbUpdateController::getModuleUpdates.
     protected function getUpdateList()
     {
-        $start = [];
+        $start   = [];
         $updates = update_get_update_list();
         foreach ($updates as $module => $update) {
             $start[$module] = $update['start'];
@@ -357,14 +389,21 @@ class ExecuteCommand extends Command
                     );
                 }
 
-                if (isset($context['sandbox']['#finished']) && ($context['sandbox']['#finished'] < 1)) {
+                if (isset($context['sandbox']['#finished'])
+                    && ($context['sandbox']['#finished'] < 1)
+                ) {
                     $this->getIo()->info(
-                        '  Processed '.number_format($context['sandbox']['#finished'] * 100, 2).'%'
+                        '  Processed '.number_format(
+                            $context['sandbox']['#finished'] * 100,
+                            2
+                        ).'%'
                     );
                 }
             }
-        } while (isset($context['sandbox']['#finished']) && ($context['sandbox']['#finished'] < 1));
+        } while (isset($context['sandbox']['#finished'])
+        && ($context['sandbox']['#finished'] < 1));
 
         return true;
     }
+
 }
