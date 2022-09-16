@@ -133,6 +133,8 @@ class ImportSingleCommand extends Command
 
             return 1;
         }
+
+        return 0;
     }
 
     private function configImport(StorageComparer $storageComparer)
@@ -146,7 +148,8 @@ class ImportSingleCommand extends Command
             \Drupal::moduleHandler(),
             \Drupal::service('module_installer'),
             \Drupal::service('theme_handler'),
-            \Drupal::service('string_translation')
+            \Drupal::service('string_translation'),
+            \Drupal::service('extension.list.module')
         );
 
         if ($configImporter->alreadyImporting()) {

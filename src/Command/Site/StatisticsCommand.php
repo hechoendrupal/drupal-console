@@ -10,10 +10,10 @@ namespace Drupal\Console\Command\Site;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * Class StatisticsCommand
@@ -28,11 +28,6 @@ class StatisticsCommand extends Command
     protected $drupalApi;
 
     /**
-     * @var QueryFactory
-     */
-    protected $entityQuery;
-
-    /**
      * @var Manager
      */
     protected $extensionManager;
@@ -43,21 +38,25 @@ class StatisticsCommand extends Command
     protected $moduleHandler;
 
     /**
+     * @var EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+
+    /**
      * StatisticsCommand constructor.
      *
      * @param DrupalApi $drupalApi
-     * @param QueryFactory $entityQuery ;
      * @param Manager $extensionManager
      * @param ModuleHandlerInterface $moduleHandler
      */
     public function __construct(
         DrupalApi $drupalApi,
-        QueryFactory $entityQuery,
+        EntityTypeManagerInterface $entityTypeManager,
         Manager $extensionManager,
         ModuleHandlerInterface $moduleHandler
     ) {
         $this->drupalApi = $drupalApi;
-        $this->entityQuery = $entityQuery;
+        $this->entityTypeManager = $entityTypeManager;
         $this->extensionManager = $extensionManager;
         $this->moduleHandler = $moduleHandler;
         parent::__construct();
@@ -131,7 +130,7 @@ class StatisticsCommand extends Command
 
     private function getEntitiesCount($entity_type, $condition = [])
     {
-        $entityQuery = $this->entityQuery->get($entity_type)->count();
+        $entityQuery = $this->entityTypeManager->getStorage($entity_type)->getQuery()->count();
         if (!empty($condition)) {
             $entityQuery->condition($condition['name'], $condition['value'], $condition['condition']);
         }

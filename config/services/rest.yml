@@ -10,6 +10,5 @@ services:
       - '@entity_type.manager'
       - '@?plugin.manager.rest'
       - '@authentication_collector'
-      - '@entity.manager'
     tags:
       - { name: drupal.command }

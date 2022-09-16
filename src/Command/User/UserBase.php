@@ -61,7 +61,7 @@ class UserBase extends Command
 
         $userList = [];
         foreach ($users as $userId => $user) {
-            $userList[$userId] = $user->getUsername();
+            $userList[$userId] = $user->getAccountName();
         }
 
         return $userList;

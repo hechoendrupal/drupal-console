@@ -2,6 +2,7 @@
 
 namespace Drupal\Console\Command;
 
+use Drupal\Core\Site\Settings;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -125,7 +126,7 @@ class DotenvInitCommand extends GenerateCommand
         include_once $this->drupalFinder->getDrupalRoot() . '/core/includes/install.inc';
 
         $settings['config_directories'] = [
-            CONFIG_SYNC_DIRECTORY => (object) [
+            Settings::get('config_sync_directory') => (object) [
                 'value' => Path::makeRelative(
                     $this->drupalFinder->getComposerRoot() . '/config/sync',
                     $this->drupalFinder->getDrupalRoot()

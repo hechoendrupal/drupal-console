@@ -118,7 +118,7 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
     $latest_revision = TRUE;
 
     foreach (array_reverse($vids) as $vid) {
-      /** @var \Drupal\{{ module }}\{{ entity_class }}Interface $revision */
+      /** @var \Drupal\{{ module }}\Entity\{{ entity_class }}Interface $revision */
       $revision = ${{ entity_name }}_storage->loadRevision($vid);
 {% if is_translatable %}
       // Only show revisions that are affected by the language that is being

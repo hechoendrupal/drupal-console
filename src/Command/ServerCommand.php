@@ -10,10 +10,10 @@ namespace Drupal\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Drupal\Console\Core\Command\Command;
-use \Drupal\Console\Core\Utils\ConfigurationManager;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 /**
  * Class ServerCommand
@@ -22,6 +22,7 @@ use \Drupal\Console\Core\Utils\ConfigurationManager;
  */
 class ServerCommand extends Command
 {
+
     /**
      * @var string
      */
@@ -40,7 +41,7 @@ class ServerCommand extends Command
      */
     public function __construct($appRoot, $configurationManager)
     {
-        $this->appRoot = $appRoot;
+        $this->appRoot              = $appRoot;
         $this->configurationManager = $configurationManager;
 
         parent::__construct();
@@ -71,17 +72,19 @@ class ServerCommand extends Command
 
         $finder = new PhpExecutableFinder();
         if (false === $binary = $finder->find()) {
-            $this->getIo()->error($this->trans('commands.server.errors.binary'));
+            $this->getIo()->error(
+                $this->trans('commands.server.errors.binary')
+            );
+
             return 1;
         }
 
         $router = $this->configurationManager
-            ->getVendorCoreDirectory() . 'router.php';
+                ->getVendorCoreDirectory().'router.php';
 
-        $processBuilder = new ProcessBuilder([$binary, '-S', $address, $router]);
-        $processBuilder->setTimeout(null);
-        $processBuilder->setWorkingDirectory($this->appRoot);
-        $process = $processBuilder->getProcess();
+        $process = new Process([$binary, '-S', $address, $router]);
+        $process->setTimeout(null);
+        $process->setWorkingDirectory($this->appRoot);
 
         $this->getIo()->success(
             sprintf(
@@ -97,7 +100,9 @@ class ServerCommand extends Command
             )
         );
 
-        if ($this->getIo()->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+        if ($this->getIo()->getVerbosity()
+            > OutputInterface::VERBOSITY_NORMAL
+        ) {
             $callback = [$this, 'outputCallback'];
         } else {
             $callback = null;
@@ -108,6 +113,7 @@ class ServerCommand extends Command
 
         if (!$process->isSuccessful()) {
             $this->getIo()->error($process->getErrorOutput());
+
             return 1;
         }
 
@@ -115,7 +121,8 @@ class ServerCommand extends Command
     }
 
     /**
-     * @param string $address
+     * @param  string  $address
+     *
      * @return string
      */
     private function validatePort($address)
@@ -129,7 +136,7 @@ class ServerCommand extends Command
         }
 
         if (fsockopen($host, $port)) {
-            $port = rand(8888, 9999);
+            $port    = rand(8888, 9999);
             $address = sprintf(
                 '%s:%s',
                 $host,
@@ -147,4 +154,5 @@ class ServerCommand extends Command
         // TODO: seems like $type is Process::ERR always
         echo $buffer;
     }
+
 }
