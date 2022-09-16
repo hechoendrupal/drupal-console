@@ -14,6 +14,8 @@ namespace Drupal\Console\Command\Shared;
  */
 trait EventsTrait
 {
+    private $events;
+    
     /**
      * @return mixed
      */
