@@ -17,6 +17,7 @@ class UserBase extends Command
      */
     protected $entityTypeManager;
 
+
     /**
      * Base constructor.
      *
@@ -41,13 +42,60 @@ class UserBase extends Command
                 ->getStorage('user')
                 ->load($user);
         } else {
-            $userEntity = reset(
-                $this->entityTypeManager
-                    ->getStorage('user')
-                    ->loadByProperties(['name' => $user])
-            );
+            $userEntities = $this->entityTypeManager
+                ->getStorage('user')
+                ->loadByProperties(['name' => $user]);
+            $userEntity = reset($userEntities);
         }
 
         return $userEntity;
+    }
+
+    /***
+     * @return array users from site
+     */
+    public function getUsers()
+    {
+        $userStorage =  $this->entityTypeManager->getStorage('user');
+        $users = $userStorage->loadMultiple();
+
+        $userList = [];
+        foreach ($users as $userId => $user) {
+            $userList[$userId] = $user->getAccountName();
+        }
+
+        return $userList;
+    }
+
+    private function userQuestion($user)
+    {
+        if (!$user) {
+            $user = $this->getIo()->choiceNoList(
+                $this->trans('commands.user.password.reset.questions.user'),
+                $this->getUsers()
+            );
+        }
+
+        return $user;
+    }
+
+    public function getUserOption()
+    {
+        $input = $this->getIo()->getInput();
+
+        $user = $this->userQuestion($input->getOption('user'));
+        $input->setOption('user', $user);
+
+        return $user;
+    }
+
+    public function getUserArgument()
+    {
+        $input = $this->getIo()->getInput();
+
+        $user = $this->userQuestion($input->getArgument('user'));
+        $input->setArgument('user', $user);
+
+        return $user;
     }
 }

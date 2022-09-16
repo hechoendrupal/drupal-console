@@ -7,19 +7,18 @@
 
 namespace Drupal\Console\Command\Debug;
 
+use Drupal\Console\Core\Command\Command;
+use Drupal\views\Views;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\views\Views;
 
 /**
  * Class ViewsPluginsCommand
  *
  * @package Drupal\Console\Command\Debug
  */
-class ViewsPluginsCommand extends ContainerAwareCommand
+class ViewsPluginsCommand extends Command
 {
     /**
      * {@inheritdoc}
@@ -41,17 +40,15 @@ class ViewsPluginsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $type = $input->getArgument('type');
 
-        $this->pluginList($io, $type);
+        $this->pluginList($type);
     }
 
     /**
-     * @param \Drupal\Console\Core\Style\DrupalStyle $io
      * @param $type
      */
-    protected function pluginList(DrupalStyle $io, $type)
+    protected function pluginList($type)
     {
         $plugins = Views::pluginList();
 
@@ -66,7 +63,7 @@ class ViewsPluginsCommand extends ContainerAwareCommand
             foreach ($plugin['views'] as $plugin_name => $view) {
                 $views[] = $view;
             }
-            $rows[] = [$plugin['type'], $plugin['title'], $plugin['provider'], implode(",", $views)];
+            $rows[] = [$plugin['type'], $plugin['title'], $plugin['provider'], implode(',', $views)];
         }
 
         // Sort rows by field name.
@@ -80,6 +77,6 @@ class ViewsPluginsCommand extends ContainerAwareCommand
           $this->trans('commands.debug.views.plugins.messages.views'),
         ];
 
-        $io->table($tableHeader, $rows, 'compact');
+        $this->getIo()->table($tableHeader, $rows, 'compact');
     }
 }

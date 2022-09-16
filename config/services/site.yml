@@ -16,11 +16,16 @@ services:
       - { name: drupal.command }
   console.site_statistics:
     class: Drupal\Console\Command\Site\StatisticsCommand
-    arguments: ['@console.drupal_api', '@entity.query', '@console.extension_manager', '@module_handler']
+    arguments: ['@console.drupal_api', '@entity_type.manager', '@console.extension_manager', '@module_handler']
     tags:
       - { name: drupal.command }
   console.site_status:
     class: Drupal\Console\Command\Site\StatusCommand
-    arguments: ['@?system.manager', '@settings', '@config.factory', '@theme_handler', '@app.root']
+    arguments: ['@?system.manager', '@settings', '@config.factory', '@theme_handler', '@app.root', '@renderer']
+    tags:
+      - { name: drupal.command }
+  console.service_override:
+    class: Drupal\Console\Command\Service\OverrideCommand
+    arguments: ['@app.root', '@console.chain_queue']
     tags:
       - { name: drupal.command }

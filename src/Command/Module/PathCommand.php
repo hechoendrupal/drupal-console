@@ -13,7 +13,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 
 class PathCommand extends Command
@@ -56,15 +55,13 @@ class PathCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $module = $input->getArgument('module');
 
         $fullPath = $input->getOption('absolute');
 
         $module = $this->extensionManager->getModule($module);
 
-        $io->info(
+        $this->getIo()->info(
             $module->getPath($fullPath)
         );
     }
@@ -74,13 +71,11 @@ class PathCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module argument
         $module = $input->getArgument('module');
         if (!$module) {
             // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
+            $module = $this->moduleQuestion();
             $input->setArgument('module', $module);
         }
     }

@@ -28,33 +28,18 @@ class PluginMigrateSourceGenerator extends Generator
         $this->extensionManager = $extensionManager;
     }
 
-    /**
-     * Generate Migrate Source plugin code.
-     *
-     * @param $module
-     * @param $class_name
-     * @param $plugin_id
-     * @param $table
-     * @param $alias
-     * @param $group_by
-     * @param fields
-     */
-    public function generate($module, $class_name, $plugin_id, $table, $alias, $group_by, $fields)
-    {
-        $parameters = [
-          'module' => $module,
-          'class_name' => $class_name,
-          'plugin_id' => $plugin_id,
-          'table' => $table,
-          'alias' => $alias,
-          'group_by' => $group_by,
-          'fields' => $fields,
-        ];
+  /**
+   * {@inheritdoc}
+   */
+  public function generate(array $parameters)
+  {
+      $module = $parameters['module'];
+      $class_name = $parameters['class_name'];
 
-        $this->renderFile(
-            'module/src/Plugin/migrate/source/source.php.twig',
-            $this->extensionManager->getPluginPath($module, 'migrate').'/source/'.$class_name.'.php',
-            $parameters
-        );
-    }
+      $this->renderFile(
+          'module/src/Plugin/migrate/source/source.php.twig',
+          $this->extensionManager->getPluginPath($module, 'migrate') . '/source/' . $class_name . '.php',
+          $parameters
+      );
+  }
 }

@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\features\FeaturesManagerInterface;
 use Drupal\features\ConfigurationItem;
 use Drupal\features\Plugin\FeaturesGeneration\FeaturesGenerationWrite;
@@ -20,7 +19,7 @@ use Drupal\config_update\ConfigRevertInterface;
  */
 trait FeatureTrait
 {
-    public function packageQuestion(DrupalStyle $io)
+    public function packageQuestion($bundle)
     {
         $packages = $this->getPackagesByBundle($bundle);
 
@@ -30,7 +29,7 @@ trait FeatureTrait
             );
         }
 
-        $package = $io->choiceNoList(
+        $package = $this->getIo()->choiceNoList(
             $this->trans('commands.features.import.questions.packages'),
             $packages
         );
@@ -101,7 +100,7 @@ trait FeatureTrait
     }
 
 
-    protected function importFeature(DrupalStyle $io, $packages)
+    protected function importFeature($packages)
     {
         $manager =  $this->getFeatureManager();
 
@@ -111,7 +110,7 @@ trait FeatureTrait
             $package = $manager->loadPackage($module_name, true);
 
             if (empty($package)) {
-                $io->warning(
+                $this->getIo()->warning(
                     sprintf(
                         $this->trans('commands.features.import.messages.not-available'),
                         $module_name
@@ -121,7 +120,7 @@ trait FeatureTrait
             }
 
             if ($package->getStatus() != FeaturesManagerInterface::STATUS_INSTALLED) {
-                $io->warning(
+                $this->getIo()->warning(
                     sprintf(
                         $this->trans('commands.features.import.messages.uninstall'),
                         $module_name
@@ -142,7 +141,7 @@ trait FeatureTrait
         $components = $overridden;
 
         if (empty($components)) {
-            $io->warning(
+            $this->getIo()->warning(
                 sprintf(
                     $this->trans('commands.features.import.messages.nothing')
                 )
@@ -150,13 +149,13 @@ trait FeatureTrait
 
             return ;
         } else {
-            $this->import($io, $components);
+            $this->import($this->getIo(), $components);
         }
     }
 
-    public function import($io, $components)
+    public function import($components)
     {
-        $manager =  $this->getFeatureManager();
+        $manager = $this->getFeatureManager();
         /**
          * @var \Drupal\config_update\ConfigRevertInterface $config_revert
          */
@@ -171,7 +170,7 @@ trait FeatureTrait
                     $item = $manager->getConfigType($feature);
                     $type = ConfigurationItem::fromConfigStringToConfigType($item['type']);
                     $config_revert->import($type, $item['name_short']);
-                    $io->info(
+                    $this->getIo()->info(
                         sprintf(
                             $this->trans('commands.features.import.messages.importing'),
                             $feature
@@ -182,7 +181,7 @@ trait FeatureTrait
                     $item = $config[$feature];
                     $type = ConfigurationItem::fromConfigStringToConfigType($item->getType());
                     $config_revert->revert($type, $item->getShortName());
-                    $io->info(
+                    $this->getIo()->info(
                         sprintf(
                             $this->trans('commands.features.import.messages.reverting'),
                             $feature

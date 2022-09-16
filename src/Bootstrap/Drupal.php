@@ -7,12 +7,13 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Component\FileCache\FileCacheFactory;
-use Drupal\Core\Site\Settings;
+use Drupal\Core\Database\Database;
 use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Core\Utils\ArgvInputReader;
 use Drupal\Console\Core\Bootstrap\DrupalConsoleCore;
 use Drupal\Console\Core\Utils\DrupalFinder;
 use Drupal\Console\Core\Bootstrap\DrupalInterface;
+use Drupal\Console\Core\Utils\ConfigurationManager;
 
 class Drupal implements DrupalInterface
 {
@@ -24,17 +25,32 @@ class Drupal implements DrupalInterface
     protected $drupalFinder;
 
     /**
+     * @var ConfigurationManager
+     */
+    protected $configurationManager;
+
+    /**
      * Drupal constructor.
      *
      * @param $autoload
      * @param $drupalFinder
+     * @param $configurationManager
      */
-    public function __construct($autoload, DrupalFinder $drupalFinder)
-    {
+    public function __construct(
+        $autoload,
+        DrupalFinder $drupalFinder,
+        ConfigurationManager $configurationManager
+    ) {
         $this->autoload = $autoload;
         $this->drupalFinder = $drupalFinder;
+        $this->configurationManager = $configurationManager;
     }
 
+    /**
+     * Boot the Drupal object
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
     public function boot()
     {
         $output = new ConsoleOutput();
@@ -54,11 +70,8 @@ class Drupal implements DrupalInterface
 
         if (!class_exists('Drupal\Core\DrupalKernel')) {
             $io->error('Class Drupal\Core\DrupalKernel does not exist.');
-            $drupal = new DrupalConsoleCore(
-                $this->drupalFinder->getComposerRoot(),
-                $this->drupalFinder->getDrupalRoot()
-            );
-            return $drupal->boot();
+
+            return $this->bootDrupalConsoleCore();
         }
 
         try {
@@ -79,9 +92,20 @@ class Drupal implements DrupalInterface
                 $io->writeln('➤ Creating request');
             }
 
+            $parsed_url = parse_url($uri);
+
+            if($parsed_url['scheme'] == 'https') {
+                $_SERVER['HTTPS'] = 'on';
+            }
+
+            $path = '/';
+            if(isset($parsed_url['path'])) {
+                $path =  $parsed_url['path'] . $path;
+            }
+
             $_SERVER['HTTP_HOST'] = parse_url($uri, PHP_URL_HOST);
             $_SERVER['SERVER_PORT'] = null;
-            $_SERVER['REQUEST_URI'] = '/';
+            $_SERVER['REQUEST_URI'] = $path;
             $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
             $_SERVER['REQUEST_METHOD'] = 'GET';
             $_SERVER['SERVER_SOFTWARE'] = null;
@@ -127,11 +151,14 @@ class Drupal implements DrupalInterface
                 $io->writeln('➤ Registering dynamic services');
             }
 
+            $configuration = $this->configurationManager->getConfiguration();
+
             $drupalKernel->addServiceModifier(
                 new DrupalServiceModifier(
                     $this->drupalFinder->getComposerRoot(),
                     'drupal.command',
-                    'drupal.generator'
+                    'drupal.generator',
+                    $configuration
                 )
             );
 
@@ -161,6 +188,13 @@ class Drupal implements DrupalInterface
 
             $container = $drupalKernel->getContainer();
 
+            if ($this->shouldRedirectToDrupalCore($container)) {
+                $container = $this->bootDrupalConsoleCore();
+                $container->set('class_loader', $this->autoload);
+
+                return $container;
+            }
+
             $container->set(
                 'console.root',
                 $this->drupalFinder->getComposerRoot()
@@ -168,8 +202,10 @@ class Drupal implements DrupalInterface
 
             AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);
 
-            $configuration = $container->get('console.configuration_manager')
-                ->getConfiguration();
+            $container->set(
+                'console.configuration_manager',
+                $this->configurationManager
+            );
 
             $container->get('console.translator_manager')
                 ->loadCoreLanguage(
@@ -185,14 +221,28 @@ class Drupal implements DrupalInterface
                     ]
                 );
 
+            $container->set(
+                'console.drupal_finder',
+                $this->drupalFinder
+            );
+
+            $container->set(
+                'console.cache_key',
+                $drupalKernel->getContainerKey()
+            );
+
             return $container;
         } catch (\Exception $e) {
-            $drupal = new DrupalConsoleCore(
-                $this->drupalFinder->getComposerRoot(),
-                $this->drupalFinder->getDrupalRoot()
-            );
-            $container = $drupal->boot();
+            $container = $this->bootDrupalConsoleCore();
             $container->set('class_loader', $this->autoload);
+
+            $container->get('console.renderer')
+                ->setSkeletonDirs(
+                    [
+                        $this->drupalFinder->getComposerRoot().DRUPAL_CONSOLE.'/templates/',
+                        $this->drupalFinder->getComposerRoot().DRUPAL_CONSOLE_CORE.'/templates/'
+                    ]
+                );
 
             $notifyErrorCodes = [
                 0,
@@ -202,15 +252,55 @@ class Drupal implements DrupalInterface
             ];
 
             if (in_array($e->getCode(), $notifyErrorCodes)) {
-                $messageParser = $container->get('console.message_parser');
-                $messageParser->addMessage(
-                    $container,
-                    'error',
-                    $e->getMessage()
+                /**
+                 * @var \Drupal\Console\Core\Utils\MessageManager $messageManager
+                 */
+                $messageManager = $container->get('console.message_manager');
+                $messageManager->error(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    'list',
+                    'site:install'
                 );
             }
 
             return $container;
         }
+    }
+
+    /**
+     * Builds and boot a DrupalConsoleCore object
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    protected function bootDrupalConsoleCore()
+    {
+        $drupal = new DrupalConsoleCore(
+            $this->drupalFinder->getComposerRoot(),
+            $this->drupalFinder->getDrupalRoot(),
+            $this->drupalFinder
+        );
+
+        return $drupal->boot();
+    }
+
+    /**
+     * Validate if flow should redirect to DrupalCore
+     *
+     * @param  $container
+     * @return bool
+     */
+    protected function shouldRedirectToDrupalCore($container)
+    {
+        if (!Database::getConnectionInfo()) {
+            return true;
+        }
+
+        if (!$container->has('database')) {
+            return true;
+        }
+
+
+        return !$container->get('database')->schema()->tableExists('sessions');
     }
 }

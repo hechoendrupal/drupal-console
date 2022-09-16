@@ -2,7 +2,6 @@
 
 namespace Drupal\Console\Command\Database;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,14 +23,12 @@ class LogPollCommand extends DatabaseLogBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $io->note($this->trans('commands.database.log.poll.messages.warning'));
+        $this->getIo()->note($this->trans('commands.database.log.poll.messages.warning'));
 
         $this->getDefaultOptions($input);
         $this->duration = $input->getArgument('duration');
 
-        $this->pollForEvents($io);
+        $this->pollForEvents();
     }
 
     /**
@@ -53,12 +50,10 @@ class LogPollCommand extends DatabaseLogBase
         )->setAliases(['dblp']);
     }
 
-    /**
-     * @param DrupalStyle $io
-     */
-    protected function pollForEvents(DrupalStyle $io)
+
+    protected function pollForEvents()
     {
-        $query = $this->makeQuery($io)->countQuery();
+        $query = $this->makeQuery()->countQuery();
         $results = $query->execute()->fetchAssoc();
         $count = $results['expression'] - 1;//minus 1 so the newest message always prints
 
@@ -69,7 +64,7 @@ class LogPollCommand extends DatabaseLogBase
         while (1) {
             if (time() > $lastExec + $this->duration) {
                 //Print out any new db logs
-                $query = $this->makeQuery($io, $count);
+                $query = $this->makeQuery($count);
                 $results = $query->execute()->fetchAll();
                 $count += count($results);
                 $tableRows = [];
@@ -77,7 +72,7 @@ class LogPollCommand extends DatabaseLogBase
                     $tableRows[] = $this->createTableRow($r);
                 }
                 if (!empty($tableRows)) {
-                    $io->table($tableHeader, $tableRows);
+                    $this->getIo()->table($tableHeader, $tableRows);
                 }
                 //update the last exec time
                 $lastExec = time();

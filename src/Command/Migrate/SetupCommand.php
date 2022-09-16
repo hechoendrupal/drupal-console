@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Migrate;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\State\StateInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -117,61 +116,59 @@ class SetupCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --db-type option
         $db_type = $input->getOption('db-type');
         if (!$db_type) {
-            $db_type = $this->dbDriverTypeQuestion($io);
+            $db_type = $this->dbDriverTypeQuestion();
             $input->setOption('db-type', $db_type);
         }
 
         // --db-host option
         $db_host = $input->getOption('db-host');
         if (!$db_host) {
-            $db_host = $this->dbHostQuestion($io);
+            $db_host = $this->dbHostQuestion();
             $input->setOption('db-host', $db_host);
         }
 
         // --db-name option
         $db_name = $input->getOption('db-name');
         if (!$db_name) {
-            $db_name = $this->dbNameQuestion($io);
+            $db_name = $this->dbNameQuestion();
             $input->setOption('db-name', $db_name);
         }
 
         // --db-user option
         $db_user = $input->getOption('db-user');
         if (!$db_user) {
-            $db_user = $this->dbUserQuestion($io);
+            $db_user = $this->dbUserQuestion();
             $input->setOption('db-user', $db_user);
         }
 
         // --db-pass option
         $db_pass = $input->getOption('db-pass');
         if (!$db_pass) {
-            $db_pass = $this->dbPassQuestion($io);
+            $db_pass = $this->dbPassQuestion();
             $input->setOption('db-pass', $db_pass);
         }
 
         // --db-prefix
         $db_prefix = $input->getOption('db-prefix');
         if (!$db_prefix) {
-            $db_prefix = $this->dbPrefixQuestion($io);
+            $db_prefix = $this->dbPrefixQuestion();
             $input->setOption('db-prefix', $db_prefix);
         }
 
         // --db-port prefix
         $db_port = $input->getOption('db-port');
         if (!$db_port) {
-            $db_port = $this->dbPortQuestion($io);
+            $db_port = $this->dbPortQuestion();
             $input->setOption('db-port', $db_port);
         }
 
         // --source-base_path
         $sourceBasepath = $input->getOption('source-base_path');
         if (!$sourceBasepath) {
-            $sourceBasepath = $io->ask(
+            $sourceBasepath = $this->getIo()->ask(
                 $this->trans('commands.migrate.setup.questions.source-base-path'),
                 ''
             );
@@ -181,16 +178,14 @@ class SetupCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $sourceBasepath = $input->getOption('source-base_path');
         $configuration['source']['constants']['source_base_path'] = rtrim($sourceBasepath, '/') . '/';
 
-        $this->registerMigrateDB($input, $io);
-        $this->migrateConnection = $this->getDBConnection($io, 'default', 'upgrade');
+        $this->registerMigrateDB();
+        $this->migrateConnection = $this->getDBConnection('default', 'upgrade');
 
         if (!$drupal_version = $this->getLegacyDrupalVersion($this->migrateConnection)) {
-            $io->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
+            $this->getIo()->error($this->trans('commands.migrate.setup.migrations.questions.not-drupal'));
             return 1;
         }
         
@@ -202,7 +197,7 @@ class SetupCommand extends ContainerAwareCommand
         $migrations  = $this->getMigrations($version_tag, false, $configuration);
         
         if ($migrations) {
-            $io->info(
+            $this->getIo()->info(
                 sprintf(
                     $this->trans('commands.migrate.setup.messages.migrations-created'),
                     count($migrations),

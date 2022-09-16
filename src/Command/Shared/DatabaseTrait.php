@@ -7,9 +7,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
-
 /**
  * Class DatabaseTrait
  *
@@ -18,74 +15,62 @@ use Drupal\Console\Core\Style\DrupalStyle;
 trait DatabaseTrait
 {
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function dbHostQuestion(DrupalStyle $io)
+    public function dbHostQuestion()
     {
-        return $io->ask(
+        return $this->getIo()->ask(
             $this->trans('commands.migrate.execute.questions.db-host'),
             '127.0.0.1'
         );
     }
 
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function dbNameQuestion(DrupalStyle $io)
+    public function dbNameQuestion()
     {
-        return $io->ask(
+        return $this->getIo()->ask(
             $this->trans('commands.migrate.execute.questions.db-name')
         );
     }
 
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function dbUserQuestion(DrupalStyle $io)
+    public function dbUserQuestion()
     {
-        return $io->ask(
+        return $this->getIo()->ask(
             $this->trans('commands.migrate.execute.questions.db-user')
         );
     }
 
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function dbPassQuestion(DrupalStyle $io)
+    public function dbPassQuestion()
     {
-        return $io->askHiddenEmpty(
+        return $this->getIo()->askHiddenEmpty(
             $this->trans('commands.migrate.execute.questions.db-pass')
         );
     }
 
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function dbPrefixQuestion(DrupalStyle $io)
+    public function dbPrefixQuestion()
     {
-        return $io->askEmpty(
+        return $this->getIo()->askEmpty(
             $this->trans('commands.migrate.execute.questions.db-prefix')
         );
     }
 
     /**
-     * @param DrupalStyle $io
-     *
      * @return mixed
      */
-    public function dbPortQuestion(DrupalStyle $io)
+    public function dbPortQuestion()
     {
-        return $io->ask(
+        return $this->getIo()->ask(
             $this->trans('commands.migrate.execute.questions.db-port'),
             '3306'
         );

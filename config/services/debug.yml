@@ -23,12 +23,12 @@ services:
       - { name: drupal.command }
   console.user_debug:
     class: Drupal\Console\Command\Debug\UserCommand
-    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
+    arguments: ['@entity_type.manager', '@console.drupal_api']
     tags:
       - { name: drupal.command }
   console.views_debug:
     class: Drupal\Console\Command\Debug\ViewsCommand
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@?plugin.manager.views.display']
     tags:
       - { name: drupal.command }
   console.views_plugins_debug:
@@ -57,7 +57,7 @@ services:
       - { name: drupal.command }
   console.queue_debug:
     class: Drupal\Console\Command\Debug\QueueCommand
-    arguments: ['@plugin.manager.queue_worker']
+    arguments: ['@queue', '@plugin.manager.queue_worker']
     tags:
       - { name: drupal.command }
   console.libraries_debug:
@@ -67,7 +67,7 @@ services:
       - { name: drupal.command }
   console.module_debug:
     class: Drupal\Console\Command\Debug\ModuleCommand
-    arguments: ['@console.configuration_manager', '@console.site', '@http_client']
+    arguments: ['@console.configuration_manager', '@console.site', '@extension.list.module']
     tags:
       - { name: drupal.command }
   console.image_styles_debug:
@@ -87,7 +87,7 @@ services:
       - { name: drupal.command }
   console.database_table_debug:
     class: Drupal\Console\Command\Debug\DatabaseTableCommand
-    arguments: ['@console.redbean', '@database']
+    arguments: ['@database']
     tags:
       - { name: drupal.command }
   console.cron_debug:
@@ -130,7 +130,7 @@ services:
       - { name: drupal.command }
   console.rest_debug:
     class: Drupal\Console\Command\Debug\RestCommand
-    arguments: ['@?plugin.manager.rest']
+    arguments: ['@entity_type.manager', '@?plugin.manager.rest']
     tags:
       - { name: drupal.command }
   console.test_debug:
@@ -147,3 +147,8 @@ services:
     arguments: ['@console.drupal_api']
     tags:
       - { name: drupal.command }
+  console.hook_debug:
+      class: Drupal\Console\Command\Debug\HookCommand
+      arguments: ['@console.extension_manager', '@module_handler']
+      tags:
+        - { name: drupal.command }

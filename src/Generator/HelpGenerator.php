@@ -29,24 +29,20 @@ class HelpGenerator extends Generator
     }
 
     /**
-     * Generator Post Update Name function.
-     *
-     * @param $module
-     * @param $description
+     * {@inheritdoc}
      */
-    public function generate($module, $description)
+    public function generate(array $parameters)
     {
-        $module_path =  $this->extensionManager->getModule($module)->getPath();
+        $module = $parameters['machine_name'];
+        $moduleFilePath =  $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.module';
 
-        $parameters = [
-          'machine_name' => $module,
-          'description' => $description,
-          'file_exists' => file_exists($module_path .'/'.$module.'.module'),
-        ];
+        $parameters = array_merge($parameters, [
+          'file_exists' => file_exists($moduleFilePath),
+        ]);
 
         $this->renderFile(
             'module/help.php.twig',
-            $module_path .'/'.$module.'.module',
+            $moduleFilePath,
             $parameters,
             FILE_APPEND
         );

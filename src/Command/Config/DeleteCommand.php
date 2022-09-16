@@ -14,7 +14,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Config\StorageInterface;
 use Drupal\Core\Config\CachedStorage;
 use Drupal\Core\Config\ConfigFactory;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class DeleteCommand extends Command
 {
@@ -78,11 +77,9 @@ class DeleteCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $type = $input->getArgument('type');
         if (!$type) {
-            $type = $io->choiceNoList(
+            $type = $this->getIo()->choiceNoList(
                 $this->trans('commands.config.delete.arguments.type'),
                 ['active', 'staging'],
                 'active'
@@ -92,7 +89,7 @@ class DeleteCommand extends Command
 
         $name = $input->getArgument('name');
         if (!$name) {
-            $name = $io->choiceNoList(
+            $name = $this->getIo()->choiceNoList(
                 $this->trans('commands.config.delete.arguments.name'),
                 $this->getAllConfigNames(),
                 'all'
@@ -106,30 +103,28 @@ class DeleteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $type = $input->getArgument('type');
         if (!$type) {
-            $io->error($this->trans('commands.config.delete.errors.type'));
+            $this->getIo()->error($this->trans('commands.config.delete.errors.type'));
             return 1;
         }
 
         $name = $input->getArgument('name');
         if (!$name) {
-            $io->error($this->trans('commands.config.delete.errors.name'));
+            $this->getIo()->error($this->trans('commands.config.delete.errors.name'));
             return 1;
         }
 
         $configStorage = ('active' === $type) ? $this->configStorage : $this->configStorageSync;
 
         if (!$configStorage) {
-            $io->error($this->trans('commands.config.delete.errors.config-storage'));
+            $this->getIo()->error($this->trans('commands.config.delete.errors.config-storage'));
             return 1;
         }
 
         if ('all' === $name) {
-            $io->commentBlock($this->trans('commands.config.delete.warnings.undo'));
-            if ($io->confirm($this->trans('commands.config.delete.questions.sure'))) {
+            $this->getIo()->commentBlock($this->trans('commands.config.delete.warnings.undo'));
+            if ($this->getIo()->confirm($this->trans('commands.config.delete.questions.sure'))) {
                 if ($configStorage instanceof FileStorage) {
                     $configStorage->deleteAll();
                 } else {
@@ -138,7 +133,7 @@ class DeleteCommand extends Command
                     }
                 }
 
-                $io->success($this->trans('commands.config.delete.messages.all'));
+                $this->getIo()->success($this->trans('commands.config.delete.messages.all'));
 
                 return 0;
             }
@@ -151,7 +146,7 @@ class DeleteCommand extends Command
                 $this->removeConfig($name);
             }
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.config.delete.messages.deleted'),
                     $name
@@ -161,7 +156,7 @@ class DeleteCommand extends Command
         }
 
         $message = sprintf($this->trans('commands.config.delete.errors.not-exists'), $name);
-        $io->error($message);
+        $this->getIo()->error($message);
 
         return 1;
     }

@@ -1,5 +1,4 @@
 {% if class_name is defined %}
-
 {{ module_name }}.{{form_id}}:
   path: '{{ path }}'
   defaults:
@@ -13,6 +12,5 @@
 {% else %}
   requirements:
     _access: 'TRUE'
-  {% endif %}
 {% endif %}
-
+{% endif %}

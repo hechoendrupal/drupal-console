@@ -14,32 +14,25 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 {% endif %}
 {% endblock %}
+
+{% block use_class_services %}
+{% endblock %}
+
 {% block class_declaration %}
 /**
  * Class {{ class_name }}.
  */
 class {{ class_name }} extends ControllerBase {% endblock %}
-{% block class_construct %}
-{% if services is not empty %}
 
-  /**
-   * Constructs a new {{ class_name }} object.
-   */
-  public function __construct({{ servicesAsParameters(services)|join(', ') }}) {
-{{ serviceClassInitialization(services) }}
-  }
-{% endif %}
-{% endblock %}
 {% block class_create %}
 {% if services is not empty %}
-
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-{{ serviceClassInjection(services) }}
-    );
+    $instance = parent::create($container);
+{{ serviceClassInjectionNoOverride(services) }}
+    return $instance;
   }
 
 {% endif %}

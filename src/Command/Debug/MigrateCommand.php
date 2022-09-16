@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\MigrationTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Core\Command\Command;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
@@ -58,7 +57,6 @@ class MigrateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $drupal_version = 'Drupal ' . $input->getArgument('tag');
 
         $migrations = $this->getMigrations($drupal_version);
@@ -72,7 +70,7 @@ class MigrateCommand extends Command
 
         $tableRows = [];
         if (empty($migrations)) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.debug.migrate.messages.no-migrations'),
                     count($migrations)
@@ -82,6 +80,6 @@ class MigrateCommand extends Command
         foreach ($migrations as $migration_id => $migration) {
             $tableRows[] = [$migration_id, $migration['description'], $migration['tags']];
         }
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 }

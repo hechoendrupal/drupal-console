@@ -15,7 +15,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Asset\LibraryDiscoveryInterface;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class LibrariesCommand extends Command
 {
@@ -80,7 +79,6 @@ class LibrariesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $extension = $input->getArgument('group');
 
         if (!$extension) {
@@ -116,7 +114,7 @@ class LibrariesCommand extends Command
                 }
             }
 
-            $io->table($tableHeader, $tableRow, 'default');
+            $this->getIo()->table($tableHeader, $tableRow, 'default');
         } else {
             $libraryName = null;
             if ($library = explode('/', $extension)) {
@@ -132,8 +130,8 @@ class LibrariesCommand extends Command
                     continue;
                 }
 
-                $io->writeln('<info>'.$extension.'/'.$key.'</info>');
-                $io->writeln(Yaml::encode($libraries));
+                $this->getIo()->writeln('<info>'.$extension.'/'.$key.'</info>');
+                $this->getIo()->writeln(Yaml::encode($libraries));
             }
         }
     }

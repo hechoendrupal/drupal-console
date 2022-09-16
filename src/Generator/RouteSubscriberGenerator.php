@@ -29,32 +29,27 @@ class RouteSubscriberGenerator extends Generator
     }
 
     /**
-     * Generator Service.
-     *
-     * @param string $module Module name
-     * @param string $name   Service name
-     * @param string $class  Class name
+     * {@inheritdoc}
      */
-    public function generate($module, $name, $class)
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module' => $module,
-          'name' => $name,
-          'class' => $class,
-          'class_path' => sprintf('Drupal\%s\Routing\%s', $module, $class),
-          'tags' => ['name' => 'event_subscriber'],
-          'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
-        ];
+        $module = $parameters['module'];
+        $class = $parameters['class'];
+        $moduleInstance = $this->extensionManager->getModule($module);
+        $moduleServiceYaml = $moduleInstance->getPath() . '/' . $module . '.services.yml';
+        $parameters['class_path'] = sprintf('Drupal\%s\Routing\%s', $module, $class);
+        $parameters['tags'] = ['name' => 'event_subscriber'];
+        $parameters['file_exists'] = file_exists($moduleServiceYaml);
 
         $this->renderFile(
             'module/src/Routing/route-subscriber.php.twig',
-            $this->extensionManager->getModule($module)->getRoutingPath().'/'.$class.'.php',
+            $moduleInstance->getRoutingPath() . '/' . $class . '.php',
             $parameters
         );
 
         $this->renderFile(
             'module/services.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml',
+            $moduleServiceYaml,
             $parameters,
             FILE_APPEND
         );

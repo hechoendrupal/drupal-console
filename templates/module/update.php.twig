@@ -6,7 +6,7 @@
  * Implements hook_update_N() on Module {{ module }} Update # {{ update_number }}.
  */
 function {{ module }}_update_{{ update_number }}(&$sandbox) {
-    drupal_set_message('Module {{ module }} Update # {{ update_number }} () was executed successfully.');
+    \Drupal::messenger()->addMessage('Module {{ module }} Update # {{ update_number }} () was executed successfully.');
 }
 
 {% endblock %}

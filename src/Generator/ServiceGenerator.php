@@ -29,32 +29,23 @@ class ServiceGenerator extends Generator
     }
 
     /**
-     * Generator Service.
-     *
-     * @param string $module       Module name
-     * @param string $name         Service name
-     * @param string $class        Class name
-     * @param string $interface    If TRUE an interface for this service is generated
-     * @param array  $services     List of services
-     * @param string $path_service Path of services
+     * {@inheritdoc}
      */
-    public function generate($module, $name, $class, $interface, $interface_name, $services, $path_service)
+    public function generate(array $parameters)
     {
-        $interface = $interface ? ($interface_name ?: $class . 'Interface') : false;
-        $parameters = [
-            'module' => $module,
-            'name' => $name,
-            'class' => $class,
-            'class_path' => sprintf('Drupal\%s\%s', $module, $class),
-            'interface' => $interface,
-            'services' => $services,
-            'path_service' => $path_service,
-            'file_exists' => file_exists($this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml'),
-        ];
+        $module = $parameters['module'];
+        $class = $parameters['class'];
+        $path_service = $parameters['path_service'];
+
+        $parameters['interface'] = $parameters['interface'] ? ($parameters['interface_name'] ?: $class . 'Interface') : false;
+        $interface = $parameters['interface'];
+        $moduleServiceYaml = $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.services.yml';
+        $parameters['class_path'] = sprintf('Drupal\%s\%s', $module, $class);
+        $parameters['file_exists'] = file_exists($moduleServiceYaml);
        
         $this->renderFile(
             'module/services.yml.twig',
-            $this->extensionManager->getModule($module)->getPath() .'/'.$module.'.services.yml',
+            $moduleServiceYaml,
             $parameters,
             FILE_APPEND
         );
@@ -78,19 +69,15 @@ class ServiceGenerator extends Generator
     {
         $default_path = '/modules/custom/' . $module . '/src/';
         $directory = '';
+        $modulePath = $this->extensionManager->getModule($module)->getPath();
 
         switch ($template) {
-        case 'service.php.twig':
-            $default_target = $this->extensionManager->getModule($module)->getPath() .'/src/'.$class.'.php';
-            $custom_target = $this->extensionManager->getModule($module)->getPath() .'/'.$target.'/'.$class.'.php';
+            case 'service.php.twig':
+            case 'interface.php.twig':
+                $default_target = $modulePath . '/src/' . $class . '.php';
+                $custom_target = $modulePath . '/' . $target . '/' . $class . '.php';
 
-            $directory = (strcmp($target, $default_path) == 0) ? $default_target : $custom_target;
-            break;
-        case 'interface.php.twig':
-            $default_target = $this->extensionManager->getModule($module)->getPath() .'/src/'.$class.'.php';
-            $custom_target = $this->extensionManager->getModule($module)->getPath() .'/'.$target.'/'.$class.'.php';
-
-            $directory = (strcmp($target, $default_path) == 0) ? $default_target : $custom_target;
+                $directory = (strcmp($target, $default_path) == 0) ? $default_target : $custom_target;
             break;
         default:
             // code...

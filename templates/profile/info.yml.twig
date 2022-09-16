@@ -1,23 +1,23 @@
 name: {{ profile }}
 type: {{ type }}
-description: {{ description }}
+description: '{{ description }}'
 core: {{ core }}
 {% if distribution %}
 
 distribution:
-  name: {{ distribution }}
+  name: '{{ distribution }}'
 {% endif %}
 {% if dependencies %}
 
 dependencies:
 {% for dependency in dependencies %}
-  - {{ dependency }}
+  - '{{ dependency }}'
 {% endfor %}
 {% endif %}
 {% if themes %}
 
 themes:
 {% for theme in themes %}
-  - {{ theme }}
+  - '{{ theme }}'
 {% endfor %}
 {% endif %}

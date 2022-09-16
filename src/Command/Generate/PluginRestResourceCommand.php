@@ -13,14 +13,13 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Command\Shared\ServicesTrait;
 use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\FormTrait;
 use Drupal\Console\Generator\PluginRestResourceGenerator;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
+use Webmozart\PathUtil\Path;
 
 /**
  * Class PluginRestResourceCommand
@@ -31,7 +30,6 @@ class PluginRestResourceCommand extends Command
 {
     use ServicesTrait;
     use ModuleTrait;
-    use FormTrait;
     use ConfirmationTrait;
 
     /**
@@ -134,21 +132,34 @@ class PluginRestResourceCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $http_methods = $this->getHttpMethods();
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_id = $input->getOption('plugin-id');
         $plugin_label = $input->getOption('plugin-label');
         $plugin_url = $input->getOption('plugin-url');
-        $plugin_states = $input->getOption('plugin-states');
+        $plugin_states = $this->validator->validateHttpMethods($input->getOption('plugin-states'), $http_methods);
 
-        $this->generator->generate($module, $class_name, $plugin_label, $plugin_id, $plugin_url, $plugin_states);
+        $prepared_plugin = [];
+        foreach ($plugin_states as $plugin_state) {
+            $prepared_plugin[$plugin_state] = $http_methods[$plugin_state];
+        }
+
+        $this->generator->generate(
+            [
+                'module_name' => $module,
+                'class_name' => $class_name,
+                'plugin_label' => $plugin_label,
+                'plugin_id' => $plugin_id,
+                'plugin_url' => $plugin_url,
+                'plugin_states' => $prepared_plugin,
+            ]
+        );
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
 
@@ -157,20 +168,13 @@ class PluginRestResourceCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->getModuleOption();
 
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $io->ask(
+            $class_name = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.rest.resource.questions.class'),
                 'DefaultRestResource',
                 function ($class) {
@@ -183,7 +187,7 @@ class PluginRestResourceCommand extends Command
         // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
-            $plugin_id = $io->ask(
+            $plugin_id = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class_name)
             );
@@ -193,7 +197,7 @@ class PluginRestResourceCommand extends Command
         // --plugin-label option
         $plugin_label = $input->getOption('plugin-label');
         if (!$plugin_label) {
-            $plugin_label = $io->ask(
+            $plugin_label = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-label'),
                 $this->stringConverter->camelCaseToHuman($class_name)
             );
@@ -203,17 +207,23 @@ class PluginRestResourceCommand extends Command
         // --plugin-url option
         $plugin_url = $input->getOption('plugin-url');
         if (!$plugin_url) {
-            $plugin_url = $io->ask(
-                $this->trans('commands.generate.plugin.rest.resource.questions.plugin-url')
+            $plugin_url = $this->getIo()->ask(
+                $this->trans('commands.generate.plugin.rest.resource.questions.plugin-url'),
+                null,
+                function ($plugin_url) {
+                    return Path::isAbsolute($plugin_url) ? $plugin_url : '/'.$plugin_url;
+                }
             );
+
             $input->setOption('plugin-url', $plugin_url);
         }
+
 
         // --plugin-states option
         $plugin_states = $input->getOption('plugin-states');
         if (!$plugin_states) {
-            $states = ['GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
-            $plugin_states = $io->choice(
+            $states = array_keys($this->getHttpMethods());
+            $plugin_states = $this->getIo()->choice(
                 $this->trans('commands.generate.plugin.rest.resource.questions.plugin-states'),
                 $states,
                 null,
@@ -222,5 +232,52 @@ class PluginRestResourceCommand extends Command
 
             $input->setOption('plugin-states', $plugin_states);
         }
+    }
+
+    /**
+     * Returns available HTTP methods.
+     *
+     * @return array
+     *   Available HTTP methods.
+     */
+    protected function getHttpMethods()
+    {
+        return [
+            'GET' => [
+                'http_code' => 200,
+                'response_class' => 'ResourceResponse',
+                'uri_paths' => 'canonical',
+            ],
+            'PUT' => [
+                'http_code' => 201,
+                'response_class' => 'ModifiedResourceResponse',
+                'uri_paths' => 'canonical',
+            ],
+            'POST' => [
+                'http_code' => 200,
+                'response_class' => 'ModifiedResourceResponse',
+                'uri_paths' => 'create',
+            ],
+            'PATCH' => [
+                'http_code' => 204,
+                'response_class' => 'ModifiedResourceResponse',
+                'uri_paths' => 'canonical',
+            ],
+            'DELETE' => [
+                'http_code' => 204,
+                'response_class' => 'ModifiedResourceResponse',
+                'uri_type' => 'canonical',
+            ],
+            'HEAD' => [
+                'http_code' => 200,
+                'response_class' => 'ResourceResponse',
+                'uri_type' => 'canonical',
+            ],
+            'OPTIONS' => [
+                'http_code' => 200,
+                'response_class' => 'ResourceResponse',
+                'uri_type' => 'canonical',
+            ],
+        ];
     }
 }

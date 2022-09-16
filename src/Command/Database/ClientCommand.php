@@ -10,13 +10,13 @@ namespace Drupal\Console\Command\Database;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ClientCommand extends Command
 {
+
     use ConnectTrait;
 
     /**
@@ -26,11 +26,19 @@ class ClientCommand extends Command
     {
         $this
             ->setName('database:client')
-            ->setDescription($this->trans('commands.database.client.description'))
+            ->setDescription(
+                $this->trans('commands.database.client.description')
+            )
             ->addArgument(
                 'database',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.database.client.arguments.database'),
+                'default'
+            )
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.client.arguments.target'),
                 'default'
             )
             ->setHelp($this->trans('commands.database.client.help'))
@@ -42,35 +50,25 @@ class ClientCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $database = $input->getArgument('database');
         $learning = $input->getOption('learning');
+        $target   = $input->getArgument('target');
 
-        $databaseConnection = $this->resolveConnection($io, $database);
-
-        $connection = sprintf(
-            '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
-            $databaseConnection['driver'],
-            $databaseConnection['database'],
-            $databaseConnection['username'],
-            $databaseConnection['password'],
-            $databaseConnection['host'],
-            $databaseConnection['port']
-        );
+        $databaseConnection = $this->resolveConnection($database, $target);
+        $connection         = $this->getConnectionString($databaseConnection);
 
         if ($learning) {
-            $io->commentBlock(
+            $this->getIo()->commentBlock(
                 sprintf(
-                    $this->trans('commands.database.client.messages.connection'),
+                    $this->trans(
+                        'commands.database.client.messages.connection'
+                    ),
                     $connection
                 )
             );
         }
 
-        $processBuilder = new ProcessBuilder([]);
-        $processBuilder->setArguments(explode(' ', $connection));
-        $process = $processBuilder->getProcess();
+        $process = new Process(explode(' ', $connection));
         $process->setTty('true');
         $process->run();
 
@@ -80,4 +78,5 @@ class ClientCommand extends Command
 
         return 0;
     }
+
 }

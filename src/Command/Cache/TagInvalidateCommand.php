@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Cache;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -53,10 +52,9 @@ class TagInvalidateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $tags = $input->getArgument('tag');
 
-        $io->comment(
+        $this->getIo()->comment(
             sprintf(
                 $this->trans('commands.cache.tag.invalidate.messages.start'),
                 implode(', ', $tags)
@@ -64,6 +62,6 @@ class TagInvalidateCommand extends Command
         );
 
         $this->invalidator->invalidateTags($tags);
-        $io->success($this->trans('commands.cache.tag.invalidate.messages.completed'));
+        $this->getIo()->success($this->trans('commands.cache.tag.invalidate.messages.completed'));
     }
 }

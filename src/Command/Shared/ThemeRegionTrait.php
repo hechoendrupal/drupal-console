@@ -7,27 +7,24 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
-
 trait ThemeRegionTrait
 {
     /**
-   * @param DrupalStyle $io
    *
    * @return mixed
    */
-    public function regionQuestion(DrupalStyle $io)
+    public function regionQuestion()
     {
         $validators = $this->validator;
         $regions = [];
         while (true) {
-            $regionName = $io->ask(
+            $regionName = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.region-name'),
                 'Content'
             );
 
             $regionMachineName = $this->stringConverter->createMachineName($regionName);
-            $regionMachineName = $io->ask(
+            $regionMachineName = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.region-machine-name'),
                 $regionMachineName,
                 function ($regionMachineName) use ($validators) {
@@ -43,7 +40,7 @@ trait ThemeRegionTrait
                 ]
             );
 
-            if (!$io->confirm(
+            if (!$this->getIo()->confirm(
                 $this->trans('commands.generate.theme.questions.region-add'),
                 true
             )
@@ -56,20 +53,18 @@ trait ThemeRegionTrait
     }
 
       /**
-   * @param DrupalStyle $io
    *
    * @return mixed
    */
-    public function libraryQuestion(DrupalStyle $io)
+    public function libraryQuestion()
     {
-        $validators = $this->validator;
         $libraries = [];
         while (true) {
-            $libraryName = $io->ask(
+            $libraryName = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.library-name')
             );
             
-            $libraryVersion = $io->ask(
+            $libraryVersion = $this->getIo()->ask(
                 $this->trans('commands.generate.theme.questions.library-version'),
                 '1.0'
             );
@@ -82,7 +77,7 @@ trait ThemeRegionTrait
                 ]
             );
 
-            if (!$io->confirm(
+            if (!$this->getIo()->confirm(
                 $this->trans('commands.generate.theme.questions.library-add'),
                 true
             )

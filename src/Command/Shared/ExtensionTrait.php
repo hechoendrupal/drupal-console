@@ -7,8 +7,6 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
-
 /**
  * Class ExtensionTrait
  *
@@ -18,7 +16,6 @@ trait ExtensionTrait
 {
 
     /**
-     * @param DrupalStyle $io
      * @param bool|true   $module
      * @param bool|true   $theme
      * @param bool|true   $profile
@@ -27,7 +24,7 @@ trait ExtensionTrait
      *
      * @throws \Exception
      */
-    public function extensionQuestion(DrupalStyle $io, $module=true, $theme=false, $profile=false)
+    public function extensionQuestion($module=true, $theme=false, $profile=false)
     {
         $modules = [];
         $themes = [];
@@ -67,7 +64,7 @@ trait ExtensionTrait
             throw new \Exception('No extension available, execute the proper generator command to generate one.');
         }
 
-        $extension = $io->choiceNoList(
+        $extension = $this->getIo()->choiceNoList(
             $this->trans('commands.common.questions.extension'),
             array_keys($extensions)
         );
@@ -76,15 +73,13 @@ trait ExtensionTrait
     }
 
     /**
-     * @param DrupalStyle $io
-     *
      * @return string
      *
      * @throws \Exception
      */
-    public function extensionTypeQuestion(DrupalStyle $io)
+    public function extensionTypeQuestion()
     {
-        $extensionType = $io->choiceNoList(
+        $extensionType = $this->getIo()->choiceNoList(
             $this->trans('commands.common.questions.extension-type'),
             array_keys(['module', 'theme', 'profile'])
         );

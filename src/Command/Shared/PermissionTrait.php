@@ -7,33 +7,30 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
-
 trait PermissionTrait
 {
     /**
-     * @param DrupalStyle $output
      *
      * @return mixed
      */
-    public function permissionQuestion(DrupalStyle $output)
+    public function permissionQuestion()
     {
         $permissions = [];
         $boolOrNone = ['true','false','none'];
         while (true) {
-            $permission = $output->ask(
+            $permission = $this->getIo()->ask(
                 $this->trans('commands.generate.permissions.questions.permission'),
                 $this->trans('commands.generate.permissions.suggestions.access-content')
             );
-            $title = $output->ask(
+            $title = $this->getIo()->ask(
                 $this->trans('commands.generate.permissions.questions.title'),
                 $this->trans('commands.generate.permissions.suggestions.access-content')
             );
-            $description = $output->ask(
+            $description = $this->getIo()->ask(
                 $this->trans('commands.generate.permissions.questions.description'),
                 $this->trans('commands.generate.permissions.suggestions.allow-access-content')
             );
-            $restrictAccess = $output->choiceNoList(
+            $restrictAccess = $this->getIo()->choiceNoList(
                 $this->trans('commands.generate.permissions.questions.restrict-access'),
                 $boolOrNone,
                 'none'
@@ -52,7 +49,7 @@ trait PermissionTrait
                 ]
             );
 
-            if (!$output->confirm(
+            if (!$this->getIo()->confirm(
                 $this->trans('commands.generate.permissions.questions.add'),
                 true
             )

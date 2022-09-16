@@ -7,19 +7,18 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ServicesTrait;
+use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
+use Drupal\Console\Generator\CacheContextGenerator;
+use Drupal\Console\Extension\Manager;
 use Drupal\Console\Utils\Validator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Generator\CacheContextGenerator;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Utils\ChainQueue;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Command\Shared\ServicesTrait;
-use Drupal\Console\Core\Utils\StringConverter;
 
 class CacheContextCommand extends ContainerAwareCommand
 {
@@ -116,14 +115,12 @@ class CacheContextCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $cache_context = $input->getOption('cache-context');
         $class = $this->validator->validateClassName($input->getOption('class'));
         $services = $input->getOption('services');
@@ -131,7 +128,12 @@ class CacheContextCommand extends ContainerAwareCommand
         // @see Drupal\Console\Command\Shared\ServicesTrait::buildServices
         $buildServices = $this->buildServices($services);
 
-        $this->generator->generate($module, $cache_context, $class, $buildServices);
+        $this->generator->generate([
+            'module' => $module,
+            'cache_context' => $cache_context,
+            'class' => $class,
+            'services' => $buildServices,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
     }
@@ -141,20 +143,13 @@ class CacheContextCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $module = $this->getModuleOption();
 
         // --cache_context option
         $cache_context = $input->getOption('cache-context');
         if (!$cache_context) {
-            $cache_context = $io->ask(
+            $cache_context = $this->getIo()->ask(
                 $this->trans('commands.generate.cache.context.questions.name'),
                 sprintf('%s', $module)
             );
@@ -164,7 +159,7 @@ class CacheContextCommand extends ContainerAwareCommand
         // --class option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.cache.context.questions.class'),
                 'DefaultCacheContext',
                 function ($class) {
@@ -178,7 +173,7 @@ class CacheContextCommand extends ContainerAwareCommand
         $services = $input->getOption('services');
         if (!$services) {
             // @see Drupal\Console\Command\Shared\ServicesTrait::servicesQuestion
-            $services = $this->servicesQuestion($io);
+            $services = $this->servicesQuestion();
             $input->setOption('services', $services);
         }
     }

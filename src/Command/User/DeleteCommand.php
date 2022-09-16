@@ -11,8 +11,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Utils\DrupalApi;
 
 /**
@@ -23,11 +21,6 @@ use Drupal\Console\Utils\DrupalApi;
 class DeleteCommand extends UserBase
 {
     /**
-     * @var QueryFactory
-     */
-    protected $entityQuery;
-
-    /**
      * @var DrupalApi
      */
     protected $drupalApi;
@@ -36,15 +29,12 @@ class DeleteCommand extends UserBase
      * DeleteCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
-     * @param QueryFactory               $entityQuery
      * @param DrupalApi                  $drupalApi
      */
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
-        QueryFactory $entityQuery,
         DrupalApi $drupalApi
     ) {
-        $this->entityQuery = $entityQuery;
         $this->drupalApi = $drupalApi;
         parent::__construct($entityTypeManager);
     }
@@ -76,22 +66,13 @@ class DeleteCommand extends UserBase
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $user = $input->getOption('user');
-        if (!$user) {
-            $user = $io->askEmpty(
-                $this->trans('commands.user.delete.questions.user'),
-                null
-            );
-            $input->setOption('user', $user);
-        }
+        $user = $this->getUserOption();
 
         $roles = $input->getOption('roles');
 
         if (!$user && !$roles) {
             $systemRoles = $this->drupalApi->getRoles(false, false, false);
-            $roles = $io->choice(
+            $roles = $this->getIo()->choice(
                 $this->trans('commands.user.delete.questions.roles'),
                 array_values($systemRoles),
                 null,
@@ -114,14 +95,12 @@ class DeleteCommand extends UserBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $user = $input->getOption('user');
 
         if ($user) {
             $userEntity = $this->getUserEntity($user);
             if (!$userEntity) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.user.delete.errors.invalid-user'),
                         $user
@@ -132,7 +111,7 @@ class DeleteCommand extends UserBase
             }
 
             if ($userEntity->id() <= 1) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf(
                         $this->trans('commands.user.delete.errors.invalid-user'),
                         $user
@@ -144,16 +123,16 @@ class DeleteCommand extends UserBase
 
             try {
                 $userEntity->delete();
-                $io->info(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.user.delete.messages.user-deleted'),
-                        $userEntity->getUsername()
+                        $userEntity->getAccountName()
                     )
                 );
 
                 return 0;
             } catch (\Exception $e) {
-                $io->error($e->getMessage());
+                $this->getIo()->error($e->getMessage());
 
                 return 1;
             }
@@ -164,9 +143,8 @@ class DeleteCommand extends UserBase
         if ($roles) {
             $roles = is_array($roles)?$roles:[$roles];
 
-            $query = $this->entityQuery
-                ->get('user')
-                ->condition('roles', array_values($roles), 'IN')
+            $query = $this->entityTypeManager->getStorage('user')->getQuery();
+            $query->condition('roles', array_values($roles), 'IN')
                 ->condition('uid', 1, '>');
             $results = $query->execute();
 
@@ -183,18 +161,18 @@ class DeleteCommand extends UserBase
             foreach ($users as $user => $userEntity) {
                 try {
                     $userEntity->delete();
-                    $tableRows['success'][] = [$user, $userEntity->getUsername()];
+                    $tableRows['success'][] = [$user, $userEntity->getAccountName()];
                 } catch (\Exception $e) {
-                    $tableRows['error'][] = [$user, $userEntity->getUsername()];
-                    $io->error($e->getMessage());
+                    $tableRows['error'][] = [$user, $userEntity->getAccountName()];
+                    $this->getIo()->error($e->getMessage());
 
                     return 1;
                 }
             }
 
             if ($tableRows['success']) {
-                $io->table($tableHeader, $tableRows['success']);
-                $io->success(
+                $this->getIo()->table($tableHeader, $tableRows['success']);
+                $this->getIo()->success(
                     sprintf(
                         $this->trans('commands.user.delete.messages.users-deleted'),
                         count($tableRows['success'])

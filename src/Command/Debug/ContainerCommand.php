@@ -7,13 +7,12 @@
 
 namespace Drupal\Console\Command\Debug;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class ContainerCommand
@@ -22,6 +21,15 @@ use Drupal\Console\Core\Style\DrupalStyle;
  */
 class ContainerCommand extends ContainerAwareCommand
 {
+
+    const BLUE = 'blue';
+    const CYAN = 'cyan';
+    const GREEN = 'green';
+    const MAGENTA = 'magenta';
+    const RED = 'red';
+    const YELLOW = 'yellow';
+    const WHITE = 'white';
+
     /**
      * {@inheritdoc}
      */
@@ -48,6 +56,11 @@ class ContainerCommand extends ContainerAwareCommand
                 'arguments',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.debug.container.arguments.arguments')
+            )->addOption(
+                'tag',
+                null,
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
+                $this->trans('commands.debug.container.options.tag')
             )
             ->setAliases(['dco']);
     }
@@ -57,16 +70,16 @@ class ContainerCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $service = $input->getArgument('service');
         $parameters = $input->getOption('parameters');
+        $tag = $input->getOption('tag');
         $method = $input->getArgument('method');
         $args = $input->getArgument('arguments');
 
         if ($parameters) {
             $parameterList = $this->getParameterList();
             ksort($parameterList);
-            $io->write(Yaml::dump(['parameters' => $parameterList], 4, 2));
+            $this->getIo()->write(Yaml::dump(['parameters' => $parameterList], 4, 2));
 
             return 0;
         }
@@ -74,14 +87,14 @@ class ContainerCommand extends ContainerAwareCommand
         if ($method) {
             $tableHeader = [];
             $callbackRow = $this->getCallbackReturnList($service, $method, $args);
-            $io->table($tableHeader, $callbackRow, 'compact');
+            $this->getIo()->table($tableHeader, $callbackRow, 'compact');
 
             return 0;
         } else {
             $tableHeader = [];
             if ($service) {
                 $tableRows = $this->getServiceDetail($service);
-                $io->table($tableHeader, $tableRows, 'compact');
+                $this->getIo()->table($tableHeader, $tableRows, 'compact');
 
                 return 0;
             }
@@ -90,20 +103,32 @@ class ContainerCommand extends ContainerAwareCommand
                 $this->trans('commands.debug.container.messages.service-id'),
                 $this->trans('commands.debug.container.messages.class-name')
             ];
-
-            $tableRows = $this->getServiceList();
-            $io->table($tableHeader, $tableRows, 'compact');
+            $tableRows = $this->getServiceList($tag);
+            $this->getIo()->table($tableHeader, $tableRows, 'compact');
         }
 
         return 0;
     }
 
+    /**
+     * Get callback list.
+     *
+     * @param string $service
+     *   Service name.
+     * @param string $method
+     *   Methods name.
+     * @param array $args
+     *   Arguments.
+     *
+     * @return array
+     *   List of callbacks.
+     */
     private function getCallbackReturnList($service, $method, $args)
     {
         if ($args != null) {
             $parsedArgs = json_decode($args, true);
             if (!is_array($parsedArgs)) {
-                $parsedArgs = explode(",", $args);
+                $parsedArgs = explode(',', $args);
             }
         } else {
             $parsedArgs = null;
@@ -116,37 +141,50 @@ class ContainerCommand extends ContainerAwareCommand
             return $serviceDetail;
         }
         $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.debug.container.messages.service').'</>',
-            '<fg=yellow>'.$service.'</>'
+            $this->addGreenTranslationWrapper('commands.debug.container.messages.service'),
+            $this->addWrapper($service),
         ];
         $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.debug.container.messages.class').'</>',
-            '<fg=yellow>'.get_class($serviceInstance).'</>'
+            $this->addGreenTranslationWrapper('commands.debug.container.messages.class'),
+            $this->addWrapper(get_class($serviceInstance)),
         ];
         $methods = [$method];
         $this->extendArgumentList($serviceInstance, $methods);
         $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.debug.container.messages.method').'</>',
-            '<fg=yellow>'.$methods[0].'</>'
+            $this->addGreenTranslationWrapper('commands.debug.container.messages.method'),
+            $this->addWrapper($methods[0]),
         ];
         if ($parsedArgs) {
             $serviceDetail[] = [
-                '<fg=green>'.$this->trans('commands.debug.container.messages.arguments').'</>',
-                json_encode($parsedArgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+                $this->addGreenTranslationWrapper('commands.debug.container.messages.arguments'),
+                $this->addWrapper(json_encode($parsedArgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)),
             ];
         }
         $return = call_user_func_array([$serviceInstance,$method], $parsedArgs);
         $serviceDetail[] = [
-            '<fg=green>'.$this->trans('commands.debug.container.messages.return').'</>',
-            json_encode($return, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+            $this->addGreenTranslationWrapper('commands.debug.container.messages.return'),
+            $this->addWrapper(json_encode($return, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)),
         ];
         return $serviceDetail;
     }
-    private function getServiceList()
+
+    /**
+     * Get service list.
+     *
+     * @param string $tag
+     *   Tag.
+     *
+     * @return array
+     *   Array of services.
+     */
+    private function getServiceList($tag = null)
     {
+        if ($tag) {
+            return $this->getServiceListByTag($tag);
+        }
+
         $services = [];
-        $serviceDefinitions = $this->container
-            ->getParameter('console.service_definitions');
+        $serviceDefinitions = $this->container->getDefinitions();
 
         foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
             $services[] = [$serviceId, $serviceDefinition->getClass()];
@@ -154,6 +192,51 @@ class ContainerCommand extends ContainerAwareCommand
         usort($services, [$this, 'compareService']);
         return $services;
     }
+
+    /**
+     * Get service list by a tag.
+     *
+     * @param string $tag
+     *   Tag.
+     *
+     * @return array
+     *   Array of services.
+     */
+    private function getServiceListByTag($tag)
+    {
+        $services = [];
+        $serviceIds = [];
+        $serviceDefinitions = $this->container->getDefinitions();
+
+        foreach ($tag as $tagId) {
+            $serviceIds = array_merge(
+                $serviceIds,
+                array_keys($this->container->findTaggedServiceIds($tagId))
+            );
+        }
+
+        foreach ($serviceIds as $serviceId) {
+            $serviceDefinition = $serviceDefinitions[$serviceId];
+            if ($serviceDefinition) {
+                $services[] = [$serviceId, $serviceDefinition->getClass()];
+            }
+        }
+
+        usort($services, [$this, 'compareService']);
+        return $services;
+    }
+
+    /**
+     * Compares the values.
+     *
+     * @param string $a
+     *   First value.
+     * @param string $b
+     *   Second value.
+     *
+     * @return int
+     *   Result.
+     */
     private function compareService($a, $b)
     {
         return strcmp($a[0], $b[0]);
@@ -163,41 +246,42 @@ class ContainerCommand extends ContainerAwareCommand
     {
         $serviceInstance = $this->get($service);
         $serviceDetail = [];
+        $class_name = get_class($serviceInstance);
 
         if ($serviceInstance) {
             $serviceDetail[] = [
-                '<fg=green>'.$this->trans('commands.debug.container.messages.service').'</>',
-                '<fg=yellow>'.$service.'</>'
+                $this->addGreenTranslationWrapper('commands.debug.container.messages.service'),
+                $this->addTranslationWrapper('commands.debug.container.messages.service'),
             ];
             $serviceDetail[] = [
-                '<fg=green>'.$this->trans('commands.debug.container.messages.class').'</>',
-                '<fg=yellow>'.get_class($serviceInstance).'</>'
+                $this->addGreenTranslationWrapper('commands.debug.container.messages.class'),
+                $this->addTranslationWrapper('commands.debug.container.messages.class'),
             ];
-            $interface = str_replace("{  }", "", Yaml::dump(class_implements($serviceInstance)));
+            $interface = str_replace('{  }', '', Yaml::dump(class_implements($serviceInstance)));
             if (!empty($interface)) {
                 $serviceDetail[] = [
-                    '<fg=green>'.$this->trans('commands.debug.container.messages.interface').'</>',
-                    '<fg=yellow>'.$interface.'</>'
+                    $this->addGreenTranslationWrapper('commands.debug.container.messages.interface'),
+                    $this->addWrapper($interface),
                 ];
             }
             if ($parent = get_parent_class($serviceInstance)) {
                 $serviceDetail[] = [
-                    '<fg=green>'.$this->trans('commands.debug.container.messages.parent').'</>',
-                    '<fg=yellow>'.$parent.'</>'
+                    $this->addGreenTranslationWrapper('commands.debug.container.messages.parent'),
+                    $this->addWrapper($parent),
                 ];
             }
-            if ($vars = get_class_vars($serviceInstance)) {
+            if ($vars = get_class_vars($class_name)) {
                 $serviceDetail[] = [
-                    '<fg=green>'.$this->trans('commands.debug.container.messages.variables').'</>',
-                    '<fg=yellow>'.Yaml::dump($vars).'</>'
+                    $this->addGreenTranslationWrapper('commands.debug.container.messages.variables'),
+                    $this->addWrapper(Yaml::dump($vars)),
                 ];
             }
-            if ($methods = get_class_methods($serviceInstance)) {
+            if ($methods = get_class_methods($class_name)) {
                 sort($methods);
                 $this->extendArgumentList($serviceInstance, $methods);
                 $serviceDetail[] = [
-                    '<fg=green>'.$this->trans('commands.debug.container.messages.methods').'</>',
-                    '<fg=yellow>'.implode("\n", $methods).'</>'
+                    $this->addGreenTranslationWrapper('commands.debug.container.messages.methods'),
+                    $this->addWrapper(implode("\n", $methods)),
                 ];
             }
         } else {
@@ -208,6 +292,50 @@ class ContainerCommand extends ContainerAwareCommand
 
         return $serviceDetail;
     }
+
+    /**
+     * Adds a wrapper with a color
+     *
+     * @param string $text
+     *   Text.
+     * @param string $color
+     *   Color.
+     *
+     * @return string
+     *   Result of the wrapping.
+     */
+    private function addWrapper($text, $color = ContainerCommand::YELLOW)
+    {
+        return "<fg=$color>$text</>";
+    }
+
+    /**
+     * Adds green color wrapper.
+     *
+     * @param string $translationString
+     *   Translation string.
+     *
+     * @return string
+     *   Result of the wrapping.
+     */
+    private function addGreenTranslationWrapper($translationString)
+    {
+        return $this->addTranslationWrapper($translationString, ContainerCommand::GREEN);
+    }
+
+    /**
+     * Adds green color wrapper.
+     *
+     * @param string $translationString
+     *   Translation string.
+     *
+     * @return string
+     *   Result of the wrapping.
+     */
+    private function addTranslationWrapper($translationString, $color = ContainerCommand::YELLOW) {
+        return $this->addWrapper($this->trans($translationString), $color);
+    }
+
     private function extendArgumentList($serviceInstance, &$methods)
     {
         foreach ($methods as $k => $m) {
@@ -216,37 +344,48 @@ class ContainerCommand extends ContainerAwareCommand
             $p = [];
 
             for ($i = 0; $i < count($params); $i++) {
+
                 if ($params[$i]->isDefaultValueAvailable()) {
                     $defaultVar = $params[$i]->getDefaultValue();
-                    $defaultVar = " = <fg=magenta>".str_replace(["\n","array ("], ["", "array("], var_export($def, true)).'</>';
+                    $defaultVar = ' = ' . $this->addWrapper(str_replace(["\n",'array ('], ['', 'array('], var_export($defaultVar, true)), ContainerCommand::MAGENTA);
                 } else {
                     $defaultVar = '';
                 }
+
                 if (method_exists($params[$i], 'hasType') && method_exists($params[$i], 'getType')) {
                     if ($params[$i]->hasType()) {
-                        $defaultType = '<fg=white>'.strval($params[$i]->getType()).'</> ';
+                        $defaultType = $this->addWrapper( strval($params[$i]->getType()), ContainerCommand::WHITE) . ' ';
                     } else {
                         $defaultType = '';
                     }
                 } else {
                     $defaultType = '';
                 }
+
                 if ($params[$i]->isPassedByReference()) {
-                    $parameterReference = '<fg=yellow>&</>';
+                    $parameterReference = $this->addWrapper('&');
                 } else {
                     $parameterReference = '';
                 }
-                $p[] = $defaultType.$parameterReference.'<fg=red>'.'$</><fg=red>'.$params[$i]->getName().'</>'.$defaultVar;
+
+                $p[] = $defaultType . $parameterReference . $this->addWrapper('$' . $params[$i]->getName(), ContainerCommand::RED) . $defaultVar;
             }
+
             if ($reflection->isPublic()) {
-                $methods[$k] = '<fg=cyan>'.$methods[$k]."</><fg=blue>(</>".implode(', ', $p)."<fg=blue>) </> ";
+                $methods[$k] = $this->addWrapper($methods[$k], ContainerCommand::CYAN) . $this->addWrapper('(', ContainerCommand::BLUE) . implode(', ', $p) . $this->addWrapper(')', ContainerCommand::BLUE);
             }
         }
     }
 
+    /**
+     * Get parameter list.
+     *
+     * @return array
+     *   Array with parameter.
+     */
     private function getParameterList()
     {
-        $parameters = array_filter(
+        return array_filter(
             $this->container->getParameterBag()->all(), function ($name) {
                 if (preg_match('/^container\./', $name)) {
                     return false;
@@ -260,7 +399,5 @@ class ContainerCommand extends ContainerAwareCommand
                 return true;
             }, ARRAY_FILTER_USE_KEY
         );
-
-        return $parameters;
     }
 }

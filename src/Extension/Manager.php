@@ -5,6 +5,9 @@ namespace Drupal\Console\Extension;
 use Drupal\Console\Utils\Site;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Extension\ThemeHandler;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Class ExtensionManager
@@ -44,20 +47,36 @@ class Manager
     private $extension = null;
 
     /**
+     * @var ModuleHandlerInterface
+     */
+    protected $moduleHandler;
+
+    /**
+     * @var ThemeHandler
+     */
+    protected $themeHandler;
+
+    /**
      * ExtensionManager constructor.
      *
      * @param Site   $site
      * @param Client $httpClient
      * @param string $appRoot
+     * @param ModuleHandlerInterface $moduleHandler
+     * @param ThemeHandler  $themeHandler
      */
     public function __construct(
         Site $site,
         Client $httpClient,
-        $appRoot
+        $appRoot,
+        ModuleHandlerInterface $moduleHandler,
+        ThemeHandler $themeHandler
     ) {
         $this->site = $site;
         $this->httpClient = $httpClient;
         $this->appRoot = $appRoot;
+        $this->moduleHandler = $moduleHandler;
+        $this->themeHandler = $themeHandler;
         $this->initialize();
     }
 
@@ -191,8 +210,8 @@ class Manager
         foreach ($this->extensions[$type] as $extension) {
             $name = $extension->getName();
 
-            $isInstalled = false;
-            if (property_exists($extension, 'status')) {
+            $isInstalled = $type=='module' && $this->moduleHandler->moduleExists($name);
+            if (!$isInstalled && property_exists($extension, 'status')) {
                 $isInstalled = ($extension->status)?true:false;
             }
             if (!$showInstalled && $isInstalled) {
@@ -223,12 +242,12 @@ class Manager
     {
         if ($type === 'module') {
             $this->site->loadLegacyFile('/core/modules/system/system.module');
-            system_rebuild_module_data();
+            $extensionList = \Drupal::service('extension.list.module');
+            $extensionList->reset()->getList();
         }
 
         if ($type === 'theme') {
-            $themeHandler = \Drupal::service('theme_handler');
-            $themeHandler->rebuildThemeData();
+            $this->themeHandler->rebuildThemeData();
         }
 
         /*
@@ -311,7 +330,9 @@ class Manager
             $extension->getPathname(),
             $extension->getExtensionFilename()
         );
-        $consoleExtension->unserialize($extension->serialize());
+
+        $consoleExtension->loadFromParentObj($extension);
+        $consoleExtension->setRoot($this->appRoot);
 
         return $consoleExtension;
     }
@@ -332,7 +353,7 @@ class Manager
         $module = $this->getModule($moduleName);
         $modulePath = $module->getPath();
         if ($moduleFile) {
-            $this->site->loadLegacyFile($modulePath . '/'. $moduleFile);
+            $this->site->loadLegacyFile($modulePath . '/' . $moduleFile);
         } else {
             $this->site->loadLegacyFile($modulePath . '/' . $module->getName() . '.module');
         }
@@ -352,7 +373,7 @@ class Manager
     {
         $module = $this->getModule($moduleName);
 
-        return $module->getPath() . '/src/Plugin/'.$pluginType;
+        return $module->getPath() . '/src/Plugin/' . $pluginType;
     }
 
     public function getDrupalExtension($type, $name)
@@ -387,7 +408,7 @@ class Manager
             } else {
                 try {
                     $response = $this->httpClient->head('https://www.drupal.org/project/' . $extension);
-                    $header_link = explode(';', $response->getHeader('link'));
+                    $header_link = $response->getHeader('link');
                     if (empty($header_link[0])) {
                         $checkextensions['no_extensions'][] = $extension;
                     } else {

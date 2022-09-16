@@ -10,7 +10,6 @@ namespace Drupal\Console\Command\Debug;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class MultisiteCommand
@@ -50,8 +49,6 @@ class MultisiteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $sites = [];
 
         $multiSiteFile = sprintf(
@@ -64,14 +61,14 @@ class MultisiteCommand extends Command
         }
 
         if (!$sites) {
-            $io->error(
+            $this->getIo()->error(
                 $this->trans('commands.debug.multisite.messages.no-multisites')
             );
 
             return 1;
         }
 
-        $io->info(
+        $this->getIo()->info(
             $this->trans('commands.debug.multisite.messages.site-format')
         );
 
@@ -88,7 +85,7 @@ class MultisiteCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows);
+        $this->getIo()->table($tableHeader, $tableRows);
 
         return 0;
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\user\Entity\User;
 
 /**
  * Class DebugCommand
@@ -67,7 +67,6 @@ class RoleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $operation = $input->getArgument('operation');
         $user = $input->getArgument('user');
         $role = $input->getArgument('role');
@@ -81,7 +80,7 @@ class RoleCommand extends Command
         $systemRoles = $this->drupalApi->getRoles();
 
         if (is_numeric($user)) {
-            $userObject = user_load($user);
+            $userObject = User::load($user);
         } else {
             $userObject = user_load_by_name($user);
         }
@@ -94,19 +93,19 @@ class RoleCommand extends Command
         }
 
         if (!is_object($userObject)) {
-            $io->error(sprintf($this->trans('commands.user.role.messages.no-user-found'), $user));
+            $this->getIo()->error(sprintf($this->trans('commands.user.role.messages.no-user-found'), $user));
             return 1;
         }
 
         if (!array_key_exists($role, $systemRoles)) {
-            $io->error(sprintf($this->trans('commands.user.role.messages.no-role-found'), $role));
+            $this->getIo()->error(sprintf($this->trans('commands.user.role.messages.no-role-found'), $role));
             return 1;
         }
 
         if ("add" == $operation) {
             $userObject->addRole($role);
             $userObject->save();
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.user.role.messages.add-success'),
                     $userObject->name->value . " (" . $userObject->mail->value . ") ",
@@ -119,7 +118,7 @@ class RoleCommand extends Command
             $userObject->removeRole($role);
             $userObject->save();
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.user.role.messages.remove-success'),
                     $userObject->name->value . " (" . $userObject->mail->value . ") ",

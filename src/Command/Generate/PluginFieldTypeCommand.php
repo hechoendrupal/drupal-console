@@ -15,7 +15,6 @@ use Drupal\Console\Generator\PluginFieldTypeGenerator;
 use Drupal\Console\Command\Shared\ModuleTrait;
 use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -137,14 +136,12 @@ class PluginFieldTypeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $label = $input->getOption('label');
         $plugin_id = $input->getOption('plugin-id');
@@ -152,8 +149,15 @@ class PluginFieldTypeCommand extends Command
         $default_widget = $input->getOption('default-widget');
         $default_formatter = $input->getOption('default-formatter');
 
-        $this->generator
-            ->generate($module, $class_name, $label, $plugin_id, $description, $default_widget, $default_formatter);
+        $this->generator->generate([
+            'module' => $module,
+            'class_name' => $class_name,
+            'label' => $label,
+            'plugin_id' => $plugin_id,
+            'description' => $description,
+            'default_widget' => $default_widget,
+            'default_formatter' => $default_formatter,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery'], false);
 
@@ -162,20 +166,13 @@ class PluginFieldTypeCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->getModuleOption();
 
         // --class option
         $class_name = $input->getOption('class');
         if (!$class_name) {
-            $class_name = $io->ask(
+            $class_name = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.fieldtype.questions.class'),
                 'ExampleFieldType',
                 function ($class_name) {
@@ -188,7 +185,7 @@ class PluginFieldTypeCommand extends Command
         // --label option
         $label = $input->getOption('label');
         if (!$label) {
-            $label = $io->ask(
+            $label = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.fieldtype.questions.label'),
                 $this->stringConverter->camelCaseToHuman($class_name)
             );
@@ -198,7 +195,7 @@ class PluginFieldTypeCommand extends Command
         // --plugin-id option
         $plugin_id = $input->getOption('plugin-id');
         if (!$plugin_id) {
-            $plugin_id = $io->ask(
+            $plugin_id = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.fieldtype.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class_name)
             );
@@ -208,7 +205,7 @@ class PluginFieldTypeCommand extends Command
         // --description option
         $description = $input->getOption('description');
         if (!$description) {
-            $description = $io->ask(
+            $description = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.fieldtype.questions.description'),
                 $this->trans('commands.generate.plugin.fieldtype.suggestions.my-field-type')
             );
@@ -218,7 +215,7 @@ class PluginFieldTypeCommand extends Command
         // --default-widget option
         $default_widget = $input->getOption('default-widget');
         if (!$default_widget) {
-            $default_widget = $io->askEmpty(
+            $default_widget = $this->getIo()->askEmpty(
                 $this->trans('commands.generate.plugin.fieldtype.questions.default-widget')
             );
             $input->setOption('default-widget', $default_widget);
@@ -227,7 +224,7 @@ class PluginFieldTypeCommand extends Command
         // --default-formatter option
         $default_formatter = $input->getOption('default-formatter');
         if (!$default_formatter) {
-            $default_formatter = $io->askEmpty(
+            $default_formatter = $this->getIo()->askEmpty(
                 $this->trans('commands.generate.plugin.fieldtype.questions.default-formatter')
             );
             $input->setOption('default-formatter', $default_formatter);

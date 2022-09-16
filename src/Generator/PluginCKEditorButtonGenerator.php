@@ -29,29 +29,23 @@ class PluginCKEditorButtonGenerator extends Generator
     }
 
     /**
-     * Generator Plugin CKEditor Button.
-     *
-     * @param string $module      Module name
-     * @param string $class_name  Plugin Class name
-     * @param string $label       Plugin label
-     * @param string $plugin_id   Plugin id
-     * @param string $button_name Button name
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $label, $plugin_id, $button_name, $button_icon_path)
+    public function generate(array $parameters)
     {
-        $parameters = [
-            'module' => $module,
-            'class_name' => $class_name,
-            'label' => $label,
-            'plugin_id' => $plugin_id,
-            'button_name' => $button_name,
-            'button_icon_path' => $button_icon_path,
-        ];
-
+        $class_name = $parameters['class_name'];
+        $module = $parameters['module'];
+        $plugin_id = $parameters['plugin_id'];
+        
         $this->renderFile(
             'module/src/Plugin/CKEditorPlugin/ckeditorbutton.php.twig',
             $this->extensionManager->getPluginPath($module, 'CKEditorPlugin') . '/' . $class_name . '.php',
             $parameters
+        );
+        $this->renderFile(
+            'module/src/Plugin/CKEditorPlugin/plugin.php.twig',
+             drupal_get_path('module', $module) . '/js/Plugin/'. $plugin_id .'/plugin.js',
+             $parameters
         );
     }
 }

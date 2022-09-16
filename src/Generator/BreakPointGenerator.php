@@ -7,8 +7,8 @@
 
 namespace Drupal\Console\Generator;
 
-use Drupal\Console\Core\Generator\Generator;
 use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Generator\Generator;
 
 /**
  * Class BreakPointGenerator
@@ -27,33 +27,20 @@ class BreakPointGenerator extends Generator
      *
      * @param Manager $extensionManager
      */
-    public function __construct(
-        Manager $extensionManager
-    ) {
+    public function __construct(Manager $extensionManager) {
         $this->extensionManager = $extensionManager;
     }
 
-
     /**
-     * Generator BreakPoint.
-     *
-     * @param $theme
-     * @param $breakpoints
-     * @param $machine_name
+     * {@inheritdoc}
      */
-    public function generate($theme, $breakpoints, $machine_name)
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'theme' => $theme,
-          'breakpoints' => $breakpoints,
-          'machine_name' => $machine_name
-        ];
-
-        $theme_path =  $this->extensionManager->getTheme($theme)->getPath();
+        $theme_path = $this->extensionManager->getTheme($parameters['theme'])->getPath();
 
         $this->renderFile(
             'theme/breakpoints.yml.twig',
-            $theme_path .'/'.$machine_name.'.breakpoints.yml',
+            $theme_path . '/' . $parameters['machine_name'] . '.breakpoints.yml',
             $parameters,
             FILE_APPEND
         );

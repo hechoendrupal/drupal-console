@@ -7,41 +7,30 @@
 
 namespace Drupal\Console\Command\Shared;
 
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\Database\Database;
 
 trait ConnectTrait
 {
-    protected $supportedDrivers = ['mysql','pgsql'];
+    protected $supportedDrivers = ['mysql', 'pgsql', 'sqlite'];
 
-    public function resolveConnection(DrupalStyle $io, $database = 'default')
+    public function resolveConnection($key = 'default', $target = 'default')
     {
-        $connectionInfo = Database::getConnectionInfo();
-
-        if (!$connectionInfo || !isset($connectionInfo[$database])) {
-            $io->error(
-                sprintf(
-                    $this->trans('commands.database.connect.messages.database-not-found'),
-                    $database
-                )
-            );
-
-            return null;
+        $connectionInfo = Database::getConnectionInfo($key);
+        if (empty($connectionInfo[$target])) {
+            throw new \Exception(sprintf(
+                $this->trans('commands.database.connect.messages.database-not-found'),
+                $key,
+                $target
+            ));
+        }
+        else if (!in_array($connectionInfo[$target]['driver'], $this->supportedDrivers)) {
+            throw new \Exception(sprintf(
+                $this->trans('commands.database.connect.messages.database-not-supported'),
+                $connectionInfo[$target]['driver']
+            ));
         }
 
-        $databaseConnection = $connectionInfo[$database];
-        if (!in_array($databaseConnection['driver'], $this->supportedDrivers)) {
-            $io->error(
-                sprintf(
-                    $this->trans('commands.database.connect.messages.database-not-supported'),
-                    $databaseConnection['driver']
-                )
-            );
-
-            return null;
-        }
-
-        return $databaseConnection;
+        return $connectionInfo[$target];
     }
 
     public function getRedBeanConnection($database = 'default')
@@ -66,5 +55,29 @@ trait ConnectTrait
         }
 
         return null;
+    }
+
+    public function getConnectionString($databaseConnection) {
+        return sprintf(
+          '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
+          $databaseConnection['driver'],
+          $databaseConnection['database'],
+          $databaseConnection['username'],
+          $databaseConnection['password'],
+          $databaseConnection['host'],
+          $databaseConnection['port']
+        );
+    }
+
+    public function escapeConnection($databaseConnection) {
+        $settings = [
+          'driver', 'database', 'username', 'password', 'host', 'port'
+        ];
+
+        foreach ($settings as $setting) {
+            $databaseConnection[$setting] = $databaseConnection[$setting];
+        }
+
+        return $databaseConnection;
     }
 }

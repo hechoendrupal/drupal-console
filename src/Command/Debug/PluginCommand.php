@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Symfony\Component\Yaml\Yaml;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
@@ -46,8 +45,6 @@ class PluginCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $pluginType = $input->getArgument('type');
         $pluginId = $input->getArgument('id');
 
@@ -58,8 +55,7 @@ class PluginCommand extends ContainerAwareCommand
                 $this->trans('commands.debug.plugin.table-headers.plugin-type-class')
             ];
             $tableRows = [];
-            $serviceDefinitions = $this->container
-                ->getParameter('console.service_definitions');
+            $serviceDefinitions = $this->container->getDefinitions();
 
             foreach ($serviceDefinitions as $serviceId => $serviceDefinition) {
                 if (strpos($serviceId, 'plugin.manager.') === 0) {
@@ -72,14 +68,14 @@ class PluginCommand extends ContainerAwareCommand
             }
 
             ksort($tableRows);
-            $io->table($tableHeader, array_values($tableRows));
+            $this->getIo()->table($tableHeader, array_values($tableRows));
 
             return true;
         }
 
         $service = $this->container->get('plugin.manager.' . $pluginType);
         if (!$service) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.debug.plugin.errors.plugin-type-not-found'),
                     $pluginType
@@ -101,7 +97,7 @@ class PluginCommand extends ContainerAwareCommand
                 $tableRows[$pluginId] = [$pluginId, $className];
             }
             ksort($tableRows);
-            $io->table($tableHeader, array_values($tableRows));
+            $this->getIo()->table($tableHeader, array_values($tableRows));
             return true;
         }
 
@@ -111,8 +107,108 @@ class PluginCommand extends ContainerAwareCommand
             $this->trans('commands.debug.plugin.table-headers.definition-key'),
             $this->trans('commands.debug.plugin.table-headers.definition-value')
         ];
+
+        $tableRows = $this->prepareTableRows($definition);
+
+        ksort($tableRows);
+        $this->getIo()->table($tableHeader, array_values($tableRows));
+
+        $this->displayPluginData($pluginType, $pluginId);
+        return true;
+    }
+
+    /**
+     * Displays additional plugin data.
+     *
+     * @param string $pluginType
+     *   Plugin type.
+     * @param $pluginId
+     *   Plugin ID.
+     */
+    protected function displayPluginData($pluginType, $pluginId) {
+        switch ($pluginType) {
+            case 'field.field_type':
+                $this->getFieldTypeData($pluginId);
+                break;
+
+            case 'field.formatter':
+                $this->getFieldFormatterData($pluginId);
+                break;
+
+            case 'field.widget':
+                $this->getFieldWidgetData($pluginId);
+                break;
+        }
+    }
+
+    /**
+     * Get field type plugin additional data.
+     *
+     * @param string $pluginId
+     *   Plugin ID.
+     */
+    protected function getFieldTypeData($pluginId) {
+        $settings = $this->container->get('plugin.manager.field.field_type')->getDefaultFieldSettings($pluginId);
+        $this->displaySettingsTable($settings);
+    }
+
+    /**
+     * Get field formatter plugin additional data.
+     *
+     * @param string $pluginId
+     *   Plugin ID.
+     */
+    protected function getFieldFormatterData($pluginId) {
+        $settings = $this->container->get('plugin.manager.field.formatter')->getDefaultSettings($pluginId);
+        $this->displaySettingsTable($settings);
+    }
+
+    /**
+     * Get field widget plugin additional data.
+     *
+     * @param string $pluginId
+     *   Plugin ID.
+     */
+    protected function getFieldWidgetData($pluginId) {
+        $settings = $this->container->get('plugin.manager.field.widget')->getDefaultSettings($pluginId);
+        $this->displaySettingsTable($settings);
+    }
+
+    /**
+     * Displays settings table.
+     *
+     * @param array $settings
+     *   Settings array.
+     */
+    protected function displaySettingsTable($settings) {
+        $tableHeader = [
+          $this->trans('commands.debug.plugin.table-headers.setting'),
+          $this->trans('commands.debug.plugin.table-headers.definition-value')
+        ];
+
+        $tableRows = $this->prepareTableRows($settings);
+
+        if (count($tableRows) > 0) {
+            $this->getIo()->newLine(1);
+            $this->getIo()->info(
+              $this->trans('commands.debug.plugin.messages.plugin-info')
+            );
+            $this->getIo()->table($tableHeader, array_values($tableRows));
+        }
+    }
+
+    /**
+     * Prepare table rows.
+     *
+     * @param array $items
+     *   Data array.
+     *
+     * @return array
+     *   Table rows.
+     */
+    protected function prepareTableRows($items) {
         $tableRows = [];
-        foreach ($definition as $key => $value) {
+        foreach ($items as $key => $value) {
             if (is_object($value) && method_exists($value, '__toString')) {
                 $value = (string) $value;
             } elseif (is_array($value) || is_object($value)) {
@@ -120,10 +216,8 @@ class PluginCommand extends ContainerAwareCommand
             } elseif (is_bool($value)) {
                 $value = ($value) ? 'TRUE' : 'FALSE';
             }
-            $tableRows[$key] = [$key, $value];
+            $tableRows[] = [$key, $value];
         }
-        ksort($tableRows);
-        $io->table($tableHeader, array_values($tableRows));
-        return true;
+        return $tableRows;
     }
 }

@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Utility\Error;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Entity\EntityDefinitionUpdateManager;
 use Drupal\Console\Core\Utils\ChainQueue;
@@ -65,8 +64,8 @@ class EntitiesCommand extends Command
         $this
             ->setName('update:entities')
             ->setDescription($this->trans('commands.update.entities.description'))
+            ->enableMaintenance()
             ->setAliases(['upe']);
-        ;
     }
 
     /**
@@ -74,26 +73,17 @@ class EntitiesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        //$state = $this->getDrupalService('state');
-        $io->info($this->trans('commands.site.maintenance.messages.maintenance-on'));
-        $io->info($this->trans('commands.update.entities.messages.start'));
-        $this->state->set('system.maintenance_mode', true);
-
         try {
             $this->entityDefinitionUpdateManager->applyUpdates();
             /* @var EntityStorageException $e */
         } catch (EntityStorageException $e) {
             /* @var Error $variables */
             $variables = Error::decodeException($e);
-            $io->errorLite($this->trans('commands.update.entities.messages.error'));
-            $io->error(strtr('%type: @message in %function (line %line of %file).', $variables));
+            $this->getIo()->errorLite($this->trans('commands.update.entities.messages.error'));
+            $this->getIo()->error(strtr('%type: @message in %function (line %line of %file).', $variables));
         }
 
-        $this->state->set('system.maintenance_mode', false);
-        $io->info($this->trans('commands.update.entities.messages.end'));
+        $this->getIo()->info($this->trans('commands.update.entities.messages.end'));
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'all']);
-        $io->info($this->trans('commands.site.maintenance.messages.maintenance-off'));
     }
 }

@@ -13,6 +13,7 @@ class FormBaseCommand extends FormCommand
     {
         $this->setFormType('FormBase');
         $this->setCommandName('generate:form');
+        $this->setAliases(['gf']);
         parent::configure();
     }
 }

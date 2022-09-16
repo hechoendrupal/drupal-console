@@ -10,8 +10,8 @@ namespace Drupal\Console\Command\Debug;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueWorkerManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class DebugCommand
@@ -20,6 +20,11 @@ use Drupal\Console\Core\Style\DrupalStyle;
  */
 class QueueCommand extends Command
 {
+    /**
+     * @var QueueFactory
+     */
+    protected $queueFactory;
+
     /**
      * @var QueueWorkerManagerInterface
      */
@@ -30,8 +35,9 @@ class QueueCommand extends Command
      *
      * @param QueueWorkerManagerInterface $queueWorker
      */
-    public function __construct(QueueWorkerManagerInterface $queueWorker)
+    public function __construct(QueueFactory $queueFactory, QueueWorkerManagerInterface $queueWorker)
     {
+        $this->queueFactory = $queueFactory;
         $this->queueWorker = $queueWorker;
         parent::__construct();
     }
@@ -52,8 +58,6 @@ class QueueCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $tableHeader = [
             $this->trans('commands.debug.queue.messages.queue'),
             $this->trans('commands.debug.queue.messages.items'),
@@ -62,7 +66,7 @@ class QueueCommand extends Command
 
         $tableBody = $this->listQueues();
 
-        $io->table($tableHeader, $tableBody);
+        $this->getIo()->table($tableHeader, $tableBody);
 
         return 0;
     }
@@ -86,7 +90,7 @@ class QueueCommand extends Command
      */
     private function formatQueue($name)
     {
-        $q = $this->getDrupalService('queue')->get($name);
+        $q = $this->queueFactory->get($name);
 
         return [
             $name,

@@ -14,7 +14,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class ExecuteCommand extends Command
 {
@@ -62,7 +61,8 @@ class ExecuteCommand extends Command
             ->addArgument(
                 'module',
                 InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-                $this->trans('commands.common.options.module')
+                $this->trans('commands.common.options.module'),
+                ['all']
             )
             ->setAliases(['croe']);
     }
@@ -72,22 +72,21 @@ class ExecuteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $modules = $input->getArgument('module');
 
         if (!$this->lock->acquire('cron', 900.0)) {
-            $io->warning($this->trans('commands.cron.execute.messages.lock'));
+            $this->getIo()->warning($this->trans('commands.cron.execute.messages.lock'));
 
             return 1;
         }
 
-        if ($modules === null || in_array('all', $modules)) {
+        if (in_array('all', $modules)) {
             $modules = $this->moduleHandler->getImplementations('cron');
         }
 
         foreach ($modules as $module) {
             if (!$this->moduleHandler->implementsHook($module, 'cron')) {
-                $io->warning(
+                $this->getIo()->warning(
                     sprintf(
                         $this->trans('commands.cron.execute.messages.module-invalid'),
                         $module
@@ -96,7 +95,7 @@ class ExecuteCommand extends Command
                 continue;
             }
             try {
-                $io->info(
+                $this->getIo()->info(
                     sprintf(
                         $this->trans('commands.cron.execute.messages.executing-cron'),
                         $module
@@ -105,14 +104,14 @@ class ExecuteCommand extends Command
                 $this->moduleHandler->invoke($module, 'cron');
             } catch (\Exception $e) {
                 watchdog_exception('cron', $e);
-                $io->error($e->getMessage());
+                $this->getIo()->error($e->getMessage());
             }
         }
 
-        $this->state->set('system.cron_last', REQUEST_TIME);
+        $this->state->set('system.cron_last', \Drupal::time()->getRequestTime());
         $this->lock->release('cron');
 
-        $io->success($this->trans('commands.cron.execute.messages.success'));
+        $this->getIo()->success($this->trans('commands.cron.execute.messages.success'));
 
         return 0;
     }

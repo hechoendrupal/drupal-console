@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\State\StateInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Component\Serialization\Yaml;
 
 /**
@@ -70,19 +69,18 @@ class StateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $key = $input->getArgument('key');
 
         if ($key) {
-            $io->info($key);
-            $io->writeln(Yaml::encode($this->state->get($key)));
+            $this->getIo()->info($key);
+            $this->getIo()->writeln(Yaml::encode($this->state->get($key)));
 
             return 0;
         }
 
         $tableHeader = [$this->trans('commands.debug.state.messages.key')];
         $keyStoreStates = array_keys($this->keyValue->get('state')->getAll());
-        $io->table($tableHeader, $keyStoreStates);
+        $this->getIo()->table($tableHeader, $keyStoreStates);
 
         return 0;
     }

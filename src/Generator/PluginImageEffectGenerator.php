@@ -12,6 +12,12 @@ use Drupal\Console\Extension\Manager;
 
 class PluginImageEffectGenerator extends Generator
 {
+
+    /**
+     * @var Manager
+     */
+    protected $extensionManager;
+
     /**
      * PluginImageEffectGenerator constructor.
      *
@@ -24,27 +30,16 @@ class PluginImageEffectGenerator extends Generator
     }
 
     /**
-     * Generator Plugin Image Effect.
-     *
-     * @param string $module       Module name
-     * @param string $class_name   Plugin Class name
-     * @param string $plugin_label Plugin label
-     * @param string $plugin_id    Plugin id
-     * @param string $description  Plugin description
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $label, $plugin_id, $description)
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module' => $module,
-          'class_name' => $class_name,
-          'label' => $label,
-          'plugin_id' => $plugin_id,
-          'description' => $description,
-        ];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
 
         $this->renderFile(
             'module/src/Plugin/ImageEffect/imageeffect.php.twig',
-            $this->extensionManager->getPluginPath($module, 'ImageEffect') .'/'.$class_name.'.php',
+            $this->extensionManager->getPluginPath($module, 'ImageEffect') . '/' . $class_name . '.php',
             $parameters
         );
     }

@@ -1,7 +1,7 @@
 services:
   console.user_delete:
     class: Drupal\Console\Command\User\DeleteCommand
-    arguments: ['@entity_type.manager','@entity.query', '@console.drupal_api']
+    arguments: ['@entity_type.manager', '@console.drupal_api']
     tags:
       - { name: drupal.command }
   console.user_login_clear_attempts:
@@ -32,5 +32,10 @@ services:
   console.user_create:
     class: Drupal\Console\Command\User\CreateCommand
     arguments: ['@database', '@entity_type.manager', '@date.formatter', '@console.drupal_api']
+    tags:
+      - { name: drupal.command }
+  console.user_unblock:
+    class: Drupal\Console\Command\User\UnblockCommand
+    arguments: ['@entity_type.manager']
     tags:
       - { name: drupal.command }

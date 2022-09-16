@@ -16,13 +16,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Command\Shared\ConnectTrait;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class QueryCommand extends Command
 {
+
     use ConnectTrait;
 
     /**
@@ -32,7 +32,9 @@ class QueryCommand extends Command
     {
         $this
             ->setName('database:query')
-            ->setDescription($this->trans('commands.database.query.description'))
+            ->setDescription(
+                $this->trans('commands.database.query.description')
+            )
             ->addArgument(
                 'query',
                 InputArgument::REQUIRED,
@@ -44,14 +46,54 @@ class QueryCommand extends Command
                 $this->trans('commands.database.query.arguments.database'),
                 'default'
             )
-            ->addOption('quick', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.quick'))
-            ->addOption('debug', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.debug'))
-            ->addOption('html', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.html'))
-            ->addOption('xml', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.xml'))
-            ->addOption('raw', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.raw'))
-            ->addOption('vertical', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.vertical'))
-            ->addOption('batch', null, InputOption::VALUE_NONE, $this->trans('commands.database.query.options.batch'))
-
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.database.connect.arguments.target'),
+                'default'
+            )
+            ->addOption(
+                'quick',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.query.options.quick')
+            )
+            ->addOption(
+                'debug',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.query.options.debug')
+            )
+            ->addOption(
+                'html',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.query.options.html')
+            )
+            ->addOption(
+                'xml',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.query.options.xml')
+            )
+            ->addOption(
+                'raw',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.query.options.raw')
+            )
+            ->addOption(
+                'vertical',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.query.options.vertical')
+            )
+            ->addOption(
+                'batch',
+                null,
+                InputOption::VALUE_NONE,
+                $this->trans('commands.database.query.options.batch')
+            )
             ->setHelp($this->trans('commands.database.query.help'))
             ->setAliases(['dbq']);
     }
@@ -61,13 +103,12 @@ class QueryCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $query = $input->getArgument('query');
+        $query    = $input->getArgument('query');
         $database = $input->getArgument('database');
+        $target   = $input->getArgument('target');
         $learning = $input->getOption('learning');
 
-        $databaseConnection = $this->resolveConnection($io, $database);
+        $databaseConnection = $this->resolveConnection($database, $target);
 
         $connection = sprintf(
             '%s -A --database=%s --user=%s --password=%s --host=%s --port=%s',
@@ -79,49 +120,47 @@ class QueryCommand extends Command
             $databaseConnection['port']
         );
 
-        $args = explode(' ', $connection);
+        $args   = explode(' ', $connection);
         $args[] = sprintf('--execute=%s', $query);
 
-        $opts = ["quick", "debug", "html", "xml", "raw", "vertical", "batch"];
+        $opts = ['quick', 'debug', 'html', 'xml', 'raw', 'vertical', 'batch'];
         array_walk(
             $opts, function ($opt) use ($input, &$args) {
-                if ($input->getOption($opt)) {
-                    switch ($opt) {
-                    case "quick":
-                        $args[] = "--quick";
+            if ($input->getOption($opt)) {
+                switch ($opt) {
+                    case 'quick':
+                        $args[] = '--quick';
                         break;
-                    case "debug":
-                        $args[] = "-T";
+                    case 'debug':
+                        $args[] = '-T';
                         break;
-                    case "html":
-                        $args[] = "-H";
+                    case 'html':
+                        $args[] = '-H';
                         break;
-                    case "xml":
-                        $args[] = "-X";
+                    case 'xml':
+                        $args[] = '-X';
                         break;
-                    case "raw":
-                        $args[] = "--raw";
+                    case 'raw':
+                        $args[] = '--raw';
                         break;
-                    case "vertical":
-                        $args[] = "-E";
+                    case 'vertical':
+                        $args[] = '-E';
                         break;
-                    case "batch":
-                        $args[] = "--batch";
+                    case 'batch':
+                        $args[] = '--batch';
                         break;
-                    }
                 }
             }
+        }
         );
 
         if ($learning) {
-            $io->commentBlock(
-                implode(" ", $args)
+            $this->getIo()->commentBlock(
+                implode(' ', $args)
             );
         }
 
-        $processBuilder = new ProcessBuilder([]);
-        $processBuilder->setArguments($args);
-        $process = $processBuilder->getProcess();
+        $process = new Process($args);
         $process->setTty('true');
         $process->run();
 
@@ -131,4 +170,5 @@ class QueryCommand extends Command
 
         return 0;
     }
+
 }

@@ -15,7 +15,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
 use Drupal\Console\Utils\Create\TermData;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class TermsCommand
@@ -85,12 +84,10 @@ class TermsCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $vocabularies = $input->getArgument('vocabularies');
         if (!$vocabularies) {
             $vocabularies = $this->drupalApi->getVocabularies();
-            $vids = $io->choice(
+            $vids = $this->getIo()->choice(
                 $this->trans('commands.create.terms.questions.vocabularies'),
                 array_values($vocabularies),
                 null,
@@ -109,7 +106,7 @@ class TermsCommand extends Command
 
         $limit = $input->getOption('limit');
         if (!$limit) {
-            $limit = $io->ask(
+            $limit = $this->getIo()->ask(
                 $this->trans('commands.create.terms.questions.limit'),
                 25
             );
@@ -118,7 +115,7 @@ class TermsCommand extends Command
 
         $nameWords = $input->getOption('name-words');
         if (!$nameWords) {
-            $nameWords = $io->ask(
+            $nameWords = $this->getIo()->ask(
                 $this->trans('commands.create.terms.questions.name-words'),
                 5
             );
@@ -132,8 +129,6 @@ class TermsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $vocabularies = $input->getArgument('vocabularies');
         $limit = $input->getOption('limit')?:25;
         $nameWords = $input->getOption('name-words')?:5;
@@ -142,7 +137,7 @@ class TermsCommand extends Command
             $vocabularies = array_keys($this->drupalApi->getVocabularies());
         }
 
-        $terms = $this->createTermData->create(
+        $result = $this->createTermData->create(
             $vocabularies,
             $limit,
             $nameWords
@@ -154,14 +149,27 @@ class TermsCommand extends Command
             $this->trans('commands.create.terms.messages.name'),
         ];
 
-        $io->table($tableHeader, $terms['success']);
+        if ($result['success']) {
+            $this->getIo()->table($tableHeader, $result['success']);
 
-        $io->success(
-            sprintf(
-                $this->trans('commands.create.terms.messages.created-terms'),
-                $limit
-            )
-        );
+            $this->getIo()->success(
+                sprintf(
+                    $this->trans('commands.create.terms.messages.created-terms'),
+                    count($result['success'])
+                )
+            );
+        }
+
+        if (isset($result['error'])) {
+            foreach ($result['error'] as $error) {
+                $this->getIo()->error(
+                    sprintf(
+                        $this->trans('commands.create.terms.messages.error'),
+                        $error
+                    )
+                );
+            }
+        }
 
         return 0;
     }

@@ -14,7 +14,6 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\field\FieldConfigInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class InfoCommand.
@@ -80,8 +79,6 @@ class InfoCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // Retrieve whether detailed option has been selected.
         $detailedOutput = $input->getOption('detailed');
 
@@ -137,12 +134,12 @@ class InfoCommand extends Command
                                 // Output the Parent Entity label if we haven't already.
                                 if ($detailedOutput) {
                                     // If detailed output then display the id as well.
-                                    $io->info(strtoupper($bundleParent) . ' (' . $entityTypeId . '):');
+                                    $this->getIo()->info(strtoupper($bundleParent) . ' (' . $entityTypeId . '):');
                                 } else {
                                     // otherwise just display the label for normal output.
-                                    $io->info(strtoupper($bundleParent . ':'));
+                                    $this->getIo()->info(strtoupper($bundleParent . ':'));
                                 }
-                                $io->newLine();
+                                $this->getIo()->newLine();
                             }
 
                             // Load in the entityType fields.
@@ -189,11 +186,11 @@ class InfoCommand extends Command
                             // If detailed output then display bundle id and description.
                             if ($detailedOutput) {
                                 // Output the bundle label and id.
-                                $io->info($bundleType->label() . ' (' . $bundleType->id() . ')');
-                                $io->info(strip_tags($bundleType->get('description')));
+                                $this->getIo()->info($bundleType->label() . ' (' . $bundleType->id() . ')');
+                                $this->getIo()->info(strip_tags($bundleType->get('description')));
                             } else {
                                 // Else just output the bundle label.
-                                $io->info($bundleType->label());
+                                $this->getIo()->info($bundleType->label());
                             }
 
                             // Fill out our table header.
@@ -209,9 +206,9 @@ class InfoCommand extends Command
                                     $this->trans('commands.field.info.table.header-type'),
                                     $this->trans('commands.field.info.table.header-usage')
                                 ];
-                                $io->table($tableHeader, $tableRows);
+                                $this->getIo()->table($tableHeader, $tableRows);
                             } else {
-                                $io->comment(
+                                $this->getIo()->comment(
                                     $this->trans('commands.field.info.messages.fields-none')
                                     . ' ' . $this->trans('commands.field.info.messages.in-bundle-type')
                                     . " '" . $bundleType->label() . "'"
@@ -222,7 +219,7 @@ class InfoCommand extends Command
                             unset($tableHeader, $tableRows);
 
                             // Create some space so the output looks nice.
-                            $io->newLine();
+                            $this->getIo()->newLine();
                         }
                     }
                 }
@@ -232,14 +229,14 @@ class InfoCommand extends Command
         // If entity type was specified but not found then display error message.
         if (!empty($entityTypeOption)) {
             if (!$entityTypeOptionFound) {
-                $io->comment(
+                $this->getIo()->comment(
                     $this->trans('commands.field.info.messages.entity-type') .
                     ' ' . $entityTypeOption . ' ' .
                     $this->trans('commands.field.info.messages.not-found')
                 );
             } elseif (!empty($bundleTypeOption) && !$bundleTypeOptionFound) {
                 // If specified entity type found and bundle type specified but not found then display error message.
-                $io->comment(
+                $this->getIo()->comment(
                     $this->trans('commands.field.info.messages.bundle-type') .
                     ' ' . $bundleTypeOption . ' ' .
                     $this->trans('commands.field.info.messages.not-found') .
@@ -249,14 +246,14 @@ class InfoCommand extends Command
             }
         } elseif (!empty($bundleTypeOption) && !$bundleTypeOptionFound) {
             // If specified bundle type not found then display error message.
-            $io->comment(
+            $this->getIo()->comment(
                 $this->trans('commands.field.info.messages.bundle-type') .
                 ' ' . $bundleTypeOption . ' ' .
                 $this->trans('commands.field.info.messages.not-found')
             );
         } elseif ($fieldCounter == 0) {
             // If no fields found then display appropriate message.
-            $io->comment($this->trans('commands.field.info.messages.fields-none'));
+            $this->getIo()->comment($this->trans('commands.field.info.messages.fields-none'));
         }
 
         return 0;

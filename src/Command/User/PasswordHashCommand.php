@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Password\PasswordInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class PasswordHashCommand extends Command
 {
@@ -54,11 +53,9 @@ class PasswordHashCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $password = $input->getArgument('password');
         if (!$password) {
-            $password = $io->ask(
+            $password = $this->getIo()->ask(
                 $this->trans('commands.user.password.hash.questions.password')
             );
 
@@ -71,8 +68,6 @@ class PasswordHashCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $passwords = $input->getArgument('password');
 
         $tableHeader = [
@@ -88,6 +83,6 @@ class PasswordHashCommand extends Command
             ];
         }
 
-        $io->table($tableHeader, $tableRows, 'compact');
+        $this->getIo()->table($tableHeader, $tableRows, 'compact');
     }
 }

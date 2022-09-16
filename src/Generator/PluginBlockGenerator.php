@@ -29,16 +29,18 @@ class PluginBlockGenerator extends Generator
     }
 
     /**
-     * Generator Plugin Block.
-     *
-     * @param $module
-     * @param $class_name
-     * @param $label
-     * @param $plugin_id
-     * @param $services
+     * {@inheritdoc}
      */
-    public function generate($module, $class_name, $label, $plugin_id, $services, $inputs)
+    public function generate(array $parameters)
     {
+        $inputs = $parameters['inputs'];
+        $module = $parameters['module'];
+        $class_name = $parameters['class_name'];
+        $twigTemplate = $parameters['twig_template'];
+        $pluginId = $parameters['plugin_id'];
+        $parameters['twig_template_name'] = str_replace('_', '-', $pluginId);
+        $parameters['machine_name'] = $pluginId;
+
         // Consider the type when determining a default value. Figure out what
         // the code looks like for the default value tht we need to generate.
         foreach ($inputs as &$input) {
@@ -71,19 +73,48 @@ class PluginBlockGenerator extends Generator
             $input['default_code'] = $default_code;
         }
 
-        $parameters = [
-          'module' => $module,
-          'class_name' => $class_name,
-          'label' => $label,
-          'plugin_id' => $plugin_id,
-          'services' => $services,
-          'inputs' => $inputs,
-        ];
-
         $this->renderFile(
             'module/src/Plugin/Block/block.php.twig',
-            $this->extensionManager->getPluginPath($module, 'Block').'/'.$class_name.'.php',
+            $this->extensionManager->getPluginPath($module, 'Block') . '/' . $class_name . '.php',
             $parameters
         );
+
+        if ($twigTemplate) {
+            $moduleDirectory = $this->extensionManager->getModule($module)->getPath();
+            $moduleFilePath = $moduleDirectory . '/' . $module . '.module';
+
+            $parameters['file_exist'] = file_exists($moduleFilePath);
+
+            $this->renderFile(
+                'module/module-block-twig-template-append.twig',
+                $moduleFilePath,
+                $parameters,
+                FILE_APPEND
+            );
+            $moduleDirectory .= '/templates/';
+            if (file_exists($moduleDirectory)) {
+                if (!is_dir($moduleDirectory)) {
+                    throw new \RuntimeException(
+                        sprintf(
+                            'Unable to generate the templates directory as the target directory "%s" exists but is a file.',
+                            realpath($moduleDirectory)
+                        )
+                    );
+                }
+                if (!is_writable($moduleDirectory)) {
+                    throw new \RuntimeException(
+                        sprintf(
+                            'Unable to generate the templates directory as the target directory "%s" is not writable.',
+                            realpath($moduleDirectory)
+                        )
+                    );
+                }
+            }
+            $this->renderFile(
+                'module/templates/plugin-block-html.twig',
+                $moduleDirectory . $parameters['twig_template_name'] . '.html.twig',
+                $parameters
+            );
+        }
     }
 }

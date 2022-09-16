@@ -7,17 +7,18 @@
 
 namespace Drupal\Console\Command\Config;
 
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Command\Shared\ExportTrait;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Utils\Validator;
+use Drupal\Core\Config\CachedStorage;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Config\CachedStorage;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Command\Shared\ExportTrait;
-use Drupal\Console\Extension\Manager;
 
 class ExportViewCommand extends Command
 {
@@ -43,6 +44,16 @@ class ExportViewCommand extends Command
     protected $extensionManager;
 
     /**
+     * @var Validator
+     */
+    protected $validator;
+
+    /**
+     * @var ChainQueue
+     */
+    protected $chainQueue;
+
+    /**
      * ExportViewCommand constructor.
      *
      * @param EntityTypeManagerInterface $entityTypeManager
@@ -52,11 +63,15 @@ class ExportViewCommand extends Command
     public function __construct(
         EntityTypeManagerInterface $entityTypeManager,
         CachedStorage $configStorage,
-        Manager $extensionManager
+        Manager $extensionManager,
+        Validator $validator,
+        ChainQueue $chainQueue
     ) {
         $this->entityTypeManager = $entityTypeManager;
         $this->configStorage = $configStorage;
         $this->extensionManager = $extensionManager;
+        $this->validator = $validator;
+        $this->chainQueue = $chainQueue;
         parent::__construct();
     }
 
@@ -88,6 +103,17 @@ class ExportViewCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 $this->trans('commands.config.export.view.options.include-module-dependencies')
             )
+            ->addOption(
+              'remove-uuid',
+              NULL,
+              InputOption::VALUE_NONE,
+              $this->trans('commands.config.export.entity.options.remove-uuid')
+            )->addOption(
+              'remove-config-hash',
+              NULL,
+              InputOption::VALUE_NONE,
+              $this->trans('commands.config.export.entity.options.remove-config-hash')
+            )
             ->setAliases(['cev']);
     }
 
@@ -96,15 +122,8 @@ class ExportViewCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // --module option
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $this->getModuleOption();
 
         // view-id argument
         $viewId = $input->getArgument('view-id');
@@ -116,7 +135,7 @@ class ExportViewCommand extends Command
                 $viewList[$view->get('id')] = $view->get('label');
             }
 
-            $viewId = $io->choiceNoList(
+            $viewId = $this->getIo()->choiceNoList(
                 $this->trans('commands.config.export.view.questions.view'),
                 $viewList
             );
@@ -125,7 +144,7 @@ class ExportViewCommand extends Command
 
         $optionalConfig = $input->getOption('optional-config');
         if (!$optionalConfig) {
-            $optionalConfig = $io->confirm(
+            $optionalConfig = $this->getIo()->confirm(
                 $this->trans('commands.config.export.view.questions.optional-config'),
                 true
             );
@@ -134,42 +153,49 @@ class ExportViewCommand extends Command
 
         $includeModuleDependencies = $input->getOption('include-module-dependencies');
         if (!$includeModuleDependencies) {
-            $includeModuleDependencies = $io->confirm(
+            $includeModuleDependencies = $this->getIo()->confirm(
                 $this->trans('commands.config.export.view.questions.include-module-dependencies'),
                 true
             );
             $input->setOption('include-module-dependencies', $includeModuleDependencies);
         }
+
+        if (!$input->getOption('remove-uuid')) {
+          $removeUuid = $this->getIo()->confirm(
+            $this->trans('commands.config.export.entity.questions.remove-uuid'),
+            TRUE
+          );
+          $input->setOption('remove-uuid', $removeUuid);
+        }
+
+        if (!$input->getOption('remove-config-hash')) {
+          $removeHash = $this->getIo()->confirm(
+            $this->trans('commands.config.export.entity.questions.remove-config-hash'),
+            TRUE
+          );
+          $input->setOption('remove-config-hash', $removeHash);
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $viewId = $input->getArgument('view-id');
         $optionalConfig = $input->getOption('optional-config');
         $includeModuleDependencies = $input->getOption('include-module-dependencies');
+        $removeUuid = $input->getOption('remove-uuid');
+        $removeHash = $input->getOption('remove-config-hash');
 
-        $viewTypeDefinition = $this->entityTypeManager->getDefinition('view');
-        $viewTypeName = $viewTypeDefinition->getConfigPrefix() . '.' . $viewId;
-
-        $viewNameConfig = $this->getConfiguration($viewTypeName);
-
-        $this->configExport[$viewTypeName] = ['data' => $viewNameConfig, 'optional' => $optionalConfig];
-
-        // Include config dependencies in export files
-        if ($dependencies = $this->fetchDependencies($viewNameConfig, 'config')) {
-            $this->resolveDependencies($dependencies, $optionalConfig);
-        }
-
-        // Include module dependencies in export files if export is not optional
-        if ($includeModuleDependencies) {
-            if ($dependencies = $this->fetchDependencies($viewNameConfig, 'module')) {
-                $this->exportModuleDependencies($io, $module, $dependencies);
-            }
-        }
-
-        $this->exportConfigToModule($module, $io, $this->trans('commands.views.export.messages.view-exported'));
+        $this->chainQueue->addCommand(
+          'config:export:entity', [
+            'entity-type' => 'view',
+            'bundle' => [$viewId],
+            '--module' => $module,
+            '--optional-config' => $optionalConfig,
+            '--remove-uuid' => $removeUuid,
+            '--remove-config-hash' => $removeHash,
+            '--include-module-dependencies' => $includeModuleDependencies
+          ]
+        );
     }
 }

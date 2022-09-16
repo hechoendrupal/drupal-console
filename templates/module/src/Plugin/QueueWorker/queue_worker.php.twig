@@ -1,0 +1,29 @@
+{% extends "base/class.php.twig" %}
+
+{% block namespace_class %}
+namespace Drupal\{{ module }}\Plugin\QueueWorker;
+{% endblock %}
+
+{% block use_class %}
+use Drupal\Core\Queue\QueueWorkerBase;
+{% endblock %}
+
+{% block class_declaration %}
+/**
+ * Plugin implementation of the {{ plugin_id }} queueworker.
+ *
+ * @QueueWorker (
+ *   id = "{{ plugin_id }}",
+ *   title = @Translation("{{ label }}"),
+ *   cron = {"time" = {{ cron_time }}}
+ * )
+ */
+class {{ class_name }} extends QueueWorkerBase {% endblock %}
+{% block class_methods %}
+  /**
+   * {@inheritdoc}
+   */
+  public function processItem($data) {
+    // Process item operations.
+  }
+{% endblock %}

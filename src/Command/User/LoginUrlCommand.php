@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Console\Core\Style\DrupalStyle;
+use Drupal\Core\Url;
 
 /**
  * Class UserLoginCommand.
@@ -52,30 +52,20 @@ class LoginUrlCommand extends UserBase
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $user = $input->getArgument('user');
-        if (!$user) {
-            $user = $io->ask(
-                $this->trans('commands.user.login.url.questions.user')
-            );
-
-            $input->setArgument('user', $user);
-        }
+        $this->getUserArgument();
     }
 
     /**
-   * {@inheritdoc}
-   */
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
 
         $user = $input->getArgument('user');
         $userEntity = $this->getUserEntity($user);
 
         if (!$userEntity) {
-            $io->error(
+            $this->getIo()->error(
                 sprintf(
                     $this->trans('commands.user.login.url.errors.invalid-user'),
                     $user
@@ -85,16 +75,40 @@ class LoginUrlCommand extends UserBase
             return 1;
         }
 
-        $url = user_pass_reset_url($userEntity) . '/login';
-        $io->success(
+        if($input->hasOption('uri')){
+          //validate if https is on uri
+          $regx = '/^https:.*/s';
+          if(preg_match($regx, $input->getOption('uri'))){
+              $timestamp = \Drupal::time()->getRequestTime();
+              $langcode = $userEntity->getPreferredLangcode();
+              $url = Url::fromRoute('user.reset',
+                  [
+                  'uid' => $userEntity->id(),
+                  'timestamp' => $timestamp,
+                  'hash' => user_pass_rehash($userEntity, $timestamp),
+                  ],
+                  [
+                  'absolute' => TRUE,
+                  'language' => \Drupal::languageManager()->getLanguage($langcode),
+                  'https' => TRUE,
+                  ]
+              )->toString();
+
+            } else{
+              $url = user_pass_reset_url($userEntity) . '/login';
+            }
+        } else{
+          $url = user_pass_reset_url($userEntity) . '/login';
+        }
+        $this->getIo()->success(
             sprintf(
                 $this->trans('commands.user.login.url.messages.url'),
-                $userEntity->getUsername()
+                $userEntity->getAccountName()
             )
         );
 
-        $io->simple($url);
-        $io->newLine();
+        $this->getIo()->simple($url);
+        $this->getIo()->newLine();
 
         return 0;
     }

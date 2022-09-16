@@ -2,6 +2,9 @@
 
 namespace Drupal\Console\Utils;
 
+use Drupal\Console\Core\Style\DrupalStyle;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Finder\Finder;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
@@ -29,6 +32,11 @@ class Site
     protected $cacheServicesFile;
 
     /**
+     * @var DrupalStyle
+     */
+    protected $io;
+
+    /**
      * Site constructor.
      *
      * @param string               $appRoot
@@ -40,6 +48,10 @@ class Site
     ) {
         $this->appRoot = $appRoot;
         $this->configurationManager = $configurationManager;
+
+        $output = new ConsoleOutput();
+        $input = new ArrayInput([]);
+        $this->io = new DrupalStyle($input, $output);
     }
 
     public function loadLegacyFile($legacyFile, $relative = true)
@@ -168,6 +180,21 @@ class Site
     }
 
     /**
+    * @param InputInterface $input
+    * @return string
+    */
+    public function getMultisiteName($input)
+    {
+        $uri = $input->getParameterOption(['--uri', '-l'], 'default');
+
+        if ($uri && !preg_match('/^(http|https):\/\//', $uri)) {
+            $uri = sprintf('http://%s', $uri);
+        }
+
+        return  parse_url($uri, PHP_URL_HOST);
+    }
+
+    /**
      * @return boolean
      */
     public function multisiteMode($uri)
@@ -180,9 +207,41 @@ class Site
     }
 
     /**
+     * @param string $uri
+     *
      * @return boolean
      */
     public function validMultisite($uri)
+    {
+        $sites = $this->getAllMultisites();
+
+        if (isset($sites[$uri]) && is_dir($this->appRoot . "/sites/" . $sites[$uri])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $uri
+     *
+     * @return string
+     */
+    public function getMultisiteDir($uri)
+    {
+        if(!$this->validMultisite($uri)) {
+            $this->io->error('Invalid multisite, please debug multisite using command drupal debug:mulltisite and choose one');
+            exit();
+        }
+
+        return $this->getAllMultisites()[$uri];
+
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getAllMultisites()
     {
         $multiSiteFile = sprintf(
             '%s/sites/sites.php',
@@ -191,15 +250,11 @@ class Site
 
         if (file_exists($multiSiteFile)) {
             include $multiSiteFile;
+
+            return $sites;
         } else {
-            return false;
+            return null;
         }
-
-        if (isset($sites[$uri]) && is_dir($this->appRoot . "/sites/" . $sites[$uri])) {
-            return true;
-        }
-
-        return false;
     }
 
     public function getCachedServicesFile()

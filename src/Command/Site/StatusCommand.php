@@ -12,11 +12,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\ContainerAwareCommand;
 use Drupal\Core\Database\Database;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\system\SystemManager;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Extension\ThemeHandler;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  *  This command provides a report of the current drupal installation.
@@ -40,6 +41,20 @@ class StatusCommand extends ContainerAwareCommand
       'database',
       'theme',
       'directory',
+    ];
+
+    /**
+     * A list of system requirements to be skipped from output.
+     *
+     * @var array
+     */
+    protected $systemDataSkipList = [
+      // The PHP memory limit in CLI is different from the one available to the
+      // web server. Skip to avoid confusion.
+      'php_memory_limit',
+      // The web server cannot be determined in CLI since Drupal takes it from
+      // the $_SERVER variable in HTTP requests.
+      'webserver',
     ];
 
     /**
@@ -68,26 +83,34 @@ class StatusCommand extends ContainerAwareCommand
     protected $appRoot;
 
     /**
+     * @var RendererInterface
+     */
+    protected $renderer;
+
+    /**
      * DebugCommand constructor.
      *
-     * @param SystemManager $systemManager
-     * @param Settings      $settings
-     * @param ConfigFactory $configFactory
-     * @param ThemeHandler  $themeHandler
+     * @param SystemManager     $systemManager
+     * @param Settings          $settings
+     * @param ConfigFactory     $configFactory
+     * @param ThemeHandler      $themeHandler
      * @param $appRoot
+     * @param RendererInterface $renderer
      */
     public function __construct(
-        SystemManager $systemManager,
+        SystemManager $systemManager = null,
         Settings $settings,
         ConfigFactory $configFactory,
         ThemeHandler $themeHandler,
-        $appRoot
+        $appRoot,
+        RendererInterface $renderer
     ) {
         $this->systemManager = $systemManager;
         $this->settings = $settings;
         $this->configFactory = $configFactory;
         $this->themeHandler = $themeHandler;
         $this->appRoot = $appRoot;
+        $this->renderer = $renderer;
         parent::__construct();
     }
 
@@ -117,8 +140,6 @@ class StatusCommand extends ContainerAwareCommand
         // Make sure all modules are loaded.
         $this->container->get('module_handler')->loadAll();
 
-        $io = new DrupalStyle($input, $output);
-
         $systemData = $this->getSystemData();
         $connectionData = $this->getConnectionData();
         $themeInfo = $this->getThemeData();
@@ -134,7 +155,7 @@ class StatusCommand extends ContainerAwareCommand
         $format = $input->getOption('format');
 
         if ('table' === $format) {
-            $this->showDataAsTable($io, $siteData);
+            $this->showDataAsTable($siteData);
         }
 
         if ('json' === $format) {
@@ -152,14 +173,44 @@ class StatusCommand extends ContainerAwareCommand
         $systemData = [];
 
         foreach ($requirements as $key => $requirement) {
-            if ($requirement['title'] instanceof \Drupal\Core\StringTranslation\TranslatableMarkup) {
+            if (in_array($key, $this->systemDataSkipList)) {
+                continue;
+            }
+
+            if ($requirement['title'] instanceof TranslatableMarkup) {
                 $title = $requirement['title']->render();
             } else {
                 $title = $requirement['title'];
             }
 
-            $systemData['system'][$title] = strip_tags($requirement['value']);
+            $value = !empty($requirement['value']) ? strip_tags($requirement['value']) : '';
+            if (isset($requirement['severity'])) {
+                switch ($requirement['severity']) {
+                    case SystemManager::REQUIREMENT_ERROR:
+                        $value = "<error>$value</error>";
+                        break;
+
+                    case SystemManager::REQUIREMENT_WARNING:
+                        $value = "<comment>$value</comment>";
+                        break;
+
+                }
+            }
+
+            if ($this->getIo()->isVerbose()) {
+                $description = !empty($requirement['description']) ? $requirement['description'] : null;
+                if ($description instanceof TranslatableMarkup) {
+                    $description = $description->render();
+                }
+                if (is_array($description)) {
+                    $description = $this->renderer->renderPlain($description);
+                }
+                $value .= $description ? ' (' . strip_tags($description) . ')' : '';
+            }
+
+            $systemData['system'][strip_tags($title)] = $value;
         }
+
 
         if ($this->settings) {
             try {
@@ -177,26 +228,24 @@ class StatusCommand extends ContainerAwareCommand
     protected function getConnectionData()
     {
         $connectionInfo = Database::getConnectionInfo();
+        $has_password = FALSE;
 
         $connectionData = [];
         foreach ($this->connectionInfoKeys as $connectionInfoKey) {
-            if ("password" == $connectionInfoKey) {
+            if ('password' == $connectionInfoKey) {
+                $has_password = TRUE;
                 continue;
             }
 
-            $connectionKey = $this->trans('commands.site.status.messages.'.$connectionInfoKey);
-            $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+            if (!empty($connectionInfo['default'][$connectionInfoKey])) {
+                $connectionKey = $this->trans('commands.site.status.messages.' . $connectionInfoKey);
+                $connectionData['database'][$connectionKey] = $connectionInfo['default'][$connectionInfoKey];
+            }
         }
 
-        $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = sprintf(
-            '%s//%s:%s@%s%s/%s',
-            $connectionInfo['default']['driver'],
-            $connectionInfo['default']['username'],
-            $connectionInfo['default']['password'],
-            $connectionInfo['default']['host'],
-            $connectionInfo['default']['port'] ? ':'.$connectionInfo['default']['port'] : '',
-            $connectionInfo['default']['database']
-        );
+        $connection_url = Database::getConnectionInfoAsUrl();
+        $displayable_url = $has_password ? preg_replace('/(?<=:)([^@:]+)(?=@[^@]+$)/', '********', $connection_url, 1) : $connection_url;
+        $connectionData['database'][$this->trans('commands.site.status.messages.connection')] = $displayable_url;
 
         return $connectionData;
     }
@@ -207,8 +256,8 @@ class StatusCommand extends ContainerAwareCommand
 
         return [
           'theme' => [
-            'theme_default' => $config->get('default'),
-            'theme_admin' => $config->get('admin'),
+            $this->trans('commands.site.status.messages.theme-default') => $config->get('default'),
+            $this->trans('commands.site.status.messages.theme-admin') => $config->get('admin'),
           ],
         ];
     }
@@ -244,22 +293,22 @@ class StatusCommand extends ContainerAwareCommand
         ];
     }
 
-    protected function showDataAsTable(DrupalStyle $io, $siteData)
+    protected function showDataAsTable($siteData)
     {
         if (empty($siteData)) {
             return [];
         }
-        $io->newLine();
+        $this->getIo()->newLine();
         foreach ($this->groups as $group) {
             $tableRows = [];
             $groupData = $siteData[$group];
-            $io->comment($this->trans('commands.site.status.messages.'.$group));
+            $this->getIo()->comment($this->trans('commands.site.status.messages.'.$group));
 
             foreach ($groupData as $key => $item) {
                 $tableRows[] = [$key, $item];
             }
 
-            $io->table([], $tableRows, 'compact');
+            $this->getIo()->table([], $tableRows, 'compact');
         }
     }
 }

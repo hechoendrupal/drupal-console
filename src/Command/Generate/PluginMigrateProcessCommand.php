@@ -7,20 +7,19 @@
 
 namespace Drupal\Console\Command\Generate;
 
+use Drupal\Console\Core\Command\Command;
+use Drupal\Console\Generator\PluginMigrateProcessGenerator;
 use Drupal\Console\Utils\Validator;
+use Drupal\Console\Command\Shared\ConfirmationTrait;
+use Drupal\Console\Command\Shared\ModuleTrait;
+use Drupal\Console\Extension\Manager;
+use Drupal\Console\Core\Utils\ChainQueue;
+use Drupal\Console\Core\Utils\StringConverter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Drupal\Console\Core\Command\ContainerAwareCommand;
-use Drupal\Console\Generator\PluginMigrateProcessGenerator;
-use Drupal\Console\Command\Shared\ModuleTrait;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
-use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Utils\StringConverter;
-use Drupal\Console\Core\Style\DrupalStyle;
-use Drupal\Console\Core\Utils\ChainQueue;
 
-class PluginMigrateProcessCommand extends ContainerAwareCommand
+class PluginMigrateProcessCommand extends Command
 {
     use ModuleTrait;
     use ConfirmationTrait;
@@ -105,18 +104,20 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmGeneration
-        if (!$this->confirmGeneration($io)) {
+        // @see use Drupal\Console\Command\Shared\ConfirmationTrait::confirmOperation
+        if (!$this->confirmOperation()) {
             return 1;
         }
 
-        $module = $input->getOption('module');
+        $module = $this->validateModule($input->getOption('module'));
         $class_name = $this->validator->validateClassName($input->getOption('class'));
         $plugin_id = $input->getOption('plugin-id');
 
-        $this->generator->generate($module, $class_name, $plugin_id);
+        $this->generator->generate([
+          'module' => $module,
+          'class_name' => $class_name,
+          'plugin_id' => $plugin_id,
+        ]);
 
         $this->chainQueue->addCommand('cache:rebuild', ['cache' => 'discovery']);
     }
@@ -126,20 +127,13 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         // 'module-name' option.
-        $module = $input->getOption('module');
-        if (!$module) {
-            // @see Drupal\Console\Command\Shared\ModuleTrait::moduleQuestion
-            $module = $this->moduleQuestion($io);
-            $input->setOption('module', $module);
-        }
+        $module = $this->getModuleOption();
 
         // 'class-name' option
         $class = $input->getOption('class');
         if (!$class) {
-            $class = $io->ask(
+            $class = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.migrate.process.questions.class'),
                 ucfirst($this->stringConverter->underscoreToCamelCase($module)),
                 function ($class) {
@@ -152,7 +146,7 @@ class PluginMigrateProcessCommand extends ContainerAwareCommand
         // 'plugin-id' option.
         $pluginId = $input->getOption('plugin-id');
         if (!$pluginId) {
-            $pluginId = $io->ask(
+            $pluginId = $this->getIo()->ask(
                 $this->trans('commands.generate.plugin.migrate.source.questions.plugin-id'),
                 $this->stringConverter->camelCaseToUnderscore($class)
             );

@@ -7,19 +7,17 @@
 
 namespace Drupal\Console\Command\Config;
 
-use Drupal\Console\Core\Style\DrupalStyle;
-
 trait PrintConfigValidationTrait
 {
-    protected function printResults($valid, DrupalStyle $io)
+    protected function printResults($valid)
     {
         if ($valid === true) {
-            $io->info($this->trans('commands.config.validate.messages.success'));
+            $this->getIo()->info($this->trans('commands.config.validate.messages.success'));
             return 0;
         }
 
         foreach ($valid as $key => $error) {
-            $io->warning($key . ': ' . $error);
+            $this->getIo()->warning($key . ': ' . $error);
         }
         return 1;
     }

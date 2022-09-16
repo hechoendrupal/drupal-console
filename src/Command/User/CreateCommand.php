@@ -14,15 +14,11 @@ use Drupal\Console\Core\Command\Command;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\DrupalApi;
-use Drupal\Console\Command\Shared\ConfirmationTrait;
 use Drupal\user\Entity\User;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class CreateCommand extends Command
 {
-    use ConfirmationTrait;
 
     /**
      * @var Connection
@@ -109,11 +105,12 @@ class CreateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $username = $input->getArgument('username');
         $password = $input->getArgument('password');
         $roles = $input->getOption('roles');
+        if (is_string($roles)) {
+            $roles = explode(',', $roles);
+        }
         $email = $input->getOption('email');
         $status = $input->getOption('status');
 
@@ -146,9 +143,9 @@ class CreateCommand extends Command
                 $user['success']
             );
 
-            $io->table($tableHeader, $tableData);
+            $this->getIo()->table($tableHeader, $tableData);
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.user.create.messages.user-created'),
                     $user['success']['username']
@@ -159,7 +156,7 @@ class CreateCommand extends Command
         }
 
         if ($user['error']) {
-            $io->error($user['error']['error']);
+            $this->getIo()->error($user['error']['error']);
 
             return 1;
         }
@@ -170,11 +167,9 @@ class CreateCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $username = $input->getArgument('username');
         if (!$username) {
-            $username = $io->ask(
+            $username = $this->getIo()->ask(
                 $this->trans('commands.user.create.questions.username')
             );
 
@@ -183,7 +178,7 @@ class CreateCommand extends Command
 
         $password = $input->getArgument('password');
         if (!$password) {
-            $password = $io->askEmpty(
+            $password = $this->getIo()->askEmpty(
                 $this->trans('commands.user.create.questions.password')
             );
 
@@ -192,8 +187,8 @@ class CreateCommand extends Command
 
         $roles = $input->getOption('roles');
         if (!$roles) {
-            $systemRoles = $this->drupalApi->getRoles(false, false, false);
-            $roles = $io->choice(
+            $systemRoles = $this->drupalApi->getRoles(true, true, false);
+            $roles = $this->getIo()->choice(
                 $this->trans('commands.user.create.questions.roles'),
                 array_values($systemRoles),
                 null,
@@ -212,9 +207,8 @@ class CreateCommand extends Command
 
         $email = $input->getOption('email');
         if (!$email) {
-            $email = $io->askEmpty(
-                $this->trans('commands.user.create.questions.email'),
-                null
+            $email = $this->getIo()->askEmpty(
+                $this->trans('commands.user.create.questions.email')
             );
 
             $input->setOption('email', $email);
@@ -222,7 +216,7 @@ class CreateCommand extends Command
 
         $status = $input->getOption('status');
         if (!$status) {
-            $status = $io->choice(
+            $status = $this->getIo()->choice(
                 $this->trans('commands.user.create.questions.status'),
                 [0, 1],
                 1
@@ -241,7 +235,7 @@ class CreateCommand extends Command
                 'pass' => $password?:user_password(),
                 'status' => $status,
                 'roles' => $roles,
-                'created' => REQUEST_TIME,
+                'created' => \Drupal::time()->getRequestTime(),
             ]
         );
 
@@ -252,7 +246,7 @@ class CreateCommand extends Command
 
             $result['success'] = [
                 'user-id' => $user->id(),
-                'username' => $user->getUsername(),
+                'username' => $user->getAccountName(),
                 'password' => $password,
                 'email' => $user->getEmail(),
                 'roles' => implode(', ', $roles),

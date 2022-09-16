@@ -15,7 +15,6 @@ use Drupal\Console\Extension\Manager;
 use Drupal\Console\Core\Utils\StringConverter;
 use Drupal\Console\Core\Utils\ChainQueue;
 use Drupal\Console\Utils\Validator;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 class EntityContentCommand extends EntityCommand
 {
@@ -96,8 +95,30 @@ class EntityContentCommand extends EntityCommand
             null,
             InputOption::VALUE_NONE,
             $this->trans('commands.generate.entity.content.options.revisionable')
-        )
-        ->setAliases(['geco']);
+        );
+
+        $this->addOption(
+            'has-forms',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.has-forms')
+        );
+
+        $this->addOption(
+            'has-owner',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.has-owner')
+        );
+
+        $this->addOption(
+            'has-bundle-permissions',
+            null,
+            InputOption::VALUE_NONE,
+            $this->trans('commands.generate.entity.content.options.has-bundle-permissions')
+        );
+
+        $this->setAliases(['geco']);
     }
 
     /**
@@ -106,12 +127,11 @@ class EntityContentCommand extends EntityCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         parent::interact($input, $output);
-        $io = new DrupalStyle($input, $output);
 
         // --bundle-of option
         $bundle_of = $input->getOption('has-bundles');
         if (!$bundle_of) {
-            $bundle_of = $io->confirm(
+            $bundle_of = $this->getIo()->confirm(
                 $this->trans('commands.generate.entity.content.questions.has-bundles'),
                 false
             );
@@ -119,18 +139,44 @@ class EntityContentCommand extends EntityCommand
         }
 
         // --is-translatable option
-        $is_translatable = $io->confirm(
+        $is_translatable = $this->getIo()->confirm(
             $this->trans('commands.generate.entity.content.questions.is-translatable'),
             true
         );
         $input->setOption('is-translatable', $is_translatable);
 
         // --revisionable option
-        $revisionable = $io->confirm(
+        $revisionable = $this->getIo()->confirm(
             $this->trans('commands.generate.entity.content.questions.revisionable'),
             true
         );
         $input->setOption('revisionable', $revisionable);
+
+        // --has-forms option
+        $has_forms = $this->getIo()->confirm(
+            $this->trans('commands.generate.entity.content.questions.has-forms'),
+            true
+        );
+        $input->setOption('has-forms', $has_forms);
+
+        // --has-owner option
+        $has_owner = $this->getIo()->confirm(
+            $this->trans('commands.generate.entity.content.questions.has-owner'),
+            true
+        );
+        $input->setOption('has-owner', $has_owner);
+
+        // --has-bundle-permissions
+        if($bundle_of){
+          $has_bundle_permissions = $this->getIo()->confirm(
+            $this->trans('commands.generate.entity.content.questions.has-bundle-permissions'),
+            true
+          );
+          $input->setOption('has-bundle-permissions', $has_bundle_permissions);
+        }
+        else {
+          $input->setOption('has-bundle-permissions', false);
+        }
     }
 
     /**
@@ -138,25 +184,39 @@ class EntityContentCommand extends EntityCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getOption('module');
-        $entity_class = $input->getOption('entity-class');
-        $entity_name = $input->getOption('entity-name');
-        $label = $input->getOption('label');
-        $has_bundles = $input->getOption('has-bundles');
-        $base_path = $input->getOption('base-path');
-        $learning = $input->hasOption('learning')?$input->getOption('learning'):false;
-        $bundle_entity_name = $has_bundles ? $entity_name . '_type' : null;
-        $is_translatable = $input->hasOption('is-translatable') ? $input->getOption('is-translatable') : true;
-        $revisionable = $input->hasOption('revisionable') ? $input->getOption('revisionable') : false;
+        $module = $this->validateModule($input->getOption('module'));
+        $entity_class = $input->getOption('entity-class')?:'DefaultEntity';
+        $entity_name = $this->validator->validateMachineName($input->getOption('entity-name'))?:'default_entity';
+        $label = $input->getOption('label')?:'Default Entity';
+        $has_bundles = $input->getOption('has-bundles')?:false;
+        $base_path = $input->getOption('base-path')?:'/admin/structure';
+        $learning = $input->getOption('learning')?:false;
+        $bundle_entity_type = $has_bundles ? $entity_name . '_type' : null;
+        $is_translatable = $input->getOption('is-translatable');
+        $revisionable = $input->getOption('revisionable');
+        $has_forms = $input->getOption('has-forms');
+        $has_owner = $input->getOption('has-owner');
+        $has_bundle_permissions = $input->getOption('has-bundle-permissions');
 
-        $io = new DrupalStyle($input, $output);
         $generator = $this->generator;
 
-        $generator->setIo($io);
+        $generator->setIo($this->getIo());
         //@TODO:
         //$generator->setLearning($learning);
 
-        $generator->generate($module, $entity_name, $entity_class, $label, $base_path, $is_translatable, $bundle_entity_name, $revisionable);
+        $generator->generate([
+            'module' => $module,
+            'entity_name' => $entity_name,
+            'entity_class' => $entity_class,
+            'label' => $label,
+            'bundle_entity_type' => $bundle_entity_type,
+            'base_path' => $base_path,
+            'is_translatable' => $is_translatable,
+            'revisionable' => $revisionable,
+            'has_forms' => $has_forms,
+            'has_owner' => $has_owner,
+            'has_bundle_permissions' => $has_bundle_permissions,
+        ]);
 
         if ($has_bundles) {
             $this->chainQueue->addCommand(
@@ -165,7 +225,8 @@ class EntityContentCommand extends EntityCommand
                 '--entity-class' => $entity_class . 'Type',
                 '--entity-name' => $entity_name . '_type',
                 '--label' => $label . ' type',
-                '--bundle-of' => $entity_name
+                '--bundle-of' => $entity_name,
+                '--no-interaction'
                 ]
             );
         }

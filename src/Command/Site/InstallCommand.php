@@ -7,7 +7,6 @@
 
 namespace Drupal\Console\Command\Site;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,7 +18,6 @@ use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drupal\Console\Command\Shared\DatabaseTrait;
 use Drupal\Console\Core\Utils\ConfigurationManager;
 use Drupal\Console\Extension\Manager;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Core\Utils\DrupalFinder;
@@ -78,6 +76,11 @@ class InstallCommand extends ContainerAwareCommand
                 'profile',
                 InputArgument::OPTIONAL,
                 $this->trans('commands.site.install.arguments.profile')
+            )
+            ->addArgument(
+                'db-url',
+                InputArgument::OPTIONAL,
+                $this->trans('commands.site.install.arguments.db-url')
             )
             ->addOption(
                 'langcode',
@@ -177,7 +180,13 @@ class InstallCommand extends ContainerAwareCommand
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
+        // If Drupal is already installed, and --force is not set, there's no
+        // point to continue.
+        $database = Database::getConnectionInfo();
+        if (!empty($database['default'])  && Database::isActiveConnection() && !$input->getOption('force')) {
+            $this->getIo()->error($this->trans('commands.site.install.messages.already-installed'));
+            exit(1);
+        }
 
         // --profile option
         $profile = $input->getArgument('profile');
@@ -197,7 +206,7 @@ class InstallCommand extends ContainerAwareCommand
                 }
             );
 
-            $profile = $io->choice(
+            $profile = $this->getIo()->choice(
                 $this->trans('commands.site.install.questions.profile'),
                 array_values($profiles)
             );
@@ -213,7 +222,7 @@ class InstallCommand extends ContainerAwareCommand
                 ->getConfiguration()
                 ->get('application.language');
 
-            $langcode = $io->choiceNoList(
+            $langcode = $this->getIo()->choiceNoList(
                 $this->trans('commands.site.install.questions.langcode'),
                 $languages,
                 $languages[$defaultLanguage]
@@ -222,14 +231,47 @@ class InstallCommand extends ContainerAwareCommand
             $input->setOption('langcode', $langcode);
         }
 
-        // Use default database setting if is available
-        $database = Database::getConnectionInfo();
-        if (empty($database['default'])) {
+        $is_database_info_set = false;
+
+        // Use default database setting if they are available.
+        if (!empty($database['default'])) {
+            $this->getIo()->info(
+                sprintf(
+                    $this->trans('commands.site.install.messages.using-current-database'),
+                    $database['default']['driver'],
+                    $database['default']['database'],
+                    $database['default']['username']
+                )
+            );
+            $is_database_info_set = true;
+        }
+
+        // Use the db-url argument if it is entered and valid.
+        if (!$is_database_info_set && !empty($input->getArgument('db-url'))) {
+            try {
+                $database = Database::convertDbUrlToConnectionInfo($input->getArgument('db-url'), $this->appRoot);
+                $this->getIo()->info(
+                    sprintf(
+                        $this->trans('commands.site.install.messages.using-current-database'),
+                        $database['driver'],
+                        $database['database'],
+                        $database['username']
+                    )
+                );
+                $is_database_info_set = true;
+            } catch (\Exception $e) {
+                $this->getIo()->warning('Invalid db-url argument: ' . $e->getMessage());
+            }
+        }
+
+        // Interact if database info is still not available
+        if (!$is_database_info_set) {
+
             // --db-type option
             $dbType = $input->getOption('db-type');
             if (!$dbType) {
                 $databases = $this->site->getDatabaseTypes();
-                $dbType = $io->choice(
+                $dbType = $this->getIo()->choice(
                     $this->trans('commands.migrate.setup.questions.db-type'),
                     array_column($databases, 'name')
                 );
@@ -239,85 +281,57 @@ class InstallCommand extends ContainerAwareCommand
                         $dbType = $dbIndex;
                     }
                 }
-
                 $input->setOption('db-type', $dbType);
             }
 
             if ($dbType === 'sqlite') {
                 // --db-file option
-                $dbFile = $input->getOption('db-file');
-                if (!$dbFile) {
-                    $dbFile = $io->ask(
+                if (!$input->getOption('db-file')) {
+                    $uri = $this->site->getMultisiteName($input);
+                    $uriPath = $this->site->multisiteMode($uri) ? $this->site->getMultisiteDir($uri) : 'default';
+                    $dbFile = $this->getIo()->ask(
                         $this->trans('commands.migrate.execute.questions.db-file'),
-                        'sites/default/files/.ht.sqlite'
+                        'sites/'.$uriPath.'/files/.ht.sqlite'
                     );
                     $input->setOption('db-file', $dbFile);
                 }
             } else {
                 // --db-host option
-                $dbHost = $input->getOption('db-host');
-                if (!$dbHost) {
-                    $dbHost = $this->dbHostQuestion($io);
-                    $input->setOption('db-host', $dbHost);
+                if (!$input->getOption('db-host')) {
+                    $input->setOption('db-host', $this->dbHostQuestion());
                 }
 
                 // --db-name option
-                $dbName = $input->getOption('db-name');
-                if (!$dbName) {
-                    $dbName = $this->dbNameQuestion($io);
-                    $input->setOption('db-name', $dbName);
+                if (!$input->getOption('db-name')) {
+                    $input->setOption('db-name', $this->dbNameQuestion());
                 }
 
                 // --db-user option
-                $dbUser = $input->getOption('db-user');
-                if (!$dbUser) {
-                    $dbUser = $this->dbUserQuestion($io);
-                    $input->setOption('db-user', $dbUser);
+                if (!$input->getOption('db-user')) {
+                    $input->setOption('db-user', $this->dbUserQuestion());
                 }
 
                 // --db-pass option
-                $dbPass = $input->getOption('db-pass');
-                if (!$dbPass) {
-                    $dbPass = $this->dbPassQuestion($io);
-                    $input->setOption('db-pass', $dbPass);
+                if (!$input->getOption('db-pass')) {
+                    $input->setOption('db-pass', $this->dbPassQuestion());
                 }
 
-                // --db-port prefix
-                $dbPort = $input->getOption('db-port');
-                if (!$dbPort) {
-                    $dbPort = $this->dbPortQuestion($io);
-                    $input->setOption('db-port', $dbPort);
+                // --db-port option
+                if (!$input->getOption('db-port')) {
+                    $input->setOption('db-port', $this->dbPortQuestion());
                 }
             }
 
-            // --db-prefix
-            $dbPrefix = $input->getOption('db-prefix');
-            if (!$dbPrefix) {
-                $dbPrefix = $this->dbPrefixQuestion($io);
-                $input->setOption('db-prefix', $dbPrefix);
+            // --db-prefix option
+            if ($input->getOption('db-prefix') === null) {
+                $input->setOption('db-prefix', $this->dbPrefixQuestion());
             }
-        } else {
-            $input->setOption('db-type', $database['default']['driver']);
-            $input->setOption('db-host', $database['default']['host']);
-            $input->setOption('db-name', $database['default']['database']);
-            $input->setOption('db-user', $database['default']['username']);
-            $input->setOption('db-pass', $database['default']['password']);
-            $input->setOption('db-port', $database['default']['port']);
-            $input->setOption('db-prefix', $database['default']['prefix']['default']);
-            $io->info(
-                sprintf(
-                    $this->trans('commands.site.install.messages.using-current-database'),
-                    $database['default']['driver'],
-                    $database['default']['database'],
-                    $database['default']['username']
-                )
-            );
         }
 
         // --site-name option
         $siteName = $input->getOption('site-name');
         if (!$siteName) {
-            $siteName = $io->ask(
+            $siteName = $this->getIo()->ask(
                 $this->trans('commands.site.install.questions.site-name'),
                 $this->trans('commands.site.install.suggestions.site-name')
             );
@@ -327,7 +341,7 @@ class InstallCommand extends ContainerAwareCommand
         // --site-mail option
         $siteMail = $input->getOption('site-mail');
         if (!$siteMail) {
-            $siteMail = $io->ask(
+            $siteMail = $this->getIo()->ask(
                 $this->trans('commands.site.install.questions.site-mail'),
                 'admin@example.com'
             );
@@ -337,7 +351,7 @@ class InstallCommand extends ContainerAwareCommand
         // --account-name option
         $accountName = $input->getOption('account-name');
         if (!$accountName) {
-            $accountName = $io->ask(
+            $accountName = $this->getIo()->ask(
                 $this->trans('commands.site.install.questions.account-name'),
                 'admin'
             );
@@ -347,7 +361,7 @@ class InstallCommand extends ContainerAwareCommand
         // --account-pass option
         $accountPass = $input->getOption('account-pass');
         if (!$accountPass) {
-            $accountPass = $io->askHidden(
+            $accountPass = $this->getIo()->askHidden(
                 $this->trans('commands.site.install.questions.account-pass')
             );
             $input->setOption('account-pass', $accountPass);
@@ -356,7 +370,7 @@ class InstallCommand extends ContainerAwareCommand
         // --account-mail option
         $accountMail = $input->getOption('account-mail');
         if (!$accountMail) {
-            $accountMail = $io->ask(
+            $accountMail = $this->getIo()->ask(
                 $this->trans('commands.site.install.questions.account-mail'),
                 $siteMail
             );
@@ -369,13 +383,11 @@ class InstallCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
-        $uri =  parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+        $uri = $this->site->getMultisiteName($input);
 
         if ($this->site->multisiteMode($uri)) {
             if (!$this->site->validMultisite($uri)) {
-                $io->error(
+                $this->getIo()->error(
                     sprintf($this->trans('commands.site.install.messages.invalid-multisite'), $uri, $uri)
                 );
                 exit(1);
@@ -386,45 +398,61 @@ class InstallCommand extends ContainerAwareCommand
             $_SERVER['HTTP_HOST'] = $uri;
         }
 
-        // Database options
-        $dbType = $input->getOption('db-type')?:'mysql';
-        $dbFile = $input->getOption('db-file');
-        $dbHost = $input->getOption('db-host')?:'127.0.0.1';
-        $dbName = $input->getOption('db-name')?:'drupal_'.time();
-        $dbUser = $input->getOption('db-user')?:'root';
-        $dbPass = $input->getOption('db-pass');
-        $dbPrefix = $input->getOption('db-prefix');
-        $dbPort = $input->getOption('db-port')?:'3306';
-        $force = $input->getOption('force');
+        $database_install = null;
 
-        $databases = $this->site->getDatabaseTypes();
+        // If a database connection is already defined we must use that.
+        $database = Database::getConnectionInfo();
+        if (!empty($database['default'])) {
+            $database_install = $database['default'];
+        }
 
-        if ($dbType === 'sqlite') {
-            $database = [
-              'database' => $dbFile,
-              'prefix' => $dbPrefix,
-              'namespace' => $databases[$dbType]['namespace'],
-              'driver' => $dbType,
-            ];
-
-            if ($force) {
-                $fs = new Filesystem();
-                $fs->remove($dbFile);
+        // Use the db-url argument if it is entered and valid
+        if (!$database_install && !empty($input->getArgument('db-url'))) {
+            try {
+                $database_install = Database::convertDbUrlToConnectionInfo($input->getArgument('db-url'), $this->appRoot);
+            } catch (\Exception $e) {
+                $this->getIo()->error('Invalid db-url argument: ' . $e->getMessage());
+                return 1;
             }
-        } else {
-            $database = [
-              'database' => $dbName,
-              'username' => $dbUser,
-              'password' => $dbPass,
-              'prefix' => $dbPrefix,
-              'port' => $dbPort,
-              'host' => $dbHost,
-              'namespace' => $databases[$dbType]['namespace'],
-              'driver' => $dbType,
+        }
+
+        // Go for the options passed in if still not defined
+        if (!$database_install) {
+            $database_install = [
+                'database' => $input->getOption('db-name')?:'drupal_'.time(),
+                'username' => $input->getOption('db-user')?:'root',
+                'password' => $input->getOption('db-pass'),
+                'prefix' => $input->getOption('db-prefix'),
+                'port' => $input->getOption('db-port')?:'3306',
+                'host' => $input->getOption('db-host')?:'127.0.0.1',
+                'driver' => $input->getOption('db-type')?:'mysql',
             ];
 
-            if ($force && Database::isActiveConnection()) {
-                $schema = Database::getConnection()->schema();
+            if ($database_install['driver'] === 'sqlite') {
+                $uriPath = $this->site->multisiteMode($uri) ? $this->site->getMultisiteDir($uri) : 'default';
+                $dbFile = $input->getOption('db-file')?:'sites/'.$uriPath.'/files/.ht.sqlite';
+
+                $database_install['database'] = $dbFile;
+                unset(
+                    $database_install['username'],
+                    $database_install['password'],
+                    $database_install['port'],
+                    $database_install['host']
+                );
+            }
+        }
+
+        // Cleanup an installed database.
+        if ($input->getOption('force') && Database::isActiveConnection()) {
+            $connection = Database::getConnection();
+            if ($connection->driver() === 'sqlite') {
+                $tables = $connection->query('SELECT name FROM sqlite_master WHERE type = "table" AND name NOT LIKE "sqlite_%";')
+                    ->fetchAllAssoc('name');
+                foreach (array_keys($tables) as $table) {
+                    $connection->schema()->dropTable($table);
+                }
+            } else {
+                $schema = $connection->schema();
                 $tables = $schema->findTables('%');
                 foreach ($tables as $table) {
                     $schema->dropTable($table);
@@ -435,18 +463,26 @@ class InstallCommand extends ContainerAwareCommand
         try {
             $drupalFinder = new DrupalFinder();
             $drupalFinder->locateRoot(getcwd());
-            $this->runInstaller($io, $input, $database, $uri);
+            if (($exitCode = $this->runInstaller($database_install, $uri)) !== 0) {
+                return $exitCode;
+            }
 
             $autoload = $this->container->get('class_loader');
-            $drupal = new Drupal($autoload, $drupalFinder);
+            $drupal = new Drupal(
+                $autoload,
+                $drupalFinder,
+                $this->configurationManager
+            );
             $container = $drupal->boot();
             $this->getApplication()->setContainer($container);
+            $this->getApplication()->validateCommands();
+            $this->getApplication()->loadCommands();
         } catch (Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error($e->getMessage());
             return 1;
         }
 
-        $this->restoreSitesFile($io);
+        $this->restoreSitesFile();
 
         return 0;
     }
@@ -458,11 +494,9 @@ class InstallCommand extends ContainerAwareCommand
      * install files to be placed directly under /sites instead of the
      * appropriate subdir when run from a script and a sites.php file exists.
      *
-     * @param DrupalStyle $output
-     *
      * @return boolean
      */
-    protected function backupSitesFile(DrupalStyle $output)
+    protected function backupSitesFile()
     {
         if (!file_exists($this->appRoot . '/sites/sites.php')) {
             return true;
@@ -470,7 +504,7 @@ class InstallCommand extends ContainerAwareCommand
 
         $renamed = rename($this->appRoot . '/sites/sites.php', $this->appRoot . '/sites/backup.sites.php');
 
-        $output->info($this->trans('commands.site.install.messages.sites-backup'));
+        $this->getIo()->info($this->trans('commands.site.install.messages.sites-backup'));
 
         return $renamed;
     }
@@ -478,11 +512,9 @@ class InstallCommand extends ContainerAwareCommand
     /**
      * Restores backup.sites.php to sites.php (if needed).
      *
-     * @param DrupalStyle $output
-     *
      * @return boolean
      */
-    protected function restoreSitesFile(DrupalStyle $output)
+    protected function restoreSitesFile()
     {
         if (!file_exists($this->appRoot . '/sites/backup.sites.php')) {
             return true;
@@ -490,17 +522,19 @@ class InstallCommand extends ContainerAwareCommand
 
         $renamed = rename($this->appRoot . '/sites/backup.sites.php', $this->appRoot . '/sites/sites.php');
 
-        $output->info($this->trans('commands.site.install.messages.sites-restore'));
+        $this->getIo()->info($this->trans('commands.site.install.messages.sites-restore'));
 
         return $renamed;
     }
 
-    protected function runInstaller(
-        DrupalStyle $io,
-        InputInterface $input,
-        $database,
-        $uri
-    ) {
+    protected function runInstaller($database, $uri) {
+
+        if(!Database::isActiveConnection() && !is_null(Database::getConnectionInfo())) {
+            $this->getIo()->error($this->trans('commands.site.install.messages.connection-failed'));
+            return 1;
+        }
+
+        $input = $this->getIo()->getInput();
         $this->site->loadLegacyFile('/core/includes/install.core.inc');
 
         $driver = (string)$database['driver'];
@@ -538,29 +572,30 @@ class InstallCommand extends ContainerAwareCommand
         ];
 
         if (!$this->site->multisiteMode($uri)) {
-            $this->backupSitesFile($io);
+            $this->backupSitesFile();
         }
 
-        $io->newLine();
-        $io->info($this->trans('commands.site.install.messages.installing'));
+        $this->getIo()->newLine();
+        $this->getIo()->info($this->trans('commands.site.install.messages.installing'));
 
         try {
             $autoload = $this->site->getAutoload();
             install_drupal($autoload, $settings);
         } catch (AlreadyInstalledException $e) {
-            $io->error($this->trans('commands.site.install.messages.already-installed'));
+            $this->getIo()->error($this->trans('commands.site.install.messages.already-installed'));
             return 1;
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->getIo()->error(html_entity_decode(strip_tags($e->getMessage()), ENT_QUOTES));
             return 1;
         }
 
         if (!$this->site->multisiteMode($uri)) {
-            $this->restoreSitesFile($io);
+            $this->restoreSitesFile();
         }
 
-        $io->success($this->trans('commands.site.install.messages.installed'));
+        $this->getIo()->success($this->trans('commands.site.install.messages.installed'));
 
         return 0;
     }
+
 }

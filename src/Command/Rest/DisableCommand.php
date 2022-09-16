@@ -12,10 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Drupal\Console\Annotations\DrupalCommand;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\RestTrait;
-use Drupal\Core\Config\ConfigFactory;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * @DrupalCommand(
@@ -28,9 +27,9 @@ class DisableCommand extends Command
     use RestTrait;
 
     /**
-     * @var ConfigFactory
+     * @var EntityTypeManagerInterface
      */
-    protected $configFactory;
+    protected $entityTypeManager;
 
     /**
      * @var ResourcePluginManager
@@ -40,14 +39,14 @@ class DisableCommand extends Command
     /**
      * DisableCommand constructor.
      *
-     * @param ConfigFactory         $configFactory
-     * @param ResourcePluginManager $pluginManagerRest
+     * @param EntityTypeManagerInterface $entityTypeManager
+     * @param ResourcePluginManager      $pluginManagerRest
      */
     public function __construct(
-        ConfigFactory $configFactory,
+        EntityTypeManagerInterface $entityTypeManager,
         ResourcePluginManager $pluginManagerRest
     ) {
-        $this->configFactory = $configFactory;
+        $this->entityTypeManager = $entityTypeManager;
         $this->pluginManagerRest = $pluginManagerRest;
         parent::__construct();
     }
@@ -67,17 +66,12 @@ class DisableCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
-
         $resource_id = $input->getArgument('resource-id');
         $rest_resources = $this->getRestResources();
-        $rest_resources_ids = array_merge(
-            array_keys($rest_resources['enabled']),
-            array_keys($rest_resources['disabled'])
-        );
+        $rest_resources_ids = array_keys($rest_resources['enabled']);
 
         if (!$resource_id) {
-            $resource_id = $io->choice(
+            $resource_id = $this->getIo()->choice(
                 $this->trans('commands.rest.disable.arguments.resource-id'),
                 $rest_resources_ids
             );
@@ -96,7 +90,7 @@ class DisableCommand extends Command
             // Rebuild routing cache.
             $routeBuilder->rebuild();
 
-            $io->success(
+            $this->getIo()->success(
                 sprintf(
                     $this->trans('commands.rest.disable.messages.success'),
                     $resource_id
@@ -105,7 +99,7 @@ class DisableCommand extends Command
             return true;
         }
         $message = sprintf($this->trans('commands.rest.disable.messages.already-disabled'), $resource_id);
-        $io->info($message);
+        $this->getIo()->info($message);
         return true;
     }
 

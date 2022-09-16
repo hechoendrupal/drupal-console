@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
-use Drupal\Console\Core\Style\DrupalStyle;
 use Drupal\Console\Command\Shared\LocaleTrait;
 use Drupal\Console\Utils\Site;
 use Drupal\Console\Extension\Manager;
@@ -66,7 +65,6 @@ class TranslationStatusCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $language = $input->getArgument('language');
         $tableHeader = [
             $this->trans('commands.locale.translation.status.messages.project'),
@@ -83,12 +81,12 @@ class TranslationStatusCommand extends Command
         $status = locale_translation_get_status();
 
         if (!$languages) {
-            $io->info($this->trans('commands.locale.translation.status.messages.no-languages'));
+            $this->getIo()->info($this->trans('commands.locale.translation.status.messages.no-languages'));
             return 1;
         }
 
         if (empty($status)) {
-            $io->info($this->trans('commands.locale.translation.status.messages.no-translations'));
+            $this->getIo()->info($this->trans('commands.locale.translation.status.messages.no-translations'));
             return 1;
         }
 
@@ -100,14 +98,14 @@ class TranslationStatusCommand extends Command
                 if ($language !='' && !($language == $langcode || strtolower($language) == strtolower($languages[$langcode]->getName()))) {
                     continue;
                 }
-                $io->info($languages[$langcode]->getName());
+                $this->getIo()->info($languages[$langcode]->getName());
                 foreach ($rows as $row) {
                     if ($row[0] == 'drupal') {
                         $row[0] = $this->trans('commands.common.messages.drupal-core');
                     }
                     $tableRows[] = $row;
                 }
-                $io->table($tableHeader, $tableRows, 'compact');
+                $this->getIo()->table($tableHeader, $tableRows, 'compact');
             }
         }
 

@@ -29,24 +29,18 @@ class PostUpdateGenerator extends Generator
     }
 
     /**
-     * Generator Post Update Name function.
-     *
-     * @param $module
-     * @param $post_update_name
+     * {@inheritdoc}
      */
-    public function generate($module, $post_update_name)
+    public function generate(array $parameters)
     {
-        $module_path =  $this->extensionManager->getModule($module)->getPath();
+        $module = $parameters['module'];
+        $postUpdateFile =  $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.post_update.php';
 
-        $parameters = [
-          'module' => $module,
-          'post_update_name' => $post_update_name,
-          'file_exists' => file_exists($module_path .'/'.$module.'.post_update.php'),
-        ];
+        $parameters['file_exists'] = file_exists($postUpdateFile);
 
         $this->renderFile(
             'module/post-update.php.twig',
-            $module_path .'/'.$module.'.post_update.php',
+            $postUpdateFile,
             $parameters,
             FILE_APPEND
         );

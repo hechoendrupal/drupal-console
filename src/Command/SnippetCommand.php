@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
-use Drupal\Console\Core\Style\DrupalStyle;
 
 /**
  * Class SnippetCommand
@@ -73,7 +72,6 @@ class SnippetCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new DrupalStyle($input, $output);
         $file = $input->getOption('file');
         $code = $input->getOption('code');
         $showCode = $input->getOption('show-code');
@@ -84,21 +82,21 @@ class SnippetCommand extends Command
         }
 
         if (!$file) {
-            $io->error($this->trans('commands.snippet.errors.invalid-options'));
+            $this->getIo()->error($this->trans('commands.snippet.errors.invalid-options'));
 
             return 1;
         }
 
         $file = $this->getFileAsAbsolutePath($file);
         if (!$file) {
-            $io->error($this->trans('commands.snippet.errors.invalid-file'));
+            $this->getIo()->error($this->trans('commands.snippet.errors.invalid-file'));
 
             return 1;
         }
 
         if ($showCode) {
             $code = file_get_contents($file);
-            $io->writeln($code);
+            $this->getIo()->writeln($code);
         }
 
         include_once $file;

@@ -29,20 +29,16 @@ class PermissionGenerator extends Generator
     }
 
     /**
-     * @param  $module
-     * @param  $permissions
-     * @param  $learning
+     * {@inheritdoc}
      */
-    public function generate($module, $permissions, $learning)
+    public function generate(array $parameters)
     {
-        $parameters = [
-          'module_name' => $module,
-          'permissions' => $permissions,
-        ];
+        $module = $parameters['module_name'];
+        $learning = $parameters['learning'];
 
         $this->renderFile(
             'module/permission.yml.twig',
-            $this->extensionManager->getModule($module)->getPath().'/'.$module.'.permissions.yml',
+            $this->extensionManager->getModule($module)->getPath() . '/' . $module . '.permissions.yml',
             $parameters,
             FILE_APPEND
         );
@@ -53,7 +49,7 @@ class PermissionGenerator extends Generator
         );
 
         if ($learning) {
-            echo 'You can use this permission in the routing file like this:'.PHP_EOL;
+            echo 'You can use this permission in the routing file like this:' . PHP_EOL;
             echo $content;
         }
     }
