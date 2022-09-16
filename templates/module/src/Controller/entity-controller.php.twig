@@ -136,7 +136,7 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
           $link = Link::fromTextAndUrl($date, new Url('entity.{{ entity_name }}.revision', [
             '{{ entity_name }}' => ${{ entity_name }}->id(),
             '{{ entity_name }}_revision' => $vid,
-          ]));
+          ]))->toString();
         }
         else {
           $link = ${{ entity_name }}->toLink($date)->toString();
