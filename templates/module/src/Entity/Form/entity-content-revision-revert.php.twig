@@ -44,6 +44,13 @@ class {{ entity_class }}RevisionRevertForm extends ConfirmFormBase {% endblock %
    * @var \Drupal\Core\Datetime\DateFormatterInterface
    */
   protected $dateFormatter;
+  
+  /**
+   * The time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $time;
 
   /**
    * {@inheritdoc}
@@ -52,6 +59,7 @@ class {{ entity_class }}RevisionRevertForm extends ConfirmFormBase {% endblock %
     $instance = parent::create($container);
     $instance->{{ entity_class[:1]|lower ~ entity_class[1:] }}Storage = $container->get('entity_type.manager')->getStorage('{{ entity_name }}');
     $instance->dateFormatter = $container->get('date.formatter');
+    $instance->time = $container->get('datetime.time');
     return $instance;
   }
 
@@ -138,7 +146,7 @@ class {{ entity_class }}RevisionRevertForm extends ConfirmFormBase {% endblock %
   protected function prepareRevertedRevision({{ entity_class }}Interface $revision, FormStateInterface $form_state) {
     $revision->setNewRevision();
     $revision->isDefaultRevision(TRUE);
-    $revision->setRevisionCreationTime(\Drupal::time()->getRequestTime());
+    $revision->setRevisionCreationTime($this->time->getRequestTime());
 
     return $revision;
   }
