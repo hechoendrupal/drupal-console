@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Drupal\Console\Core\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Core\Config\ConfigManager;
+use Webmozart\PathUtil\Path;
 
 class ExportCommand extends Command
 {
@@ -95,20 +96,22 @@ class ExportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $drupal_root = $this->drupalFinder->getComposerRoot();
-        $directory = $drupal_root.'/'.$input->getOption('directory');
+        $directory = $input->getOption('directory');
         $tar = $input->getOption('tar');
         $removeUuid = $input->getOption('remove-uuid');
         $removeHash = $input->getOption('remove-config-hash');
-        $drupal_root = $this->drupalFinder->getComposerRoot();
 
         if (!$directory) {
             $directory = Settings::get('config_sync_directory') ;
         }
+        if (!Path::isAbsolute($directory)) {
+            $drupal_root = $this->drupalFinder->getDrupalRoot();
+            $directory = $drupal_root . "/" . $directory;
+        }
 
         $fileSystem = new Filesystem();
         try {
-            $fileSystem->mkdir($drupal_root."/".$directory);
+            $fileSystem->mkdir($directory);
         } catch (IOExceptionInterface $e) {
             $this->getIo()->error(
                 sprintf(
