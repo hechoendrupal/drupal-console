@@ -37,8 +37,8 @@ class PluginSkeletonGenerator extends Generator
         $module = $parameters['module'];
         $pluginMetaData = $parameters['plugin_metadata'];
 
-        $parameters['plugin_annotation'] = array_pop(explode('\\', $pluginMetaData['pluginAnnotation']));
-        $parameters['plugin_interface'] = array_pop(explode('\\', $pluginMetaData['pluginInterface']));
+        $parameters['plugin_annotation'] = current(explode('\\', $pluginMetaData['pluginAnnotation']));
+        $parameters['plugin_interface'] = current(explode('\\', $pluginMetaData['pluginInterface']));
         $parameters['namespace'] =  str_replace('/', '\\', $pluginMetaData['subdir']);
 
         $this->renderFile(
