@@ -202,13 +202,12 @@ class Manager
             return $extensions;
         }
 
+        $module_handler = \Drupal::service('module_handle');
         foreach ($this->extensions[$type] as $extension) {
             $name = $extension->getName();
 
             $isInstalled = $type == 'module'
-                && \Drupal::service(
-                    'extension.list.module'
-                )->moduleExists($name);
+                && $module_handler->moduleExists($name);
             if (!$isInstalled && property_exists($extension, 'status')) {
                 $isInstalled = ($extension->status) ? true : false;
             }
