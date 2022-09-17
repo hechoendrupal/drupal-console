@@ -202,7 +202,7 @@ class Manager
             return $extensions;
         }
 
-        $module_handler = \Drupal::service('module_handle');
+        $module_handler = \Drupal::service('module_handler');
         foreach ($this->extensions[$type] as $extension) {
             $name = $extension->getName();
 
