@@ -12,6 +12,7 @@ namespace Drupal\{{ module }}\Controller;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\{{ module }}\Entity\{{ entity_class }}Interface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -117,7 +118,7 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
     $latest_revision = TRUE;
 
     foreach (array_reverse($vids) as $vid) {
-      /** @var \Drupal\{{ module }}\{{ entity_class }}Interface $revision */
+      /** @var \Drupal\{{ module }}\Entity\{{ entity_class }}Interface $revision */
       $revision = ${{ entity_name }}_storage->loadRevision($vid);
 {% if is_translatable %}
       // Only show revisions that are affected by the language that is being
@@ -132,13 +133,13 @@ class {{ entity_class }}Controller extends ControllerBase implements ContainerIn
         // Use revision link to link to revisions that are not active.
         $date = $this->dateFormatter->format($revision->getRevisionCreationTime(), 'short');
         if ($vid != ${{ entity_name }}->getRevisionId()) {
-          $link = $this->l($date, new Url('entity.{{ entity_name }}.revision', [
+          $link = Link::fromTextAndUrl($date, new Url('entity.{{ entity_name }}.revision', [
             '{{ entity_name }}' => ${{ entity_name }}->id(),
             '{{ entity_name }}_revision' => $vid,
-          ]));
+          ]))->toString();
         }
         else {
-          $link = ${{ entity_name }}->link($date);
+          $link = ${{ entity_name }}->toLink($date)->toString();
         }
 
         $row = [];

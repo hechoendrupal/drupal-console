@@ -70,6 +70,7 @@ use Drupal\user\UserInterface;
 {% if revisionable %}
  *   revision_table = "{{ entity_name }}_revision",
  *   revision_data_table = "{{ entity_name }}_field_revision",
+ *   show_revision_ui = TRUE,
 {% endif %}
  *   translatable = {{ is_translatable ? 'TRUE' : 'FALSE' }},
 {% if has_bundle_permissions %}
@@ -92,6 +93,13 @@ use Drupal\user\UserInterface;
  *     "langcode" = "langcode",
  *     "published" = "status",
  *   },
+{% if revisionable %}
+*   revision_metadata_keys = {
+*     "revision_user" = "revision_uid",
+*     "revision_created" = "revision_timestamp",
+*     "revision_log_message" = "revision_log"
+*   },
+{% endif %}
 {% if has_forms %}
  *   links = {
  *     "canonical" = "{{ base_path }}/{{ entity_name }}/{{ '{'~entity_name~'}' }}",

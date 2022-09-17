@@ -23,6 +23,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %}
 {% block class_methods %}
+
+  /**
+   * The date formatter.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
+
   /**
    * The {{ label }} revision.
    *
@@ -49,6 +57,7 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
+    $instance->dateFormatter = $container->get('date.formatter');
     $instance->{{ entity_class[:1]|lower ~ entity_class[1:] }}Storage = $container->get('entity_type.manager')->getStorage('{{ entity_name }}');
     $instance->connection = $container->get('database');
     return $instance;
@@ -66,7 +75,7 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
    */
   public function getQuestion() {
     return $this->t('Are you sure you want to delete the revision from %revision-date?', [
-      '%revision-date' => \Drupal::service('date.formatter')->format($this->revision->getRevisionCreationTime()),
+      '%revision-date' => $this->dateFormatter->format($this->revision->getRevisionCreationTime()),
     ]);
   }
 
@@ -101,7 +110,7 @@ class {{ entity_class }}RevisionDeleteForm extends ConfirmFormBase {% endblock %
     $this->{{ entity_class }}Storage->deleteRevision($this->revision->getRevisionId());
 
     $this->logger('content')->notice('{{ label }}: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    $this->messenger()->addMessage(t('Revision from %revision-date of {{ label }} %title has been deleted.', ['%revision-date' => \Drupal::service('date.formatter')->format($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
+    $this->messenger()->addMessage(t('Revision from %revision-date of {{ label }} %title has been deleted.', ['%revision-date' => $this->dateFormatter->format($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
     $form_state->setRedirect(
       'entity.{{ entity_name }}.canonical',
        ['{{ entity_name }}' => $this->revision->id()]
