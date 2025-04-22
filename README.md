@@ -1,5 +1,28 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+## [Sunsetting the project](https://github.com/hechoendrupal/drupal-console/issues/4350)
+
+---
+
+Drupal Console became essential for thousands of developers worldwide with over 15 million downloads, support for 19 languages, and 200+ commands. It significantly improved Drupal 8+ development workflows and reduced project delivery times. 
+
+There is no need to maintain the project any longer, and that’s a good thing. As Drupal 8 matured, the ecosystem evolved with it. Drush embraced many of the interactive features that once made Drupal Console stand out, while also adopting the modern PHP and Symfony components that defined the new era of Drupal. 
+
+The goal was never to compete, it was to modernize the CLI in Drupal, and we can say: mission accomplished. So today, there’s no need to maintain two different tools because Drush evolved, and picked up the torch. The mission was a success.
+
+![Image](https://github.com/user-attachments/assets/27bae7b1-be7c-4a04-abf1-10d9837c1a33)
+
+
+None of this could have been possible without the incredible support of the community. It’s amazing how a project that started as a Drupal 8 learning exercise grew to the point to be considered for the Drupal community a must-have tool to accelerate Drupal 8 development.
+
+Thank you all for using the project, for attending talks at events, for providing feedback, creating issues, and sending pull requests, for spreading the word and love about the project sending a tweet, writing a blog post or recording a video, and very special thanks to all of the awesome contributors.
+
+So the project is sunsetting, not because it failed, but because it succeeded.
+
+--- 
+
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
   - [Drupal Console](#drupal-console)
